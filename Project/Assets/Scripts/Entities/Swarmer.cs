@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Swarmer : Enemy, IGravityAffect
 {
     private DataSwarmer swarmerData;
@@ -13,14 +14,12 @@ public class Swarmer : Enemy, IGravityAffect
     //Stimulus
     public void OnGravityDirectHit()
     {
-        Debug.Log("Direct hit swarmer");
-
         ReactGravity.DoFreeze(this);
     }
 
     public void OnHold()
     {
-        throw new System.NotImplementedException();
+        //Nothing happens on hold
     }
 
     public void OnPull(Vector3 origin, float force)
@@ -30,17 +29,19 @@ public class Swarmer : Enemy, IGravityAffect
 
     public void OnRelease()
     {
-        throw new System.NotImplementedException();
+        ReactGravity.DoUnfreeze(this);
     }
 
     public void OnZeroG()
     {
-        throw new System.NotImplementedException();
+        ReactGravity.DoSpin(this);
     }
 
-    public void OnFloatingActivation()
+    public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
-        throw new System.NotImplementedException();
+        ReactGravity.DoPull(this, Vector3.up.normalized + this.transform.position, fGForce, false);
+
+        ReactGravity.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
 
     // Start is called before the first frame update
@@ -59,7 +60,7 @@ public class Swarmer : Enemy, IGravityAffect
 
             if (fElapsedTime >= fTimePropel)
             {
-                //Spin();
+                ReactGravity.DoSpin(this);
 
                 //Check si touche le sol
                 fElapsedTime = 0;
