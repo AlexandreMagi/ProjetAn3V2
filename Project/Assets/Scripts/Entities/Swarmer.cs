@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Swarmer : Enemy, IGravityAffect
+public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 {
     private DataSwarmer swarmerData;
 
@@ -39,6 +39,25 @@ public class Swarmer : Enemy, IGravityAffect
     }
 
     public void OnFloatingActivation()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    //  ################################################### //
+    //  ################ BULLET AFFECTED ################## //
+    //  ################################################### //
+
+    public void Hit(DataWeaponMod bulletType)
+    {
+        TakeDamage(bulletType.bullet.damage);
+    }
+
+    public void HitClose()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void CursorNear()
     {
         throw new System.NotImplementedException();
     }

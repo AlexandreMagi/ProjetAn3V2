@@ -85,7 +85,9 @@ public class Weapon : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(rRayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
                 {
-                    Debug.Log("CheckDeRecepteursBullet");
+                    IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
+                    if (bAffect != null)
+                        bAffect.Hit(weaponMod);
                 }
             }
         }
