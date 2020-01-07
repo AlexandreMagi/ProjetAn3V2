@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Swarmer : Enemy, IGravityAffect
 {
-    private DataSwarmer swarmerData; 
+    private DataSwarmer swarmerData;
 
-    public void OnDirectHit()
+    private bool isAirbone = false;
+    private float fTimePropel = .5f;
+    private float fElapsedTime = 0;
+
+    //Stimulus
+    public void OnGravityDirectHit()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Direct hit swarmer");
+
+        ReactGravity.DoFreeze(this);
     }
 
     public void OnHold()
@@ -16,9 +23,9 @@ public class Swarmer : Enemy, IGravityAffect
         throw new System.NotImplementedException();
     }
 
-    public void OnPull()
+    public void OnPull(Vector3 origin, float force)
     {
-        throw new System.NotImplementedException();
+        ReactGravity.DoPull(this, origin, force, isAirbone);
     }
 
     public void OnRelease()
@@ -31,6 +38,11 @@ public class Swarmer : Enemy, IGravityAffect
         throw new System.NotImplementedException();
     }
 
+    public void OnFloatingActivation()
+    {
+        throw new System.NotImplementedException();
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -38,5 +50,26 @@ public class Swarmer : Enemy, IGravityAffect
         swarmerData = entityData as DataSwarmer;
     }
 
-   
+    void FixedUpdate()
+    {
+
+        if (isAirbone)
+        {
+            fElapsedTime += Time.deltaTime;
+
+            if (fElapsedTime >= fTimePropel)
+            {
+                //Spin();
+
+                //Check si touche le sol
+                fElapsedTime = 0;
+                if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
+                {
+                    isAirbone = false;
+                }
+            }
+        }
+
+    }
+
 }

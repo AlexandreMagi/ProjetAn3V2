@@ -4,13 +4,16 @@ using UnityEngine;
 
 public interface IGravityAffect
 {
-    void OnDirectHit();
 
-    void OnPull();
+    void OnGravityDirectHit();
+
+    void OnPull(Vector3 position, float force);
 
     void OnRelease();
 
     void OnHold();
 
     void OnZeroG();
+
+    void OnFloatingActivation();
 }
