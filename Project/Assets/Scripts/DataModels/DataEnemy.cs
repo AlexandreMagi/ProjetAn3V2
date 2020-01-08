@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class DataEnemy : DataEntity
 {
-    
+    public float stunResistanceJauge = 1;
 }
