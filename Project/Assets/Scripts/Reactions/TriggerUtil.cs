@@ -35,7 +35,7 @@ public static class TriggerUtil
 
         //C_TimeScale.Instance.AddSlowMo(force, duration);
 
-        yield break;²   
+        yield break;
     }
 
     //ANIMATIONS
@@ -157,4 +157,4 @@ public static class TriggerUtil
         yield break;
     }
 }
-}
+

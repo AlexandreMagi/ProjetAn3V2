@@ -54,7 +54,7 @@ public class DataSequence : ScriptableObject
     public bool isActivation = false;
     
     [ShowWhen("seqEvent", Condition.Equals, (int)SequenceEndEventType.Activation)]
-    public C_TriggerSender.Activable affected = 0;
+    public TriggerSender.Activable affected = 0;
     
 
     [ShowWhen("seqEvent", Condition.Equals, (int)SequenceEndEventType.Animation)]
