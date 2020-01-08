@@ -21,4 +21,6 @@ public class DataWeaponMod : ScriptableObject
     public int bulletPerShoot = 1;
     [RangeAttribute(1, 100)]
     public int bulletCost = 1;
+    [RangeAttribute(0f, 0.5f)]
+    public float bulletImprecision;
 }

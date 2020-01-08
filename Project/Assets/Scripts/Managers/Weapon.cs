@@ -47,7 +47,7 @@ public class Weapon : MonoBehaviour
 
     public void InputHold()
     {
-        if (currentChargePurcentage < 1) 
+        if (currentChargePurcentage < 1)
         {
             currentChargePurcentage += (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
             if (currentChargePurcentage > 1)
@@ -79,12 +79,17 @@ public class Weapon : MonoBehaviour
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 GameObject mainCam = Camera.main.gameObject;
-                Ray rRayBullet = mainCam.GetComponent<Camera>().ScreenPointToRay(mousePosition);
+                Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
+                                                    UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
+                                                    UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
+                Ray rayBullet = mainCam.GetComponent<Camera>().ScreenPointToRay(mousePosition);
+                rayBullet.direction += imprecision;
 
                 //Shoot raycast
                 RaycastHit hit;
-                if (Physics.Raycast(rRayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
+                if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
                 {
+                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point);
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                         bAffect.Hit(weaponMod);
@@ -93,6 +98,14 @@ public class Weapon : MonoBehaviour
         }
         bulletRemaining -= weaponMod.bulletCost;
         if (bulletRemaining < 0) bulletRemaining = 0;
+    }
+
+    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint)
+    {
+        if (hit.GetComponent<Enemy>() != null)
+            FxManager.Instance.PlayFx("VFX_ImpactBlood", hitPoint, Quaternion.identity);
+        else 
+            FxManager.Instance.PlayFx("VFX_ImpactWalls", hitPoint, Quaternion.identity);
     }
 
     // Permet d'obtenir la valeur de charge pour les feedbacks -> renvoit le pourcentage de charge avec une marge de sécurité
