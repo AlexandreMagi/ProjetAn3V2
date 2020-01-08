@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 399868980}
   - component: {fileID: 399868981}
   - component: {fileID: 399868982}
+  - component: {fileID: 399868983}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -180,6 +181,20 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: 352f3f7b6b03ac1428523458e3148aa7, type: 2}
   orbPrefab: {fileID: 6231348986581598670, guid: a39ff4878dea45e4a994e597921ce8f5,
     type: 3}
+--- !u!114 &399868983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399868979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83efa9550b78fbe408b81ee3d0fd2904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleTab:
+  - {fileID: 2894845473010278865, guid: 1fd35fb23d5d7014397ead804d1e8fc1, type: 3}
 --- !u!1 &411049530
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,25 +20,52 @@ public class FxManager : MonoBehaviour
     [SerializeField]
     ParticleSystem[] particleTab = null;
 
-    public void PlayFx (string name, Vector3 pos, Quaternion rot)
+    public ParticleSystem PlayFx (string name)
     {
         ParticleSystem fxInstantiated = FindFx(name);
         if (fxInstantiated == null)
-            return;
-        ParticleSystem clone = Instantiate(fxInstantiated, pos, rot);
+            return null;
+        ParticleSystem clone = Instantiate(fxInstantiated);
+        clone.transform.position = fxInstantiated.transform.position;
+        clone.transform.rotation = fxInstantiated.transform.rotation;
         clone.Play();
+        return clone;   
     }
 
-    public void PlayFx (string name, Vector3 pos, Quaternion rot, float size)
+    public ParticleSystem PlayFx (string name, Vector3 pos, Quaternion rot)
     {
         ParticleSystem fxInstantiated = FindFx(name);
         if (fxInstantiated == null)
-            return;
+            return null;
+        ParticleSystem clone = Instantiate(fxInstantiated, pos, rot);
+        clone.Play();
+        return clone;
+    }
+
+    public ParticleSystem PlayFx (string name, Vector3 pos, Quaternion rot, float size)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
 
         var main = fxInstantiated.main;
         main.startSize = size;
         ParticleSystem clone = Instantiate(fxInstantiated, pos, rot);
         clone.Play();
+        return clone;
+    }
+
+    public ParticleSystem PlayFx (Transform parent, float lifeTime)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
+
+        var main = fxInstantiated.main;
+        main.startLifetime = lifeTime;
+        ParticleSystem clone = Instantiate(fxInstantiated, parent);
+        clone.Play();
+        return clone;
     }
 
     ParticleSystem FindFx (string name)
