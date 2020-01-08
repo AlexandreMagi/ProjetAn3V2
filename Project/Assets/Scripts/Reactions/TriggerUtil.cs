@@ -81,7 +81,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSecondsRealtime(tTimeBeforeStart);
 
-        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundName, false, volume);
+        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundName, false, volume);
 
         yield break;
     }
