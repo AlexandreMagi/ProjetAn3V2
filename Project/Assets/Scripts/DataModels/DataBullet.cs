@@ -23,8 +23,10 @@ public class DataBullet : ScriptableObject
     public bool activateStopTimeAtImpact;
     [RangeAttribute(0f, 1f)]
     public float timeStopAtImpact;
+    [RangeAttribute(0f, 1f)]
+    public float timeStopProbability = 1;
 
-    public bool activateSLowMoAtImpact;
+    public bool activateSlowMoAtImpact;
     [RangeAttribute(0f, 0.999f)]
     public float slowMoPower;
     [RangeAttribute(0f, 5f)]

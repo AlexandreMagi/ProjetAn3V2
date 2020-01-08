@@ -90,6 +90,7 @@ public class Weapon : MonoBehaviour
                 if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
                 {
                     FxImpactDependingOnSurface(hit.transform.gameObject, hit.point);
+                    CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                         bAffect.Hit(weaponMod);
@@ -98,6 +99,14 @@ public class Weapon : MonoBehaviour
         }
         bulletRemaining -= weaponMod.bulletCost;
         if (bulletRemaining < 0) bulletRemaining = 0;
+    }
+
+    private void CheckIfMustSlowMo(GameObject hit, DataWeaponMod weaponMod)
+    {
+        if (hit.GetComponent<Enemy>() != null && weaponMod.bullet.activateSlowMoAtImpact)
+            TimeScaleManager.Instance.AddSlowMo(weaponMod.bullet.slowMoPower, weaponMod.bullet.slowMoDuration, 0, weaponMod.bullet.slowMoProbability);
+        if (hit.GetComponent<Enemy>() != null && weaponMod.bullet.activateStopTimeAtImpact)
+            TimeScaleManager.Instance.AddStopTime(weaponMod.bullet.timeStopAtImpact, 0, weaponMod.bullet.timeStopProbability);
     }
 
     private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint)
