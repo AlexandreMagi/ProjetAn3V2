@@ -7,9 +7,6 @@ public class Main : MonoBehaviour
     private bool playerCanOrb = true;
     private bool playerCanShoot = true;
 
-    [SerializeField]
-    private GameObject orbPrefab = null;
-
     public static Main Instance { get; private set; }
 
     void Awake()
@@ -22,8 +19,15 @@ public class Main : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerCanOrb)
         {
-            GameObject orb = Instantiate(orbPrefab);
-            orb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
+            Weapon.Instance.GravityOrbInput();
+        }
+        if (Input.GetKey(KeyCode.Mouse0) && playerCanShoot)
+        {
+            Weapon.Instance.InputHold();
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0) && playerCanShoot)
+        {
+            Weapon.Instance.InputUp(Input.mousePosition);
         }
     }
 
