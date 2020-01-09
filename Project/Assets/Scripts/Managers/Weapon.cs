@@ -89,11 +89,23 @@ public class Weapon : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
                 {
-                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod);
+                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
+                    {
+                        //Stimuli gestion depending on the shoot kind
                         bAffect.OnHit(weaponMod);
+                        if(weaponMod == weapon.baseShot)
+                        {
+                            bAffect.OnHitSingleShot();
+                        }
+                        else
+                        {
+                            bAffect.OnHitShotGun();
+                        }
+                    }
+                        
                 }
             }
         }
@@ -109,20 +121,12 @@ public class Weapon : MonoBehaviour
             TimeScaleManager.Instance.AddStopTime(weaponMod.bullet.timeStopAtImpact, 0, weaponMod.bullet.timeStopProbability);
     }
 
-    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint, DataWeaponMod weaponMod)
+    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint)
     {
-        for (int i = 0; i < weaponMod.bullet.bulletFxs.allFxReaction.Length; i++)
-        {
-            if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
-            {
-                FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
-            }
-        }
-/*
         if (hit.GetComponent<Enemy>() != null)
             FxManager.Instance.PlayFx("VFX_ImpactBlood", hitPoint, Quaternion.identity);
         else 
-            FxManager.Instance.PlayFx("VFX_ImpactWalls", hitPoint, Quaternion.identity);*/
+            FxManager.Instance.PlayFx("VFX_ImpactWalls", hitPoint, Quaternion.identity);
     }
 
     // Permet d'obtenir la valeur de charge pour les feedbacks -> renvoit le pourcentage de charge avec une marge de sécurité

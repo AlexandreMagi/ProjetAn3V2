@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Swarmer : Enemy, IGravityAffect
+public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 {
     private DataSwarmer swarmerData;
 
@@ -12,6 +12,8 @@ public class Swarmer : Enemy, IGravityAffect
     private float fElapsedTime = 0;
 
     //Stimulus
+    #region Stimulus
+    #region Gravity
     public void OnGravityDirectHit()
     {
         ReactGravity.DoFreeze(this);
@@ -49,7 +51,34 @@ public class Swarmer : Enemy, IGravityAffect
 
         ReactGravity.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
+    #endregion
+    #region Bullets
+    public void OnHit(DataWeaponMod mod)
+    {
+        this.TakeDamage(mod.bullet.damage);
+    }
 
+    public void OnHitShotGun()
+    {
+        
+    }
+
+    public void OnHitSingleShot()
+    {
+        
+    }
+
+    public void OnBulletClose()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnCursorClose()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
+    #endregion
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -78,5 +107,6 @@ public class Swarmer : Enemy, IGravityAffect
         }
 
     }
+
 
 }
