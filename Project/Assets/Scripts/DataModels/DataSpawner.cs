@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Spawner/DataSpawner")]
 public class DataSpawner : ScriptableObject
@@ -13,9 +14,9 @@ public class DataSpawner : ScriptableObject
 
     public bool bIsImpulseSpawn = false;
 
-    [ShowWhen("bIsImpulseSpawn")]
+    [ShowIf("bIsImpulseSpawn")]
     public Vector3 v3Direction = Vector3.zero;
 
-    [ShowWhen("bIsImpulseSpawn")]
+    [ShowIf("bIsImpulseSpawn")]
     public float fImpulseForce = 0;
 }
