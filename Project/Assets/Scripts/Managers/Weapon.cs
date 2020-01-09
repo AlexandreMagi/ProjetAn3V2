@@ -118,11 +118,6 @@ public class Weapon : MonoBehaviour
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
             }
         }
-/*
-        if (hit.GetComponent<Enemy>() != null)
-            FxManager.Instance.PlayFx("VFX_ImpactBlood", hitPoint, Quaternion.identity);
-        else 
-            FxManager.Instance.PlayFx("VFX_ImpactWalls", hitPoint, Quaternion.identity);*/
     }
 
     // Permet d'obtenir la valeur de charge pour les feedbacks -> renvoit le pourcentage de charge avec une marge de sécurité
