@@ -29,6 +29,12 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.InputUp(Input.mousePosition);
         }
+
+        //DEBUG
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SequenceHandler.Instance.NextSequence();
+        }
     }
 
     public void SetControlState(TriggerSender.Activable control, bool state)

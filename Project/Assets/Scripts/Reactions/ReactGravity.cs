@@ -45,15 +45,19 @@ public static class ReactGravity
         obj.GetComponent<Rigidbody>().AddTorque(v3SpinRandom);
     }
 
+    //Fonction qui enclenche la coroutine de flottaison
     public static void DoFloat(Entity obj, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
         Main.Instance.StartCoroutine(Float(obj, tTimeBeforeFloat, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale));
     }
 
+    //Coroutine de flottaison
     private static IEnumerator Float(Entity obj, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
+        //Attnete avant de démarrer
         yield return new WaitForSecondsRealtime(tTimeBeforeFloat);
 
+        //Récupération du rigidbody
         Rigidbody rbBody = obj.GetComponent<Rigidbody>();
 
         float tETime = 0;
@@ -62,6 +66,8 @@ public static class ReactGravity
         if (isSlowedDownOnFloat)
             rbBody.velocity /= 50;
 
+
+        // A chaque passe de gravité, pousse les objets dans la même force que la gravité mais dans le sens inverse
         while (true)
         {
             yield return new WaitForFixedUpdate();
@@ -75,6 +81,8 @@ public static class ReactGravity
             //rbBody.AddForce(new Vector3(0, -rbBody.mass * (Physics.gravity.y*Time.timeScale), 0));
             rbBody.useGravity = false;
 
+
+            //Ecrase les objets au sol à la fin de la zero G
             if (tETime >= tFloatTime)
             {
                 rbBody.useGravity = true;

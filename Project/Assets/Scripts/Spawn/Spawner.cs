@@ -47,8 +47,8 @@ public class Spawner : MonoBehaviour
     protected virtual GameObject SpawnEnemy()
     {
         GameObject spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
+        spawnedEnemy.transform.SetParent(this.transform, false);
         spawnedEnemy.transform.position = transform.position;
-        spawnedEnemy.transform.SetParent(this.transform);
         //spawnedEnemy.transform.localScale= new Vector3(1, 1, 1);
         if (spawnerType.bIsImpulseSpawn)
         {
