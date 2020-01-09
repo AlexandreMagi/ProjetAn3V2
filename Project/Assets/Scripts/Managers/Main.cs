@@ -30,9 +30,6 @@ public class Main : MonoBehaviour
             Weapon.Instance.InputUp(Input.mousePosition);
         }
 
-
-
-
         //DEBUG
         if (Input.GetKeyDown(KeyCode.N))
         {
