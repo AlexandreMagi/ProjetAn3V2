@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
     int bulletRemaining = 0;
     float currentChargePurcentage = 0;
     [SerializeField]
-    private GameObject orbPrefab;
+    private GameObject orbPrefab = null;
 
     float timeRemainingBeforeOrb = 0;
 
