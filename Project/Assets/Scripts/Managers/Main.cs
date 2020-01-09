@@ -8,7 +8,7 @@ public class Main : MonoBehaviour
     private bool playerCanShoot = true;
 
     [SerializeField]
-    private GameObject orbPrefab;
+    private GameObject orbPrefab = null;
 
     public static Main Instance { get; private set; }
 
