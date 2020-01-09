@@ -76,7 +76,11 @@ public class GravityOrb : MonoBehaviour
     
     public void SpawnViaScene()
     {
+<<<<<<< Updated upstream
         //GameObject.FindObjectOfType<C_Fx>().GravityOrbFx(transform.position);
+=======
+        FxManager.Instance.PlayFx("VFX_GravityOrb", transform.position, Quaternion.identity);
+>>>>>>> Stashed changes
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sound_Orb_Boosted", false, 0.3f);
