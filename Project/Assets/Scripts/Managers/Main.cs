@@ -6,7 +6,11 @@ public class Main : MonoBehaviour
 {
 
     private static Main _instance;
+    private bool playerCanOrb;
+    private bool playerCanShoot;
 
+    [SerializeField]
+    private GameObject orbPrefab;
 
     public static Main Instance{
         get
@@ -20,21 +24,36 @@ public class Main : MonoBehaviour
         _instance = this;
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerCanOrb)
         {
-            Weapon.Instance.GravityOrbInput();
+            GameObject orb = Instantiate(orbPrefab);
+            orb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
         }
-        if (Input.GetKey(KeyCode.Mouse0))
+    }
+
+    public void SetControlState(TriggerSender.Activable control, bool state)
+    {
+
+        if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
         {
-            Weapon.Instance.InputHold();
+            playerCanShoot = state;
+            //FindObjectOfType<C_Ui>().CannotShoot(state);
+            
+            /*
+            if (state)
+            {
+                wMod.InputUp(GetControllerPos());
+            }
+            */
         }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+
+        if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)
         {
-            Weapon.Instance.InputUp(Input.mousePosition);
+            playerCanOrb = state;
+            //FindObjectOfType<C_Ui>().CannotShoot(state);
         }
     }
 }
