@@ -17,6 +17,12 @@ public class Swarmer : Enemy, IGravityAffect
         ReactGravity.DoFreeze(this);
     }
 
+    protected override void Die()
+    {
+        base.Die();
+        FxManager.Instance.PlayFx("VFX_Death", transform.position, Quaternion.identity);
+    }
+
     public void OnHold()
     {
         //Nothing happens on hold
