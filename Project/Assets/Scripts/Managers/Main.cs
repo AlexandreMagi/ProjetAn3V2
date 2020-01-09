@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-
-    private static Main _instance;
-    private bool playerCanOrb;
-    private bool playerCanShoot;
+    private bool playerCanOrb = true;
+    private bool playerCanShoot = true;
 
     [SerializeField]
     private GameObject orbPrefab;
 
-    public static Main Instance{
-        get
-        {
-            return _instance;
-        }
-    }
+    public static Main Instance { get; private set; }
 
     void Awake()
     {
-        _instance = this;
+        Instance = this;
     }
 
     // Update is called once per frame
