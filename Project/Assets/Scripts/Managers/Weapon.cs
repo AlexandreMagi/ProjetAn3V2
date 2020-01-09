@@ -93,7 +93,7 @@ public class Weapon : MonoBehaviour
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
-                        bAffect.Hit(weaponMod);
+                        bAffect.OnHit(weaponMod);
                 }
             }
         }
