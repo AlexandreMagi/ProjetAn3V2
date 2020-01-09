@@ -58,11 +58,9 @@ public class GravityOrb : MonoBehaviour
             
             this.OnAttractionStart();
 
-            //GameObject.FindObjectOfType<C_Fx>().GravityOrbFx(hit.point);
+            FxManager.Instance.PlayFx("VFX_GravityOrb", hit.point, Quaternion.identity);
 
             StartCoroutine("OnHoldAttraction");
-
-            //GameObject.FindObjectOfType<C_WeaponMod>().InitCoroutineChangeWeaponViaORb(hGOrb);
 
             //CustomSoundManager.Instance.PlaySound(MainCam.gameObject, "Sound_Orb_Boosted", false, 0.5f);
             return true;
@@ -76,11 +74,10 @@ public class GravityOrb : MonoBehaviour
     
     public void SpawnViaScene()
     {
-<<<<<<< Updated upstream
         //GameObject.FindObjectOfType<C_Fx>().GravityOrbFx(transform.position);
-=======
+
         FxManager.Instance.PlayFx("VFX_GravityOrb", transform.position, Quaternion.identity);
->>>>>>> Stashed changes
+
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sound_Orb_Boosted", false, 0.3f);
@@ -97,6 +94,7 @@ public class GravityOrb : MonoBehaviour
             if (hVictim.GetComponent<C_ShooterBullet>())
                 hVictim.GetComponent<C_ShooterBullet>().OnGravityPull();
             */
+
             IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
             if (gAffect != null && hVictim.gameObject != parentIfSticky)
@@ -146,7 +144,7 @@ public class GravityOrb : MonoBehaviour
             }
             if (hGOrb.bIsExplosive)
             {
-                //GameObject.FindObjectOfType<C_Fx>().ZeroG(transform.position);
+                 FxManager.Instance.PlayFx("VFX_GravityOrb", transform.position, Quaternion.identity);
                 float newDuration = hGOrb.fSlowMoDuration;
 
                 newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
