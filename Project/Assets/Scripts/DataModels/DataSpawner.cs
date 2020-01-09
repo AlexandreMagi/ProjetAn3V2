@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Spawner/DataSpawner")]
 public class DataSpawner : ScriptableObject
 {
     public float fEnnemiPerSecond = 0;
