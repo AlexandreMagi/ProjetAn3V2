@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prop : Entity, IGravityAffect
+public class Prop : Entity, IGravityAffect, IBulletAffect
 {
     bool isAirbone = false;
     float timePropel = .5f;
@@ -51,6 +51,34 @@ public class Prop : Entity, IGravityAffect
     }
     #endregion
 
+    #region Bullet
+    public void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+
+        ReactBullet.PushFromHit(this.GetComponent<Rigidbody>(), position, 2400, 5);
+    }
+
+    public void OnHitShotGun()
+    {
+        
+    }
+
+    public void OnHitSingleShot()
+    {
+       
+    }
+
+    public void OnBulletClose()
+    {
+       
+    }
+
+    public void OnCursorClose()
+    {
+       
+    }
+    #endregion
+
     protected virtual void FixedUpdate()
     {
 
@@ -75,4 +103,5 @@ public class Prop : Entity, IGravityAffect
         }
 
     }
+
 }

@@ -13,7 +13,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
     float elapsedTime = 0;
     float timerWait = 0;
 
-    Pather pathToFollow;
+    Pather pathToFollow = null;
     int pathID = 0;
 
     Transform currentFollow;
@@ -63,8 +63,9 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
         ReactGravity.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
     #endregion
+
     #region Bullets
-    public void OnHit(DataWeaponMod mod)
+    public void OnHit(DataWeaponMod mod, Vector3 position)
     {
         this.TakeDamage(mod.bullet.damage);
     }
@@ -89,7 +90,18 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
         throw new System.NotImplementedException();
     }
     #endregion
+
     #region Detection
+
+    protected override void Update()
+    {
+        base.Update();
+        if(this.transform.position.y <= -5)
+        {
+            this.Die();
+        }
+    }
+
     public override void OnMovementDetect()
     {
       
@@ -102,10 +114,11 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 
     public override void OnDistanceDetect(Transform targetToHunt, float distance)
     {
-        if (distance < swarmerData.distanceToTargetEnemy)
+        if (pathToFollow == null || distance < swarmerData.distanceToTargetEnemy)
         {
             isChasingTarget = true;
             target = targetToHunt;
+            currentFollow = target;
         }
         
     }
@@ -169,7 +182,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 
 
         //Pathfinding
-        if (pathToFollow != null && currentFollow != null && swarmerData != null && rbBody.useGravity && !isAirbone)
+        if (currentFollow != null && swarmerData != null && rbBody.useGravity && !isAirbone)
         {
 
             if (nState == (int)State.Basic)
@@ -185,7 +198,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
                 rbBody.AddForce(direction * swarmerData.speed + Vector3.up * Time.fixedDeltaTime * swarmerData.upScale);
 
 
-                if (!isChasingTarget)
+                if (!isChasingTarget && pathToFollow != null)
                 {
                     if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < swarmerData.fDistanceBeforeNextPath)
                     {
