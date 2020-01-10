@@ -247,4 +247,8 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
             return false;
     }
 
+    public void OnDistanceDetect(Transform target)
+    {
+        throw new System.NotImplementedException();
+    }
 }
