@@ -7,6 +7,12 @@ public class Spawner : MonoBehaviour
     protected float fTimer = 0;
 
     [SerializeField]
+    bool isPathedSpawner = false;
+
+    [SerializeField]
+    Pather pathToGive = null;
+
+    [SerializeField]
     protected DataSpawner spawnerType = null;
 
     [SerializeField]
@@ -49,6 +55,12 @@ public class Spawner : MonoBehaviour
         GameObject spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
         spawnedEnemy.transform.SetParent(this.transform, false);
         spawnedEnemy.transform.position = transform.position;
+
+        if(isPathedSpawner && pathToGive != null)
+        {
+            spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathToGive);
+        }
+
         //spawnedEnemy.transform.localScale= new Vector3(1, 1, 1);
         if (spawnerType.bIsImpulseSpawn)
         {

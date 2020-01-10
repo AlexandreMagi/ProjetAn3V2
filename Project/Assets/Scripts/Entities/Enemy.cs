@@ -2,14 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Entity
+public class Enemy : Entity, IDetection
 {
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
     bool isStun = false;
     private DataEnemy enemyData;
 
+    List<Transform> enemies;
+    float distanceToClosest;
+    Transform possibleTarget;
+
     protected Transform target;
+
+
+    public virtual void OnMovementDetect()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public virtual void OnDangerDetect()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public virtual void OnDistanceDetect(Transform target, float distance)
+    {
+        throw new System.NotImplementedException();
+    }
 
 
     // Start is called before the first frame update
@@ -17,7 +37,10 @@ public class Enemy : Entity
     {
         base.Start();
         enemyData = entityData as DataSwarmer;
+
+        StartCoroutine(CheckForTargets());
     }
+
 
     protected void AddStun(float ammount, float stunDuration)
     {
