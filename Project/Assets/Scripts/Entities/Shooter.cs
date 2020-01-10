@@ -56,6 +56,9 @@ public class Shooter : Enemy, IBulletAffect
     [Tooltip("Indique à quel tir on est dans la salve")]
     int bulletShot = 0;
 
+    [SerializeField]
+    GameObject canonPlacement = null;
+
     bool playerMoving = false;
 
     // Start is called before the first frame update
@@ -285,8 +288,8 @@ public class Shooter : Enemy, IBulletAffect
         //GameObject.FindObjectOfType<C_Camera>().AddShake(3);
         for (int i = 0; i < shooterData.nbBulletPerShoot; i++)
         {
-            //GameObject CurrBullet = Instantiate(BulletPrefabs);
-            //CurrBullet.GetComponent<C_ShooterBullet>().OnCreation(target.gameObject, CanonPlacement.transform.position, shooterData.amplitudeMultiplier, bullet);
+            GameObject CurrBullet = Instantiate(shooterData.bulletPrefabs);
+            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, shooterData.amplitudeMultiplier, shooterData.bulletData);
         }
     }
 

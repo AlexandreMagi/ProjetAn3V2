@@ -20,7 +20,10 @@ public class DataShooter : DataEnemy
     public float amplitudeMultiplier;
     public float recoverTime;
     public bool shootEvenIfPlayerMoving = false;
+    public DataShooterBullet bulletData;
+    public GameObject bulletPrefabs;
 
     [Header("Specific Stun")]
     public float stunRecoil;
+
 }

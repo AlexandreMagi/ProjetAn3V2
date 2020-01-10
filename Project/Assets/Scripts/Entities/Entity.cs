@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    protected float health;
+    public float health;
 
     [SerializeField]
     protected DataEntity entityData;
@@ -18,10 +18,10 @@ public class Entity : MonoBehaviour
 
     protected virtual void Die()
     {
-        //Destroy(this.gameObject);
         TeamsManager.Instance.RemoveFromTeam(this.transform, this.entityData.team);
 
-        this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
+        //this.gameObject.SetActive(false);
     }
 
     public virtual void TakeDamage(float value)
