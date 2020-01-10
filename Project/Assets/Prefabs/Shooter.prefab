@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1883371757168019184}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: CanonPlacement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 2686990368687315280}
   - component: {fileID: 2686990368687315310}
   - component: {fileID: 2686990368687315281}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ForearmL_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 2686990368786559269}
   - component: {fileID: 2686990368786559267}
   - component: {fileID: 2686990368786559266}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: LegL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 2686990368848830083}
   - component: {fileID: 2686990368848830081}
   - component: {fileID: 2686990368848830080}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 2686990368883522932}
   - component: {fileID: 2686990368883522930}
   - component: {fileID: 2686990368883522933}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Tete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 2686990369124629557}
   - component: {fileID: 2686990369124629555}
   - component: {fileID: 2686990369124629554}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ArmR_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 2686990369196457863}
   - component: {fileID: 2686990369196457861}
   - component: {fileID: 2686990369196457860}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Fesses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 2686990369198733122}
   - component: {fileID: 1451133507876748078}
   - component: {fileID: 2686990369198733125}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Bout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 2686990369219423816}
   - component: {fileID: 2686990369219423814}
   - component: {fileID: 2686990369219423817}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Tube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 2686990369268402387}
   - component: {fileID: 2686990369268402385}
   - component: {fileID: 2686990369268402384}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ArmL_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -773,7 +773,7 @@ GameObject:
   - component: {fileID: 2686990369304821583}
   - component: {fileID: 2686990369304821581}
   - component: {fileID: 2686990369304821580}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Torse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,8 @@ GameObject:
   - component: {fileID: 2686990369805659945}
   - component: {fileID: 1494732070929261812}
   - component: {fileID: 7665553477451142519}
-  m_Layer: 9
+  - component: {fileID: 6734139438723515353}
+  m_Layer: 8
   m_Name: Shooter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,6 +905,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 90
   m_CollisionDetection: 0
+--- !u!114 &6734139438723515353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686990369805659944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e4441b3a61b9f41a2f10d6ad5d8ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityData: {fileID: 11400000, guid: 1385ce6c68d00c4468dc3eb9e5bcc96c, type: 2}
+  canonPlacement: {fileID: 1129977851647938895}
 --- !u!1 &2686990369854784731
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,7 +930,7 @@ GameObject:
   - component: {fileID: 2686990369854784728}
   - component: {fileID: 2686990369854784726}
   - component: {fileID: 2686990369854784729}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ForearmR_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -994,7 +1009,7 @@ GameObject:
   - component: {fileID: 2686990370163428990}
   - component: {fileID: 2686990370163428988}
   - component: {fileID: 2686990370163428991}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: LegR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,7 +1086,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2686990370210770916}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1109,7 +1124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8144437935716494449}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: CanonRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,7 +1156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4655190188393341711}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Fxpos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1171,7 +1186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6240615141341430045}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ArmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1203,7 +1218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2499582977384470003}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ForearmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1234,7 +1249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7076411623629306446}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ForearmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1265,7 +1280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4902417191742228023}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: CanonRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1297,7 +1312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7715223577686418890}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ArmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}

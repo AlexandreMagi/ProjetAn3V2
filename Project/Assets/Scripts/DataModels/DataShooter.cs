@@ -9,16 +9,21 @@ public class DataShooter : DataEnemy
     [Header("Rotation")]
     public float rotationSpeed;
     public float rotationMinimalBeforeCharge;
+    public float playerMoveTimeReset;
+    public float distanceDetection;
 
     [Header("Tir")]
     public float timeWaitBeforeShoot;
     public int nbShootPerSalve;
     public int nbBulletPerShoot = 1;
-    public float timeBulletBetweenSalve;
+    public float timeBetweenBullet;
     public float amplitudeMultiplier;
     public float recoverTime;
     public bool shootEvenIfPlayerMoving = false;
+    public DataShooterBullet bulletData;
+    public GameObject bulletPrefabs;
 
     [Header("Specific Stun")]
-    public float StunRecoil;
+    public float stunRecoil;
+
 }
