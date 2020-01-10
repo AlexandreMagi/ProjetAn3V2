@@ -9,6 +9,9 @@ public class Enemy : Entity
     bool isStun = false;
     private DataEnemy enemyData;
 
+    protected Transform target;
+
+
     // Start is called before the first frame update
     protected override void Start()
     {
