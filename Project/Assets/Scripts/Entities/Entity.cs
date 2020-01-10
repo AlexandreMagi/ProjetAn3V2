@@ -35,4 +35,9 @@ public class Entity : MonoBehaviour
         health += value;
         if (health > entityData.maxHealth) health = entityData.maxHealth;
     }
+
+    public void SetData(DataEntity data)
+    {
+        this.entityData = data;
+    }
 }

@@ -84,10 +84,10 @@ public class Enemy : Entity, IDetection
     {
         while (true)
         {
-            yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSecondsRealtime(.15f);
 
             //Recherche de cible à attaquer
-            enemies = TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team);
+            enemies = TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team, new int[]{2});
             if (enemies.Count > 0)
             {
                 distanceToClosest = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[0].position.x, enemies[0].position.z));

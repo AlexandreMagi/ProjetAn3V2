@@ -13,6 +13,9 @@ public class Spawner : MonoBehaviour
     Pather pathToGive = null;
 
     [SerializeField]
+    DataEntity entDataToGive = null;
+
+    [SerializeField]
     protected DataSpawner spawnerType = null;
 
     [SerializeField]
@@ -55,6 +58,8 @@ public class Spawner : MonoBehaviour
         GameObject spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
         spawnedEnemy.transform.SetParent(this.transform, false);
         spawnedEnemy.transform.position = transform.position;
+
+        if (entDataToGive != null) spawnedEnemy.GetComponent<Entity>().SetData(entDataToGive);
 
         if(isPathedSpawner && pathToGive != null)
         {

@@ -24,7 +24,7 @@ public class ShootTrigger : Entity, IBulletAffect
 
     //Stimulus reactions
     #region StimulusBullet
-    public void OnHit(DataWeaponMod mod = null)
+    public void OnHit(DataWeaponMod mod = null, Vector3 position)
     {
         if (!isTriggered)
         {

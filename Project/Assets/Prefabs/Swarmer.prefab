@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 8724956490323836484}
   - component: {fileID: 8724956490323836485}
   - component: {fileID: 8724956490323836489}
+  - component: {fileID: 4476334576403535502}
   m_Layer: 8
   m_Name: Swarmer
   m_TagString: Untagged
@@ -154,4 +155,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8961f4a8cc194142bca4f412f9be44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityData: {fileID: 11400000, guid: 071feb9f0fd1adb49b47d860e48dfd76, type: 2}
+  entityData: {fileID: 0}
+--- !u!135 &4476334576403535502
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724956490323836483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8307018
+  m_Center: {x: 0, y: 0.45671558, z: 0}

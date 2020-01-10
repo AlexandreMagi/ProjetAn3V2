@@ -10,7 +10,7 @@ public class Shooter : Enemy, IBulletAffect
     //Stimulus
     #region Stimulus
     #region Bullets
-    public void OnHit(DataWeaponMod mod)
+    public void OnHit(DataWeaponMod mod, Vector3 position)
     {
         this.TakeDamage(mod.bullet.damage);
     }
