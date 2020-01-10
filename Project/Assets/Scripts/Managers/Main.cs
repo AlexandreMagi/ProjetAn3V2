@@ -35,6 +35,11 @@ public class Main : MonoBehaviour
         {
             SequenceHandler.Instance.NextSequence();
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneHandler.Instance.RestartScene(0);
+        }
     }
 
     public void SetControlState(TriggerSender.Activable control, bool state)

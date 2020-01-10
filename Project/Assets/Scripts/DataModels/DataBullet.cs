@@ -10,6 +10,7 @@ public class DataBullet : ScriptableObject
     public int damage;
     [RangeAttribute(0f, 50f)]
     public float stunValue;
+    public DataBulletFxTotal bulletFxs;
 
     [Header("Weapon's fades")]
     public bool dammageFadeWithDistance;

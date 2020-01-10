@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   stunValue: 0
+  bulletFxs: {fileID: 11400000, guid: ffd804a2c86961e449e35313539b440b, type: 2}
   dammageFadeWithDistance: 0
   stunFadeWithDistance: 0
   distanceDammageFade: 0
   distanceStunFade: 0
-  activateStopTimeAtImpact: 0
-  timeStopAtImpact: 0
+  activateStopTimeAtImpact: 1
+  timeStopAtImpact: 0.1
   timeStopProbability: 1
-  activateSlowMoAtImpact: 0
-  slowMoPower: 0
-  slowMoDuration: 0
-  slowMoProbability: 0
+  activateSlowMoAtImpact: 1
+  slowMoPower: 0.8
+  slowMoDuration: 1
+  slowMoProbability: 1
