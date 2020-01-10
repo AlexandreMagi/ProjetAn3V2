@@ -33,7 +33,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSecondsRealtime(tTimeBeforeStart);
 
-        //C_TimeScale.Instance.AddSlowMo(force, duration);
+        TimeScaleManager.Instance.AddSlowMo(force, duration);
 
         yield break;
     }
