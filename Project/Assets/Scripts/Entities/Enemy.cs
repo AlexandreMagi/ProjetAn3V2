@@ -77,7 +77,7 @@ public class Enemy : Entity, IDetection
     {
         while (true)
         {
-            yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSecondsRealtime(.15f);
 
             //Recherche de cible à attaquer
             enemies = TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team, new int[]{2});
