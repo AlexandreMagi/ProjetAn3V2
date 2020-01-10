@@ -108,16 +108,22 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 
     public override void OnDistanceDetect(Transform targetToHunt, float distance)
     {
-        Debug.Log("distance");
         if (distance < swarmerData.distanceToTargetEnemy)
         {
-            Debug.Log("targetLocked");
             isChasingTarget = true;
             target = targetToHunt;
         }
         
     }
     #endregion
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.transform == target)
+        {
+            target.GetComponent<Entity>().TakeDamage(swarmerData.damage);
+            this.Die();
+        }
+    }
     #endregion
     // Start is called before the first frame update
     protected override void Start()
@@ -169,7 +175,6 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
                 if (isChasingTarget)
                 {
                     v3VariancePoisitionFollow = target.position;
-                    Debug.Log("Chase");
                 }
 
                 //TODO : Follow the path
@@ -210,7 +215,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
                 {
                     nState = (int)State.Waiting;
                     rbBody.velocity = Vector3.zero;
-                    GetComponent<Animator>().SetTrigger("PrepareToJump");
+                    //GetComponent<Animator>().SetTrigger("PrepareToJump");
                 }
             }
             else if (nState == (int)State.Waiting)
@@ -225,7 +230,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
                         GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
                         GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
                         rbBody.AddForce(Vector3.up * swarmerData.fJumpForce, ForceMode.Impulse);
-                        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
+                        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
                     }
                     else
                         nState = (int)State.Basic;

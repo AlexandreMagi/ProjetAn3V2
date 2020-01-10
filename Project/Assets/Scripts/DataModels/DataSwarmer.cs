@@ -13,6 +13,8 @@ public class DataSwarmer : DataEnemy
 
     public float speed;
 
+    public float damage;
+
     public float upScale;
 
     public float distanceToTargetEnemy;

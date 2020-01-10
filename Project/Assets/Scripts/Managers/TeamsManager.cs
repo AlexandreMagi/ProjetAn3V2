@@ -12,17 +12,12 @@ public class TeamsManager : MonoBehaviour
     public void Awake()
     {
         Instance = this;
-    }
 
-    public void Start()
-    {
         teams = new List<Transform>[nbTeams];
-        for (int i=0; i<nbTeams; i++)
+        for (int i = 0; i < nbTeams; i++)
         {
             teams[i] = new List<Transform>();
         }
-
-        teams[0].Add(Player.Instance.transform);
     }
 
     //Gets all Transforms registered in all teams except the one sent

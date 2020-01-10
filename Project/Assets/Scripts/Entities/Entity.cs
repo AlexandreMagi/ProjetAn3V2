@@ -24,13 +24,13 @@ public class Entity : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    protected virtual void TakeDamage(float value)
+    public virtual void TakeDamage(float value)
     {
         health -= value;
         if (health <= 0) Die();
     }
 
-    protected virtual void Heal(float value)
+    public  virtual void Heal(float value)
     {
         health += value;
         if (health > entityData.maxHealth) health = entityData.maxHealth;
