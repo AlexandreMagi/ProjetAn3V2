@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class Enemy : Entity, IDetection
 {
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
-    bool isStun = false;
+    protected bool isStun = false;
     private DataEnemy enemyData;
 
     List<Transform> enemies;
@@ -28,7 +29,7 @@ public class Enemy : Entity, IDetection
 
     public virtual void OnDistanceDetect(Transform target, float distance)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
 
@@ -36,7 +37,7 @@ public class Enemy : Entity, IDetection
     protected override void Start()
     {
         base.Start();
-        enemyData = entityData as DataSwarmer;
+        enemyData = entityData as DataEnemy;
 
         StartCoroutine(CheckForTargets());
     }
@@ -69,11 +70,17 @@ public class Enemy : Entity, IDetection
             if (timeRemaingingStun <= 0)
             {
                 isStun = false;
+                StopStun();
             }
         }
     }
 
-    IEnumerator CheckForTargets()
+    protected virtual void StopStun()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected IEnumerator CheckForTargets()
     {
         while (true)
         {
