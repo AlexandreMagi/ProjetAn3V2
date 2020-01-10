@@ -12,11 +12,15 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         health = entityData.startHealth;
+
+        TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
     }
 
     protected virtual void Die()
     {
         //Destroy(this.gameObject);
+        TeamsManager.Instance.RemoveFromTeam(this.transform, this.entityData.team);
+
         this.gameObject.SetActive(false);
     }
 

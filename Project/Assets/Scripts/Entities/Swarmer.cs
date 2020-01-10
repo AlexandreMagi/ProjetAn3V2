@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
 
-public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
+public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 {
     DataSwarmer swarmerData;
 
@@ -16,11 +17,12 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
     int pathID = 0;
 
     Transform currentFollow;
+
     Vector3 v3VariancePoisitionFollow;
 
     Rigidbody rbBody;
 
-    bool isChasingPlayer;
+    bool isChasingTarget;
     bool bIsDead = false;
 
     enum State { Basic, Waiting, Attacking };
@@ -94,18 +96,25 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
     }
     #endregion
     #region Detection
-    public void OnAudioDetect()
+    public override void OnMovementDetect()
     {
-        
+      
     }
 
-    public void OnSightDetect()
+    public override void OnDangerDetect()
     {
-        
+      
     }
 
-    public void OnDistanceDetect()
+    public override void OnDistanceDetect(Transform targetToHunt, float distance)
     {
+        Debug.Log("distance");
+        if (distance < swarmerData.distanceToTargetEnemy)
+        {
+            Debug.Log("targetLocked");
+            isChasingTarget = true;
+            target = targetToHunt;
+        }
         
     }
     #endregion
@@ -129,6 +138,8 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
 
     protected virtual void FixedUpdate()
     {
+
+        //Check for airbone and makes it spin if in the air
         if (isAirbone)
         {
             elapsedTime += Time.deltaTime;
@@ -148,14 +159,17 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
 
         }
 
+
+        //Pathfinding
         if (pathToFollow != null && currentFollow != null && swarmerData != null && rbBody.useGravity && !isAirbone)
         {
+
             if (nState == (int)State.Basic)
             {
-                if (isChasingPlayer)
+                if (isChasingTarget)
                 {
                     v3VariancePoisitionFollow = target.position;
-
+                    Debug.Log("Chase");
                 }
 
                 //TODO : Follow the path
@@ -163,9 +177,8 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
 
                 rbBody.AddForce(direction * swarmerData.speed + Vector3.up * Time.fixedDeltaTime * swarmerData.upScale);
 
-                //transform.Translate(direction * swarmer.speed * Time.deltaTime);
 
-                if (!isChasingPlayer)
+                if (!isChasingTarget)
                 {
                     if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < swarmerData.fDistanceBeforeNextPath)
                     {
@@ -191,14 +204,9 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
                         }
 
                     }
-
-                    if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(target.position.x, target.position.z)) < swarmerData.distanceToTargetPlayer)
-                    {
-                        isChasingPlayer = true;
-                        currentFollow = target;
-                    }
+                    
                 }
-                if (CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
+                if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
                 {
                     nState = (int)State.Waiting;
                     rbBody.velocity = Vector3.zero;
@@ -211,7 +219,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
                 if (timerWait > swarmerData.fWaitDuration)
                 {
                     timerWait = 0;
-                    if (CheckDistance())
+                    if (target != null && CheckDistance())
                     {
                         nState = (int)State.Attacking;
                         GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
@@ -229,7 +237,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
                 //TODO : Follow the path
                 Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
                 rbBody.AddForce(direction * swarmerData.speed * swarmerData.fSpeedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * swarmerData.upScale);
-                if (!CheckDistance())
+                if (target != null && !CheckDistance())
                 {
                     nState = (int)State.Basic;
                     GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
@@ -247,4 +255,5 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
             return false;
     }
 
+    
 }

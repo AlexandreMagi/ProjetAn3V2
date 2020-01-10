@@ -15,7 +15,7 @@ public class DataSwarmer : DataEnemy
 
     public float upScale;
 
-    public float distanceToTargetPlayer;
+    public float distanceToTargetEnemy;
 
     public float fDistanceMelee;
 

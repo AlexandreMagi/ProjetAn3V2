@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IDetection
 {
-    void OnAudioDetect();
+    void OnMovementDetect();
 
-    void OnSightDetect();
+    void OnDangerDetect();
 
-    void OnDistanceDetect(Transform target);
+    void OnDistanceDetect(Transform target, float distance);
 }
