@@ -21,7 +21,7 @@ public class Entity : MonoBehaviour
         //Destroy(this.gameObject);
         TeamsManager.Instance.RemoveFromTeam(this.transform, this.entityData.team);
 
-        this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
 
     public virtual void TakeDamage(float value)

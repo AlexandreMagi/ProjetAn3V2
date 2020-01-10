@@ -36,12 +36,6 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
         ReactGravity.DoFreeze(this);
     }
 
-    protected override void Die()
-    {
-        base.Die();
-        FxManager.Instance.PlayFx("VFX_Death", transform.position, Quaternion.identity);
-    }
-
     public void OnHold()
     {
         //Nothing happens on hold
@@ -116,6 +110,13 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
         
     }
     #endregion
+    protected override void Die()
+    {
+        FxManager.Instance.PlayFx("VFX_Death", transform.position, Quaternion.identity);
+
+        base.Die();        
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if(other.transform == target)
@@ -124,6 +125,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
             this.Die();
         }
     }
+
     #endregion
     // Start is called before the first frame update
     protected override void Start()
