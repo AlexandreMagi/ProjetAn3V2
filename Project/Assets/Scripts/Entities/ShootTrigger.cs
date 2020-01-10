@@ -24,7 +24,7 @@ public class ShootTrigger : Entity, IBulletAffect
 
     //Stimulus reactions
     #region StimulusBullet
-    public void OnHit(DataWeaponMod mod = null, Vector3 position)
+    public void OnHit(DataWeaponMod mod = null)
     {
         if (!isTriggered)
         {
@@ -71,6 +71,11 @@ public class ShootTrigger : Entity, IBulletAffect
     public void OnCursorClose()
     {
         
+    }
+
+    public void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+        throw new System.NotImplementedException();
     }
     #endregion
 }
