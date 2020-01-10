@@ -9,4 +9,5 @@ public interface IDetection
     void OnDangerDetect();
 
     void OnDistanceDetect(Transform target, float distance);
+
 }
