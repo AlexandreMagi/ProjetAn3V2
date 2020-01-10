@@ -56,7 +56,7 @@ public static class ReactGravity
     {
         //Attnete avant de démarrer
         yield return new WaitForSecondsRealtime(tTimeBeforeFloat);
-
+        if (obj == null) yield break;
         //Récupération du rigidbody
         Rigidbody rbBody = obj.GetComponent<Rigidbody>();
 
@@ -72,6 +72,7 @@ public static class ReactGravity
         {
             yield return new WaitForFixedUpdate();
 
+            if (rbBody == null) yield break;
 
             if (!bIndependantFromTimeScale)
                 tETime += Time.fixedDeltaTime;
