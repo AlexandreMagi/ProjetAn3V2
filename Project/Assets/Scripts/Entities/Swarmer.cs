@@ -26,8 +26,6 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, IDetection
     enum State { Basic, Waiting, Attacking };
     int nState = 0;
 
-    Transform target;
-
     //Stimulus
     #region Stimulus
     #region Gravity
