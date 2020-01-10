@@ -8,5 +8,5 @@ public interface IDetection
 
     void OnSightDetect();
 
-    void OnDistanceDetect();
+    void OnDistanceDetect(Transform target);
 }
