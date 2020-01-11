@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Enemies/DataSwarmer")]
 public class DataSwarmer : DataEnemy
 {
+    [Header("Swarmer var")]
     public float nVarianceInPath;
 
     public float tTimeBeforeNextPath;
@@ -25,4 +26,7 @@ public class DataSwarmer : DataEnemy
     public float fDistanceBeforeAttack = 6f;
     public float fJumpForce = 80f;
     public float fSpeedMultiplierWhenAttacking = 4;
+
+
+    public Material mat;
 }

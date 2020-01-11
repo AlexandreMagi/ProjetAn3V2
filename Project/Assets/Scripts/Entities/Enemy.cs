@@ -16,7 +16,10 @@ public class Enemy : Entity, IDetection
 
     protected Transform target;
 
+    float timerCheckTarget = 0;
+    float checkEvery = 0.2f;
 
+    float currentTargetTimer = 0;
     public virtual void OnMovementDetect()
     {
         throw new System.NotImplementedException();
@@ -38,8 +41,6 @@ public class Enemy : Entity, IDetection
     {
         base.Start();
         enemyData = entityData as DataEnemy;
-
-        StartCoroutine(CheckForTargets());
     }
 
 
@@ -73,6 +74,28 @@ public class Enemy : Entity, IDetection
                 StopStun();
             }
         }
+
+        if (!enemyData.stayLockedOnTarget)
+        {
+            if (target) currentTargetTimer += Time.deltaTime;
+
+            if (currentTargetTimer > enemyData.timeBeforeCheckForAnotherTarget)
+            {
+                currentTargetTimer -= enemyData.timeBeforeCheckForAnotherTarget;
+                target = null;
+            }
+        }
+
+        timerCheckTarget += Time.deltaTime;
+        if (timerCheckTarget > checkEvery)
+        {
+            timerCheckTarget -= checkEvery;
+            if (target == null)
+                CheckForTargets();
+        }
+
+        if (target!=null && !target.gameObject.activeSelf) target = null;
+
     }
 
     protected virtual void StopStun()
@@ -80,36 +103,30 @@ public class Enemy : Entity, IDetection
         throw new NotImplementedException();
     }
 
-    protected IEnumerator CheckForTargets()
+    protected void CheckForTargets()
     {
-        while (true)
+        //Recherche de cible à attaquer
+        enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team, new int[]{2});
+        if (enemies.Count > 0)
         {
-            yield return new WaitForSecondsRealtime(.15f);
+            distanceToClosest = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[0].position.x, enemies[0].position.z));
+            possibleTarget = enemies[0];
 
-            //Recherche de cible à attaquer
-            enemies = TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team, new int[]{2});
-            if (enemies.Count > 0)
+            if (enemies.Count > 1)
             {
-                distanceToClosest = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[0].position.x, enemies[0].position.z));
-                possibleTarget = enemies[0];
-
-                if (enemies.Count > 1)
+                for (int i = 1; i < enemies.Count; i++)
                 {
-                    for (int i = 1; i < enemies.Count; i++)
+                    float distanceTemp = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[i].position.x, enemies[i].position.z));
+                    if (distanceTemp < distanceToClosest)
                     {
-                        float distanceTemp = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[i].position.x, enemies[i].position.z));
-                        if (distanceTemp < distanceToClosest)
-                        {
-                            distanceToClosest = distanceTemp;
-                            possibleTarget = enemies[i];
-                        }
+                        distanceToClosest = distanceTemp;
+                        possibleTarget = enemies[i];
                     }
                 }
-
-                OnDistanceDetect(possibleTarget, distanceToClosest);
             }
-        }
 
+            OnDistanceDetect(possibleTarget, distanceToClosest);
+        }
     }
 
 }

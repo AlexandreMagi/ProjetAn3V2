@@ -55,7 +55,12 @@ public class Spawner : MonoBehaviour
 
     protected virtual GameObject SpawnEnemy()
     {
-        GameObject spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
+        GameObject spawnedEnemy;
+        if (entDataToGive is DataSwarmer)
+            spawnedEnemy = SwarmerPullHandler.Instance.GetSwarmer(entDataToGive);
+        else
+            spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
+
         spawnedEnemy.transform.SetParent(this.transform, false);
         spawnedEnemy.transform.position = transform.position;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public float health;
+    protected float health;
 
     [SerializeField]
     protected DataEntity entityData;

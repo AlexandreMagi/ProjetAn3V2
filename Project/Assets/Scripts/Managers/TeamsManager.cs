@@ -20,21 +20,25 @@ public class TeamsManager : MonoBehaviour
         }
     }
 
+    List<Transform> m_tempList = new List<Transform>();
+    List<int> m_excList = new List<int>();
+
     //Gets all Transforms registered in all teams except the one sent
     public List<Transform> GetAllEnemiesFromTeam(int teamNumber, int[] exceptions = null)
     {
-        List<Transform> tempList = new List<Transform>();
-        List<int> excList = new List<int>();
-        if (exceptions != null) excList.AddRange(exceptions);
+        m_tempList.Clear();
+        m_excList.Clear();
+
+        if (exceptions != null) m_excList.AddRange(exceptions);
 
         for (int i = 0; i < nbTeams; i++)
         {
-            if (i == teamNumber || excList.Contains(i)) continue;
+            if (i == teamNumber || m_excList.Contains(i)) continue;
 
-            tempList.AddRange(teams[i]);
+            m_tempList.AddRange(teams[i]);
         }
 
-        return tempList;
+        return m_tempList;
     }
 
     public List<Transform> GetAllTeams()

@@ -28,12 +28,19 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
     enum State { Basic, Waiting, Attacking };
     int nState = 0;
 
+
     //Stimulus
     #region Stimulus
     #region Gravity
     public void OnGravityDirectHit()
     {
         ReactGravity.DoFreeze(this);
+    }
+
+    public void ResetSwarmer()
+    {
+        health = swarmerData.startHealth;
+        target = null;
     }
 
     public void OnHold()
@@ -96,7 +103,9 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
     protected override void Update()
     {
         base.Update();
-        if(this.transform.position.y <= -5)
+
+
+        if (this.transform.position.y <= -5)
         {
             this.Die();
         }
@@ -127,7 +136,9 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
     {
         FxManager.Instance.PlayFx("VFX_Death", transform.position, Quaternion.identity);
 
-        base.Die();        
+        ResetSwarmer();
+        this.gameObject.SetActive(false);
+        //base.Die();        
     }
 
     public void OnTriggerEnter(Collider other)
@@ -187,7 +198,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
 
             if (nState == (int)State.Basic)
             {
-                if (isChasingTarget)
+                if (isChasingTarget && target != null)
                 {
                     v3VariancePoisitionFollow = target.position;
                 }
@@ -242,8 +253,8 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
                     if (target != null && CheckDistance())
                     {
                         nState = (int)State.Attacking;
-                        GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
-                        GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
+                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
+                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
                         rbBody.AddForce(Vector3.up * swarmerData.fJumpForce, ForceMode.Impulse);
                         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
                     }
@@ -255,13 +266,16 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect
             else if (nState == (int)State.Attacking)
             {
                 //TODO : Follow the path
-                Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
-                rbBody.AddForce(direction * swarmerData.speed * swarmerData.fSpeedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * swarmerData.upScale);
-                if (target != null && !CheckDistance())
+                if (target != null)
                 {
-                    nState = (int)State.Basic;
-                    GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
-                    GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                    Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
+                    rbBody.AddForce(direction * swarmerData.speed * swarmerData.fSpeedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * swarmerData.upScale);
+                    if (!CheckDistance())
+                    {
+                        nState = (int)State.Basic;
+                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                    }
                 }
             }
         }
