@@ -35,6 +35,11 @@ public class Weapon : MonoBehaviour
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
     }
 
+    public float GetChargeValue()
+    {
+        return currentChargePurcentage;
+    }
+
     public void GravityOrbInput()
     {
         if (timeRemainingBeforeOrb < 0)
@@ -93,9 +98,13 @@ public class Weapon : MonoBehaviour
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
+                    {
                         bAffect.OnHit(weaponMod, hit.point);
+                        UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
+                    }
                 }
             }
+            UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
         }
         bulletRemaining -= weaponMod.bulletCost;
         if (bulletRemaining < 0) bulletRemaining = 0;
@@ -118,15 +127,5 @@ public class Weapon : MonoBehaviour
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
             }
         }
-    }
-
-    // Permet d'obtenir la valeur de charge pour les feedbacks -> renvoit le pourcentage de charge avec une marge de sécurité
-    public float GetChargeValue()
-    {
-        float ValueSafe = 0.25f;
-        float Chargevalue = 0;
-        if (currentChargePurcentage > ValueSafe)
-            Chargevalue = (currentChargePurcentage - ValueSafe) / (1 - ValueSafe);
-        return Chargevalue;
     }
 }

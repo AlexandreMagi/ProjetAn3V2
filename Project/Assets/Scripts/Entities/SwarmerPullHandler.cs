@@ -25,7 +25,7 @@ public class SwarmerPullHandler : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 20; i++)
         {
             GameObject current = Instantiate(swarmerPrefab);
             current.SetActive(false);
@@ -33,26 +33,24 @@ public class SwarmerPullHandler : MonoBehaviour
         }
     }
 
-    public GameObject GetSwarmer(DataEntity entDataToGive)
+    public GameObject GetSwarmer(DataEntity _entDataToGive)
     {
+        DataSwarmer entDataToGive = _entDataToGive as DataSwarmer;
         foreach (var swarmer in allSwarmers)
         {
             if (swarmer.activeSelf == false)
             {
                 swarmer.SetActive(true);
-                ChangeMat(swarmer, entDataToGive as DataSwarmer);
+                swarmer.GetComponent<Swarmer>().ResetSwarmer(entDataToGive);
                 return swarmer;
             }
         }
+        // ---
         GameObject current = Instantiate(swarmerPrefab);
         allSwarmers.Add(current);
-        ChangeMat(current, entDataToGive as DataSwarmer);
+        current.GetComponent<Swarmer>().ResetSwarmer(entDataToGive);
         return current;
     }
 
-    void ChangeMat(GameObject swarmer, DataSwarmer entDataToGive)
-    {
-        swarmer.GetComponentInChildren<Renderer>().material = entDataToGive.mat;
-    }
 
 }

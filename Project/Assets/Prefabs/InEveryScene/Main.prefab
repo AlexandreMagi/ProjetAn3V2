@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3822043772547875680}
   - component: {fileID: 7179280215607153327}
   - component: {fileID: 3556921249540876184}
+  - component: {fileID: 1317479996949754489}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -92,6 +93,7 @@ MonoBehaviour:
   - {fileID: 2894845473010278865, guid: 1fd35fb23d5d7014397ead804d1e8fc1, type: 3}
   - {fileID: 4334934414303703030, guid: 2bd61a0459293734387efd2009049758, type: 3}
   - {fileID: 4334934414303703030, guid: 2ef7b2d495b357c4eabfb58a09c8f4d8, type: 3}
+  - {fileID: 5721611048556200722, guid: 32a08897722af5241bdf4a24e50e71cc, type: 3}
 --- !u!114 &3822043772547875680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741787e0a50d6964aa19005eae5f5482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamOne: []
+  teamThree: []
 --- !u!114 &3556921249540876184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,3 +138,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swarmerPrefab: {fileID: 8724956490323836483, guid: e6da892da0007434e85be1ddaebd7cdd,
     type: 3}
+--- !u!114 &1317479996949754489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7955965391559964579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c07407dcda148af41a99b41458f3f618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

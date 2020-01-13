@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShooterBullet : MonoBehaviour, ISpecialEffects, IGravityAffect
+public class ShooterBullet : MonoBehaviour, IGravityAffect
 {
 
     DataShooterBullet bullet = null;
@@ -109,14 +109,16 @@ public class ShooterBullet : MonoBehaviour, ISpecialEffects, IGravityAffect
     {
         //GameObject.FindObjectOfType<C_Fx>().ShooterBulletExplosion(this.transform.position, bullet.explosionRange * 1.3f);
 
-        Collider[] tHits = Physics.OverlapSphere(this.transform.position, bullet.explosionRange);
+        FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, bullet.explosionRadius);
+
+        Collider[] tHits = Physics.OverlapSphere(this.transform.position, bullet.explosionRadius);
 
         foreach (Collider hVictim in tHits)
         {
             ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
             if (speAffect != null)
             {
-                speAffect.OnExplosion(bullet.bulletDammage, bullet.forceAppliedOnImpact, bullet.stunValue);
+                speAffect.OnExplosion(this.transform.position, bullet.explosionForce, bullet.explosionRadius, bullet.explosionDamage, bullet.explosionStun, bullet.explosionStunDuration, bullet.liftValue);
                 //hVictim.gameObject.GetComponent<C_BulletAffected>().OnBulletHit(bullet.BulletDammage, bullet.StunValue, bullet.BulletName);
                 //hVictim.gameObject.GetComponent<C_BulletAffected>().OnSoloHitPropulsion(transform.position, bullet.ForceAppliedOnImpact, bullet.BulletName);
             }
@@ -145,16 +147,11 @@ public class ShooterBullet : MonoBehaviour, ISpecialEffects, IGravityAffect
         ISpecialEffects speAffect = collision.transform.GetComponent<ISpecialEffects>();
         if (speAffect!=null || collision.gameObject.GetComponent<ShooterBullet>() && bCanCollideWithOthersBullet)
         {
-            FxManager.Instance.PlayFx("ShooterBulletExplo", transform.position, Quaternion.identity, 4);
+            FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, bullet.explosionRadius);
             //speAffect.OnExplosion(bullet.bulletDammage, bullet.forceAppliedOnImpact, bullet.stunValue);
             HitBullet();
             KillBullet();
         }
-    }
-
-    public void OnExplosion(float dammage, float propulsion, float stunValue)
-    {
-
     }
 
     public void OnGravityDirectHit()

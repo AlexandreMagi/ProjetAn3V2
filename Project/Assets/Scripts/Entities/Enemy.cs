@@ -8,7 +8,7 @@ public class Enemy : Entity, IDetection
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
     protected bool isStun = false;
-    private DataEnemy enemyData;
+    protected DataEnemy enemyData;
 
     List<Transform> enemies;
     float distanceToClosest;
@@ -44,7 +44,7 @@ public class Enemy : Entity, IDetection
     }
 
 
-    protected void AddStun(float ammount, float stunDuration)
+    public void AddStun(float ammount, float stunDuration)
     {
         if (!isStun)
         {
@@ -65,42 +65,46 @@ public class Enemy : Entity, IDetection
 
     protected virtual void Update()
     {
-        if (timeRemaingingStun > 0)
+        if (enemyData != null)
         {
-            timeRemaingingStun -= Time.deltaTime;
-            if (timeRemaingingStun <= 0)
+            if (timeRemaingingStun > 0)
             {
-                isStun = false;
-                StopStun();
+                timeRemaingingStun -= Time.deltaTime;
+                if (timeRemaingingStun <= 0)
+                {
+                    isStun = false;
+                    StopStun();
+                }
             }
-        }
 
-        if (!enemyData.stayLockedOnTarget)
-        {
-            if (target) currentTargetTimer += Time.deltaTime;
-
-            if (currentTargetTimer > enemyData.timeBeforeCheckForAnotherTarget)
+            if (!enemyData.stayLockedOnTarget)
             {
-                currentTargetTimer -= enemyData.timeBeforeCheckForAnotherTarget;
-                target = null;
+                if (target) currentTargetTimer += Time.deltaTime;
+
+                if (currentTargetTimer > enemyData.timeBeforeCheckForAnotherTarget)
+                {
+                    currentTargetTimer -= enemyData.timeBeforeCheckForAnotherTarget;
+                    target = null;
+                }
             }
-        }
 
-        timerCheckTarget += Time.deltaTime;
-        if (timerCheckTarget > checkEvery)
-        {
-            timerCheckTarget -= checkEvery;
-            if (target == null)
-                CheckForTargets();
-        }
+            timerCheckTarget += Time.deltaTime;
+            if (timerCheckTarget > checkEvery)
+            {
+                timerCheckTarget -= checkEvery;
+                if (target == null)
+                    CheckForTargets();
+            }
 
-        if (target!=null && !target.gameObject.activeSelf) target = null;
+            if (target != null && !target.gameObject.activeSelf) target = null;
+        }
+       
 
     }
 
     protected virtual void StopStun()
     {
-        throw new NotImplementedException();
+        
     }
 
     protected void CheckForTargets()

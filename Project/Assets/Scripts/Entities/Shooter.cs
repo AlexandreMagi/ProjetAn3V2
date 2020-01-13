@@ -104,6 +104,7 @@ public class Shooter : Enemy, IBulletAffect
             state = (int)State.Nothing;
         }
 
+
         switch (state)
         {
             case (int)State.Nothing:
@@ -114,8 +115,18 @@ public class Shooter : Enemy, IBulletAffect
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * shooterData.rotationSpeed);
                 if (Quaternion.Angle(transform.rotation, targetRotation) < shooterData.rotationMinimalBeforeCharge && (target.position.y - transform.position.y) < 2)
                 {
-                    PlayerLocked();
-                    StartLoading();
+                    //PlayerLocked();
+                    eTimerLoading += Time.deltaTime;
+                    if (eTimerLoading > shooterData.timeWaitBeforeShoot)
+                    {
+                        EndLoading(true);
+                    }
+                    //StartLoading();
+                }
+                else if (eTimerLoading > 0)
+                {
+                    eTimerLoading -= Time.deltaTime;
+                    if (eTimerLoading < 0) eTimerLoading = 0;
                 }
                 break;
             case (int)State.Loading:

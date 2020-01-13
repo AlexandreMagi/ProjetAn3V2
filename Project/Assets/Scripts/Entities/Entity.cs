@@ -13,7 +13,7 @@ public class Entity : MonoBehaviour
     {
         health = entityData.startHealth;
 
-        TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
+        //TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
     }
 
     protected virtual void Die()
