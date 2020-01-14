@@ -9,7 +9,6 @@ public static class ReactGravity<T> where T : DataEntity
     public static void DoFreeze(Entity<T> obj)
     {
         Rigidbody body = obj.GetComponent<Rigidbody>();
-        body.isKinematic = true;
 
         body.constraints = RigidbodyConstraints.FreezeAll;
     }
@@ -18,7 +17,6 @@ public static class ReactGravity<T> where T : DataEntity
     public static void DoUnfreeze(Entity<T> obj)
     {
         Rigidbody body = obj.GetComponent<Rigidbody>();
-        body.isKinematic = true;
 
         body.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
     }
