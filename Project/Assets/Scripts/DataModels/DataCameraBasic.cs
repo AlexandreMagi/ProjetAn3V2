@@ -19,6 +19,9 @@ public class DataCameraBasic : ScriptableObject
     [Tooltip("Valeur de transition entre FOVs")]
     public float fovSpeed = 1;
     public float maxFovDecal = 10;
+    [Tooltip("Valeur de sécurité pour transition")]
+    [PropertyRange(0, 1)]
+    public float transitionStartAt = 0;
 
     [Header("Smooth transitions")]
     [Tooltip("Plus la valeur est haute, moins elle sera smooth")]
@@ -34,9 +37,4 @@ public class DataCameraBasic : ScriptableObject
     public float frequencyDeccel = 0.02f;
     [PropertyRange(0.1f, 0.9f)]
     public float stepSoundPlay = 0.7f;
-
-    [Header("AnimCam WeaponCharged")]
-    public AnimationCurve AnimValue = AnimationCurve.Linear(0, 0, 1, 0);
-    public float animSpeed = 5;
-    public float fovModifier = 1;
 }

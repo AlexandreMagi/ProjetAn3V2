@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShooterBullet : MonoBehaviour, IGravityAffect
+public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletAffect, ISpecialEffects
 {
 
-    DataShooterBullet bullet = null;
     float bulletSpeed = 0;
     float bulletRotationSpeed = 0;
     Vector3 RandomCurve = Vector3.one;
@@ -28,24 +27,41 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
     float fTimerEActivateCollider = 0;
     bool bCanCollideWithOthersBullet = false;
 
-    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet bulletSettings)
+    int team = 0;
+
+    Rigidbody rbBody;
+
+    bool hasExploded = false;
+
+    protected override void Start()
     {
+
+    }
+
+    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team)
+    {
+        entityData = _bulletSettings as DataShooterBullet;
+        health = entityData.startHealth;
+
         target = _target;
         vPosEnd = _target.transform;
         posEnd = vPosEnd.position;
         vPosStart = EnnemiPos;
         fAmplitudeMissile = Amplitude;
-        bullet = bulletSettings;
-        bulletSpeed = bullet.bulletSpeed + Random.Range(-bullet.randomSpeedAdded, bullet.randomSpeedAdded);
-        bulletRotationSpeed = bullet.rotationSpeed * Mathf.Sign(Random.Range(-1f, 1f));
+        bulletSpeed = entityData.bulletSpeed + Random.Range(-entityData.randomSpeedAdded, entityData.randomSpeedAdded);
+        bulletRotationSpeed = entityData.rotationSpeed * Mathf.Sign(Random.Range(-1f, 1f));
 
         hDummyIndicator = new GameObject();
         hDummyIndicator.transform.position = vPosStart;
         hDummyIndicator.transform.LookAt (vPosEnd, Vector3.up);
-        RandomCurve = new Vector3(Random.Range(bulletSettings.randomFrom.x, bulletSettings.randomTo.x), Random.Range(bulletSettings.randomFrom.y, bulletSettings.randomTo.y), Random.Range(bulletSettings.randomFrom.z, bulletSettings.randomTo.z));
-        if (bulletSettings.randomRotationAtStart)
+        RandomCurve = new Vector3(Random.Range(entityData.randomFrom.x, entityData.randomTo.x), Random.Range(entityData.randomFrom.y, entityData.randomTo.y), Random.Range(entityData.randomFrom.z, entityData.randomTo.z));
+        if (entityData.randomRotationAtStart)
             hDummyIndicator.transform.Rotate(0, 0, Random.Range(0,360));
 
+        rbBody = GetComponent<Rigidbody>();
+
+        team = _team;
+        TeamsManager.Instance.RegistertoTeam(transform, team);
 
         hCircle = Instantiate(hCircle);
 
@@ -55,7 +71,7 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
     void Update()
     {
 
-        if (fTimerEActivateCollider < bullet.timeBeforeCollisionAreActived)
+        if (fTimerEActivateCollider < entityData.timeBeforeCollisionAreActived)
         {
             fTimerEActivateCollider += Time.deltaTime;
         } 
@@ -70,12 +86,12 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
             float MaxDistance = Vector3.Distance(posEnd, vPosStart);
             float Curr = Vector3.Distance(vPosStart, hDummyIndicator.transform.position);
 
-            hDummyIndicator.transform.Rotate(0, 0, Time.deltaTime * bullet.bulletRotation.Evaluate(Curr / MaxDistance) * bullet.rotationSpeed);
+            hDummyIndicator.transform.Rotate(0, 0, Time.deltaTime * entityData.bulletRotation.Evaluate(Curr / MaxDistance) * entityData.rotationSpeed);
             transform.rotation = hDummyIndicator.transform.rotation;
             transform.position = hDummyIndicator.transform.position;
             hMesh.transform.position = Vector3.Lerp(hMesh.transform.position, hDummyIndicator.transform.position + new Vector3(Random.Range(-AmplitudeShake, AmplitudeShake), Random.Range(-AmplitudeShake, AmplitudeShake), Random.Range(-AmplitudeShake, AmplitudeShake)), Time.deltaTime* ShakeSpeedLerp);
 
-            float ValueMax = bullet.bulletTrajectory.Evaluate(Curr / MaxDistance) * fAmplitudeMissile;
+            float ValueMax = entityData.bulletTrajectory.Evaluate(Curr / MaxDistance) * fAmplitudeMissile;
             transform.Translate(RandomCurve * ValueMax, Space.Self);
 
             Vector3 relativePos = transform.position - PosAtLastFrame;
@@ -88,14 +104,15 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
 
             if (Curr / MaxDistance >= 1)
             {
-                HitBullet();
-                KillBullet();
+                //HitBullet();
+                //KillBullet();
+                TakeDamage(100);
             }
 
             if (target != null)
             {
                 hCircle.transform.position = target.transform.position + Vector3.Normalize(transform.position - vPosEnd.position) * 0.5f;
-                hCircle.transform.localScale = Vector3.one * bullet.circleScale.Evaluate(Curr / MaxDistance) * bullet.circleScaleMultiplier;
+                hCircle.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(Curr / MaxDistance) * entityData.circleScaleMultiplier;
                 hCircle.transform.LookAt(target.transform, Vector3.up);
                 hCircle.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
             }
@@ -108,23 +125,36 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
     public void HitBullet()
     {
         //GameObject.FindObjectOfType<C_Fx>().ShooterBulletExplosion(this.transform.position, bullet.explosionRange * 1.3f);
+        FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
 
-        FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, bullet.explosionRadius);
-
-        Collider[] tHits = Physics.OverlapSphere(this.transform.position, bullet.explosionRadius);
+        Collider[] tHits = Physics.OverlapSphere(this.transform.position, entityData.explosionRadius);
 
         foreach (Collider hVictim in tHits)
         {
-            ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
-            if (speAffect != null)
+            if (hVictim.gameObject != this.gameObject)
             {
-                speAffect.OnExplosion(this.transform.position, bullet.explosionForce, bullet.explosionRadius, bullet.explosionDamage, bullet.explosionStun, bullet.explosionStunDuration, bullet.liftValue);
-                //hVictim.gameObject.GetComponent<C_BulletAffected>().OnBulletHit(bullet.BulletDammage, bullet.StunValue, bullet.BulletName);
-                //hVictim.gameObject.GetComponent<C_BulletAffected>().OnSoloHitPropulsion(transform.position, bullet.ForceAppliedOnImpact, bullet.BulletName);
+                ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
+                if (speAffect != null)
+                {
+                    speAffect.OnExplosion(this.transform.position, entityData.explosionForce, entityData.explosionRadius, entityData.explosionDamage, entityData.explosionStun, entityData.explosionStunDuration, entityData.liftValue);
+                    //hVictim.gameObject.GetComponent<C_BulletAffected>().OnBulletHit(bullet.BulletDammage, bullet.StunValue, bullet.BulletName);
+                    //hVictim.gameObject.GetComponent<C_BulletAffected>().OnSoloHitPropulsion(transform.position, bullet.ForceAppliedOnImpact, bullet.BulletName);
+                }
             }
         }
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Explosion", false, 0.7f);
 
+    }
+
+    protected override void Die()
+    {
+        if (!hasExploded)
+        {
+            hasExploded = true;
+            HitBullet();
+            KillBullet();
+            base.Die();
+        }
     }
 
     public void KillBullet()
@@ -136,54 +166,107 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
             triggerShoot.OnHit();
         }
 
+        CameraHandler.Instance.AddShake(entityData.shakeAtImpact);
+
+
         Destroy(hDummyIndicator);
         Destroy(hCircle);
-        Destroy(this.gameObject);
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        ISpecialEffects speAffect = collision.transform.GetComponent<ISpecialEffects>();
-        if (speAffect!=null || collision.gameObject.GetComponent<ShooterBullet>() && bCanCollideWithOthersBullet)
-        {
-            FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, bullet.explosionRadius);
+        //ISpecialEffects speAffect = collision.transform.GetComponent<ISpecialEffects>();
+        //if (speAffect!=null || collision.gameObject.GetComponent<ShooterBullet>() && bCanCollideWithOthersBullet)
+        //{
+
+        //if (entityData.layerAffected == (entityData.layerAffected | (1 << collision.gameObject.layer)))
+        //{
+            FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
             //speAffect.OnExplosion(bullet.bulletDammage, bullet.forceAppliedOnImpact, bullet.stunValue);
-            HitBullet();
-            KillBullet();
-        }
+            TakeDamage(100);
+            //HitBullet();
+            //KillBullet();
+        //}
+        //}
     }
+
+    #region Gravity
 
     public void OnGravityDirectHit()
     {
-        throw new System.NotImplementedException();
+        bOnGravity = true;
+        rbBody.useGravity = true;
+        ReactGravity<DataSwarmer>.DoFreeze(rbBody);
+        Destroy(hCircle);
     }
 
     public void OnPull(Vector3 position, float force)
     {
         bOnGravity = true;
-        GetComponent<Rigidbody>().useGravity = true;
+        rbBody.useGravity = true;
+        ReactGravity<DataEntity>.DoPull(rbBody, position, force, false);
         Destroy(hCircle);
-        ReactGravity<DataEntity>.DoPullAsObject(this.gameObject, position, force, false);
     }
 
     public void OnRelease()
     {
-        throw new System.NotImplementedException();
+        ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
     }
 
     public void OnHold()
     {
-        throw new System.NotImplementedException();
+        // Nothing
     }
 
     public void OnZeroG()
     {
-        throw new System.NotImplementedException();
+        ReactGravity<DataSwarmer>.DoSpin(rbBody);
     }
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
-        throw new System.NotImplementedException();
+        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, fGForce, false);
+
+        ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
+
+    #endregion
+    #region Bullet Affected
+
+    public void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+        TakeDamage(100);
+        //HitBullet();
+        //KillBullet();
+    }
+
+    public void OnHitShotGun()
+    {
+        // Nothing
+    }
+
+    public void OnHitSingleShot()
+    {
+        // Nothing
+    }
+
+    public void OnBulletClose()
+    {
+        // Nothing
+    }
+
+    public void OnCursorClose()
+    {
+        // Nothing
+    }
+
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    {
+        ReactSpecial<DataShooterBullet, DataShooterBullet>.DoProject(rbBody, explosionOrigin, explosionForce, explosionRadius, liftValue);
+        ReactSpecial<DataShooterBullet, DataShooterBullet>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+    }
+
+    #endregion
+
 }

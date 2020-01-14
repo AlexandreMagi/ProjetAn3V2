@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Shooter : Enemy<DataShooter>, IBulletAffect
+public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
 {
    // private DataShooter shooterData;
 
@@ -35,6 +35,12 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect
         throw new System.NotImplementedException();
     }
     #endregion
+
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    {
+        ReactSpecial<DataShooter, DataShooter>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+        ReactSpecial<DataShooter, DataShooter>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
+    }
     #endregion
 
     float considerPlayerIsMoving = 0;
@@ -252,7 +258,7 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect
     /// </summary>
     protected override void StopStun()
     {
-        GetComponent<Animator>().SetTrigger("StopStun");
+        //GetComponent<Animator>().SetTrigger("StopStun");
         base.StopStun();
         SpotTarget();
     }
@@ -296,11 +302,11 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect
 
     void Shoot()
     {
-        //GameObject.FindObjectOfType<C_Camera>().AddShake(3);
+        CameraHandler.Instance.AddShake(0.5f);
         for (int i = 0; i < entityData.nbBulletPerShoot; i++)
         {
             GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
-            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData);
+            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2);
         }
     }
 

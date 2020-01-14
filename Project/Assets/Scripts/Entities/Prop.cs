@@ -8,19 +8,21 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
     float timePropel = .5f;
     float elapsedTime = 0;
 
+    Rigidbody rb;
+
   //  DataProp propData;
 
     protected override void Start()
     {
         base.Start();
-
+        rb = GetComponent<Rigidbody>();
         entityData = entityData as DataProp;
     }
 
     #region Gravity
     public void OnGravityDirectHit()
     {
-        ReactGravity<DataProp>.DoFreeze(this);
+        ReactGravity<DataProp>.DoFreeze(rb);
     }
 
     public void OnHold()
@@ -30,12 +32,12 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public void OnPull(Vector3 origin, float force)
     {
-        ReactGravity<DataProp>.DoPull(this, origin, force, isAirbone);
+        ReactGravity<DataProp>.DoPull(rb, origin, force, isAirbone);
     }
 
     public void OnRelease()
     {
-        ReactGravity<DataProp>.DoUnfreeze(this);
+        ReactGravity<DataProp>.DoUnfreeze(rb);
     }
 
     public void OnZeroG()
@@ -45,9 +47,9 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
-        ReactGravity<DataProp>.DoPull(this, Vector3.up.normalized + this.transform.position, fGForce, false);
+        ReactGravity<DataProp>.DoPull(rb, Vector3.up.normalized + this.transform.position, fGForce, false);
 
-        ReactGravity<DataProp>.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
+        ReactGravity<DataProp>.DoFloat(rb, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
     #endregion
 
