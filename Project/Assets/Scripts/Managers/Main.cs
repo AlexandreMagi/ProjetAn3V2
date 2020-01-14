@@ -40,6 +40,12 @@ public class Main : MonoBehaviour
         {
             SceneHandler.Instance.RestartScene(0);
         }
+
+        if (UiCrossHair.Instance != null)
+        {
+            UiCrossHair.Instance.UpdateCrossHair(Input.mousePosition);
+        }
+
     }
 
     public void SetControlState(TriggerSender.Activable control, bool state)

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface ISpecialEffects
 {
-    void OnExplosion(float dammage, float propulsion, float stunValue);
+    void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0);
 
 }

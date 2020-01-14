@@ -35,6 +35,11 @@ public class Weapon : MonoBehaviour
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
     }
 
+    public float GetChargeValue()
+    {
+        return currentChargePurcentage;
+    }
+
     public void GravityOrbInput()
     {
         if (timeRemainingBeforeOrb < 0)
@@ -78,7 +83,7 @@ public class Weapon : MonoBehaviour
         {
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
-                GameObject mainCam = Camera.main.gameObject;
+                GameObject mainCam = CameraHandler.Instance.RenderingCam;
                 Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
@@ -93,9 +98,13 @@ public class Weapon : MonoBehaviour
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
+                    {
                         bAffect.OnHit(weaponMod, hit.point);
+                        UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
+                    }
                 }
             }
+            UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
         }
         bulletRemaining -= weaponMod.bulletCost;
         if (bulletRemaining < 0) bulletRemaining = 0;
@@ -103,9 +112,9 @@ public class Weapon : MonoBehaviour
 
     private void CheckIfMustSlowMo(GameObject hit, DataWeaponMod weaponMod)
     {
-        if (hit.GetComponent<Enemy>() != null && weaponMod.bullet.activateSlowMoAtImpact)
+        if (hit.GetComponent<Enemy<DataEnemy>>() != null && weaponMod.bullet.activateSlowMoAtImpact)
             TimeScaleManager.Instance.AddSlowMo(weaponMod.bullet.slowMoPower, weaponMod.bullet.slowMoDuration, 0, weaponMod.bullet.slowMoProbability);
-        if (hit.GetComponent<Enemy>() != null && weaponMod.bullet.activateStopTimeAtImpact)
+        if (hit.GetComponent<Enemy<DataEnemy>>() != null && weaponMod.bullet.activateStopTimeAtImpact)
             TimeScaleManager.Instance.AddStopTime(weaponMod.bullet.timeStopAtImpact, 0, weaponMod.bullet.timeStopProbability);
     }
 
@@ -118,15 +127,5 @@ public class Weapon : MonoBehaviour
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
             }
         }
-    }
-
-    // Permet d'obtenir la valeur de charge pour les feedbacks -> renvoit le pourcentage de charge avec une marge de sécurité
-    public float GetChargeValue()
-    {
-        float ValueSafe = 0.25f;
-        float Chargevalue = 0;
-        if (currentChargePurcentage > ValueSafe)
-            Chargevalue = (currentChargePurcentage - ValueSafe) / (1 - ValueSafe);
-        return Chargevalue;
     }
 }

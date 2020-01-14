@@ -138,16 +138,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bulletSpeed: 10
+  bulletSpeed: 50
   randomSpeedAdded: 2
-  bulletDammage: 10
   shakeAtImpact: 10
   rotationSpeed: 0
   circleScaleMultiplier: 0.4
   randomRotationAtStart: 0
-  explosionRange: 2
-  forceAppliedOnImpact: 500
-  stunValue: 1.2
   timeBeforeCollisionAreActived: 1
   randomFrom: {x: -1, y: 0.2, z: -1}
   randomTo: {x: 1, y: 1, z: 1}
+  explosionForce: 500
+  explosionRadius: 15
+  explosionDamage: 1000
+  explosionStun: 1.2
+  explosionStunDuration: 1
+  liftValue: 0

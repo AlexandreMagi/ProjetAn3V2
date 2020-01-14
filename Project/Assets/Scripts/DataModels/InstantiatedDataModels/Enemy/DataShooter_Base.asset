@@ -16,16 +16,18 @@ MonoBehaviour:
   startHealth: 100
   team: 1
   stunResistanceJauge: 1
-  rotationSpeed: 5
-  rotationMinimalBeforeCharge: 1
+  stayLockedOnTarget: 1
+  timeBeforeCheckForAnotherTarget: 5
+  rotationSpeed: 15
+  rotationMinimalBeforeCharge: 3
   playerMoveTimeReset: 1
-  distanceDetection: 30
-  timeWaitBeforeShoot: 2
+  distanceDetection: 80
+  timeWaitBeforeShoot: 0.5
   nbShootPerSalve: 3
   nbBulletPerShoot: 2
   timeBetweenBullet: 1
   amplitudeMultiplier: 3
-  recoverTime: 3
+  recoverTime: 1
   shootEvenIfPlayerMoving: 0
   bulletData: {fileID: 11400000, guid: 61260d68de6c8e845aaf51c92d31c15a, type: 2}
   bulletPrefabs: {fileID: 8274719076216917017, guid: 5c5453cca8f7bc444ab1285c7e00988a,
