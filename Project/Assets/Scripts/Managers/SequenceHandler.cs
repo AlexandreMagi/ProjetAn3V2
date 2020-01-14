@@ -212,7 +212,6 @@ public class SequenceHandler : MonoBehaviour
 
             cameraBrain.m_CustomBlends = blenderSettings;
 
-
             //CHANGEMENT DE CAM
             currentVirtualCamera.Priority = 10;
             PastCamPos = currentVirtualCamera.transform.position;
@@ -237,11 +236,11 @@ public class SequenceHandler : MonoBehaviour
             fDelayOnBlendSequence = currentSequence.fAnimationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.fTimeSequenceDuration : 0);
             enemiesKilled = 0;
 
-            /*
+            
             //DECLENCHEMENT DU FEEDBACK DE CAM
-            if (GameObject.FindObjectOfType<C_CameraRail>())
-                GameObject.FindObjectOfType<C_CameraRail>().ChangeSpeedMoving(Vector3.Distance(PastCamPos, NewCamPos) / 5 / fDelayOnBlendSequence, 50);
-            */
+            if (CameraHandler.Instance != null)
+                CameraHandler.Instance.ChangeSpeedMoving(Vector3.Distance(PastCamPos, NewCamPos) / 5 / fDelayOnBlendSequence, 100);
+            
 
             if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
             {

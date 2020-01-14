@@ -26,15 +26,21 @@ public class UiLifeBar : MonoBehaviour
     Slider armorBar = null;
     [SerializeField]
     Slider armorBarFeedBack = null;
+    [SerializeField]
+    Text lifeText = null;
+    [SerializeField]
+    Text armorText = null;
 
-    public void UpdateLifeDisplay(float value)
+    public void UpdateLifeDisplay(float value, float realValue)
     {
         lifeBar.value = value;
+        lifeText.text = realValue.ToString();
     }
 
-    public void UpdateArmorDisplay(float value)
+    public void UpdateArmorDisplay(float value, float realValue)
     {
         armorBar.value = value;
+        armorText.text = realValue.ToString();
     }
 
     public void Update()

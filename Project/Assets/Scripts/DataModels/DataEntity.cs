@@ -8,4 +8,10 @@ public abstract class DataEntity : ScriptableObject
     public float maxHealth;
     public float startHealth;
     public int team;
+
+    public override string ToString() 
+    {
+        return $"Team : {team}, maxHealth : {maxHealth}";
+            
+            }
 }

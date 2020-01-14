@@ -8,6 +8,14 @@ public class TeamsManager : MonoBehaviour
     public static TeamsManager Instance { get; private set; }
     private List<Transform>[] teams;
 
+    public List<Transform> teamOne = new List<Transform>();
+    public List<Transform> teamThree = new List<Transform>();
+
+    private void Update()
+    {
+        teamOne = teams[1];
+        teamThree = teams[3];
+    }
 
     public void Awake()
     {
@@ -61,12 +69,27 @@ public class TeamsManager : MonoBehaviour
         }
     }
 
-    public void RemoveFromTeam(Transform obj, int teamNumber)
+    /*public void RemoveFromTeam(Transform obj, int teamNumber)
     {
         if (teamNumber < nbTeams || teamNumber >= 0)
         {
             teams[teamNumber].Remove(obj);
         }
+    }*/
+
+    public void RemoveFromTeam(Transform obj, int teamNumber)
+    {
+        if (teamNumber < nbTeams || teamNumber >= 0)
+        {
+            for (int i = 0; i < teams[teamNumber].Count; i++)
+            {
+                if (teams[teamNumber][i] == obj)
+                {
+                    teams[teamNumber].RemoveAt(i);
+                }
+            }
+        }
+
     }
 
     public void SwapTeam(Transform obj, int initialTeam, int newTeam)

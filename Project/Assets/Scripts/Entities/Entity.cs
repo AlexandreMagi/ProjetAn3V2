@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+
+
+
+public class Entity<T> : MonoBehaviour where T : DataEntity
 {
     protected float health;
 
     [SerializeField]
-    protected DataEntity entityData;
+    protected T entityData;
 
     protected virtual void Start()
     {
         health = entityData.startHealth;
 
-        TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
+        //TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
     }
 
     protected virtual void Die()
@@ -36,7 +39,7 @@ public class Entity : MonoBehaviour
         if (health > entityData.maxHealth) health = entityData.maxHealth;
     }
 
-    public void SetData(DataEntity data)
+    public void SetData(T data)
     {
         this.entityData = data;
     }

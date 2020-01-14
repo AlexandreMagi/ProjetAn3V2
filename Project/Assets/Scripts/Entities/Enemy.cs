@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Entity, IDetection
+public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
 {
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
     protected bool isStun = false;
-    private DataEnemy enemyData;
 
     List<Transform> enemies;
     float distanceToClosest;
@@ -40,16 +39,16 @@ public class Enemy : Entity, IDetection
     protected override void Start()
     {
         base.Start();
-        enemyData = entityData as DataEnemy;
+        entityData = entityData as T;
     }
 
 
-    protected void AddStun(float ammount, float stunDuration)
+    public void AddStun(float ammount, float stunDuration)
     {
         if (!isStun)
         {
             currentStunLevel += ammount;
-            if (currentStunLevel > enemyData.stunResistanceJauge)
+            if (currentStunLevel > entityData.stunResistanceJauge)
             {
                 IsStun(stunDuration);
             }
@@ -65,48 +64,52 @@ public class Enemy : Entity, IDetection
 
     protected virtual void Update()
     {
-        if (timeRemaingingStun > 0)
+        if (entityData != null)
         {
-            timeRemaingingStun -= Time.deltaTime;
-            if (timeRemaingingStun <= 0)
+            if (timeRemaingingStun > 0)
             {
-                isStun = false;
-                StopStun();
+                timeRemaingingStun -= Time.deltaTime;
+                if (timeRemaingingStun <= 0)
+                {
+                    isStun = false;
+                    StopStun();
+                }
             }
-        }
 
-        if (!enemyData.stayLockedOnTarget)
-        {
-            if (target) currentTargetTimer += Time.deltaTime;
-
-            if (currentTargetTimer > enemyData.timeBeforeCheckForAnotherTarget)
+            if (!entityData.stayLockedOnTarget)
             {
-                currentTargetTimer -= enemyData.timeBeforeCheckForAnotherTarget;
-                target = null;
+                if (target) currentTargetTimer += Time.deltaTime;
+
+                if (currentTargetTimer > entityData.timeBeforeCheckForAnotherTarget)
+                {
+                    currentTargetTimer -= entityData.timeBeforeCheckForAnotherTarget;
+                    target = null;
+                }
             }
-        }
 
-        timerCheckTarget += Time.deltaTime;
-        if (timerCheckTarget > checkEvery)
-        {
-            timerCheckTarget -= checkEvery;
-            if (target == null)
-                CheckForTargets();
-        }
+            timerCheckTarget += Time.deltaTime;
+            if (timerCheckTarget > checkEvery)
+            {
+                timerCheckTarget -= checkEvery;
+                if (target == null)
+                    CheckForTargets();
+            }
 
-        if (target!=null && !target.gameObject.activeSelf) target = null;
+            if (target != null && !target.gameObject.activeSelf) target = null;
+        }
+       
 
     }
 
     protected virtual void StopStun()
     {
-        throw new NotImplementedException();
+        
     }
 
     protected void CheckForTargets()
     {
         //Recherche de cible à attaquer
-        enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team, new int[]{2});
+        enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.entityData.team, new int[]{2});
         if (enemies.Count > 0)
         {
             distanceToClosest = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[0].position.x, enemies[0].position.z));

@@ -110,7 +110,7 @@ public class GravityOrb : MonoBehaviour
         StopCoroutine("OnHoldAttraction");
 
         if (hasSticked)
-            ReactGravity.DoUnfreeze(parentIfSticky.GetComponent<Entity>());
+            ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Entity<DataEntity>>());
 
         if (hGOrb.bIsExplosive)
         {

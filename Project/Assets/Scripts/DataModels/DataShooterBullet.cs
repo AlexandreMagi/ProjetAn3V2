@@ -12,21 +12,25 @@ public class DataShooterBullet : ScriptableObject
 
     public float bulletSpeed = 5;
     public float randomSpeedAdded = 2;
-    public int bulletDammage = 10;
     public float shakeAtImpact = 10;
     public float rotationSpeed = 90;
     public float circleScaleMultiplier = 1;
     public bool randomRotationAtStart = false;
 
-    public float explosionRange = 5;
 
-    public float forceAppliedOnImpact = 500;
-    public float stunValue = 1.2f;
 
     public float timeBeforeCollisionAreActived = 1;
 
     public Vector3 randomFrom = -Vector3.one;
     public Vector3 randomTo = Vector3.one;
+
+    [Header("Shooter explosion settings")]
+    public float explosionForce = 500;
+    public float explosionRadius = 5;
+    public float explosionDamage = 50;
+    public float explosionStun = 1.2f;
+    public float explosionStunDuration = 1;
+    public float liftValue = 0;
 
 
 }

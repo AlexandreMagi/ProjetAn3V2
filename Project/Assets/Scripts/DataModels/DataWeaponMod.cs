@@ -23,4 +23,8 @@ public class DataWeaponMod : ScriptableObject
     public int bulletCost = 1;
     [RangeAttribute(0f, 0.5f)]
     public float bulletImprecision;
+
+    [Header("Other")]
+    public float shootValueUiRecoil = 1;
+    public float hitValueUiRecoil = 1;
 }

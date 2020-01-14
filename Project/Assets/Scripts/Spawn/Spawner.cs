@@ -57,14 +57,18 @@ public class Spawner : MonoBehaviour
     {
         GameObject spawnedEnemy;
         if (entDataToGive is DataSwarmer)
+        {
             spawnedEnemy = SwarmerPullHandler.Instance.GetSwarmer(entDataToGive);
+        }
         else
+        {
             spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
+            if (entDataToGive != null) spawnedEnemy.GetComponent<Entity<DataEntity>>().SetData(entDataToGive);
+        }
 
         spawnedEnemy.transform.SetParent(this.transform, false);
         spawnedEnemy.transform.position = transform.position;
 
-        if (entDataToGive != null) spawnedEnemy.GetComponent<Entity>().SetData(entDataToGive);
 
         if(isPathedSpawner && pathToGive != null)
         {
