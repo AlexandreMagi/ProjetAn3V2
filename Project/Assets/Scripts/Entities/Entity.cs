@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-
-public class Entity<T> : MonoBehaviour where T : DataEntity
+public class Entity<T> : MonoBehaviour, IEntity where T : DataEntity
 {
     protected float health;
 
