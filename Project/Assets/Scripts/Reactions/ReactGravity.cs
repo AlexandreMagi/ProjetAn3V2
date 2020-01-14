@@ -8,14 +8,17 @@ public static class ReactGravity<T> where T : DataEntity
     //Freezes the game object
     public static void DoFreeze(Rigidbody rb)
     {
-        rb.isKinematic = true;
+        Rigidbody body = obj.GetComponent<Rigidbody>();
+
+        body.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     //Unfreezes the game object
     public static void DoUnfreeze(Rigidbody rb)
     {
-        if (rb != null) rb.isKinematic = false;
-        else Debug.Log("DoUnfreeze -> Error, l'objet est déjà mort");
+        Rigidbody body = obj.GetComponent<Rigidbody>();
+
+        body.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
     }
 
 
