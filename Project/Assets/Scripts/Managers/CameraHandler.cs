@@ -204,23 +204,6 @@ public class CameraHandler : MonoBehaviour
                 RenderingCam.GetComponent<Camera>().fieldOfView = CamDummy.GetComponent<Camera>().fieldOfView;
             }
         }
-
-        /*
-        if (bFeedbackTransition)
-        {
-            fCurrentTransition = (fCurrentTransition < 1) ? fCurrentTransition + Time.deltaTime * fCurrentSpeedTransition : 1;
-            fCurrentTransition = (fCurrentTransition > 0) ? fCurrentTransition - Time.deltaTime * fCurrentSpeedTransition : 0;
-            RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, CamDummy.transform.position, fCurrentTransition);
-            RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, CamDummy.transform.rotation, fCurrentTransition);
-        }   
-        
-        if (!bFeedbckActivated)
-        {
-            // Reset de la position et de la rotation
-            RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, CamDummy.transform.position, Time.deltaTime * 5);
-            RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, CamDummy.transform.rotation, Time.deltaTime * 5);
-            RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, CamDummy.GetComponent<Camera>().fieldOfView, Time.deltaTime * 5);
-        }*/
     }
 
     private void HandleFBAtCharge()
