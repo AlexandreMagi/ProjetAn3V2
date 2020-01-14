@@ -20,8 +20,8 @@ public class CameraHandler : MonoBehaviour
     [Header("Cameras")]
     [SerializeField, Tooltip("Dummy qui bouge sur lequel va se fixer la cam")]
     GameObject CamDummy = null;
-    [SerializeField, Tooltip("Camera render")]
-    GameObject RenderingCam = null;
+    [Tooltip("Camera render")]
+    public GameObject RenderingCam = null;
 
     [SerializeField]
     DataCameraBasic camBasicData = null;

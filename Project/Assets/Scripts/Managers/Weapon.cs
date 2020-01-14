@@ -83,7 +83,7 @@ public class Weapon : MonoBehaviour
         {
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
-                GameObject mainCam = Camera.main.gameObject;
+                GameObject mainCam = CameraHandler.Instance.RenderingCam;
                 Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
