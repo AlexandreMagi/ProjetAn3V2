@@ -8,15 +8,6 @@ public class TeamsManager : MonoBehaviour
     public static TeamsManager Instance { get; private set; }
     private List<Transform>[] teams;
 
-    public List<Transform> teamOne = new List<Transform>();
-    public List<Transform> teamThree = new List<Transform>();
-
-    private void Update()
-    {
-        teamOne = teams[1];
-        teamThree = teams[3];
-    }
-
     public void Awake()
     {
         Instance = this;

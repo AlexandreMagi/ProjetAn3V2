@@ -15,10 +15,11 @@ MonoBehaviour:
   RecoilMaxValue: 1.5
   RecoilRecover: 5
   RecoilPow: 2
-  BaseFov: 70
+  BaseFov: 60
   fovMultiplier: 5
   fovSpeed: 1
-  maxFovDecal: 10
+  maxFovDecal: 2
+  transitionStartAt: 0.4
   camFollowSpeed: 8
   maxRotateWhileMoving: 20
   CurvesAndValues:
@@ -27,29 +28,3 @@ MonoBehaviour:
   frenquencyGoBackToZero: 1
   frequencyDeccel: 0.02
   stepSoundPlay: 0.7
-  AnimValue:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animSpeed: 5
-  fovModifier: 1

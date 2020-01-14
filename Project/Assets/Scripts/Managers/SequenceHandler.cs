@@ -76,7 +76,10 @@ public class SequenceHandler : MonoBehaviour
 
         if (currentVirtualCamera == null)
         {
-            currentVirtualCamera = GameObject.Find("Main Camera").GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
+            if (CameraHandler.Instance != null)
+                currentVirtualCamera = CameraHandler.Instance.CamDummy.GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
+            else
+                currentVirtualCamera = GameObject.Find("Main Camera").GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
 
 
             blenderSettings.m_CustomBlends = new CinemachineBlenderSettings.CustomBlend[1];
@@ -95,11 +98,11 @@ public class SequenceHandler : MonoBehaviour
             }
             else
             {
-                /*
                 //DECLENCHEMENT DU FEEDBACK DE CAM
-                if (GameObject.FindObjectOfType<C_CameraRail>())
-                    GameObject.FindObjectOfType<C_CameraRail>().ChangeSpeedMoving(0, 50);
+                if (CameraHandler.Instance != null)
+                    CameraHandler.Instance.ChangeSpeedMoving(0, 100);
 
+                /*
                 C_Charger[] _Chargeurs = GameObject.FindObjectsOfType<C_Charger>();
                 for (int i = 0; i < _Chargeurs.Length; i++)
                 {
@@ -146,11 +149,11 @@ public class SequenceHandler : MonoBehaviour
     /// </summary>
     public void NextSequence()
     {
-       // if (currentSequence.cutsSlowMoOnEnd) C_TimeScale.Instance.ForceStopSlowMo();
-       /*
-        GameObject.FindObjectOfType<C_CameraRail>().bFeedbckActivated = currentSequence.bEnableCamFeedback;
-        GameObject.FindObjectOfType<C_CameraRail>().FeedbackTransition(currentSequence.bEnableCamTransition, currentSequence.fSpeedTransition);
-        */
+        if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
+       
+        CameraHandler.Instance.bFeedbckActivated = currentSequence.bEnableCamFeedback;
+        CameraHandler.Instance.FeedbackTransition(currentSequence.bEnableCamTransition, currentSequence.fSpeedTransition);
+        
         if (currentSequence.hasEventOnEnd)
         {
             switch (currentSequence.seqEvent)

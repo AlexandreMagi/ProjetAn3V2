@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 840146258204808378}
   - component: {fileID: 8063249603425070618}
   - component: {fileID: 6416977427898240639}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShooterBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a576dd9bd23e9554cbbdb3a453a26965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityData: {fileID: 0}
   hMesh: {fileID: 8274719078027664794}
   hCircle: {fileID: 5594541419917365359, guid: ce5ab8cb0ce6ee34c9fa1a4d60b273ab, type: 3}
 --- !u!1 &8274719078027664794
@@ -88,7 +89,7 @@ GameObject:
   - component: {fileID: 8274719078027664793}
   - component: {fileID: 8274719078027664790}
   - component: {fileID: 8274719078027664791}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

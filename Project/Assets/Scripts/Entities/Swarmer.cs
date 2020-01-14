@@ -36,7 +36,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     #region Gravity
     public void OnGravityDirectHit()
     {
-        ReactGravity<DataSwarmer>.DoFreeze(this);
+        ReactGravity<DataSwarmer>.DoFreeze(rbBody);
     }
 
     public void ResetSwarmer(DataEntity _entityData)
@@ -60,26 +60,33 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
 
     public void OnPull(Vector3 origin, float force)
     {
-        ReactGravity<DataSwarmer>.DoPull(this, origin, force, isAirbone);
+        ReactGravity<DataSwarmer>.DoPull(rbBody, origin, force, isAirbone);
     }
 
     public void OnRelease()
     {
-        ReactGravity<DataSwarmer>.DoUnfreeze(this);
+        ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
     }
 
     public void OnZeroG()
     {
-        ReactGravity<DataSwarmer>.DoSpin(this);
+        ReactGravity<DataSwarmer>.DoSpin(rbBody);
     }
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
-        ReactGravity<DataSwarmer>.DoPull(this, Vector3.up.normalized + this.transform.position, fGForce, false);
+        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, fGForce, false);
 
-        ReactGravity<DataSwarmer>.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
+        ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
     #endregion
+
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    {
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoProject(rbBody, explosionOrigin, explosionForce, explosionRadius, liftValue);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
+    }
 
     #region Bullets
     public void OnHit(DataWeaponMod mod, Vector3 position)
@@ -195,7 +202,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
 
             if (elapsedTime >= timePropel)
             {
-                ReactGravity<DataSwarmer>.DoSpin(this);
+                ReactGravity<DataSwarmer>.DoSpin(rbBody);
 
                 //Check si touche le sol
                 elapsedTime = 0;
@@ -304,12 +311,5 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
             return true;
         else
             return false;
-    }
-
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
-    {
-        ReactSpecial<DataSwarmer, DataSwarmer>.DoProject(this, explosionOrigin, explosionForce, explosionRadius, liftValue);
-        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
-        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
     }
 }

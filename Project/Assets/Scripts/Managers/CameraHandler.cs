@@ -18,13 +18,15 @@ public class CameraHandler : MonoBehaviour
     #region VAR
 
     [Header("Cameras")]
-    [SerializeField, Tooltip("Dummy qui bouge sur lequel va se fixer la cam")]
-    GameObject CamDummy = null;
+    [Tooltip("Dummy qui bouge sur lequel va se fixer la cam")]
+    public GameObject CamDummy = null;
     [Tooltip("Camera render")]
     public GameObject RenderingCam = null;
 
     [SerializeField]
     DataCameraBasic camBasicData = null;
+
+    DataWeapon weaponData = null;
 
     Vector3 vLookAtPos = Vector3.zero; // Vector3 qui va avoir un offset sur là où la camera devrait regarder
     Vector2 vRotateValue = Vector2.zero; // Valeur de rotation selon la position du curseur dans l'écran
@@ -52,7 +54,7 @@ public class CameraHandler : MonoBehaviour
 
     #endregion
 
-    float Chargevalue = 0;
+    float chargevalue = 0;
     float currentPurcentageFBCharged = 0;
     bool feedbackChargedStarted = false;
     bool stepSoundPlayed = false;
@@ -98,7 +100,6 @@ public class CameraHandler : MonoBehaviour
         if (currentRecoilValue > camBasicData.RecoilMaxValue)
             currentRecoilValue = camBasicData.RecoilMaxValue;
     }
-
 
 
     /// <summary>
@@ -169,10 +170,8 @@ public class CameraHandler : MonoBehaviour
 
         currentFovModif = Mathf.Lerp(currentFovModif, fFrequency * camBasicData.fovMultiplier, Time.deltaTime * camBasicData.fovSpeed);
         // Change le FOV
-        float fFovAddedByChargeFeedback = feedbackChargedStarted ? camBasicData.AnimValue.Evaluate(currentPurcentageFBCharged) * camBasicData.fovModifier : 0;
-        CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * Weapon.Instance.GetChargeValue() + fFovAddedByChargeFeedback + currentFovModif;
-
-
+        float fFovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
+        CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * chargevalue + fFovAddedByChargeFeedback + currentFovModif;
 
         if (!bFeedbckActivated)
         {
@@ -201,24 +200,24 @@ public class CameraHandler : MonoBehaviour
             {
                 RenderingCam.transform.position = camDummyValueFeedback.transform.position;
                 RenderingCam.transform.rotation = camDummyValueFeedback.transform.rotation;
-                RenderingCam.GetComponent<Camera>().fieldOfView = CamDummy.GetComponent<Camera>().fieldOfView;
+                RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
             }
         }
     }
 
     private void HandleFBAtCharge()
     {
-        float fChargedValuePast = Chargevalue;
-        Chargevalue = Weapon.Instance.GetChargeValue();
-        if (Chargevalue == 1 && fChargedValuePast != 1)
+        float fChargedValuePast = chargevalue;
+        chargevalue = UpdateChargeValue();
+        if (chargevalue == 1 && fChargedValuePast != 1)
         {
             feedbackChargedStarted = true;
             AddShake(1);
         }
 
-        if (Chargevalue == 1 && feedbackChargedStarted && currentPurcentageFBCharged < 1)
+        if (chargevalue == 1 && feedbackChargedStarted && currentPurcentageFBCharged < 1)
         {
-            currentPurcentageFBCharged += Time.unscaledDeltaTime * camBasicData.animSpeed;
+            if (weaponData != null) currentPurcentageFBCharged += Time.unscaledDeltaTime / weaponData.animTime;
         }
         else if (feedbackChargedStarted)
         {
@@ -230,20 +229,34 @@ public class CameraHandler : MonoBehaviour
             AddShake(1);
         }
 
-        if (Chargevalue == 1)
+        if (chargevalue == 1)
         {
             AddShake(10 * Time.unscaledDeltaTime);
         }
-        else if (Chargevalue != fChargedValuePast)
+        else if (chargevalue != fChargedValuePast)
         {
             AddShake(8 * Time.unscaledDeltaTime);
         }
 
     }
 
+    float UpdateChargeValue()
+    {
+        float currentChargevalue = Weapon.Instance.GetChargeValue();
+        float _chargevalue = 0;
+        if (currentChargevalue > camBasicData.transitionStartAt)
+            _chargevalue = (currentChargevalue - camBasicData.transitionStartAt) / (1 - camBasicData.transitionStartAt);
+        return _chargevalue;
+    }
+
     public void AddShake(float value)
     {
         CineMachImpulse.GenerateImpulse(Vector3.up * value);
+    }
+
+    public void SetWeapon(DataWeapon _weaponData)
+    {
+        weaponData = _weaponData;
     }
 
 

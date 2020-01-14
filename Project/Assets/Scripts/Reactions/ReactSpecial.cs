@@ -5,9 +5,9 @@ using UnityEngine;
 public static class ReactSpecial<T, T2> where T : DataEntity where T2 : DataEnemy
 {
     //Pushing mechanic
-    public static void DoProject(Entity<T> obj, Vector3 explosionOrigin, float explosionForce, float explosionRadius, float liftValue = 0)
+    public static void DoProject(Rigidbody rb, Vector3 explosionOrigin, float explosionForce, float explosionRadius, float liftValue = 0)
     {
-        obj.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionOrigin, explosionRadius, liftValue);
+        rb.AddExplosionForce(explosionForce, explosionOrigin, explosionRadius, liftValue);
     }
 
     public static void DoExplosionDammage(Entity<T> obj, Vector3 explosionOrigin, float explosionDamage, float explosionRadius)
