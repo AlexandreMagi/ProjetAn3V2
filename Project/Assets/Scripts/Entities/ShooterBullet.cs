@@ -62,7 +62,6 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
         team = _team;
         TeamsManager.Instance.RegistertoTeam(transform, team);
-
         hCircle = Instantiate(hCircle);
 
     }
@@ -100,7 +99,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
             PosAtLastFrame = transform.position;
 
-            //GameObject.FindObjectOfType<C_Camera>().AddShake(5 * Time.deltaTime);
+            CameraHandler.Instance.AddShake(entityData.shakeIdle * Time.deltaTime, transform.position);
 
             if (Curr / MaxDistance >= 1)
             {
@@ -119,6 +118,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             hMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
             hMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
 
+
+            GetComponent<BoxCollider>().enabled = true;
         }
     }
 
@@ -166,7 +167,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             triggerShoot.OnHit();
         }
 
-        CameraHandler.Instance.AddShake(entityData.shakeAtImpact);
+        CameraHandler.Instance.AddShake(entityData.shakeAtImpact, transform.position);
 
 
         Destroy(hDummyIndicator);
@@ -195,6 +196,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnGravityDirectHit()
     {
+        Debug.Log("ghghzg");
         bOnGravity = true;
         rbBody.useGravity = true;
         ReactGravity<DataSwarmer>.DoFreeze(rbBody);

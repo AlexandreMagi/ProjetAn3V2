@@ -13,6 +13,7 @@ public class DataShooterBullet : DataEnemy
     public float bulletSpeed = 5;
     public float randomSpeedAdded = 2;
     public float shakeAtImpact = 10;
+    public float shakeIdle = 10;
     public float rotationSpeed = 90;
     public float circleScaleMultiplier = 1;
     public bool randomRotationAtStart = false;

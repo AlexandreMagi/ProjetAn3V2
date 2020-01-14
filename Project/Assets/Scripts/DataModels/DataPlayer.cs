@@ -6,4 +6,5 @@ using UnityEngine;
 public class DataPlayer : DataEntity
 {
     public float armor;
+    public float damageShakeMultiplier = 40;
 }

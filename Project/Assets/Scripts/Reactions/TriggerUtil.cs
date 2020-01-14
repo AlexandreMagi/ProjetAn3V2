@@ -87,17 +87,22 @@ public static class TriggerUtil
     }
 
     //SHAKE TRIGGER
+    public static void TriggerShake(float tTimeBeforeStart, float shakeForce, Vector3 pos)
+    {
+        Main.Instance.StartCoroutine(TriggerShakeCoroutine(tTimeBeforeStart, shakeForce, pos));
+    }
+    //SHAKE TRIGGER
     public static void TriggerShake(float tTimeBeforeStart, float shakeForce)
     {
-        Main.Instance.StartCoroutine(TriggerShakeCoroutine(tTimeBeforeStart, shakeForce));
+        Main.Instance.StartCoroutine(TriggerShakeCoroutine(tTimeBeforeStart, shakeForce, Vector3.one * 666)); // 666 value safe
     }
 
-    static IEnumerator TriggerShakeCoroutine(float tTimeBeforeStart, float shakeForce)
+    static IEnumerator TriggerShakeCoroutine(float tTimeBeforeStart, float shakeForce, Vector3 pos)
     {
         yield return new WaitForSecondsRealtime(tTimeBeforeStart);
 
-        //Main.Instance.GetComponent<C_Camera>().AddShake(shakeForce);
-
+        if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos);
+        else CameraHandler.Instance.AddShake(shakeForce);
         yield break;
     }
 
