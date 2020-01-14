@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Enemies/DataShooterBullet")]
-public class DataShooterBullet : ScriptableObject
+public class DataShooterBullet : DataEnemy
 {
     public AnimationCurve bulletTrajectory;
     public AnimationCurve bulletRotation;
@@ -17,7 +17,7 @@ public class DataShooterBullet : ScriptableObject
     public float circleScaleMultiplier = 1;
     public bool randomRotationAtStart = false;
 
-
+    public LayerMask layerAffected;
 
     public float timeBeforeCollisionAreActived = 1;
 

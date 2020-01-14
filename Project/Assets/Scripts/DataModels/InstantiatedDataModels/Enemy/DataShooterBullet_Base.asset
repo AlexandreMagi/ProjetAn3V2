@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9df345cac8f3bc4e9756471f544ab9f, type: 3}
   m_Name: DataShooterBullet_Base
   m_EditorClassIdentifier: 
+  maxHealth: 1
+  startHealth: 1
+  team: 1
+  stunResistanceJauge: 1
+  stayLockedOnTarget: 0
+  timeBeforeCheckForAnotherTarget: 5
   bulletTrajectory:
     serializedVersion: 2
     m_Curve:
@@ -138,18 +144,21 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bulletSpeed: 50
+  bulletSpeed: 5
   randomSpeedAdded: 2
-  shakeAtImpact: 10
+  shakeAtImpact: 2
   rotationSpeed: 0
   circleScaleMultiplier: 0.4
   randomRotationAtStart: 0
+  layerAffected:
+    serializedVersion: 2
+    m_Bits: 823
   timeBeforeCollisionAreActived: 1
   randomFrom: {x: -1, y: 0.2, z: -1}
   randomTo: {x: 1, y: 1, z: 1}
   explosionForce: 500
-  explosionRadius: 15
-  explosionDamage: 1000
+  explosionRadius: 3
+  explosionDamage: 50
   explosionStun: 1.2
   explosionStunDuration: 1
   liftValue: 0

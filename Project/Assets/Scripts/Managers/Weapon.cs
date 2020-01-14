@@ -29,6 +29,10 @@ public class Weapon : MonoBehaviour
         bulletRemaining = weapon.bulletMax;
         timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
     }
+    private void Start()
+    {
+        CameraHandler.Instance.SetWeapon(weapon);
+    }
 
     private void Update()
     {
@@ -100,11 +104,17 @@ public class Weapon : MonoBehaviour
                     if (bAffect != null)
                     {
                         bAffect.OnHit(weaponMod, hit.point);
+                        if (weaponMod == weapon.baseShot)
+                            bAffect.OnHitSingleShot();
+                        if (weaponMod == weapon.chargedShot)
+                            bAffect.OnHitShotGun();
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
                     }
                 }
             }
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
+            CameraHandler.Instance.AddRecoil(weaponMod.recoilPerShot);
+            CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
         }
         bulletRemaining -= weaponMod.bulletCost;
         if (bulletRemaining < 0) bulletRemaining = 0;

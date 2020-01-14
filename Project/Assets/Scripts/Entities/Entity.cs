@@ -16,7 +16,7 @@ public class Entity<T> : MonoBehaviour where T : DataEntity
     {
         health = entityData.startHealth;
 
-        //TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
+        TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
     }
 
     protected virtual void Die()

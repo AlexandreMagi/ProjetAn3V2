@@ -30,7 +30,7 @@ public class GravityOrb : MonoBehaviour
     public bool OnSpawning(Vector2 mousePosition)
     {
 
-        MainCam = Camera.main;
+        MainCam = CameraHandler.Instance.RenderingCam.GetComponent<Camera>();
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 
@@ -110,7 +110,7 @@ public class GravityOrb : MonoBehaviour
         StopCoroutine("OnHoldAttraction");
 
         if (hasSticked)
-            ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Entity<DataEntity>>());
+            ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
 
         if (hGOrb.bIsExplosive)
         {

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129977851647938895}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.004004237, z: -0.12430057}
+  m_LocalPosition: {x: 0, y: 1.45, z: -0.12}
   m_LocalScale: {x: 4.16858, y: 3.0170093, z: 3.0793881}
   m_Children: []
   m_Father: {fileID: 2686990369198733124}
@@ -853,6 +853,7 @@ GameObject:
   - component: {fileID: 1494732070929261812}
   - component: {fileID: 7665553477451142519}
   - component: {fileID: 6734139438723515353}
+  - component: {fileID: 8266618048308340153}
   m_Layer: 8
   m_Name: Shooter
   m_TagString: Untagged
@@ -919,6 +920,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 1385ce6c68d00c4468dc3eb9e5bcc96c, type: 2}
   canonPlacement: {fileID: 1129977851647938895}
+--- !u!135 &8266618048308340153
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686990369805659944}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5337956
+  m_Center: {x: 0, y: 1.0337956, z: 0}
 --- !u!1 &2686990369854784731
 GameObject:
   m_ObjectHideFlags: 0
