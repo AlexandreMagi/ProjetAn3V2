@@ -51,7 +51,6 @@ public class GravityOrb : MonoBehaviour
 
                 this.transform.SetParent(hitObj.transform);
                 parentIfSticky = hitObj;
-                parentIfSticky.GetComponent<Rigidbody>().isKinematic = true;
                 hasSticked = true;
             }
 
