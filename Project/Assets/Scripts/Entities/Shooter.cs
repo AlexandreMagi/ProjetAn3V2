@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Shooter : Enemy, IBulletAffect
+public class Shooter : Enemy<DataShooter>, IBulletAffect
 {
-    private DataShooter shooterData;
+   // private DataShooter shooterData;
 
     //Stimulus
     #region Stimulus
@@ -66,13 +66,13 @@ public class Shooter : Enemy, IBulletAffect
     {
         base.Start();
         state = (int)State.Nothing;
-        shooterData = entityData as DataShooter;
+        entityData = entityData as DataShooter;
     }
 
     public override void OnDistanceDetect(Transform possibleTarget, float distance)
     {
         base.OnDistanceDetect(possibleTarget, distance);
-        if (possibleTarget && distance < shooterData.distanceDetection && target == null)
+        if (possibleTarget && distance < entityData.distanceDetection && target == null)
         {
             target = possibleTarget;
             SpotTarget();
@@ -89,7 +89,7 @@ public class Shooter : Enemy, IBulletAffect
             if (considerPlayerIsMoving <= 0)
                 playerMoving = false;
         }
-        if (playerMoving && !shooterData.shootEvenIfPlayerMoving)
+        if (playerMoving && !entityData.shootEvenIfPlayerMoving)
         {
             if (!(state == (int)State.Stuned) && !(state == (int)State.Recovering))
             {
@@ -112,12 +112,12 @@ public class Shooter : Enemy, IBulletAffect
             case (int)State.Rotating:
                 Vector3 vPos = new Vector3(target.position.x, this.transform.position.y, target.position.z);
                 Quaternion targetRotation = Quaternion.LookRotation(transform.position - vPos, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * shooterData.rotationSpeed);
-                if (Quaternion.Angle(transform.rotation, targetRotation) < shooterData.rotationMinimalBeforeCharge && (target.position.y - transform.position.y) < 2)
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * entityData.rotationSpeed);
+                if (Quaternion.Angle(transform.rotation, targetRotation) < entityData.rotationMinimalBeforeCharge && (target.position.y - transform.position.y) < 2)
                 {
                     //PlayerLocked();
                     eTimerLoading += Time.deltaTime;
-                    if (eTimerLoading > shooterData.timeWaitBeforeShoot)
+                    if (eTimerLoading > entityData.timeWaitBeforeShoot)
                     {
                         EndLoading(true);
                     }
@@ -131,21 +131,21 @@ public class Shooter : Enemy, IBulletAffect
                 break;
             case (int)State.Loading:
                 eTimerLoading += Time.deltaTime;
-                if (eTimerLoading > shooterData.timeWaitBeforeShoot)
+                if (eTimerLoading > entityData.timeWaitBeforeShoot)
                 {
                     EndLoading(true);
                 }
                 break;
             case (int)State.Shooting:
                 eTimerbeforeNextAttack += Time.deltaTime;
-                if (eTimerbeforeNextAttack > shooterData.timeBetweenBullet)
+                if (eTimerbeforeNextAttack > entityData.timeBetweenBullet)
                 {
-                    eTimerbeforeNextAttack -= shooterData.timeBetweenBullet;
+                    eTimerbeforeNextAttack -= entityData.timeBetweenBullet;
                     bulletShot++;
                     Shoot();
                     //GetComponent<Animator>().SetTrigger("Shoot");
                     //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Launch", false, 0.5f);
-                    if (bulletShot >= shooterData.nbShootPerSalve)
+                    if (bulletShot >= entityData.nbShootPerSalve)
                     {
                         // RESET DES VALEURS ET STUN
                         StartRecover();
@@ -156,7 +156,7 @@ public class Shooter : Enemy, IBulletAffect
                 break;
             case (int)State.Recovering:
                 eTimerRecovering += Time.deltaTime;
-                if (eTimerRecovering > shooterData.recoverTime)
+                if (eTimerRecovering > entityData.recoverTime)
                 {
                     StopRecover();
                 }
@@ -243,7 +243,7 @@ public class Shooter : Enemy, IBulletAffect
         }
         base.IsStun(stunDuration);
         EndLoading(false);
-        GetComponent<Rigidbody>().AddForce(transform.forward * shooterData.stunRecoil, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(transform.forward * entityData.stunRecoil, ForceMode.Impulse);
         state = (int)State.Stuned;
     }
 
@@ -291,16 +291,16 @@ public class Shooter : Enemy, IBulletAffect
     public override void OnMovementDetect()
     {
         playerMoving = true;
-        considerPlayerIsMoving = shooterData.playerMoveTimeReset;
+        considerPlayerIsMoving = entityData.playerMoveTimeReset;
     }
 
     void Shoot()
     {
         //GameObject.FindObjectOfType<C_Camera>().AddShake(3);
-        for (int i = 0; i < shooterData.nbBulletPerShoot; i++)
+        for (int i = 0; i < entityData.nbBulletPerShoot; i++)
         {
-            GameObject CurrBullet = Instantiate(shooterData.bulletPrefabs);
-            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, shooterData.amplitudeMultiplier, shooterData.bulletData);
+            GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
+            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData);
         }
     }
 

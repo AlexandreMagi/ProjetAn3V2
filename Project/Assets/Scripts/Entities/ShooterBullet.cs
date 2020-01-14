@@ -164,7 +164,7 @@ public class ShooterBullet : MonoBehaviour, IGravityAffect
         bOnGravity = true;
         GetComponent<Rigidbody>().useGravity = true;
         Destroy(hCircle);
-        ReactGravity.DoPullAsObject(this.gameObject, position, force, false);
+        ReactGravity<DataEntity>.DoPullAsObject(this.gameObject, position, force, false);
     }
 
     public void OnRelease()

@@ -125,7 +125,7 @@ public class CameraHandler : MonoBehaviour
         if (CurrentPurcentageStock[0] > camBasicData.stepSoundPlay && !stepSoundPlayed && bFeedbckActivated)
         {
             stepSoundPlayed = true;
-            CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Step_0" + Random.Range(1, 5), false, 1f);
+            //CustomSoundManager.Instance.PlaySound(RenderingCam, "Step_0" + Random.Range(1, 5), false, 1f);
         }
 
         for (int i = 0; i < CurrentPurcentageStock.Length; i++)

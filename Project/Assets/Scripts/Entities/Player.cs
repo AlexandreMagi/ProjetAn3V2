@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity, ISpecialEffects
+public class Player : Entity<DataPlayer>, ISpecialEffects
 {
 
     float armor = 0;
-    private DataPlayer playerData;
+  //  private DataPlayer playerData;
 
     public static Player Instance{get; private set;}
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
-        ReactSpecial.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+    //    ReactSpecial.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
 
     void Awake()
@@ -23,10 +23,10 @@ public class Player : Entity, ISpecialEffects
     protected override void Start()
     {
         base.Start();
-        playerData = entityData as DataPlayer;
-        armor = playerData.armor;
-        UiLifeBar.Instance.UpdateArmorDisplay(armor / playerData.armor, armor);
-        UiLifeBar.Instance.UpdateLifeDisplay(health / playerData.maxHealth, health);
+        entityData = entityData as DataPlayer;
+        armor = entityData.armor;
+        UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+        UiLifeBar.Instance.UpdateLifeDisplay(health / entityData.maxHealth, health);
     }
 
     protected virtual void Update()
@@ -46,14 +46,14 @@ public class Player : Entity, ISpecialEffects
             armor -= value;
             value = 0;
         }
-        UiLifeBar.Instance.UpdateArmorDisplay(armor / playerData.armor, armor);
-        UiLifeBar.Instance.UpdateLifeDisplay((health - value) / playerData.maxHealth, health - value);
+        UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+        UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
         base.TakeDamage(value);
     }
 
     public void GainArmor(float value)
     {
         armor += value;
-        UiLifeBar.Instance.UpdateArmorDisplay(armor / playerData.armor, armor);
+        UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
     }
 }

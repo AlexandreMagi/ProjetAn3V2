@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Entity, IDetection
+public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
 {
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
     protected bool isStun = false;
-    protected DataEnemy enemyData;
 
     List<Transform> enemies;
     float distanceToClosest;
@@ -40,7 +39,7 @@ public class Enemy : Entity, IDetection
     protected override void Start()
     {
         base.Start();
-        enemyData = entityData as DataEnemy;
+        entityData = entityData as T;
     }
 
 
@@ -49,7 +48,7 @@ public class Enemy : Entity, IDetection
         if (!isStun)
         {
             currentStunLevel += ammount;
-            if (currentStunLevel > enemyData.stunResistanceJauge)
+            if (currentStunLevel > entityData.stunResistanceJauge)
             {
                 IsStun(stunDuration);
             }
@@ -65,7 +64,7 @@ public class Enemy : Entity, IDetection
 
     protected virtual void Update()
     {
-        if (enemyData != null)
+        if (entityData != null)
         {
             if (timeRemaingingStun > 0)
             {
@@ -77,13 +76,13 @@ public class Enemy : Entity, IDetection
                 }
             }
 
-            if (!enemyData.stayLockedOnTarget)
+            if (!entityData.stayLockedOnTarget)
             {
                 if (target) currentTargetTimer += Time.deltaTime;
 
-                if (currentTargetTimer > enemyData.timeBeforeCheckForAnotherTarget)
+                if (currentTargetTimer > entityData.timeBeforeCheckForAnotherTarget)
                 {
-                    currentTargetTimer -= enemyData.timeBeforeCheckForAnotherTarget;
+                    currentTargetTimer -= entityData.timeBeforeCheckForAnotherTarget;
                     target = null;
                 }
             }
@@ -110,7 +109,7 @@ public class Enemy : Entity, IDetection
     protected void CheckForTargets()
     {
         //Recherche de cible à attaquer
-        enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.enemyData.team, new int[]{2});
+        enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.entityData.team, new int[]{2});
         if (enemies.Count > 0)
         {
             distanceToClosest = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(enemies[0].position.x, enemies[0].position.z));

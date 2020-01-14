@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DataCrossHair_Base
   m_EditorClassIdentifier: 
   affectedByTimeScale: 0
-  baseSize: 100
+  baseSize: 0
   amplitudeIdle: 10
   speedIdle: 10
   offsetIdle: 0
@@ -36,7 +36,8 @@ MonoBehaviour:
   hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
   outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 1}
   transitionStartAt: 0.2
-  chargingSize: 300
+  chargingSize: 500
+  chargingAmplitudeIdle: 0
   chargingSpeed: 10
   chargingRotation: 360
   chargingColor: {r: 1, g: 0.5668884, b: 0, a: 1}

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ReactSpecial
+public static class ReactSpecial<T, T2> where T : DataEntity where T2 : DataEnemy
 {
     //Pushing mechanic
-    public static void DoProject(Entity obj, Vector3 explosionOrigin, float explosionForce, float explosionRadius, float liftValue = 0)
+    public static void DoProject(Entity<T> obj, Vector3 explosionOrigin, float explosionForce, float explosionRadius, float liftValue = 0)
     {
         obj.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, explosionOrigin, explosionRadius, liftValue);
     }
 
-    public static void DoExplosionDammage(Entity obj, Vector3 explosionOrigin, float explosionDamage, float explosionRadius)
+    public static void DoExplosionDammage(Entity<T> obj, Vector3 explosionOrigin, float explosionDamage, float explosionRadius)
     {
         float distance = Vector3.Distance(obj.transform.position, explosionOrigin);
         float dammage = 0;
@@ -21,7 +21,7 @@ public static class ReactSpecial
         obj.TakeDamage(dammage);
     }
 
-    public static void DoExplosionStun(Entity obj, Vector3 explosionOrigin, float explosionStun,float explosionStunDuration, float explosionRadius)
+    public static void DoExplosionStun(Entity<T> obj, Vector3 explosionOrigin, float explosionStun,float explosionStunDuration, float explosionRadius)
     {
         float distance = Vector3.Distance(obj.transform.position, explosionOrigin);
         float stun = 0;
@@ -29,9 +29,9 @@ public static class ReactSpecial
         {
             stun = explosionStun - (distance * explosionStun / explosionRadius);
         }
-        if (obj is Enemy)
+        if (obj is Enemy<T2>)
         {
-            Enemy enemiVar = obj as Enemy;
+            Enemy<T2> enemiVar = obj as Enemy<T2>;
             enemiVar.AddStun(stun, explosionStunDuration);
         }
     }

@@ -112,9 +112,9 @@ public class Weapon : MonoBehaviour
 
     private void CheckIfMustSlowMo(GameObject hit, DataWeaponMod weaponMod)
     {
-        if (hit.GetComponent<Enemy>() != null && weaponMod.bullet.activateSlowMoAtImpact)
+        if (hit.GetComponent<Enemy<DataEnemy>>() != null && weaponMod.bullet.activateSlowMoAtImpact)
             TimeScaleManager.Instance.AddSlowMo(weaponMod.bullet.slowMoPower, weaponMod.bullet.slowMoDuration, 0, weaponMod.bullet.slowMoProbability);
-        if (hit.GetComponent<Enemy>() != null && weaponMod.bullet.activateStopTimeAtImpact)
+        if (hit.GetComponent<Enemy<DataEnemy>>() != null && weaponMod.bullet.activateStopTimeAtImpact)
             TimeScaleManager.Instance.AddStopTime(weaponMod.bullet.timeStopAtImpact, 0, weaponMod.bullet.timeStopProbability);
     }
 

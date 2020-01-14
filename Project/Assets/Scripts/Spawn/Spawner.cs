@@ -63,7 +63,7 @@ public class Spawner : MonoBehaviour
         else
         {
             spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
-            if (entDataToGive != null) spawnedEnemy.GetComponent<Entity>().SetData(entDataToGive);
+            if (entDataToGive != null) spawnedEnemy.GetComponent<Entity<DataEntity>>().SetData(entDataToGive);
         }
 
         spawnedEnemy.transform.SetParent(this.transform, false);

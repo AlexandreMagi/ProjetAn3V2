@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ReactGravity
+public static class ReactGravity<T> where T : DataEntity
 {
 
     //Freezes the game object
-    public static void DoFreeze(Entity obj)
+    public static void DoFreeze(Entity<T> obj)
     {
         obj.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     //Unfreezes the game object
-    public static void DoUnfreeze(Entity obj)
+    public static void DoUnfreeze(Entity<T> obj)
     {
         obj.GetComponent<Rigidbody>().isKinematic = false;
     }
 
 
     //Pulling mechanic
-    public static void DoPull(Entity obj, Vector3 pullOrigin, float pullForce, bool isAirbone)
+    public static void DoPull(Entity<T> obj, Vector3 pullOrigin, float pullForce, bool isAirbone)
     {
         DoUnfreeze(obj);
 
@@ -48,7 +48,7 @@ public static class ReactGravity
     }
 
     //Items spin while airbone
-    public static void DoSpin(Entity obj)
+    public static void DoSpin(Entity<T> obj)
     {
         Vector3 v3SpinRandom = new Vector3(
                         Random.Range(-1f, 1f) * 20,
@@ -60,13 +60,13 @@ public static class ReactGravity
     }
 
     //Fonction qui enclenche la coroutine de flottaison
-    public static void DoFloat(Entity obj, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
+    public static void DoFloat(Entity<T> obj, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
         Main.Instance.StartCoroutine(Float(obj, tTimeBeforeFloat, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale));
     }
 
     //Coroutine de flottaison
-    private static IEnumerator Float(Entity obj, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
+    private static IEnumerator Float(Entity<T> obj, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
         //Attnete avant de démarrer
         yield return new WaitForSecondsRealtime(tTimeBeforeFloat);

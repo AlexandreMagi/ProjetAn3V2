@@ -4,9 +4,8 @@ using UnityEngine;
 
 using Sirenix.OdinInspector;
 
-public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
+public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpecialEffects
 {
-    protected new DataSwarmer enemyData;
 
     bool isAirbone = false;
     float timePropel = .5f;
@@ -37,15 +36,15 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
     #region Gravity
     public void OnGravityDirectHit()
     {
-        ReactGravity.DoFreeze(this);
+        ReactGravity<DataSwarmer>.DoFreeze(this);
     }
 
     public void ResetSwarmer(DataEntity _entityData)
     {
-        enemyData = _entityData as DataSwarmer;
-        health = enemyData.startHealth;
-        TeamsManager.Instance.RegistertoTeam(this.transform, enemyData.team);
-        this.GetComponentInChildren<Renderer>().material = enemyData.mat;
+        entityData = _entityData as DataSwarmer;
+        health = entityData.startHealth;
+        TeamsManager.Instance.RegistertoTeam(this.transform, entityData.team);
+        this.GetComponentInChildren<Renderer>().material = entityData.mat;
         target = null;
         isChasingTarget = false;
         nState = (int)State.Basic;
@@ -61,24 +60,24 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
 
     public void OnPull(Vector3 origin, float force)
     {
-        ReactGravity.DoPull(this, origin, force, isAirbone);
+        ReactGravity<DataSwarmer>.DoPull(this, origin, force, isAirbone);
     }
 
     public void OnRelease()
     {
-        ReactGravity.DoUnfreeze(this);
+        ReactGravity<DataSwarmer>.DoUnfreeze(this);
     }
 
     public void OnZeroG()
     {
-        ReactGravity.DoSpin(this);
+        ReactGravity<DataSwarmer>.DoSpin(this);
     }
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
     {
-        ReactGravity.DoPull(this, Vector3.up.normalized + this.transform.position, fGForce, false);
+        ReactGravity<DataSwarmer>.DoPull(this, Vector3.up.normalized + this.transform.position, fGForce, false);
 
-        ReactGravity.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
+        ReactGravity<DataSwarmer>.DoFloat(this, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
     }
     #endregion
 
@@ -116,7 +115,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
         base.Update();
         _health = health;
         _target = target;
-        _team = enemyData.team;
+        _team = entityData.team;
 
         if (this.transform.position.y <= -5)
         {
@@ -136,7 +135,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
 
     public override void OnDistanceDetect(Transform targetToHunt, float distance)
     {
-        if (pathToFollow == null || distance < enemyData.distanceToTargetEnemy)
+        if (pathToFollow == null || distance < entityData.distanceToTargetEnemy)
         {
             isChasingTarget = true;
             target = targetToHunt;
@@ -149,19 +148,20 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
     {
         FxManager.Instance.PlayFx("VFX_Death", transform.position, Quaternion.identity);
 
-        TeamsManager.Instance.RemoveFromTeam(this.transform, enemyData.team);
+        TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
         this.gameObject.SetActive(false);
         target = null;
         pathToFollow = null;
         currentFollow = null;
         //base.Die();        
+
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if(other.transform == target)
         {
-            target.GetComponent<Entity>().TakeDamage(enemyData.damage);
+            target.GetComponent<Entity<DataSwarmer>>().TakeDamage(entityData.damage);
             this.Die();
         }
     }
@@ -195,7 +195,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
 
             if (elapsedTime >= timePropel)
             {
-                ReactGravity.DoSpin(this);
+                ReactGravity<DataSwarmer>.DoSpin(this);
 
                 //Check si touche le sol
                 elapsedTime = 0;
@@ -210,7 +210,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
 
 
         //Pathfinding
-        if (currentFollow != null && enemyData != null && rbBody.useGravity && !isAirbone)
+        if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
         {
 
             if (nState == (int)State.Basic)
@@ -223,12 +223,12 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
                 //TODO : Follow the path
                 Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
 
-                rbBody.AddForce(direction * enemyData.speed + Vector3.up * Time.fixedDeltaTime * enemyData.upScale);
+                rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
 
 
                 if (!isChasingTarget && pathToFollow != null)
                 {
-                    if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < enemyData.fDistanceBeforeNextPath)
+                    if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.fDistanceBeforeNextPath)
                     {
                         currentFollow = pathToFollow.GetPathAt(pathID++);
                         if (currentFollow == null) pathID--;
@@ -239,9 +239,9 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
                             //Debug.Log("Variance = "+ (swarmer.nVarianceInPath / 100 * Random.Range(-2f, 2f)));
 
                             v3VariancePoisitionFollow = new Vector3(
-                                currentFollow.position.x + (enemyData.nVarianceInPath / 100 * Random.Range(-2f, 2f)),
+                                currentFollow.position.x + (entityData.nVarianceInPath / 100 * Random.Range(-2f, 2f)),
                                 currentFollow.position.y,
-                                currentFollow.position.z + (enemyData.nVarianceInPath / 100 * Random.Range(-2f, 2f))
+                                currentFollow.position.z + (entityData.nVarianceInPath / 100 * Random.Range(-2f, 2f))
                             );
 
                             //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
@@ -264,7 +264,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
             else if (nState == (int)State.Waiting)
             {
                 timerWait += Time.deltaTime;
-                if (timerWait > enemyData.fWaitDuration)
+                if (timerWait > entityData.fWaitDuration)
                 {
                     timerWait = 0;
                     if (target != null && CheckDistance())
@@ -272,7 +272,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
                         nState = (int)State.Attacking;
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
-                        rbBody.AddForce(Vector3.up * enemyData.fJumpForce, ForceMode.Impulse);
+                        rbBody.AddForce(Vector3.up * entityData.fJumpForce, ForceMode.Impulse);
                         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
                     }
                     else
@@ -286,7 +286,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
                 if (target != null)
                 {
                     Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
-                    rbBody.AddForce(direction * enemyData.speed * enemyData.fSpeedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * enemyData.upScale);
+                    rbBody.AddForce(direction * entityData.speed * entityData.fSpeedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
                     if (!CheckDistance())
                     {
                         nState = (int)State.Basic;
@@ -300,7 +300,7 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
 
     bool CheckDistance()
     {
-        if (Vector3.Distance(transform.position, target.position) < enemyData.fDistanceBeforeAttack)
+        if (Vector3.Distance(transform.position, target.position) < entityData.fDistanceBeforeAttack)
             return true;
         else
             return false;
@@ -308,8 +308,8 @@ public class Swarmer : Enemy, IGravityAffect, IBulletAffect, ISpecialEffects
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
-        ReactSpecial.DoProject(this, explosionOrigin, explosionForce, explosionRadius, liftValue);
-        ReactSpecial.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
-        ReactSpecial.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoProject(this, explosionOrigin, explosionForce, explosionRadius, liftValue);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
     }
 }
