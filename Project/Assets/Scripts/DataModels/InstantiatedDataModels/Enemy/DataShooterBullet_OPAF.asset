@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9df345cac8f3bc4e9756471f544ab9f, type: 3}
+  m_Name: DataShooterBullet_OPAF
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  startHealth: 1
+  team: 1
+  stunResistanceJauge: 1
+  stayLockedOnTarget: 0
+  timeBeforeCheckForAnotherTarget: 5
+  bulletTrajectory:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.000000059604645
+      inSlope: 3.057331
+      outSlope: 3.057331
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.27830222
+      value: 0.8508621
+      inSlope: 0.08405881
+      outSlope: 0.08405881
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1646252
+    - serializedVersion: 3
+      time: 1
+      value: 0.10141373
+      inSlope: -0.000006225263
+      outSlope: -0.000006225263
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.30513698
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bulletRotation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.292282
+      outSlope: 2.292282
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.29963893
+      value: 0.6868569
+      inSlope: 0.19359797
+      outSlope: 0.19359797
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.47638655
+      value: 0.35013747
+      inSlope: 0.26070803
+      outSlope: 0.26070803
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7213407
+      value: 0.9445193
+      inSlope: -0.47727537
+      outSlope: -0.47727537
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.002357483
+      inSlope: -3.381053
+      outSlope: -3.381053
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  circleScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 44.628937
+      outSlope: 44.628937
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.01987788
+      value: 0.88712865
+      inSlope: 18.324118
+      outSlope: 18.324118
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.038819842
+      value: 0.7359585
+      inSlope: -1.0538158
+      outSlope: -1.0538158
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.07228967
+    - serializedVersion: 3
+      time: 1
+      value: 0.15579987
+      inSlope: -0.2664773
+      outSlope: -0.2664773
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09201995
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bulletSpeed: 50
+  randomSpeedAdded: 2
+  shakeAtImpact: 2
+  rotationSpeed: 0
+  circleScaleMultiplier: 0.4
+  randomRotationAtStart: 0
+  layerAffected:
+    serializedVersion: 2
+    m_Bits: 3895
+  timeBeforeCollisionAreActived: 1
+  randomFrom: {x: -1, y: 0.2, z: -1}
+  randomTo: {x: 1, y: 1, z: 1}
+  explosionForce: 500
+  explosionRadius: 15
+  explosionDamage: 1000
+  explosionStun: 1.2
+  explosionStunDuration: 1
+  liftValue: 0
