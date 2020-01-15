@@ -13,8 +13,8 @@ public class GravityOrb : MonoBehaviour
     [SerializeField]
     public bool bActivedViaScene = false;
 
-    [SerializeField]
-    bool bZeroActivateAutomaticaly = true;
+    //[SerializeField]
+    //bool bZeroActivateAutomaticaly = true;
 
     GameObject parentIfSticky = null;
     Camera MainCam = null;

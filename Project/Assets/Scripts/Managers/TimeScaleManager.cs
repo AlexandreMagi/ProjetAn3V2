@@ -21,7 +21,7 @@ public class TimeScaleManager : MonoBehaviour
     List<Vector3> slowMoRequest = new List<Vector3>();
     List<Vector2> stopTimeRequest = new List<Vector2>();
     bool slowMoEnable = true;
-    bool stopTime = false;
+    //bool stopTime = false;
 
     public void AddSlowMo(float power, float duration, float delay = 0, float probability = 1)
     {

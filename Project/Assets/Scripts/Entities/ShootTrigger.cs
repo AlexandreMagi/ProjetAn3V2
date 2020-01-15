@@ -8,8 +8,8 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     bool isTriggered = false;
 
-    [SerializeField]
-    bool keepsCombo = true;
+    //[SerializeField]
+    //bool keepsCombo = true;
 
     [SerializeField]
     string sSoundPlayed = "";
