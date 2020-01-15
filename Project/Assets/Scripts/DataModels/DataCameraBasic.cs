@@ -11,6 +11,13 @@ public class DataCameraBasic : ScriptableObject
     public float RecoilRecover = 5;
     public float RecoilPow = 2;
 
+    [Header("Camera Shakes")]
+    public float distanceShakeCancelled = 30;
+    public float shakeAtCharged = 1;
+    public float shakeAtEndOfAnimation = 1;
+    public float shakeWhenCharged = 10;
+    public float shakeWhenCharging = 8;
+
     [Header("Fov caméra")]
     [Tooltip("Valeur de FOV de base")]
     public float BaseFov = 70;
