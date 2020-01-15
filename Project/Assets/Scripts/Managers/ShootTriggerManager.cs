@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
+
 public class ShootTriggerManager : MonoBehaviour
 {
     int nbChilds = 0;
@@ -16,21 +18,38 @@ public class ShootTriggerManager : MonoBehaviour
     [SerializeField]
     AnimBlocker[] blockers = null;
 
+
     [SerializeField]
     bool startsNextSequenceOnTrigger = false;
 
-    [SerializeField, ShowWhen("startsNextSequenceOnTrigger")]
+    [SerializeField, ShowIf("startsNextSequenceOnTrigger")]
     float timeBeforeNextSequence = 0;
 
-    [SerializeField]
+    // SHAKE ///////////////////////////////
+    [SerializeField, Header("Shake")]
     bool startsShakeAfterAllTriggers = false;
-    [SerializeField, ShowWhen("startsShakeAfterAllTriggers")]
+
+    [SerializeField, ShowIf("startsShakeAfterAllTriggers")]
     float shakeForce = 0f;
 
-    [SerializeField]
+    // SOUND ////////////////////////////////
+    [SerializeField, Header("Sound")]
+    bool isPlayingSound = false;
+
+    [SerializeField, ShowIf("isPlayingSound")]
     string soundPlayed = "";
-    [SerializeField]
+    [SerializeField, ShowIf("isPlayingSound")]
     float soundVolume = 1;
+
+    // BOOLEAN SEQUENCE ////////////////////
+    [SerializeField, Header("Boolean Sequence")]
+    bool triggersBooleanSequence = false;
+
+    [SerializeField, ShowIf("triggersBooleanSequence")]
+    string booleanName = "";
+    [SerializeField, ShowIf("triggersBooleanSequence")]
+    bool booleanStateSet = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +77,7 @@ public class ShootTriggerManager : MonoBehaviour
 
             if (canContinue)
             {
-                TriggerAnim();
+                Trigger();
             }
             else
             {
@@ -89,7 +108,7 @@ public class ShootTriggerManager : MonoBehaviour
         }
         while (!canContinue);
 
-        TriggerAnim();
+        Trigger();
 
         yield break;
     }
@@ -99,7 +118,7 @@ public class ShootTriggerManager : MonoBehaviour
         SequenceHandler.Instance.NextSequence();
     }
 
-    void TriggerAnim()
+    void Trigger()
     {
         TriggerUtil.TriggerAnimations(0, animators);
 
@@ -116,6 +135,16 @@ public class ShootTriggerManager : MonoBehaviour
         if (startsShakeAfterAllTriggers)
         {
             TriggerUtil.TriggerShake(0, shakeForce);
+        }
+
+        if (isPlayingSound)
+        {
+            TriggerUtil.TriggerSound(0, soundPlayed, soundVolume);
+        }
+
+        if (triggersBooleanSequence)
+        {
+            TriggerUtil.TriggerBooleanSequence(0, booleanName, booleanStateSet);
         }
     }
 }

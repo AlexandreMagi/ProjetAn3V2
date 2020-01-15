@@ -164,7 +164,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
         if(triggerShoot != null)
         {
-            triggerShoot.OnHit();
+            triggerShoot.OnHit(null, Vector3.zero);
         }
 
         CameraHandler.Instance.AddShake(entityData.shakeAtImpact, transform.position);

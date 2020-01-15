@@ -11,10 +11,10 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     //[SerializeField]
     //bool keepsCombo = true;
 
-    [SerializeField]
-    string soundPlayed = "";
-    [SerializeField]
-    float soundVolume = 1;
+    //[SerializeField]
+    //string soundPlayed = "";
+    //[SerializeField]
+    //float soundVolume = 1;
 
     protected override void Start()
     {
@@ -24,7 +24,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     //Stimulus reactions
     #region StimulusBullet
-    public void OnHit(DataWeaponMod mod = null)
+    public void OnHit(DataWeaponMod mod, Vector3 position)
     {
         if (!isTriggered)
         {
@@ -44,7 +44,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             else
             {
                 FxManager.Instance.PlayFx("VFX_EnvironnementTrigger", this.transform.position, Quaternion.identity);
-                CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
+                //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
             }
 
 
@@ -73,9 +73,5 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
         
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position)
-    {
-        throw new System.NotImplementedException();
-    }
     #endregion
 }
