@@ -161,5 +161,20 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //BOOLEAN SEQUENCES
+    public static void TriggerBooleanSequence(float timeBeforeStart, string boolName, bool state)
+    {
+        Main.Instance.StartCoroutine(TriggerBooleanSequenceCoroutine(timeBeforeStart, boolName, state));
+    }
+
+    static IEnumerator TriggerBooleanSequenceCoroutine(float timeBeforeStart, string boolName, bool state)
+    {
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
+
+        BooleanSequenceManager.Instance.SetStateOfBoolSequence(boolName, state);
+
+        yield break;
+    }
 }
 
