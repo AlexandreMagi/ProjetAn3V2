@@ -302,7 +302,7 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
 
     void Shoot()
     {
-        CameraHandler.Instance.AddShake(0.5f);
+        CameraHandler.Instance.AddShake(0.5f, transform.position);
         for (int i = 0; i < entityData.nbBulletPerShoot; i++)
         {
             GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);

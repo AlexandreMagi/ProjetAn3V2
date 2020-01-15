@@ -12,7 +12,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
-    //    ReactSpecial.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+        ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
 
     void Awake()
@@ -36,6 +36,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public override void TakeDamage(float value)
     {
+        CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier);
         if (value >= armor)
         {
             value -= armor;

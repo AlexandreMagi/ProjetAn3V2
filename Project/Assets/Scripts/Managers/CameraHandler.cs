@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Cinemachine;
 using UnityEngine;
-using Cinemachine;
 
 public class CameraHandler : MonoBehaviour
 {
@@ -212,7 +210,7 @@ public class CameraHandler : MonoBehaviour
         if (chargevalue == 1 && fChargedValuePast != 1)
         {
             feedbackChargedStarted = true;
-            AddShake(1);
+            AddShake(camBasicData.shakeAtCharged);
         }
 
         if (chargevalue == 1 && feedbackChargedStarted && currentPurcentageFBCharged < 1)
@@ -226,16 +224,16 @@ public class CameraHandler : MonoBehaviour
         }
         if (currentPurcentageFBCharged > 1)
         {
-            AddShake(1);
+            AddShake(camBasicData.shakeAtEndOfAnimation);
         }
 
         if (chargevalue == 1)
         {
-            AddShake(10 * Time.unscaledDeltaTime);
+            AddShake(camBasicData.shakeWhenCharged * Time.unscaledDeltaTime);
         }
         else if (chargevalue != fChargedValuePast)
         {
-            AddShake(8 * Time.unscaledDeltaTime);
+            AddShake(camBasicData.shakeWhenCharging * Time.unscaledDeltaTime);
         }
 
     }
@@ -252,6 +250,13 @@ public class CameraHandler : MonoBehaviour
     public void AddShake(float value)
     {
         CineMachImpulse.GenerateImpulse(Vector3.up * value);
+    }
+    public void AddShake(float value, Vector3 initPos)
+    {
+        float distance = Vector3.Distance(initPos, RenderingCam.transform.position);
+        value *= 1 - (distance / camBasicData.distanceShakeCancelled);
+        if (value > 0)
+            CineMachImpulse.GenerateImpulse(Vector3.up * value);
     }
 
     public void SetWeapon(DataWeapon _weaponData)

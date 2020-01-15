@@ -21,7 +21,7 @@ public static class ReactGravity<T> where T : DataEntity
     //Pulling mechanic
     public static void DoPull(Rigidbody rb, Vector3 pullOrigin, float pullForce, bool isAirbone)
     {
-        DoUnfreeze(rb);
+        //DoUnfreeze(rb);
 
         Vector3 v3DirectionToGo = (pullOrigin - rb.transform.position).normalized;
         Vector3 v3UpperAngle = isAirbone ? new Vector3(0, -.2f, 0) : new Vector3(0, .2f, 0);

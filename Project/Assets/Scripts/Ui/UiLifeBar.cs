@@ -34,13 +34,13 @@ public class UiLifeBar : MonoBehaviour
     public void UpdateLifeDisplay(float value, float realValue)
     {
         lifeBar.value = value;
-        lifeText.text = realValue.ToString();
+        lifeText.text = Mathf.CeilToInt(realValue).ToString();
     }
 
     public void UpdateArmorDisplay(float value, float realValue)
     {
         armorBar.value = value;
-        armorText.text = realValue.ToString();
+        armorText.text = Mathf.CeilToInt(realValue).ToString();
     }
 
     public void Update()
