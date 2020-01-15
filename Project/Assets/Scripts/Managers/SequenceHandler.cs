@@ -236,7 +236,7 @@ public class SequenceHandler : MonoBehaviour
             }
             */
 
-            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration : 0);
+            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration < 0 ? currentSequence.timeSequenceDuration : 0 : 0);
             enemiesKilled = 0;
 
             
