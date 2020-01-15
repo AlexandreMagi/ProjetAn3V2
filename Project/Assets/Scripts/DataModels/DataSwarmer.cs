@@ -6,11 +6,11 @@ using UnityEngine;
 public class DataSwarmer : DataEnemy
 {
     [Header("Swarmer var")]
-    public float nVarianceInPath;
+    public float varianceInPath;
 
-    public float tTimeBeforeNextPath;
+    public float timeBeforeNextPath;
 
-    public float fDistanceBeforeNextPath;
+    public float distanceBeforeNextPath;
 
     public float speed;
 
@@ -20,12 +20,12 @@ public class DataSwarmer : DataEnemy
 
     public float distanceToTargetEnemy;
 
-    public float fDistanceMelee;
+    public float distanceMelee;
 
-    public float fWaitDuration = 0.3f;
-    public float fDistanceBeforeAttack = 6f;
-    public float fJumpForce = 80f;
-    public float fSpeedMultiplierWhenAttacking = 4;
+    public float waitDuration = 0.3f;
+    public float distanceBeforeAttack = 6f;
+    public float jumpForce = 80f;
+    public float speedMultiplierWhenAttacking = 4;
 
 
     public Material mat;

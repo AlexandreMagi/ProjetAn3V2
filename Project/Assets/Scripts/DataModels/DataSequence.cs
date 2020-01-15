@@ -10,11 +10,11 @@ using Sirenix.OdinInspector;
 public class DataSequence : ScriptableObject
 {
     [Header("Transition vers la séquence")]
-    public string vCamTargetName;
+    public string camTargetName;
 
     public CinemachineBlendDefinition.Style animationStyle;
 
-    public float fAnimationTime;
+    public float animationTime;
 
     public bool hasEventOnEnd;
 
@@ -26,26 +26,26 @@ public class DataSequence : ScriptableObject
 
     //ENEMIES SETTINGS
     [ShowIf("sequenceType", SequenceType.KillEnnemies)]
-    public int nEnemiesToKillInSequence;
+    public int enemiesToKillInSequence;
 
     [ShowIf("sequenceType", SequenceType.KillEnnemies)]
-    public bool bAcceptsBufferKill;
+    public bool acceptsBufferKill;
 
     [ShowIf("sequenceType", SequenceType.KillEnnemies)]
-    public float nTimeBeforeNextSequenceOnKills;
+    public float timeBeforeNextSequenceOnKills;
 
     //TIMER SETTINGS
     [ShowIf("sequenceType", SequenceType.Timer)]
-    public float fTimeSequenceDuration;
+    public float timeSequenceDuration;
 
     [SerializeField]
-    public float tTimeBeforeStart = 0;
+    public float timeBeforeStart = 0;
 
     [ShowIf("hasEventOnEnd")]
     public SequenceEndEventType seqEvent;
 
     [ShowIf("hasEventOnEnd")]
-    public float tTimeBeforeEvent;
+    public float timeBeforeEvent;
 
 
     [ShowIf("seqEvent", SequenceEndEventType.SlowMo), ShowIf("hasEventOnEnd")]
@@ -72,9 +72,9 @@ public class DataSequence : ScriptableObject
     public float volume = 1;
 
     [Header("Camera")]
-    public bool bEnableCamFeedback = true;
-    public bool bEnableCamTransition = false;
-    public float fSpeedTransition = 2;
+    public bool enableCamFeedback = true;
+    public bool enableCamTransition = false;
+    public float speedTransition = 2;
 
 
     public enum SequenceType

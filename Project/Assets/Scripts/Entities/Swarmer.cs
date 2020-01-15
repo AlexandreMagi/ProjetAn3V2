@@ -235,20 +235,20 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
 
                 if (!isChasingTarget && pathToFollow != null)
                 {
-                    if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.fDistanceBeforeNextPath)
+                    if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.distanceBeforeNextPath)
                     {
                         currentFollow = pathToFollow.GetPathAt(pathID++);
                         if (currentFollow == null) pathID--;
 
                         if (currentFollow != null && currentFollow != target)
                         {
-                            //Debug.Log("Proc variance, variance = "+swarmer.nVarianceInPath+"%");
-                            //Debug.Log("Variance = "+ (swarmer.nVarianceInPath / 100 * Random.Range(-2f, 2f)));
+                            //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
+                            //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
 
                             v3VariancePoisitionFollow = new Vector3(
-                                currentFollow.position.x + (entityData.nVarianceInPath / 100 * Random.Range(-2f, 2f)),
+                                currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
                                 currentFollow.position.y,
-                                currentFollow.position.z + (entityData.nVarianceInPath / 100 * Random.Range(-2f, 2f))
+                                currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
                             );
 
                             //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
@@ -271,7 +271,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
             else if (nState == (int)State.Waiting)
             {
                 timerWait += Time.deltaTime;
-                if (timerWait > entityData.fWaitDuration)
+                if (timerWait > entityData.waitDuration)
                 {
                     timerWait = 0;
                     if (target != null && CheckDistance())
@@ -279,7 +279,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
                         nState = (int)State.Attacking;
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
-                        rbBody.AddForce(Vector3.up * entityData.fJumpForce, ForceMode.Impulse);
+                        rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
                         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
                     }
                     else
@@ -293,7 +293,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
                 if (target != null)
                 {
                     Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
-                    rbBody.AddForce(direction * entityData.speed * entityData.fSpeedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+                    rbBody.AddForce(direction * entityData.speed * entityData.speedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
                     if (!CheckDistance())
                     {
                         nState = (int)State.Basic;
@@ -307,7 +307,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
 
     bool CheckDistance()
     {
-        if (Vector3.Distance(transform.position, target.position) < entityData.fDistanceBeforeAttack)
+        if (Vector3.Distance(transform.position, target.position) < entityData.distanceBeforeAttack)
             return true;
         else
             return false;

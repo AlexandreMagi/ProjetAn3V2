@@ -6,14 +6,14 @@ public static class TriggerUtil
 {
 
     //SPAWNERS
-    public static void TriggerSpawners(float tTimeBeforeStart, Spawner[] spawners)
+    public static void TriggerSpawners(float timeBeforeStart, Spawner[] spawners)
     {
-        Main.Instance.StartCoroutine(TriggerSpawnersCoroutine(tTimeBeforeStart, spawners));
+        Main.Instance.StartCoroutine(TriggerSpawnersCoroutine(timeBeforeStart, spawners));
     }
 
-    static IEnumerator TriggerSpawnersCoroutine(float tTimeBeforeStart, Spawner[] spawners)
+    static IEnumerator TriggerSpawnersCoroutine(float timeBeforeStart, Spawner[] spawners)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         foreach (Spawner spawner in spawners)
         {
@@ -24,14 +24,14 @@ public static class TriggerUtil
     }
 
     //SLOW MOTION
-    public static void TriggerSlowMo(float tTimeBeforeStart, float duration, float force)
+    public static void TriggerSlowMo(float timeBeforeStart, float duration, float force)
     {
-        Main.Instance.StartCoroutine(TriggerSlowMoCoroutine(tTimeBeforeStart, duration, force));
+        Main.Instance.StartCoroutine(TriggerSlowMoCoroutine(timeBeforeStart, duration, force));
     }
 
-    static IEnumerator TriggerSlowMoCoroutine(float tTimeBeforeStart, float duration, float force)
+    static IEnumerator TriggerSlowMoCoroutine(float timeBeforeStart, float duration, float force)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         TimeScaleManager.Instance.AddSlowMo(force, duration);
 
@@ -39,14 +39,14 @@ public static class TriggerUtil
     }
 
     //ANIMATIONS
-    public static void TriggerAnimators(float tTimeBeforeStart, Animator[] animators)
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators)
     {
-        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(tTimeBeforeStart, animators));
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators));
     }
 
-    static IEnumerator TriggerAnimatorsCoroutine(float tTimeBeforeStart, Animator[] animators)
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         foreach (Animator anim in animators)
         {
@@ -57,14 +57,14 @@ public static class TriggerUtil
     }
 
     //WEAPON ACTIVATIONS
-    public static void TriggerActivation(float tTimeBeforeStart, TriggerSender.Activable affected, bool isActivation)
+    public static void TriggerActivation(float timeBeforeStart, TriggerSender.Activable affected, bool isActivation)
     {
-        Main.Instance.StartCoroutine(TriggerActivationCoroutine(tTimeBeforeStart, affected, isActivation));
+        Main.Instance.StartCoroutine(TriggerActivationCoroutine(timeBeforeStart, affected, isActivation));
     }
 
-    static IEnumerator TriggerActivationCoroutine(float tTimeBeforeStart, TriggerSender.Activable activable, bool state)
+    static IEnumerator TriggerActivationCoroutine(float timeBeforeStart, TriggerSender.Activable activable, bool state)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         Main.Instance.SetControlState(activable, state);
 
@@ -72,14 +72,14 @@ public static class TriggerUtil
     }
 
     //SOUND EFFECT
-    public static void TriggerSound(float tTimeBeforeStart, string soundPlayed, float volume)
+    public static void TriggerSound(float timeBeforeStart, string soundPlayed, float volume)
     {
-        Main.Instance.StartCoroutine(TriggerSoundCoroutine(tTimeBeforeStart, soundPlayed, volume));
+        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, volume));
     }
 
-    static IEnumerator TriggerSoundCoroutine(float tTimeBeforeStart, string soundName, float volume)
+    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, float volume)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundName, false, volume);
 
@@ -87,19 +87,19 @@ public static class TriggerUtil
     }
 
     //SHAKE TRIGGER
-    public static void TriggerShake(float tTimeBeforeStart, float shakeForce, Vector3 pos)
+    public static void TriggerShake(float timeBeforeStart, float shakeForce, Vector3 pos)
     {
-        Main.Instance.StartCoroutine(TriggerShakeCoroutine(tTimeBeforeStart, shakeForce, pos));
+        Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, pos));
     }
     //SHAKE TRIGGER
-    public static void TriggerShake(float tTimeBeforeStart, float shakeForce)
+    public static void TriggerShake(float timeBeforeStart, float shakeForce)
     {
-        Main.Instance.StartCoroutine(TriggerShakeCoroutine(tTimeBeforeStart, shakeForce, Vector3.one * 666)); // 666 value safe
+        Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, Vector3.one * 666)); // 666 value safe
     }
 
-    static IEnumerator TriggerShakeCoroutine(float tTimeBeforeStart, float shakeForce, Vector3 pos)
+    static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce, Vector3 pos)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos);
         else CameraHandler.Instance.AddShake(shakeForce);
@@ -108,14 +108,14 @@ public static class TriggerUtil
 
 
     //ANIMATION TRIGGER TAG
-    public static void TriggerAnimationsFromTags(float tTimeBeforeStart, string[] tags)
+    public static void TriggerAnimationsFromTags(float timeBeforeStart, string[] tags)
     {
-        Main.Instance.StartCoroutine(TriggerAnimationsFromTagsCoroutine(tTimeBeforeStart, tags));
+        Main.Instance.StartCoroutine(TriggerAnimationsFromTagsCoroutine(timeBeforeStart, tags));
     }
 
-    static IEnumerator TriggerAnimationsFromTagsCoroutine(float tTimeBeforeStart, string[] tags)
+    static IEnumerator TriggerAnimationsFromTagsCoroutine(float timeBeforeStart, string[] tags)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         List<Animator> animTag = new List<Animator>();
         Animator anim;
@@ -145,14 +145,14 @@ public static class TriggerUtil
     }
 
     //ANIMATION TRIGGER W/O TAGS
-    public static void TriggerAnimations(float tTimeBeforeStart, Animator[] anims)
+    public static void TriggerAnimations(float timeBeforeStart, Animator[] anims)
     {
-        Main.Instance.StartCoroutine(TriggerAnimationsCoroutine(tTimeBeforeStart, anims));
+        Main.Instance.StartCoroutine(TriggerAnimationsCoroutine(timeBeforeStart, anims));
     }
 
-    static IEnumerator TriggerAnimationsCoroutine(float tTimeBeforeStart, Animator[] anims)
+    static IEnumerator TriggerAnimationsCoroutine(float timeBeforeStart, Animator[] anims)
     {
-        yield return new WaitForSecondsRealtime(tTimeBeforeStart);
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
 
         foreach (Animator anima in anims)
         {

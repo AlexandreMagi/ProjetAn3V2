@@ -28,9 +28,9 @@ public class ShootTriggerManager : MonoBehaviour
     float shakeForce = 0f;
 
     [SerializeField]
-    string sSoundPlayed = "";
+    string soundPlayed = "";
     [SerializeField]
-    float fSoundVolume = 1;
+    float soundVolume = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -103,9 +103,9 @@ public class ShootTriggerManager : MonoBehaviour
     {
         TriggerUtil.TriggerAnimations(0, animators);
 
-        if (sSoundPlayed != "")
+        if (soundPlayed != "")
         {
-            CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, sSoundPlayed, false, fSoundVolume);
+            CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
         }
 
         if (startsNextSequenceOnTrigger)

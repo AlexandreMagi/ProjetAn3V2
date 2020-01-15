@@ -12,9 +12,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     //bool keepsCombo = true;
 
     [SerializeField]
-    string sSoundPlayed = "";
+    string soundPlayed = "";
     [SerializeField]
-    float fSoundVolume = 1;
+    float soundVolume = 1;
 
     protected override void Start()
     {
@@ -44,7 +44,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             else
             {
                 FxManager.Instance.PlayFx("VFX_EnvironnementTrigger", this.transform.position, Quaternion.identity);
-                CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, sSoundPlayed, false, fSoundVolume);
+                CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
             }
 
 

@@ -119,7 +119,7 @@ public class SequenceHandler : MonoBehaviour
                 if (currentSequence.sequenceType == DataSequence.SequenceType.Timer)
                 {
                     elapsedTime += Time.deltaTime;
-                    if (elapsedTime >= currentSequence.fTimeSequenceDuration)
+                    if (elapsedTime >= currentSequence.timeSequenceDuration)
                     {
                         NextSequence();
 
@@ -131,9 +131,9 @@ public class SequenceHandler : MonoBehaviour
                 //CHECK AVANCEE KILL SEQUENCE
                 if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
                 {
-                    if (enemiesKilled >= currentSequence.nEnemiesToKillInSequence)
+                    if (enemiesKilled >= currentSequence.enemiesToKillInSequence)
                     {
-                        Invoke("NextSequence", currentSequence.nTimeBeforeNextSequenceOnKills);
+                        Invoke("NextSequence", currentSequence.timeBeforeNextSequenceOnKills);
                         isWaitingTimer = true;
                     }
                 }
@@ -151,8 +151,8 @@ public class SequenceHandler : MonoBehaviour
     {
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
        
-        CameraHandler.Instance.bFeedbckActivated = currentSequence.bEnableCamFeedback;
-        CameraHandler.Instance.FeedbackTransition(currentSequence.bEnableCamTransition, currentSequence.fSpeedTransition);
+        CameraHandler.Instance.bFeedbckActivated = currentSequence.enableCamFeedback;
+        CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamTransition, currentSequence.speedTransition);
         
         if (currentSequence.hasEventOnEnd)
         {
@@ -160,25 +160,25 @@ public class SequenceHandler : MonoBehaviour
             {
                 case DataSequence.SequenceEndEventType.SlowMo:
 
-                    TriggerUtil.TriggerSlowMo(currentSequence.tTimeBeforeEvent, currentSequence.slowMoDuration, currentSequence.slowMoPower);
+                    TriggerUtil.TriggerSlowMo(currentSequence.timeBeforeEvent, currentSequence.slowMoDuration, currentSequence.slowMoPower);
 
                     break;
 
                 case DataSequence.SequenceEndEventType.Activation:
 
-                    TriggerUtil.TriggerActivation(currentSequence.tTimeBeforeEvent, currentSequence.affected, currentSequence.isActivation);
+                    TriggerUtil.TriggerActivation(currentSequence.timeBeforeEvent, currentSequence.affected, currentSequence.isActivation);
 
                     break;
 
                 case DataSequence.SequenceEndEventType.Sound:
 
-                    TriggerUtil.TriggerSound(currentSequence.tTimeBeforeEvent, currentSequence.soundPlayed, currentSequence.volume);
+                    TriggerUtil.TriggerSound(currentSequence.timeBeforeEvent, currentSequence.soundPlayed, currentSequence.volume);
 
                     break;
 
                 case DataSequence.SequenceEndEventType.Animation:
 
-                    TriggerUtil.TriggerAnimationsFromTags(currentSequence.tTimeBeforeEvent, currentSequence.tagsAnimated);
+                    TriggerUtil.TriggerAnimationsFromTags(currentSequence.timeBeforeEvent, currentSequence.tagsAnimated);
 
                     break;
 
@@ -200,14 +200,14 @@ public class SequenceHandler : MonoBehaviour
             CinemachineBlendDefinition blendDef = new CinemachineBlendDefinition
             {
                 m_Style = currentSequence.animationStyle,
-                m_Time = currentSequence.fAnimationTime
+                m_Time = currentSequence.animationTime
             };
 
             //SETUP BLEND
             CinemachineBlenderSettings.CustomBlend blend = new CinemachineBlenderSettings.CustomBlend
             {
                 m_From = currentVirtualCamera.Name,
-                m_To = currentSequence.vCamTargetName,
+                m_To = currentSequence.camTargetName,
                 m_Blend = blendDef
             };
 
@@ -218,7 +218,7 @@ public class SequenceHandler : MonoBehaviour
             //CHANGEMENT DE CAM
             currentVirtualCamera.Priority = 10;
             pastCamPos = currentVirtualCamera.transform.position;
-            currentVirtualCamera = GameObject.Find(currentSequence.vCamTargetName).GetComponent<CinemachineVirtualCamera>();
+            currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
             currentVirtualCamera.Priority = 11;
             newCamPos = currentVirtualCamera.transform.position;
 
@@ -236,7 +236,7 @@ public class SequenceHandler : MonoBehaviour
             }
             */
 
-            delayOnBlendSequence = currentSequence.fAnimationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.fTimeSequenceDuration : 0);
+            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration : 0);
             enemiesKilled = 0;
 
             
@@ -247,7 +247,7 @@ public class SequenceHandler : MonoBehaviour
 
             if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
             {
-                if (currentSequence.bAcceptsBufferKill)
+                if (currentSequence.acceptsBufferKill)
                 {
                     enemiesKilled = bufferedKills;
 

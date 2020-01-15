@@ -33,7 +33,7 @@ public class TriggerSender : MonoBehaviour
     Animator[] animated = null;
 
     [SerializeField]
-    float tTimeBeforeStart = 0;
+    float timeBeforeStart = 0;
 
     bool timerStarted = false;
 
@@ -62,32 +62,32 @@ public class TriggerSender : MonoBehaviour
         switch (typeTrigger)
         {
             case TriggerType.Spawner:
-                TriggerUtil.TriggerSpawners(tTimeBeforeStart, spawners);
+                TriggerUtil.TriggerSpawners(timeBeforeStart, spawners);
                 this.gameObject.SetActive(false);
                 break;
 
             case TriggerType.SlowMo:
-                TriggerUtil.TriggerSlowMo(tTimeBeforeStart, slowMoDuration, slowMoPower);
+                TriggerUtil.TriggerSlowMo(timeBeforeStart, slowMoDuration, slowMoPower);
                 this.gameObject.SetActive(false);
                 break;
 
             case TriggerType.Activation:
-                TriggerUtil.TriggerActivation(tTimeBeforeStart, affected, isActivation);
+                TriggerUtil.TriggerActivation(timeBeforeStart, affected, isActivation);
                 this.gameObject.SetActive(false);
                 break;
 
             case TriggerType.Sound:
-                TriggerUtil.TriggerSound(tTimeBeforeStart, soundPlayed, volume);
+                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed, volume);
                 this.gameObject.SetActive(false);
                 break;
 
             case TriggerType.Animator:
-                TriggerUtil.TriggerAnimators(tTimeBeforeStart, animated);
+                TriggerUtil.TriggerAnimators(timeBeforeStart, animated);
                 this.gameObject.SetActive(false);
                 break;
 
             case TriggerType.Shake:
-                TriggerUtil.TriggerShake(tTimeBeforeStart, ShakeValue);
+                TriggerUtil.TriggerShake(timeBeforeStart, ShakeValue);
                 this.gameObject.SetActive(false);
                 break;
 
