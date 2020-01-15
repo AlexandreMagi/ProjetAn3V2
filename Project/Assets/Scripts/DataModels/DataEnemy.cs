@@ -8,4 +8,6 @@ public abstract class DataEnemy : DataEntity
     public float stunResistanceJauge = 1;
     public bool stayLockedOnTarget = false;
     public float timeBeforeCheckForAnotherTarget = 5;
+    public string fxWhenDie = "fx_name_death_ennemi";
+    public string fxWhenStun = "VFX_Stun";
 }

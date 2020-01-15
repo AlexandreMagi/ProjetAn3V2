@@ -67,6 +67,9 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
 
     bool playerMoving = false;
 
+    [SerializeField]
+    Transform fxStunPos = null;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -245,7 +248,7 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
         if (!isStun)
         {
             //GetComponent<Animator>().SetTrigger("StartStun");
-            //GameObject.FindObjectOfType<C_Fx>().StunFx(FxPos, enemy.timeStunned);
+            FxManager.Instance.PlayFx(entityData.fxWhenStun, fxStunPos, stunDuration);
         }
         base.IsStun(stunDuration);
         EndLoading(false);
@@ -330,7 +333,6 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
     protected override void Die()
     {
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Death", false, .6f);
-        //GameObject.FindObjectOfType<C_Fx>().BigEnnemiDied(transform.position);
         base.Die();
     }
 

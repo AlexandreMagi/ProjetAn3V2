@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59aa3f4ee2e01424c8058c7073148766, type: 3}
   m_Name: DataSwarmer_Base
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  startHealth: 100
+  maxHealth: 20
+  startHealth: 20
   team: 1
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 1
+  fxWhenDie: VFX_Death
+  fxWhenStun: VFX_Stun
   varianceInPath: 10
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.8
