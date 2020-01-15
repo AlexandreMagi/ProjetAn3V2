@@ -7,25 +7,25 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     GameObject owner;
     float bulletSpeed = 0;
     float bulletRotationSpeed = 0;
-    Vector3 RandomCurve = Vector3.one;
-    Vector3 vPosStart;
-    Vector3 PosAtLastFrame;
+    Vector3 randomCurve = Vector3.one;
+    Vector3 posStart;
+    Vector3 posAtLastFrame;
     GameObject target = null;
-    Transform vPosEnd;
+    Transform transformPosEnd;
     Vector3 posEnd = Vector3.zero;
-    GameObject hDummyIndicator = null;
+    GameObject dummyIndicator = null;
     [SerializeField]
-    GameObject hMesh = null;
+    GameObject bulletMesh = null;
     [SerializeField]
-    GameObject hCircle = null;
+    GameObject circle = null;
 
-    float fAmplitudeMissile = 1;
-    bool bOnGravity = false;
-    float AmplitudeShake = 0.3f;
-    float ShakeSpeedLerp = 5;
+    float amplitudeMissile = 1;
+    bool onGravity = false;
+    float amplitudeShake = 0.3f;
+    float shakeSpeedLerp = 5;
 
-    float fTimerEActivateCollider = 0;
-    bool bCanCollideWithOthersBullet = false;
+    float timerEActivateCollider = 0;
+    bool canCollideWithOthersBullet = false;
 
     int team = 0;
 
@@ -45,25 +45,25 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         owner = prop;
 
         target = _target;
-        vPosEnd = _target.transform;
-        posEnd = vPosEnd.position;
-        vPosStart = EnnemiPos;
-        fAmplitudeMissile = Amplitude;
+        transformPosEnd = _target.transform;
+        posEnd = transformPosEnd.position;
+        posStart = EnnemiPos;
+        amplitudeMissile = Amplitude;
         bulletSpeed = entityData.bulletSpeed + Random.Range(-entityData.randomSpeedAdded, entityData.randomSpeedAdded);
         bulletRotationSpeed = entityData.rotationSpeed * Mathf.Sign(Random.Range(-1f, 1f));
 
-        hDummyIndicator = new GameObject();
-        hDummyIndicator.transform.position = vPosStart;
-        hDummyIndicator.transform.LookAt (vPosEnd, Vector3.up);
-        RandomCurve = new Vector3(Random.Range(entityData.randomFrom.x, entityData.randomTo.x), Random.Range(entityData.randomFrom.y, entityData.randomTo.y), Random.Range(entityData.randomFrom.z, entityData.randomTo.z));
+        dummyIndicator = new GameObject();
+        dummyIndicator.transform.position = posStart;
+        dummyIndicator.transform.LookAt (transformPosEnd, Vector3.up);
+        randomCurve = new Vector3(Random.Range(entityData.randomFrom.x, entityData.randomTo.x), Random.Range(entityData.randomFrom.y, entityData.randomTo.y), Random.Range(entityData.randomFrom.z, entityData.randomTo.z));
         if (entityData.randomRotationAtStart)
-            hDummyIndicator.transform.Rotate(0, 0, Random.Range(0,360));
+            dummyIndicator.transform.Rotate(0, 0, Random.Range(0,360));
 
         rbBody = GetComponent<Rigidbody>();
 
         team = _team;
         TeamsManager.Instance.RegistertoTeam(transform, team);
-        hCircle = Instantiate(hCircle);
+        circle = Instantiate(circle);
 
     }
 
@@ -71,34 +71,34 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     void Update()
     {
 
-        if (fTimerEActivateCollider < entityData.timeBeforeCollisionAreActived)
+        if (timerEActivateCollider < entityData.timeBeforeCollisionAreActived)
         {
-            fTimerEActivateCollider += Time.deltaTime;
+            timerEActivateCollider += Time.deltaTime;
         } 
-        else if (!bCanCollideWithOthersBullet)
+        else if (!canCollideWithOthersBullet)
         {
-            bCanCollideWithOthersBullet = true;
+            canCollideWithOthersBullet = true;
         }
 
-        if (hDummyIndicator != null && !bOnGravity)
+        if (dummyIndicator != null && !onGravity)
         {
-            hDummyIndicator.transform.Translate(0, 0, bulletSpeed * Time.deltaTime, Space.Self);
-            float MaxDistance = Vector3.Distance(posEnd, vPosStart);
-            float Curr = Vector3.Distance(vPosStart, hDummyIndicator.transform.position);
+            dummyIndicator.transform.Translate(0, 0, bulletSpeed * Time.deltaTime, Space.Self);
+            float MaxDistance = Vector3.Distance(posEnd, posStart);
+            float Curr = Vector3.Distance(posStart, dummyIndicator.transform.position);
 
-            hDummyIndicator.transform.Rotate(0, 0, Time.deltaTime * entityData.bulletRotation.Evaluate(Curr / MaxDistance) * entityData.rotationSpeed);
-            transform.rotation = hDummyIndicator.transform.rotation;
-            transform.position = hDummyIndicator.transform.position;
-            hMesh.transform.position = Vector3.Lerp(hMesh.transform.position, hDummyIndicator.transform.position + new Vector3(Random.Range(-AmplitudeShake, AmplitudeShake), Random.Range(-AmplitudeShake, AmplitudeShake), Random.Range(-AmplitudeShake, AmplitudeShake)), Time.deltaTime* ShakeSpeedLerp);
+            dummyIndicator.transform.Rotate(0, 0, Time.deltaTime * entityData.bulletRotation.Evaluate(Curr / MaxDistance) * entityData.rotationSpeed);
+            transform.rotation = dummyIndicator.transform.rotation;
+            transform.position = dummyIndicator.transform.position;
+            bulletMesh.transform.position = Vector3.Lerp(bulletMesh.transform.position, dummyIndicator.transform.position + new Vector3(Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake)), Time.deltaTime* shakeSpeedLerp);
 
-            float ValueMax = entityData.bulletTrajectory.Evaluate(Curr / MaxDistance) * fAmplitudeMissile;
-            transform.Translate(RandomCurve * ValueMax, Space.Self);
+            float ValueMax = entityData.bulletTrajectory.Evaluate(Curr / MaxDistance) * amplitudeMissile;
+            transform.Translate(randomCurve * ValueMax, Space.Self);
 
-            Vector3 relativePos = transform.position - PosAtLastFrame;
+            Vector3 relativePos = transform.position - posAtLastFrame;
             Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
             transform.rotation = rotation;
 
-            PosAtLastFrame = transform.position;
+            posAtLastFrame = transform.position;
 
             CameraHandler.Instance.AddShake(entityData.shakeIdle * Time.deltaTime, transform.position);
 
@@ -111,13 +111,13 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
             if (target != null)
             {
-                hCircle.transform.position = target.transform.position + Vector3.Normalize(transform.position - vPosEnd.position) * 0.5f;
-                hCircle.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(Curr / MaxDistance) * entityData.circleScaleMultiplier;
-                hCircle.transform.LookAt(target.transform, Vector3.up);
-                hCircle.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
+                circle.transform.position = target.transform.position + Vector3.Normalize(transform.position - transformPosEnd.position) * 0.5f;
+                circle.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(Curr / MaxDistance) * entityData.circleScaleMultiplier;
+                circle.transform.LookAt(target.transform, Vector3.up);
+                circle.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
             }
-            hMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
-            hMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
+            bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
+            bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
 
 
             GetComponent<BoxCollider>().enabled = true;
@@ -133,7 +133,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
         foreach (Collider hVictim in tHits)
         {
-            if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !bOnGravity))
+            if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !onGravity))
             {
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
                 if (speAffect != null)
@@ -171,20 +171,20 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         CameraHandler.Instance.AddShake(entityData.shakeAtImpact, transform.position);
 
 
-        Destroy(hDummyIndicator);
-        Destroy(hCircle);
+        Destroy(dummyIndicator);
+        Destroy(circle);
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
         //ISpecialEffects speAffect = collision.transform.GetComponent<ISpecialEffects>();
-        //if (speAffect!=null || collision.gameObject.GetComponent<ShooterBullet>() && bCanCollideWithOthersBullet)
+        //if (speAffect!=null || collision.gameObject.GetComponent<ShooterBullet>() && canCollideWithOthersBullet)
         //{
 
         //if (entityData.layerAffected == (entityData.layerAffected | (1 << collision.gameObject.layer)))
         //{
-        if(!(collision.gameObject.gameObject == owner && !bOnGravity))
+        if(!(collision.gameObject.gameObject == owner && !onGravity))
         {
             FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
             //speAffect.OnExplosion(bullet.bulletDammage, bullet.forceAppliedOnImpact, bullet.stunValue);
@@ -201,19 +201,18 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnGravityDirectHit()
     {
-        Debug.Log("ghghzg");
-        bOnGravity = true;
+        onGravity = true;
         rbBody.useGravity = true;
         ReactGravity<DataSwarmer>.DoFreeze(rbBody);
-        Destroy(hCircle);
+        Destroy(circle);
     }
 
     public void OnPull(Vector3 position, float force)
     {
-        bOnGravity = true;
+        onGravity = true;
         rbBody.useGravity = true;
         ReactGravity<DataEntity>.DoPull(rbBody, position, force, false);
-        Destroy(hCircle);
+        Destroy(circle);
     }
 
     public void OnRelease()
@@ -231,11 +230,11 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         ReactGravity<DataSwarmer>.DoSpin(rbBody);
     }
 
-    public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
+    public void OnFloatingActivation(float GForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool independantFromTimeScale)
     {
-        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, fGForce, false);
+        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, GForce, false);
 
-        ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
+        ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, floatTime, independantFromTimeScale);
     }
 
     #endregion

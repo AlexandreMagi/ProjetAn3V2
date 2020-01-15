@@ -54,11 +54,11 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
     int state = 0;
 
     [Tooltip("Timer qui indique le temps passé à se préparer à charger")]
-    float eTimerLoading = 0;
+    float timerLoading = 0;
     [Tooltip("Timer qui indique le temps passé stun après avoir impacté le joueur")]
-    float eTimerRecovering = 0;
+    float timerRecovering = 0;
     [Tooltip("Timer qui indique le avant le prochain tir dans la salve")]
-    float eTimerbeforeNextAttack = 0;
+    float timerbeforeNextAttack = 0;
     [Tooltip("Indique à quel tir on est dans la salve")]
     int bulletShot = 0;
 
@@ -122,31 +122,31 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
                 if (Quaternion.Angle(transform.rotation, targetRotation) < entityData.rotationMinimalBeforeCharge && (target.position.y - transform.position.y) < 2)
                 {
                     //PlayerLocked();
-                    eTimerLoading += Time.deltaTime;
-                    if (eTimerLoading > entityData.timeWaitBeforeShoot)
+                    timerLoading += Time.deltaTime;
+                    if (timerLoading > entityData.timeWaitBeforeShoot)
                     {
                         EndLoading(true);
                     }
                     //StartLoading();
                 }
-                else if (eTimerLoading > 0)
+                else if (timerLoading > 0)
                 {
-                    eTimerLoading -= Time.deltaTime;
-                    if (eTimerLoading < 0) eTimerLoading = 0;
+                    timerLoading -= Time.deltaTime;
+                    if (timerLoading < 0) timerLoading = 0;
                 }
                 break;
             case (int)State.Loading:
-                eTimerLoading += Time.deltaTime;
-                if (eTimerLoading > entityData.timeWaitBeforeShoot)
+                timerLoading += Time.deltaTime;
+                if (timerLoading > entityData.timeWaitBeforeShoot)
                 {
                     EndLoading(true);
                 }
                 break;
             case (int)State.Shooting:
-                eTimerbeforeNextAttack += Time.deltaTime;
-                if (eTimerbeforeNextAttack > entityData.timeBetweenBullet)
+                timerbeforeNextAttack += Time.deltaTime;
+                if (timerbeforeNextAttack > entityData.timeBetweenBullet)
                 {
-                    eTimerbeforeNextAttack -= entityData.timeBetweenBullet;
+                    timerbeforeNextAttack -= entityData.timeBetweenBullet;
                     bulletShot++;
                     Shoot();
                     //GetComponent<Animator>().SetTrigger("Shoot");
@@ -161,8 +161,8 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
             case (int)State.Stuned:
                 break;
             case (int)State.Recovering:
-                eTimerRecovering += Time.deltaTime;
-                if (eTimerRecovering > entityData.recoverTime)
+                timerRecovering += Time.deltaTime;
+                if (timerRecovering > entityData.recoverTime)
                 {
                     StopRecover();
                 }
@@ -315,9 +315,9 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
     /// </summary>
     void ResetTimers()
     {
-        eTimerLoading = 0;
-        eTimerRecovering = 0;
-        eTimerbeforeNextAttack = 0;
+        timerLoading = 0;
+        timerRecovering = 0;
+        timerbeforeNextAttack = 0;
         bulletShot = 0;
     }
 

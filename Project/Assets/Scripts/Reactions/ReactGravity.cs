@@ -46,13 +46,13 @@ public static class ReactGravity<T> where T : DataEntity
     }
 
     //Fonction qui enclenche la coroutine de flottaison
-    public static void DoFloat(Rigidbody rb, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
+    public static void DoFloat(Rigidbody rb, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
     {
-        Main.Instance.StartCoroutine(Float(rb, tTimeBeforeFloat, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale));
+        Main.Instance.StartCoroutine(Float(rb, tTimeBeforeFloat, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale));
     }
 
     //Coroutine de flottaison
-    private static IEnumerator Float(Rigidbody rb, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
+    private static IEnumerator Float(Rigidbody rb, float tTimeBeforeFloat, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
     {
         //Attnete avant de démarrer
         yield return new WaitForSecondsRealtime(tTimeBeforeFloat);
@@ -82,7 +82,7 @@ public static class ReactGravity<T> where T : DataEntity
 
 
             //Ecrase les objets au sol à la fin de la zero G
-            if (tETime >= tFloatTime)
+            if (tETime >= floatTime)
             {
                 rb.useGravity = true;
                 rb.AddForce(new Vector3(0, -2000, 0));

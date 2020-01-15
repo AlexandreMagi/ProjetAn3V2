@@ -20,8 +20,8 @@ public class SequenceHandler : MonoBehaviour
 
     CinemachineBrain cameraBrain = null;
 
-    float fElapsedTime = 0;
-    float fDelayOnBlendSequence = 0;
+    float elapsedTime = 0;
+    float delayOnBlendSequence = 0;
     int sequenceIndex = 0;
 
     uint enemiesKilled = 0;
@@ -31,8 +31,8 @@ public class SequenceHandler : MonoBehaviour
 
     bool isWaitingTimer = false;
 
-    Vector3 PastCamPos = Vector3.one;
-    Vector3 NewCamPos = Vector3.one;
+    Vector3 pastCamPos = Vector3.one;
+    Vector3 newCamPos = Vector3.one;
 
     //CinemachineVirtualCamera StockPreviousCam = null;
 
@@ -60,8 +60,8 @@ public class SequenceHandler : MonoBehaviour
 
     public float GetPurcentageBetweenNextCam()
     {
-        float MaxDist = Vector3.Distance(PastCamPos, NewCamPos);
-        float CurrDist = Vector3.Distance(PastCamPos, GameObject.Find("Main Camera").transform.position);
+        float MaxDist = Vector3.Distance(pastCamPos, newCamPos);
+        float CurrDist = Vector3.Distance(pastCamPos, GameObject.Find("Main Camera").transform.position);
         if (MaxDist > 0)
             return CurrDist / MaxDist;
         else
@@ -92,9 +92,9 @@ public class SequenceHandler : MonoBehaviour
         {
 
 
-            if (fDelayOnBlendSequence > 0)
+            if (delayOnBlendSequence > 0)
             {
-                fDelayOnBlendSequence -= Time.deltaTime;
+                delayOnBlendSequence -= Time.deltaTime;
             }
             else
             {
@@ -118,12 +118,12 @@ public class SequenceHandler : MonoBehaviour
                 //CHECK AVANCEE TIMER SEQUENCE
                 if (currentSequence.sequenceType == DataSequence.SequenceType.Timer)
                 {
-                    fElapsedTime += Time.deltaTime;
-                    if (fElapsedTime >= currentSequence.fTimeSequenceDuration)
+                    elapsedTime += Time.deltaTime;
+                    if (elapsedTime >= currentSequence.fTimeSequenceDuration)
                     {
                         NextSequence();
 
-                        fElapsedTime = 0;
+                        elapsedTime = 0;
                     }
 
                 }
@@ -217,10 +217,10 @@ public class SequenceHandler : MonoBehaviour
 
             //CHANGEMENT DE CAM
             currentVirtualCamera.Priority = 10;
-            PastCamPos = currentVirtualCamera.transform.position;
+            pastCamPos = currentVirtualCamera.transform.position;
             currentVirtualCamera = GameObject.Find(currentSequence.vCamTargetName).GetComponent<CinemachineVirtualCamera>();
             currentVirtualCamera.Priority = 11;
-            NewCamPos = currentVirtualCamera.transform.position;
+            newCamPos = currentVirtualCamera.transform.position;
 
             /*
             //APPEL DE FONCTIONS DANS LES CHARGEURS
@@ -236,13 +236,13 @@ public class SequenceHandler : MonoBehaviour
             }
             */
 
-            fDelayOnBlendSequence = currentSequence.fAnimationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.fTimeSequenceDuration : 0);
+            delayOnBlendSequence = currentSequence.fAnimationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.fTimeSequenceDuration : 0);
             enemiesKilled = 0;
 
             
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
-                CameraHandler.Instance.ChangeSpeedMoving(Vector3.Distance(PastCamPos, NewCamPos) / 5 / fDelayOnBlendSequence, 100);
+                CameraHandler.Instance.ChangeSpeedMoving(Vector3.Distance(pastCamPos, newCamPos) / 5 / delayOnBlendSequence, 100);
             
 
             if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)

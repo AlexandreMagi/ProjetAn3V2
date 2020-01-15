@@ -45,7 +45,7 @@ public class GravityOrb : MonoBehaviour
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
 
 
-            if (hGOrb.bIsSticky && hitObj != null && gAffect != null)
+            if (hGOrb.isSticky && hitObj != null && gAffect != null)
             {
                 gAffect.OnGravityDirectHit();
 
@@ -85,7 +85,7 @@ public class GravityOrb : MonoBehaviour
     void OnAttractionStart()
     {
         //Debug.Log("Attraction");
-        Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.fGravityBullet_AttractionRange);
+        Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.gravityBullet_AttractionRange);
 
         foreach (Collider hVictim in tHits)
         {
@@ -97,7 +97,7 @@ public class GravityOrb : MonoBehaviour
             IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
             if (gAffect != null && hVictim.gameObject != parentIfSticky)
-                gAffect.OnPull(this.transform.position, hGOrb.fPullForce);
+                gAffect.OnPull(this.transform.position, hGOrb.pullForce);
             
         }
 
@@ -111,10 +111,10 @@ public class GravityOrb : MonoBehaviour
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
 
-        if (hGOrb.bIsExplosive)
+        if (hGOrb.isExplosive)
         {
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.fGravityBullet_AttractionRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.gravityBullet_AttractionRange);
 
             foreach (Collider hVictim in tHits)
             {
@@ -123,12 +123,12 @@ public class GravityOrb : MonoBehaviour
 
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
-                    gAffect.OnPull(this.transform.position + hGOrb.v3OffsetExplosion, -hGOrb.fExplosionForce);
+                    gAffect.OnPull(this.transform.position + hGOrb.offsetExplosion, -hGOrb.explosionForce);
                     gAffect.OnRelease();
 
-                    if (hGOrb.bIsFloatExplosion)
+                    if (hGOrb.isFloatExplosion)
                     {
-                        gAffect.OnFloatingActivation(hGOrb.bUpwardsForceOnFloat, hGOrb.tTimeBeforeFloatActivate, hGOrb.bIsSlowedDownOnFloat, hGOrb.tFloatTime, hGOrb.bZeroGIndependantTimeScale);
+                        gAffect.OnFloatingActivation(hGOrb.upwardsForceOnFloat, hGOrb.timeBeforeFloatActivate, hGOrb.isSlowedDownOnFloat, hGOrb.floatTime, hGOrb.zeroGIndependantTimeScale);
 
                         /*
                         if (hVictim.GetComponent<C_Enemy>() != null)
@@ -141,14 +141,14 @@ public class GravityOrb : MonoBehaviour
                 }
                 
             }
-            if (hGOrb.bIsExplosive)
+            if (hGOrb.isExplosive)
             {
                  FxManager.Instance.PlayFx("VFX_GravityOrb", transform.position, Quaternion.identity);
-                float newDuration = hGOrb.fSlowMoDuration;
+                float newDuration = hGOrb.slowMoDuration;
 
                 newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
 
-                //GameObject.FindObjectOfType<C_TimeScale>().AddSlowMo(hGOrb.fSlowMoPower, newDuration, hGOrb.tTimeBeforeFloatActivate, hGOrb.fSlowMoProbability);
+                //GameObject.FindObjectOfType<C_TimeScale>().AddSlowMo(hGOrb.slowMoPower, newDuration, hGOrb.timeBeforeFloatActivate, hGOrb.slowMoProbability);
             }
         }
 
@@ -158,14 +158,14 @@ public class GravityOrb : MonoBehaviour
 
     IEnumerator OnHoldAttraction()
     {
-        new WaitForSecondsRealtime(hGOrb.fTimeBeforeHold);
+        new WaitForSecondsRealtime(hGOrb.timeBeforeHold);
 
         fTimeHeld = 0;
 
         while (true)
         {
             //Debug.Log("Attraction");
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.fHoldRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.holdRange);
 
             foreach (Collider hVictim in tHits)
             {
@@ -173,22 +173,22 @@ public class GravityOrb : MonoBehaviour
 
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
-                    gAffect.OnPull(this.transform.position, hGOrb.fPullForce);
+                    gAffect.OnPull(this.transform.position, hGOrb.pullForce);
                     gAffect.OnHold();
                 }
                     
 
             }
 
-            fTimeHeld += hGOrb.fWaitingTimeBetweenAttractions;
+            fTimeHeld += hGOrb.waitingTimeBetweenAttractions;
 
 
-            if (fTimeHeld >= hGOrb.fLockTime)
+            if (fTimeHeld >= hGOrb.lockTime)
             {
                 StopHolding();
             }
 
-            yield return new WaitForSecondsRealtime(hGOrb.fWaitingTimeBetweenAttractions);
+            yield return new WaitForSecondsRealtime(hGOrb.waitingTimeBetweenAttractions);
         }
         
 

@@ -10,64 +10,64 @@ public class DataGravityOrb : ScriptableObject
     [Header("Initial pull settings")]
 
     [PropertyRange(0f, 50f)]
-    public float fGravityBullet_AttractionRange = 0f;
+    public float gravityBullet_AttractionRange = 0f;
 
     [PropertyRange(0f, 1000f)]
-    public float fPullForce = 0f;
+    public float pullForce = 0f;
 
     [PropertyRange(0f, 1f)]
-    public float fTimeBeforeHold = 0f;
+    public float timeBeforeHold = 0f;
 
     [Header("Lock pull settings")]
 
-    public float fLockTime = 0f;
+    public float lockTime = 0f;
 
     [PropertyRange(0f, 1f)]
-    public float fWaitingTimeBetweenAttractions = 0f;
+    public float waitingTimeBetweenAttractions = 0f;
 
     [PropertyRange(0f, 50f)]
-    public float fHoldRange = 0f;
+    public float holdRange = 0f;
 
     [PropertyRange(0f, 1000f)]
-    public float fHoldForce = 0f;
+    public float holdForce = 0f;
 
     [Header("Variance settings")]
 
-    public bool bIsSticky = false;
+    public bool isSticky = false;
 
-    public bool bIsExplosive = false;
+    public bool isExplosive = false;
 
     public LayerMask layerMask;
 
-    [EnableIf("bIsExplosive")]
-    public Vector3 v3OffsetExplosion = Vector3.zero;
+    [EnableIf("isExplosive")]
+    public Vector3 offsetExplosion = Vector3.zero;
 
-    [PropertyRange(0f, 5000f), EnableIf("bIsExplosive")]
-    public float fExplosionForce = 0f;
+    [PropertyRange(0f, 5000f), EnableIf("isExplosive")]
+    public float explosionForce = 0f;
 
     [Header("FloatExplo settings")]
 
-    [ShowWhen("bIsExplosive")]
-    public bool bIsFloatExplosion = false;
+    [ShowWhen("isExplosive")]
+    public bool isFloatExplosion = false;
 
-    [PropertyRange(0f, 3f), EnableIf("bIsFloatExplosion")]
-    public float tTimeBeforeFloatActivate = 0f;
+    [PropertyRange(0f, 3f), EnableIf("isFloatExplosion")]
+    public float timeBeforeFloatActivate = 0f;
 
-    [PropertyRange(0f, 1000f), EnableIf("bIsFloatExplosion")]
-    public float bUpwardsForceOnFloat = 0f;
+    [PropertyRange(0f, 1000f), EnableIf("isFloatExplosion")]
+    public float upwardsForceOnFloat = 0f;
 
-    [EnableIf("bIsFloatExplosion")]
-    public bool bIsSlowedDownOnFloat = false;
+    [EnableIf("isFloatExplosion")]
+    public bool isSlowedDownOnFloat = false;
 
-    [PropertyRange(0f, 10f), EnableIf("bIsFloatExplosion")]
-    public float tFloatTime = 0f;
+    [PropertyRange(0f, 10f), EnableIf("isFloatExplosion")]
+    public float floatTime = 0f;
 
     [Header("Slow Mo")]
-    public bool bZeroGIndependantTimeScale = true;
+    public bool zeroGIndependantTimeScale = true;
     [PropertyRange(0f, 0.999f)]
-    public float fSlowMoPower;
+    public float slowMoPower;
     [PropertyRange(0f, 5f)]
-    public float fSlowMoDuration;
+    public float slowMoDuration;
     [PropertyRange(0f, 1f)]
-    public float fSlowMoProbability;
+    public float slowMoProbability;
 }
