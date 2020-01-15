@@ -42,13 +42,13 @@ public class Weapon : MonoBehaviour
     {
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
 
+        UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), weapon.perfectPlacement, weapon.perfectRange, haveTriedPerfet);
         if (reloading)
         {
             reloadingPurcentage += Time.unscaledDeltaTime / weapon.reloadingTime;
-            UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage,0,1), weapon.perfectPlacement, weapon.perfectRange, haveTriedPerfet);
             if (reloadingPurcentage > 1)
             {
-                EndReload();
+                EndReload(false);
             }
         }
 
@@ -61,7 +61,7 @@ public class Weapon : MonoBehaviour
 
     public void ReloadingInput()
     {
-        if (!reloading)
+        if (!reloading && bulletRemaining != weapon.bulletMax)
         {
             reloading = true;
             haveTriedPerfet = false;
@@ -76,15 +76,15 @@ public class Weapon : MonoBehaviour
         {
             haveTriedPerfet = true;
             if (reloadingPurcentage > (weapon.perfectPlacement - weapon.perfectRange) && reloadingPurcentage < (weapon.perfectPlacement + weapon.perfectRange))
-                EndReload();
+                EndReload(true);
         }
     }
 
-    public void EndReload()
+    public void EndReload(bool perfect)
     {
         reloading = false;
         bulletRemaining = weapon.bulletMax;
-        UiReload.Instance.HideGraphics();
+        UiReload.Instance.HideGraphics(perfect);
     }
 
     public float GetChargeValue()
