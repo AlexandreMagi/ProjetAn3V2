@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletAffect, ISpecialEffects
 {
-
+    GameObject owner;
     float bulletSpeed = 0;
     float bulletRotationSpeed = 0;
     Vector3 RandomCurve = Vector3.one;
@@ -38,10 +38,11 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     }
 
-    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team)
+    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team, GameObject prop)
     {
         entityData = _bulletSettings as DataShooterBullet;
         health = entityData.startHealth;
+        owner = prop;
 
         target = _target;
         vPosEnd = _target.transform;
@@ -132,7 +133,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
         foreach (Collider hVictim in tHits)
         {
-            if (hVictim.gameObject != this.gameObject)
+            if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !bOnGravity))
             {
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
                 if (speAffect != null)

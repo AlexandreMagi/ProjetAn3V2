@@ -306,7 +306,7 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
         for (int i = 0; i < entityData.nbBulletPerShoot; i++)
         {
             GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
-            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2);
+            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject);
         }
     }
 
