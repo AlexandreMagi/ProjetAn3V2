@@ -15,8 +15,13 @@ public class DataWeapon : ScriptableObject
     public bool chargeSpeedIndependantFromTimeScale = true;
     [RangeAttribute(0.001f, 5)]
     public float chargeTime;
+
     [RangeAttribute(1, 50)]
     public int bulletMax;
+    public float reloadingTime = 1;
+    public float perfectPlacement = 0.7f;
+    public float perfectRange = 0.05f;
+
     [RangeAttribute(1, 50)]
     public float gravityOrbCooldown;
     public bool grabityOrbCooldownRelativeToTime = false;

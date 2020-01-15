@@ -23,6 +23,10 @@ public class Weapon : MonoBehaviour
 
     float timeRemainingBeforeOrb = 0;
 
+    bool haveTriedPerfet = false;
+    bool reloading = false;
+    float reloadingPurcentage = 0;
+
     void Awake ()
     {
         _instance = this;
@@ -37,6 +41,50 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
+
+        if (reloading)
+        {
+            reloadingPurcentage += Time.unscaledDeltaTime / weapon.reloadingTime;
+            UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage,0,1), weapon.perfectPlacement, weapon.perfectRange, haveTriedPerfet);
+            if (reloadingPurcentage > 1)
+            {
+                EndReload();
+            }
+        }
+
+    }
+
+    public Vector2 GetBulletAmmount()
+    {
+        return new Vector2(bulletRemaining, weapon.bulletMax);
+    }
+
+    public void ReloadingInput()
+    {
+        if (!reloading)
+        {
+            reloading = true;
+            haveTriedPerfet = false;
+            UiReload.Instance.DisplayGraphics();
+            reloadingPurcentage = 0;
+        }
+    }
+
+    public void ReloadValidate()
+    {
+        if (reloading && !haveTriedPerfet)
+        {
+            haveTriedPerfet = true;
+            if (reloadingPurcentage > (weapon.perfectPlacement - weapon.perfectRange) && reloadingPurcentage < (weapon.perfectPlacement + weapon.perfectRange))
+                EndReload();
+        }
+    }
+
+    public void EndReload()
+    {
+        reloading = false;
+        bulletRemaining = weapon.bulletMax;
+        UiReload.Instance.HideGraphics();
     }
 
     public float GetChargeValue()
@@ -46,39 +94,48 @@ public class Weapon : MonoBehaviour
 
     public void GravityOrbInput()
     {
-        if (timeRemainingBeforeOrb < 0)
+        if (!reloading)
         {
-            GameObject orb = Instantiate(orbPrefab);
-            orb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
-            timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+            if (timeRemainingBeforeOrb < 0)
+            {
+                GameObject orb = Instantiate(orbPrefab);
+                orb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
+                timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+            }
         }
     }
 
     public void InputHold()
     {
-        if (currentChargePurcentage < 1)
+        if (!reloading)
         {
-            currentChargePurcentage += (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
-            if (currentChargePurcentage > 1)
+            if (currentChargePurcentage < 1)
             {
-                currentChargePurcentage = 1;
+                currentChargePurcentage += (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
+                if (currentChargePurcentage > 1)
+                {
+                    currentChargePurcentage = 1;
+                }
             }
         }
     }
 
     public void InputUp(Vector2 mousePosition)
     {
-        DataWeaponMod currentWeaponMod = null;
-        if (currentChargePurcentage == 1)
+        if (!reloading)
         {
-            currentWeaponMod = weapon.chargedShot;
+            DataWeaponMod currentWeaponMod = null;
+            if (currentChargePurcentage == 1)
+            {
+                currentWeaponMod = weapon.chargedShot;
+            }
+            else
+            {
+                currentWeaponMod = weapon.baseShot;
+            }
+            currentChargePurcentage = 0;
+            OnShoot(mousePosition, currentWeaponMod);
         }
-        else
-        {
-            currentWeaponMod = weapon.baseShot;
-        }
-        currentChargePurcentage = 0;
-        OnShoot(mousePosition, currentWeaponMod);
     }
 
     private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod)
