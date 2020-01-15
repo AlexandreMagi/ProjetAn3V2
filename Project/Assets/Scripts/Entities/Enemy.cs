@@ -106,6 +106,13 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
         
     }
 
+    protected override void Die()
+    {
+        base.Die();
+
+        FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
+    }
+
     protected void CheckForTargets()
     {
         //Recherche de cible à attaquer

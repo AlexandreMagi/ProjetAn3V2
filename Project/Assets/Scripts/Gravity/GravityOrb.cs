@@ -5,7 +5,7 @@ using UnityEngine;
 public class GravityOrb : MonoBehaviour
 {
     [SerializeField]
-    private DataGravityOrb hGOrb = null;
+    private DataGravityOrb orbData = null;
 
     float fTimeHeld = 0f;
     bool hasSticked = false;
@@ -34,18 +34,17 @@ public class GravityOrb : MonoBehaviour
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 
-        //hGOrb = weaponIndex == 0 ? hGOrbOne : hGOrbSecond;
+        //orbData = weaponIndex == 0 ? orbDataOne : orbDataSecond;
 
-        if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, hGOrb.layerMask))
+        if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
         {
             this.transform.position = hit.point;
 
             GameObject hitObj = hit.collider.gameObject;
-            Debug.Log("Raycast has hit");
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
 
 
-            if (hGOrb.isSticky && hitObj != null && gAffect != null)
+            if (orbData.isSticky && hitObj != null && gAffect != null)
             {
                 gAffect.OnGravityDirectHit();
 
@@ -57,7 +56,7 @@ public class GravityOrb : MonoBehaviour
             
             this.OnAttractionStart();
 
-            FxManager.Instance.PlayFx("VFX_GravityOrb", hit.point, Quaternion.identity);
+            FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
             StartCoroutine("OnHoldAttraction");
 
@@ -75,7 +74,7 @@ public class GravityOrb : MonoBehaviour
     {
         //GameObject.FindObjectOfType<C_Fx>().GravityOrbFx(transform.position);
 
-        FxManager.Instance.PlayFx("VFX_GravityOrb", transform.position, Quaternion.identity);
+        FxManager.Instance.PlayFx(orbData.fxName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
@@ -85,7 +84,7 @@ public class GravityOrb : MonoBehaviour
     void OnAttractionStart()
     {
         //Debug.Log("Attraction");
-        Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.gravityBullet_AttractionRange);
+        Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
         foreach (Collider hVictim in tHits)
         {
@@ -97,7 +96,7 @@ public class GravityOrb : MonoBehaviour
             IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
             if (gAffect != null && hVictim.gameObject != parentIfSticky)
-                gAffect.OnPull(this.transform.position, hGOrb.pullForce);
+                gAffect.OnPull(this.transform.position, orbData.pullForce);
             
         }
 
@@ -111,10 +110,10 @@ public class GravityOrb : MonoBehaviour
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
 
-        if (hGOrb.isExplosive)
+        if (orbData.isExplosive)
         {
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.gravityBullet_AttractionRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
             foreach (Collider hVictim in tHits)
             {
@@ -123,12 +122,12 @@ public class GravityOrb : MonoBehaviour
 
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
-                    gAffect.OnPull(this.transform.position + hGOrb.offsetExplosion, -hGOrb.explosionForce);
+                    gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
                     gAffect.OnRelease();
 
-                    if (hGOrb.isFloatExplosion)
+                    if (orbData.isFloatExplosion)
                     {
-                        gAffect.OnFloatingActivation(hGOrb.upwardsForceOnFloat, hGOrb.timeBeforeFloatActivate, hGOrb.isSlowedDownOnFloat, hGOrb.floatTime, hGOrb.zeroGIndependantTimeScale);
+                        gAffect.OnFloatingActivation(orbData.upwardsForceOnFloat, orbData.timeBeforeFloatActivate, orbData.isSlowedDownOnFloat, orbData.floatTime, orbData.zeroGIndependantTimeScale);
 
                         /*
                         if (hVictim.GetComponent<C_Enemy>() != null)
@@ -141,14 +140,14 @@ public class GravityOrb : MonoBehaviour
                 }
                 
             }
-            if (hGOrb.isExplosive)
+            if (orbData.isExplosive)
             {
-                 FxManager.Instance.PlayFx("VFX_GravityOrb", transform.position, Quaternion.identity);
-                float newDuration = hGOrb.slowMoDuration;
+                FxManager.Instance.PlayFx(orbData.fxExplosionName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+                float newDuration = orbData.slowMoDuration;
 
                 newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
 
-                //GameObject.FindObjectOfType<C_TimeScale>().AddSlowMo(hGOrb.slowMoPower, newDuration, hGOrb.timeBeforeFloatActivate, hGOrb.slowMoProbability);
+                //GameObject.FindObjectOfType<C_TimeScale>().AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
             }
         }
 
@@ -158,14 +157,14 @@ public class GravityOrb : MonoBehaviour
 
     IEnumerator OnHoldAttraction()
     {
-        new WaitForSecondsRealtime(hGOrb.timeBeforeHold);
+        new WaitForSecondsRealtime(orbData.timeBeforeHold);
 
         fTimeHeld = 0;
 
         while (true)
         {
             //Debug.Log("Attraction");
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, hGOrb.holdRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.holdRange);
 
             foreach (Collider hVictim in tHits)
             {
@@ -173,22 +172,22 @@ public class GravityOrb : MonoBehaviour
 
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
-                    gAffect.OnPull(this.transform.position, hGOrb.pullForce);
+                    gAffect.OnPull(this.transform.position, orbData.pullForce);
                     gAffect.OnHold();
                 }
                     
 
             }
 
-            fTimeHeld += hGOrb.waitingTimeBetweenAttractions;
+            fTimeHeld += orbData.waitingTimeBetweenAttractions;
 
 
-            if (fTimeHeld >= hGOrb.lockTime)
+            if (fTimeHeld >= orbData.lockTime)
             {
                 StopHolding();
             }
 
-            yield return new WaitForSecondsRealtime(hGOrb.waitingTimeBetweenAttractions);
+            yield return new WaitForSecondsRealtime(orbData.waitingTimeBetweenAttractions);
         }
         
 

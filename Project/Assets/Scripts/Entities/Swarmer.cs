@@ -26,11 +26,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     enum State { Basic, Waiting, Attacking };
     int nState = 0;
 
-
-    public float _health = 100;
-    public Transform _target = null;
-    public int _team = 0;
-
     //Stimulus
     #region Stimulus
     #region Gravity
@@ -120,9 +115,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     protected override void Update()
     {
         base.Update();
-        _health = health;
-        _target = target;
-        _team = entityData.team;
 
         if (this.transform.position.y <= -5)
         {
@@ -153,7 +145,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     #endregion
     protected override void Die()
     {
-        FxManager.Instance.PlayFx("VFX_Death", transform.position, Quaternion.identity);
+        FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
 
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
         this.gameObject.SetActive(false);

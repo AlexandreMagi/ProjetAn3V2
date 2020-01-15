@@ -36,9 +36,19 @@ public class Main : MonoBehaviour
             SequenceHandler.Instance.NextSequence();
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             SceneHandler.Instance.RestartScene(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Weapon.Instance.ReloadingInput();
+        }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Weapon.Instance.ReloadValidate();
         }
 
         if (UiCrossHair.Instance != null)

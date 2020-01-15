@@ -33,5 +33,8 @@ public class DataShooterBullet : DataEnemy
     public float explosionStunDuration = 1;
     public float liftValue = 0;
 
+    [Header("Fx")]
+    public string fxExplosion = "VFX_ExplosionShooterBullet";
+
 
 }
