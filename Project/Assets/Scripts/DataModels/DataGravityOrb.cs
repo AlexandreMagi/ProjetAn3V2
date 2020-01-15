@@ -39,10 +39,10 @@ public class DataGravityOrb : ScriptableObject
 
     public LayerMask layerMask;
 
-    [EnableIf("isExplosive")]
+    [ShowIf("isExplosive")]
     public Vector3 offsetExplosion = Vector3.zero;
 
-    [PropertyRange(0f, 5000f), EnableIf("isExplosive")]
+    [PropertyRange(0f, 5000f), ShowIf("isExplosive")]
     public float explosionForce = 0f;
 
     [Header("FloatExplo settings")]
@@ -50,16 +50,16 @@ public class DataGravityOrb : ScriptableObject
     [ShowWhen("isExplosive")]
     public bool isFloatExplosion = false;
 
-    [PropertyRange(0f, 3f), EnableIf("isFloatExplosion")]
+    [PropertyRange(0f, 3f), ShowIf("isFloatExplosion")]
     public float timeBeforeFloatActivate = 0f;
 
-    [PropertyRange(0f, 1000f), EnableIf("isFloatExplosion")]
+    [PropertyRange(0f, 1000f), ShowIf("isFloatExplosion")]
     public float upwardsForceOnFloat = 0f;
 
     [EnableIf("isFloatExplosion")]
     public bool isSlowedDownOnFloat = false;
 
-    [PropertyRange(0f, 10f), EnableIf("isFloatExplosion")]
+    [PropertyRange(0f, 10f), ShowIf("isFloatExplosion")]
     public float floatTime = 0f;
 
     [Header("Slow Mo")]

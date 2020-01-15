@@ -11,9 +11,6 @@ public class SequenceHandler : MonoBehaviour
     DataSequence currentSequence = null;
 
     Camera cameraObj = null;
-
-    static SequenceHandler _instance;
-
     CinemachineVirtualCamera currentVirtualCamera = null;
 
     CinemachineBlenderSettings blenderSettings;
@@ -38,7 +35,7 @@ public class SequenceHandler : MonoBehaviour
 
     void Start()
     {
-        _instance = this;
+        Instance = this;
 
         cameraObj = Camera.main;
 
@@ -50,13 +47,7 @@ public class SequenceHandler : MonoBehaviour
 
     }
 
-    public static SequenceHandler Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+    public static SequenceHandler Instance { get; private set; }
 
     public float GetPurcentageBetweenNextCam()
     {
@@ -135,6 +126,15 @@ public class SequenceHandler : MonoBehaviour
                     {
                         Invoke("NextSequence", currentSequence.timeBeforeNextSequenceOnKills);
                         isWaitingTimer = true;
+                    }
+                }
+
+                //CHECK BOOLEAN SEQUENCE
+                if (currentSequence.isAffectedByBooleanSequence)
+                {
+                    if(BooleanSequenceManager.Instance.GetStateOfBoolSequence(currentSequence.booleanSequenceName) == currentSequence.booleanSequenceStateRequired)
+                    {
+                        NextSequence();
                     }
                 }
             }

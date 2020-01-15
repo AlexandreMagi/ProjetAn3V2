@@ -1,45 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ShowWhenAttribute;
 
+using Sirenix.OdinInspector;
 public class TriggerSender : MonoBehaviour
 {
     [SerializeField]
     TriggerType typeTrigger = 0;
 
     [Tooltip("C'est un bug si ça s'affiche alors que c'est pas un type spawner, vivez avec <3")]
-    [ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Spawner), SerializeField]
+    [ShowIf("typeTrigger", TriggerType.Spawner), SerializeField]
     Spawner[] spawners = null;
 
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.SlowMo)]
+
+    [ShowIf("typeTrigger", TriggerType.SlowMo), SerializeField]
     float slowMoPower = 0;
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.SlowMo)]
+    [ShowIf("typeTrigger", TriggerType.SlowMo), SerializeField]
     float slowMoDuration = 0;
 
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Activation)]
+
+    [ShowIf("typeTrigger", TriggerType.Activation), SerializeField]
     bool isActivation = false;
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Activation)]
+    [ShowIf("typeTrigger", TriggerType.Activation), SerializeField]
     Activable affected = 0;
 
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Sound)]
+
+    [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
     string soundPlayed = "";
 
-    [Tooltip("ENTRE 0 ET 1 LE SON")]
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Sound)]
+    [ShowIf("typeTrigger", TriggerType.Sound), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
     float volume = 1;
 
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Animator)]
+
+    [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
     Animator[] animated = null;
+
+
+    [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
+    float ShakeValue = 0;
+
+
+    [ShowIf("typeTrigger", TriggerType.Boolean), SerializeField]
+    string booleanName = "";
+    [ShowIf("typeTrigger", TriggerType.Boolean), SerializeField]
+    bool boolStateSet = true;
+
 
     [SerializeField]
     float timeBeforeStart = 0;
 
     bool timerStarted = false;
-
-
-    [SerializeField, ShowWhen("typeTrigger", Condition.Equals, (int)TriggerType.Shake)]
-    float ShakeValue = 0;
 
     void OnTriggerStay(Collider other)
     {
@@ -91,6 +101,11 @@ public class TriggerSender : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
 
+            case TriggerType.Boolean:
+                TriggerUtil.TriggerBooleanSequence(timeBeforeStart, booleanName, boolStateSet);
+                this.gameObject.SetActive(false);
+                break;
+
             default:
                 break;
         }
@@ -116,6 +131,7 @@ public class TriggerSender : MonoBehaviour
         Activation = 3,
         Sound = 4,
         Shake = 5,
+        Boolean = 6,
         Other = 9
     }
 

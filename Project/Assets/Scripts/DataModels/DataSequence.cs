@@ -20,6 +20,18 @@ public class DataSequence : ScriptableObject
 
     public bool cutsSlowMoOnEnd;
 
+
+    //BOOLEAN SEQUENCES
+    public bool isAffectedByBooleanSequence;
+
+    [ShowIf("isAffectedByBooleanSequence")]
+    public string booleanSequenceName;
+
+    [ShowIf("isAffectedByBooleanSequence")]
+    public bool booleanSequenceStateRequired;
+
+
+    //TYPES
     [Header("Séquence paramètres")]
     [EnumToggleButtons]
     public SequenceType sequenceType;
