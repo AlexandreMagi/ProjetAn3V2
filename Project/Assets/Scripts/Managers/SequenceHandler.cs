@@ -144,6 +144,23 @@ public class SequenceHandler : MonoBehaviour
 
     }
 
+    public void SkipToSequence(int sequenceNumber)
+    {
+        Debug.Log(sequences.Count);
+        if(sequenceNumber < sequences.Count)
+        {
+            sequenceIndex = sequenceNumber - 1;
+            NextSequence();
+        }
+        else
+        {
+            Debug.Log($"No sequence with id {sequenceNumber}");
+        }
+
+        
+    }
+
+    
     /// <summary>
     /// Passes to the next sequence. Does nothing is no sequence is left
     /// </summary>
