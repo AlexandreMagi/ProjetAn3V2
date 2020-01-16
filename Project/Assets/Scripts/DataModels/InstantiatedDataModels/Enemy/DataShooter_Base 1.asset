@@ -18,16 +18,18 @@ MonoBehaviour:
   stunResistanceJauge: 1
   stayLockedOnTarget: 1
   timeBeforeCheckForAnotherTarget: 5
+  fxWhenDie: fx_name_death_ennemi
+  fxWhenStun: VFX_Stun
   rotationSpeed: 15
   rotationMinimalBeforeCharge: 3
   playerMoveTimeReset: 1
   distanceDetection: 80
-  timeWaitBeforeShoot: 0.5
+  timeWaitBeforeShoot: 0.2
   nbShootPerSalve: 5
   nbBulletPerShoot: 1
-  timeBetweenBullet: 1
+  timeBetweenBullet: 0.8
   amplitudeMultiplier: 3
-  recoverTime: 1
+  recoverTime: 0.1
   shootEvenIfPlayerMoving: 0
   bulletData: {fileID: 11400000, guid: 45b7328d0fae52c4488a24f5d2be5db4, type: 2}
   bulletPrefabs: {fileID: 8274719076216917017, guid: 5c5453cca8f7bc444ab1285c7e00988a,
