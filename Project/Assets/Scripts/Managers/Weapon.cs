@@ -117,7 +117,7 @@ public class Weapon : MonoBehaviour
 
     public void InputHold()
     {
-        if (!reloading)
+        if (!reloading && bulletRemaining >= weapon.chargedShot.bulletCost)
         {
             if (currentChargePurcentage < 1)
             {
