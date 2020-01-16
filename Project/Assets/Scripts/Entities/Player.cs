@@ -17,7 +17,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
-        ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+        ReactSpecial<DataPlayer, DataPlayer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
 
     void Awake()
