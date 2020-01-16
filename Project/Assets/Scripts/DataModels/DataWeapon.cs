@@ -20,7 +20,14 @@ public class DataWeapon : ScriptableObject
     public int bulletMax;
     public float reloadingTime = 1;
     public float perfectPlacement = 0.7f;
+    public float perfectRandom = 0.3f;
     public float perfectRange = 0.05f;
+    public float reloadingStartShake = 0.3f;
+    public float reloadingShake = 0.3f;
+    public float reloadingPerfectShake = 0.5f;
+    public float reloadingPerfectRecoil = 0.5f;
+    public float reloadingPerfectSlowmo = 0.8f;
+    public float reloadingPerfectSlowmoDur = 0.5f;
 
     [RangeAttribute(1, 50)]
     public float gravityOrbCooldown;
