@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 
 public class BooleanSequenceManager : MonoBehaviour
 {
+    [InlineEditor(InlineEditorModes.SmallPreview)]
     public static BooleanSequenceManager Instance { get; private set; }
 
     [SerializeField, ListDrawerSettings(NumberOfItemsPerPage = 10)]
@@ -22,7 +23,6 @@ public class BooleanSequenceManager : MonoBehaviour
     
     public void SetStateOfBoolSequence(string _name, bool _state)
     {
-        Debug.Log($"Name : {_name} -- State asked {_state} ");
         foreach(DataBooleanSequence bSeq in sequenceBooleans)
         {
             if(bSeq.boolName == _name)
@@ -50,10 +50,11 @@ public class BooleanSequenceManager : MonoBehaviour
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Sequences/DataBooleanSequence")]
 public class DataBooleanSequence : ScriptableObject
 {
-    [HorizontalGroup]
+    [InlineEditor(InlineEditorObjectFieldModes.Boxed)]
     public string boolName = "";
 
     [SerializeField]
+    [InlineEditor(InlineEditorObjectFieldModes.Boxed)]
     bool defaultState = false;
 
 
