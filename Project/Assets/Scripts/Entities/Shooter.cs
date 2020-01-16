@@ -305,6 +305,7 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
 
     void Shoot()
     {
+        FxManager.Instance.PlayFx(entityData.muzzleFlashFx, canonPlacement.transform.position, canonPlacement.transform.rotation);
         CameraHandler.Instance.AddShake(0.5f, transform.position);
         for (int i = 0; i < entityData.nbBulletPerShoot; i++)
         {

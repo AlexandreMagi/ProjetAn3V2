@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affectedByTimeScale: 0
   baseSize: 0
-  amplitudeIdle: 10
-  speedIdle: 10
+  amplitudeIdle: 0
+  speedIdle: 0
   offsetIdle: 0
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   outlineBaseColor: {r: 0, g: 0, b: 0, a: 1}
@@ -53,6 +53,8 @@ MonoBehaviour:
   orbBonusSize: 0
   orbGrowTime: 0.01
   orbShrinkTime: 0.01
+  orbIdleSpeed: 0
+  orbIdleAmplitude: 0
   timeToDoChargedFeedback: 0.2
   sizeAnim:
     serializedVersion: 2

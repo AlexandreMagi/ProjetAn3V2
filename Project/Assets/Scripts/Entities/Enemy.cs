@@ -18,7 +18,12 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
     float timerCheckTarget = 0;
     float checkEvery = 0.2f;
 
+    float timeRemainingInMatFeedback = 0;
+
     float currentTargetTimer = 0;
+
+    Material[] meshMaterials = new Material[0];
+
     public virtual void OnMovementDetect()
     {
         throw new System.NotImplementedException();
@@ -40,8 +45,21 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
     {
         base.Start();
         entityData = entityData as T;
+
+        InitColor();
     }
 
+    protected void InitColor()
+    {
+        meshMaterials = new Material[transform.GetChild(0).childCount];
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            if (transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>())
+            {
+                meshMaterials[i] = transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().material;
+            }
+        }
+    }
 
     public void AddStun(float ammount, float stunDuration)
     {
@@ -55,6 +73,12 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
         }
     }
 
+    public override void TakeDamage(float value)
+    {
+        base.TakeDamage(value);
+        timeRemainingInMatFeedback += entityData.matChangeTime;
+    }
+
     protected virtual void IsStun(float stunDuration)
     {
         currentStunLevel = 0;
@@ -62,41 +86,56 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
         isStun = true;
     }
 
+    protected virtual void ChangeColor(bool isOtherMat)
+    {
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            if (transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>())
+            {
+                transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().material = isOtherMat ? entityData.matWhenTakeDammage : meshMaterials[i];
+            }
+        }
+    }
+
     protected virtual void Update()
     {
-        if (entityData != null)
+
+
+        if (timeRemainingInMatFeedback >= 0) timeRemainingInMatFeedback -= Time.unscaledDeltaTime;
+        timeRemainingInMatFeedback = Mathf.Clamp(timeRemainingInMatFeedback, 0, 1);
+        ChangeColor(timeRemainingInMatFeedback > 0);
+
+        if (timeRemaingingStun > 0)
         {
-            if (timeRemaingingStun > 0)
+            timeRemaingingStun -= Time.deltaTime;
+            if (timeRemaingingStun <= 0)
             {
-                timeRemaingingStun -= Time.deltaTime;
-                if (timeRemaingingStun <= 0)
-                {
-                    isStun = false;
-                    StopStun();
-                }
+                isStun = false;
+                StopStun();
             }
-
-            if (!entityData.stayLockedOnTarget)
-            {
-                if (target) currentTargetTimer += Time.deltaTime;
-
-                if (currentTargetTimer > entityData.timeBeforeCheckForAnotherTarget)
-                {
-                    currentTargetTimer -= entityData.timeBeforeCheckForAnotherTarget;
-                    target = null;
-                }
-            }
-
-            timerCheckTarget += Time.deltaTime;
-            if (timerCheckTarget > checkEvery)
-            {
-                timerCheckTarget -= checkEvery;
-                if (target == null)
-                    CheckForTargets();
-            }
-
-            if (target != null && !target.gameObject.activeSelf) target = null;
         }
+
+        if (!entityData.stayLockedOnTarget)
+        {
+            if (target) currentTargetTimer += Time.deltaTime;
+
+            if (currentTargetTimer > entityData.timeBeforeCheckForAnotherTarget)
+            {
+                currentTargetTimer -= entityData.timeBeforeCheckForAnotherTarget;
+                target = null;
+            }
+        }
+
+        timerCheckTarget += Time.deltaTime;
+        if (timerCheckTarget > checkEvery)
+        {
+            timerCheckTarget -= checkEvery;
+            if (target == null)
+                CheckForTargets();
+        }
+
+        if (target != null && !target.gameObject.activeSelf) target = null;
+        
        
 
     }

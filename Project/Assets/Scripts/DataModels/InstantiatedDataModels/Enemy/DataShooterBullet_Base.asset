@@ -15,9 +15,12 @@ MonoBehaviour:
   maxHealth: 1
   startHealth: 1
   team: 1
+  spriteToDisplay: {fileID: 0}
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 5
+  fxWhenDie: fx_name_death_ennemi
+  fxWhenStun: VFX_Stun
   bulletTrajectory:
     serializedVersion: 2
     m_Curve:
@@ -163,3 +166,5 @@ MonoBehaviour:
   explosionStun: 1.2
   explosionStunDuration: 1
   liftValue: 0
+  fxExplosion: VFX_ExplosionShooterBullet
+  spriteDisplayed: {fileID: 11400000, guid: 6512e9ae32b312047b7abe1ac5be3925, type: 2}

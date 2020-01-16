@@ -34,10 +34,22 @@ public class Main : MonoBehaviour
             Weapon.Instance.InputUp(Input.mousePosition);
         }
 
+        //CAM
+        CameraHandler.Instance.DecalCurrentCamRotation(Input.mousePosition);
+
         //UI
         if (UiCrossHair.Instance != null)
         {
             UiCrossHair.Instance.UpdateCrossHair(Input.mousePosition);
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.visible = false;
         }
 
         //DEBUG
@@ -122,12 +134,12 @@ public class Main : MonoBehaviour
         //RELOAD
         if (Input.GetKeyDown(KeyCode.R))
         {
+            Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
         }
 
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Weapon.Instance.ReloadValidate();
         }
 
 

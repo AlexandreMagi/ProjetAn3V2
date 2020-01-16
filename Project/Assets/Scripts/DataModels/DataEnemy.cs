@@ -10,4 +10,6 @@ public abstract class DataEnemy : DataEntity
     public float timeBeforeCheckForAnotherTarget = 5;
     public string fxWhenDie = "fx_name_death_ennemi";
     public string fxWhenStun = "VFX_Stun";
+    public Material matWhenTakeDammage = null;
+    public float matChangeTime = 0.1f;
 }

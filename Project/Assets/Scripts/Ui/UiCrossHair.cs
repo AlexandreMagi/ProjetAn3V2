@@ -49,6 +49,7 @@ public class UiCrossHair : MonoBehaviour
 
     public void UpdateCrossHair(Vector2 mousePosition)
     {
+
         for (int i = 0; i < UiCrosshairs.Length; i++)
         {
             dataHandlerCrosshairs[i].UpdateValues();
@@ -61,6 +62,9 @@ public class UiCrossHair : MonoBehaviour
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition + dataHandlerCrosshairs[i].offset, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
             UiCrosshairs[i].transform.position = transform.TransformPoint(pos);
+
+            UiCrosshairs[i].SetActive(//Weapon.Instance.GetBulletAmmount().x > 0 && 
+                !Weapon.Instance.GetIfReloading());
         }
     }
 

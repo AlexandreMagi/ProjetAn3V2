@@ -46,6 +46,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         timerWait = 0;
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
+        InitColor();
     }
 
     public void OnHold()
@@ -160,7 +161,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     {
         if(other.transform == target)
         {
-            target.GetComponent<IEntity>().TakeDamage(entityData.damage);
+            IEntity targetEntity = target.GetComponent<IEntity>();
+            targetEntity.TakeDamage(entityData.damage);
+            targetEntity.OnAttack(entityData.spriteToDisplay);
             this.Die();
         }
     }
