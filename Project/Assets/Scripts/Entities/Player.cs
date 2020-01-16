@@ -34,6 +34,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     }
 
+    public override void OnAttack(DataUiTemporarySprite dataSprite)
+    {
+        UiDamageHandler.Instance.AddSprite(dataSprite);
+    }
+
     public override void TakeDamage(float value)
     {
         CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier);

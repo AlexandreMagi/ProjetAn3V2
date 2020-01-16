@@ -28,6 +28,13 @@ public class Weapon : MonoBehaviour
     bool reloading = false;
     float reloadingPurcentage = 0;
 
+
+    [SerializeField]
+    GameObject muzzleFlash = null;
+
+    float timerMuzzleFlash = 0;
+    float timeMuzzleAdded = 0.05f;
+
     void Awake ()
     {
         _instance = this;
@@ -41,10 +48,15 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
+        if (timerMuzzleFlash >= 0) timerMuzzleFlash -= Time.unscaledDeltaTime;
+        timerMuzzleFlash = Mathf.Clamp(timerMuzzleFlash, 0, 1);
+        muzzleFlash.SetActive(timerMuzzleFlash > 0);
+
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
 
         UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0);
         UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), newPerfectPlacement, weapon.perfectRange, haveTriedPerfet);
+
         if (reloading)
         {
             reloadingPurcentage += Time.unscaledDeltaTime / weapon.reloadingTime;
@@ -63,7 +75,7 @@ public class Weapon : MonoBehaviour
 
     public void ReloadingInput()
     {
-        if (!reloading && bulletRemaining != weapon.bulletMax)
+        if (!reloading && bulletRemaining != weapon.bulletMax && currentChargePurcentage ==0 )
         {
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
@@ -94,6 +106,7 @@ public class Weapon : MonoBehaviour
         {
             TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
             CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
+            CameraHandler.Instance.AddFovRecoil(weapon.reloadingPerfectRecoil);
         }
     }
 
@@ -159,6 +172,11 @@ public class Weapon : MonoBehaviour
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
                 Ray rayBullet = mainCam.GetComponent<Camera>().ScreenPointToRay(mousePosition);
+
+
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
+                muzzleFlash.transform.rotation = Quaternion.LookRotation(newDirection);
+
                 rayBullet.direction += imprecision;
 
                 //Shoot raycast
@@ -181,7 +199,9 @@ public class Weapon : MonoBehaviour
             }
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
             CameraHandler.Instance.AddRecoil(weaponMod.recoilPerShot);
+            CameraHandler.Instance.AddFovRecoil(weaponMod.recoilPerShot);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
+            timerMuzzleFlash += timeMuzzleAdded;
         }
         bulletRemaining -= weaponMod.bulletCost;
         if (bulletRemaining < 0) bulletRemaining = 0;

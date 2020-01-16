@@ -9,6 +9,8 @@ public abstract class DataEntity : ScriptableObject
     public float startHealth;
     public int team;
 
+    public DataUiTemporarySprite spriteToDisplay;
+
     public override string ToString() 
     {
         return $"Team : {team}, maxHealth : {maxHealth}";

@@ -49,6 +49,7 @@ public class UiCrossHair : MonoBehaviour
 
     public void UpdateCrossHair(Vector2 mousePosition)
     {
+
         for (int i = 0; i < UiCrosshairs.Length; i++)
         {
             dataHandlerCrosshairs[i].UpdateValues();

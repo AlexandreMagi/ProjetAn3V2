@@ -10,6 +10,11 @@ public class DataCameraBasic : ScriptableObject
     public float RecoilMaxValue = 1.5f;
     public float RecoilRecover = 5;
     public float RecoilPow = 2;
+    public float RecoilLerpSpeed = 8;
+
+    public float maxFovRecoilValue = 10;
+    public float fovRecoilRecover = 5;
+    public float fovRecoilPow = 2;
 
     [Header("Camera Shakes")]
     public float distanceShakeCancelled = 30;
@@ -29,6 +34,8 @@ public class DataCameraBasic : ScriptableObject
     [Tooltip("Valeur de sécurité pour transition")]
     [PropertyRange(0, 1)]
     public float transitionStartAt = 0;
+    public float timeScaleFov = 5;
+    public float timeScaleFovSpeed = 5;
 
     [Header("Smooth transitions")]
     [Tooltip("Plus la valeur est haute, moins elle sera smooth")]

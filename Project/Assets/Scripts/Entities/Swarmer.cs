@@ -160,7 +160,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     {
         if(other.transform == target)
         {
-            target.GetComponent<IEntity>().TakeDamage(entityData.damage);
+            IEntity targetEntity = target.GetComponent<IEntity>();
+            targetEntity.TakeDamage(entityData.damage);
+            targetEntity.OnAttack(entityData.spriteToDisplay);
             this.Die();
         }
     }

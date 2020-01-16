@@ -32,6 +32,9 @@ public class CameraHandler : MonoBehaviour
     float currentRecoilValue = 0; // Recul valeur ref
     float currentRecoil = 0; // Recul actuel -> ref pow
 
+    float currentFovRecoilValue = 0; // Recul valeur ref
+    float currentFovRecoil = 0; // Recul actuel -> ref pow
+
     float currentFovModif = 0;
 
     [HideInInspector]
@@ -41,6 +44,8 @@ public class CameraHandler : MonoBehaviour
 
     GameObject camDummyValueFeedback;
     float CamDummyFov = 70;
+
+    float fovAddedByTimeScale = 0;
 
     #region HeadBobingVar
 
@@ -99,6 +104,13 @@ public class CameraHandler : MonoBehaviour
             currentRecoilValue = camBasicData.RecoilMaxValue;
     }
 
+    public void AddFovRecoil(float value)
+    {
+        currentFovRecoilValue += value;
+        if (currentFovRecoilValue > camBasicData.maxFovRecoilValue)
+            currentFovRecoilValue = camBasicData.maxFovRecoilValue;
+    }
+
 
     /// <summary>
     /// Fonction lancé à chaque frame
@@ -107,14 +119,17 @@ public class CameraHandler : MonoBehaviour
     {
         HandleFBAtCharge();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            AddRecoil(0.5f);
-
         currentRecoilValue -= Time.unscaledDeltaTime * camBasicData.RecoilRecover;
         if (currentRecoilValue < 0)
             currentRecoilValue = 0;
 
-        currentRecoil = Mathf.Pow(currentRecoilValue, camBasicData.RecoilPow);
+        currentFovRecoilValue -= Time.unscaledDeltaTime * camBasicData.RecoilRecover;
+        if (currentFovRecoilValue < 0)
+            currentFovRecoilValue = 0;
+
+        //currentRecoil = Mathf.Pow(currentRecoilValue, camBasicData.RecoilPow);
+        currentRecoil = Mathf.Lerp(currentRecoil, Mathf.Pow(currentRecoilValue, camBasicData.RecoilPow), Time.unscaledDeltaTime * camBasicData.RecoilLerpSpeed);
+        currentFovRecoil = Mathf.Pow(currentFovRecoilValue, camBasicData.fovRecoilPow);
 
         if (fFrequency > camBasicData.frenquencyGoBackToZero)
             fFrequency = Mathf.MoveTowards(fFrequency, fAimedFrenquency, Time.deltaTime * fFrequencyAccel * fFrequency); // Changement de la frequence en fonction de la valeur "GoTo"
@@ -168,8 +183,9 @@ public class CameraHandler : MonoBehaviour
 
         currentFovModif = Mathf.Lerp(currentFovModif, fFrequency * camBasicData.fovMultiplier, Time.deltaTime * camBasicData.fovSpeed);
         // Change le FOV
-        float fFovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
-        CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * chargevalue + fFovAddedByChargeFeedback + currentFovModif;
+        float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
+        fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camBasicData.timeScaleFov - Time.timeScale * camBasicData.timeScaleFov, Time.unscaledDeltaTime * camBasicData.timeScaleFovSpeed);
+        CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + currentFovModif + fovAddedByTimeScale + currentFovRecoilValue;
 
         if (!bFeedbckActivated)
         {
