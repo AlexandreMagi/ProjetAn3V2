@@ -146,7 +146,6 @@ public class SequenceHandler : MonoBehaviour
 
     public void SkipToSequence(int sequenceNumber)
     {
-        Debug.Log(sequences.Count);
         if(sequenceNumber < sequences.Count)
         {
             sequenceIndex = sequenceNumber - 1;
