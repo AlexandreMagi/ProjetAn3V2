@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Player : Entity<DataPlayer>, ISpecialEffects
 {
-
+    bool godMode = false;
     float armor = 0;
   //  private DataPlayer playerData;
 
     public static Player Instance{get; private set;}
+
+    public void SetGod()
+    {
+        this.godMode = !this.godMode;
+    }
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
@@ -47,9 +52,13 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             armor -= value;
             value = 0;
         }
-        UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
-        UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
-        base.TakeDamage(value);
+        if (!godMode)
+        {
+            UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+            UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
+            base.TakeDamage(value);
+        }
+        
     }
 
     public void GainArmor(float value)

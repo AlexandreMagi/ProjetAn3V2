@@ -56,6 +56,12 @@ public class Main : MonoBehaviour
             this.sequenceSkipMode = !this.sequenceSkipMode;
             Debug.Log($"Sequence skip : {sequenceSkipMode}");
         }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Player.Instance.SetGod();
+        }
+
         if(sequenceSkipMode)
         {
             #region Numeric inputs
