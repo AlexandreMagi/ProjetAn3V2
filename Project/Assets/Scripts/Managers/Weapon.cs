@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour
 
     float timeRemainingBeforeOrb = 0;
 
+    float newPerfectPlacement = 0;
     bool haveTriedPerfet = false;
     bool reloading = false;
     float reloadingPurcentage = 0;
@@ -42,7 +43,8 @@ public class Weapon : MonoBehaviour
     {
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
 
-        UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), weapon.perfectPlacement, weapon.perfectRange, haveTriedPerfet);
+        UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0);
+        UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), newPerfectPlacement, weapon.perfectRange, haveTriedPerfet);
         if (reloading)
         {
             reloadingPurcentage += Time.unscaledDeltaTime / weapon.reloadingTime;
@@ -63,6 +65,8 @@ public class Weapon : MonoBehaviour
     {
         if (!reloading && bulletRemaining != weapon.bulletMax)
         {
+            newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
+            CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
             reloading = true;
             haveTriedPerfet = false;
             UiReload.Instance.DisplayGraphics();
@@ -75,7 +79,7 @@ public class Weapon : MonoBehaviour
         if (reloading && !haveTriedPerfet)
         {
             haveTriedPerfet = true;
-            if (reloadingPurcentage > (weapon.perfectPlacement - weapon.perfectRange) && reloadingPurcentage < (weapon.perfectPlacement + weapon.perfectRange))
+            if (reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange))
                 EndReload(true);
         }
     }
@@ -85,6 +89,12 @@ public class Weapon : MonoBehaviour
         reloading = false;
         bulletRemaining = weapon.bulletMax;
         UiReload.Instance.HideGraphics(perfect);
+        CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
+        if (perfect)
+        {
+            TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
+            CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
+        }
     }
 
     public float GetChargeValue()

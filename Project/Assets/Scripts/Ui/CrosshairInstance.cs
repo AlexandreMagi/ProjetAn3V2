@@ -19,6 +19,9 @@ public class CrosshairInstance
     public bool inChargedFb = false;
     public float chargedFbValue = 0;
 
+    public bool haveOrb = false;
+    public float orbModifierPurcentage = 0;
+
     public CrosshairInstance (DataCrossHair _data)
     {
         data = _data;
@@ -33,10 +36,12 @@ public class CrosshairInstance
         float chargeValue = UpdateChargeValue();
         GetChargeFeedbackValue(chargeValue, dt);
 
+
         size = Mathf.Sin((time + data.offsetIdle) * Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)) * Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue)                      // Sin Idle
                 + Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue) + (data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier)                                                                    // Base Size + FB charged size
                 + (reculValue / data.reculMax) * data.reculSizeMultiplier                                                                                                                                       // Taille ajouté par recul
                 + (hitValue / data.hitMax) * data.hitSizeMultiplier;                                                                                                                                            // Taille ajouté par les Hit
+                
 
         color = chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
         outlineColor = chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
@@ -51,6 +56,20 @@ public class CrosshairInstance
         else hitValue = 0;
         if (reculValue > 0) reculValue -= data.reculRecoverRate * dt;
         else reculValue = 0;
+
+
+        if (data.reactToOrb)
+        {
+            if (haveOrb)
+                orbModifierPurcentage += dt / data.orbGrowTime;
+            else 
+                orbModifierPurcentage -= dt / data.orbShrinkTime;
+            orbModifierPurcentage = Mathf.Clamp(orbModifierPurcentage, 0f, 1f);
+
+            size += Mathf.Lerp(0, data.orbBonusSize, orbModifierPurcentage) + Mathf.Sin(time * (data.orbIdleSpeed * orbModifierPurcentage)) * data.orbIdleAmplitude;
+            color = Color.Lerp(color, data.orbChargedColor, orbModifierPurcentage);
+            outlineColor = Color.Lerp(outlineColor, data.outlineOrbChargedColor, orbModifierPurcentage);
+        }
 
     }
 

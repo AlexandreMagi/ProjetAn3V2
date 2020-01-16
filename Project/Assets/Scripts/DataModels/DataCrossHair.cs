@@ -50,8 +50,18 @@ public class DataCrossHair : ScriptableObject
 
     [Header("État quand chargé")]
     public Color chargedColor = Color.white;
-    public Color outlineChargedColor = Color.white;
+    public Color outlineChargedColor = Color.black;
     public float chargedRotateSpeed;
+
+    [Header("Changement quand orb chargée")]
+    public bool reactToOrb = false;
+    public Color orbChargedColor = Color.white;
+    public Color outlineOrbChargedColor = Color.black;
+    public float orbBonusSize;
+    public float orbGrowTime = 0.01f;
+    public float orbShrinkTime = 0.01f;
+    public float orbIdleSpeed;
+    public float orbIdleAmplitude;
 
     [Header("Animation quand chargé")]
     public float timeToDoChargedFeedback = 1;

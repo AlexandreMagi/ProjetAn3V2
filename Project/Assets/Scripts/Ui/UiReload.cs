@@ -39,6 +39,7 @@ public class UiReload : MonoBehaviour
     GameObject extremityTwo = null;
     GameObject checkBar = null;
     GameObject perfectSpot = null;
+    [SerializeField] GameObject reloadingText = null;
 
     [SerializeField] Text bulletRemainingText = null;
 
@@ -74,6 +75,7 @@ public class UiReload : MonoBehaviour
                 extremityOne.SetActive(false);
                 extremityTwo.SetActive(false);
                 checkBar.SetActive(false);
+                reloadingText.SetActive(false);
                 //rootUiReloading.SetActive(false);
             }
         }
@@ -93,6 +95,7 @@ public class UiReload : MonoBehaviour
         ChangeScale(extremityOne, totalScaleValue, baseScale);
         ChangeScale(extremityTwo, totalScaleValue, baseScale);
         ChangeScale(checkBar, totalScaleValue, baseScale);
+        ChangeScale(reloadingText, totalScaleValue, baseScale);
         ChangeScale(perfectSpot, totalScaleValue, baseScale + reloadData.scaleAnimOnPerfectIndicator.Evaluate(perfectAnimPurcentage) * reloadData.perfectAnimScaleMultiplier);
 
     }
@@ -125,6 +128,7 @@ public class UiReload : MonoBehaviour
         //perfectSpot.SetActive(true);
         //rootUiReloading.SetActive(true);
         perfectSpot.SetActive(true);
+        reloadingText.SetActive(true);
         reducingPurcentage = 0;
     }
 

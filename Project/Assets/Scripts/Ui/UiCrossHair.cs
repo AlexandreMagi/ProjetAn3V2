@@ -64,6 +64,14 @@ public class UiCrossHair : MonoBehaviour
         }
     }
 
+    public void PlayerHasOrb(bool haveOrb)
+    {
+        for (int i = 0; i < dataHandlerCrosshairs.Length; i++)
+        {
+            dataHandlerCrosshairs[i].haveOrb = haveOrb;
+        }
+    }
+
     public void PlayerHitSomething(float value)
     {
         for (int i = 0; i < dataHandlerCrosshairs.Length; i++)
