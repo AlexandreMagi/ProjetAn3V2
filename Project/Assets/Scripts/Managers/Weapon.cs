@@ -65,6 +65,7 @@ public class Weapon : MonoBehaviour
                 EndReload(false);
             }
         }
+        if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
 
     }
 
@@ -72,10 +73,14 @@ public class Weapon : MonoBehaviour
     {
         return new Vector2(bulletRemaining, weapon.bulletMax);
     }
+    public bool GetIfReloading()
+    {
+        return reloading;
+    }
 
     public void ReloadingInput()
     {
-        if (!reloading && bulletRemaining != weapon.bulletMax && currentChargePurcentage ==0 )
+        if (!reloading && bulletRemaining < weapon.bulletMax && currentChargePurcentage ==0 )
         {
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
@@ -99,7 +104,7 @@ public class Weapon : MonoBehaviour
     public void EndReload(bool perfect)
     {
         reloading = false;
-        bulletRemaining = weapon.bulletMax;
+        bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
         UiReload.Instance.HideGraphics(perfect);
         CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
         if (perfect)

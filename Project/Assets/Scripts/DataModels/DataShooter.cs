@@ -22,6 +22,7 @@ public class DataShooter : DataEnemy
     public bool shootEvenIfPlayerMoving = false;
     public DataShooterBullet bulletData;
     public GameObject bulletPrefabs;
+    public string muzzleFlashFx = "VFX_MuzzleFlashShooter";
 
     [Header("Specific Stun")]
     public float stunRecoil;

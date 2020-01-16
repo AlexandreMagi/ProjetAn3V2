@@ -42,6 +42,7 @@ public class UiReload : MonoBehaviour
     [SerializeField] GameObject reloadingText = null;
 
     [SerializeField] Text bulletRemainingText = null;
+    [SerializeField] GameObject reloadText = null;
 
     float reducingPurcentage = 0;
     bool reducing = false;
@@ -61,6 +62,9 @@ public class UiReload : MonoBehaviour
     void Update()
     {
         Vector2 bulletAmount = Weapon.Instance.GetBulletAmmount();
+
+        reloadText.SetActive(bulletAmount.x == 0);
+
         bulletRemainingText.text = bulletAmount.x + " / " + bulletAmount.y;
         //UpdateGraphics(Mathf.Sin(Time.time) / 2 + 0.5f, 0.7f, 0.05f);
 
@@ -92,6 +96,7 @@ public class UiReload : MonoBehaviour
         float totalScaleValue = Mathf.Sin(Time.unscaledTime * reloadData.idleSpeed) * reloadData.idleMagnitude;
         float baseScale = (1 - reducingPurcentage);
         ChangeScale(bar, totalScaleValue, baseScale);
+        ChangeScale(reloadText, totalScaleValue, 1);
         ChangeScale(extremityOne, totalScaleValue, baseScale);
         ChangeScale(extremityTwo, totalScaleValue, baseScale);
         ChangeScale(checkBar, totalScaleValue, baseScale);

@@ -28,6 +28,7 @@ public class DataWeapon : ScriptableObject
     public float reloadingPerfectRecoil = 0.5f;
     public float reloadingPerfectSlowmo = 0.8f;
     public float reloadingPerfectSlowmoDur = 0.5f;
+    public int bulletAddedIfPerfect = 3;
 
     [RangeAttribute(1, 50)]
     public float gravityOrbCooldown;

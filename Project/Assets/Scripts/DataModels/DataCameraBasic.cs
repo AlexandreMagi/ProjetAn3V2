@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DataCameraBasic")]
 public class DataCameraBasic : ScriptableObject
 {
+    [PropertyRange(0f, 10f)]
+    public float camMoveWithAim;
     [Header ("Recul caméra")]
     public float RecoilMaxValue = 1.5f;
     public float RecoilRecover = 5;
