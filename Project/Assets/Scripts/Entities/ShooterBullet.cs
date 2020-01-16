@@ -126,8 +126,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void HitBullet()
     {
-        //GameObject.FindObjectOfType<C_Fx>().ShooterBulletExplosion(this.transform.position, bullet.explosionRange * 1.3f);
-        FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
+        FxManager.Instance.PlayFx(entityData.fxExplosion, transform.position, Quaternion.identity, entityData.explosionRadius);
 
         Collider[] tHits = Physics.OverlapSphere(this.transform.position, entityData.explosionRadius);
 
@@ -186,7 +185,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         //{
         if(!(collision.gameObject.gameObject == owner && !onGravity))
         {
-            FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
+            //FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
             //speAffect.OnExplosion(bullet.bulletDammage, bullet.forceAppliedOnImpact, bullet.stunValue);
             TakeDamage(100);
         }

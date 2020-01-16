@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dc45569da9f54a46b08481e90214fb5, type: 3}
+  m_Name: DataReloadGraph_Base
+  m_EditorClassIdentifier: 
+  barColor: {r: 1, g: 1, b: 1, a: 1}
+  extremityColor: {r: 1, g: 1, b: 1, a: 1}
+  checkBarColor: {r: 0, g: 1, b: 0, a: 1}
+  checkBarColorFailed: {r: 1, g: 0, b: 0, a: 1}
+  perfectSpotColor: {r: 0, g: 0, b: 1, a: 1}
+  verticalScaleAnimAatSpawn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.1256015
+      outSlope: 3.1256015
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.94959193
+    - serializedVersion: 3
+      time: 0.09694453
+      value: 0.2953783
+      inSlope: 2.8282316
+      outSlope: 0.016517902
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.9882707
+    - serializedVersion: 3
+      time: 0.49745625
+      value: 0.30406004
+      inSlope: 0.005408929
+      outSlope: 1.3848349
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.99999976
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.3717014
+      outSlope: 1.3717014
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  horizontalScaleAnimAatSpawn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.9552726
+      outSlope: 1.9552726
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.50200945
+      value: 1.0043681
+      inSlope: 2.0126302
+      outSlope: -0.008803296
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.9964043
+      outWeight: 0.9963751
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.004733963
+      outSlope: -0.004733963
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAnimOnPerfectIndicator:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0057478547
+      inSlope: 2.6163876
+      outSlope: 2.6163876
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.233921
+    - serializedVersion: 3
+      time: 0.5100714
+      value: 0.9932821
+      inSlope: -0.03979951
+      outSlope: -0.03979951
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.0057478547
+      inSlope: -2.7906928
+      outSlope: -2.7906928
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22341362
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animDuration: 0.2
+  idleSpeed: 30
+  idleMagnitude: 0.025
+  reducingTime: 0.2
+  perfectAnimScaleMultiplier: 5
+  perfectAnimtime: 0.2
