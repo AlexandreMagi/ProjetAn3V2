@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Sirenix.OdinInspector;
 
 public class SequenceHandler : MonoBehaviour
 {
@@ -45,6 +46,14 @@ public class SequenceHandler : MonoBehaviour
 
         blenderSettings = ScriptableObject.CreateInstance("CinemachineBlenderSettings") as CinemachineBlenderSettings;
 
+    }
+
+    [Button("Add sequence")]
+    private void AddSequence()
+    {
+        DataSequence dSeq = ScriptableObject.CreateInstance<DataSequence>() as DataSequence;
+        dSeq.name = "DS" + (sequences.Count+1);
+        sequences.Add(dSeq);
     }
 
     public static SequenceHandler Instance { get; private set; }
