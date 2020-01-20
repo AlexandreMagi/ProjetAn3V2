@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 7179280215607153327}
   - component: {fileID: 3556921249540876184}
   - component: {fileID: 1317479996949754489}
+  - component: {fileID: 1191949720560782048}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -334,3 +335,21 @@ MonoBehaviour:
   RenderingCam: {fileID: 3307283081545501505}
   camBasicData: {fileID: 11400000, guid: e9cf6c4ce67cae443b06cc1ed673e767, type: 2}
   bFeedbckActivated: 1
+--- !u!114 &1191949720560782048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7955965391559964579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539cb144bb695ec429a3eb4a83761763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bufferSize: 8
+  baseViewerGrowth: 50
+  baseViewerLoss: 40
+  randomViewerLoss: 10
+  randomViewerGrowth: 8
+  bufferStallAffect: 0.8

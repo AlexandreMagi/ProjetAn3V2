@@ -11,8 +11,19 @@ public class PublicManager : MonoBehaviour
     [SerializeField]
     int bufferSize = 8;
 
+    [SerializeField]
     int baseViewerGrowth = 50;
+
+    [SerializeField]
+    int baseViewerLoss = 40;
+
+    [SerializeField]
+    int randomViewerLoss = 10;
+
+    [SerializeField]
     int randomViewerGrowth = 8;
+
+    [SerializeField]
     float bufferStallAffect = .8f;
 
     float currentMultiplier = 1;
@@ -39,30 +50,47 @@ public class PublicManager : MonoBehaviour
                 AddToBuffer(action);
                 break;
             case ActionType.RefuseBonus:
+                AddViewers(5, true, action);
+                AddToBuffer(action);
                 break;
             case ActionType.PerfectProjectile:
+                AddViewers(3, true, action);
+                AddToBuffer(action);
                 break;
             case ActionType.BackToSender:
+                AddViewers(3, true, action);
+                AddToBuffer(action);
                 break;
             case ActionType.Kill:
+                //Un peu spécial
                 break;
             case ActionType.PerfectReload:
+                AddViewers(2, true, action);
+                AddToBuffer(action);
                 break;
             case ActionType.Vendetta:
+                //Special
                 break;
             case ActionType.SuperLowHp:
+                AddViewers(4, false, action);
                 break;
             case ActionType.LowHp:
+                AddViewers(2, false, action);
                 break;
             case ActionType.DamageOnLifeBar:
+                LoseViewers(3);
                 break;
             case ActionType.Repeat:
+                LoseViewers(3);
                 break;
             case ActionType.MissGravityOrb:
+                LoseViewers(5);
                 break;
             case ActionType.MissShotGun:
+                LoseViewers(2);
                 break;
             case ActionType.DeathAndRespawn:
+                LoseViewers(6);
                 break;
             default:
                 break;
@@ -82,6 +110,14 @@ public class PublicManager : MonoBehaviour
        
 
         nbViewers += Mathf.FloorToInt((baseViewerGrowth + Random.Range(0, randomViewerGrowth)) * viewerLevel * bufferStallAffect);
+    }
+
+    private void LoseViewers(int viewerLevel)
+    {
+        nbViewers -= Mathf.FloorToInt((baseViewerLoss + Random.Range(0, randomViewerLoss)) * viewerLevel);
+
+        if (nbViewers < 0) nbViewers = 0;
+        //Kill player ?
     }
 
     private void AddToBuffer(ActionType action)
