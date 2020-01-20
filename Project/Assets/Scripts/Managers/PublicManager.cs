@@ -4,42 +4,38 @@ using UnityEngine;
 
 public class PublicManager : MonoBehaviour
 {
+    [SerializeField]
+    DataPublic publicData;
+
     int nbViewers = 0;
 
     float timeLeftForMultiKill = 0;
     float multiKillCounter = 0;
 
-    List<ActionType> stallBuffer;
-
-    [SerializeField]
-    int bufferSize = 8;
-
-    [SerializeField]
-    int baseViewerGrowth = 50;
-
-    [SerializeField]
-    int baseViewerLoss = 40;
-
-    [SerializeField]
-    int randomViewerLoss = 10;
-
-    [SerializeField]
-    int randomViewerGrowth = 8;
-
-    [SerializeField]
-    float bufferStallAffect = .8f;
 
     float currentMultiplier = 1;
+
+    float hpMultiplier = 1;
+
+    List<ActionType> stallBuffer;
 
     void Awake()
     {
         Instance = this;
         stallBuffer = new List<ActionType>();
+        nbViewers = publicData.startViewers;
     }
 
     public void Update()
     {
-
+        if(timeLeftForMultiKill > 0)
+        {
+            timeLeftForMultiKill -= Time.deltaTime;
+            if(timeLeftForMultiKill <= 0)
+            {
+                timeLeftForMultiKill = 0;
+            } 
+        }
     }
 
     public static PublicManager Instance { get; private set; }
@@ -71,10 +67,20 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.Kill:
                 //Un peu spécial
+                multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-
+                    if(multiKillCounter > 5)
+                    {
+                        AddViewers(3, false, ActionType.Kill);
+                    }
+                    else
+                    {
+                        AddViewers(2, false, ActionType.Kill);
+                    }
+                   
                 }
+                timeLeftForMultiKill = 0.8f; 
                 break;
             case ActionType.PerfectReload:
                 AddViewers(2, true, action);
@@ -84,10 +90,10 @@ public class PublicManager : MonoBehaviour
                 //Special
                 break;
             case ActionType.SuperLowHp:
-                AddViewers(4, false, action);
+                hpMultiplier = 1.2f;
                 break;
             case ActionType.LowHp:
-                AddViewers(2, false, action);
+                hpMultiplier = 1.5f;
                 break;
             case ActionType.DamageOnLifeBar:
                 LoseViewers(3);
@@ -96,13 +102,13 @@ public class PublicManager : MonoBehaviour
                 LoseViewers(3);
                 break;
             case ActionType.MissGravityOrb:
-                LoseViewers(5);
+                LoseViewers(7);
                 break;
             case ActionType.MissShotGun:
                 LoseViewers(2);
                 break;
             case ActionType.DeathAndRespawn:
-                LoseViewers(6);
+                LoseViewers(10);
                 break;
             default:
                 break;
@@ -112,21 +118,32 @@ public class PublicManager : MonoBehaviour
     private void AddViewers(int viewerLevel, bool isAffectedByBuffer, ActionType action)
     {
         float bufferMultiplier = 1;
+        int capCount = 0;
         if (isAffectedByBuffer)
         {
             foreach (ActionType actionInTab in stallBuffer)
             {
-                if (actionInTab == action) bufferMultiplier *= bufferStallAffect;
+                if (actionInTab == action)
+                {
+                    bufferMultiplier *= publicData.bufferStallAffect;
+                    capCount++;
+
+                    if(capCount >= publicData.antiFarmCap)
+                    {
+                        bufferMultiplier = 0;
+                        break;
+                    }
+                }
             }
         }
        
 
-        nbViewers += Mathf.FloorToInt((baseViewerGrowth + Random.Range(0, randomViewerGrowth)) * viewerLevel * bufferStallAffect);
+        nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
     }
 
     private void LoseViewers(int viewerLevel)
     {
-        nbViewers -= Mathf.FloorToInt((baseViewerLoss + Random.Range(0, randomViewerLoss)) * viewerLevel);
+        nbViewers -= Mathf.FloorToInt((publicData.baseViewerLoss + Random.Range(0, publicData.randomViewerLoss)) * viewerLevel);
 
         if (nbViewers < 0) nbViewers = 0;
         //Kill player ?
@@ -135,7 +152,7 @@ public class PublicManager : MonoBehaviour
     private void AddToBuffer(ActionType action)
     {
         stallBuffer.Add(action);
-        if (stallBuffer.Count > bufferSize) stallBuffer.RemoveAt(0);
+        if (stallBuffer.Count > publicData.bufferSize) stallBuffer.RemoveAt(0);
     }
 
     public enum ActionType
