@@ -100,13 +100,13 @@ public class PublicManager : MonoBehaviour
                 LoseViewers(3);
                 break;
             case ActionType.MissGravityOrb:
-                LoseViewers(5);
+                LoseViewers(7);
                 break;
             case ActionType.MissShotGun:
                 LoseViewers(2);
                 break;
             case ActionType.DeathAndRespawn:
-                LoseViewers(6);
+                LoseViewers(10);
                 break;
             default:
                 break;
