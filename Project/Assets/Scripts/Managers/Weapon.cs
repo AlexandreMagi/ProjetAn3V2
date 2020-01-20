@@ -31,6 +31,8 @@ public class Weapon : MonoBehaviour
 
     [SerializeField]
     GameObject muzzleFlash = null;
+    [SerializeField]
+    GameObject weaponLight = null;
 
     float timerMuzzleFlash = 0;
     float timeMuzzleAdded = 0.05f;
@@ -66,6 +68,11 @@ public class Weapon : MonoBehaviour
             }
         }
         if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
+
+        var v3 = Input.mousePosition + Vector3.forward * 10; 
+        v3 = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().ScreenToWorldPoint(v3);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.RenderingCam.transform.position, 360, 0.0f);
+        weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
 
     }
 
@@ -112,6 +119,7 @@ public class Weapon : MonoBehaviour
             TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
             CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
             CameraHandler.Instance.AddFovRecoil(weapon.reloadingPerfectRecoil);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload);
         }
     }
 
