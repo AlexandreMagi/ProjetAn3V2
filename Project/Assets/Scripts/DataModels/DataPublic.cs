@@ -7,6 +7,9 @@ using UnityEngine;
 public class DataPublic : ScriptableObject
 {
     [SerializeField]
+    public int startViewers = 500;
+
+    [SerializeField]
     public int bufferSize = 8;
 
     [SerializeField]
@@ -23,4 +26,7 @@ public class DataPublic : ScriptableObject
 
     [SerializeField]
     public float bufferStallAffect = .8f;
+
+    [SerializeField]
+    public int antiFarmCap = 3;
 }

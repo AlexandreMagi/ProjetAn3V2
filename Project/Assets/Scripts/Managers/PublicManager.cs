@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PublicManager : MonoBehaviour
 {
+    [SerializeField]
     DataPublic publicData;
 
     int nbViewers = 0;
@@ -22,6 +23,7 @@ public class PublicManager : MonoBehaviour
     {
         Instance = this;
         stallBuffer = new List<ActionType>();
+        nbViewers = publicData.startViewers;
     }
 
     public void Update()
@@ -116,16 +118,27 @@ public class PublicManager : MonoBehaviour
     private void AddViewers(int viewerLevel, bool isAffectedByBuffer, ActionType action)
     {
         float bufferMultiplier = 1;
+        int capCount = 0;
         if (isAffectedByBuffer)
         {
             foreach (ActionType actionInTab in stallBuffer)
             {
-                if (actionInTab == action) bufferMultiplier *= publicData.bufferStallAffect;
+                if (actionInTab == action)
+                {
+                    bufferMultiplier *= publicData.bufferStallAffect;
+                    capCount++;
+
+                    if(capCount >= publicData.antiFarmCap)
+                    {
+                        bufferMultiplier = 0;
+                        break;
+                    }
+                }
             }
         }
        
 
-        nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * publicData.bufferStallAffect * hpMultiplier);
+        nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
     }
 
     private void LoseViewers(int viewerLevel)
