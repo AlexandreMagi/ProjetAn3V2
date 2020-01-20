@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
@@ -56,9 +57,18 @@ public class SequenceHandler : MonoBehaviour
         sequences.Add(dSeq);
     }
 
+    [Button("Add sequence copied")]
+    private void AddSequenceCopied()
+    {
+        //DataSequence dSeq = sequences[sequences.Count - 1].Copy();
+        //dSeq.name = "DS" + (sequences.Count + 1);
+        //sequences.Add(dSeq);
+        
+    }
+
     public static SequenceHandler Instance { get; private set; }
 
-    public float GetPurcentageBetweenNextCam()
+    public float GetPurcentageBetweenNextCam() 
     {
         float MaxDist = Vector3.Distance(pastCamPos, newCamPos);
         float CurrDist = Vector3.Distance(pastCamPos, GameObject.Find("Main Camera").transform.position);

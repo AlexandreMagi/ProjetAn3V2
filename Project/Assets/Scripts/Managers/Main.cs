@@ -168,4 +168,5 @@ public class Main : MonoBehaviour
             //FindObjectOfType<C_Ui>().CannotShoot(state);
         }
     }
+
 }
