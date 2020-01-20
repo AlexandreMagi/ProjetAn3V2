@@ -119,6 +119,7 @@ public class Weapon : MonoBehaviour
             TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
             CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
             CameraHandler.Instance.AddFovRecoil(weapon.reloadingPerfectRecoil);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload);
         }
     }
 
