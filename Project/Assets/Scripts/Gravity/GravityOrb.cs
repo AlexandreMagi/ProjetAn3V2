@@ -9,6 +9,7 @@ public class GravityOrb : MonoBehaviour
 
     float fTimeHeld = 0f;
     bool hasSticked = false;
+    bool hasHitSomething = false;
 
     [SerializeField]
     public bool bActivedViaScene = false;
@@ -29,7 +30,7 @@ public class GravityOrb : MonoBehaviour
 
     public bool OnSpawning(Vector2 mousePosition)
     {
-
+        hasHitSomething = false;
         MainCam = CameraHandler.Instance.RenderingCam.GetComponent<Camera>();
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
@@ -96,7 +97,11 @@ public class GravityOrb : MonoBehaviour
             IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
             if (gAffect != null && hVictim.gameObject != parentIfSticky)
+            {
+                hasHitSomething = true;
                 gAffect.OnPull(this.transform.position, orbData.pullForce);
+            }
+                
             
         }
 
@@ -106,6 +111,11 @@ public class GravityOrb : MonoBehaviour
     {
         int nbEnemiesHitByFloatExplo = 0;
         StopCoroutine("OnHoldAttraction");
+
+        if (!hasHitSomething)
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb);
+        }
 
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
@@ -147,7 +157,8 @@ public class GravityOrb : MonoBehaviour
 
                 newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
 
-                //GameObject.FindObjectOfType<C_TimeScale>().AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
+                if(!SequenceHandler.Instance.isWaitingTimer)
+                    TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
             }
         }
 
@@ -174,6 +185,7 @@ public class GravityOrb : MonoBehaviour
                 {
                     gAffect.OnPull(this.transform.position, orbData.pullForce);
                     gAffect.OnHold();
+                    hasHitSomething = true;
                 }
                     
 

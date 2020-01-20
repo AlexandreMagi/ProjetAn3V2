@@ -21,6 +21,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     float amplitudeMissile = 1;
     bool onGravity = false;
+    bool isShot = false;
     float amplitudeShake = 0.3f;
     float shakeSpeedLerp = 5;
 
@@ -135,13 +136,13 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !onGravity))
             {
                 IEntity entityVictim = hVictim.GetComponent<IEntity>();
-                if(entityVictim != null & hVictim.GetComponent<Player>() == null)
+                if(entityVictim != null && (hVictim.GetComponent<Player>() == null || !isShot))
                 {
                     entityVictim.OnAttack(entityData.spriteDisplayed);
                 }
                 
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
-                if (speAffect != null)
+                if (speAffect != null && (hVictim.GetComponent<Player>() == null || !isShot))
                 {
                     speAffect.OnExplosion(this.transform.position, entityData.explosionForce, entityData.explosionRadius, entityData.explosionDamage, entityData.explosionStun, entityData.explosionStunDuration, entityData.liftValue);
                     //hVictim.gameObject.GetComponent<C_BulletAffected>().OnBulletHit(bullet.BulletDammage, bullet.StunValue, bullet.BulletName);
@@ -247,6 +248,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnHit(DataWeaponMod mod, Vector3 position)
     {
+        isShot = true;
         TakeDamage(100);
         //HitBullet();
         //KillBullet();
