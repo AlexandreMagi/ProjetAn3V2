@@ -7,6 +7,7 @@ public class LightHandler : MonoBehaviour
 {
     Light objLight = null;
     float baseIntensity = 0;
+    [SerializeField] bool timeScaleIndependent = false;
 
     [SerializeField] bool blink = false;
     [SerializeField, ShowIf("blink")] Vector2 offRandomTime = new Vector2(0, 1);
@@ -21,7 +22,11 @@ public class LightHandler : MonoBehaviour
     [SerializeField, ShowIf("oscillate")] float maxValueIntensityRelative = 1;
 
     [SerializeField] bool changeColor = false;
-    enum modOfColor { RandomBetweenColor, OscillateBetweenTwoColor, Gradient, RandomBetweenGradient };
+    [SerializeField, ShowIf("changeColor")] bool fluidified = false;
+    Color aimedColor = Color.white;
+    [SerializeField, ShowIf("fluidified")] bool lerped = false;
+    [SerializeField, ShowIf("fluidified")] float speedFluidify = 3;
+    enum modOfColor { RandomBetweenColor, OscillateBetweenTwoColor, Gradient };
     [SerializeField, ShowIf("changeColor")] modOfColor currentMod = 0;
     float colorTimer = 0;
     float currentTimerToNextColor = 0;
@@ -34,6 +39,9 @@ public class LightHandler : MonoBehaviour
     [SerializeField, ShowIf("currentMod", modOfColor.OscillateBetweenTwoColor), ShowIf("changeColor")] Color colorOsciOne = Color.white;
     [SerializeField, ShowIf("currentMod", modOfColor.OscillateBetweenTwoColor), ShowIf("changeColor")] Color colorOsciTwo = Color.white;
 
+    [SerializeField, ShowIf("currentMod", modOfColor.Gradient), ShowIf("changeColor")] Gradient colorGradient = null;
+    [SerializeField, ShowIf("currentMod", modOfColor.Gradient), ShowIf("changeColor")] float gradientTime = 1;
+    [SerializeField, ShowIf("currentMod", modOfColor.Gradient), ShowIf("changeColor")] float decalTime = 0;
 
 
     // Start is called before the first frame update
@@ -41,14 +49,20 @@ public class LightHandler : MonoBehaviour
     {
         objLight = GetComponent<Light>();
         baseIntensity = objLight.intensity;
+        if (currentMod == modOfColor.Gradient)
+        {
+            colorTimer = decalTime;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        float dt = timeScaleIndependent ? Time.unscaledDeltaTime : Time.deltaTime;
+        float time = timeScaleIndependent ? Time.unscaledTime : Time.time;
         if (blink)
         {
-            blinkTimer += Time.deltaTime;
+            blinkTimer += dt;
             if (blinkTimer > currentTimerToNextState)
             {
                 // Ici pour play Fx
@@ -67,18 +81,18 @@ public class LightHandler : MonoBehaviour
         }
         if (oscillate)
         {
-            objLight.intensity = baseIntensity + Mathf.Lerp(minValueIntensityRelative, maxValueIntensityRelative, (Mathf.Sin(Time.time * frequencyIntensity) + 1) / 2);
+            objLight.intensity = baseIntensity + Mathf.Lerp(minValueIntensityRelative, maxValueIntensityRelative, (Mathf.Sin(time * frequencyIntensity) + 1) / 2);
         }
         if (changeColor)
         {
             if (currentMod == modOfColor.RandomBetweenColor)
             {
-                colorTimer += Time.deltaTime;
+                colorTimer += dt;
                 if (colorTimer > currentTimerToNextColor)
                 {
                     colorTimer -= currentTimerToNextColor;
                     currentTimerToNextColor = Random.Range(changeEvery.x, changeEvery.y);
-                    objLight.color = new Color(
+                    aimedColor = new Color(
                         Random.Range(colorRandOne.r, colorRandTwo.r),
                         Random.Range(colorRandOne.g, colorRandTwo.g),
                         Random.Range(colorRandOne.b, colorRandTwo.b),
@@ -87,7 +101,35 @@ public class LightHandler : MonoBehaviour
             }
             else if (currentMod == modOfColor.OscillateBetweenTwoColor)
             {
-                objLight.color = Color.Lerp(colorOsciOne, colorOsciTwo, (Mathf.Sin(Time.time * frequencyColor) + 1) / 2);
+                aimedColor = Color.Lerp(colorOsciOne, colorOsciTwo, (Mathf.Sin(time * frequencyColor) + 1) / 2);
+            }
+            else if (currentMod == modOfColor.Gradient)
+            {
+                colorTimer += dt / gradientTime;
+                if (colorTimer > 1)
+                    colorTimer -= 1;
+                aimedColor = colorGradient.Evaluate(colorTimer);
+            }
+
+            
+            if (fluidified)
+            {
+                if (lerped)
+                {
+                    objLight.color = Color.Lerp(objLight.color, aimedColor, dt * speedFluidify);
+                }
+                else
+                {
+                    objLight.color = new Color(
+                            Mathf.MoveTowards(objLight.color.r, aimedColor.r, dt * speedFluidify),
+                            Mathf.MoveTowards(objLight.color.g, aimedColor.g, dt * speedFluidify),
+                            Mathf.MoveTowards(objLight.color.b, aimedColor.b, dt * speedFluidify),
+                            Mathf.MoveTowards(objLight.color.a, aimedColor.a, dt * speedFluidify));
+                }
+            }
+            else
+            {
+                objLight.color = aimedColor;
             }
         }
     }
