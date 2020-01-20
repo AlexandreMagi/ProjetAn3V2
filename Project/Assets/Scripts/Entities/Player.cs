@@ -61,6 +61,21 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         {
             UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
             UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
+
+            if(armor < 0)
+            {
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnLifeBar);
+
+                if(health <= 20)
+                {
+                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.SuperLowHp);
+                }
+                else if(health <= 50)
+                {
+                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.LowHp);
+                }
+            }
+
             base.TakeDamage(value);
         }
         

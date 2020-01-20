@@ -207,6 +207,12 @@ public class Weapon : MonoBehaviour
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun();
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
+
+                        //PUBLIC
+                        if(hit.collider.GetComponent<ShooterBullet>() != null && hit.distance < 2)
+                        {
+                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile);
+                        }
                     }
                 }
             }
