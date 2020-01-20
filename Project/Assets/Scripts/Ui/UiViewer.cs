@@ -24,7 +24,7 @@ public class UiViewer : MonoBehaviour
     {
         if (PublicManager.Instance != null)
         {
-            uint actualViewer = PublicManager.Instance.GetNbViewers();
+            int actualViewer = PublicManager.Instance.GetNbViewers();
             currentViewerFluid = Mathf.Lerp(currentViewerFluid, actualViewer, Time.deltaTime * viewerSpeedDisplay);
 
             if (Mathf.Abs(currentViewerFluid - actualViewer) > considerDifference)
