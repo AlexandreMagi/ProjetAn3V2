@@ -6,6 +6,9 @@ public class PublicManager : MonoBehaviour
 {
     int nbViewers = 0;
 
+    float timeLeftForMultiKill = 0;
+    float multiKillCounter = 0;
+
     List<ActionType> stallBuffer;
 
     [SerializeField]
@@ -32,6 +35,11 @@ public class PublicManager : MonoBehaviour
     {
         Instance = this;
         stallBuffer = new List<ActionType>();
+    }
+
+    public void Update()
+    {
+
     }
 
     public static PublicManager Instance { get; private set; }
@@ -63,6 +71,10 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.Kill:
                 //Un peu spécial
+                if (timeLeftForMultiKill > 0)
+                {
+
+                }
                 break;
             case ActionType.PerfectReload:
                 AddViewers(2, true, action);

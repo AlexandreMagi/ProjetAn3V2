@@ -135,7 +135,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !onGravity))
             {
                 IEntity entityVictim = hVictim.GetComponent<IEntity>();
-                if(entityVictim != null)
+                if(entityVictim != null & hVictim.GetComponent<Player>() == null)
                 {
                     entityVictim.OnAttack(entityData.spriteDisplayed);
                 }
