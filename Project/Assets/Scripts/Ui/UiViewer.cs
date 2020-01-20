@@ -31,15 +31,15 @@ public class UiViewer : MonoBehaviour
             {
                 if (currentViewerFluid > actualViewer)
                 {
-                    // Go Up
-                    upArrow.SetActive(true);
-                    downArrow.SetActive(false);
-                }
-                else
-                {
                     // Go Down
                     upArrow.SetActive(false);
                     downArrow.SetActive(true);
+                }
+                else
+                {
+                    // Go Up
+                    upArrow.SetActive(true);
+                    downArrow.SetActive(false);
                 }
             }
             else
