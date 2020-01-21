@@ -157,7 +157,7 @@ public class GravityOrb : MonoBehaviour
 
                 newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
 
-                if(!SequenceHandler.Instance.isWaitingTimer)
+                if(SequenceHandler.Instance != null && !SequenceHandler.Instance.isWaitingTimer)
                     TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
             }
         }
