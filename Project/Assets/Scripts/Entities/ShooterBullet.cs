@@ -148,6 +148,12 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
                     //hVictim.gameObject.GetComponent<C_BulletAffected>().OnBulletHit(bullet.BulletDammage, bullet.StunValue, bullet.BulletName);
                     //hVictim.gameObject.GetComponent<C_BulletAffected>().OnSoloHitPropulsion(transform.position, bullet.ForceAppliedOnImpact, bullet.BulletName);
                 }
+
+                //Vendetta preparation
+                if (this.owner != null && hVictim.GetComponent<Player>() != null)
+                {
+                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, this.owner.GetComponent<Shooter>());
+                }
             }
         }
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Explosion", false, 0.7f);
