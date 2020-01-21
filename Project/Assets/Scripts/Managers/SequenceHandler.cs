@@ -61,9 +61,18 @@ public class SequenceHandler : MonoBehaviour
     [Button("Add sequence copied")]
     private void AddSequenceCopied()
     {
-        //DataSequence dSeq = sequences[sequences.Count - 1].Copy();
-        //dSeq.name = "DS" + (sequences.Count + 1);
-        //sequences.Add(dSeq);
+        if(sequences.Count > 0)
+        {
+            DataSequence dSeq = Instantiate(sequences[sequences.Count - 1]);
+            dSeq.name = "AutoSequence" + (sequences.Count + 1);
+            dSeq.camTargetName = "CM vcam" + (sequences.Count + 1);
+            sequences.Add(dSeq);
+        }
+        else
+        {
+            Debug.Log("Bien essayé Max.");
+        }
+
         
     }
 
