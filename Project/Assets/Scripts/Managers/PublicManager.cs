@@ -38,6 +38,8 @@ public class PublicManager : MonoBehaviour
                 timeLeftForMultiKill = 0;
             } 
         }
+
+        
     }
 
     public static PublicManager Instance { get; private set; }
@@ -151,6 +153,8 @@ public class PublicManager : MonoBehaviour
        
 
         nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+
+        RecalculateMultiplier();
     }
 
     private void LoseViewers(int viewerLevel)
@@ -159,12 +163,19 @@ public class PublicManager : MonoBehaviour
 
         if (nbViewers < 0) nbViewers = 0;
         //Kill player ?
+
+        RecalculateMultiplier();
     }
 
     private void AddToBuffer(ActionType action)
     {
         stallBuffer.Add(action);
         if (stallBuffer.Count > publicData.bufferSize) stallBuffer.RemoveAt(0);
+    }
+
+    public void RecalculateMultiplier()
+    {
+        currentMultiplier = nbViewers / publicData.startViewers;
     }
 
     public enum ActionType
