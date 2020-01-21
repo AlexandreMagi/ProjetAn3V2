@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PublicManager : MonoBehaviour
 {
+    [SerializeField]
     DataPublic publicData;
+
+    IEntity enemyForVendetta = null;
 
     int nbViewers = 0;
 
@@ -22,6 +25,7 @@ public class PublicManager : MonoBehaviour
     {
         Instance = this;
         stallBuffer = new List<ActionType>();
+        nbViewers = publicData.startViewers;
     }
 
     public void Update()
@@ -34,6 +38,8 @@ public class PublicManager : MonoBehaviour
                 timeLeftForMultiKill = 0;
             } 
         }
+
+        
     }
 
     public static PublicManager Instance { get; private set; }
@@ -43,7 +49,7 @@ public class PublicManager : MonoBehaviour
         return nbViewers;
     }
 
-    public void OnPlayerAction(ActionType action)
+    public void OnPlayerAction(ActionType action, IEntity cause = null)
     {
         switch (action)
         {
@@ -84,8 +90,18 @@ public class PublicManager : MonoBehaviour
                 AddViewers(2, true, action);
                 AddToBuffer(action);
                 break;
-            case ActionType.Vendetta:
+            case ActionType.VendettaPrepare:
                 //Special
+                if(cause != null)
+                {
+                    enemyForVendetta = cause;
+                }
+                break;
+            case ActionType.Vendetta:
+                if(cause == enemyForVendetta)
+                {
+                    AddViewers(3, true, action);
+                }
                 break;
             case ActionType.SuperLowHp:
                 hpMultiplier = 1.2f;
@@ -100,13 +116,13 @@ public class PublicManager : MonoBehaviour
                 LoseViewers(3);
                 break;
             case ActionType.MissGravityOrb:
-                LoseViewers(5);
+                LoseViewers(7);
                 break;
             case ActionType.MissShotGun:
                 LoseViewers(2);
                 break;
             case ActionType.DeathAndRespawn:
-                LoseViewers(6);
+                LoseViewers(10);
                 break;
             default:
                 break;
@@ -116,16 +132,29 @@ public class PublicManager : MonoBehaviour
     private void AddViewers(int viewerLevel, bool isAffectedByBuffer, ActionType action)
     {
         float bufferMultiplier = 1;
+        int capCount = 0;
         if (isAffectedByBuffer)
         {
             foreach (ActionType actionInTab in stallBuffer)
             {
-                if (actionInTab == action) bufferMultiplier *= publicData.bufferStallAffect;
+                if (actionInTab == action)
+                {
+                    bufferMultiplier *= publicData.bufferStallAffect;
+                    capCount++;
+
+                    if(capCount >= publicData.antiFarmCap)
+                    {
+                        bufferMultiplier = 0;
+                        break;
+                    }
+                }
             }
         }
        
 
-        nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * publicData.bufferStallAffect * hpMultiplier);
+        nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+
+        RecalculateMultiplier();
     }
 
     private void LoseViewers(int viewerLevel)
@@ -134,12 +163,19 @@ public class PublicManager : MonoBehaviour
 
         if (nbViewers < 0) nbViewers = 0;
         //Kill player ?
+
+        RecalculateMultiplier();
     }
 
     private void AddToBuffer(ActionType action)
     {
         stallBuffer.Add(action);
         if (stallBuffer.Count > publicData.bufferSize) stallBuffer.RemoveAt(0);
+    }
+
+    public void RecalculateMultiplier()
+    {
+        currentMultiplier = nbViewers / publicData.startViewers;
     }
 
     public enum ActionType
@@ -158,5 +194,6 @@ public class PublicManager : MonoBehaviour
         MissGravityOrb = 11,
         MissShotGun = 12,
         DeathAndRespawn = 13,
+        VendettaPrepare = 14
     }
 }

@@ -149,10 +149,18 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
 
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
-        this.gameObject.SetActive(false);
+       
         target = null;
         pathToFollow = null;
         currentFollow = null;
+
+        //Means it has been killed in some way and has not just attacked
+        if(health <= 0)
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
+        }
+
+        this.gameObject.SetActive(false);
         //base.Die();        
 
     }
@@ -162,6 +170,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         if(other.transform == target)
         {
             IEntity targetEntity = target.GetComponent<IEntity>();
+            if(other.GetComponent<Player>() != null)
+            {
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, this);
+            }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplay);
             this.Die();
