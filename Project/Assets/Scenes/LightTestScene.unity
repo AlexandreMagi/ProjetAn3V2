@@ -615,21 +615,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f774d09ef53fb149bd029a1506372a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeScaleIndependent: 0
   blink: 0
   offRandomTime: {x: 0, y: 0.1}
   onRandomTime: {x: 0.1, y: 0.2}
   oscillate: 0
   frequencyIntensity: 15
   minValueIntensityRelative: -3.78
-  maxValueIntensityRelative: 0
+  maxValueIntensityRelative: 50
   changeColor: 1
-  currentMod: 1
+  fluidified: 0
+  lerped: 0
+  speedFluidify: 3
+  currentMod: 2
   changeEvery: {x: 0.5, y: 1}
   colorRandOne: {r: 1, g: 0.5949938, b: 0, a: 1}
   colorRandTwo: {r: 1, g: 0, b: 0, a: 1}
   frequencyColor: 15
   colorOsciOne: {r: 1, g: 0.5589782, b: 0, a: 1}
   colorOsciTwo: {r: 1, g: 0, b: 0, a: 1}
+  colorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 0.96469927, g: 1, b: 0, a: 1}
+    key2: {r: 1, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 13878
+    ctime2: 65535
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 3
+    m_NumAlphaKeys: 2
+  gradientTime: 0.5
+  decalTime: 1
 --- !u!108 &1300811434
 Light:
   m_ObjectHideFlags: 0
