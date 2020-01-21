@@ -28,6 +28,7 @@ public class SequenceHandler : MonoBehaviour
 
     bool readSequences = true;
 
+    [HideInInspector]
     public bool isWaitingTimer = false;
 
     Vector3 pastCamPos = Vector3.one;
