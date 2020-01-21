@@ -334,6 +334,13 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
     protected override void Die()
     {
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Death", false, .6f);
+
+        //Means it has been killed in some way and has not just attacked
+        if (health <= 0)
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
+        }
+
         base.Die();
     }
 

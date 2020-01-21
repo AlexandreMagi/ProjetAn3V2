@@ -7,6 +7,8 @@ public class PublicManager : MonoBehaviour
     [SerializeField]
     DataPublic publicData;
 
+    IEntity enemyForVendetta = null;
+
     int nbViewers = 0;
 
     float timeLeftForMultiKill = 0;
@@ -45,7 +47,7 @@ public class PublicManager : MonoBehaviour
         return nbViewers;
     }
 
-    public void OnPlayerAction(ActionType action)
+    public void OnPlayerAction(ActionType action, IEntity cause = null)
     {
         switch (action)
         {
@@ -86,8 +88,18 @@ public class PublicManager : MonoBehaviour
                 AddViewers(2, true, action);
                 AddToBuffer(action);
                 break;
-            case ActionType.Vendetta:
+            case ActionType.VendettaPrepare:
                 //Special
+                if(cause != null)
+                {
+                    enemyForVendetta = cause;
+                }
+                break;
+            case ActionType.Vendetta:
+                if(cause == enemyForVendetta)
+                {
+                    AddViewers(3, true, action);
+                }
                 break;
             case ActionType.SuperLowHp:
                 hpMultiplier = 1.2f;
@@ -171,5 +183,6 @@ public class PublicManager : MonoBehaviour
         MissGravityOrb = 11,
         MissShotGun = 12,
         DeathAndRespawn = 13,
+        VendettaPrepare = 14
     }
 }
