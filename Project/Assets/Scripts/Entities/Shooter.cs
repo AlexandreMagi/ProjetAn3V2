@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
+public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects, IGravityAffect
 {
    // private DataShooter shooterData;
 
@@ -66,6 +66,8 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
     GameObject canonPlacement = null;
 
     bool playerMoving = false;
+
+    bool canShoot = true;
 
     [SerializeField]
     Transform fxStunPos = null;
@@ -305,13 +307,18 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
 
     void Shoot()
     {
-        FxManager.Instance.PlayFx(entityData.muzzleFlashFx, canonPlacement.transform.position, canonPlacement.transform.rotation);
-        CameraHandler.Instance.AddShake(0.5f, transform.position);
-        for (int i = 0; i < entityData.nbBulletPerShoot; i++)
+        if (canShoot)
         {
-            GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
-            CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject);
+            FxManager.Instance.PlayFx(entityData.muzzleFlashFx, canonPlacement.transform.position, canonPlacement.transform.rotation);
+            CameraHandler.Instance.AddShake(0.5f, transform.position);
+            for (int i = 0; i < entityData.nbBulletPerShoot; i++)
+            {
+                GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
+                CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject);
+            }
+
         }
+        
     }
 
     /// <summary>
@@ -344,4 +351,35 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects
         base.Die();
     }
 
+    #region Gravity
+    public void OnGravityDirectHit()
+    {
+        canShoot = false;
+    }
+
+    public void OnPull(Vector3 position, float force)
+    {
+        canShoot = false;
+    }
+
+    public void OnRelease()
+    {
+        canShoot = true;
+    }
+
+    public void OnHold()
+    {
+        
+    }
+
+    public void OnZeroG()
+    {
+        
+    }
+
+    public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
+    {
+        canShoot = true;
+    }
+    #endregion Gravity
 }
