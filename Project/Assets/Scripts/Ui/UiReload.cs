@@ -49,6 +49,14 @@ public class UiReload : MonoBehaviour
     float perfectAnimPurcentage = 0;
     bool perfectAnim = false;
 
+    float timerShot = 1;
+
+    float currentRemainingTextScale = 1;
+
+    GameObject[] bulletSprites = new GameObject[0];
+
+    float holaValue = 0;
+
     private void Start()
     {
         bar             = Instantiate(emptyUiBox, rootUiReloading.transform);
@@ -57,17 +65,88 @@ public class UiReload : MonoBehaviour
         perfectSpot     = Instantiate(emptyUiBox, rootUiReloading.transform);
         checkBar        = Instantiate(emptyUiBox, rootUiReloading.transform);
         HideGraphics(false);
+
+        bulletSprites = new GameObject[reloadData.pullOfBullet];
+        int bulletCost = Weapon.Instance.GetChargedWeaponBulletCost();
+        int numberOfSeparation = Mathf.CeilToInt(reloadData.pullOfBullet / bulletCost) - 1;
+        float distanceBetweenBullet = (reloadData.purcentageUsedY - reloadData.spaceEveryThreeBullet * numberOfSeparation) * Screen.height / reloadData.pullOfBullet;
+
+
+        for (int i = 0; i < reloadData.pullOfBullet; i++)
+        {
+            bulletSprites[i] = Instantiate(emptyUiBox, transform);
+            bulletSprites[i].GetComponent<Image>().sprite = reloadData.bulletSprite;
+
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (0, i * distanceBetweenBullet + reloadData.spaceEveryThreeBullet * Screen.height * Mathf.CeilToInt(i / bulletCost)) + new Vector2 (Screen.width * reloadData.decalBulletSprites.x, Screen.height * reloadData.decalBulletSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+            bulletSprites[i].transform.position = transform.TransformPoint(pos);
+        }
+
     }
 
     void Update()
     {
+
+        // ######################################################################################################################## //
+        // ################################################## BULLET DISPLAY ###################################################### //
+        // ######################################################################################################################## //
+
+        #region bulletDisplay
         Vector2 bulletAmount = Weapon.Instance.GetBulletAmmount();
 
         reloadText.SetActive(bulletAmount.x == 0);
 
-        bulletRemainingText.text = bulletAmount.x + " / " + bulletAmount.y;
-        //UpdateGraphics(Mathf.Sin(Time.time) / 2 + 0.5f, 0.7f, 0.05f);
+        if (timerShot < 1)
+            timerShot += Time.unscaledDeltaTime / reloadData.scaleAnimBulletTime;
+        if (timerShot > 1)
+            timerShot = 1;
 
+        bulletRemainingText.color = bulletAmount.x == 0 ? reloadData.noBulletColor : bulletAmount.x > reloadData.shortNumberOfBullet ? reloadData.highOnBulletColor : reloadData.shortOnBulletColor;
+
+        if (holaValue < reloadData.pullOfBullet -1 + reloadData.holaRange) holaValue += Time.unscaledDeltaTime * (reloadData.pullOfBullet - 1 + reloadData.holaRange) / reloadData.holaFeedbackTime;
+
+        float aimedSize;
+        for (int i = 0; i < reloadData.pullOfBullet; i++)
+        {
+            if (Mathf.Abs(i- holaValue) < reloadData.holaRange)
+            {
+                bulletSprites[i].transform.localScale = Vector3.one + Vector3.one * reloadData.holaEffectOnBullet.Evaluate((holaValue - i + reloadData.holaRange)/ reloadData.holaRange) * reloadData.holaScaleMultiplier;
+            }
+            else
+            {
+                bulletSprites[i].transform.localScale = Vector3.one;
+            }
+
+            if (i < bulletAmount.x)
+            {
+                bulletSprites[i].SetActive(true);
+                if (i + 1 == bulletAmount.x) aimedSize = reloadData.selectedSize;
+                else aimedSize = reloadData.baseSize;
+
+                bulletSprites[i].GetComponent<Image>().color = bulletAmount.x == 0 ? reloadData.noBulletColor : bulletAmount.x > reloadData.shortNumberOfBullet ? reloadData.highOnBulletColor : reloadData.shortOnBulletColor;
+                if (i > bulletAmount.y-1) bulletSprites[i].GetComponent<Image>().color = Color.yellow;
+            }
+            else
+            {
+                bulletSprites[i].SetActive(false);
+                aimedSize = reloadData.shotSize;
+            }
+            bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.Lerp (bulletSprites[i].GetComponent<RectTransform>().sizeDelta, Vector2.one * aimedSize, Time.unscaledDeltaTime * reloadData.sizeChangeSpeed);
+        }
+
+        if (bulletAmount.x > 0) currentRemainingTextScale = Mathf.MoveTowards(currentRemainingTextScale, 1, reloadData.scaleRecoverSpeed * Time.unscaledDeltaTime);
+        else currentRemainingTextScale = Mathf.MoveTowards(currentRemainingTextScale, reloadData.scaleIfNoBullet, reloadData.scaleEmptySpeed * Time.unscaledDeltaTime);
+
+        bulletRemainingText.transform.localScale = Vector3.one * currentRemainingTextScale + Vector3.one * currentRemainingTextScale * reloadData.scaleAnimBulletTextShot.Evaluate(timerShot) * reloadData.scaleAnimBulletValue ;
+
+        bulletRemainingText.text = bulletAmount.x + " / " + bulletAmount.y;
+        #endregion
+
+        // ######################################################################################################################## //
+        // ################################################## RELOAD DISPLAY ###################################################### //
+        // ######################################################################################################################## //
+
+        #region reloadDisplay
         if (reducing)
         {
             reducingPurcentage += Time.unscaledDeltaTime / reloadData.reducingTime;
@@ -102,6 +181,7 @@ public class UiReload : MonoBehaviour
         ChangeScale(checkBar, totalScaleValue, baseScale);
         ChangeScale(reloadingText, totalScaleValue, baseScale);
         ChangeScale(perfectSpot, totalScaleValue, baseScale + reloadData.scaleAnimOnPerfectIndicator.Evaluate(perfectAnimPurcentage) * reloadData.perfectAnimScaleMultiplier);
+        #endregion
 
     }
 
@@ -121,7 +201,13 @@ public class UiReload : MonoBehaviour
         reducing = true;
         perfectAnim = didPerfect;
 
+        holaValue = -reloadData.holaRange;
         //rootUiReloading.SetActive(false);
+    }
+
+    public void PlayerShot()
+    {
+        timerShot = 0;
     }
 
     public void DisplayGraphics()

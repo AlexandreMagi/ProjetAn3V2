@@ -12,6 +12,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc45569da9f54a46b08481e90214fb5, type: 3}
   m_Name: DataReloadGraph_Base
   m_EditorClassIdentifier: 
+  bulletSprite: {fileID: 21300000, guid: f25634d1a7613314e8ae536b11b90008, type: 3}
+  pullOfBullet: 15
+  purcentageUsedY: 0.7
+  decalBulletSprites: {x: 0.95, y: 0.2}
+  spaceEveryThreeBullet: 0.02
+  holaFeedbackTime: 0.4
+  holaRange: 2
+  holaScaleMultiplier: 0.5
+  holaEffectOnBullet:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.1684804
+      outSlope: 3.1684804
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.17170775
+    - serializedVersion: 3
+      time: 0.5008712
+      value: 0.9985127
+      inSlope: -0.00630752
+      outSlope: -0.00630752
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.27671796
+    - serializedVersion: 3
+      time: 1
+      value: -0.0070762634
+      inSlope: -3.2848148
+      outSlope: -3.2848148
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.117086686
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  baseSize: 100
+  selectedSize: 120
+  shotSize: 0
+  sizeChangeSpeed: 7
+  scaleAnimBulletTextShot:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.8740716
+      outSlope: 2.8740716
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.24599542
+    - serializedVersion: 3
+      time: 0.50779593
+      value: 0.99872434
+      inSlope: 0.020988934
+      outSlope: 0.020988934
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.3109539
+    - serializedVersion: 3
+      time: 1
+      value: 0.0023598075
+      inSlope: -3.4468515
+      outSlope: -3.4468515
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10138967
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleAnimBulletValue: 0.1
+  scaleAnimBulletTime: 0.1
+  shortNumberOfBullet: 3
+  shortOnBulletColor: {r: 1, g: 0, b: 0, a: 1}
+  highOnBulletColor: {r: 1, g: 1, b: 1, a: 1}
+  noBulletColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
+  scaleIfNoBullet: 0
+  scaleEmptySpeed: 5
+  scaleRecoverSpeed: 5
   barColor: {r: 1, g: 1, b: 1, a: 1}
   extremityColor: {r: 1, g: 1, b: 1, a: 1}
   checkBarColor: {r: 0, g: 1, b: 0, a: 1}

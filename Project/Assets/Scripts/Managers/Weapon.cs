@@ -86,6 +86,10 @@ public class Weapon : MonoBehaviour
     {
         return reloading;
     }
+    public int GetChargedWeaponBulletCost()
+    {
+        return weapon.chargedShot.bulletCost;
+    }
 
     public void ReloadingInput()
     {
@@ -219,6 +223,7 @@ public class Weapon : MonoBehaviour
                 }
             }
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
+            UiReload.Instance.PlayerShot();
             CameraHandler.Instance.AddRecoil(weaponMod.recoilPerShot);
             CameraHandler.Instance.AddFovRecoil(weaponMod.recoilPerShot);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
