@@ -44,8 +44,19 @@ public class Spawner : MonoBehaviour
         if (spawnEnabled)
         {
             fTimer += Time.deltaTime;
-            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable >= this.transform.childCount)
+            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable > enemiesSpawned)
             {
+                if (isLimited)
+                {
+                    enemiesSpawned++;
+
+                    if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
+                    {
+                        spawnEnabled = false;
+                    }
+
+                }
+
                 fTimer -= 1 / spawnerType.fEnnemiPerSecond;
 
                 SpawnEnemy();
@@ -55,43 +66,45 @@ public class Spawner : MonoBehaviour
 
     protected virtual GameObject SpawnEnemy()
     {
-        GameObject spawnedEnemy;
-        if (entDataToGive is DataSwarmer)
+        
+        if (spawnEnabled)
         {
-            spawnedEnemy = SwarmerPullHandler.Instance.GetSwarmer(entDataToGive);
-        }
-        else
-        {
-            spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
-            if (entDataToGive != null) spawnedEnemy.GetComponent<Entity<DataEntity>>().SetData(entDataToGive);
-        }
-
-        spawnedEnemy.transform.SetParent(this.transform, false);
-        spawnedEnemy.transform.position = transform.position;
-
-
-        if(isPathedSpawner && pathToGive != null)
-        {
-            spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathToGive);
-        }
-
-        //spawnedEnemy.transform.localScale= new Vector3(1, 1, 1);
-        if (spawnerType.bIsImpulseSpawn)
-        {
-            spawnedEnemy.GetComponent<Rigidbody>().AddForce(spawnerType.v3Direction * spawnerType.fImpulseForce);
-        }
-
-        if (isLimited)
-        {
-            enemiesSpawned++;
-
-            if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
+            GameObject spawnedEnemy;
+            if (entDataToGive is DataSwarmer)
             {
-                spawnEnabled = false;
+                spawnedEnemy = SwarmerPullHandler.Instance.GetSwarmer(entDataToGive);
             }
-        }
+            else
+            {
+                spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
+                if (entDataToGive != null) spawnedEnemy.GetComponent<Entity<DataEntity>>().SetData(entDataToGive);
+            }
 
-        return spawnedEnemy;
+            spawnedEnemy.transform.SetParent(this.transform, false);
+            spawnedEnemy.transform.position = transform.position;
+
+
+            if (isPathedSpawner && pathToGive != null)
+            {
+                spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathToGive);
+            }
+
+            //spawnedEnemy.transform.localScale= new Vector3(1, 1, 1);
+            if (spawnerType.bIsImpulseSpawn)
+            {
+                spawnedEnemy.GetComponent<Rigidbody>().AddForce(spawnerType.v3Direction * spawnerType.fImpulseForce);
+            }
+
+            return spawnedEnemy;
+        }
+        
+        return null;
+    }
+
+    public void ChildDied()
+    {
+        if(!isLimited)
+            enemiesSpawned--;
     }
 
 }

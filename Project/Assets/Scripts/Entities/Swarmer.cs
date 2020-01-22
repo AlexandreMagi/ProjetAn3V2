@@ -154,11 +154,14 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         pathToFollow = null;
         currentFollow = null;
 
+        this.transform.GetComponentInParent<Spawner>().ChildDied();
+
         //Means it has been killed in some way and has not just attacked
         if(health <= 0)
         {
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
 
+            if(SequenceHandler.Instance != null)
             SequenceHandler.Instance.OnEnemyKill();
         }
 
