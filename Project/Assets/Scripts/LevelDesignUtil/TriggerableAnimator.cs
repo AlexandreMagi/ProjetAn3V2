@@ -7,6 +7,7 @@ public class TriggerableAnimator : MonoBehaviour
     [SerializeField]
     List<string> vfxNames;
 
+    [SerializeField]
     List<Transform> vfxPositions;
     int currentVFX = 0;
 
