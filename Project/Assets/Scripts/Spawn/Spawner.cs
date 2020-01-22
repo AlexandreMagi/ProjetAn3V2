@@ -44,22 +44,19 @@ public class Spawner : MonoBehaviour
         if (spawnEnabled)
         {
             fTimer += Time.deltaTime;
-            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable > enemiesSpawned)
+
+            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && enemiesSpawned <= spawnerType.iNbEnemiesSpawnable)
             {
-                if (isLimited)
-                {
-                    enemiesSpawned++;
-
-                    if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
-                    {
-                        spawnEnabled = false;
-                    }
-
-                }
+                enemiesSpawned++;
 
                 fTimer -= 1 / spawnerType.fEnnemiPerSecond;
 
                 SpawnEnemy();
+
+                if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
+                {
+                    spawnEnabled = false;
+                }
             }
         }
     }
