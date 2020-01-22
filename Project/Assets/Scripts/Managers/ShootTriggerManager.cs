@@ -65,6 +65,9 @@ public class ShootTriggerManager : MonoBehaviour
         main = Main.Instance.gameObject;
     }
 
+    /// <summary>
+    /// Called by the child ShootTriggers when they are shot (killed). Once they're all dead, triggers the required actions.
+    /// </summary>
     public void OnEventSent()
     {
         nbEventsSent++;
@@ -95,6 +98,10 @@ public class ShootTriggerManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Verifies if theres any AnimBlocker in the hitbox. If there are, it waits until they are all gone.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CheckBlockers()
     {
         bool canContinue;
@@ -119,11 +126,18 @@ public class ShootTriggerManager : MonoBehaviour
         yield break;
     }
 
+    /// <summary>
+    /// Shortcut for NextSequence in SequenceHandler
+    /// </summary>
     void StartNextsequence()
     {
         SequenceHandler.Instance.NextSequence();
     }
 
+
+    /// <summary>
+    /// Starts all the desired triggers after a specific time.
+    /// </summary>
     void Trigger()
     {
         TriggerUtil.TriggerAnimations(0, animators);
