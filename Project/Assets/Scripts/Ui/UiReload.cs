@@ -64,7 +64,7 @@ public class UiReload : MonoBehaviour
         extremityTwo    = Instantiate(emptyUiBox, rootUiReloading.transform);
         perfectSpot     = Instantiate(emptyUiBox, rootUiReloading.transform);
         checkBar        = Instantiate(emptyUiBox, rootUiReloading.transform);
-        HideGraphics(false);
+        HideGraphics(false, 0);
 
         bulletSprites = new GameObject[reloadData.pullOfBullet];
         int bulletCost = Weapon.Instance.GetChargedWeaponBulletCost();
@@ -94,7 +94,7 @@ public class UiReload : MonoBehaviour
         #region bulletDisplay
         Vector2 bulletAmount = Weapon.Instance.GetBulletAmmount();
 
-        reloadText.SetActive(bulletAmount.x == 0);
+        reloadText.SetActive(bulletAmount.x == 0 && !Weapon.Instance.GetIfReloading());
 
         if (timerShot < 1)
             timerShot += Time.unscaledDeltaTime / reloadData.scaleAnimBulletTime;
@@ -190,7 +190,7 @@ public class UiReload : MonoBehaviour
         obj.transform.localScale = Vector3.one * (scale + basescale);
     }
 
-    public void HideGraphics(bool didPerfect)
+    public void HideGraphics(bool didPerfect, int nbBulletBefore)
     {
         //bar.SetActive(false);
         //extremityOne.SetActive(false);
@@ -201,7 +201,7 @@ public class UiReload : MonoBehaviour
         reducing = true;
         perfectAnim = didPerfect;
 
-        holaValue = -reloadData.holaRange;
+        holaValue = nbBulletBefore-reloadData.holaRange;
         //rootUiReloading.SetActive(false);
     }
 
@@ -240,6 +240,7 @@ public class UiReload : MonoBehaviour
 
         MoveTo(extremityOne, bar.GetComponent<RectTransform>().position + new Vector3(barSizeX / 2, 0));
         MoveTo(extremityTwo, bar.GetComponent<RectTransform>().position - new Vector3(barSizeX / 2, 0));
+        MoveTo(reloadingText, bar.GetComponent<RectTransform>().position - new Vector3(barSizeX / 2 - extremityOne.GetComponent<RectTransform>().sizeDelta.x, bar.GetComponent<RectTransform>().sizeDelta.y/2));
         MoveTo(checkBar, bar.GetComponent<RectTransform>().position - new Vector3(barSizeX / 2, 0) + new Vector3(barSizeX, 0) * currentLoading);
         MoveTo(perfectSpot, bar.GetComponent<RectTransform>().position - new Vector3(barSizeX / 2, 0) + new Vector3(barSizeX, 0) * perfectPlacement);
 

@@ -18,23 +18,23 @@ public class UiLifeBar : MonoBehaviour
         _instance = this;
     }
 
-    [SerializeField]
-    Slider lifeBar = null;
-    [SerializeField]
-    Slider lifeBarFeedBack = null;
+    //[SerializeField]
+    //Slider lifeBar = null;
+    //[SerializeField]
+    //Slider lifeBarFeedBack = null;
     [SerializeField]
     Slider armorBar = null;
     [SerializeField]
     Slider armorBarFeedBack = null;
-    [SerializeField]
-    Text lifeText = null;
+    //[SerializeField]
+    //Text lifeText = null;
     [SerializeField]
     Text armorText = null;
 
     public void UpdateLifeDisplay(float value, float realValue)
     {
-        lifeBar.value = value;
-        lifeText.text = Mathf.CeilToInt(realValue).ToString();
+        //lifeBar.value = value;
+        //lifeText.text = Mathf.CeilToInt(realValue).ToString();
     }
 
     public void UpdateArmorDisplay(float value, float realValue)
@@ -45,8 +45,8 @@ public class UiLifeBar : MonoBehaviour
 
     public void Update()
     {
-        if  (lifeBarFeedBack.value < lifeBar.value)     lifeBarFeedBack.value = lifeBar.value;
-        else lifeBarFeedBack.value =                    Mathf.MoveTowards(lifeBarFeedBack.value, lifeBar.value, Time.deltaTime);
+        //if  (lifeBarFeedBack.value < lifeBar.value)     lifeBarFeedBack.value = lifeBar.value;
+        //else lifeBarFeedBack.value =                    Mathf.MoveTowards(lifeBarFeedBack.value, lifeBar.value, Time.deltaTime);
         if  (armorBarFeedBack.value < armorBar.value)   armorBarFeedBack.value = armorBar.value;
         else armorBarFeedBack.value =                   Mathf.MoveTowards(armorBarFeedBack.value, armorBar.value, Time.deltaTime);
     }
