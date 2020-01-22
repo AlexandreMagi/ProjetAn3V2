@@ -44,7 +44,7 @@ public class Spawner : MonoBehaviour
         if (spawnEnabled)
         {
             fTimer += Time.deltaTime;
-            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable >= this.transform.childCount)
+            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable > this.transform.childCount)
             {
                 fTimer -= 1 / spawnerType.fEnnemiPerSecond;
 
