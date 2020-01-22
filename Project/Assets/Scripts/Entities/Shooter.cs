@@ -347,6 +347,8 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects, IGrav
         if (health <= 0)
         {
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
+
+            SequenceHandler.Instance.OnEnemyKill();
         }
 
         base.Die();
