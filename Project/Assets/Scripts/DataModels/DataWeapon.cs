@@ -25,10 +25,15 @@ public class DataWeapon : ScriptableObject
     public float reloadingStartShake = 0.3f;
     public float reloadingShake = 0.3f;
     public float reloadingPerfectShake = 0.5f;
+    public float reloadingMissTryShake = 0.5f;
+    public float reloadingMissTryRecoil = 1;
     public float reloadingPerfectRecoil = 0.5f;
     public float reloadingPerfectSlowmo = 0.8f;
     public float reloadingPerfectSlowmoDur = 0.5f;
     public int bulletAddedIfPerfect = 3;
+
+    public float recoilIfNoBullet = 2;
+    public float shakeIfNoBullet = 0.2f;
 
     [RangeAttribute(1, 50)]
     public float gravityOrbCooldown;
