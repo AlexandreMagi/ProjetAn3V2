@@ -51,11 +51,11 @@ public class TriggerSender : MonoBehaviour
 
     bool timerStarted = false;
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         StartTrigger();
     }
-
+        
     void StartTrigger()
     {
         if (!timerStarted)

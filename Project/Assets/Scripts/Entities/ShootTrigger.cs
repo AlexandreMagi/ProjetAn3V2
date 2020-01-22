@@ -35,6 +35,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
                 parentManager.OnEventSent();
 
             GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<BoxCollider>().enabled = false;
 
             
             if (gameObject.transform.tag == "EnvironnementTrigger")

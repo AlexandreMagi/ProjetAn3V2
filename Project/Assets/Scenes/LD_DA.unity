@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44510776, g: 0.49471045, b: 0.5737894, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,8 +98,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 0e496d4deecf2e9498f06554179b32ca,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -4926,7 +4925,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.20392156, g: 0.54465866, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5755,8 +5754,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sequences:
-  - {fileID: 11400000, guid: bd065c51c3f33d3459f6a0dc4808b9e8, type: 2}
-  - {fileID: 11400000, guid: 919f4728745f79f4f8308e9ec6ac0bcb, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   isWaitingTimer: 0
 --- !u!4 &942163119
 Transform:
@@ -6261,7 +6260,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.2028302, b: 0.9412969, a: 1}
-  m_Intensity: 6
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -14337,7 +14336,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.20392156, g: 0.54465866, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -14769,7 +14768,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.20392156, g: 0.54465866, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16259,7 +16258,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.2028302, b: 0.9412969, a: 1}
-  m_Intensity: 6
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16827,7 +16826,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.20392156, g: 0.54465866, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -16987,7 +16986,7 @@ GameObject:
   - component: {fileID: 2006890000}
   - component: {fileID: 2006890001}
   m_Layer: 0
-  m_Name: Spot Light
+  m_Name: RevealLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17001,7 +17000,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006889998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.11, y: 4.28, z: 3.62}
+  m_LocalPosition: {x: 2.11, y: 4.28, z: 3.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 638196917}
@@ -17080,6 +17079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f774d09ef53fb149bd029a1506372a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeScaleIndependent: 0
   blink: 0
   offRandomTime: {x: 0, y: 0.5}
   onRandomTime: {x: 0, y: 0.2}
@@ -17088,6 +17088,9 @@ MonoBehaviour:
   minValueIntensityRelative: 0.3
   maxValueIntensityRelative: 1
   changeColor: 0
+  fluidified: 0
+  lerped: 0
+  speedFluidify: 3
   currentMod: 0
   changeEvery: {x: 0, y: 1}
   colorRandOne: {r: 1, g: 1, b: 1, a: 1}
@@ -17095,6 +17098,37 @@ MonoBehaviour:
   frequencyColor: 1
   colorOsciOne: {r: 1, g: 1, b: 1, a: 1}
   colorOsciTwo: {r: 1, g: 1, b: 1, a: 1}
+  colorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  gradientTime: 1
+  decalTime: 0
 --- !u!1 &2025576952
 GameObject:
   m_ObjectHideFlags: 0
