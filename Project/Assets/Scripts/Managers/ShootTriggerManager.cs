@@ -18,7 +18,7 @@ public class ShootTriggerManager : MonoBehaviour
     [SerializeField]
     AnimBlocker[] blockers = null;
 
-
+    [Header("Sequences")]
     [SerializeField]
     bool startsNextSequenceOnTrigger = false;
 
@@ -30,11 +30,17 @@ public class ShootTriggerManager : MonoBehaviour
     bool startsShakeAfterAllTriggers = false;
 
     [SerializeField, ShowIf("startsShakeAfterAllTriggers")]
+    float timeBeforeShake = 0;
+
+    [SerializeField, ShowIf("startsShakeAfterAllTriggers")]
     float shakeForce = 0f;
 
     // SOUND ////////////////////////////////
     [SerializeField, Header("Sound")]
     bool isPlayingSound = false;
+
+    [SerializeField, ShowIf("isPlayingSound")]
+    float timeBeforeSound = 0;
 
     [SerializeField, ShowIf("isPlayingSound")]
     string soundPlayed = "";
@@ -134,12 +140,12 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (startsShakeAfterAllTriggers)
         {
-            TriggerUtil.TriggerShake(0, shakeForce);
+            TriggerUtil.TriggerShake(timeBeforeShake, shakeForce);
         }
 
         if (isPlayingSound)
         {
-            TriggerUtil.TriggerSound(0, soundPlayed, soundVolume);
+            TriggerUtil.TriggerSound(timeBeforeSound, soundPlayed, soundVolume);
         }
 
         if (triggersBooleanSequence)

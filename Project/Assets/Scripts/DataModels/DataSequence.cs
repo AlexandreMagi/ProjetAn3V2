@@ -6,6 +6,7 @@ using UnityEngine;
 using Cinemachine;
 using Sirenix.OdinInspector;
 
+
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Sequences/DataSequence")]
 public class DataSequence : ScriptableObject
 {
