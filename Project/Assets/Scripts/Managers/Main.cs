@@ -10,6 +10,14 @@ public class Main : MonoBehaviour
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
 
+    [SerializeField]
+    int startWithCameraNumber = 0;
+
+    [SerializeField]
+    bool autoReloadOnNoAmmo = false;
+
+    bool hasJumpedCam = false;
+
     public static Main Instance { get; private set; }
 
     void Awake()
@@ -20,6 +28,12 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!hasJumpedCam && startWithCameraNumber != 0)
+        {
+            SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
+            hasJumpedCam = true;
+        }
+
         //SHOOT
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerCanOrb)
         {
@@ -28,6 +42,11 @@ public class Main : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0) && playerCanShoot)
         {
             Weapon.Instance.InputHold();
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse0) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        {
+            Weapon.Instance.ReloadValidate();
+            Weapon.Instance.ReloadingInput();
         }
         if (Input.GetKeyUp(KeyCode.Mouse0) && playerCanShoot)
         {
