@@ -33,6 +33,8 @@ public class Weapon : MonoBehaviour
     GameObject muzzleFlash = null;
     [SerializeField]
     GameObject weaponLight = null;
+    [SerializeField]
+    bool ignoreBulletLimitForCharge = false;
 
     float timerMuzzleFlash = 0;
     float timeMuzzleAdded = 0.05f;
@@ -147,7 +149,7 @@ public class Weapon : MonoBehaviour
 
     public void InputHold()
     {
-        if (!reloading && bulletRemaining >= weapon.chargedShot.bulletCost)
+        if (!reloading && bulletRemaining >= (ignoreBulletLimitForCharge ? 0 : weapon.chargedShot.bulletCost))
         {
             if (currentChargePurcentage < 1)
             {
