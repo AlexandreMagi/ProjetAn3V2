@@ -158,6 +158,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         if(health <= 0)
         {
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
+
+            SequenceHandler.Instance.OnEnemyKill();
         }
 
         this.gameObject.SetActive(false);
