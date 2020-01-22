@@ -44,8 +44,19 @@ public class Spawner : MonoBehaviour
         if (spawnEnabled)
         {
             fTimer += Time.deltaTime;
-            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable >= this.transform.childCount)
+            if (fTimer > 1 / spawnerType.fEnnemiPerSecond && spawnerType.iNbEnemiesSpawnable > enemiesSpawned)
             {
+                if (isLimited)
+                {
+                    enemiesSpawned++;
+
+                    if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
+                    {
+                        spawnEnabled = false;
+                    }
+
+                }
+
                 fTimer -= 1 / spawnerType.fEnnemiPerSecond;
 
                 SpawnEnemy();
@@ -55,17 +66,7 @@ public class Spawner : MonoBehaviour
 
     protected virtual GameObject SpawnEnemy()
     {
-        if (isLimited)
-        {
-            enemiesSpawned++;
-
-            if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
-            {
-                spawnEnabled = false;
-            }
-
-        }
-
+        
         if (spawnEnabled)
         {
             GameObject spawnedEnemy;
@@ -98,6 +99,12 @@ public class Spawner : MonoBehaviour
         }
         
         return null;
+    }
+
+    public void ChildDied()
+    {
+        if(!isLimited)
+            enemiesSpawned--;
     }
 
 }
