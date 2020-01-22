@@ -153,7 +153,8 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects, IGrav
                 {
                     timerbeforeNextAttack -= entityData.timeBetweenBullet;
                     bulletShot++;
-                    Shoot();
+                    if(canShoot)
+                        Shoot();
                     //GetComponent<Animator>().SetTrigger("Shoot");
                     //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Launch", false, 0.5f);
                     if (bulletShot >= entityData.nbShootPerSalve)
