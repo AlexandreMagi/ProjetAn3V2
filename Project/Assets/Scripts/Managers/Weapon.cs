@@ -117,8 +117,8 @@ public class Weapon : MonoBehaviour
     public void EndReload(bool perfect)
     {
         reloading = false;
+        UiReload.Instance.HideGraphics(perfect, bulletRemaining);
         bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
-        UiReload.Instance.HideGraphics(perfect);
         CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
         if (perfect)
         {
