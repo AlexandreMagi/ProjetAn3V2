@@ -21,6 +21,7 @@ public class CrosshairInstance
 
     public bool haveOrb = false;
     public float orbModifierPurcentage = 0;
+    public float purcentageReductionNoBullet = 0;
 
     public CrosshairInstance (DataCrossHair _data)
     {
@@ -36,26 +37,32 @@ public class CrosshairInstance
         float chargeValue = UpdateChargeValue();
         GetChargeFeedbackValue(chargeValue, dt);
 
+        Vector2Int bulletAmount = Weapon.Instance.GetBulletAmmount();
+        if (bulletAmount.x == 0) purcentageReductionNoBullet += dt / data.noBulletAnimTime;
+        else purcentageReductionNoBullet = dt;
+        purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
 
-        size = Mathf.Sin((time + data.offsetIdle) * Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)) * Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue)                      // Sin Idle
-                + Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue) + (data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier)                                                                    // Base Size + FB charged size
+        size =  Mathf.Sin((time + data.offsetIdle) * bulletAmount.x == 0 ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue))
+                * (bulletAmount.x == 0 ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue))                     // Sin Idle
+                + (bulletAmount.x == 0 ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue)) + (data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier)                                                                    // Base Size + FB charged size
                 + (reculValue / data.reculMax) * data.reculSizeMultiplier                                                                                                                                       // Taille ajouté par recul
                 + (hitValue / data.hitMax) * data.hitSizeMultiplier;                                                                                                                                            // Taille ajouté par les Hit
-                
 
-        color = chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
-        outlineColor = chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
+
+        color = bulletAmount.x == 0 ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
+        outlineColor = bulletAmount.x == 0 ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
 
         currentRotation += data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue));
         if (Mathf.Abs(currentRotation) > 360) currentRotation += 360 * Mathf.Sign(currentRotation);
         rotation = Mathf.Lerp(data.startRotation, data.chargingRotation, chargeValue) + currentRotation;
 
-        offset = Vector2.Lerp(data.offset, data.chargingOffset, chargeValue); /// new Vector2 (Screen.width, Screen.height) * 1000;
+        offset = Vector2.Lerp(data.offset, data.chargingOffset, chargeValue);
 
         if (hitValue > 0) hitValue -= data.hitRecoverRate * dt;
         else hitValue = 0;
         if (reculValue > 0) reculValue -= data.reculRecoverRate * dt;
         else reculValue = 0;
+
 
 
         if (data.reactToOrb)

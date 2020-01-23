@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: DataReloadGraph_Base
   m_EditorClassIdentifier: 
   bulletSprite: {fileID: 21300000, guid: f25634d1a7613314e8ae536b11b90008, type: 3}
-  pullOfBullet: 15
   purcentageUsedY: 0.6
   decalBulletSprites: {x: 0.97, y: 0.1}
   spaceEveryThreeBullet: 0.02
@@ -53,10 +52,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  baseSize: 70
-  selectedSize: 80
-  shotSize: 0
-  sizeChangeSpeed: 7
+  baseSize: 80
+  bulletFallSpeep: 500
   scaleAnimBulletTextShot:
     serializedVersion: 2
     m_Curve:
@@ -94,6 +91,8 @@ MonoBehaviour:
   scaleAnimBulletTime: 0.1
   shortNumberOfBullet: 3
   shortOnBulletColor: {r: 1, g: 0, b: 0, a: 1}
+  midNumberOfBullet: 8
+  midOnBulletColor: {r: 1, g: 0.46949857, b: 0, a: 1}
   highOnBulletColor: {r: 1, g: 1, b: 1, a: 1}
   noBulletColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
   scaleIfNoBullet: 0

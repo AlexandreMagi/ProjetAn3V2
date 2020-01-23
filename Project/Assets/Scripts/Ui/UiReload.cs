@@ -54,6 +54,8 @@ public class UiReload : MonoBehaviour
     float currentRemainingTextScale = 1;
 
     GameObject[] bulletSprites = new GameObject[0];
+    Vector3[] bulletPos = new Vector3[0];
+    int bulletPull;
 
     float holaValue = 0;
 
@@ -66,20 +68,26 @@ public class UiReload : MonoBehaviour
         checkBar        = Instantiate(emptyUiBox, rootUiReloading.transform);
         HideGraphics(false, 0);
 
-        bulletSprites = new GameObject[reloadData.pullOfBullet];
+        bulletPull = Weapon.Instance.GetBulletAmmount().y + Weapon.Instance.GetSuplementaryBullet();
+        bulletSprites = new GameObject[bulletPull];
+        bulletPos = new Vector3[bulletPull];
         int bulletCost = Weapon.Instance.GetChargedWeaponBulletCost();
-        int numberOfSeparation = Mathf.CeilToInt(reloadData.pullOfBullet / bulletCost) - 1;
-        float distanceBetweenBullet = (reloadData.purcentageUsedY - reloadData.spaceEveryThreeBullet * numberOfSeparation) * Screen.height / reloadData.pullOfBullet;
+        int numberOfSeparation = Mathf.CeilToInt(bulletPull / bulletCost) - 1;
+        float distanceBetweenBullet = (reloadData.purcentageUsedY - reloadData.spaceEveryThreeBullet * numberOfSeparation) * Screen.height / bulletPull;
 
 
-        for (int i = 0; i < reloadData.pullOfBullet; i++)
+        for (int i = 0; i < bulletPull; i++)
         {
             bulletSprites[i] = Instantiate(emptyUiBox, transform);
             bulletSprites[i].GetComponent<Image>().sprite = reloadData.bulletSprite;
 
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (0, i * distanceBetweenBullet + reloadData.spaceEveryThreeBullet * Screen.height * Mathf.CeilToInt(i / bulletCost)) + new Vector2 (Screen.width * reloadData.decalBulletSprites.x, Screen.height * reloadData.decalBulletSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
-            bulletSprites[i].transform.position = transform.TransformPoint(pos);
+            bulletPos[i] = transform.TransformPoint(pos);
+            bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
+            Outline componentOutline = bulletSprites[i].AddComponent<Outline>();
+            componentOutline.effectColor = Color.black;
+            componentOutline.effectDistance = new Vector2(1, -1) * 5;
         }
 
     }
@@ -92,7 +100,7 @@ public class UiReload : MonoBehaviour
         // ######################################################################################################################## //
 
         #region bulletDisplay
-        Vector2 bulletAmount = Weapon.Instance.GetBulletAmmount();
+        Vector2Int bulletAmount = Weapon.Instance.GetBulletAmmount();
 
         reloadText.SetActive(bulletAmount.x == 0 && !Weapon.Instance.GetIfReloading());
 
@@ -101,38 +109,33 @@ public class UiReload : MonoBehaviour
         if (timerShot > 1)
             timerShot = 1;
 
-        bulletRemainingText.color = bulletAmount.x == 0 ? reloadData.noBulletColor : bulletAmount.x > reloadData.shortNumberOfBullet ? reloadData.highOnBulletColor : reloadData.shortOnBulletColor;
+        Color bulletColor = bulletAmount.x == 0 ? reloadData.noBulletColor : bulletAmount.x < reloadData.shortNumberOfBullet ? reloadData.shortOnBulletColor : bulletAmount.x < reloadData.midNumberOfBullet ? reloadData.midOnBulletColor : reloadData.highOnBulletColor;
+        bulletRemainingText.color = bulletColor;
 
-        if (holaValue < reloadData.pullOfBullet -1 + reloadData.holaRange) holaValue += Time.unscaledDeltaTime * (reloadData.pullOfBullet - 1 + reloadData.holaRange) / reloadData.holaFeedbackTime;
+        if (holaValue < bulletPull -1 + reloadData.holaRange) holaValue += Time.unscaledDeltaTime * (bulletPull - 1 + reloadData.holaRange) / reloadData.holaFeedbackTime;
 
-        float aimedSize;
-        for (int i = 0; i < reloadData.pullOfBullet; i++)
+
+
+        int nbBulletShot = bulletPull - bulletAmount.x;
+        for (int i = 0; i < bulletPull; i++)
         {
-            if (Mathf.Abs(i- holaValue) < reloadData.holaRange)
-            {
-                bulletSprites[i].transform.localScale = Vector3.one + Vector3.one * reloadData.holaEffectOnBullet.Evaluate((holaValue - i + reloadData.holaRange)/ reloadData.holaRange) * reloadData.holaScaleMultiplier;
-            }
-            else
-            {
-                bulletSprites[i].transform.localScale = Vector3.one;
-            }
+            if (Mathf.Abs(i - holaValue) < reloadData.holaRange) bulletSprites[i].transform.localScale = Vector3.one + Vector3.one * reloadData.holaEffectOnBullet.Evaluate((holaValue - i + reloadData.holaRange) / reloadData.holaRange) * reloadData.holaScaleMultiplier;
+            else bulletSprites[i].transform.localScale = Vector3.one;
 
-            if (i < bulletAmount.x)
+            if (i < bulletAmount.x - bulletAmount.y) bulletSprites[i].GetComponent<Image>().color = Color.yellow;
+            else bulletSprites[i].GetComponent<Image>().color = bulletColor;
+
+            if (i >= nbBulletShot)
             {
                 bulletSprites[i].SetActive(true);
-                if (i + 1 == bulletAmount.x) aimedSize = reloadData.selectedSize;
-                else aimedSize = reloadData.baseSize;
-
-                bulletSprites[i].GetComponent<Image>().color = bulletAmount.x == 0 ? reloadData.noBulletColor : bulletAmount.x > reloadData.shortNumberOfBullet ? reloadData.highOnBulletColor : reloadData.shortOnBulletColor;
-                if (i > bulletAmount.y-1) bulletSprites[i].GetComponent<Image>().color = Color.yellow;
+                bulletSprites[i].transform.position = Vector3.MoveTowards(bulletSprites[i].transform.position, bulletPos[i - nbBulletShot], Time.unscaledDeltaTime * reloadData.bulletFallSpeep);
             }
-            else
-            {
-                bulletSprites[i].SetActive(false);
-                aimedSize = reloadData.shotSize;
-            }
-            bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.Lerp (bulletSprites[i].GetComponent<RectTransform>().sizeDelta, Vector2.one * aimedSize, Time.unscaledDeltaTime * reloadData.sizeChangeSpeed);
+            else bulletSprites[i].SetActive(false);
         }
+
+
+
+
 
         if (bulletAmount.x > 0) currentRemainingTextScale = Mathf.MoveTowards(currentRemainingTextScale, 1, reloadData.scaleRecoverSpeed * Time.unscaledDeltaTime);
         else currentRemainingTextScale = Mathf.MoveTowards(currentRemainingTextScale, reloadData.scaleIfNoBullet, reloadData.scaleEmptySpeed * Time.unscaledDeltaTime);
@@ -202,6 +205,15 @@ public class UiReload : MonoBehaviour
         perfectAnim = didPerfect;
 
         holaValue = nbBulletBefore-reloadData.holaRange;
+        int supBullet = Weapon.Instance.GetSuplementaryBullet();
+        for (int i = 0; i < bulletSprites.Length; i++)
+        {
+            if (didPerfect)
+                bulletSprites[i].transform.position = bulletPos[i];
+            else if (i >= supBullet)
+                bulletSprites[i].transform.position = bulletPos[i - supBullet];
+        }
+
         //rootUiReloading.SetActive(false);
     }
 
