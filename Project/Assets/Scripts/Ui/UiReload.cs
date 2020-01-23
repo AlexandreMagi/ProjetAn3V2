@@ -130,7 +130,7 @@ public class UiReload : MonoBehaviour
             if (Mathf.Abs(i - holaValue) < reloadData.holaRange) bulletSprites[i].transform.localScale = Vector3.one + Vector3.one * reloadData.holaEffectOnBullet.Evaluate((holaValue - i + reloadData.holaRange) / reloadData.holaRange) * reloadData.holaScaleMultiplier;
             else bulletSprites[i].transform.localScale = Vector3.one;
 
-            if (i < bulletAmount.x - bulletAmount.y) bulletSprites[i].GetComponent<Image>().color = Color.yellow;
+            if (i < bulletAmount.x - bulletAmount.y + nbBulletShot) bulletSprites[i].GetComponent<Image>().color = Color.yellow;
             else bulletSprites[i].GetComponent<Image>().color = bulletColor;
 
             if (i >= nbBulletShot)
