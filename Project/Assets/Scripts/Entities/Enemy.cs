@@ -46,7 +46,7 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
         base.Start();
         entityData = entityData as T;
 
-        InitColor();
+        //InitColor();
     }
 
     protected void InitColor()
@@ -103,7 +103,7 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
 
         if (timeRemainingInMatFeedback >= 0) timeRemainingInMatFeedback -= Time.unscaledDeltaTime;
         timeRemainingInMatFeedback = Mathf.Clamp(timeRemainingInMatFeedback, 0, 1);
-        ChangeColor(timeRemainingInMatFeedback > 0);
+        //ChangeColor(timeRemainingInMatFeedback > 0);
 
         if (timeRemaingingStun > 0)
         {

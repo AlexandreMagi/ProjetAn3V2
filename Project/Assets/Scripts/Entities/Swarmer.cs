@@ -46,7 +46,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         timerWait = 0;
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
-        InitColor();
+        //InitColor();
     }
 
     public void OnHold()
