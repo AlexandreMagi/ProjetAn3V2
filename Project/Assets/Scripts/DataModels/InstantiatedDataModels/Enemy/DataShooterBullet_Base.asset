@@ -21,6 +21,8 @@ MonoBehaviour:
   timeBeforeCheckForAnotherTarget: 5
   fxWhenDie: fx_name_death_ennemi
   fxWhenStun: VFX_Stun
+  matWhenTakeDammage: {fileID: 0}
+  matChangeTime: 0.1
   bulletTrajectory:
     serializedVersion: 2
     m_Curve:
@@ -137,12 +139,12 @@ MonoBehaviour:
       outWeight: 0.07228967
     - serializedVersion: 3
       time: 1
-      value: 0.15579987
-      inSlope: -0.2664773
-      outSlope: -0.2664773
+      value: 0.44971466
+      inSlope: 0.07726453
+      outSlope: 0.07726453
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.09201995
+      inWeight: 0.09014198
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -168,3 +170,5 @@ MonoBehaviour:
   liftValue: 0
   fxExplosion: VFX_ExplosionShooterBullet
   spriteDisplayed: {fileID: 11400000, guid: 6512e9ae32b312047b7abe1ac5be3925, type: 2}
+  circlePrefab: {fileID: 4410997737478668277, guid: 7afde0ac91fb26c4c8919c900391f13c,
+    type: 3}

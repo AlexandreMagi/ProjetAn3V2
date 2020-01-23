@@ -35,8 +35,8 @@ public class DataShooterBullet : DataEnemy
 
     [Header("Fx")]
     public string fxExplosion = "VFX_ExplosionShooterBullet";
-
     public DataUiTemporarySprite spriteDisplayed;
+    public GameObject circlePrefab;
 
 
 }
