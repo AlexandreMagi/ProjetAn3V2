@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private GameObject orbPrefab = null;
 
+    private GameObject currentOrb;
+
     float timeRemainingBeforeOrb = 0;
 
     float newPerfectPlacement = 0;
@@ -152,9 +154,15 @@ public class Weapon : MonoBehaviour
         {
             if (timeRemainingBeforeOrb < 0)
             {
-                GameObject orb = Instantiate(orbPrefab);
-                orb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
+                currentOrb = Instantiate(orbPrefab);
+
+                currentOrb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+            }
+
+            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated)
+            {
+                currentOrb.GetComponent<GravityOrb>().StopHolding();
             }
         }
     }
