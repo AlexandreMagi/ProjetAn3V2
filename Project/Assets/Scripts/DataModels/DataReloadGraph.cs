@@ -54,5 +54,13 @@ public class DataReloadGraph : ScriptableObject
     public float reducingTime = 0.2f;
     public float perfectAnimScaleMultiplier = 1;
     public float perfectAnimtime = 0.2f;
+
+    [Header("Douille Anim")]
+    public Vector2 velocityXRandom = new Vector2(-500f, -250f);
+    public Vector2 velocityYRandom = new Vector2(450f, 550f);
+    public Vector2 gravityRandom = new Vector2(1500f, 1700f);
+    public Vector2 rotateRandom = new Vector2(-720f, 720f);
+    public Vector2 sizeRandom = new Vector2(60f, 80f);
+    public Color colorDouille = Color.Lerp(Color.white, Color.black, 0.7f);
 }
 
