@@ -240,7 +240,7 @@ public class SequenceHandler : MonoBehaviour
             currentSequence = sequences[sequenceIndex];
 
             //Debug.Log(currentVirtualCamera);
-
+            
             //CREATION DU NOUVEAU BLEND
             CinemachineBlendDefinition blendDef = new CinemachineBlendDefinition
             {

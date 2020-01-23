@@ -181,6 +181,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
             }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplay);
+            health = 0;
             this.Die();
         }
     }
@@ -323,5 +324,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
             return true;
         else
             return false;
+    }
+
+    public float GetDamage()
+    {
+        return entityData.damage;
     }
 }
