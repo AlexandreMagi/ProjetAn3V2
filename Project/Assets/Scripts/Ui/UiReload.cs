@@ -54,10 +54,12 @@ public class UiReload : MonoBehaviour
     float currentRemainingTextScale = 1;
 
     GameObject[] bulletSprites = new GameObject[0];
+    UiDouille[] bulletValues = new UiDouille[0];
     Vector3[] bulletPos = new Vector3[0];
     int bulletPull;
 
     float holaValue = 0;
+
 
     private void Start()
     {
@@ -70,6 +72,7 @@ public class UiReload : MonoBehaviour
 
         bulletPull = Weapon.Instance.GetBulletAmmount().y + Weapon.Instance.GetSuplementaryBullet();
         bulletSprites = new GameObject[bulletPull];
+        bulletValues = new UiDouille[bulletPull];
         bulletPos = new Vector3[bulletPull];
         int bulletCost = Weapon.Instance.GetChargedWeaponBulletCost();
         int numberOfSeparation = Mathf.CeilToInt(bulletPull / bulletCost) - 1;
@@ -80,6 +83,7 @@ public class UiReload : MonoBehaviour
         {
             bulletSprites[i] = Instantiate(emptyUiBox, transform);
             bulletSprites[i].GetComponent<Image>().sprite = reloadData.bulletSprite;
+            bulletValues[i] = new UiDouille(reloadData);
 
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (0, i * distanceBetweenBullet + reloadData.spaceEveryThreeBullet * Screen.height * Mathf.CeilToInt(i / bulletCost)) + new Vector2 (Screen.width * reloadData.decalBulletSprites.x, Screen.height * reloadData.decalBulletSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
@@ -127,10 +131,19 @@ public class UiReload : MonoBehaviour
 
             if (i >= nbBulletShot)
             {
-                bulletSprites[i].SetActive(true);
                 bulletSprites[i].transform.position = Vector3.MoveTowards(bulletSprites[i].transform.position, bulletPos[i - nbBulletShot], Time.unscaledDeltaTime * reloadData.bulletFallSpeep);
+                bulletSprites[i].transform.localRotation = Quaternion.identity;
+                bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
             }
-            else bulletSprites[i].SetActive(false);
+            else
+            {
+                bulletValues[i].UpdateValues();
+                bulletSprites[i].transform.localRotation = Quaternion.identity;
+                bulletSprites[i].transform.Translate(new Vector3(bulletValues[i].pSVelocity.x, bulletValues[i].pSVelocity.y, 0) * Time.unscaledDeltaTime, Space.Self);
+                bulletSprites[i].transform.Rotate(0, 0, bulletValues[i].pSRotation, Space.Self);
+                bulletSprites[i].GetComponent<Image>().color = bulletValues[i].pSColor;
+                bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * bulletValues[i].pSSize;
+            }
         }
 
 
@@ -212,6 +225,8 @@ public class UiReload : MonoBehaviour
                 bulletSprites[i].transform.position = bulletPos[i];
             else if (i >= supBullet)
                 bulletSprites[i].transform.position = bulletPos[i - supBullet];
+
+            bulletValues[i].InitValues(reloadData);
         }
 
         //rootUiReloading.SetActive(false);
@@ -220,6 +235,7 @@ public class UiReload : MonoBehaviour
     public void PlayerShot()
     {
         timerShot = 0;
+
     }
 
     public void DisplayGraphics()
