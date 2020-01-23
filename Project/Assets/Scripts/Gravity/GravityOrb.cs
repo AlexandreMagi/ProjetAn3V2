@@ -120,6 +120,14 @@ public class GravityOrb : MonoBehaviour
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
 
+        if (this.parentIfSticky != null)
+        {
+            IGravityAffect parentGravityAffect = parentIfSticky.GetComponent<IGravityAffect>();
+
+            if (parentGravityAffect != null)
+                parentGravityAffect.OnRelease();
+        }
+
         if (orbData.isExplosive)
         {
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
