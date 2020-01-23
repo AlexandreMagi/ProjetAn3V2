@@ -34,6 +34,8 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     GameObject weaponLight = null;
     [SerializeField]
+    Transform douillePlacement = null;
+    [SerializeField]
     bool ignoreBulletLimitForCharge = false;
 
     float timerMuzzleFlash = 0;
@@ -78,9 +80,9 @@ public class Weapon : MonoBehaviour
 
     }
 
-    public Vector2 GetBulletAmmount()
+    public Vector2Int GetBulletAmmount()
     {
-        return new Vector2(bulletRemaining, weapon.bulletMax);
+        return new Vector2Int(bulletRemaining, weapon.bulletMax);
     }
     public bool GetIfReloading()
     {
@@ -89,6 +91,10 @@ public class Weapon : MonoBehaviour
     public int GetChargedWeaponBulletCost()
     {
         return weapon.chargedShot.bulletCost;
+    }
+    public int GetSuplementaryBullet()
+    {
+        return weapon.bulletAddedIfPerfect;
     }
 
     public void ReloadingInput()
@@ -101,6 +107,7 @@ public class Weapon : MonoBehaviour
             haveTriedPerfet = false;
             UiReload.Instance.DisplayGraphics();
             reloadingPurcentage = 0;
+            bulletRemaining = 0;
         }
     }
 
@@ -111,6 +118,11 @@ public class Weapon : MonoBehaviour
             haveTriedPerfet = true;
             if (reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange))
                 EndReload(true);
+            else
+            {
+                CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
+                CameraHandler.Instance.AddRecoil(weapon.reloadingMissTryRecoil);
+            }
         }
     }
 
@@ -149,7 +161,7 @@ public class Weapon : MonoBehaviour
 
     public void InputHold()
     {
-        if (!reloading && bulletRemaining >= (ignoreBulletLimitForCharge ? 0 : weapon.chargedShot.bulletCost))
+        if (!reloading && bulletRemaining >= (ignoreBulletLimitForCharge ? 1 : weapon.chargedShot.bulletCost))
         {
             if (currentChargePurcentage < 1)
             {
@@ -167,14 +179,8 @@ public class Weapon : MonoBehaviour
         if (!reloading)
         {
             DataWeaponMod currentWeaponMod = null;
-            if (currentChargePurcentage == 1)
-            {
-                currentWeaponMod = weapon.chargedShot;
-            }
-            else
-            {
-                currentWeaponMod = weapon.baseShot;
-            }
+            if (currentChargePurcentage == 1) currentWeaponMod = weapon.chargedShot;
+            else currentWeaponMod = weapon.baseShot;
             currentChargePurcentage = 0;
             OnShoot(mousePosition, currentWeaponMod);
         }
@@ -212,6 +218,8 @@ public class Weapon : MonoBehaviour
                             bAffect.OnHitSingleShot();
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun();
+
+
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
 
                         //PUBLIC
@@ -228,9 +236,20 @@ public class Weapon : MonoBehaviour
             CameraHandler.Instance.AddFovRecoil(weaponMod.recoilPerShot);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
             timerMuzzleFlash += timeMuzzleAdded;
+            bulletRemaining -= weaponMod.bulletCost;
+            if (bulletRemaining < 0) bulletRemaining = 0;
+
+            for (int i = 0; i < weaponMod.bulletCost; i++)
+            {
+                FxManager.Instance.PlayFx("VFX_Douille", douillePlacement);
+            }
+
         }
-        bulletRemaining -= weaponMod.bulletCost;
-        if (bulletRemaining < 0) bulletRemaining = 0;
+        else
+        {
+            CameraHandler.Instance.AddShake(weapon.shakeIfNoBullet);
+            CameraHandler.Instance.AddRecoil(weapon.recoilIfNoBullet);
+        }
     }
 
     private void CheckIfMustSlowMo(GameObject hit, DataWeaponMod weaponMod)

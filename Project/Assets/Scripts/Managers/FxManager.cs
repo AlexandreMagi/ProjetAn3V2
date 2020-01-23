@@ -83,6 +83,17 @@ public class FxManager : MonoBehaviour
         return clone;
     }
 
+    public ParticleSystem PlayFx (string name, Transform parent)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
+
+        ParticleSystem clone = Instantiate(fxInstantiated, parent);
+        clone.Play();
+        return clone;
+    }
+
     ParticleSystem FindFx (string name)
     {
         for (int i = 0; i < particleTab.Length; i++)

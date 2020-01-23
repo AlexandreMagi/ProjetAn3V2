@@ -125,6 +125,7 @@ Transform:
   m_Children:
   - {fileID: 1804252366356066822}
   - {fileID: 5499503646495990816}
+  - {fileID: 2126226365726663012}
   m_Father: {fileID: 7584541180804375022}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -258,6 +259,36 @@ MonoBehaviour:
   - assemblyQualifiedName: PostProcessOutline, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_AfterStackBundles: []
+--- !u!1 &5840167984903859655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2126226365726663012}
+  m_Layer: 0
+  m_Name: FxDouillePlacement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2126226365726663012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5840167984903859655}
+  m_LocalRotation: {x: -0.12886876, y: -0.48094484, z: -0.22445518, w: 0.83767825}
+  m_LocalPosition: {x: 0.27039236, y: -0.11867756, z: 0.3}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 5958623718202239642}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -25.582, y: -56.016003, z: -16.229}
 --- !u!1 &7584541180804375017
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +372,7 @@ MonoBehaviour:
     type: 3}
   muzzleFlash: {fileID: 3069857249444509699}
   weaponLight: {fileID: 8225693594273001723}
+  douillePlacement: {fileID: 2126226365726663012}
   ignoreBulletLimitForCharge: 0
 --- !u!114 &7584541180804375021
 MonoBehaviour:
@@ -365,7 +397,7 @@ MonoBehaviour:
   - {fileID: 2923987342983171388, guid: 90fce0d651a2afd4d8fb06aa74d89155, type: 3}
   - {fileID: 3589104930738409091, guid: b4883295a7176c14c821c4cc0fd0ae84, type: 3}
   - {fileID: 2952933213473571403, guid: f03f330075726f5449886d377331fa2b, type: 3}
-  - {fileID: 8489451719948785339, guid: 7862349507471fa4a9647433e29a0b84, type: 3}
+  - {fileID: 8427437941441064901, guid: ad213a56e43bccb4aabb0ce0ef754a93, type: 3}
 --- !u!114 &3612538723937604906
 MonoBehaviour:
   m_ObjectHideFlags: 0

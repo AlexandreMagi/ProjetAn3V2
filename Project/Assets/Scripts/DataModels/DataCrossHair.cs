@@ -48,6 +48,14 @@ public class DataCrossHair : ScriptableObject
     public float chargingRotateSpeed;
     public Vector2 chargingOffset;
 
+    [Header("Quand pas de balle")]
+    public float noBulletSize;
+    public float noBulletAmplitudeIdle;
+    public float noBulletIdleSpeed;
+    public Color noBulletColor = Color.white;
+    public Color noBulletOutlineColor = Color.black;
+    public float noBulletAnimTime = 2;
+
     [Header("État quand chargé")]
     public Color chargedColor = Color.white;
     public Color outlineChargedColor = Color.black;

@@ -9,7 +9,6 @@ public class DataReloadGraph : ScriptableObject
 
     [Header("Bullet sprite display")]
     public Sprite bulletSprite;
-    public int pullOfBullet = 15;
     public float purcentageUsedY = 0.8f;
     public Vector2 decalBulletSprites = new Vector2 (0.9f, 0.1f);
     public float spaceEveryThreeBullet = 0.05f;
@@ -20,9 +19,8 @@ public class DataReloadGraph : ScriptableObject
     public AnimationCurve holaEffectOnBullet = AnimationCurve.Linear(0, 0, 1, 1);
 
     public float baseSize = 100;
-    public float selectedSize = 120;
-    public float shotSize = 0;
-    public float sizeChangeSpeed = 5;
+
+    public float bulletFallSpeep = 3;
 
     [Header("Bullet remainings feedback")]
     public AnimationCurve scaleAnimBulletTextShot = AnimationCurve.Linear(0, 0, 1, 1);
@@ -30,6 +28,8 @@ public class DataReloadGraph : ScriptableObject
     public float scaleAnimBulletTime = 0.5f;
     public int shortNumberOfBullet = 5;
     public Color shortOnBulletColor = Color.red;
+    public int midNumberOfBullet = 5;
+    public Color midOnBulletColor = Color.red;
     public Color highOnBulletColor = Color.white;
     public Color noBulletColor = Color.black;
     public float scaleIfNoBullet = 0.2f;

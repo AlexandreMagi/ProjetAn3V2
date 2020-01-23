@@ -22,15 +22,19 @@ MonoBehaviour:
   bulletMax: 12
   reloadingTime: 0.8
   perfectPlacement: 0.6
-  perfectRandom: 0.2
-  perfectRange: 0.05
-  reloadingStartShake: 0.1
-  reloadingShake: 0.05
-  reloadingPerfectShake: 0.1
-  reloadingPerfectRecoil: 0.5
+  perfectRandom: 0.1
+  perfectRange: 0.08
+  reloadingStartShake: 0.2
+  reloadingShake: 0.3
+  reloadingPerfectShake: 0.2
+  reloadingMissTryShake: 0.5
+  reloadingMissTryRecoil: 0.6
+  reloadingPerfectRecoil: 1
   reloadingPerfectSlowmo: 0.8
   reloadingPerfectSlowmoDur: 1
   bulletAddedIfPerfect: 3
+  recoilIfNoBullet: 0.7
+  shakeIfNoBullet: 0.5
   gravityOrbCooldown: 3
   grabityOrbCooldownRelativeToTime: 0
   AnimValue:
