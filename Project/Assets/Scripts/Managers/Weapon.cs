@@ -219,6 +219,7 @@ public class Weapon : MonoBehaviour
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun();
 
+                        TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
 
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
 

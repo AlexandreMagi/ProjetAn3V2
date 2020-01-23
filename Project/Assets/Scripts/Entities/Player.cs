@@ -39,16 +39,25 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     }
 
-    public override void OnAttack(DataUiTemporarySprite dataSprite)
+    public override void OnAttack(DataUiTemporarySprite dataSpriteShield, DataUiTemporarySprite dataSpriteLife)
     {
-        UiDamageHandler.Instance.AddSprite(dataSprite);
+        UiDamageHandler.Instance.AddSprite(dataSpriteShield, dataSpriteLife);
     }
 
     public override void TakeDamage(float value)
     {
         CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier);
+        TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
         if (value >= armor)
         {
+            if (armor > 0)
+            {
+                UiDamageHandler.Instance.ShieldBreak();
+                CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
+                GameObject renderingCam = CameraHandler.Instance.RenderingCam;
+                FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
+                TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
+            }
             value -= armor;
             armor = 0;
         }
@@ -79,6 +88,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             base.TakeDamage(value);
         }
         
+    }
+
+    public float getArmor()
+    {
+        return armor;
     }
 
     public void GainArmor(float value)

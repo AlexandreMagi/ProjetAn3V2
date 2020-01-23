@@ -15,7 +15,10 @@ MonoBehaviour:
   maxHealth: 1
   startHealth: 1
   team: 1
-  spriteToDisplay: {fileID: 0}
+  spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
+    type: 2}
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 5
@@ -152,6 +155,7 @@ MonoBehaviour:
   bulletSpeed: 5
   randomSpeedAdded: 2
   shakeAtImpact: 3
+  stopTimeAtImpact: 0.065
   shakeIdle: 10
   rotationSpeed: 0
   circleScaleMultiplier: 0.4
@@ -169,6 +173,5 @@ MonoBehaviour:
   explosionStunDuration: 1
   liftValue: 0
   fxExplosion: VFX_ExplosionShooterBullet
-  spriteDisplayed: {fileID: 11400000, guid: 6512e9ae32b312047b7abe1ac5be3925, type: 2}
   circlePrefab: {fileID: 4410997737478668277, guid: 7afde0ac91fb26c4c8919c900391f13c,
     type: 3}

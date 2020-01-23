@@ -15,7 +15,10 @@ MonoBehaviour:
   maxHealth: 400
   startHealth: 400
   team: 1
-  spriteToDisplay: {fileID: 11400000, guid: 6512e9ae32b312047b7abe1ac5be3925, type: 2}
+  spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
+    type: 2}
   stunResistanceJauge: 1
   stayLockedOnTarget: 1
   timeBeforeCheckForAnotherTarget: 5
@@ -37,4 +40,5 @@ MonoBehaviour:
   bulletData: {fileID: 11400000, guid: 61260d68de6c8e845aaf51c92d31c15a, type: 2}
   bulletPrefabs: {fileID: 8274719076216917017, guid: 5c5453cca8f7bc444ab1285c7e00988a,
     type: 3}
+  muzzleFlashFx: VFX_MuzzleFlashShooter
   stunRecoil: 0

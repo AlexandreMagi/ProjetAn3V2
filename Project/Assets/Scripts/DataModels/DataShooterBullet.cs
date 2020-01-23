@@ -13,6 +13,7 @@ public class DataShooterBullet : DataEnemy
     public float bulletSpeed = 5;
     public float randomSpeedAdded = 2;
     public float shakeAtImpact = 10;
+    public float stopTimeAtImpact = 0.5f;
     public float shakeIdle = 10;
     public float rotationSpeed = 90;
     public float circleScaleMultiplier = 1;
@@ -35,7 +36,6 @@ public class DataShooterBullet : DataEnemy
 
     [Header("Fx")]
     public string fxExplosion = "VFX_ExplosionShooterBullet";
-    public DataUiTemporarySprite spriteDisplayed;
     public GameObject circlePrefab;
 
 

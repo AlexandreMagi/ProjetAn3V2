@@ -20,6 +20,8 @@ public class UiShooterCircle : MonoBehaviour
     }
     #endregion
 
+    [SerializeField]
+    Transform rootShooterCircle = null;
     Camera RenderCamera;
     private void Start()
     {
@@ -28,7 +30,7 @@ public class UiShooterCircle : MonoBehaviour
 
     public GameObject CreateShooterCircle (GameObject obj)
     {
-        return Instantiate(obj, transform);
+        return Instantiate(obj, rootShooterCircle.transform);
     }
     public void MoveShooterCircle(GameObject obj, Transform parent)
     {
