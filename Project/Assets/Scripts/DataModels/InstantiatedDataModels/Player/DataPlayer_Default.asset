@@ -15,8 +15,13 @@ MonoBehaviour:
   maxHealth: 100
   startHealth: 100
   team: 0
-  spriteToDisplay: {fileID: 0}
+  spriteToDisplayShield: {fileID: 0}
+  spriteToDisplayLife: {fileID: 0}
   armor: 300
   damageShakeMultiplier: 40
   shakeAtArmorDestruction: 5
   shakeAtArmorFx: VFX_ShieldBreak
+  stopTimeAtShieldBreak: 0.2
+  stopTimeAtDammage: 0.05
+  damageScaleShieldMultiplier: 1
+  damageScaleLifeMultiplier: 2

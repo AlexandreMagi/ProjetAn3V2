@@ -11,4 +11,7 @@ public class DataPlayer : DataEntity
     public string shakeAtArmorFx = "VFX_ShieldBreak";
     public float stopTimeAtShieldBreak = 0.2f;
     public float stopTimeAtDammage = 0.05f;
+
+    public float damageScaleShieldMultiplier = 1;
+    public float damageScaleLifeMultiplier = 1.2f;
 }
