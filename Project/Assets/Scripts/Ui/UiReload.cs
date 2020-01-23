@@ -88,10 +88,12 @@ public class UiReload : MonoBehaviour
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (0, i * distanceBetweenBullet + reloadData.spaceEveryThreeBullet * Screen.height * Mathf.CeilToInt(i / bulletCost)) + new Vector2 (Screen.width * reloadData.decalBulletSprites.x, Screen.height * reloadData.decalBulletSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
             bulletPos[i] = transform.TransformPoint(pos);
+            bulletSprites[i].transform.position = bulletPos[i];
             bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
             Outline componentOutline = bulletSprites[i].AddComponent<Outline>();
             componentOutline.effectColor = Color.black;
             componentOutline.effectDistance = new Vector2(1, -1) * 5;
+            bulletSprites[i].SetActive(false);
         }
 
     }
@@ -131,6 +133,7 @@ public class UiReload : MonoBehaviour
 
             if (i >= nbBulletShot)
             {
+                bulletSprites[i].SetActive(true);
                 bulletSprites[i].transform.position = Vector3.MoveTowards(bulletSprites[i].transform.position, bulletPos[i - nbBulletShot], Time.unscaledDeltaTime * reloadData.bulletFallSpeep);
                 bulletSprites[i].transform.localRotation = Quaternion.identity;
                 bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
