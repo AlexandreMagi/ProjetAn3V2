@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletAffect, ISpecialEffects
 {
@@ -16,8 +17,6 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     GameObject dummyIndicator = null;
     [SerializeField]
     GameObject bulletMesh = null;
-    [SerializeField]
-    GameObject circle = null;
 
     float amplitudeMissile = 1;
     bool onGravity = false;
@@ -33,10 +32,10 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     Rigidbody rbBody;
 
     bool hasExploded = false;
+    GameObject circlePrefab;
 
     protected override void Start()
     {
-
     }
 
     public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team, GameObject prop)
@@ -64,7 +63,11 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
         team = _team;
         TeamsManager.Instance.RegistertoTeam(transform, team);
-        circle = Instantiate(circle);
+
+        circlePrefab = UiShooterCircle.Instance.CreateShooterCircle(_bulletSettings.circlePrefab);
+        UiShooterCircle.Instance.MoveShooterCircle(circlePrefab, transform);
+        circlePrefab.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(0) * entityData.circleScaleMultiplier;
+        circlePrefab.GetComponent<Image>().color = Color.Lerp(Color.yellow, Color.red, 0);
 
     }
 
@@ -112,10 +115,12 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
             if (target != null)
             {
-                circle.transform.position = target.transform.position + Vector3.Normalize(transform.position - transformPosEnd.position) * 0.5f;
-                circle.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(Curr / MaxDistance) * entityData.circleScaleMultiplier;
-                circle.transform.LookAt(target.transform, Vector3.up);
-                circle.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
+                UiShooterCircle.Instance.MoveShooterCircle(circlePrefab, transform);
+
+                //circlePrefab.transform.position = target.transform.position + Vector3.Normalize(transform.position - transformPosEnd.position) * 0.5f;
+                //circlePrefab.transform.LookAt(target.transform, Vector3.up);
+                circlePrefab.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(Curr / MaxDistance) * entityData.circleScaleMultiplier;
+                circlePrefab.GetComponent<Image>().color = Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance));
             }
             bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
             bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
@@ -184,7 +189,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
 
         Destroy(dummyIndicator);
-        Destroy(circle);
+        Destroy(circlePrefab);
     }
 
 
@@ -216,7 +221,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         onGravity = true;
         rbBody.useGravity = true;
         ReactGravity<DataSwarmer>.DoFreeze(rbBody);
-        Destroy(circle);
+        Destroy(circlePrefab);
     }
 
     public void OnPull(Vector3 position, float force)
@@ -224,7 +229,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         onGravity = true;
         rbBody.useGravity = true;
         ReactGravity<DataEntity>.DoPull(rbBody, position, force, false);
-        Destroy(circle);
+        Destroy(circlePrefab);
     }
 
     public void OnRelease()
