@@ -38,6 +38,7 @@ public class DataWeapon : ScriptableObject
     [RangeAttribute(1, 50)]
     public float gravityOrbCooldown;
     public bool grabityOrbCooldownRelativeToTime = false;
+    public bool gravityOrbCanBeReactivated = false;
 
     [Header("AnimCam WeaponCharged")]
     public AnimationCurve AnimValue = AnimationCurve.Linear(0, 0, 1, 0);
