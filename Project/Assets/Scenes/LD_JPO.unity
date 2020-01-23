@@ -884,14 +884,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 13216454}
-  m_LocalRotation: {x: 0.03536827, y: -0.37283275, z: 0.0142231, w: 0.9271152}
-  m_LocalPosition: {x: 63.42, y: 1.7, z: 11.73}
+  m_LocalRotation: {x: -0.030843271, y: -0.37289774, z: -0.0124034, w: 0.92727673}
+  m_LocalPosition: {x: 62.831, y: 1.605, z: 11.346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 207344632}
   m_Father: {fileID: 1009211620}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 4.3690004, y: -43.814003, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.8100002, y: -43.814003, z: 0}
 --- !u!114 &13216456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,14 +1293,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 23368991}
-  m_LocalRotation: {x: -0, y: -0.4389111, z: -0, w: 0.8985305}
-  m_LocalPosition: {x: 62.06, y: 1.7, z: 11.3}
+  m_LocalRotation: {x: 0.046581525, y: -0.31942436, z: 0.01572304, w: 0.94633555}
+  m_LocalPosition: {x: 62.662, y: 1.7, z: 11.608}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 889084100}
   m_Father: {fileID: 1009211620}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -52.069004, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.636, y: -37.303, z: 0}
 --- !u!114 &23368993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7368,13 +7368,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camTargetName: CM2 vcam4
   animationStyle: 6
-  animationTime: 1
+  animationTime: 0.6
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
-  sequenceType: 1
+  sequenceType: 2
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
@@ -14220,7 +14220,7 @@ MonoBehaviour:
   m_Name: AutoSequence19
   m_EditorClassIdentifier: 
   camTargetName: CM2 vcam2
-  animationStyle: 6
+  animationStyle: 3
   animationTime: 1
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
@@ -46838,7 +46838,7 @@ Animator:
   m_GameObject: {fileID: 985886698}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 231d3314a0262c944b6eb5e44a077542, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -53356,7 +53356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106811081}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 62, y: 1.7, z: 7}
+  m_LocalPosition: {x: 62.11, y: 1.7, z: 11.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1519415805}
@@ -83213,8 +83213,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764763828}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 62, y: 1.7, z: 0}
+  m_LocalRotation: {x: -0.030843271, y: -0.37289774, z: -0.0124034, w: 0.92727673}
+  m_LocalPosition: {x: 62.831, y: 1.605, z: 11.346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1143750000}
@@ -97732,7 +97732,7 @@ GameObject:
   - component: {fileID: 2068178092}
   - component: {fileID: 2068178091}
   m_Layer: 12
-  m_Name: Trigger - Spawner_01
+  m_Name: Trigger - Animation_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97746,7 +97746,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068178089}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.571, y: 1.7608804, z: 17.978}
+  m_LocalPosition: {x: 62.11, y: 1.7, z: 9.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036115314}
@@ -97764,16 +97764,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeTrigger: 0
-  spawners:
-  - {fileID: 497822001}
+  typeTrigger: 1
+  spawners: []
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
   affected: 0
   soundPlayed: 
   volume: 1
-  animated: []
+  animated:
+  - {fileID: 985886701}
   ShakeValue: 0
   booleanName: 
   boolStateSet: 1
@@ -98581,8 +98581,8 @@ MonoBehaviour:
   m_Name: AutoSequence20
   m_EditorClassIdentifier: 
   camTargetName: CM2 vcam3
-  animationStyle: 6
-  animationTime: 1
+  animationStyle: 3
+  animationTime: 0.5
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
   isAffectedByBooleanSequence: 0
