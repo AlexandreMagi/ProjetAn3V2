@@ -2,7 +2,7 @@
 {
     void TakeDamage(float value);
 
-    void OnAttack(DataUiTemporarySprite daaSprite);
+    void OnAttack(DataUiTemporarySprite dataSpriteShield, DataUiTemporarySprite dataSpriteLife);
 
     void Heal(float value);
 }

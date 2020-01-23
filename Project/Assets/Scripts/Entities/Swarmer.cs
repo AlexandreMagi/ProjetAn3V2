@@ -180,7 +180,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, this);
             }
             targetEntity.TakeDamage(entityData.damage);
-            targetEntity.OnAttack(entityData.spriteToDisplay);
+            targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
             health = 0;
             this.Die();
         }

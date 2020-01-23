@@ -140,10 +140,12 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         {
             if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !onGravity))
             {
+
+
                 IEntity entityVictim = hVictim.GetComponent<IEntity>();
                 if(entityVictim != null && (hVictim.GetComponent<Player>() == null || !isShot))
                 {
-                    entityVictim.OnAttack(entityData.spriteDisplayed);
+                    entityVictim.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
                 }
                 
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
@@ -186,6 +188,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         }
 
         CameraHandler.Instance.AddShake(entityData.shakeAtImpact, transform.position);
+        TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtImpact);
 
 
         Destroy(dummyIndicator);
