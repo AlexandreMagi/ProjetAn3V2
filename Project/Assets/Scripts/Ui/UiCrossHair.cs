@@ -35,13 +35,15 @@ public class UiCrossHair : MonoBehaviour
     CrosshairInstance[] dataHandlerCrosshairs = new CrosshairInstance[0];
     GameObject[] UiCrosshairs = new GameObject[0];
 
+    [SerializeField]
+    Transform rootCrosshair = null;
     private void Start()
     {
         UiCrosshairs = new GameObject[crosshairs.Length];
         dataHandlerCrosshairs = new CrosshairInstance[crosshairs.Length];
         for (int i = 0; i < crosshairs.Length; i++)
         {
-            UiCrosshairs[i] = Instantiate(baseForCrosshair, transform);
+            UiCrosshairs[i] = Instantiate(baseForCrosshair, rootCrosshair.transform);
             UiCrosshairs[i].GetComponent<Image>().sprite = crosshairs[i];
             dataHandlerCrosshairs[i] = new CrosshairInstance(dataCrosshairs[i]);
         }

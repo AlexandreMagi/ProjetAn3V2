@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1231485f4bd447b4ba338d7bc1546a7b, type: 3}
-  m_Name: DataPlayer_Default
+  m_Script: {fileID: 11500000, guid: 24dea6052c8d9b34ebb93f94ea8db6bf, type: 3}
+  m_Name: DataDamageFb_Base
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  startHealth: 100
-  team: 0
-  spriteToDisplay: {fileID: 0}
-  armor: 300
-  damageShakeMultiplier: 40
-  shakeAtArmorDestruction: 5
-  shakeAtArmorFx: VFX_ShieldBreak
+  flashTime: 0.1
+  flashAlpha: 0.6
+  stateTime: 1
+  shieldBreakFlash: 0.2

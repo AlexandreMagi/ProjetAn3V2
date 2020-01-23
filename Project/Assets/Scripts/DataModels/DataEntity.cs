@@ -9,7 +9,8 @@ public abstract class DataEntity : ScriptableObject
     public float startHealth;
     public int team;
 
-    public DataUiTemporarySprite spriteToDisplay;
+    public DataUiTemporarySprite spriteToDisplayShield;
+    public DataUiTemporarySprite spriteToDisplayLife;
 
     public override string ToString() 
     {

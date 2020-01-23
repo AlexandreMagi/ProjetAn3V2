@@ -42,7 +42,7 @@ public class Entity<T> : MonoBehaviour, IEntity where T : DataEntity
         this.entityData = data;
     }
 
-    public virtual void OnAttack(DataUiTemporarySprite dataSprite)
+    public virtual void OnAttack(DataUiTemporarySprite dataSpriteShield, DataUiTemporarySprite dataSpriteLife)
     {
         //Do nothing
 

@@ -77,7 +77,7 @@ public class Main : MonoBehaviour
             SequenceHandler.Instance.NextSequence();
         }
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             SceneHandler.Instance.RestartScene(0);
         }

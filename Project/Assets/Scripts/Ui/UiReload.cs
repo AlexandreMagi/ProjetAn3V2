@@ -60,6 +60,8 @@ public class UiReload : MonoBehaviour
 
     float holaValue = 0;
 
+    [SerializeField]
+    Transform rootBullets = null;
 
     private void Start()
     {
@@ -81,7 +83,7 @@ public class UiReload : MonoBehaviour
 
         for (int i = 0; i < bulletPull; i++)
         {
-            bulletSprites[i] = Instantiate(emptyUiBox, transform);
+            bulletSprites[i] = Instantiate(emptyUiBox, rootBullets.transform);
             bulletSprites[i].GetComponent<Image>().sprite = reloadData.bulletSprite;
             bulletValues[i] = new UiDouille(reloadData);
 
@@ -158,7 +160,7 @@ public class UiReload : MonoBehaviour
 
         bulletRemainingText.transform.localScale = Vector3.one * currentRemainingTextScale + Vector3.one * currentRemainingTextScale * reloadData.scaleAnimBulletTextShot.Evaluate(timerShot) * reloadData.scaleAnimBulletValue ;
 
-        bulletRemainingText.text = bulletAmount.x + " / " + bulletAmount.y;
+        bulletRemainingText.text = $"{ bulletAmount.x}";// + " / " + bulletAmount.y;
         #endregion
 
         // ######################################################################################################################## //

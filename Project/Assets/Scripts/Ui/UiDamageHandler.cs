@@ -26,6 +26,22 @@ public class UiDamageHandler : MonoBehaviour
 
     [SerializeField] DataUiTemporarySprite dataToSend;
 
+    [SerializeField]
+    Transform rootDammage = null;
+
+    [SerializeField]
+    DataDamageFb damageFeedbackData = null;
+    float stateTimeRemaining = 0;
+    float shieldBreakFlashTime = 0;
+    [SerializeField]
+    GameObject statePanel = null;
+    [SerializeField]
+    GameObject flashPanel = null;
+    [SerializeField]
+    GameObject shieldBreakFlash = null;
+    [SerializeField]
+    GameObject shieldPanel = null;
+
     private void Update()
     {
         for (int i = spritesDisplayed.Count-1; i > -1; i--)
@@ -37,11 +53,60 @@ public class UiDamageHandler : MonoBehaviour
                 spritesDisplayed[i].transform.localScale = Vector3.one * spritesHandler[i].scale;
             }
         }
+
+        // ###### SHIELD ET VIE ###### //
+
+        if (stateTimeRemaining > 0)
+        {
+            Player player = GameObject.FindObjectOfType<Player>();
+            if (player != null && player.getArmor() > 0)
+            {
+                shieldPanel.SetActive(true);
+                shieldPanel.GetComponent<Image>().color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                statePanel.GetComponent<Image>().color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                flashPanel.GetComponent<Image>().color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, damageFeedbackData.flashAlpha);
+            }
+            else
+            {
+                statePanel.GetComponent<Image>().color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                flashPanel.GetComponent<Image>().color = new Color(Color.red.r, Color.red.g, Color.red.b, damageFeedbackData.flashAlpha);
+            }
+
+            statePanel.SetActive(true);
+            flashPanel.SetActive(true);
+            stateTimeRemaining -= Time.unscaledDeltaTime;
+
+            if (stateTimeRemaining < 0)
+            {
+                statePanel.SetActive(false);
+                shieldPanel.SetActive(false);
+            }
+            if (stateTimeRemaining < damageFeedbackData.stateTime - damageFeedbackData.flashTime)
+            flashPanel.SetActive(false);
+        }
+        if (shieldBreakFlashTime > 0)
+        {
+            shieldBreakFlash.SetActive(true);
+            shieldBreakFlashTime -= Time.unscaledDeltaTime;
+            if (shieldBreakFlashTime < 0)
+                shieldBreakFlash.SetActive(false);
+        }
     }
 
-    public void AddSprite (DataUiTemporarySprite dataSend)
+    public void ClearScreen()
     {
-        GameObject newSprite = Instantiate(emptyUiBox, transform);
+
+    }
+
+    public void AddSprite (DataUiTemporarySprite dataSendShield, DataUiTemporarySprite dataSendLife)
+    {
+        Player player = GameObject.FindObjectOfType<Player>();
+        DataUiTemporarySprite dataSend = null;
+        if (player != null && player.getArmor() > 0) dataSend = dataSendShield;        
+        else dataSend = dataSendLife;
+
+
+        GameObject newSprite = Instantiate(emptyUiBox, rootDammage.transform);
         newSprite.GetComponent<Image>().sprite = dataSend.spriteToSend;
         newSprite.transform.Rotate(0, 0, Random.Range(0f, 360f), Space.Self);
         newSprite.GetComponent<RectTransform>().sizeDelta = Vector2.one * Random.Range(dataSend.sizeRandom.x, dataSend.sizeRandom.y);
@@ -59,6 +124,8 @@ public class UiDamageHandler : MonoBehaviour
         SpriteDisplayedInstance newOne = new SpriteDisplayedInstance();
         newOne.OnCreation(dataSend);
         spritesHandler.Add(newOne);
+
+        stateTimeRemaining = damageFeedbackData.stateTime;
     }
 
     public void deleteSpot(SpriteDisplayedInstance spriteInstance)
@@ -73,6 +140,11 @@ public class UiDamageHandler : MonoBehaviour
                 Destroy(stock);
             }
         }
+    }
+
+    public void ShieldBreak()
+    {
+        shieldBreakFlashTime = damageFeedbackData.shieldBreakFlash;
     }
 
 }
