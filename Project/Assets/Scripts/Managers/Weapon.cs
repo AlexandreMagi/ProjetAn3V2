@@ -34,8 +34,6 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     GameObject weaponLight = null;
     [SerializeField]
-    Transform douillePlacement = null;
-    [SerializeField]
     bool ignoreBulletLimitForCharge = false;
 
     float timerMuzzleFlash = 0;
@@ -54,6 +52,8 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
+
+
         if (timerMuzzleFlash >= 0) timerMuzzleFlash -= Time.unscaledDeltaTime;
         timerMuzzleFlash = Mathf.Clamp(timerMuzzleFlash, 0, 1);
         muzzleFlash.SetActive(timerMuzzleFlash > 0);
@@ -238,11 +238,6 @@ public class Weapon : MonoBehaviour
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
-
-            for (int i = 0; i < weaponMod.bulletCost; i++)
-            {
-                FxManager.Instance.PlayFx("VFX_Douille", douillePlacement);
-            }
 
         }
         else
