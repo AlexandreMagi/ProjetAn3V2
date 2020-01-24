@@ -47,4 +47,9 @@ public class Entity<T> : MonoBehaviour, IEntity where T : DataEntity
         //Do nothing
 
     }
+
+    public void SetDataEnt(DataEntity data)
+    {
+        SetData(data as T);
+    }
 }
