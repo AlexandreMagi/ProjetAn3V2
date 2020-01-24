@@ -46,7 +46,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public override void TakeDamage(float value)
     {
-        CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier);
+        CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
         if (value >= armor)
         {
