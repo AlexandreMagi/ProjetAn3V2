@@ -21,6 +21,7 @@ public class DataSequence : ScriptableObject
 
     public bool cutsSlowMoOnEnd;
 
+    public float modifierFrequenceCamStep = 1;
 
     //BOOLEAN SEQUENCES
     public bool isAffectedByBooleanSequence;
