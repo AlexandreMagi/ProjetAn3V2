@@ -15,11 +15,17 @@ public class CameraHandler : MonoBehaviour
 
     #region VAR
 
+
     [Header("Cameras")]
     [Tooltip("Dummy qui bouge sur lequel va se fixer la cam")]
     public GameObject CamDummy = null;
+    [Tooltip("Dummy qui bouge sur lequel va se fixer la cam")]
+    public GameObject AnimatedCam = null;
     [Tooltip("Camera render")]
     public GameObject RenderingCam = null;
+    GameObject currentCamDummy = null;
+    bool onCinemachineCamera = true;
+    float timerOnCinemachineCam = 0;
 
     [SerializeField]
     DataCameraBasic camBasicData = null;
@@ -70,6 +76,7 @@ public class CameraHandler : MonoBehaviour
     {
         _instance = this;
         if (CamDummy.GetComponent<Camera>()) CamDummy.GetComponent<Camera>().enabled = false;
+        if (AnimatedCam.GetComponent<Camera>()) AnimatedCam.GetComponent<Camera>().enabled = false;
         if (RenderingCam.GetComponent<Camera>()) RenderingCam.GetComponent<Camera>().enabled = true;
     }
 
@@ -118,7 +125,6 @@ public class CameraHandler : MonoBehaviour
     public void Update()
     {
         HandleFBAtCharge();
-
         currentRecoilValue -= Time.unscaledDeltaTime * camBasicData.RecoilRecover;
         if (currentRecoilValue < 0)
             currentRecoilValue = 0;
@@ -157,14 +163,21 @@ public class CameraHandler : MonoBehaviour
             }
         }
 
+        if (timerOnCinemachineCam > 0)
+        {
+            timerOnCinemachineCam -= Time.deltaTime;
+            if (timerOnCinemachineCam < 0)
+                onCinemachineCamera = true;
+        }
+        currentCamDummy = onCinemachineCamera ? CamDummy : AnimatedCam;
 
         // Reset de la position et de la rotation
-        camDummyValueFeedback.transform.position = CamDummy.transform.position;
-        camDummyValueFeedback.transform.rotation = CamDummy.transform.rotation;
+        camDummyValueFeedback.transform.position = currentCamDummy.transform.position;
+        camDummyValueFeedback.transform.rotation = currentCamDummy.transform.rotation;
         /// ----- GET VALUES ----- ///
         float[] camBasicDataValues = GetValue(); // Get les values des steps
-        vLookAtPos = Vector3.Lerp(vLookAtPos, CamDummy.transform.position + CamDummy.transform.forward * 5, Time.deltaTime * camBasicData.camFollowSpeed); // Lerp du v3 vers la direction de la cam
-        Quaternion targetRotation = Quaternion.LookRotation(vLookAtPos - CamDummy.transform.position, Vector3.up); // Regard de la cam
+        vLookAtPos = Vector3.Lerp(vLookAtPos, currentCamDummy.transform.position + currentCamDummy.transform.forward * 5, Time.deltaTime * camBasicData.camFollowSpeed); // Lerp du v3 vers la direction de la cam
+        Quaternion targetRotation = Quaternion.LookRotation(vLookAtPos - currentCamDummy.transform.position, Vector3.up); // Regard de la cam
 
         /// ----- SET ROTATIONS ----- ///
         camDummyValueFeedback.transform.rotation = targetRotation; // Oriente la cam
@@ -174,7 +187,7 @@ public class CameraHandler : MonoBehaviour
         // Setup position selon recul
         camDummyValueFeedback.transform.Translate(Vector3.back * currentRecoil, Space.Self);
         // Get de la valeur de rotation selon les mouvements horizontaux
-        float vRotYByPosition = CamDummy.GetComponent<Camera>().WorldToScreenPoint(vLookAtPos).x - Screen.width / 2;
+        float vRotYByPosition = currentCamDummy.GetComponent<Camera>().WorldToScreenPoint(vLookAtPos).x - Screen.width / 2;
         vRotYByPosition = -vRotYByPosition * camBasicData.maxRotateWhileMoving / (Screen.width / 2);
         // Rotations de la cam selon les mouvements horizontaux + rotate en Z des steps
         camDummyValueFeedback.transform.Rotate(0, 0, -vRotYByPosition + camBasicDataValues[1], Space.Self);
@@ -191,15 +204,15 @@ public class CameraHandler : MonoBehaviour
         {
             if (bFeedbackTransition)
             {
-                RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, CamDummy.transform.position, Time.deltaTime * fCurrentSpeedTransition);
-                RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, CamDummy.transform.rotation, Time.deltaTime * fCurrentSpeedTransition);
-                RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, CamDummy.GetComponent<Camera>().fieldOfView, Time.deltaTime * fCurrentSpeedTransition);
+                RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, currentCamDummy.transform.position, Time.deltaTime * fCurrentSpeedTransition);
+                RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, currentCamDummy.transform.rotation, Time.deltaTime * fCurrentSpeedTransition);
+                RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, currentCamDummy.GetComponent<Camera>().fieldOfView, Time.deltaTime * fCurrentSpeedTransition);
             }
             else
             {
-                RenderingCam.transform.position = CamDummy.transform.position;
-                RenderingCam.transform.rotation = CamDummy.transform.rotation;
-                RenderingCam.GetComponent<Camera>().fieldOfView = CamDummy.GetComponent<Camera>().fieldOfView;
+                RenderingCam.transform.position = currentCamDummy.transform.position;
+                RenderingCam.transform.rotation = currentCamDummy.transform.rotation;
+                RenderingCam.GetComponent<Camera>().fieldOfView = currentCamDummy.GetComponent<Camera>().fieldOfView;
             }
         }
         else
@@ -217,6 +230,18 @@ public class CameraHandler : MonoBehaviour
                 RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
             }
         }
+
+        /*if (!onCinemachineCamera)
+        {
+            Debug.Log(onCinemachineCamera);
+            RenderingCam.transform.position = AnimatedCam.transform.position;
+            RenderingCam.transform.rotation = AnimatedCam.transform.rotation;
+        }
+        else
+        {
+            RenderingCam.transform.position = CamDummy.transform.position;
+            RenderingCam.transform.rotation = CamDummy.transform.rotation;
+        }*/
     }
 
     public void DecalCurrentCamRotation(Vector2 Pos)
@@ -324,6 +349,13 @@ public class CameraHandler : MonoBehaviour
         fAimedFrenquency = Frequency;
         if (Acceleration > 0)
             fFrequencyAccel = Acceleration;
+    }
+
+    public void TriggerAnim(string animString, float animDuration)
+    {
+        onCinemachineCamera = false;
+        AnimatedCam.GetComponent<Animator>().SetTrigger(animString);
+        timerOnCinemachineCam = animDuration;
     }
 
 }
