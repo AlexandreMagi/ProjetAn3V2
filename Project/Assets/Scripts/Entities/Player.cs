@@ -36,7 +36,6 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     protected virtual void Update()
     {
-
     }
 
     public override void OnAttack(DataUiTemporarySprite dataSpriteShield, DataUiTemporarySprite dataSpriteLife)

@@ -287,8 +287,12 @@ public class SequenceHandler : MonoBehaviour
             
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
-                CameraHandler.Instance.ChangeSpeedMoving(Vector3.Distance(pastCamPos, newCamPos) / 5 / delayOnBlendSequence * currentSequence.modifierFrequenceCamStep, 100);
+                CameraHandler.Instance.ChangeSpeedMoving(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
             
+            if (currentSequence.animToPlay != "")
+            {
+                CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animTime);
+            }
 
             if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
             {
