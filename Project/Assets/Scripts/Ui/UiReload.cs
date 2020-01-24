@@ -63,6 +63,9 @@ public class UiReload : MonoBehaviour
     [SerializeField]
     Transform rootBullets = null;
 
+    [SerializeField] Slider reloadSlider = null;
+    [SerializeField] Text reloadSliderText = null;
+
     private void Start()
     {
         bar             = Instantiate(emptyUiBox, rootUiReloading.transform);
@@ -122,7 +125,12 @@ public class UiReload : MonoBehaviour
 
         if (holaValue < bulletPull -1 + reloadData.holaRange) holaValue += Time.unscaledDeltaTime * (bulletPull - 1 + reloadData.holaRange) / reloadData.holaFeedbackTime;
 
-
+        reloadSlider.value = bulletAmount.x > bulletAmount.y ? 1f : ((float)bulletAmount.x / (float)bulletAmount.y);
+        Vector2 pos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Input.mousePosition + new Vector3(0, Screen.height * -0.07f), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+        //reloadSlider.transform.position = transform.TransformPoint(pos);
+        reloadSlider.transform.position = Vector3.Lerp(reloadSlider.transform.position, transform.TransformPoint(pos), Time.unscaledDeltaTime * 10);
+        reloadSliderText.text = ""+bulletAmount.x;
 
         int nbBulletShot = bulletPull - bulletAmount.x;
         for (int i = 0; i < bulletPull; i++)
