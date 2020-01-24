@@ -15,6 +15,8 @@ public class CameraHandler : MonoBehaviour
 
     #region VAR
 
+    public AnimationCurve debugCurve = null;
+
     [Header("Cameras")]
     [Tooltip("Dummy qui bouge sur lequel va se fixer la cam")]
     public GameObject CamDummy = null;
@@ -180,6 +182,7 @@ public class CameraHandler : MonoBehaviour
         camDummyValueFeedback.transform.Rotate(0, 0, -vRotYByPosition + camBasicDataValues[1], Space.Self);
         // Setup position selon steps
         camDummyValueFeedback.transform.Translate(Vector3.up * camBasicDataValues[0], Space.World);
+        //debugCurve.AddKey(Time.time, camBasicDataValues[0]);
 
         currentFovModif = Mathf.Lerp(currentFovModif, fFrequency * camBasicData.fovMultiplier, Time.deltaTime * camBasicData.fovSpeed);
         // Change le FOV
