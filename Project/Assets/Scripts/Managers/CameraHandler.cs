@@ -120,7 +120,6 @@ public class CameraHandler : MonoBehaviour
     public void Update()
     {
         HandleFBAtCharge();
-
         currentRecoilValue -= Time.unscaledDeltaTime * camBasicData.RecoilRecover;
         if (currentRecoilValue < 0)
             currentRecoilValue = 0;
