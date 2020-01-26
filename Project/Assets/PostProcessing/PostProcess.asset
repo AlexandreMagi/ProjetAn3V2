@@ -1311,6 +1311,28 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &-534282250989057371
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  shutterAngle:
+    overrideState: 1
+    value: 270
+  sampleCount:
+    overrideState: 1
+    value: 10
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1330,6 +1352,7 @@ MonoBehaviour:
   - {fileID: 6475696598403507557}
   - {fileID: -5383007053736720788}
   - {fileID: 4121062576779271128}
+  - {fileID: -534282250989057371}
 --- !u!114 &113790332761663041
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1470,7 +1493,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.4
+    value: 0.62
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1521,14 +1544,14 @@ MonoBehaviour:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 1}
   depthThreshold:
-    overrideState: 0
-    value: 1.5
+    overrideState: 1
+    value: 1.005
   depthNormalThreshold:
-    overrideState: 0
-    value: 0.5
+    overrideState: 1
+    value: 23.11
   depthNormalThresholdScale:
-    overrideState: 0
+    overrideState: 1
     value: 7
   normalThreshold:
-    overrideState: 0
-    value: 0.4
+    overrideState: 1
+    value: 5
