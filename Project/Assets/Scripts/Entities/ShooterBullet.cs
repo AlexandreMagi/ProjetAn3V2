@@ -140,7 +140,10 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         {
             if (hVictim.gameObject != this.gameObject && !(hVictim.gameObject == owner && !onGravity))
             {
-
+                if(hVictim.gameObject == owner)
+                {
+                    owner.GetComponent<Shooter>().OnHitByOwnBullet();
+                }
 
                 IEntity entityVictim = hVictim.GetComponent<IEntity>();
                 if(entityVictim != null && (hVictim.GetComponent<Player>() == null || !isShot))
