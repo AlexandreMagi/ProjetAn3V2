@@ -46,13 +46,28 @@ public class TriggerSender : MonoBehaviour
     bool boolStateSet = true;
 
 
+    [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
+    float timeGoTo = .1f;
+    [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
+    float timeGoBack = .1f;
+    [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
+    bool lockedAfterTransition = false;
+    [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField, DisableIf("lockedAfterTransition")]
+    float followDuration = 0;
+
+
     [SerializeField]
     float timeBeforeStart = 0;
 
     bool timerStarted = false;
+    Transform enemyFollow = null;
 
     void OnTriggerEnter(Collider other)
     {
+        if(typeTrigger == TriggerType.EnemyFollow)
+        {
+            enemyFollow = other.transform;
+        }
         StartTrigger();
     }
         
@@ -106,6 +121,9 @@ public class TriggerSender : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
 
+            case TriggerType.EnemyFollow:
+                TriggerUtil.TriggerFollowTarget(timeBeforeStart, enemyFollow, timeGoTo, timeGoBack, lockedAfterTransition, followDuration);
+                break;
             default:
                 break;
         }
@@ -132,6 +150,7 @@ public class TriggerSender : MonoBehaviour
         Sound = 4,
         Shake = 5,
         Boolean = 6,
+        EnemyFollow = 7,
         Other = 9
     }
 

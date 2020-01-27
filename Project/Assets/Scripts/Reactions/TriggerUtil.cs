@@ -179,5 +179,19 @@ public static class TriggerUtil
         yield break;
     }
 
+    //FOLLOW TARGET
+    public static void TriggerFollowTarget(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, bool lockedAfterTransition, float followDuration)
+    {
+        Main.Instance.StartCoroutine(TriggerFollowTargetCoroutine(timeBeforeStart, target, timeGoTo, timeGoBack, lockedAfterTransition, followDuration));
+    }
+
+    static IEnumerator TriggerFollowTargetCoroutine(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, bool lockedAfterTransition, float followDuration)
+    {
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
+
+        CameraHandler.Instance.CameraLookAt(target, timeGoTo, timeGoBack, lockedAfterTransition, followDuration);
+
+        yield break;
+    }
 }
 
