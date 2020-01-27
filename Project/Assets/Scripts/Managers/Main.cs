@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
+
 public class Main : MonoBehaviour
 {
     private bool playerCanOrb = true;
@@ -12,6 +14,11 @@ public class Main : MonoBehaviour
 
     [SerializeField]
     int startWithCameraNumber = 0;
+
+    [SerializeField, EnumToggleButtons]
+    Difficulty difficultyValue;
+
+    float maxChanceOfSurvival = 90f;
 
     [SerializeField]
     bool autoReloadOnNoAmmo = false;
@@ -82,10 +89,15 @@ public class Main : MonoBehaviour
             SceneHandler.Instance.RestartScene(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             this.sequenceSkipMode = !this.sequenceSkipMode;
             Debug.Log($"Sequence skip : {sequenceSkipMode}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Player.Instance.TakeDamage(999999);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -193,8 +205,30 @@ public class Main : MonoBehaviour
         //Le joueur est mort. Sa survie dépendra du ratio du public.
         int initialPublic = PublicManager.Instance.GetInitialViewers();
         int currentPublic = PublicManager.Instance.GetNbViewers();
+        int growthValue = PublicManager.Instance.GetGrowthValue();
 
 
+        float chancesOfSurvival = (((currentPublic / (initialPublic + growthValue * (int)difficultyValue)) / (int)difficultyValue));
+        float trueChance = chancesOfSurvival * maxChanceOfSurvival;
+        float bonusFromRez = 0f;
+
+        if(trueChance > maxChanceOfSurvival)
+        {
+            bonusFromRez = trueChance - maxChanceOfSurvival;
+
+            trueChance = maxChanceOfSurvival;
+        }
+
+        int publicChoice = Random.Range(0, 101);
+
+        if(publicChoice < trueChance)
+        {
+            DoResurrection(bonusFromRez);
+        }
+        else
+        {
+            DoGameOver();
+        }
     }
 
     private void DoGameOver()
@@ -202,8 +236,21 @@ public class Main : MonoBehaviour
 
     }
 
-    private void DoResurrection()
+    private void DoResurrection(float bonus)
     {
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn);
 
+        if(bonus > 0)
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, bonus);
+        }
+        
+    }
+
+    public enum Difficulty
+    {
+        Easy = 2,
+        Normal = 4,
+        Hard = 6
     }
 }
