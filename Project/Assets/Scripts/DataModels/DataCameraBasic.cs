@@ -45,6 +45,9 @@ public class DataCameraBasic : ScriptableObject
     [Tooltip("Plus la valeur est haute, plus la caméra va rotate lors des mouvements latéraux")]
     public float maxRotateWhileMoving = 5;
 
+    public float camTransitionSpeedAnimatedCine = 3;
+    public float camSafeDistanceTransition = 1;
+
     [Header("Step options")]
     public DataStep[] CurvesAndValues;
     [Tooltip("Valeur de detection d'arret de mouvement")]
