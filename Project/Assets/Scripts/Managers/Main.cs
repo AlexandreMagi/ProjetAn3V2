@@ -114,7 +114,12 @@ public class Main : MonoBehaviour
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, 50);
         }
 
-        if(sequenceSkipMode)
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, -50);
+        }
+
+        if (sequenceSkipMode)
         {
             #region Numeric inputs
             if (Input.GetKeyDown(KeyCode.Keypad0))

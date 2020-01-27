@@ -165,6 +165,11 @@ public class PublicManager : MonoBehaviour
 
         nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
 
+        if(nbViewers <= 0)
+        {
+            nbViewers = 1;
+        }
+
         RecalculateMultiplier();
     }
 
@@ -195,6 +200,11 @@ public class PublicManager : MonoBehaviour
         }
 
         nbViewers += number * publicData.baseViewerGrowth;
+
+        if (nbViewers <= 0)
+        {
+            nbViewers = 1;
+        }
 
         RecalculateMultiplier();
     }
