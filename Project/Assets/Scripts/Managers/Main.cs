@@ -15,15 +15,16 @@ public class Main : MonoBehaviour
     [SerializeField]
     int startWithCameraNumber = 0;
 
-    [SerializeField, EnumToggleButtons]
-    Difficulty difficultyValue;
+    [SerializeField]
+    DataDifficulty difficultyData;
 
-    float maxChanceOfSurvival = 90f;
+    bool playerResedAlready = false;
 
     [SerializeField]
     bool autoReloadOnNoAmmo = false;
 
     bool hasJumpedCam = false;
+
 
     public static Main Instance { get; private set; }
 
@@ -97,7 +98,9 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Player.Instance.TakeDamage(999999);
+            Player.Instance.SetLifeTo(1);
+            Player.Instance.GainArmor(-9999);
+            Player.Instance.TakeDamage(1);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -202,42 +205,57 @@ public class Main : MonoBehaviour
 
     public void TriggerGameOverSequence()
     {
-        //Le joueur est mort. Sa survie dépendra du ratio du public.
-        int initialPublic = PublicManager.Instance.GetInitialViewers();
-        int currentPublic = PublicManager.Instance.GetNbViewers();
-        int growthValue = PublicManager.Instance.GetGrowthValue();
-
-
-        float chancesOfSurvival = (((currentPublic / (initialPublic + growthValue * (int)difficultyValue)) / (int)difficultyValue));
-        float trueChance = chancesOfSurvival * maxChanceOfSurvival;
-        float bonusFromRez = 0f;
-
-        if(trueChance > maxChanceOfSurvival)
+        if (difficultyData.playerCanReraise || !playerResedAlready)
         {
-            bonusFromRez = trueChance - maxChanceOfSurvival;
+            //Le joueur est mort. Sa survie dépendra du ratio du public.
+            float initialPublic = PublicManager.Instance.GetInitialViewers();
+            float currentPublic = PublicManager.Instance.GetNbViewers();
+            float growthValue = PublicManager.Instance.GetGrowthValue();
 
-            trueChance = maxChanceOfSurvival;
-        }
+            Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
 
-        int publicChoice = Random.Range(0, 101);
+            float chancesOfSurvival = (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty);
+            float trueChance = chancesOfSurvival * difficultyData.maxChanceOfSurvival;
+            float bonusFromRez = 0;
 
-        if(publicChoice < trueChance)
-        {
-            DoResurrection(bonusFromRez);
+           
+
+            if (trueChance > difficultyData.maxChanceOfSurvival)
+            {
+                bonusFromRez = trueChance - difficultyData.maxChanceOfSurvival;
+
+                trueChance = difficultyData.maxChanceOfSurvival;
+            }
+
+            int publicChoice = Random.Range(0, 101);
+
+            Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
+
+            if (publicChoice < trueChance)
+            {
+                DoResurrection(bonusFromRez);
+                playerResedAlready = true;
+            }
+            else
+            {
+                DoGameOver();
+            }
         }
-        else
-        {
-            DoGameOver();
-        }
+        
     }
 
     private void DoGameOver()
     {
-
+        Debug.Log("Public chose... DEATH");
     }
 
     private void DoResurrection(float bonus)
     {
+        Debug.Log("Public chose... LIFE");
+
+        Player.Instance.SetLifeTo(1);
+        Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
+
         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn);
 
         if(bonus > 0)
@@ -247,10 +265,5 @@ public class Main : MonoBehaviour
         
     }
 
-    public enum Difficulty
-    {
-        Easy = 2,
-        Normal = 4,
-        Hard = 6
-    }
+   
 }

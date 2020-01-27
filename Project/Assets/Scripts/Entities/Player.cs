@@ -15,6 +15,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         this.godMode = !this.godMode;
     }
 
+    public void SetLifeTo(int life)
+    {
+        health = life;
+    }
+
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
         ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
@@ -24,6 +29,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         Instance = this;
     }
+
+    protected override void Die()
+    {
+        Main.Instance.TriggerGameOverSequence();
+    }   
 
     protected override void Start()
     {
@@ -89,11 +99,6 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 {
                     PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.LowHp);
                 }
-            }
-
-            if(health < 0)
-            {
-                Main.Instance.TriggerGameOverSequence();
             }
 
             base.TakeDamage(value);
