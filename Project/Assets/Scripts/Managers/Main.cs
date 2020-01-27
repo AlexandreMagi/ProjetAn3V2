@@ -188,4 +188,22 @@ public class Main : MonoBehaviour
         }
     }
 
+    public void TriggerGameOverSequence()
+    {
+        //Le joueur est mort. Sa survie dépendra du ratio du public.
+        int initialPublic = PublicManager.Instance.GetInitialViewers();
+        int currentPublic = PublicManager.Instance.GetNbViewers();
+
+
+    }
+
+    private void DoGameOver()
+    {
+
+    }
+
+    private void DoResurrection()
+    {
+
+    }
 }
