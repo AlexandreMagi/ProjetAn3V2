@@ -49,6 +49,11 @@ public class PublicManager : MonoBehaviour
         return nbViewers;
     }
 
+    public int GetInitialViewers()
+    {
+        return this.publicData.startViewers;
+    }
+
     public void OnPlayerAction(ActionType action, IEntity cause = null)
     {
         switch (action)

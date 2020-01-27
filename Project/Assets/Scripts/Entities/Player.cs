@@ -91,6 +91,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 }
             }
 
+            if(health < 0)
+            {
+                Main.Instance.TriggerGameOverSequence();
+            }
+
             base.TakeDamage(value);
         }
         
