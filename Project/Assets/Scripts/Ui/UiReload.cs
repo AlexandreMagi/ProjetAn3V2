@@ -133,7 +133,7 @@ public class UiReload : MonoBehaviour
         reloadSliderText.text = ""+bulletAmount.x;
 
         int nbBulletShot = bulletPull - bulletAmount.x;
-        for (int i = 0; i < bulletPull; i++)
+        for (int i = 0; i < bulletPull; i++) 
         {
             if (Mathf.Abs(i - holaValue) < reloadData.holaRange) bulletSprites[i].transform.localScale = Vector3.one + Vector3.one * reloadData.holaEffectOnBullet.Evaluate((holaValue - i + reloadData.holaRange) / reloadData.holaRange) * reloadData.holaScaleMultiplier;
             else bulletSprites[i].transform.localScale = Vector3.one;
