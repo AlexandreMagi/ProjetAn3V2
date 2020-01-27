@@ -49,21 +49,28 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
         if (value >= armor)
         {
-            if (armor > 0)
+            if (!godMode)
             {
-                UiDamageHandler.Instance.ShieldBreak();
-                CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
-                GameObject renderingCam = CameraHandler.Instance.RenderingCam;
-                FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
-                TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
+                if (armor > 0)
+                {
+                    UiDamageHandler.Instance.ShieldBreak();
+                    CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
+                    GameObject renderingCam = CameraHandler.Instance.RenderingCam;
+                    FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
+                    TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
+                }
+                value -= armor;
+                armor = 0;
             }
-            value -= armor;
-            armor = 0;
+           
         }
         else
         {
-            armor -= value;
-            value = 0;
+            if (!godMode)
+            {
+                armor -= value;
+                value = 0;
+            }
         }
         if (!godMode)
         {
