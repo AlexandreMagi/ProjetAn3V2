@@ -169,7 +169,8 @@ public class CameraHandler : MonoBehaviour
             if (timerOnCinemachineCam < 0)
                 onCinemachineCamera = true;
         }
-        currentCamDummy = onCinemachineCamera ? CamDummy : AnimatedCam;
+
+        currentCamDummy = !onCinemachineCamera && AnimatedCam.transform.position != Vector3.zero ? AnimatedCam : CamDummy;
 
         // Reset de la position et de la rotation
         camDummyValueFeedback.transform.position = currentCamDummy.transform.position;
