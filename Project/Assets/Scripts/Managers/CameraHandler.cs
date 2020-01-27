@@ -70,7 +70,15 @@ public class CameraHandler : MonoBehaviour
 
     CinemachineImpulseSource CineMachImpulse;
 
+    Transform cameraLookAt = null;
+    float transitionToLookAtSpeed = 0;
+    float transitionToBaseCamSpeed = 0;
+    float timeRemainingLookAt = 0;
+    bool lockedAfterTransition = false;
+
     #endregion
+
+    [SerializeField] Transform TESTFOLLOWCAMDELETEAFTERUSE = null;
 
     private void Awake()
     {
@@ -170,7 +178,7 @@ public class CameraHandler : MonoBehaviour
                 onCinemachineCamera = true;
         }
 
-        currentCamDummy = !onCinemachineCamera && AnimatedCam.transform.position != Vector3.zero ? AnimatedCam : CamDummy;
+        currentCamDummy = !onCinemachineCamera && AnimatedCam.transform.position != Vector3.zero && AnimatedCam != null? AnimatedCam : CamDummy;
 
         // Reset de la position et de la rotation
         camDummyValueFeedback.transform.position = currentCamDummy.transform.position;
@@ -201,53 +209,75 @@ public class CameraHandler : MonoBehaviour
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camBasicData.timeScaleFov - Time.timeScale * camBasicData.timeScaleFov, Time.unscaledDeltaTime * camBasicData.timeScaleFovSpeed);
         CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + currentFovModif + fovAddedByTimeScale + currentFovRecoilValue;
 
-        if (!bFeedbckActivated)
+        if (cameraLookAt != null)// && !(cameraLookAt.gameObject != null && cameraLookAt.gameObject.activeSelf != false))
         {
-            if (bFeedbackTransition)
+            Debug.Log("Ca lock");
+
+            camDummyValueFeedback.transform.LookAt(cameraLookAt, Vector3.up);
+
+            RenderingCam.transform.position = camDummyValueFeedback.transform.position;
+            RenderingCam.transform.rotation = camDummyValueFeedback.transform.rotation;
+
+            if (!bFeedbckActivated)
             {
-                RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, currentCamDummy.transform.position, Time.deltaTime * fCurrentSpeedTransition);
-                RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, currentCamDummy.transform.rotation, Time.deltaTime * fCurrentSpeedTransition);
-                RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, currentCamDummy.GetComponent<Camera>().fieldOfView, Time.deltaTime * fCurrentSpeedTransition);
+                if (bFeedbackTransition) RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, currentCamDummy.GetComponent<Camera>().fieldOfView, Time.deltaTime * fCurrentSpeedTransition);
+                else RenderingCam.GetComponent<Camera>().fieldOfView = currentCamDummy.GetComponent<Camera>().fieldOfView;
             }
             else
             {
-                RenderingCam.transform.position = currentCamDummy.transform.position;
-                RenderingCam.transform.rotation = currentCamDummy.transform.rotation;
-                RenderingCam.GetComponent<Camera>().fieldOfView = currentCamDummy.GetComponent<Camera>().fieldOfView;
+                if (bFeedbackTransition) RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, CamDummyFov, Time.deltaTime * fCurrentSpeedTransition);
+                else RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
             }
         }
         else
         {
-            if (bFeedbackTransition)
+            if (!bFeedbckActivated)
             {
-                RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, camDummyValueFeedback.transform.position, Time.deltaTime * fCurrentSpeedTransition);
-                RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, camDummyValueFeedback.transform.rotation, Time.deltaTime * fCurrentSpeedTransition);
-                RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, CamDummyFov, Time.deltaTime * fCurrentSpeedTransition);
+                if (bFeedbackTransition)
+                {
+                    RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, currentCamDummy.transform.position, Time.deltaTime * fCurrentSpeedTransition);
+                    RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, currentCamDummy.transform.rotation, Time.deltaTime * fCurrentSpeedTransition);
+                    RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, currentCamDummy.GetComponent<Camera>().fieldOfView, Time.deltaTime * fCurrentSpeedTransition);
+                }
+                else
+                {
+                    RenderingCam.transform.position = currentCamDummy.transform.position;
+                    RenderingCam.transform.rotation = currentCamDummy.transform.rotation;
+                    RenderingCam.GetComponent<Camera>().fieldOfView = currentCamDummy.GetComponent<Camera>().fieldOfView;
+                }
             }
             else
             {
-                RenderingCam.transform.position = camDummyValueFeedback.transform.position;
-                RenderingCam.transform.rotation = camDummyValueFeedback.transform.rotation;
-                RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
+                if (bFeedbackTransition)
+                {
+                    RenderingCam.transform.position = Vector3.Lerp(RenderingCam.transform.position, camDummyValueFeedback.transform.position, Time.deltaTime * fCurrentSpeedTransition);
+                    RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, camDummyValueFeedback.transform.rotation, Time.deltaTime * fCurrentSpeedTransition);
+                    RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, CamDummyFov, Time.deltaTime * fCurrentSpeedTransition);
+                }
+                else
+                {
+                    RenderingCam.transform.position = camDummyValueFeedback.transform.position;
+                    RenderingCam.transform.rotation = camDummyValueFeedback.transform.rotation;
+                    RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
+                }
             }
         }
 
-        /*if (!onCinemachineCamera)
-        {
-            Debug.Log(onCinemachineCamera);
-            RenderingCam.transform.position = AnimatedCam.transform.position;
-            RenderingCam.transform.rotation = AnimatedCam.transform.rotation;
-        }
-        else
-        {
-            RenderingCam.transform.position = CamDummy.transform.position;
-            RenderingCam.transform.rotation = CamDummy.transform.rotation;
-        }*/
+        if (Input.GetKeyDown(KeyCode.Space)) CameraLookAt(TESTFOLLOWCAMDELETEAFTERUSE, 5, 5);
     }
 
     public void DecalCurrentCamRotation(Vector2 Pos)
     {
         vRotateValue = new Vector2(-(Pos.y * (camBasicData.camMoveWithAim * 2) / Screen.height - camBasicData.camMoveWithAim), Pos.x * (camBasicData.camMoveWithAim * 2) / Screen.width - camBasicData.camMoveWithAim); // Get values
+    }
+
+    public void CameraLookAt(Transform camFollow, float speedTransition, float speedTransitionBack, bool _lockedAfterTransition = false, float timerBeforeGoBack = -1)
+    {
+        cameraLookAt = camFollow;
+        transitionToLookAtSpeed = speedTransition;
+        transitionToBaseCamSpeed = speedTransitionBack;
+        timeRemainingLookAt = timerBeforeGoBack;
+        lockedAfterTransition = _lockedAfterTransition;
     }
 
     private void HandleFBAtCharge()
