@@ -355,6 +355,11 @@ public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects, IGrav
         base.Die();
     }
 
+    public void OnHitByOwnBullet()
+    {
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BackToSender);
+    }
+
     #region Gravity
     public void OnGravityDirectHit()
     {

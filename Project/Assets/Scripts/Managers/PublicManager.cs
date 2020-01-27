@@ -55,19 +55,15 @@ public class PublicManager : MonoBehaviour
         {
             case ActionType.EnvironmentKill:
                 AddViewers(4, true, action);
-                AddToBuffer(action);
                 break;
             case ActionType.RefuseBonus:
                 AddViewers(5, true, action);
-                AddToBuffer(action);
                 break;
             case ActionType.PerfectProjectile:
                 AddViewers(3, true, action);
-                AddToBuffer(action);
                 break;
             case ActionType.BackToSender:
                 AddViewers(3, true, action);
-                AddToBuffer(action);
                 break;
             case ActionType.Kill:
                 //Un peu spécial
@@ -88,7 +84,6 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.PerfectReload:
                 AddViewers(2, true, action);
-                AddToBuffer(action);
                 break;
             case ActionType.VendettaPrepare:
                 //Special
@@ -150,7 +145,10 @@ public class PublicManager : MonoBehaviour
                 }
             }
         }
-       
+        if(bufferMultiplier > 0 && isAffectedByBuffer)
+        {
+            AddToBuffer(action);
+        }
 
         nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
 
