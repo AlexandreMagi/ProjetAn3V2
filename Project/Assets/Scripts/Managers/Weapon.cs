@@ -136,9 +136,14 @@ public class Weapon : MonoBehaviour
         CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
         if (perfect)
         {
-            TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
-            CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
-            CameraHandler.Instance.AddFovRecoil(weapon.reloadingPerfectRecoil);
+            //Le slow motion est lourd et redondant si on est pas dans l'action
+            if(SequenceHandler.Instance != null && SequenceHandler.Instance.IsCurrentSequenceOnAction())
+            {
+                TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
+                CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
+                CameraHandler.Instance.AddFovRecoil(weapon.reloadingPerfectRecoil);
+            }
+            
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload);
         }
     }
