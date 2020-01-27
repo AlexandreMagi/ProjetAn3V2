@@ -114,6 +114,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void GainArmor(float value)
     {
         armor += value;
+        if(armor > 300)
+        {
+            armor = 300;
+        }
         UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+
     }
 }

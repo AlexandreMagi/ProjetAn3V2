@@ -79,6 +79,7 @@ public class Main : MonoBehaviour
             Cursor.visible = false;
         }
 
+        #region Debug
         //DEBUG
         if (Input.GetKeyDown(KeyCode.N))
         {
@@ -106,6 +107,11 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             Player.Instance.SetGod();
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, 50 );
         }
 
         if(sequenceSkipMode)
@@ -164,6 +170,7 @@ public class Main : MonoBehaviour
             }
             
         }
+        #endregion
 
         //RELOAD
         if (Input.GetKeyDown(KeyCode.R))
@@ -212,7 +219,7 @@ public class Main : MonoBehaviour
             float currentPublic = PublicManager.Instance.GetNbViewers();
             float growthValue = PublicManager.Instance.GetGrowthValue();
 
-            Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
+            // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
 
             float chancesOfSurvival = (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty);
             float trueChance = chancesOfSurvival * difficultyData.maxChanceOfSurvival;
