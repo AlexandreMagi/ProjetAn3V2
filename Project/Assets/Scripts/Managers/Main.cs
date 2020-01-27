@@ -111,7 +111,7 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, 50 );
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, 50);
         }
 
         if(sequenceSkipMode)
@@ -177,10 +177,6 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
         }
 
 
