@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
+
 public class Main : MonoBehaviour
 {
     private bool playerCanOrb = true;
@@ -14,9 +16,15 @@ public class Main : MonoBehaviour
     int startWithCameraNumber = 0;
 
     [SerializeField]
+    DataDifficulty difficultyData;
+
+    bool playerResedAlready = false;
+
+    [SerializeField]
     bool autoReloadOnNoAmmo = false;
 
     bool hasJumpedCam = false;
+
 
     public static Main Instance { get; private set; }
 
@@ -71,6 +79,7 @@ public class Main : MonoBehaviour
             Cursor.visible = false;
         }
 
+        #region Debug
         //DEBUG
         if (Input.GetKeyDown(KeyCode.N))
         {
@@ -82,10 +91,17 @@ public class Main : MonoBehaviour
             SceneHandler.Instance.RestartScene(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             this.sequenceSkipMode = !this.sequenceSkipMode;
             Debug.Log($"Sequence skip : {sequenceSkipMode}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Player.Instance.SetLifeTo(1);
+            Player.Instance.GainArmor(-9999);
+            Player.Instance.TakeDamage(1);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -93,7 +109,17 @@ public class Main : MonoBehaviour
             Player.Instance.SetGod();
         }
 
-        if(sequenceSkipMode)
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, 50);
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, -50);
+        }
+
+        if (sequenceSkipMode)
         {
             #region Numeric inputs
             if (Input.GetKeyDown(KeyCode.Keypad0))
@@ -149,16 +175,13 @@ public class Main : MonoBehaviour
             }
             
         }
+        #endregion
 
         //RELOAD
         if (Input.GetKeyDown(KeyCode.R))
         {
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
         }
 
 
@@ -190,20 +213,71 @@ public class Main : MonoBehaviour
 
     public void TriggerGameOverSequence()
     {
-        //Le joueur est mort. Sa survie dépendra du ratio du public.
-        int initialPublic = PublicManager.Instance.GetInitialViewers();
-        int currentPublic = PublicManager.Instance.GetNbViewers();
+        playerCanShoot = false;
+        playerCanOrb = false;
 
+        if (difficultyData.playerCanReraise || !playerResedAlready)
+        {
+            //Le joueur est mort. Sa survie dépendra du ratio du public.
+            float initialPublic = PublicManager.Instance.GetInitialViewers();
+            float currentPublic = PublicManager.Instance.GetNbViewers();
+            float growthValue = PublicManager.Instance.GetGrowthValue();
 
+            // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
+
+            float chancesOfSurvival = (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty);
+            float trueChance = chancesOfSurvival * difficultyData.maxChanceOfSurvival;
+            float bonusFromRez = 0;
+
+           
+
+            if (trueChance > difficultyData.maxChanceOfSurvival)
+            {
+                bonusFromRez = trueChance - difficultyData.maxChanceOfSurvival;
+
+                trueChance = difficultyData.maxChanceOfSurvival;
+            }
+
+            int publicChoice = Random.Range(0, 101);
+
+            Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
+
+            if (publicChoice < trueChance)
+            {
+                DoResurrection(bonusFromRez);
+                playerResedAlready = true;
+            }
+            else
+            {
+                DoGameOver();
+            }
+        }
+        
     }
 
     private void DoGameOver()
     {
-
+        Debug.Log("Public chose... DEATH");
     }
 
-    private void DoResurrection()
+    private void DoResurrection(float bonus)
     {
+        Debug.Log("Public chose... LIFE");
 
+        playerCanShoot = true;
+        playerCanOrb = true;
+
+        Player.Instance.SetLifeTo(1);
+        Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
+
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn);
+
+        if(bonus > 0)
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, bonus);
+        }
+        
     }
+
+   
 }

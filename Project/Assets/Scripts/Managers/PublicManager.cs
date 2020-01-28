@@ -54,7 +54,12 @@ public class PublicManager : MonoBehaviour
         return this.publicData.startViewers;
     }
 
-    public void OnPlayerAction(ActionType action, IEntity cause = null)
+    public int GetGrowthValue()
+    {
+        return this.publicData.baseViewerGrowth;
+    }
+
+    public void OnPlayerAction(ActionType action, IEntity cause = null, float bonus = 0)
     {
         switch (action)
         {
@@ -124,6 +129,9 @@ public class PublicManager : MonoBehaviour
             case ActionType.DeathAndRespawn:
                 LoseViewers(10);
                 break;
+            case ActionType.BonusOnRespawn:
+                AddRawViewers((int)bonus, false, action);
+                break;
             default:
                 break;
         }
@@ -156,6 +164,47 @@ public class PublicManager : MonoBehaviour
         }
 
         nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+
+        if(nbViewers <= 0)
+        {
+            nbViewers = 1;
+        }
+
+        RecalculateMultiplier();
+    }
+
+    private void AddRawViewers(int number, bool isAffectedByBuffer, ActionType action)
+    {
+        float bufferMultiplier = 1;
+        int capCount = 0;
+        if (isAffectedByBuffer)
+        {
+            foreach (ActionType actionInTab in stallBuffer)
+            {
+                if (actionInTab == action)
+                {
+                    bufferMultiplier *= publicData.bufferStallAffect;
+                    capCount++;
+
+                    if (capCount >= publicData.antiFarmCap)
+                    {
+                        bufferMultiplier = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        if (bufferMultiplier > 0 && isAffectedByBuffer)
+        {
+            AddToBuffer(action);
+        }
+
+        nbViewers += number * publicData.baseViewerGrowth;
+
+        if (nbViewers <= 0)
+        {
+            nbViewers = 1;
+        }
 
         RecalculateMultiplier();
     }
@@ -197,6 +246,7 @@ public class PublicManager : MonoBehaviour
         MissGravityOrb = 11,
         MissShotGun = 12,
         DeathAndRespawn = 13,
-        VendettaPrepare = 14
+        VendettaPrepare = 14,
+        BonusOnRespawn = 15
     }
 }

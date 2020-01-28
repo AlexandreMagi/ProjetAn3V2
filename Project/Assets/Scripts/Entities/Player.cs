@@ -15,6 +15,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         this.godMode = !this.godMode;
     }
 
+    public void SetLifeTo(int life)
+    {
+        health = life;
+    }
+
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
         ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
@@ -29,6 +34,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         Instance = this;
     }
+
+    protected override void Die()
+    {
+        Main.Instance.TriggerGameOverSequence();
+    }   
 
     protected override void Start()
     {
@@ -51,62 +61,89 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public override void TakeDamage(float value)
     {
-        CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
-        TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
-        if (value >= armor)
+        if (health > 0)
         {
+            CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
+            TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
+            bool armorJustBroke = false;
+            if (value >= armor)
+            {
+                if (!godMode)
+                {
+                    if (armor > 0)
+                    {
+                        UiDamageHandler.Instance.ShieldBreak();
+                        CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
+                        GameObject renderingCam = CameraHandler.Instance.RenderingCam;
+                        FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
+                        TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
+
+                        value -= armor;
+                        armor = 0;
+                        armorJustBroke = true;
+                    }
+
+                }
+
+            }
+            else
+            {
+                if (!godMode)
+                {
+                    armor -= value;
+                    value = 0;
+                }
+            }
+
             if (!godMode)
             {
-                if (armor > 0)
+                Debug.Log("Must update Life");
+                //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+                //UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
+
+                if(armor <= 0)
                 {
-                    UiDamageHandler.Instance.ShieldBreak();
-                    CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
-                    GameObject renderingCam = CameraHandler.Instance.RenderingCam;
-                    FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
-                    TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
+                    Debug.Log("no armor");
+
+                    float damageToHealth = 0;
+                    if (value > 0 && !armorJustBroke)
+                    {
+                        damageToHealth = Mathf.Floor(entityData.startHealth / 5);
+                        health -= damageToHealth;
+                        Debug.Log("hp damage");
+                    
+                    }
+
+                    //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+                    //UiLifeBar.Instance.UpdateLifeDisplay((health - damageToHealth) / entityData.maxHealth, health - damageToHealth);
+
+                    if (armor < 0)
+                    {
+                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnLifeBar);
+
+                        if (health <= 20)
+                        {
+                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.SuperLowHp);
+                        }
+                        else if (health <= 50)
+                        {
+                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.LowHp);
+                        }
+                    }
+
+                    //Si hp < 5%
+                    if (health <= entityData.startHealth / 20)
+                    {
+                        this.Die();
+
+                    }
+
+                
                 }
-                value -= armor;
-                armor = 0;
-            }
-           
-        }
-        else
-        {
-            if (!godMode)
-            {
-                armor -= value;
-                value = 0;
+
+                UiLifeBar.Instance.PlayerTookDamage(armor, health);
             }
         }
-        if (!godMode)
-        {
-            Debug.Log("Must update Life");
-            //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
-            //UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
-
-            if(armor < 0)
-            {
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnLifeBar);
-
-                if(health <= 20)
-                {
-                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.SuperLowHp);
-                }
-                else if(health <= 50)
-                {
-                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.LowHp);
-                }
-            }
-
-            if(health < 0)
-            {
-                Main.Instance.TriggerGameOverSequence();
-            }
-
-            base.TakeDamage(value);
-            UiLifeBar.Instance.PlayerTookDamage(armor, health);
-        }
-        
     }
 
     public float getArmor()
@@ -117,6 +154,12 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void GainArmor(float value)
     {
         armor += value;
+
+        if(armor > 300)
+        {
+            armor = 300;
+        }
         //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+
     }
 }
