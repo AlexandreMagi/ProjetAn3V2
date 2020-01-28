@@ -213,6 +213,9 @@ public class Main : MonoBehaviour
 
     public void TriggerGameOverSequence()
     {
+        playerCanShoot = false;
+        playerCanOrb = false;
+
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
             //Le joueur est mort. Sa survie dépendra du ratio du public.
@@ -260,6 +263,9 @@ public class Main : MonoBehaviour
     private void DoResurrection(float bonus)
     {
         Debug.Log("Public chose... LIFE");
+
+        playerCanShoot = true;
+        playerCanOrb = true;
 
         Player.Instance.SetLifeTo(1);
         Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);

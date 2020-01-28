@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class Spawner : MonoBehaviour
 {
@@ -26,11 +27,27 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     protected bool spawnEnabled = false;
 
+    [Header("Spawn at range")]
+    [SerializeField]
+    bool isRangedSpawner = false;
+
+    [SerializeField, ShowIf("isRangedSpawner")]
+    float rangeRadius = 0f;
+
 
 
     protected virtual void Start()
     {
         this.GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (isRangedSpawner)
+        {
+            UnityEditor.Handles.color = Color.green;
+            UnityEditor.Handles.DrawWireDisc(this.transform.position, this.transform.up, rangeRadius);
+        }
     }
 
     public void StartSpawn()
@@ -79,7 +96,18 @@ public class Spawner : MonoBehaviour
             }
 
             spawnedEnemy.transform.SetParent(this.transform, false);
-            spawnedEnemy.transform.position = transform.position;
+
+            if (isRangedSpawner)
+            {
+                float randomX = Random.Range(-rangeRadius, rangeRadius);
+                float randomZ = Random.Range(-rangeRadius, rangeRadius);
+                spawnedEnemy.transform.position = transform.position + new Vector3(randomX, 0, randomZ);
+            }
+            else
+            {
+                spawnedEnemy.transform.position = transform.position;
+            }
+           
 
 
             if (isPathedSpawner && pathToGive != null)
