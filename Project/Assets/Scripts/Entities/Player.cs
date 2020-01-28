@@ -45,7 +45,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         base.Start();
         entityData = entityData as DataPlayer;
         armor = entityData.armor;
-        Debug.Log("Must update Life");
+        //Debug.Log("Must update Life");
         //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
         //UiLifeBar.Instance.UpdateLifeDisplay(health / entityData.maxHealth, health);
     }
