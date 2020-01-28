@@ -281,7 +281,7 @@ public class SequenceHandler : MonoBehaviour
             }
             */
 
-            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration < 0 ? currentSequence.timeSequenceDuration : 0 : 0);
+            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration <= 0 ? currentSequence.timeSequenceDuration : 0 : 0);
             enemiesKilled = 0;
 
             
@@ -327,5 +327,10 @@ public class SequenceHandler : MonoBehaviour
         {
             bufferedKills++;
         }
+    }
+
+    public bool IsCurrentSequenceOnAction()
+    {
+        return (readSequences && currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies);
     }
 }
