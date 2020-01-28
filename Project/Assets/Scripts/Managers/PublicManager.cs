@@ -114,6 +114,9 @@ public class PublicManager : MonoBehaviour
             case ActionType.LowHp:
                 hpMultiplier = 1.5f;
                 break;
+            case ActionType.DamageOnArmor:
+                AddViewers(2, true, action);
+                break;
             case ActionType.DamageOnLifeBar:
                 LoseViewers(3);
                 break;
@@ -247,6 +250,7 @@ public class PublicManager : MonoBehaviour
         MissShotGun = 12,
         DeathAndRespawn = 13,
         VendettaPrepare = 14,
-        BonusOnRespawn = 15
+        BonusOnRespawn = 15,
+        DamageOnArmor = 16
     }
 }
