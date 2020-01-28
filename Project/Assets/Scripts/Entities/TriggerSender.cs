@@ -130,7 +130,7 @@ public class TriggerSender : MonoBehaviour
 
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
 
         Gizmos.color = Color.red;
