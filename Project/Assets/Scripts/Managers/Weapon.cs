@@ -136,7 +136,8 @@ public class Weapon : MonoBehaviour
         CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
         if (perfect)
         {
-            //Le slow motion est lourd et redondant si on est pas dans l'action
+            //Le slow motion est lourd et redondant si on est pas dans l'action. Il est désactivé si on est pas sur une sequence ennemis
+
             if(SequenceHandler.Instance != null && SequenceHandler.Instance.IsCurrentSequenceOnAction())
             {
                 TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);

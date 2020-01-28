@@ -57,6 +57,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
+        bool armorJustBroke = false;
         if (value >= armor)
         {
             if (!godMode)
@@ -71,6 +72,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 }
                 value -= armor;
                 armor = 0;
+                armorJustBroke = true;
             }
            
         }
@@ -84,8 +86,15 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         }
         if (!godMode)
         {
+            float damageToHealth = 0;
+            if (value > 0 && !armorJustBroke)
+            {
+                damageToHealth = Mathf.Floor(entityData.startHealth / 5);
+                health -= damageToHealth;
+            }
+
             UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
-            UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
+            UiLifeBar.Instance.UpdateLifeDisplay((health - damageToHealth) / entityData.maxHealth, health - damageToHealth);
 
             if(armor < 0)
             {
@@ -101,7 +110,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 }
             }
 
-            base.TakeDamage(value);
+            //Si hp < 5%
+            if (health <= entityData.startHealth / 20)
+            {
+                this.Die();
+            }
         }
         
     }
