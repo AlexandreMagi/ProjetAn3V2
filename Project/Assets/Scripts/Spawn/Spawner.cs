@@ -41,7 +41,7 @@ public class Spawner : MonoBehaviour
         this.GetComponent<MeshRenderer>().enabled = false;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (isRangedSpawner)
         {
