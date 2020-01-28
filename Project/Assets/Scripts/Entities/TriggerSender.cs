@@ -51,8 +51,6 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
     float timeGoBack = .1f;
     [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
-    bool lockedAfterTransition = false;
-    [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField, DisableIf("lockedAfterTransition")]
     float followDuration = 0;
 
 
@@ -122,7 +120,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.EnemyFollow:
-                TriggerUtil.TriggerFollowTarget(timeBeforeStart, enemyFollow, timeGoTo, timeGoBack, lockedAfterTransition, followDuration);
+                TriggerUtil.TriggerFollowTarget(timeBeforeStart, enemyFollow, timeGoTo, timeGoBack, followDuration);
                 break;
             default:
                 break;

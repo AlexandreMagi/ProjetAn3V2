@@ -71,14 +71,14 @@ public class CameraHandler : MonoBehaviour
     CinemachineImpulseSource CineMachImpulse;
 
     Transform cameraLookAt = null;
-    float transitionToLookAtSpeed = 0;
-    float transitionToBaseCamSpeed = 0;
+    float timeTransitionTo = 0;
+    float timeTransitionBack = 0;
     float timeRemainingLookAt = 0;
-    bool lockedAfterTransition = false;
+    float currentPurcentageLookAt = 0;
+    Vector3 savePosLookAt = Vector3.zero;
 
     #endregion
 
-    [SerializeField] Transform TESTFOLLOWCAMDELETEAFTERUSE = null;
 
     private void Awake()
     {
@@ -101,6 +101,8 @@ public class CameraHandler : MonoBehaviour
             CurrentInvertedStock[i] = 1;
         }
         camDummyValueFeedback = new GameObject();
+        currentCamDummy = !onCinemachineCamera && AnimatedCam.transform.position != Vector3.zero && AnimatedCam != null ? AnimatedCam : CamDummy;
+        vLookAtPos = currentCamDummy.transform.position + currentCamDummy.transform.forward * 5;
     }
 
     public void FeedbackTransition(bool bValue, float fSpeedTransi)
@@ -209,14 +211,15 @@ public class CameraHandler : MonoBehaviour
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camBasicData.timeScaleFov - Time.timeScale * camBasicData.timeScaleFov, Time.unscaledDeltaTime * camBasicData.timeScaleFovSpeed);
         CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + currentFovModif + fovAddedByTimeScale + currentFovRecoilValue;
 
-        if (cameraLookAt != null)// && !(cameraLookAt.gameObject != null && cameraLookAt.gameObject.activeSelf != false))
+        if (cameraLookAt != null && (cameraLookAt.gameObject ? cameraLookAt.gameObject.activeSelf : true))// && !(cameraLookAt.gameObject != null && cameraLookAt.gameObject.activeSelf != false))
         {
-            Debug.Log("Ca lock");
 
-            camDummyValueFeedback.transform.LookAt(cameraLookAt, Vector3.up);
 
             RenderingCam.transform.position = camDummyValueFeedback.transform.position;
             RenderingCam.transform.rotation = camDummyValueFeedback.transform.rotation;
+            camDummyValueFeedback.transform.LookAt(cameraLookAt, Vector3.up);
+
+            RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, camDummyValueFeedback.transform.rotation, currentPurcentageLookAt);
 
             if (!bFeedbckActivated)
             {
@@ -228,9 +231,17 @@ public class CameraHandler : MonoBehaviour
                 if (bFeedbackTransition) RenderingCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(RenderingCam.GetComponent<Camera>().fieldOfView, CamDummyFov, Time.deltaTime * fCurrentSpeedTransition);
                 else RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
             }
+            if (currentPurcentageLookAt < 1) currentPurcentageLookAt += Time.deltaTime / timeTransitionTo;
+            if (currentPurcentageLookAt > 1) currentPurcentageLookAt = 1;
+            savePosLookAt = cameraLookAt.position;
+
         }
         else
         {
+            cameraLookAt = null;
+            if (currentPurcentageLookAt > 0) currentPurcentageLookAt -= Time.deltaTime / timeTransitionBack;
+            if (currentPurcentageLookAt < 0) currentPurcentageLookAt = 0;
+
             if (!bFeedbckActivated)
             {
                 if (bFeedbackTransition)
@@ -245,6 +256,7 @@ public class CameraHandler : MonoBehaviour
                     RenderingCam.transform.rotation = currentCamDummy.transform.rotation;
                     RenderingCam.GetComponent<Camera>().fieldOfView = currentCamDummy.GetComponent<Camera>().fieldOfView;
                 }
+                RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, currentCamDummy.transform.rotation, currentPurcentageLookAt);
             }
             else
             {
@@ -260,10 +272,16 @@ public class CameraHandler : MonoBehaviour
                     RenderingCam.transform.rotation = camDummyValueFeedback.transform.rotation;
                     RenderingCam.GetComponent<Camera>().fieldOfView = CamDummyFov;
                 }
+                camDummyValueFeedback.transform.LookAt(savePosLookAt, Vector3.up);
+                RenderingCam.transform.rotation = Quaternion.Lerp(RenderingCam.transform.rotation, camDummyValueFeedback.transform.rotation, currentPurcentageLookAt);
             }
         }
+        if (timeRemainingLookAt > 0) timeRemainingLookAt -= Time.deltaTime;
+        if (timeRemainingLookAt < 0)
+        {
 
-        if (Input.GetKeyDown(KeyCode.Space)) CameraLookAt(TESTFOLLOWCAMDELETEAFTERUSE, 5, 5);
+        }
+
     }
 
     public void DecalCurrentCamRotation(Vector2 Pos)
@@ -271,13 +289,12 @@ public class CameraHandler : MonoBehaviour
         vRotateValue = new Vector2(-(Pos.y * (camBasicData.camMoveWithAim * 2) / Screen.height - camBasicData.camMoveWithAim), Pos.x * (camBasicData.camMoveWithAim * 2) / Screen.width - camBasicData.camMoveWithAim); // Get values
     }
 
-    public void CameraLookAt(Transform camFollow, float speedTransition, float speedTransitionBack, bool _lockedAfterTransition = false, float timerBeforeGoBack = -1)
+    public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1)
     {
         cameraLookAt = camFollow;
-        transitionToLookAtSpeed = speedTransition;
-        transitionToBaseCamSpeed = speedTransitionBack;
-        timeRemainingLookAt = timerBeforeGoBack;
-        lockedAfterTransition = _lockedAfterTransition;
+        timeTransitionTo = _timeTransitionTo;
+        timeTransitionBack = _timeTransitionBack;
+        timeRemainingLookAt = timerBeforeGoBack > 0 ? timerBeforeGoBack : timeRemainingLookAt;
     }
 
     private void HandleFBAtCharge()
