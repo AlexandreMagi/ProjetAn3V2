@@ -38,8 +38,8 @@ public class Main : MonoBehaviour
     {
         if (!hasJumpedCam && startWithCameraNumber != 0)
         {
-            SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
             hasJumpedCam = true;
+            SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
         }
 
         //SHOOT
