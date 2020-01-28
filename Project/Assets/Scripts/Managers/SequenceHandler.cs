@@ -205,6 +205,7 @@ public class SequenceHandler : MonoBehaviour
         if(sequenceNumber < sequences.Count)
         {
             sequenceIndex = sequenceNumber - 1;
+            currentVirtualCamera = GameObject.Find(sequences[sequenceNumber - 1].camTargetName).GetComponent<CinemachineVirtualCamera>();
             NextSequence();
         }
         else
@@ -282,6 +283,12 @@ public class SequenceHandler : MonoBehaviour
                 m_To = currentSequence.camTargetName,
                 m_Blend = blendDef
             };
+
+            if(blenderSettings.m_CustomBlends == null)
+            {
+                blenderSettings.m_CustomBlends = new CinemachineBlenderSettings.CustomBlend[1];
+            }
+
 
             blenderSettings.m_CustomBlends[0] = blend;
 
