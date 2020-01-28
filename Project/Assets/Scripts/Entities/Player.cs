@@ -20,6 +20,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
 
+    public Vector2 GetBaseValues()
+    {
+        return new Vector2(entityData.armor, entityData.maxHealth);
+    }
+
     void Awake()
     {
         Instance = this;
@@ -30,8 +35,9 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         base.Start();
         entityData = entityData as DataPlayer;
         armor = entityData.armor;
-        UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
-        UiLifeBar.Instance.UpdateLifeDisplay(health / entityData.maxHealth, health);
+        Debug.Log("Must update Life");
+        //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+        //UiLifeBar.Instance.UpdateLifeDisplay(health / entityData.maxHealth, health);
     }
 
     protected virtual void Update()
@@ -74,8 +80,9 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         }
         if (!godMode)
         {
-            UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
-            UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
+            Debug.Log("Must update Life");
+            //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+            //UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
 
             if(armor < 0)
             {
@@ -97,6 +104,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             }
 
             base.TakeDamage(value);
+            UiLifeBar.Instance.PlayerTookDamage(armor, health);
         }
         
     }
@@ -109,6 +117,6 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void GainArmor(float value)
     {
         armor += value;
-        UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+        //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
     }
 }

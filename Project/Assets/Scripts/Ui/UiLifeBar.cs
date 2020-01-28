@@ -32,26 +32,57 @@ public class UiLifeBar : MonoBehaviour
     //Text armorText = null;
 
     int nbLife = 5;
-    float bps = 1.3f;
+    float bps = 2f;
+    float timerBps = 0;
+    float stockArmor = 300;
+    float stockLife = 300;
 
     [SerializeField] DataLifeBarUi dataLifebar = null;
     [SerializeField] Transform lifeBarRoot = null;
-    [SerializeField] GameObject capsuleSprite = null;
 
     LifeCapsuleInstance[] dataHandlers = new LifeCapsuleInstance[0];
-    GameObject[] sprites = new GameObject[0];
+    [SerializeField] GameObject emptyUiBox = null;
+    GameObject[] capsules = new GameObject[0];
+
+    [SerializeField] GameObject[] armorBars = null;
+    [SerializeField] ArmorCapsuleInstance[] armorValues = null;
+
+    [SerializeField] DataArmorBarUi armorBarData = null;
 
     private void Start()
     {
+        stockArmor = Player.Instance.GetBaseValues().x;
+        stockLife = Player.Instance.GetBaseValues().y;
+
+        armorValues = new ArmorCapsuleInstance[armorBars.Length];
+        for (int i = 0; i < armorValues.Length; i++)
+        {
+            armorValues[i] = new ArmorCapsuleInstance(armorBarData);
+            armorValues[i].stockArmor = stockArmor / armorValues.Length;
+            armorValues[i].currentArmor = stockArmor / armorValues.Length;
+        }
+
         dataHandlers = new LifeCapsuleInstance[nbLife];
-        sprites = new GameObject[nbLife];
+        capsules = new GameObject[nbLife];
         float distanceBetweenCapsule = dataLifebar.purcentageUsedY * Screen.height / nbLife;
+        bps = dataLifebar.startBps;
 
         for (int i = 0; i < nbLife; i++)
         {
-            sprites[i] = Instantiate(capsuleSprite, lifeBarRoot);
-        }
+            capsules[i] = Instantiate(emptyUiBox, lifeBarRoot);
+            capsules[i].GetComponent<Image>().sprite = dataLifebar.capsuleSprite;
+            dataHandlers[i] = new LifeCapsuleInstance(dataLifebar, i);
 
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2(0, i * distanceBetweenCapsule) + new Vector2(Screen.width * dataLifebar.decalSprites.x, Screen.height * dataLifebar.decalSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+            capsules[i].transform.position = transform.TransformPoint(pos);
+
+            capsules[i].GetComponent<RectTransform>().sizeDelta = dataLifebar.baseSize;
+            capsules[i].GetComponent<Image>().color = dataLifebar.lifeCapsuleColor;
+            Outline componentOutline = capsules[i].AddComponent<Outline>();
+            componentOutline.effectColor = Color.black;
+            componentOutline.effectDistance = new Vector2(1, -1) * dataLifebar.outlineSize;
+        }
     }
 
     //public void UpdateLifeDisplay(float value, float realValue)
@@ -72,6 +103,84 @@ public class UiLifeBar : MonoBehaviour
         //else lifeBarFeedBack.value =                    Mathf.MoveTowards(lifeBarFeedBack.value, lifeBar.value, Time.deltaTime);
         //if  (armorBarFeedBack.value < armorBar.value)   armorBarFeedBack.value = armorBar.value;
         //else armorBarFeedBack.value =                   Mathf.MoveTowards(armorBarFeedBack.value, armorBar.value, Time.deltaTime);
+
+        //if (Input.GetKeyDown(KeyCode.Space)) PlayerTookDamage(300, 100);
+        if (Input.GetKeyDown(KeyCode.Space)) Player.Instance.TakeDamage(25);
+
+        for (int i = 0; i < dataHandlers.Length; i++)
+        {
+            dataHandlers[i].UpdateValues();
+            capsules[i].GetComponent<RectTransform>().sizeDelta = dataHandlers[i].size;
+            capsules[i].GetComponent<Image>().color = dataHandlers[i].color;
+            capsules[i].GetComponent<Outline>().effectDistance = new Vector2(1, -1) * dataHandlers[i].outlineSize;
+        }
+
+        for (int i = 0; i < armorValues.Length; i++)
+        {
+            armorValues[i].UpdateValues();
+            armorBars[i].GetComponent<RectTransform>().sizeDelta = armorValues[i].size;
+            armorBars[i].GetComponent<Image>().color = armorValues[i].color;
+            armorBars[i].GetComponent<Outline>().effectDistance = new Vector2(1, -1) * armorValues[i].outlineSize;
+        }
+
+        bps -= dataLifebar.recoverBps * Time.unscaledDeltaTime;
+        bps = Mathf.Clamp(bps, dataLifebar.startBps, dataLifebar.maxBps);
+
+        timerBps -= Time.unscaledDeltaTime * bps;
+        if (timerBps < 0)
+        {
+            timerBps += 1;
+            for (int i = 0; i < nbLife; i++)
+            {
+                dataHandlers[i].Beat(i * 0.05f);
+            }
+        }
+
+    }
+
+    public void PlayerTookDamage(float armor, float life)
+    {
+        if (armor < stockArmor)
+        {
+            float damageValue = stockArmor - armor;
+            bps += dataLifebar.addedBpsShield;
+
+            for (int i = armorBars.Length - 1; i > -1; i--)
+            {
+                if (damageValue > 0)
+                {
+                    if (armorValues[i].currentArmor > damageValue)
+                    {
+                        armorValues[i].currentArmor -= damageValue;
+
+                        armorValues[i].TakeDammage(damageValue / armorValues[i].stockArmor);
+                        damageValue = 0;
+                        // Feedback armor qui prend des dégats.
+                    }
+                    else
+                    {
+                        damageValue -= armorValues[i].currentArmor;
+                        armorValues[i].currentArmor = 0;
+
+                        // Feedback armor qui casse.
+                    }
+                }
+            }
+            stockArmor = armor;
+        }
+        
+        if (life < stockLife)
+        {
+            bps += dataLifebar.addedBps;
+            for (int i = 0; i < nbLife; i++)
+            {
+                dataHandlers[i].TakeDammage((nbLife - i) * 0.05f);
+            }
+            if (nbLife > 0) nbLife--;
+            dataHandlers[nbLife].desactivate();
+
+            stockLife = life;
+        }
     }
 
 }
