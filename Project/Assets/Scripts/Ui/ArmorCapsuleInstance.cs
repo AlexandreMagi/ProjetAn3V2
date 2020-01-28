@@ -31,7 +31,7 @@ public class ArmorCapsuleInstance
         if (timeRemainingAnimatedHit > 0) timeRemainingAnimatedHit -= Time.unscaledDeltaTime;
         if (timeRemainingAnimatedHit < 0) timeRemainingAnimatedHit = 0;
 
-        Debug.Log(data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime) * data.scaleAnimValue);
+        //Debug.Log(data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime) * data.scaleAnimValue);
 
         float sizeModifier = sizeMult + data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime) * data.scaleAnimValue + Mathf.Sin(Time.unscaledTime * data.idleSpeed) * data.idleMagnitude;
         size = data.baseSize * sizeModifier;
