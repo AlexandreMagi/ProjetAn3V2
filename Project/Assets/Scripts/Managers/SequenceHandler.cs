@@ -50,12 +50,14 @@ public class SequenceHandler : MonoBehaviour
 
     }
 
+#if UNITY_EDITOR
     [Button("Add sequence")]
     private void AddSequence()
     {
         DataSequence dSeq = ScriptableObject.CreateInstance<DataSequence>() as DataSequence;
         dSeq.name = "DS" + (sequences.Count+1);
         sequences.Add(dSeq);
+        originalName = "DS" + sequences.Count;
     }
 
     [Button("Add sequence copied")]
@@ -67,6 +69,7 @@ public class SequenceHandler : MonoBehaviour
             dSeq.name = "AutoSequence" + (sequences.Count + 1);
             dSeq.camTargetName = "CM vcam" + (sequences.Count + 1);
             sequences.Add(dSeq);
+            originalName = "AutoSequence" + sequences.Count;
         }
         else
         {
@@ -75,6 +78,30 @@ public class SequenceHandler : MonoBehaviour
 
         
     }
+
+    [HorizontalGroup("Rename", LabelWidth = 45)]
+    [LabelText("Original")]
+    public string originalName;
+
+    [HorizontalGroup("Rename", LabelWidth = 30)]
+    [LabelText("New")]
+    public string newName;
+
+    [HorizontalGroup("Rename")]
+    [Button("Rename")]
+    private void renameVar()
+    {
+        foreach(DataSequence sequence in sequences)
+        {
+            if(sequence.name == originalName)
+            {
+                sequence.name = newName;
+                break;
+            }
+        }
+    }
+    
+#endif // UNITY_EDITOR
 
     public static SequenceHandler Instance { get; private set; }
 
