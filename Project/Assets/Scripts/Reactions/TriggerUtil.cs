@@ -180,16 +180,16 @@ public static class TriggerUtil
     }
 
     //FOLLOW TARGET
-    public static void TriggerFollowTarget(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, bool lockedAfterTransition, float followDuration)
+    public static void TriggerFollowTarget(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, float followDuration)
     {
-        Main.Instance.StartCoroutine(TriggerFollowTargetCoroutine(timeBeforeStart, target, timeGoTo, timeGoBack, lockedAfterTransition, followDuration));
+        Main.Instance.StartCoroutine(TriggerFollowTargetCoroutine(timeBeforeStart, target, timeGoTo, timeGoBack, followDuration));
     }
 
-    static IEnumerator TriggerFollowTargetCoroutine(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, bool lockedAfterTransition, float followDuration)
+    static IEnumerator TriggerFollowTargetCoroutine(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, float followDuration)
     {
         yield return new WaitForSecondsRealtime(timeBeforeStart);
 
-        CameraHandler.Instance.CameraLookAt(target, timeGoTo, timeGoBack, lockedAfterTransition, followDuration);
+        CameraHandler.Instance.CameraLookAt(target, timeGoTo, timeGoBack, followDuration);
 
         yield break;
     }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class UiViewer : MonoBehaviour
 {
 
+    int fontSize = 0;
+
     void Awake()
     {
         Instance = this;
@@ -18,6 +20,11 @@ public class UiViewer : MonoBehaviour
     [SerializeField] float considerDifference = 50;
     [SerializeField] GameObject upArrow = null;
     [SerializeField] GameObject downArrow = null;
+
+    private void Start()
+    {
+        fontSize = ViewerText.fontSize;
+    }
 
     // Update is called once per frame
     void Update()
@@ -49,7 +56,13 @@ public class UiViewer : MonoBehaviour
                 downArrow.SetActive(false);
             }
 
+            ViewerText.fontSize = fontSize;
             ViewerText.text = $"{Mathf.RoundToInt(currentViewerFluid)}";
+            if (Mathf.RoundToInt(currentViewerFluid) == 0)
+            {
+                ViewerText.fontSize = 25    ;
+                ViewerText.text = "1 (Your mom)";
+            }
         }
         else ViewerText.text = "NO MANAGER";
     }
