@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Sirenix.OdinInspector;
 
-public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpecialEffects
+public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 {
 
     bool isAirbone = false;
@@ -85,29 +85,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
     }
 
     #region Bullets
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public override void OnHit(DataWeaponMod mod, Vector3 position)
     {
         this.TakeDamage(mod.bullet.damage);
-    }
-
-    public void OnHitShotGun()
-    {
-        
-    }
-
-    public void OnHitSingleShot()
-    {
-        
-    }
-
-    public void OnBulletClose()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnCursorClose()
-    {
-        throw new System.NotImplementedException();
     }
     #endregion
 
@@ -186,7 +166,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, IBulletAffect, ISpeci
         }
     }
 
-    #endregion
+    #endregion //STIMULUS
+
     // Start is called before the first frame update
     protected override void Start()
     {

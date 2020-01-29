@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
+public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 {
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
@@ -178,4 +178,28 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
         }
     }
 
+    public virtual void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+
+    }
+
+    public virtual void OnHitShotGun()
+    {
+        Weapon.Instance.OnShotGunHitTarget();
+    }
+
+    public virtual void OnHitSingleShot()
+    {
+
+    }
+
+    public virtual void OnBulletClose()
+    {
+
+    }
+
+    public virtual void OnCursorClose()
+    {
+
+    }
 }
