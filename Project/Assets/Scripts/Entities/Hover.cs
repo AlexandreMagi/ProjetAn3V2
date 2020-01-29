@@ -37,4 +37,21 @@ public class Hover : Enemy<DataHover>, IGravityAffect
     }
     #endregion //Gravity
     #endregion //Stimulus
+
+    #region State
+    public enum HoverState
+    {
+        LookingForTarget,
+        Dodging,
+        FollowingTarget,
+        CastingShield,
+        ProtectingTarget,
+        Dying
+    }
+
+    private HoverState currentState;
+
+
+
+    #endregion
 }
