@@ -33,11 +33,20 @@ public class ArmorCapsuleInstance
 
         //Debug.Log(data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime) * data.scaleAnimValue);
 
-        float sizeModifier = sizeMult + data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime) * data.scaleAnimValue + Mathf.Sin(Time.unscaledTime * data.idleSpeed) * data.idleMagnitude;
-        size = data.baseSize * sizeModifier;
-        outlineSize = data.outlineSize * sizeModifier * (currentArmor / stockArmor);
+        if (desactivated)
+        {
+            sizeMult = Mathf.Lerp(sizeMult, data.deadSize, Time.unscaledDeltaTime * data.speedDieAnim);
+            color = Color.Lerp(color, data.deadColor, Time.unscaledDeltaTime * data.speedDieAnim);
+            size = data.baseSize * sizeMult;
+        }
+        else
+        {
+            float sizeModifier = sizeMult + data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime) * data.scaleAnimValue + Mathf.Sin(Time.unscaledTime * data.idleSpeed) * data.idleMagnitude;
+            size = data.baseSize * sizeModifier;
+            outlineSize = data.outlineSize * sizeModifier * (currentArmor / stockArmor);
 
-        color = Color.Lerp(Color.Lerp(data.lowLifeColor, data.baseColor, currentArmor/ stockArmor), data.hitedColor, data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime));
+            color = Color.Lerp(Color.Lerp(data.lowLifeColor, data.baseColor, currentArmor / stockArmor), data.hitedColor, data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime));
+        }
     }
 
     public void TakeDammage(float valuePurcentage)
@@ -48,7 +57,11 @@ public class ArmorCapsuleInstance
 
     public void desactivate()
     {
-        desactivated = true;
+        if (!desactivated)
+        {
+            desactivated = true;
+            color = data.hitedColor;
+        }
     }
 
 }
