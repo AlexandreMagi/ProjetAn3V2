@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
+public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 {
     float currentStunLevel = 0;
     float timeRemaingingStun = 0;
@@ -24,6 +24,7 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
 
     Material[] meshMaterials = new Material[0];
 
+    #region Detection
     public virtual void OnMovementDetect()
     {
         throw new System.NotImplementedException();
@@ -38,7 +39,7 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
     {
         //throw new System.NotImplementedException();
     }
-
+    #endregion
 
     // Start is called before the first frame update
     protected override void Start()
@@ -178,4 +179,28 @@ public class Enemy<T> : Entity<T>, IDetection where T : DataEnemy
         }
     }
 
+    public virtual void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+
+    }
+
+    public virtual void OnHitShotGun()
+    {
+        Weapon.Instance.OnShotGunHitTarget();
+    }
+
+    public virtual void OnHitSingleShot()
+    {
+
+    }
+
+    public virtual void OnBulletClose()
+    {
+
+    }
+
+    public virtual void OnCursorClose()
+    {
+
+    }
 }

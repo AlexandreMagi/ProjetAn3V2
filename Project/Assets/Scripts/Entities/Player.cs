@@ -45,7 +45,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         base.Start();
         entityData = entityData as DataPlayer;
         armor = entityData.armor;
-        Debug.Log("Must update Life");
+        //Debug.Log("Must update Life");
         //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
         //UiLifeBar.Instance.UpdateLifeDisplay(health / entityData.maxHealth, health);
     }
@@ -77,6 +77,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                         GameObject renderingCam = CameraHandler.Instance.RenderingCam;
                         FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
                         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
+                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnArmor);
 
                         value -= armor;
                         armor = 0;
@@ -97,20 +98,20 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
             if (!godMode)
             {
-                Debug.Log("Must update Life");
+                //Debug.Log("Must update Life");
                 //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
                 //UiLifeBar.Instance.UpdateLifeDisplay((health - value) / entityData.maxHealth, health - value);
 
                 if(armor <= 0)
                 {
-                    Debug.Log("no armor");
+                    //Debug.Log("no armor");
 
                     float damageToHealth = 0;
                     if (value > 0 && !armorJustBroke)
                     {
                         damageToHealth = Mathf.Floor(entityData.startHealth / 5);
                         health -= damageToHealth;
-                        Debug.Log("hp damage");
+                        //Debug.Log("hp damage");
                     
                     }
 

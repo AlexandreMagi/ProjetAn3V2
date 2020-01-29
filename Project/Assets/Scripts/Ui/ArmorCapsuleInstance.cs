@@ -52,7 +52,7 @@ public class ArmorCapsuleInstance
     public void TakeDammage(float valuePurcentage)
     {
         timeRemainingAnimatedHit = data.scaleAnimTime;
-        Debug.Log("Armor Bar take damage");
+        //Debug.Log("Armor Bar take damage");
     }
 
     public void desactivate()

@@ -91,7 +91,7 @@ public class Spawner : MonoBehaviour
             else
             {
                 spawnedEnemy = Instantiate(spawnerType.EnnemiPrefab);
-                Debug.Log(spawnedEnemy);
+                //Debug.Log(spawnedEnemy);
                 if (entDataToGive != null) spawnedEnemy.GetComponent<IEntity>().SetDataEnt(entDataToGive);
             }
 
