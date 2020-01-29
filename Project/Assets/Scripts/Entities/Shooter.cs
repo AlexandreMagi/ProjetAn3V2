@@ -3,37 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Shooter : Enemy<DataShooter>, IBulletAffect, ISpecialEffects, IGravityAffect
+public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 {
    // private DataShooter shooterData;
 
     //Stimulus
     #region Stimulus
     #region Bullets
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public override void OnHit(DataWeaponMod mod, Vector3 position)
     {
         this.TakeDamage(mod.bullet.damage);
     }
 
-    public void OnHitShotGun()
-    {
-        
-    }
-
-    public void OnHitSingleShot()
-    {
-        
-    }
-
-    public void OnBulletClose()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnCursorClose()
-    {
-        throw new System.NotImplementedException();
-    }
     #endregion
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)

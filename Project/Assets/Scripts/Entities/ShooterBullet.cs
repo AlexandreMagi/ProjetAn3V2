@@ -11,6 +11,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     Vector3 randomCurve = Vector3.one;
     Vector3 posStart;
     Vector3 posAtLastFrame;
+    Quaternion rotAtLastFrame;
     GameObject target = null;
     Transform transformPosEnd;
     Vector3 posEnd = Vector3.zero;
@@ -99,8 +100,13 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             transform.Translate(randomCurve * ValueMax, Space.Self);
 
             Vector3 relativePos = transform.position - posAtLastFrame;
-            Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-            transform.rotation = rotation;
+            if (Time.timeScale > 0)
+            {
+                Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+                transform.rotation = rotation;
+                rotAtLastFrame = transform.rotation;
+            }
+            else transform.rotation = rotAtLastFrame;
 
             posAtLastFrame = transform.position;
 

@@ -84,8 +84,8 @@ public class CameraHandler : MonoBehaviour
     {
         _instance = this;
         if (CamDummy.GetComponent<Camera>()) CamDummy.GetComponent<Camera>().enabled = false;
-        if (AnimatedCam.GetComponent<Camera>()) AnimatedCam.GetComponent<Camera>().enabled = false;
         if (RenderingCam.GetComponent<Camera>()) RenderingCam.GetComponent<Camera>().enabled = true;
+        if (AnimatedCam != null && AnimatedCam.GetComponent<Camera>()) AnimatedCam.GetComponent<Camera>().enabled = false;
     }
 
     private void Start()

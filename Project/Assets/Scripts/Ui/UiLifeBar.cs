@@ -161,7 +161,7 @@ public class UiLifeBar : MonoBehaviour
                     {
                         damageValue -= armorValues[i].currentArmor;
                         armorValues[i].currentArmor = 0;
-
+                        armorValues[i].desactivate();
                         // Feedback armor qui casse.
                     }
                 }

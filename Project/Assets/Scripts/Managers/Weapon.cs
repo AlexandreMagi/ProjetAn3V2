@@ -30,6 +30,8 @@ public class Weapon : MonoBehaviour
     bool reloading = false;
     float reloadingPurcentage = 0;
 
+    bool shotGunHasHit = false;
+
 
     [SerializeField]
     GameObject muzzleFlash = null;
@@ -204,6 +206,12 @@ public class Weapon : MonoBehaviour
     {
         if (bulletRemaining > 0)
         {
+            if(weaponMod == weapon.chargedShot)
+            {
+                shotGunHasHit = false;
+                Invoke("CheckIfShotGunHasHit", .1f);
+            }
+
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 GameObject mainCam = CameraHandler.Instance.RenderingCam;
@@ -279,5 +287,18 @@ public class Weapon : MonoBehaviour
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
             }
         }
+    }
+
+    private void CheckIfShotGunHasHit()
+    {
+        if (!shotGunHasHit)
+        {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun);
+        }
+    }
+
+    public void OnShotGunHitTarget()
+    {
+        shotGunHasHit = true;
     }
 }

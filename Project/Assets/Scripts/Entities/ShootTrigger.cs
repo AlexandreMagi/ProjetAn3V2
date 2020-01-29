@@ -56,7 +56,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     public void OnHitShotGun()
     {
-        
+        Weapon.Instance.OnShotGunHitTarget();
     }
 
     public void OnHitSingleShot()
