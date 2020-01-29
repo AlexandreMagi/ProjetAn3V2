@@ -24,9 +24,11 @@ public class UiViewer : MonoBehaviour
     [SerializeField] Slider voteSlider = null;
     [SerializeField] GameObject publicBackground = null;
     [SerializeField] GameObject publicSpriteonDeath = null;
-    [SerializeField] GameObject live = null;
-    [SerializeField] GameObject die = null;
-    [SerializeField] GameObject thumb = null;
+    [SerializeField] GameObject rootLiveOrDie = null;
+
+    [SerializeField] GameObject cap = null;
+
+    [SerializeField] AnimationCurve animOnBar = null;
 
     private void Start()
     {
@@ -71,7 +73,6 @@ public class UiViewer : MonoBehaviour
                 ViewerText.text = "1 (Your mom)";
             }
 
-            voteSlider.value = Main.Instance.GetCurrentChacesOfSurvival() / 100;
 
         }
         else ViewerText.text = "NO MANAGER";
@@ -88,40 +89,50 @@ public class UiViewer : MonoBehaviour
         publicBackground.SetActive(true);
         publicSpriteonDeath.SetActive(true);
         voteSlider.gameObject.SetActive(true);
-        thumb.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(2);
+        rootLiveOrDie.gameObject.SetActive(true);
+        cap.gameObject.SetActive(true);
 
-        if (revive)
-        {
-            live.SetActive(true);
-            //thumb.GetComponent<Animator>().SetTrigger("up");
-        }
-        else
-        {
-            die.SetActive(true);
-            //thumb.GetComponent<Animator>().SetTrigger("down");
-        }
+        if (revive) rootLiveOrDie.GetComponent<Animator>().SetTrigger("live");
+        else rootLiveOrDie.GetComponent<Animator>().SetTrigger("die");
 
-        float timerUntilReviveOrDeath = 2;
-        while (timerUntilReviveOrDeath > 0)
+        RectTransform voteSliderRectTransform = voteSlider.GetComponent<RectTransform>();
+        Vector2 pos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (voteSliderRectTransform.position.x, (voteSliderRectTransform.position.y - voteSliderRectTransform.sizeDelta.x /2) + voteSliderRectTransform.sizeDelta.x * (result/100)), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+        cap.transform.position = transform.TransformPoint(pos);
+        Debug.Log(voteSliderRectTransform.sizeDelta.y);
+
+        float timer = 4;
+        float timerAlpha = 1;
+        while (timer > 0)
         {
-            float speed = 15;
-            float amplitude = 1;
-            float scaleValue = 1 + Mathf.Sin(Time.unscaledTime * speed) * 0.2f;
-            live.transform.localScale = Vector3.one * scaleValue;
-            die.transform.localScale = Vector3.one * scaleValue;
-            timerUntilReviveOrDeath -= Time.unscaledDeltaTime;
+            float valueAlpha = 0.9f;
+            if (timerAlpha > 0) timerAlpha -= Time.unscaledDeltaTime / 0.3f;
+            else timerAlpha = 0;
+
+            publicBackground.GetComponent<Image>().color = new Color(0, 0, 0, (1 - timerAlpha) * valueAlpha);
+
+            voteSlider.value = Main.Instance.GetCurrentChacesOfSurvival() / 100;// + animOnBar.Evaluate (1 - ((timer/2) /2)) / 8;
+
+            float value = voteSliderRectTransform.sizeDelta.x * (result / 100) + animOnBar.Evaluate(1 - (timer / 4))/4 * (voteSliderRectTransform.sizeDelta.x);
+            value = Mathf.Clamp(value, 0, voteSliderRectTransform.sizeDelta.x);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2(voteSliderRectTransform.position.x, (voteSliderRectTransform.position.y - voteSliderRectTransform.sizeDelta.x / 2) + value), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+            cap.transform.position = transform.TransformPoint(pos);
+
+            timer -= Time.unscaledDeltaTime;
             yield return new WaitForEndOfFrame();
         }
+        //yield return new WaitForSecondsRealtime(4);
+
+        
 
 
         publicBackground.SetActive(false);
         publicSpriteonDeath.SetActive(false);
         voteSlider.gameObject.SetActive(false);
-        thumb.gameObject.SetActive(false);
+        rootLiveOrDie.gameObject.SetActive(false);
+        cap.gameObject.SetActive(false);
         Main.Instance.EndReviveSituation(revive, bonusFromRez);
-        live.SetActive(false);
-        die.SetActive(false);
         TimeScaleManager.Instance.Stop();
         yield break;
     }
