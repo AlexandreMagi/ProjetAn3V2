@@ -25,7 +25,6 @@ public class Main : MonoBehaviour
 
     bool hasJumpedCam = false;
 
-
     public static Main Instance { get; private set; }
 
     void Awake()
@@ -218,15 +217,11 @@ public class Main : MonoBehaviour
 
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
-            //Le joueur est mort. Sa survie dépendra du ratio du public.
-            float initialPublic = PublicManager.Instance.GetInitialViewers();
-            float currentPublic = PublicManager.Instance.GetNbViewers();
-            float growthValue = PublicManager.Instance.GetGrowthValue();
+
 
             // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
+            float trueChance = GetCurrentChacesOfSurvival();
 
-            float chancesOfSurvival = (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty);
-            float trueChance = chancesOfSurvival * difficultyData.maxChanceOfSurvival;
             float bonusFromRez = 0;
 
            
@@ -240,19 +235,25 @@ public class Main : MonoBehaviour
 
             int publicChoice = Random.Range(0, 101);
 
-            Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
+            UiViewer.Instance.PlayerJustDied(publicChoice < trueChance, publicChoice, bonusFromRez);
 
-            if (publicChoice < trueChance)
-            {
-                DoResurrection(bonusFromRez);
-                playerResedAlready = true;
-            }
-            else
-            {
-                DoGameOver();
-            }
+            Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
         }
         
+    }
+
+    public void EndReviveSituation(bool rez, float bonusFromRez)
+    {
+
+        if (rez)
+        {
+            DoResurrection(bonusFromRez);
+            playerResedAlready = true;
+        }
+        else
+        {
+            DoGameOver();
+        }
     }
 
     private void DoGameOver()
@@ -279,5 +280,14 @@ public class Main : MonoBehaviour
         
     }
 
-   
+    public float GetCurrentChacesOfSurvival()
+    {
+        float initialPublic = PublicManager.Instance.GetInitialViewers();
+        float currentPublic = PublicManager.Instance.GetNbViewers();
+        float growthValue = PublicManager.Instance.GetGrowthValue();
+
+        // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
+
+        return (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty) * difficultyData.maxChanceOfSurvival; ;
+    }
 }

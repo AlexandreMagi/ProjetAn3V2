@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DataArmorBarUi_Base
   m_EditorClassIdentifier: 
   capsuleSprite: {fileID: 0}
-  baseSize: {x: 14, y: 300}
+  baseSize: {x: 140, y: 340}
   outlineSize: 5
+  deadSize: 1.5
   takeDamageScaleAnim:
     serializedVersion: 2
     m_Curve:
@@ -28,8 +29,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.0844483
     - serializedVersion: 3
-      time: 0.49652132
-      value: 0.9981185
+      time: 0.2761844
+      value: 0.98574746
       inSlope: 0.08588957
       outSlope: 0.08588957
       tangentMode: 0
@@ -37,23 +38,34 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.09945384
     - serializedVersion: 3
-      time: 1
-      value: 0.002357483
-      inSlope: -3.5436342
-      outSlope: -3.5436342
+      time: 0.8754723
+      value: -0.38237613
+      inSlope: -0.12062786
+      outSlope: -0.12062786
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.083281346
+      inWeight: 0.33333334
+      outWeight: 0.17062093
+    - serializedVersion: 3
+      time: 1
+      value: 0.002357483
+      inSlope: 4.336394
+      outSlope: 4.336394
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.6327313
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scaleAnimValue: 0.2
-  scaleAnimTime: 0.2
+  scaleAnimValue: 0.1
+  scaleAnimTime: 0.3
   sizeWhenJustHited: 2
+  speedDieAnim: 15
   baseColor: {r: 0, g: 1, b: 1, a: 1}
   lowLifeColor: {r: 0, g: 0.652044, b: 0.8301887, a: 0.5372549}
   hitedColor: {r: 1, g: 1, b: 1, a: 1}
+  deadColor: {r: 1, g: 1, b: 1, a: 0}
   idleSpeed: 1
   idleMagnitude: 0.05
   idleDecal: 0
