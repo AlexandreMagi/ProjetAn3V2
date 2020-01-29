@@ -44,6 +44,7 @@ public class TimeScaleManager : MonoBehaviour
     public void Stop()
     {
         slowMoRequest = new List<Vector3>();
+        stopTimeRequest = new List<Vector2>();
         Time.timeScale = 1;
     }
 
@@ -78,7 +79,7 @@ public class TimeScaleManager : MonoBehaviour
             }
         }
         if (stopTime)
-            Time.timeScale = 0.001f;
+            Time.timeScale = 0;
         return stopTime;
     }
 
