@@ -67,7 +67,13 @@ public class SequenceHandler : MonoBehaviour
         {
             DataSequence dSeq = Instantiate(sequences[sequences.Count - 1]);
             dSeq.name = "AutoSequence" + (sequences.Count + 1);
-            dSeq.camTargetName = "CM vcam" + (sequences.Count + 1);
+
+            string seqName = sequences[sequences.Count - 1].camTargetName;
+            string[] namesParts = seqName.Split('m');
+            int numberPost = int.Parse(namesParts[1]) + 1;
+
+            dSeq.camTargetName = namesParts[0] + "m" + numberPost;
+
             sequences.Add(dSeq);
             originalName = "AutoSequence" + sequences.Count;
         }

@@ -24,6 +24,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     Material[] meshMaterials = new Material[0];
 
+    #region Detection
     public virtual void OnMovementDetect()
     {
         throw new System.NotImplementedException();
@@ -38,7 +39,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
     {
         //throw new System.NotImplementedException();
     }
-
+    #endregion
 
     // Start is called before the first frame update
     protected override void Start()
