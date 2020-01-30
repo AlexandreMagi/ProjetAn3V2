@@ -24,7 +24,6 @@ public class DataSequence : ScriptableObject
     public float modifierFrequenceCamStep = 1;
 
     public string animToPlay = "";
-    public float animTime = 1;
 
     //BOOLEAN SEQUENCES
     public bool isAffectedByBooleanSequence;

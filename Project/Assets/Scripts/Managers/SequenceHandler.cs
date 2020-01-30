@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 
 public class SequenceHandler : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, ListDrawerSettings(NumberOfItemsPerPage = 50)]
     List<DataSequence> sequences = null;
 
     DataSequence currentSequence = null;
@@ -331,7 +331,7 @@ public class SequenceHandler : MonoBehaviour
             
             if (currentSequence.animToPlay != "")
             {
-                CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animTime);
+                CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animationTime);
             }
 
             if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
