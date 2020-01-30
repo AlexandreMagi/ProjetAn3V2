@@ -229,7 +229,9 @@ public class SequenceHandler : MonoBehaviour
     public void NextSequence()
     {
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
-       
+
+
+        CameraHandler.Instance.ResyncCam();
         CameraHandler.Instance.bFeedbckActivated = currentSequence.enableCamFeedback;
         CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamTransition, currentSequence.speedTransition);
         
@@ -321,7 +323,7 @@ public class SequenceHandler : MonoBehaviour
             }
             */
 
-            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration <= 0 ? currentSequence.timeSequenceDuration : 0 : 0);
+            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration : 0);
             enemiesKilled = 0;
 
             

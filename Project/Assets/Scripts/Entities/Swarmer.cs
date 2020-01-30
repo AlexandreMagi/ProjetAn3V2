@@ -219,6 +219,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
         {
 
+            //Check si touche le sol
+            elapsedTime = 0;
+            if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
+            {
+                rbBody.AddForce(Physics.gravity * 3);
+            }
+
             if (nState == (int)State.Basic)
             {
                 if (isChasingTarget && target != null)
