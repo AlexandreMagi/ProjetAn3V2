@@ -25,6 +25,9 @@ public class Main : MonoBehaviour
 
     bool hasJumpedCam = false;
 
+    [HideInInspector]
+    public bool GameEnded = false;
+
     public static Main Instance { get; private set; }
 
     void Awake()
@@ -237,7 +240,7 @@ public class Main : MonoBehaviour
 
             UiViewer.Instance.PlayerJustDied(publicChoice < trueChance, publicChoice, bonusFromRez);
 
-            Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
+            //Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
         }
         
     }
@@ -258,17 +261,20 @@ public class Main : MonoBehaviour
 
     private void DoGameOver()
     {
-        Debug.Log("Public chose... DEATH");
+        //Debug.Log("Public chose... DEATH");
+        TimeScaleManager.Instance.AddStopTime(5000);
+        Player.Instance.DieForReal();
+        UiLifeBar.Instance.EndGame();
+        GameEnded = true;
     }
 
     private void DoResurrection(float bonus)
     {
-        Debug.Log("Public chose... LIFE");
 
         playerCanShoot = true;
         playerCanOrb = true;
 
-        Player.Instance.SetLifeTo(1);
+        Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
         Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
 
         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn);

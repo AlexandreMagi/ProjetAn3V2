@@ -32,6 +32,7 @@ public class UiLifeBar : MonoBehaviour
     //Text armorText = null;
 
     int nbLife = 5;
+    int nbLifeMax = 5;
     float bps = 2f;
     float timerBps = 0;
     float stockArmor = 300;
@@ -48,6 +49,8 @@ public class UiLifeBar : MonoBehaviour
     [SerializeField] ArmorCapsuleInstance[] armorValues = null;
 
     [SerializeField] DataArmorBarUi armorBarData = null;
+
+    [SerializeField] GameObject gameOverRoot = null;
 
     private void Start()
     {
@@ -96,6 +99,34 @@ public class UiLifeBar : MonoBehaviour
     //    armorBar.value = value;
     //    armorText.text = Mathf.CeilToInt(realValue).ToString();
     //}
+    public void AddLife()
+    {
+        dataHandlers[nbLife].activate();
+        nbLife++;
+        if (nbLife > nbLifeMax) nbLife--;
+        stockLife += Player.Instance.GetBaseValues().y / nbLifeMax;
+    }
+    public void AddArmor(float addedArmor)
+    {
+        for (int i = 0; i < armorValues.Length; i++)
+        {
+            armorValues[i].activate();
+            if (armorValues[i].currentArmor + addedArmor < armorValues[i].stockArmor)
+            {
+                armorValues[i].currentArmor += addedArmor;
+                stockArmor += addedArmor;
+                addedArmor = 0;
+                break;
+            }
+            else
+            {
+                float valueAdded = armorValues[i].stockArmor - armorValues[i].currentArmor;
+                addedArmor -= valueAdded;
+                armorValues[i].stockArmor = armorValues[i].currentArmor;
+                stockArmor += valueAdded;
+            }
+        }
+    }
 
     public void Update()
     {
@@ -106,6 +137,7 @@ public class UiLifeBar : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.Space)) PlayerTookDamage(300, 100);
         if (Input.GetKeyDown(KeyCode.Space)) Player.Instance.TakeDamage(25);
+
 
         for (int i = 0; i < dataHandlers.Length; i++)
         {
@@ -152,7 +184,6 @@ public class UiLifeBar : MonoBehaviour
                     if (armorValues[i].currentArmor > damageValue)
                     {
                         armorValues[i].currentArmor -= damageValue;
-
                         armorValues[i].TakeDammage(damageValue / armorValues[i].stockArmor);
                         damageValue = 0;
                         // Feedback armor qui prend des dégats.
@@ -181,6 +212,11 @@ public class UiLifeBar : MonoBehaviour
 
             stockLife = life;
         }
+    }
+
+    public void EndGame()
+    {
+        gameOverRoot.SetActive(true);
     }
 
 }
