@@ -10,4 +10,5 @@ public interface IDetection
 
     void OnDistanceDetect(Transform target, float distance);
 
+    void OnCursorClose(Vector3 position);
 }

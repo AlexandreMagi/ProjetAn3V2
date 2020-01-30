@@ -12,6 +12,9 @@ public class Main : MonoBehaviour
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
 
+    private float timeLeftForRaycastCursor;
+    private float timeTickCursor = .2f;
+
     [SerializeField]
     int startWithCameraNumber = 0;
 
@@ -186,7 +189,30 @@ public class Main : MonoBehaviour
             Weapon.Instance.ReloadingInput();
         }
 
+        if(timeLeftForRaycastCursor <= timeTickCursor)
+        {
+            Ray cursorRay = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
+            
+            if(hit.collider != null)
+            {
+                IDetection detect = hit.collider.GetComponent<IDetection>();
+                if (detect != null)
+                {
+                    detect.OnCursorClose(hit.point);
+                }
+                   
 
+
+            }
+
+            timeLeftForRaycastCursor = timeTickCursor;
+        }
+        else
+        {
+            timeLeftForRaycastCursor -= Time.deltaTime;
+        }
 
     }
 

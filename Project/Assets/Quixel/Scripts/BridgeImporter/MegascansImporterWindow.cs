@@ -519,7 +519,7 @@ namespace Quixel
         {
             MSCheckBox = new GUIStyle();
             MSCheckBox.normal.background = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Quixel/Scripts/Images/CheckBoxOff.png");
-            MSCheckBox.hover.background = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Quixel/Scripts/Images/CheckBoxHover.png");
+            MSCheckBox.hover.background = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Quixel/Scripts/Images/CheckBoxShielder.png");
             MSCheckBox.onNormal.background = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Quixel/Scripts/Images/CheckBoxOn.png");
         }
 

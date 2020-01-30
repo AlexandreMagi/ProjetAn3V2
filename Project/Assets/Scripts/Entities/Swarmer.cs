@@ -38,6 +38,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         entityData = _entityData as DataSwarmer;
         health = entityData.startHealth;
+        TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
         TeamsManager.Instance.RegistertoTeam(this.transform, entityData.team);
         this.GetComponentInChildren<Renderer>().material = entityData.mat;
         target = null;
@@ -134,7 +135,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         pathToFollow = null;
         currentFollow = null;
 
-        this.transform.GetComponentInParent<Spawner>().ChildDied();
+        if(this.transform.GetComponentInParent<Spawner>() != null)
+        {
+            this.transform.GetComponentInParent<Spawner>().ChildDied();
+        }
+       
 
         //Means it has been killed in some way and has not just attacked
         if(health <= 0)
@@ -171,9 +176,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     // Start is called before the first frame update
     protected override void Start()
     {
-        //base.Start();
+        this.health = entityData.startHealth;
         //enemyData = entityData as DataSwarmer;
-        //rbBody = GetComponent<Rigidbody>();
+        rbBody = GetComponent<Rigidbody>();
         //TeamsManager.Instance.RegistertoTeam(this.transform, enemyData.team);
     }
 

@@ -10,20 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88b08872da3ce514789fe3cc5975b188, type: 3}
-  m_Name: DataHover_Test
+  m_Name: DataShielder_Test
   m_EditorClassIdentifier: 
-  maxHealth: 0
-  startHealth: 0
-  team: 0
-  spriteToDisplayShield: {fileID: 0}
-  spriteToDisplayLife: {fileID: 0}
+  maxHealth: 140
+  startHealth: 140
+  team: 1
+  spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  spriteToDisplayLife: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 5
   fxWhenDie: fx_name_death_ennemi
   fxWhenStun: VFX_Stun
-  matWhenTakeDammage: {fileID: 0}
+  matWhenTakeDammage: {fileID: 2100000, guid: ddfc43fb273d03845a052f11b9458bbd, type: 2}
   matChangeTime: 0.1
-  shieldApplyRange: 0
-  shieldRadius: 0
-  timeShieldCast: 0
+  distanceToStartFollowingAlly: 15
+  movementSpeed: 1200
+  shieldApplyRange: 10
+  shieldRadius: 5
+  timeShieldCast: 5
+  targetLockFollowSpeed: 5
+  floatSpeed: 1
+  floatAmplitude: 0.3

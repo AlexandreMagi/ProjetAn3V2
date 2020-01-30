@@ -5,40 +5,69 @@ using UnityEngine;
 
 public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 {
-    float currentStunLevel = 0;
-    float timeRemaingingStun = 0;
+    protected float currentStunLevel = 0;
+    protected float timeRemaingingStun = 0;
     protected bool isStun = false;
 
     List<Transform> enemies;
-    float distanceToClosest;
-    Transform possibleTarget;
+    protected float distanceToClosest;
+    protected Transform possibleTarget;
 
     protected Transform target;
 
-    float timerCheckTarget = 0;
-    float checkEvery = 0.2f;
+    protected float timerCheckTarget = 0;
+    protected float checkEvery = 0.2f;
 
-    float timeRemainingInMatFeedback = 0;
+    protected float timeRemainingInMatFeedback = 0;
 
-    float currentTargetTimer = 0;
+    protected float currentTargetTimer = 0;
 
     Material[] meshMaterials = new Material[0];
 
     #region Detection
     public virtual void OnMovementDetect()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public virtual void OnDangerDetect()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public virtual void OnDistanceDetect(Transform target, float distance)
     {
-        //throw new System.NotImplementedException();
+       
     }
+
+    public virtual void OnCursorClose(Vector3 position)
+    {
+        
+    }
+    #endregion
+
+    #region Bullets
+
+    public virtual void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+
+    }
+
+    public virtual void OnHitShotGun()
+    {
+        Weapon.Instance.OnShotGunHitTarget();
+    }
+
+    public virtual void OnHitSingleShot()
+    {
+
+    }
+
+    public virtual void OnBulletClose()
+    {
+
+    }
+
     #endregion
 
     // Start is called before the first frame update
@@ -153,7 +182,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
         FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
     }
 
-    protected void CheckForTargets()
+    protected virtual void CheckForTargets()
     {
         //Recherche de cible à attaquer
         enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.entityData.team, new int[]{2});
@@ -177,30 +206,5 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
             OnDistanceDetect(possibleTarget, distanceToClosest);
         }
-    }
-
-    public virtual void OnHit(DataWeaponMod mod, Vector3 position)
-    {
-
-    }
-
-    public virtual void OnHitShotGun()
-    {
-        Weapon.Instance.OnShotGunHitTarget();
-    }
-
-    public virtual void OnHitSingleShot()
-    {
-
-    }
-
-    public virtual void OnBulletClose()
-    {
-
-    }
-
-    public virtual void OnCursorClose()
-    {
-
     }
 }

@@ -31,7 +31,7 @@ public class Entity<T> : MonoBehaviour, IEntity where T : DataEntity
         if (health <= 0) Die();
     }
 
-    public  virtual void Heal(float value)
+    public virtual void Heal(float value)
     {
         health += value;
         if (health > entityData.maxHealth) health = entityData.maxHealth;

@@ -11,6 +11,4 @@ public interface IBulletAffect
     void OnHitSingleShot();
 
     void OnBulletClose();
-
-    void OnCursorClose();
 }
