@@ -77,6 +77,19 @@ public class CameraHandler : MonoBehaviour
     float currentPurcentageLookAt = 0;
     Vector3 savePosLookAt = Vector3.zero;
 
+    #region ZeroGEffect
+
+    [Header("Zero G effect")]
+    [SerializeField]
+    DataZeroGOnPlayer zeroGData = null;
+
+    float zeroGanimPurcentage = 0;
+    bool onZeroG = false;
+    float currentZeroGRot = 0;
+
+    #endregion
+
+
     #endregion
 
 
@@ -200,6 +213,14 @@ public class CameraHandler : MonoBehaviour
         // Get de la valeur de rotation selon les mouvements horizontaux
         float vRotYByPosition = currentCamDummy.GetComponent<Camera>().WorldToScreenPoint(vLookAtPos).x - Screen.width / 2;
         vRotYByPosition = -vRotYByPosition * camBasicData.maxRotateWhileMoving / (Screen.width / 2);
+
+        if (onZeroG)
+        {
+            zeroGanimPurcentage += (zeroGData.animIndependentFromTimescale ? Time.unscaledDeltaTime : Time.deltaTime) / zeroGData.animTime;
+            if (zeroGanimPurcentage > 1) onZeroG = false;
+        }
+
+        /// ----- STEP ----- ///
         // Rotations de la cam selon les mouvements horizontaux + rotate en Z des steps
         camDummyValueFeedback.transform.Rotate(0, 0, -vRotYByPosition + camBasicDataValues[1], Space.Self);
         // Setup position selon steps
@@ -282,6 +303,12 @@ public class CameraHandler : MonoBehaviour
 
         }
 
+    }
+
+    public void StartZeroG()
+    {
+        onZeroG = true;
+        zeroGanimPurcentage = 0;
     }
 
     public void DecalCurrentCamRotation(Vector2 Pos)

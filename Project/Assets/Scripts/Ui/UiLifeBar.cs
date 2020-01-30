@@ -136,7 +136,7 @@ public class UiLifeBar : MonoBehaviour
         //else armorBarFeedBack.value =                   Mathf.MoveTowards(armorBarFeedBack.value, armorBar.value, Time.deltaTime);
 
         //if (Input.GetKeyDown(KeyCode.Space)) PlayerTookDamage(300, 100);
-        if (Input.GetKeyDown(KeyCode.Space)) Player.Instance.TakeDamage(25);
+        //if (Input.GetKeyDown(KeyCode.Space)) Player.Instance.TakeDamage(25);
 
 
         for (int i = 0; i < dataHandlers.Length; i++)
