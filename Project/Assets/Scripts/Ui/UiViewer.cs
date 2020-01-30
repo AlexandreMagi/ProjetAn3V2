@@ -99,7 +99,6 @@ public class UiViewer : MonoBehaviour
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (voteSliderRectTransform.position.x, (voteSliderRectTransform.position.y - voteSliderRectTransform.sizeDelta.x /2) + voteSliderRectTransform.sizeDelta.x * (result/100)), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
         cap.transform.position = transform.TransformPoint(pos);
-        Debug.Log(voteSliderRectTransform.sizeDelta.y);
 
         float timer = 4;
         float timerAlpha = 1;
@@ -133,6 +132,7 @@ public class UiViewer : MonoBehaviour
         rootLiveOrDie.gameObject.SetActive(false);
         cap.gameObject.SetActive(false);
         Main.Instance.EndReviveSituation(revive, bonusFromRez);
+        if (revive) UiLifeBar.Instance.AddLife();
         TimeScaleManager.Instance.Stop();
         yield break;
     }

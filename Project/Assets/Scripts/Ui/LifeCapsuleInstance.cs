@@ -76,4 +76,9 @@ public class LifeCapsuleInstance
         sizeDesactivated = data.sizeWhenJustHited;
     }
 
+    public void activate()
+    {
+        desactivated = false;
+    }
+
 }
