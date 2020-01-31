@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     bool isPathedSpawner = false;
 
     [SerializeField]
-    Pather pathToGive = null;
+    List<Pather> pathsToGive = null;
 
     [SerializeField]
     DataEntity entDataToGive = null;
@@ -26,6 +26,16 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]
     protected bool spawnEnabled = false;
+
+    [Header("Propulsion")]
+    [SerializeField]
+    protected bool isPropulsionSpawner = false;
+
+    [SerializeField, ShowIf("isPropulsionSpawner")]
+    protected Vector3 impulseDirection = Vector3.zero;
+
+    [SerializeField, ShowIf("isPropulsionSpawner")]
+    protected float impulseForce = 0;
 
     [Header("Spawn at range")]
     [SerializeField]
@@ -110,15 +120,26 @@ public class Spawner : MonoBehaviour
            
 
 
-            if (isPathedSpawner && pathToGive != null)
+            if (isPathedSpawner && pathsToGive.Count > 0)
             {
-                spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathToGive);
+                int randomPath;
+                if(pathsToGive.Count == 1)
+                {
+                    randomPath = 0;
+                }
+                else
+                {
+                    randomPath = Random.Range(0, pathsToGive.Count);
+                }
+                
+
+                spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathsToGive[randomPath]);
             }
 
             //spawnedEnemy.transform.localScale= new Vector3(1, 1, 1);
-            if (spawnerType.bIsImpulseSpawn)
+            if (isPropulsionSpawner)
             {
-                spawnedEnemy.GetComponent<Rigidbody>().AddForce(spawnerType.v3Direction * spawnerType.fImpulseForce);
+                spawnedEnemy.GetComponent<Rigidbody>().AddForce(impulseDirection * impulseForce);
             }
 
             return spawnedEnemy;

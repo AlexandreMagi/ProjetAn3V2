@@ -11,12 +11,4 @@ public class DataSpawner : ScriptableObject
     public GameObject EnnemiPrefab = null;
 
     public int iNbEnemiesSpawnable = 0;
-
-    public bool bIsImpulseSpawn = false;
-
-    [ShowIf("bIsImpulseSpawn")]
-    public Vector3 v3Direction = Vector3.zero;
-
-    [ShowIf("bIsImpulseSpawn")]
-    public float fImpulseForce = 0;
 }
