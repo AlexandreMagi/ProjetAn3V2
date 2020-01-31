@@ -12,6 +12,9 @@ public class Main : MonoBehaviour
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
 
+    private float timeLeftForRaycastCursor;
+    private float timeTickCursor = .2f;
+
     [SerializeField]
     int startWithCameraNumber = 0;
 
@@ -24,6 +27,9 @@ public class Main : MonoBehaviour
     bool autoReloadOnNoAmmo = false;
 
     bool hasJumpedCam = false;
+
+    [HideInInspector]
+    public bool GameEnded = false;
 
     public static Main Instance { get; private set; }
 
@@ -183,7 +189,30 @@ public class Main : MonoBehaviour
             Weapon.Instance.ReloadingInput();
         }
 
+        if(timeLeftForRaycastCursor <= timeTickCursor)
+        {
+            Ray cursorRay = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
+            
+            if(hit.collider != null)
+            {
+                IDetection detect = hit.collider.GetComponent<IDetection>();
+                if (detect != null)
+                {
+                    detect.OnCursorClose(hit.point);
+                }
+                   
 
+
+            }
+
+            timeLeftForRaycastCursor = timeTickCursor;
+        }
+        else
+        {
+            timeLeftForRaycastCursor -= Time.deltaTime;
+        }
 
     }
 
@@ -237,7 +266,7 @@ public class Main : MonoBehaviour
 
             UiViewer.Instance.PlayerJustDied(publicChoice < trueChance, publicChoice, bonusFromRez);
 
-            Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
+            //Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
         }
         
     }
@@ -258,17 +287,20 @@ public class Main : MonoBehaviour
 
     private void DoGameOver()
     {
-        Debug.Log("Public chose... DEATH");
+        //Debug.Log("Public chose... DEATH");
+        TimeScaleManager.Instance.AddStopTime(5000);
+        Player.Instance.DieForReal();
+        UiLifeBar.Instance.EndGame();
+        GameEnded = true;
     }
 
     private void DoResurrection(float bonus)
     {
-        Debug.Log("Public chose... LIFE");
 
         playerCanShoot = true;
         playerCanOrb = true;
 
-        Player.Instance.SetLifeTo(1);
+        Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
         Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
 
         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn);

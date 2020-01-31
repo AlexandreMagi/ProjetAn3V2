@@ -45,6 +45,7 @@ public class ArmorCapsuleInstance
             size = data.baseSize * sizeModifier;
             outlineSize = data.outlineSize * sizeModifier * (currentArmor / stockArmor);
 
+
             color = Color.Lerp(Color.Lerp(data.lowLifeColor, data.baseColor, currentArmor / stockArmor), data.hitedColor, data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime));
         }
     }
@@ -62,6 +63,12 @@ public class ArmorCapsuleInstance
             desactivated = true;
             color = data.hitedColor;
         }
+    }
+
+    public void activate()
+    {
+        desactivated = false;
+        sizeMult = 1;
     }
 
 }

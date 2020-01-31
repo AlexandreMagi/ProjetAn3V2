@@ -38,7 +38,12 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     protected override void Die()
     {
         Main.Instance.TriggerGameOverSequence();
-    }   
+    }
+    
+    public void DieForReal()
+    {
+        Destroy(this);
+    }
 
     protected override void Start()
     {
@@ -155,6 +160,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void GainArmor(float value)
     {
         armor += value;
+        UiLifeBar.Instance.AddArmor(value);
 
         if(armor > 300)
         {
