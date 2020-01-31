@@ -13,6 +13,17 @@ public class Spawner : MonoBehaviour
     [SerializeField, ShowIf("isPathedSpawner")]
     List<Pather> pathsToGive = null;
 
+    [SerializeField, ShowIf("isPathedSpawner")]
+    bool isRandomSpawner = true;
+
+    [SerializeField, ShowIf("isPathedSpawner"), HideIf("isRandomSpawner")]
+    List<int> numberOfSpawnsToChangePather = null;
+    int currentPather = 0;
+    int spawnedInCurrentPath = 0;
+
+    [SerializeField, ShowIf("isPathedSpawner"), HideIf("isRandomSpawner")]
+    bool loops = false;
+
     [SerializeField]
     DataEntity entDataToGive = null;
 
@@ -122,20 +133,45 @@ public class Spawner : MonoBehaviour
 
             if (isPathedSpawner && pathsToGive.Count > 0)
             {
-                Debug.Log("pwet");
+                int pathApplied;
 
-                int randomPath;
-                if(pathsToGive.Count == 1)
+                if (isRandomSpawner)
                 {
-                    randomPath = 0;
+                    if (pathsToGive.Count == 1)
+                    {
+                        pathApplied = 0;
+                    }
+                    else
+                    {
+                        pathApplied = Random.Range(0, pathsToGive.Count);
+                    }
+    
                 }
                 else
                 {
-                    randomPath = Random.Range(0, pathsToGive.Count);
+                    if(spawnedInCurrentPath < numberOfSpawnsToChangePather[currentPather])
+                    {
+                        spawnedInCurrentPath++;
+                        
+                    }
+                    else
+                    {
+                        if(currentPather < numberOfSpawnsToChangePather.Count - 1)
+                        {
+                            currentPather++;
+                        }
+                        else
+                        {
+                            if (loops)
+                            {
+                                currentPather = 0;
+                            }
+                        }
+                    }
+                    pathApplied = currentPather;
                 }
-                
 
-                spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathsToGive[randomPath]);
+                spawnedEnemy.GetComponent<Swarmer>().SetPathToFollow(pathsToGive[pathApplied]);
             }
 
             //spawnedEnemy.transform.localScale= new Vector3(1, 1, 1);
