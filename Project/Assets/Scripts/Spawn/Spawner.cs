@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     bool isPathedSpawner = false;
 
-    [SerializeField]
+    [SerializeField, ShowIf("isPathedSpawner")]
     List<Pather> pathsToGive = null;
 
     [SerializeField]
@@ -117,11 +117,13 @@ public class Spawner : MonoBehaviour
             {
                 spawnedEnemy.transform.position = transform.position;
             }
-           
 
+            Debug.Log(pathsToGive.Count);
 
             if (isPathedSpawner && pathsToGive.Count > 0)
             {
+                Debug.Log("pwet");
+
                 int randomPath;
                 if(pathsToGive.Count == 1)
                 {

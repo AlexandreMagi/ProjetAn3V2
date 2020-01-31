@@ -12,6 +12,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     float elapsedTime = 0;
     float timerWait = 0;
 
+    [ShowInInspector]
     Pather pathToFollow = null;
     int pathID = 0;
 
@@ -24,7 +25,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool isChasingTarget;
 
     enum State { Basic, Waiting, Attacking };
-    int nState = 0;
+    State nState = State.Basic;
 
     //Stimulus
     #region Stimulus
@@ -219,13 +220,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
         {
 
-            //Check si touche le sol
-            elapsedTime = 0;
-            if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
-            {
-                rbBody.AddForce(Physics.gravity * 3);
-            }
-
             if (nState == (int)State.Basic)
             {
                 if (isChasingTarget && target != null)
@@ -269,12 +263,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 }
                 if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
                 {
-                    nState = (int)State.Waiting;
+                    nState = State.Waiting;
                     rbBody.velocity = Vector3.zero;
                     //GetComponent<Animator>().SetTrigger("PrepareToJump");
                 }
             }
-            else if (nState == (int)State.Waiting)
+            else if (nState == State.Waiting)
             {
                 timerWait += Time.deltaTime;
                 if (timerWait > entityData.waitDuration)
@@ -282,18 +276,18 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     timerWait = 0;
                     if (target != null && CheckDistance())
                     {
-                        nState = (int)State.Attacking;
+                        nState = State.Attacking;
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
                         rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
                         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
                     }
                     else
-                        nState = (int)State.Basic;
+                        nState = State.Basic;
 
                 }
             }
-            else if (nState == (int)State.Attacking)
+            else if (nState == State.Attacking)
             {
                 //TODO : Follow the path
                 if (target != null)
@@ -302,7 +296,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     rbBody.AddForce(direction * entityData.speed * entityData.speedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
                     if (!CheckDistance())
                     {
-                        nState = (int)State.Basic;
+                        nState = State.Basic;
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
                         //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
                     }
