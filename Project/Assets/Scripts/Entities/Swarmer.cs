@@ -220,11 +220,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
         {
 
-            if (nState == (int)State.Basic)
+            if (nState == State.Basic)
             {
                 if (isChasingTarget && target != null)
                 {
                     v3VariancePoisitionFollow = target.position;
+
                 }
 
                 //TODO : Follow the path
