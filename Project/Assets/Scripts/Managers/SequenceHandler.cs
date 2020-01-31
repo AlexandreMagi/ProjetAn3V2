@@ -230,7 +230,6 @@ public class SequenceHandler : MonoBehaviour
     {
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
 
-
         CameraHandler.Instance.ResyncCam();
         CameraHandler.Instance.bFeedbckActivated = currentSequence.enableCamFeedback;
         CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamTransition, currentSequence.speedTransition);
