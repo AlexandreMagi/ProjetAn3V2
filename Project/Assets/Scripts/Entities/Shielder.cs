@@ -9,6 +9,10 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
     float timeLeftForShieldApply;
     bool mustFollowTarget;
 
+    bool willDodge = false;
+
+    float timeBeforeRecoveryEnd = 0;
+
     Rigidbody rbBody;
 
     #region State
@@ -83,11 +87,22 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
     {
         Debug.Log("Cursor is close !");
 
-        //Position comparaison
-        Vector3 directionToFlee = new Vector3(positionOfCursor.x - transform.position.x, positionOfCursor.y - transform.position.y, positionOfCursor.z - transform.position.z);
+        //Position comparaison || Comparaison to screen
+        Vector2 thisObjectPos = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().WorldToScreenPoint(this.transform.position);
+        Vector2 hitPos = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().WorldToScreenPoint(positionOfCursor);
+
+        Vector2 directionToFlee = (thisObjectPos - hitPos).normalized;
+
+        if (!willDodge && currentState != ShielderState.RecoveryDodge)
+        {
+            StartCoroutine(Dodge(directionToFlee));
+            willDodge = true;
+        }
+
     }
 
     #endregion //Detection
+
     #endregion //Stimulus
 
     protected override void Update()
@@ -151,7 +166,8 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
         if(currentState == ShielderState.CastingShield)
         {
             //transform.LookAt(target.position - transform.position);
-            transform.rotation = Quaternion.LookRotation(transform.position - target.position, Vector3.up); 
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.position - target.position), entityData.targetLockFollowSpeed * Time.deltaTime);
+            
 
             if(timeLeftForShieldApply <= 0)
             {
@@ -189,6 +205,7 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
         }
 
         /////// FOLLOWING STATE
+        #region Follow
         if(currentState == ShielderState.FollowingTarget)
         {
             if (distanceToTarget <= entityData.shieldApplyRange)
@@ -205,9 +222,25 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
 
             }
         }
+        #endregion //Follow
+
+        /////// RECOVERY STATE
+        #region Dodge
+        if (currentState == ShielderState.RecoveryDodge)
+        {
+            if(timeBeforeRecoveryEnd <= 0)
+            {
+                currentState = ShielderState.LookingForTarget;
+            }
+            else
+            {
+                timeBeforeRecoveryEnd -= Time.deltaTime;
+            }
+        }
+        #endregion
 
         /////// DISTANCE CHECK TO BREAK LINK
-        if(distanceToTarget > entityData.distanceToStartFollowingAlly && currentState != ShielderState.FollowingTarget)
+        if (distanceToTarget > entityData.distanceToStartFollowingAlly && currentState != ShielderState.FollowingTarget)
         {
             currentState = ShielderState.FollowingTarget;
             transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -277,5 +310,32 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
     private void CastShieldOnTarget()
     {
         Debug.Log("Shield applied");
+    }
+
+    private IEnumerator Dodge(Vector3 directionToFlee)
+    {
+        yield return new WaitForSecondsRealtime(entityData.timeBeforeDodgeStart);
+
+        rbBody.AddForce(directionToFlee * entityData.dodgeSpeed);
+
+        willDodge = false;
+        timeBeforeRecoveryEnd = entityData.recoveryTime;
+        currentState = ShielderState.RecoveryDodge;
+
+        yield break;
+    }
+
+    protected override void Die()
+    {
+        currentState = ShielderState.Dying;
+
+        rbBody.useGravity = true;
+        rbBody.drag = 0;
+        //rbBody.AddForce(new Vector3(0,1,0) * entityData.deathPropulsionForce);
+    }
+
+    private void TrueDeath()
+    {
+        base.Die();
     }
 }

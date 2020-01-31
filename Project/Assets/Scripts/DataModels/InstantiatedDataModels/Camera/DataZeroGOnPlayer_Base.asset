@@ -25,7 +25,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.27711964
     - serializedVersion: 3
-      time: 0.13770786
+      time: 0.14837511
       value: 0.94409746
       inSlope: 1
       outSlope: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.28037554
+      time: 0.30209425
       value: 0.8160851
       inSlope: 0.29754034
       outSlope: 0.29754034
@@ -43,7 +43,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.46787506
+      time: 0.504118
       value: 0.993388
       inSlope: -0.5051436
       outSlope: -0.5051436
@@ -52,7 +52,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.32495388
     - serializedVersion: 3
-      time: 0.63079447
+      time: 0.67965764
       value: 0.84844923
       inSlope: 0.06855765
       outSlope: 0.06855765
@@ -61,8 +61,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.76292014
-      value: 0.9497276
+      time: 0.91415226
+      value: 0.9612289
       inSlope: -0.15533352
       outSlope: -0.15533352
       tangentMode: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.91225606
+      time: 0.9829221
       value: -0.21744898
       inSlope: -0.9816373
       outSlope: -0.9816373
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  upAxisValue: 1
+  upAxisValue: 10
   rollSpeedController:
     serializedVersion: 2
     m_Curve:
@@ -122,8 +122,26 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.13200326
     - serializedVersion: 3
+      time: 0.9171598
+      value: 0.4338115
+      inSlope: -0.07201247
+      outSlope: -0.07201247
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9258579
+      value: 0.0023067296
+      inSlope: -0.07760114
+      outSlope: -0.07760114
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1.0010986
-      value: 0.43071228
+      value: 0.003313601
       inSlope: -0.018158032
       outSlope: -0.018158032
       tangentMode: 0
@@ -133,5 +151,76 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rollSpeed: 360
-  animTime: 1
+  rollSpeed: 160
+  screenOpacity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.539257
+      outSlope: 6.539257
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.40409482
+    - serializedVersion: 3
+      time: 0.12138397
+      value: 0.7352781
+      inSlope: 0.99999994
+      outSlope: 0.99999994
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2519439
+      value: 0.65347415
+      inSlope: 0.5268263
+      outSlope: 0.5268263
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4070323
+      value: 0.81328964
+      inSlope: 0.34992617
+      outSlope: 0.34992617
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.54625
+      value: 0.6897617
+      inSlope: 0.17020175
+      outSlope: 0.17020175
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.914438
+      value: 1.0029901
+      inSlope: 0.43217537
+      outSlope: 0.43217537
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.002357483
+      inSlope: -19.936224
+      outSlope: -19.936224
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1479423
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animTime: 5
+  rotRecoverSpeed: 720
+  animIndependentFromTimescale: 1

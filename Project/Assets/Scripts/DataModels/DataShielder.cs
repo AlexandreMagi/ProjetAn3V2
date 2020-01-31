@@ -24,7 +24,12 @@ public class DataShielder : DataEnemy
 
     public float dodgeSpeed;
 
+    public float recoveryTime;
+
     [Header("Float parameters")]
     public float floatSpeed;
     public float floatAmplitude;
+
+    [Header("Death parameters")]
+    public float deathPropulsionForce;
 }

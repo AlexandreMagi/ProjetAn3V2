@@ -86,6 +86,7 @@ public class CameraHandler : MonoBehaviour
     float zeroGanimPurcentage = 0;
     bool onZeroG = false;
     float currentZeroGRot = 0;
+    int rotDir;
 
     #endregion
 
@@ -214,11 +215,21 @@ public class CameraHandler : MonoBehaviour
         float vRotYByPosition = currentCamDummy.GetComponent<Camera>().WorldToScreenPoint(vLookAtPos).x - Screen.width / 2;
         vRotYByPosition = -vRotYByPosition * camBasicData.maxRotateWhileMoving / (Screen.width / 2);
 
+        if (Input.GetKeyDown(KeyCode.Space)) StartZeroG();
+
+        float dt = (zeroGData.animIndependentFromTimescale ? Time.unscaledDeltaTime : Time.deltaTime);
         if (onZeroG)
         {
-            zeroGanimPurcentage += (zeroGData.animIndependentFromTimescale ? Time.unscaledDeltaTime : Time.deltaTime) / zeroGData.animTime;
+            zeroGanimPurcentage += dt / zeroGData.animTime;
             if (zeroGanimPurcentage > 1) onZeroG = false;
+            camDummyValueFeedback.transform.Translate(0, zeroGData.upAxisAnim.Evaluate(zeroGanimPurcentage) * zeroGData.upAxisValue, 0, Space.World);
+            currentZeroGRot += dt * zeroGData.rollSpeedController.Evaluate(zeroGanimPurcentage) * zeroGData.rollSpeed * rotDir;
+            if (Mathf.Abs(currentZeroGRot) > 360) currentZeroGRot -= 360 * rotDir;
         }
+        else 
+            currentZeroGRot = Mathf.MoveTowards(currentZeroGRot, Mathf.Abs(currentZeroGRot - 360 * rotDir) < currentZeroGRot ? 360 * rotDir : 0, dt * zeroGData.rotRecoverSpeed);
+        UiDamageHandler.Instance.UpdateZeroGScreen(zeroGData, zeroGanimPurcentage, onZeroG);
+        camDummyValueFeedback.transform.Rotate(0, 0, currentZeroGRot, Space.Self);
 
         /// ----- STEP ----- ///
         // Rotations de la cam selon les mouvements horizontaux + rotate en Z des steps
@@ -309,8 +320,14 @@ public class CameraHandler : MonoBehaviour
     {
         onZeroG = true;
         zeroGanimPurcentage = 0;
+        currentZeroGRot = 0;
+        rotDir = Mathf.RoundToInt(1 * Mathf.Sign(Random.Range(-1f, 1f)));
     }
 
+    public void ResyncCam()
+    {
+        RenderingCam.transform.position = CamDummy.transform.position;
+    }
     public void DecalCurrentCamRotation(Vector2 Pos)
     {
         vRotateValue = new Vector2(-(Pos.y * (camBasicData.camMoveWithAim * 2) / Screen.height - camBasicData.camMoveWithAim), Pos.x * (camBasicData.camMoveWithAim * 2) / Screen.width - camBasicData.camMoveWithAim); // Get values
