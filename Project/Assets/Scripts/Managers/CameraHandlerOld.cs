@@ -1,11 +1,11 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
-public class CameraHandler : MonoBehaviour
+public class CameraHandlerOld : MonoBehaviour
 {
 
-    private static CameraHandler _instance;
-    public static CameraHandler Instance
+    private static CameraHandlerOld _instance;
+    public static CameraHandlerOld Instance
     {
         get
         {
