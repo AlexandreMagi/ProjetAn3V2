@@ -361,14 +361,15 @@ GameObject:
   m_Component:
   - component: {fileID: 7584541180804375022}
   - component: {fileID: 7584541180804375023}
+  - component: {fileID: 1540320443377804339}
   - component: {fileID: 7584541180804375010}
   - component: {fileID: 7584541180804375020}
   - component: {fileID: 7584541180804375021}
   - component: {fileID: 3612538723937604906}
   - component: {fileID: 7244353406021666021}
   - component: {fileID: 3923841834966397394}
-  - component: {fileID: 1540320443377804339}
   - component: {fileID: 7584541180804375011}
+  - component: {fileID: 9098034807629258433}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -407,6 +408,22 @@ MonoBehaviour:
   difficultyData: {fileID: 11400000, guid: 5820af90c56d93f4d81528f2003c0224, type: 2}
   autoReloadOnNoAmmo: 0
   GameEnded: 0
+--- !u!114 &1540320443377804339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584541180804375017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c07407dcda148af41a99b41458f3f618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinemachineCam: {fileID: 0}
+  animatedCam: {fileID: 0}
+  renderingCam: {fileID: 7950423414511688772}
+  camData: {fileID: 11400000, guid: e9cf6c4ce67cae443b06cc1ed673e767, type: 2}
 --- !u!114 &7584541180804375010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,24 +523,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swarmerPrefab: {fileID: 8724956490323836483, guid: e6da892da0007434e85be1ddaebd7cdd,
     type: 3}
---- !u!114 &1540320443377804339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7584541180804375017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c07407dcda148af41a99b41458f3f618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CamDummy: {fileID: 0}
-  AnimatedCam: {fileID: 0}
-  RenderingCam: {fileID: 3084161088736779531}
-  camBasicData: {fileID: 11400000, guid: e9cf6c4ce67cae443b06cc1ed673e767, type: 2}
-  bFeedbckActivated: 1
-  zeroGData: {fileID: 11400000, guid: 36ea846447524774498a463ce3fd2339, type: 2}
 --- !u!114 &7584541180804375011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +536,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   publicData: {fileID: 11400000, guid: 10a8aff74fc537242bc53721bd312a59, type: 2}
+--- !u!114 &9098034807629258433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584541180804375017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
 --- !u!1 &8225693594273001723
 GameObject:
   m_ObjectHideFlags: 0

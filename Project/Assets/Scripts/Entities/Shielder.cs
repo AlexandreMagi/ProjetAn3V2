@@ -88,8 +88,8 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
         Debug.Log("Cursor is close !");
 
         //Position comparaison || Comparaison to screen
-        Vector2 thisObjectPos = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().WorldToScreenPoint(this.transform.position);
-        Vector2 hitPos = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().WorldToScreenPoint(positionOfCursor);
+        Vector2 thisObjectPos = CameraHandler.Instance.renderingCam.WorldToScreenPoint(this.transform.position);
+        Vector2 hitPos = CameraHandler.Instance.renderingCam.WorldToScreenPoint(positionOfCursor);
 
         Vector2 directionToFlee = (thisObjectPos - hitPos).normalized;
 
