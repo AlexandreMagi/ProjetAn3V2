@@ -50,7 +50,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     public virtual void OnHit(DataWeaponMod mod, Vector3 position)
     {
-
+        this.TakeDamage(mod.bullet.damage);
     }
 
     public virtual void OnHitShotGun()
