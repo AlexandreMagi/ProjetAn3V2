@@ -41,6 +41,8 @@ public class UiDamageHandler : MonoBehaviour
     GameObject shieldBreakFlash = null;
     [SerializeField]
     GameObject shieldPanel = null;
+    [SerializeField]
+    GameObject zeroGPanel = null;
 
     private void Update()
     {
@@ -96,6 +98,13 @@ public class UiDamageHandler : MonoBehaviour
     public void ClearScreen()
     {
 
+    }
+
+    public void UpdateZeroGScreen(DataZeroGOnPlayer datasend, float purcentage, bool onZeroG)
+    {
+        zeroGPanel.SetActive(onZeroG);
+        Color zeroGColor = zeroGPanel.GetComponent<Image>().color;
+        zeroGPanel.GetComponent<Image>().color = new Color(zeroGColor.r, zeroGColor.g, zeroGColor.b, datasend.screenOpacity.Evaluate(purcentage));
     }
 
     public void AddSprite (DataUiTemporarySprite dataSendShield, DataUiTemporarySprite dataSendLife)

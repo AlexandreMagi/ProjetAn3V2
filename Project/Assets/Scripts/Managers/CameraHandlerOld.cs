@@ -1,11 +1,11 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
-public class CameraHandler : MonoBehaviour
+public class CameraHandlerOld : MonoBehaviour
 {
 
-    private static CameraHandler _instance;
-    public static CameraHandler Instance
+    private static CameraHandlerOld _instance;
+    public static CameraHandlerOld Instance
     {
         get
         {
@@ -324,10 +324,6 @@ public class CameraHandler : MonoBehaviour
         rotDir = Mathf.RoundToInt(1 * Mathf.Sign(Random.Range(-1f, 1f)));
     }
 
-    public void ResyncCam()
-    {
-        RenderingCam.transform.position = CamDummy.transform.position;
-    }
     public void DecalCurrentCamRotation(Vector2 Pos)
     {
         vRotateValue = new Vector2(-(Pos.y * (camBasicData.camMoveWithAim * 2) / Screen.height - camBasicData.camMoveWithAim), Pos.x * (camBasicData.camMoveWithAim * 2) / Screen.width - camBasicData.camMoveWithAim); // Get values
