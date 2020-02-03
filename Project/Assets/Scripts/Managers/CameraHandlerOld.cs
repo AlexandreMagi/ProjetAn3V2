@@ -240,7 +240,7 @@ public class CameraHandlerOld : MonoBehaviour
         currentFovModif = Mathf.Lerp(currentFovModif, fFrequency * camBasicData.fovMultiplier, Time.deltaTime * camBasicData.fovSpeed);
         // Change le FOV
         float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
-        fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camBasicData.timeScaleFov - Time.timeScale * camBasicData.timeScaleFov, Time.unscaledDeltaTime * camBasicData.timeScaleFovSpeed);
+        fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camBasicData.timeScaleFovImpact - Time.timeScale * camBasicData.timeScaleFovImpact, Time.unscaledDeltaTime * camBasicData.timeScaleFovSpeed);
         CamDummyFov = camBasicData.BaseFov + camBasicData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + currentFovModif + fovAddedByTimeScale + currentFovRecoilValue;
 
         if (cameraLookAt != null && (cameraLookAt.gameObject ? cameraLookAt.gameObject.activeSelf : true))// && !(cameraLookAt.gameObject != null && cameraLookAt.gameObject.activeSelf != false))

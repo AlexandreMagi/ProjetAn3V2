@@ -12,7 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1d1943361d230489e19856943c5aca, type: 3}
   m_Name: DataCameraBasic_Base
   m_EditorClassIdentifier: 
+  distanceShakeCancelled: 30
+  shakeAtCharged: 1
+  shakeAtEndOfAnimation: 1
+  shakeWhenCharged: 10
+  shakeWhenCharging: 8
+  camFollowSpeed: 8
+  camTransitionSpeedAnimatedCine: 3
+  camSafeDistanceTransition: 1
+  distanceBetweenDummy: 5
+  speedRotFollow: 5
+  speedPosFollow: 5
+  followRotDummy: 0
   camMoveWithAim: 1
+  maxRotateWhileMoving: 30
+  lerpOnLerpBecauseWhyTheFuckNot: 5
+  BaseFov: 70
+  fovMultiplier: 5
+  fovSpeed: 1
+  maxFovDecal: 2
+  timeScaleFovImpact: 5
+  timeScaleFovSpeed: 5
+  transitionStartAt: 0.4
+  CurvesAndValues:
+  - {fileID: 11400000, guid: 68e39efe6d236544baeaff332f11f39a, type: 2}
+  - {fileID: 11400000, guid: d2c60d145d3791d41a8a282d10ed5f09, type: 2}
+  frenquencyGoBackToZero: 1
+  frequencyDeccel: 0.02
+  stepSoundPlay: 0.7
   RecoilMaxValue: 1.5
   RecoilRecover: 5
   RecoilPow: 2
@@ -20,25 +47,5 @@ MonoBehaviour:
   maxFovRecoilValue: 1.5
   fovRecoilRecover: 5
   fovRecoilPow: 2
-  distanceShakeCancelled: 30
-  shakeAtCharged: 1
-  shakeAtEndOfAnimation: 1
-  shakeWhenCharged: 10
-  shakeWhenCharging: 8
-  BaseFov: 70
-  fovMultiplier: 5
-  fovSpeed: 1
-  maxFovDecal: 2
-  transitionStartAt: 0.4
-  timeScaleFov: 5
-  timeScaleFovSpeed: 5
-  camFollowSpeed: 8
-  maxRotateWhileMoving: 20
-  camTransitionSpeedAnimatedCine: 3
-  camSafeDistanceTransition: 1
-  CurvesAndValues:
-  - {fileID: 11400000, guid: 68e39efe6d236544baeaff332f11f39a, type: 2}
-  - {fileID: 11400000, guid: d2c60d145d3791d41a8a282d10ed5f09, type: 2}
-  frenquencyGoBackToZero: 1
-  frequencyDeccel: 0.02
-  stepSoundPlay: 0.7
+  fovRecoilLerpSpeed: 8
+  independentFromTimeScale: 1
