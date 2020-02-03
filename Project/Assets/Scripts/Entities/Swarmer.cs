@@ -6,11 +6,15 @@ using Sirenix.OdinInspector;
 
 public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 {
-
     bool isAirbone = false;
     float timePropel = .5f;
     float elapsedTime = 0;
     float timerWait = 0;
+
+    //AI
+    float frontalDetectionSight = 2;
+    [SerializeField]
+    LayerMask maskOfWall;
 
     [ShowInInspector]
     Pather pathToFollow = null;
@@ -194,6 +198,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     protected virtual void FixedUpdate()
     {
+        //Ça, c'est le truc pour les rendre moins débilos
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * frontalDetectionSight;
+        Debug.DrawRay(transform.position, forward, Color.blue);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, forward, out hit, frontalDetectionSight, maskOfWall))
+        {
+            Debug.Log("Y'a un truc Roger");
+        }
+
 
         //Check for airbone and makes it spin if in the air
         if (isAirbone)
@@ -225,13 +238,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (isChasingTarget && target != null)
                 {
                     v3VariancePoisitionFollow = target.position;
-
                 }
 
                 //TODO : Follow the path
                 Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
 
                 rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+
+                //Rotation
+                Quaternion lookDirection = Quaternion.LookRotation(new Vector3(currentFollow.position.x, transform.position.y, currentFollow.position.z) - transform.position);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
 
 
                 if (!isChasingTarget && pathToFollow != null)
@@ -260,7 +277,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         }
 
                     }
-                    
+                    //Debug.Log("rotate");
+
                 }
                 if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
                 {
