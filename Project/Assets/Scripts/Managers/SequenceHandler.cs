@@ -233,7 +233,6 @@ public class SequenceHandler : MonoBehaviour
         
         if(isForced) CameraHandler.Instance.ResyncCamera();
         CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.speedTransition);
-        CameraHandler.Instance.bFeedbckActivated = currentSequence.enableCamFeedback;
         
         if (currentSequence.hasEventOnEnd)
         {
