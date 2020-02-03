@@ -6,6 +6,20 @@ using System.IO;
 
 public static class TriggerUtil
 {
+    //SEQUENCE
+    public static void TriggerSequence(float timeBeforeStart)
+    {
+        Main.Instance.StartCoroutine(TriggerBooleanSequenceCoroutine(timeBeforeStart));
+    }
+
+    static IEnumerator TriggerBooleanSequenceCoroutine(float timeBeforeStart)
+    {
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
+
+        SequenceHandler.Instance.NextSequence();
+
+        yield break;
+    }
 
     //SPAWNERS
     public static void TriggerSpawners(float timeBeforeStart, Spawner[] spawners)
