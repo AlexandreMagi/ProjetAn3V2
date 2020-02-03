@@ -25,6 +25,16 @@ public class DataSequence : ScriptableObject
 
     public string animToPlay = "";
 
+    public Transform lookAtObject = null;
+    [ShowIf("lookAtObject", null)]
+    public float transitionToTime = 1;
+    [ShowIf("lookAtObject", null)]
+    public float transitionBackTime = 1;
+    [ShowIf("lookAtObject", null)]
+    public float lookAtTime = 1;
+    [ShowIf("lookAtObject", null)]
+    public bool cutLookAtOnEndOfSequence = false;
+
     //BOOLEAN SEQUENCES
     public bool isAffectedByBooleanSequence;
 
@@ -90,7 +100,7 @@ public class DataSequence : ScriptableObject
     [Header("Camera")]
     public bool enableCamFeedback = true;
     public bool enableCamTransition = false;
-    public float speedTransition = 2;
+    public float transitionTime = 2;
 
 
     public enum SequenceType
