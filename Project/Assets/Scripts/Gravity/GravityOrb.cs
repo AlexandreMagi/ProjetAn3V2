@@ -31,7 +31,7 @@ public class GravityOrb : MonoBehaviour
     public bool OnSpawning(Vector2 mousePosition)
     {
         hasHitSomething = false;
-        MainCam = CameraHandler.Instance.RenderingCam.GetComponent<Camera>();
+        MainCam = CameraHandler.Instance.renderingCam;
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 

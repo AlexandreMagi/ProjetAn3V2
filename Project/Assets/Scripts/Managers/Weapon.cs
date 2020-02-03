@@ -78,8 +78,8 @@ public class Weapon : MonoBehaviour
         if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
 
         var v3 = Input.mousePosition + Vector3.forward * 10; 
-        v3 = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().ScreenToWorldPoint(v3);
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.RenderingCam.transform.position, 360, 0.0f);
+        v3 = CameraHandler.Instance.renderingCam.ScreenToWorldPoint(v3);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.renderingCam.transform.position, 360, 0.0f);
         weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
 
     }
@@ -125,7 +125,7 @@ public class Weapon : MonoBehaviour
             else
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
-                CameraHandler.Instance.AddRecoil(weapon.reloadingMissTryRecoil);
+                CameraHandler.Instance.AddRecoil(false, weapon.reloadingMissTryRecoil);
             }
         }
     }
@@ -143,8 +143,8 @@ public class Weapon : MonoBehaviour
             if(SequenceHandler.Instance != null && SequenceHandler.Instance.IsCurrentSequenceOnAction())
             {
                 TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
-                CameraHandler.Instance.AddRecoil(weapon.reloadingPerfectRecoil);
-                CameraHandler.Instance.AddFovRecoil(weapon.reloadingPerfectRecoil);
+                CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil);
+                CameraHandler.Instance.AddRecoil(true,weapon.reloadingPerfectRecoil);
             }
             
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload);
@@ -214,11 +214,11 @@ public class Weapon : MonoBehaviour
 
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
-                GameObject mainCam = CameraHandler.Instance.RenderingCam;
+                Camera mainCam = CameraHandler.Instance.renderingCam;
                 Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
-                Ray rayBullet = mainCam.GetComponent<Camera>().ScreenPointToRay(mousePosition);
+                Ray rayBullet =mainCam.ScreenPointToRay(mousePosition);
 
 
                 Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
@@ -255,8 +255,8 @@ public class Weapon : MonoBehaviour
             }
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
             UiReload.Instance.PlayerShot();
-            CameraHandler.Instance.AddRecoil(weaponMod.recoilPerShot);
-            CameraHandler.Instance.AddFovRecoil(weaponMod.recoilPerShot);
+            CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot);
+            CameraHandler.Instance.AddRecoil(true,weaponMod.recoilPerShot);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
@@ -266,7 +266,7 @@ public class Weapon : MonoBehaviour
         else
         {
             CameraHandler.Instance.AddShake(weapon.shakeIfNoBullet);
-            CameraHandler.Instance.AddRecoil(weapon.recoilIfNoBullet);
+            CameraHandler.Instance.AddRecoil(false, weapon.recoilIfNoBullet);
         }
     }
 

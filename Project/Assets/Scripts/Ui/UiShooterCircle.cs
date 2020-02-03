@@ -25,7 +25,7 @@ public class UiShooterCircle : MonoBehaviour
     Camera RenderCamera;
     private void Start()
     {
-        RenderCamera = CameraHandler.Instance.RenderingCam.GetComponent<Camera>();
+        RenderCamera = CameraHandler.Instance.renderingCam;
     }
 
     public GameObject CreateShooterCircle (GameObject obj)

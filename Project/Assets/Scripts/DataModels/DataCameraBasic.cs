@@ -56,4 +56,12 @@ public class DataCameraBasic : ScriptableObject
     public float frequencyDeccel = 0.02f;
     [PropertyRange(0.1f, 0.9f)]
     public float stepSoundPlay = 0.7f;
+
+    [Header("Cam Dummy Parameters")]
+    public float distanceBetweenDummy = 5;
+    public float speedRotFollow = 5;
+    public float speedPosFollow = 5;
+
+    [Header("Others")]
+    public bool independentFromTimeScale = true;
 }

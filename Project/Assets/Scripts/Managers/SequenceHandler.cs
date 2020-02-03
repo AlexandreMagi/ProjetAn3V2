@@ -130,7 +130,7 @@ public class SequenceHandler : MonoBehaviour
         if (currentVirtualCamera == null)
         {
             if (CameraHandler.Instance != null)
-                currentVirtualCamera = CameraHandler.Instance.CamDummy.GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
+                currentVirtualCamera = CameraHandler.Instance.cinemachineCam.GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
             else
                 currentVirtualCamera = GameObject.Find("Main Camera").GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
 
@@ -153,7 +153,7 @@ public class SequenceHandler : MonoBehaviour
             {
                 //DECLENCHEMENT DU FEEDBACK DE CAM
                 if (CameraHandler.Instance != null)
-                    CameraHandler.Instance.ChangeSpeedMoving(0, 100);
+                    CameraHandler.Instance.UpdateCamSteps(0, 100);
 
                 /*
                 C_Charger[] _Chargeurs = GameObject.FindObjectsOfType<C_Charger>();
@@ -226,13 +226,13 @@ public class SequenceHandler : MonoBehaviour
     /// <summary>
     /// Passes to the next sequence. Does nothing is no sequence is left
     /// </summary>
-    public void NextSequence()
+    public void NextSequence(bool isForced = false)
     {
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
 
-        CameraHandler.Instance.ResyncCam();
-        CameraHandler.Instance.bFeedbckActivated = currentSequence.enableCamFeedback;
-        CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamTransition, currentSequence.speedTransition);
+        
+        if(isForced) CameraHandler.Instance.ResyncCamera();
+        CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.speedTransition);
         
         if (currentSequence.hasEventOnEnd)
         {
@@ -328,7 +328,7 @@ public class SequenceHandler : MonoBehaviour
             
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
-                CameraHandler.Instance.ChangeSpeedMoving(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
+                CameraHandler.Instance.UpdateCamSteps(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
             
             if (currentSequence.animToPlay != "")
             {

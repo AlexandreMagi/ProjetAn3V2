@@ -67,7 +67,7 @@ public class Main : MonoBehaviour
         }
 
         //CAM
-        CameraHandler.Instance.DecalCurrentCamRotation(Input.mousePosition);
+        CameraHandler.Instance.DecalCamWithCursor(Input.mousePosition);
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -88,7 +88,7 @@ public class Main : MonoBehaviour
         //DEBUG
         if (Input.GetKeyDown(KeyCode.N))
         {
-            SequenceHandler.Instance.NextSequence();
+            SequenceHandler.Instance.NextSequence(true);
         }
 
         if (Input.GetKeyDown(KeyCode.Y))
@@ -191,7 +191,7 @@ public class Main : MonoBehaviour
 
         if(timeLeftForRaycastCursor <= timeTickCursor)
         {
-            Ray cursorRay = CameraHandler.Instance.RenderingCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
             
