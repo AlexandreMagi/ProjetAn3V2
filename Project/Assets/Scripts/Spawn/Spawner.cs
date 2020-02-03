@@ -129,7 +129,7 @@ public class Spawner : MonoBehaviour
                 spawnedEnemy.transform.position = transform.position;
             }
 
-            Debug.Log(pathsToGive.Count);
+            //Debug.Log(pathsToGive.Count);
 
             if (isPathedSpawner && pathsToGive.Count > 0)
             {
