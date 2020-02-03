@@ -64,7 +64,7 @@ public class ShootgunTriggerShoot : MonoBehaviour
     {
         yield return new WaitForSeconds(timerBeforeNextSequence);
 
-        FindObjectOfType<SequenceHandler>().NextSequence();
+        SequenceHandler.Instance.NextSequence();
 
         yield break;
     }

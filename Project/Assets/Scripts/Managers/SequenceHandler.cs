@@ -186,7 +186,7 @@ public class SequenceHandler : MonoBehaviour
                 {
                     if (enemiesKilled >= currentSequence.enemiesToKillInSequence)
                     {
-                        Invoke("NextSequence", currentSequence.timeBeforeNextSequenceOnKills);
+                        TriggerUtil.TriggerSequence(currentSequence.timeBeforeNextSequenceOnKills);
                         isWaitingTimer = true;
                     }
                 }
