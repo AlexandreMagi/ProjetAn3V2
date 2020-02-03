@@ -231,8 +231,11 @@ public class SequenceHandler : MonoBehaviour
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
 
         
-        if(isForced) CameraHandler.Instance.ResyncCamera();
-        CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.speedTransition);
+        if (CameraHandler.Instance != null)
+        {
+            if (isForced) CameraHandler.Instance.ResyncCamera(true);
+            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.speedTransition);
+        }
         
         if (currentSequence.hasEventOnEnd)
         {
@@ -329,6 +332,9 @@ public class SequenceHandler : MonoBehaviour
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
                 CameraHandler.Instance.UpdateCamSteps(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
+            //DECLENCHEMENT DU FEEDBACK DE CAM
+            if (CameraHandlerOld.Instance != null)
+                CameraHandlerOld.Instance.ChangeSpeedMoving (Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
             
             if (currentSequence.animToPlay != "")
             {

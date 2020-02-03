@@ -143,8 +143,7 @@ public class Weapon : MonoBehaviour
             if(SequenceHandler.Instance != null && SequenceHandler.Instance.IsCurrentSequenceOnAction())
             {
                 TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
-                CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil);
-                CameraHandler.Instance.AddRecoil(true,weapon.reloadingPerfectRecoil);
+                CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil, true);
             }
             
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload);
@@ -255,8 +254,7 @@ public class Weapon : MonoBehaviour
             }
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
             UiReload.Instance.PlayerShot();
-            CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot);
-            CameraHandler.Instance.AddRecoil(true,weaponMod.recoilPerShot);
+            CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot, true);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
