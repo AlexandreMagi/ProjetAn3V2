@@ -381,6 +381,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -400,7 +405,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
 --- !u!1 &339822164
 GameObject:
   m_ObjectHideFlags: 3
@@ -556,6 +561,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -575,7 +585,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 0.5
 --- !u!4 &399868980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7584541180804375022, guid: b2eaf840aec546e4c90ab469ed34be5d,
@@ -1605,6 +1615,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 2074334963}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 5
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -1624,7 +1639,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 0.5
 --- !u!1 &953921961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,6 +2128,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -2132,7 +2152,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
 --- !u!1 &1340428240
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,15 +2452,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411422404}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.53, y: 0.57, z: 16.39}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.74735355, y: -1.3608801, z: 15.392069}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 829628550}
   - {fileID: 953921962}
   - {fileID: 2070715637}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 1539137069}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1437300310 stripped
 RectTransform:
@@ -2612,6 +2632,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1437300310}
+  - {fileID: 1411422406}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2881,6 +2902,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -2900,7 +2926,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
 --- !u!1 &1764763828
 GameObject:
   m_ObjectHideFlags: 0
@@ -3030,6 +3056,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -3049,7 +3080,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
 --- !u!114 &1867869975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3069,6 +3100,11 @@ MonoBehaviour:
   cutsSlowMoOnEnd: 0
   modifierFrequenceCamStep: 1
   animToPlay: 
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -3088,7 +3124,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
 --- !u!1 &1918818623
 GameObject:
   m_ObjectHideFlags: 0
@@ -8257,6 +8293,99 @@ Transform:
   m_Father: {fileID: 1411422406}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2074334959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2074334963}
+  - component: {fileID: 2074334962}
+  - component: {fileID: 2074334961}
+  - component: {fileID: 2074334960}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &2074334960
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074334959}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2074334961
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074334959}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &2074334962
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074334959}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2074334963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074334959}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2127986935
 GameObject:
   m_ObjectHideFlags: 0
@@ -8586,6 +8715,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1540320443377804339, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: TESTLOOKAT
+      value: 
+      objectReference: {fileID: 2074334963}
     - target: {fileID: 2126226365726663012, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
       propertyPath: m_RootOrder
