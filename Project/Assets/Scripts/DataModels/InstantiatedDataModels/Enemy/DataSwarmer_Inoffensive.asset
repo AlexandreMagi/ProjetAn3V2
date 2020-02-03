@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59aa3f4ee2e01424c8058c7073148766, type: 3}
   m_Name: DataSwarmer_Inoffensive
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  startHealth: 20
+  maxHealth: 1
+  startHealth: 1
   team: 1
   spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
     type: 2}
@@ -26,10 +26,10 @@ MonoBehaviour:
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
-  varianceInPath: 30
+  varianceInPath: 0
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.6
-  speed: 0
+  speed: 160
   damage: 10
   upScale: 10
   distanceToTargetEnemy: 0
