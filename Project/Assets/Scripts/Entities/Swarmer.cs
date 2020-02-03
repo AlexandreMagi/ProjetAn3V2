@@ -11,8 +11,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     float elapsedTime = 0;
     float timerWait = 0;
 
-    //AI
-    float frontalDetectionSight = 2;
+    float jumpElapsedTime = 0;
+    bool isGettingOutOfObstacle = false;
+    bool isOutStepTwo = false;
+    Vector3 obstacleDodgePoint = Vector3.zero;
+    Vector3 oldForwardVector = Vector3.zero;
+
     [SerializeField]
     LayerMask maskOfWall;
 
@@ -198,15 +202,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     protected virtual void FixedUpdate()
     {
-        //Ça, c'est le truc pour les rendre moins débilos
-        Vector3 forward = transform.TransformDirection(Vector3.forward) * frontalDetectionSight;
-        Debug.DrawRay(transform.position, forward, Color.blue);
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, forward, out hit, frontalDetectionSight, maskOfWall))
+       
+        if(jumpElapsedTime > 0)
         {
-            Debug.Log("Y'a un truc Roger");
-        }
+            jumpElapsedTime -= Time.fixedDeltaTime;
 
+            if(jumpElapsedTime <= 0)
+            {
+                jumpElapsedTime = 0;
+            }
+        }
 
         //Check for airbone and makes it spin if in the air
         if (isAirbone)
@@ -227,101 +232,220 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
 
         }
-
-
-        //Pathfinding
-        if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
+        else
         {
+            //Ça, c'est le truc pour les rendre moins débilos
+            //------------- JUMP OBSTACLES
+            Vector3 forward = transform.TransformDirection(Vector3.forward) * entityData.frontalDetectionSight;
+            Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
+            Debug.DrawRay(adaptedPosition, forward, Color.blue);
+            //Angle of ray compared to point of path
+            float angle = 90;
+            if(currentFollow)
+                angle = Vector3.Angle(forward, currentFollow.position - transform.position);
 
-            if (nState == State.Basic)
+            //Vérification frontale. Seulement valide si c'est "relativement" dans la direction où le mob veut aller.
+            if (Physics.Raycast(adaptedPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall) && angle <= 10)
             {
-                if (isChasingTarget && target != null)
-                {
-                    v3VariancePoisitionFollow = target.position;
+
+                Debug.DrawRay(adaptedPosition, Vector3.up, Color.green);
+                Debug.DrawRay(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, Color.red);
+
+                //Vérification de la possibilité du saut
+                if (
+                    !Physics.Raycast(adaptedPosition, Vector3.up, out _, entityData.jumpHeight, maskOfWall) &&
+                    !Physics.Raycast(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, out _, entityData.jumpHeight+1, maskOfWall) &&
+                    jumpElapsedTime == 0
+                   )
+                { 
+                    jumpElapsedTime = entityData.jumpCooldownInitial;
+                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
+                    Debug.Log("jump");
                 }
-
-                //TODO : Follow the path
-                Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
-
-                rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
-
-                //Rotation
-                Quaternion lookDirection = Quaternion.LookRotation(new Vector3(currentFollow.position.x, transform.position.y, currentFollow.position.z) - transform.position);
-
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
-
-
-                if (!isChasingTarget && pathToFollow != null)
+                //Si saut impossible, lancement de la manoeuvre d'évitement d'obstacle
+                else
                 {
-                    if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.distanceBeforeNextPath)
+                    if (!isGettingOutOfObstacle)
                     {
-                        currentFollow = pathToFollow.GetPathAt(pathID++);
-                        if (currentFollow == null) pathID--;
-
-                        if (currentFollow != null && currentFollow != target)
+                        //CANNOT JUMP, MUST DODGE OBSTACLE
+                        bool hasFoundExit = false;
+                        float currentStep = 1;
+                        bool isRightSide = false;
+                        
+                        //Rightward tries
+                        for (int i = 1; i < entityData.numberOfSideTries + 1; i++)
                         {
-                            //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
-                            //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
+                            Vector3 rayInitialPosition = adaptedPosition + transform.TransformDirection(Vector3.right) * i * entityData.tryStep;
+                            Debug.DrawRay(rayInitialPosition, forward, Color.cyan);
 
-                            v3VariancePoisitionFollow = new Vector3(
-                                currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
-                                currentFollow.position.y,
-                                currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
-                            );
+                            if (!Physics.Raycast(rayInitialPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall))
+                            {
+                                currentStep = i;
+                                isRightSide = true;
+                                hasFoundExit = true;
 
-                            //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
+                                break;
+                            }
+
                         }
-                        else
+
+                        //Leftward tries
+                        if (!hasFoundExit)
                         {
-                            currentFollow = target;
+                            for (int i = 1; i < entityData.numberOfSideTries + 1; i++)
+                            {
+                                Vector3 rayInitialPosition = adaptedPosition + transform.TransformDirection(Vector3.left) * i * entityData.tryStep;
+                                Debug.DrawRay(rayInitialPosition, forward, Color.cyan);
+
+                                if (!Physics.Raycast(rayInitialPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall))
+                                {
+                                    currentStep = i;
+                                    hasFoundExit = true;
+                                   
+                                    break;
+                                }
+
+                            }
                         }
 
-                    }
-                    //Debug.Log("rotate");
-
-                }
-                if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
-                {
-                    nState = State.Waiting;
-                    rbBody.velocity = Vector3.zero;
-                    //GetComponent<Animator>().SetTrigger("PrepareToJump");
-                }
-            }
-            else if (nState == State.Waiting)
-            {
-                timerWait += Time.deltaTime;
-                if (timerWait > entityData.waitDuration)
-                {
-                    timerWait = 0;
-                    if (target != null && CheckDistance())
-                    {
-                        nState = State.Attacking;
-                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
-                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
-                        rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
-                        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
-                    }
-                    else
-                        nState = State.Basic;
-
-                }
-            }
-            else if (nState == State.Attacking)
-            {
-                //TODO : Follow the path
-                if (target != null)
-                {
-                    Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
-                    rbBody.AddForce(direction * entityData.speed * entityData.speedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
-                    if (!CheckDistance())
-                    {
-                        nState = State.Basic;
-                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
-                        //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                        if (hasFoundExit)
+                        {
+                            //DO MOVE
+                            Debug.Log("Out trouvé");
+                            isOutStepTwo = false;
+                            oldForwardVector = forward;
+                            isGettingOutOfObstacle = true;
+                            obstacleDodgePoint = adaptedPosition + transform.TransformDirection(isRightSide ? Vector3.right : Vector3.left) * currentStep * entityData.tryStep;
+                        }
                     }
                 }
             }
         }
+
+        if (isGettingOutOfObstacle)
+        {
+            //Movement
+            Vector3 direction = (new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position).normalized;
+            rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+
+            //Rotation
+            Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
+
+            if(Vector3.Distance(transform.position, obstacleDodgePoint) <= .7f)
+            {
+                if (isOutStepTwo)
+                {
+                    isGettingOutOfObstacle = false;
+                    isOutStepTwo = false;
+                    Debug.Log("End of dodge step");
+                }
+                else
+                {
+                    obstacleDodgePoint += oldForwardVector;
+                    isOutStepTwo = true;
+                    Debug.Log("Step two");
+                }
+                
+            }
+        }
+        else { 
+            //Pathfinding
+            if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
+            {
+
+                if (nState == State.Basic)
+                {
+                    if (isChasingTarget && target != null)
+                    {
+                        v3VariancePoisitionFollow = target.position;
+                    }
+
+                    //TODO : Follow the path
+                    Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
+
+                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+
+                    //Rotation
+                    Quaternion lookDirection = Quaternion.LookRotation(new Vector3(currentFollow.position.x, transform.position.y, currentFollow.position.z) - transform.position);
+
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
+
+
+                    if (!isChasingTarget && pathToFollow != null)
+                    {
+                        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.distanceBeforeNextPath)
+                        {
+                            currentFollow = pathToFollow.GetPathAt(pathID++);
+                            if (currentFollow == null) pathID--;
+
+                            if (currentFollow != null && currentFollow != target)
+                            {
+                                //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
+                                //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
+
+                                v3VariancePoisitionFollow = new Vector3(
+                                    currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
+                                    currentFollow.position.y,
+                                    currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
+                                );
+
+                                //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
+                            }
+                            else
+                            {
+                                currentFollow = target;
+                            }
+
+                        }
+                        //Debug.Log("rotate");
+
+                    }
+                    if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
+                    {
+                        nState = State.Waiting;
+                        rbBody.velocity = Vector3.zero;
+                        //GetComponent<Animator>().SetTrigger("PrepareToJump");
+                    }
+                }
+                else if (nState == State.Waiting)
+                {
+                    timerWait += Time.deltaTime;
+                    if (timerWait > entityData.waitDuration)
+                    {
+                        timerWait = 0;
+                        if (target != null && CheckDistance())
+                        {
+                            nState = State.Attacking;
+                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
+                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
+                            rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
+                            //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
+                        }
+                        else
+                            nState = State.Basic;
+
+                    }
+                }
+                else if (nState == State.Attacking)
+                {
+                    //TODO : Follow the path
+                    if (target != null)
+                    {
+                        Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
+                        rbBody.AddForce(direction * entityData.speed * entityData.speedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+                        if (!CheckDistance())
+                        {
+                            nState = State.Basic;
+                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                        }
+                    }
+                }
+            }
+        }
+
+        
     }
 
     bool CheckDistance()
