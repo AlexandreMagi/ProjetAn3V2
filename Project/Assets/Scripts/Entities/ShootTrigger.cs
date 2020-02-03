@@ -16,9 +16,12 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     //[SerializeField]
     //float soundVolume = 1;
 
+    Collider thisCollider = null;
+
     protected override void Start()
     {
         parentManager = this.transform.GetComponentInParent<ShootTriggerManager>();
+        thisCollider = GetComponent<Collider>();
     }
 
 
@@ -35,7 +38,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
                 parentManager.OnEventSent();
 
             GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<BoxCollider>().enabled = false;
+            thisCollider.enabled = false;
 
             
             if (gameObject.transform.tag == "EnvironnementTrigger")
