@@ -234,7 +234,8 @@ public class SequenceHandler : MonoBehaviour
         if (CameraHandler.Instance != null)
         {
             if (isForced) CameraHandler.Instance.ResyncCamera(true);
-            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.speedTransition);
+            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.transitionTime);
+            if (currentSequence.cutLookAtOnEndOfSequence) CameraHandler.Instance.ReleaselookAt();
         }
         
         if (currentSequence.hasEventOnEnd)
@@ -331,11 +332,10 @@ public class SequenceHandler : MonoBehaviour
             
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
-                CameraHandler.Instance.UpdateCamSteps(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
-            //DECLENCHEMENT DU FEEDBACK DE CAM
-            if (CameraHandlerOld.Instance != null)
-                CameraHandlerOld.Instance.ChangeSpeedMoving (Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence!=0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
-            
+            {
+                CameraHandler.Instance.UpdateCamSteps(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
+                if (currentSequence.lookAtObject != null) CameraHandler.Instance.CameraLookAt(currentSequence.lookAtObject, currentSequence.transitionToTime, currentSequence.transitionBackTime, currentSequence.lookAtTime);
+            }
             if (currentSequence.animToPlay != "")
             {
                 CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animationTime);

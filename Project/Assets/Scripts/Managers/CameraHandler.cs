@@ -60,7 +60,8 @@ public class CameraHandler : MonoBehaviour
 
     bool feedbackActivated = true; // Dis si les feedbacks sont activés
     bool feedbackTransition = true; // Transition smooth entre feedback et sans
-    float transitionSpeed = 0; // Vitesse de transition
+    float transitionTime = 0; // Vitesse de transition
+    float transitionPurcentage = 0; // Vitesse de transition
 
     Camera camRef = null; // Caméra ref pour les calculs
 
@@ -77,6 +78,12 @@ public class CameraHandler : MonoBehaviour
     float chargevalue = 0;
     float currentPurcentageFBCharged = 0;
     bool feedbackChargedStarted = false;
+    Transform cameraLookAt = null;
+    float timeTransitionTo = 0;
+    float timeTransitionBack = 0;
+    float timeRemainingLookAt = 0;
+    float currentPurcentageLookAt = 0;
+    Vector3 savePosLookAt = Vector3.zero;
 
     float dt = 0;
 
@@ -147,10 +154,68 @@ public class CameraHandler : MonoBehaviour
     private void Update()
     {
         dt = camData.independentFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+
+        // Fait le switch entre la caméra cinemachine et la caméra animée
+        currentCamRef = !currentCamIsCine && animatedCam.transform.position != Vector3.zero && animatedCam != null ? animatedCam : cinemachineCam;
+
+        // Init
+        camRef.transform.position = currentCamRef.transform.position;
+        camRef.transform.rotation = currentCamRef.transform.rotation;
         UpdateCamValues();
+        if (feedbackTransition)
+        {
+            if (feedbackActivated)
+            {
+                if (transitionPurcentage < 1)
+                {
+                    transitionPurcentage += Time.unscaledDeltaTime / transitionTime;
+                    if (transitionPurcentage > 1) transitionPurcentage = 1;
+                }
+            }
+            else
+            {
+                if (transitionPurcentage > 0)
+                {
+                    transitionPurcentage -= Time.unscaledDeltaTime / transitionTime;
+                    if (transitionPurcentage < 0) transitionPurcentage = 0;
+                }
+            }
+        }
+        else
+        {
+            if (feedbackActivated) transitionPurcentage = 1;
+            else transitionPurcentage = 0;
+        }
+        
+
+
+        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, transitionPurcentage);
+        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
+        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
+
         renderingCam.transform.position = camRef.transform.position;
         renderingCam.transform.rotation = camRef.transform.rotation;
-        renderingCam.fieldOfView        = camRef.fieldOfView;
+        renderingCam.fieldOfView = camRef.fieldOfView;
+
+        if (cameraLookAt != null && (cameraLookAt.gameObject ? cameraLookAt.gameObject.activeSelf : true))
+        {
+            if (currentPurcentageLookAt < 1) currentPurcentageLookAt += dt / timeTransitionTo;
+            if (currentPurcentageLookAt > 1) currentPurcentageLookAt = 1;
+            camRef.transform.LookAt(cameraLookAt, Vector3.up);
+            savePosLookAt = cameraLookAt.position;
+        }
+        else
+        {
+            if (currentPurcentageLookAt > 0) currentPurcentageLookAt -= dt / timeTransitionBack;
+            if (currentPurcentageLookAt < 0) currentPurcentageLookAt = 0;
+            camRef.transform.LookAt(savePosLookAt, Vector3.up);
+            cameraLookAt = null;
+        }
+        if (timeRemainingLookAt > 0) timeRemainingLookAt -= dt;
+        if (timeRemainingLookAt < 0) ReleaselookAt();
+        renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, camRef.transform.rotation, currentPurcentageLookAt);
+
+
     }
 
     private void UpdateCamDummyValues()
@@ -231,6 +296,7 @@ public class CameraHandler : MonoBehaviour
         float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camData.timeScaleFovImpact - Time.timeScale * camData.timeScaleFovImpact, Time.unscaledDeltaTime * camData.timeScaleFovSpeed);
         camRef.fieldOfView = camData.BaseFov + camData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + fovModifViaSpeed + fovAddedByTimeScale + recoilFovValue;
+
     }
 
     private void UpdateRecoilsValue()
@@ -263,6 +329,7 @@ public class CameraHandler : MonoBehaviour
     /// </summary>
     public void ResyncCamera(bool hardResync = false)
     {
+        CameraLookAt(null, 0, 0.001f, 0);
         renderingCam.fieldOfView = camData.BaseFov;
 
         camDelayRotDummyParent.transform.position = renderingCam.transform.position;
@@ -295,7 +362,7 @@ public class CameraHandler : MonoBehaviour
             if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
         }
     }
-    public void AddShake (float value) { shakeSource.GenerateImpulse(Vector3.up * value); }
+    public void AddShake (float value) {shakeSource.GenerateImpulse(Vector3.up * value); }
     public void AddShake (float value, Vector3 initPos)
     {
         float distance = Vector3.Distance(initPos, renderingCam.transform.position);
@@ -353,8 +420,24 @@ public class CameraHandler : MonoBehaviour
 
     #region SequencerFunctions
 
-    public void FeedbackTransition(bool enabled, bool transition, float speed) { }
-    public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1) { }
+    public void FeedbackTransition(bool enabled, bool transition, float time)
+    {
+        if (!feedbackActivated && enabled) ResyncCamera(true);
+        feedbackActivated = enabled;
+        feedbackTransition = transition;
+        if (feedbackTransition) transitionTime = time;
+    }
+    public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1)
+    {
+        cameraLookAt = camFollow;
+        timeTransitionTo = _timeTransitionTo;
+        timeTransitionBack = _timeTransitionBack;
+        timeRemainingLookAt = timerBeforeGoBack > 0 ? timerBeforeGoBack : timeRemainingLookAt;
+    }
+    public void ReleaselookAt()
+    {
+        cameraLookAt = null;
+    }
     public void UpdateCamSteps (float _frequency, float transitionSpeed = -1)
     {
         frequency = _frequency;
