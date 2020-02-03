@@ -39,8 +39,14 @@ public class SceneHandler : MonoBehaviour
     AsyncOperation async;
     IEnumerator LoadScene(string sceneName, float delay)
     {
-        Instantiate(backgroundLoading);
-        Slider loadingBarCreated = Instantiate(loadingBar);
+        Canvas[] allCanvas = GameObject.FindObjectsOfType<Canvas>();
+        for (int i = 0; i < allCanvas.Length; i++)
+        {
+            allCanvas[i].gameObject.SetActive(false);
+        }
+
+        Canvas canvasInstance = Instantiate(backgroundLoading);
+        Slider loadingBarCreated = Instantiate(loadingBar, canvasInstance.transform);
 
         yield return new WaitForSecondsRealtime(delay);
 

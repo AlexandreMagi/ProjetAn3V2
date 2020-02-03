@@ -54,8 +54,8 @@ public class DataSequence : ScriptableObject
     [ShowIf("sequenceType", SequenceType.Timer)]
     public float timeSequenceDuration;
 
-    [SerializeField]
-    public float timeBeforeStart = 0;
+    //[SerializeField]
+    //public float timeBeforeStart = 0;
 
     [ShowIf("hasEventOnEnd")]
     public SequenceEndEventType seqEvent;

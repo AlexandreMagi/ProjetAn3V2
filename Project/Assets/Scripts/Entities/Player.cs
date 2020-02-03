@@ -79,7 +79,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                     {
                         UiDamageHandler.Instance.ShieldBreak();
                         CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
-                        GameObject renderingCam = CameraHandler.Instance.RenderingCam;
+                        GameObject renderingCam = CameraHandler.Instance.renderingCam.gameObject;
                         FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
                         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
                         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnArmor);
