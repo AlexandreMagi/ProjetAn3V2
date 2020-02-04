@@ -189,7 +189,7 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
             {
                 if (currentState == ShielderState.LookingForTarget)
                 {
-                    Debug.Log("Ally to shield found !");
+                    //Debug.Log("Ally to shield found !");
                     currentState = ShielderState.FollowingTarget;
                 }
             }
@@ -210,7 +210,7 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
         {
             if (distanceToTarget <= entityData.shieldApplyRange)
             {
-                Debug.Log("In range for shield");
+                //Debug.Log("In range for shield");
                 currentState = ShielderState.CastingShield;
                 timeLeftForShieldApply = entityData.timeShieldCast;
                 mustFollowTarget = false;
@@ -245,7 +245,7 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
             currentState = ShielderState.FollowingTarget;
             transform.rotation = Quaternion.Euler(0, 0, 0);
             mustFollowTarget = false;
-            Debug.Log("Lost sight of target, following it now.");
+            //Debug.Log("Lost sight of target, following it now.");
         }
     }
      
@@ -309,7 +309,7 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
 
     private void CastShieldOnTarget()
     {
-        Debug.Log("Shield applied");
+        //Debug.Log("Shield applied");
     }
 
     private IEnumerator Dodge(Vector3 directionToFlee)
