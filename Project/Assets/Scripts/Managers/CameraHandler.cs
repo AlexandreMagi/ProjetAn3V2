@@ -27,6 +27,8 @@ public class CameraHandler : MonoBehaviour
     public Camera cinemachineCam = null;
     [Tooltip("Caméra animée via Unity")]
     public Camera animatedCam = null;
+    [Tooltip("Animator de l'animatedCam")]
+    public Animator animatorFromAnimatedCam = null;
     [Tooltip("Caméra qui va render")]
     public Camera renderingCam = null;
 
@@ -60,25 +62,38 @@ public class CameraHandler : MonoBehaviour
 
     bool feedbackActivated = true; // Dis si les feedbacks sont activés
     bool feedbackTransition = true; // Transition smooth entre feedback et sans
-    float transitionSpeed = 0; // Vitesse de transition
+    float transitionTime = 0; // Vitesse de transition
+    float transitionPurcentage = 0; // Vitesse de transition
 
     Camera camRef = null; // Caméra ref pour les calculs
 
     float fovAddedByTimeScale = 0; // Fov actuel affecté par le time scale
 
     float frequency = 0; // Vitesse actuelle du headbobing
-    float aimedFrequency = 0; // Vitesse visée
-    float frequencyTransitionSpeed = 1; // Vitesse de transition vers la vitesse visée
+    float currentFrequency = 0; // Vitesse actuelle du headbobing
     Vector2[] curveValues = new Vector2 [0]; // Stock des valeurs des curves
     bool stepSoundPlayed = false; // Dit si le son a été joué à ce pas
+    AnimationCurve currentCinemachineCurve;
+    CinemachineBlendDefinition.Style currentCinemachineStyle = CinemachineBlendDefinition.Style.Linear;
+    float timerRemainingOnThisSequence = 0;
+    float timerSequenceTotal = 0;
 
     float rotZBySpeed = 0;
 
     float chargevalue = 0;
     float currentPurcentageFBCharged = 0;
     bool feedbackChargedStarted = false;
+    Transform cameraLookAt = null;
+    float timeTransitionTo = 0;
+    float timeTransitionBack = 0;
+    float timeRemainingLookAt = 0;
+    float currentPurcentageLookAt = 0;
+    Vector3 savePosLookAt = Vector3.zero;
 
     float dt = 0;
+
+    AnimatorOverrideController animatorOverrideController;
+
 
     #endregion
 
@@ -100,6 +115,10 @@ public class CameraHandler : MonoBehaviour
 
     private void Start()
     {
+        animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
+        animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
+
+
         // Desactivation des caméra animated et cinemachine pour passer sur la render cam
         if (cinemachineCam) cinemachineCam.enabled = false;
         else Debug.LogWarning("BUG : Camera isn't setup in CameraHandler");
@@ -146,11 +165,88 @@ public class CameraHandler : MonoBehaviour
 
     private void Update()
     {
+
         dt = camData.independentFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+
+        if (timerRemainingOnThisSequence > 0) timerRemainingOnThisSequence -= Time.deltaTime;
+        if (timerRemainingOnThisSequence < 0) timerRemainingOnThisSequence  = 0;
+
+        currentFrequency = frequency;
+        if (currentCinemachineCurve != null)
+        {
+            if (currentCinemachineStyle == CinemachineBlendDefinition.Style.EaseOut)
+                currentFrequency = frequency * currentCinemachineCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal));
+            else if (currentCinemachineStyle == CinemachineBlendDefinition.Style.EaseIn)
+                currentFrequency = frequency * currentCinemachineCurve.Evaluate(timerRemainingOnThisSequence / timerSequenceTotal);
+            else if (currentCinemachineStyle == CinemachineBlendDefinition.Style.Linear)
+                currentFrequency = frequency;
+            else
+                currentFrequency = frequency * currentCinemachineCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal));
+        }
+
+        
+
+        // Fait le switch entre la caméra cinemachine et la caméra animée
+        currentCamRef = !currentCamIsCine && animatedCam.transform.position != Vector3.zero && animatedCam != null ? animatedCam : cinemachineCam;
+
+        // Init
+        camRef.transform.position = currentCamRef.transform.position;
+        camRef.transform.rotation = currentCamRef.transform.rotation;
         UpdateCamValues();
+        if (feedbackTransition)
+        {
+            if (feedbackActivated)
+            {
+                if (transitionPurcentage < 1)
+                {
+                    transitionPurcentage += Time.unscaledDeltaTime / transitionTime;
+                    if (transitionPurcentage > 1) transitionPurcentage = 1;
+                }
+            }
+            else
+            {
+                if (transitionPurcentage > 0)
+                {
+                    transitionPurcentage -= Time.unscaledDeltaTime / transitionTime;
+                    if (transitionPurcentage < 0) transitionPurcentage = 0;
+                }
+            }
+        }
+        else
+        {
+            if (feedbackActivated) transitionPurcentage = 1;
+            else transitionPurcentage = 0;
+        }
+        
+
+
+        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, transitionPurcentage);
+        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
+        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
+
         renderingCam.transform.position = camRef.transform.position;
         renderingCam.transform.rotation = camRef.transform.rotation;
-        renderingCam.fieldOfView        = camRef.fieldOfView;
+        renderingCam.fieldOfView = camRef.fieldOfView;
+
+        if (cameraLookAt != null && (cameraLookAt.gameObject ? cameraLookAt.gameObject.activeSelf : true))
+        {
+            if (currentPurcentageLookAt < 1) currentPurcentageLookAt += dt / timeTransitionTo;
+            if (currentPurcentageLookAt > 1) currentPurcentageLookAt = 1;
+            camRef.transform.LookAt(cameraLookAt, Vector3.up);
+            savePosLookAt = cameraLookAt.position;
+        }
+        else
+        {
+            if (currentPurcentageLookAt > 0) currentPurcentageLookAt -= dt / timeTransitionBack;
+            if (currentPurcentageLookAt < 0) currentPurcentageLookAt = 0;
+            camRef.transform.LookAt(savePosLookAt, Vector3.up);
+            cameraLookAt = null;
+        }
+        if (timeRemainingLookAt > 0) timeRemainingLookAt -= dt;
+        if (timeRemainingLookAt < 0) ReleaselookAt();
+        renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, camRef.transform.rotation, currentPurcentageLookAt);
+
+
     }
 
     private void UpdateCamDummyValues()
@@ -171,7 +267,7 @@ public class CameraHandler : MonoBehaviour
         }
         for (int i = 0; i < curveValues.Length; i++)
         {
-            curveValues[i].x += dt * camData.CurvesAndValues[i].SpeedMultiplier * frequency; // Purcentage
+            curveValues[i].x += dt * camData.CurvesAndValues[i].SpeedMultiplier * currentFrequency; // Purcentage
             if (curveValues[i].x > 1)
             {
                 if (i == 0) stepSoundPlayed = false;
@@ -227,10 +323,11 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Rotate(0, cursorRotateValue.y, 0, Space.World); // Rotation de la cam selon le placement du curseur (en Y)
         camRef.transform.Rotate(cursorRotateValue.x, 0, 0, Space.Self); // Rotation de la cam selon le placement du curseur (en X)
 
-        fovModifViaSpeed = Mathf.Lerp(fovModifViaSpeed, frequency * camData.fovMultiplier, dt * camData.fovSpeed);
+        fovModifViaSpeed = Mathf.Lerp(fovModifViaSpeed, currentFrequency * camData.fovMultiplier, dt * camData.fovSpeed);
         float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camData.timeScaleFovImpact - Time.timeScale * camData.timeScaleFovImpact, Time.unscaledDeltaTime * camData.timeScaleFovSpeed);
         camRef.fieldOfView = camData.BaseFov + camData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + fovModifViaSpeed + fovAddedByTimeScale + recoilFovValue;
+
     }
 
     private void UpdateRecoilsValue()
@@ -263,6 +360,7 @@ public class CameraHandler : MonoBehaviour
     /// </summary>
     public void ResyncCamera(bool hardResync = false)
     {
+        CameraLookAt(null, 0, 0.001f, 0);
         renderingCam.fieldOfView = camData.BaseFov;
 
         camDelayRotDummyParent.transform.position = renderingCam.transform.position;
@@ -295,7 +393,7 @@ public class CameraHandler : MonoBehaviour
             if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
         }
     }
-    public void AddShake (float value) { shakeSource.GenerateImpulse(Vector3.up * value); }
+    public void AddShake (float value) {shakeSource.GenerateImpulse(Vector3.up * value); }
     public void AddShake (float value, Vector3 initPos)
     {
         float distance = Vector3.Distance(initPos, renderingCam.transform.position);
@@ -353,18 +451,46 @@ public class CameraHandler : MonoBehaviour
 
     #region SequencerFunctions
 
-    public void FeedbackTransition(bool enabled, bool transition, float speed) { }
-    public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1) { }
-    public void UpdateCamSteps (float _frequency, float transitionSpeed = -1)
+    public void FeedbackTransition(bool enabled, bool transition, float time)
+    {
+        if (!feedbackActivated && enabled) ResyncCamera(true);
+        feedbackActivated = enabled;
+        feedbackTransition = transition;
+        if (feedbackTransition) transitionTime = time;
+    }
+    public void SetCurrentAnimCurve(CinemachineBlendDefinition animBlend)
+    {
+        currentCinemachineStyle = animBlend.m_Style;
+        currentCinemachineCurve = animBlend.BlendCurve;
+    }
+    public void SetCurrentAnimCurveModified(AnimationCurve customCurve)
+    {
+        currentCinemachineStyle = CinemachineBlendDefinition.Style.Custom;
+        currentCinemachineCurve = customCurve;
+    }
+    public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1)
+    {
+        cameraLookAt = camFollow;
+        timeTransitionTo = _timeTransitionTo;
+        timeTransitionBack = _timeTransitionBack;
+        timeRemainingLookAt = timerBeforeGoBack > 0 ? timerBeforeGoBack : timeRemainingLookAt;
+    }
+    public void ReleaselookAt()
+    {
+        cameraLookAt = null;
+    }
+    public void UpdateCamSteps (float _frequency, float timeSequence)
     {
         frequency = _frequency;
-        if (transitionSpeed > 0)
-            frequencyTransitionSpeed = transitionSpeed;
+        currentFrequency = _frequency;
+        timerRemainingOnThisSequence = timeSequence;
+        timerSequenceTotal = timeSequence;
     }
-    public void TriggerAnim (string animName, float animDuration)
+    public void TriggerAnim (AnimationClip animName, float animDuration)
     {
+        animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animName;
         currentCamIsCine = false;
-        animatedCam.GetComponent<Animator>().SetTrigger(animName);
+        animatedCam.GetComponent<Animator>().SetTrigger("trigger");
         timerOnAnimatedCam = animDuration;
     }
 

@@ -21,9 +21,28 @@ public class DataSequence : ScriptableObject
 
     public bool cutsSlowMoOnEnd;
 
+    [Header("Steps")]
+    public bool modifySteps = false;
+    [ShowIf("modifySteps")]
     public float modifierFrequenceCamStep = 1;
+    [ShowIf("modifySteps")]
+    public bool modifyStepsCurve = false;
+    [ShowIf("modifySteps"), ShowIf("modifyStepsCurve")]
+    public AnimationCurve modifiedStepCurve = null;
 
-    public string animToPlay = "";
+    [Header("Animated Cam")]
+    public AnimationClip animToPlay = null;
+
+    [Header("Look At")]
+    public Transform lookAtObject = null;
+    [ShowIf("lookAtObject", null)]
+    public float transitionToTime = 1;
+    [ShowIf("lookAtObject", null)]
+    public float transitionBackTime = 1;
+    [ShowIf("lookAtObject", null)]
+    public float lookAtTime = 1;
+    [ShowIf("lookAtObject", null)]
+    public bool cutLookAtOnEndOfSequence = false;
 
     //BOOLEAN SEQUENCES
     public bool isAffectedByBooleanSequence;
@@ -90,7 +109,7 @@ public class DataSequence : ScriptableObject
     [Header("Camera")]
     public bool enableCamFeedback = true;
     public bool enableCamTransition = false;
-    public float speedTransition = 2;
+    public float transitionTime = 2;
 
 
     public enum SequenceType

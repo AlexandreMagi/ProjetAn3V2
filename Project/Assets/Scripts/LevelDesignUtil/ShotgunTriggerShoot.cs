@@ -7,10 +7,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootgunTriggerShoot : MonoBehaviour
+public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 {
 
-    bool canStartCoroutine = true;
     [SerializeField]
     string soundPlayed = "";
     [SerializeField]
@@ -19,38 +18,13 @@ public class ShootgunTriggerShoot : MonoBehaviour
     float delay = 0;
 
     [SerializeField]
+    float forceApplied = 200;
+    [SerializeField]
     float timerBeforeNextSequence = 0.5f;
 
-    bool bSoundPlayed = false;
+    bool IsSoundPlayed = false;
 
-    public void OnAnimDetection()
-    {
-        Destroy(GetComponent<Animator>());
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        rb.isKinematic = false;
-
-        rb.AddForce(new Vector3(200, 0, 0));
-
-        if (!bSoundPlayed)
-        {
-            bSoundPlayed = true;
-            Invoke("PlaySound", delay);
-        }
-
-        if (canStartCoroutine)
-            StartCoroutine(TimerBeforeNextSequence()); canStartCoroutine = false;
-
-    }
-
-    public void OnAnimDetectionBase()
-    {
-        Animator anim = GetComponent<Animator>();
-        if (anim != null)
-            anim.SetTrigger("MakeAction");
-    }
-
+    bool callNextSequence = false;
 
     void PlaySound()
     {
@@ -60,12 +34,49 @@ public class ShootgunTriggerShoot : MonoBehaviour
         }
     }
 
-    IEnumerator TimerBeforeNextSequence()
+    void resetNextSequence()
     {
-        yield return new WaitForSeconds(timerBeforeNextSequence);
+        callNextSequence = false;
+    }
 
-        SequenceHandler.Instance.NextSequence();
+    public void OnHit(DataWeaponMod mod, Vector3 position)
+    {
 
-        yield break;
+    }
+
+    public void OnHitShotGun()
+    {
+        Destroy(GetComponent<Animator>());
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        rb.isKinematic = false;
+
+        rb.AddForce(new Vector3(forceApplied, 0, 0));
+
+        if (!IsSoundPlayed)
+        {
+            IsSoundPlayed = true;
+            Invoke("PlaySound", delay);
+        }
+
+        if (!callNextSequence)
+        {
+            TriggerUtil.TriggerSequence(timerBeforeNextSequence);
+            Invoke("resetNextSequence", 2f);
+            callNextSequence = true;
+        }  
+    }
+
+    public void OnHitSingleShot()
+    {
+        Animator anim = GetComponent<Animator>();
+        if (anim != null)
+            anim.SetTrigger("MakeAction");
+    }
+
+    public void OnBulletClose()
+    {
+        
     }
 }

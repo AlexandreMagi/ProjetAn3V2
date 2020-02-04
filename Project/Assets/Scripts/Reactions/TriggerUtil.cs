@@ -119,6 +119,7 @@ public static class TriggerUtil
 
         if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos);
         else CameraHandler.Instance.AddShake(shakeForce);
+
         yield break;
     }
 

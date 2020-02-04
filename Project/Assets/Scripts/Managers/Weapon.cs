@@ -205,6 +205,7 @@ public class Weapon : MonoBehaviour
     {
         if (bulletRemaining > 0)
         {
+            Debug.Log("Alex pu");
             if(weaponMod == weapon.chargedShot)
             {
                 shotGunHasHit = false;
@@ -231,6 +232,8 @@ public class Weapon : MonoBehaviour
                 {
                     FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
+
+
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                     {
