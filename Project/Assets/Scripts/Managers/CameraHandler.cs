@@ -27,6 +27,8 @@ public class CameraHandler : MonoBehaviour
     public Camera cinemachineCam = null;
     [Tooltip("Caméra animée via Unity")]
     public Camera animatedCam = null;
+    [Tooltip("Animator de l'animatedCam")]
+    public Animator animatorFromAnimatedCam = null;
     [Tooltip("Caméra qui va render")]
     public Camera renderingCam = null;
 
@@ -68,10 +70,13 @@ public class CameraHandler : MonoBehaviour
     float fovAddedByTimeScale = 0; // Fov actuel affecté par le time scale
 
     float frequency = 0; // Vitesse actuelle du headbobing
-    float aimedFrequency = 0; // Vitesse visée
-    float frequencyTransitionSpeed = 1; // Vitesse de transition vers la vitesse visée
+    float currentFrequency = 0; // Vitesse actuelle du headbobing
     Vector2[] curveValues = new Vector2 [0]; // Stock des valeurs des curves
     bool stepSoundPlayed = false; // Dit si le son a été joué à ce pas
+    AnimationCurve currentCinemachineCurve;
+    CinemachineBlendDefinition.Style currentCinemachineStyle = CinemachineBlendDefinition.Style.Linear;
+    float timerRemainingOnThisSequence = 0;
+    float timerSequenceTotal = 0;
 
     float rotZBySpeed = 0;
 
@@ -86,6 +91,9 @@ public class CameraHandler : MonoBehaviour
     Vector3 savePosLookAt = Vector3.zero;
 
     float dt = 0;
+
+    AnimatorOverrideController animatorOverrideController;
+
 
     #endregion
 
@@ -107,6 +115,10 @@ public class CameraHandler : MonoBehaviour
 
     private void Start()
     {
+        animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
+        animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
+
+
         // Desactivation des caméra animated et cinemachine pour passer sur la render cam
         if (cinemachineCam) cinemachineCam.enabled = false;
         else Debug.LogWarning("BUG : Camera isn't setup in CameraHandler");
@@ -153,7 +165,26 @@ public class CameraHandler : MonoBehaviour
 
     private void Update()
     {
+
         dt = camData.independentFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+
+        if (timerRemainingOnThisSequence > 0) timerRemainingOnThisSequence -= Time.deltaTime;
+        if (timerRemainingOnThisSequence < 0) timerRemainingOnThisSequence  = 0;
+
+        currentFrequency = frequency;
+        if (currentCinemachineCurve != null)
+        {
+            if (currentCinemachineStyle == CinemachineBlendDefinition.Style.EaseOut)
+                currentFrequency = frequency * currentCinemachineCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal));
+            else if (currentCinemachineStyle == CinemachineBlendDefinition.Style.EaseIn)
+                currentFrequency = frequency * currentCinemachineCurve.Evaluate(timerRemainingOnThisSequence / timerSequenceTotal);
+            else if (currentCinemachineStyle == CinemachineBlendDefinition.Style.Linear)
+                currentFrequency = frequency;
+            else
+                currentFrequency = frequency * currentCinemachineCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal));
+        }
+
+        
 
         // Fait le switch entre la caméra cinemachine et la caméra animée
         currentCamRef = !currentCamIsCine && animatedCam.transform.position != Vector3.zero && animatedCam != null ? animatedCam : cinemachineCam;
@@ -236,7 +267,7 @@ public class CameraHandler : MonoBehaviour
         }
         for (int i = 0; i < curveValues.Length; i++)
         {
-            curveValues[i].x += dt * camData.CurvesAndValues[i].SpeedMultiplier * frequency; // Purcentage
+            curveValues[i].x += dt * camData.CurvesAndValues[i].SpeedMultiplier * currentFrequency; // Purcentage
             if (curveValues[i].x > 1)
             {
                 if (i == 0) stepSoundPlayed = false;
@@ -292,7 +323,7 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Rotate(0, cursorRotateValue.y, 0, Space.World); // Rotation de la cam selon le placement du curseur (en Y)
         camRef.transform.Rotate(cursorRotateValue.x, 0, 0, Space.Self); // Rotation de la cam selon le placement du curseur (en X)
 
-        fovModifViaSpeed = Mathf.Lerp(fovModifViaSpeed, frequency * camData.fovMultiplier, dt * camData.fovSpeed);
+        fovModifViaSpeed = Mathf.Lerp(fovModifViaSpeed, currentFrequency * camData.fovMultiplier, dt * camData.fovSpeed);
         float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camData.timeScaleFovImpact - Time.timeScale * camData.timeScaleFovImpact, Time.unscaledDeltaTime * camData.timeScaleFovSpeed);
         camRef.fieldOfView = camData.BaseFov + camData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + fovModifViaSpeed + fovAddedByTimeScale + recoilFovValue;
@@ -427,6 +458,16 @@ public class CameraHandler : MonoBehaviour
         feedbackTransition = transition;
         if (feedbackTransition) transitionTime = time;
     }
+    public void SetCurrentAnimCurve(CinemachineBlendDefinition animBlend)
+    {
+        currentCinemachineStyle = animBlend.m_Style;
+        currentCinemachineCurve = animBlend.BlendCurve;
+    }
+    public void SetCurrentAnimCurveModified(AnimationCurve customCurve)
+    {
+        currentCinemachineStyle = CinemachineBlendDefinition.Style.Custom;
+        currentCinemachineCurve = customCurve;
+    }
     public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1)
     {
         cameraLookAt = camFollow;
@@ -438,16 +479,18 @@ public class CameraHandler : MonoBehaviour
     {
         cameraLookAt = null;
     }
-    public void UpdateCamSteps (float _frequency, float transitionSpeed = -1)
+    public void UpdateCamSteps (float _frequency, float timeSequence)
     {
         frequency = _frequency;
-        if (transitionSpeed > 0)
-            frequencyTransitionSpeed = transitionSpeed;
+        currentFrequency = _frequency;
+        timerRemainingOnThisSequence = timeSequence;
+        timerSequenceTotal = timeSequence;
     }
-    public void TriggerAnim (string animName, float animDuration)
+    public void TriggerAnim (AnimationClip animName, float animDuration)
     {
+        animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animName;
         currentCamIsCine = false;
-        animatedCam.GetComponent<Animator>().SetTrigger(animName);
+        animatedCam.GetComponent<Animator>().SetTrigger("trigger");
         timerOnAnimatedCam = animDuration;
     }
 

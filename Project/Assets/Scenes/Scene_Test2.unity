@@ -379,8 +379,16 @@ MonoBehaviour:
   animationTime: 0.5
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
   lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
@@ -559,8 +567,16 @@ MonoBehaviour:
   animationTime: 1
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
   lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
@@ -1613,9 +1629,44 @@ MonoBehaviour:
   animationTime: 1
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 1
   modifierFrequenceCamStep: 1
-  animToPlay: 
-  lookAtObject: {fileID: 2074334963}
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0014572144
+      value: 0.99383545
+      inSlope: -2.0020204
+      outSlope: -2.0020204
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49802533
+      value: -0.0003039539
+      inSlope: -0.004641235
+      outSlope: -0.004641235
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.9927379
+      outSlope: 1.9927379
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
+  lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
   lookAtTime: 5
@@ -2126,8 +2177,16 @@ MonoBehaviour:
   animationTime: 0.5
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
   lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
@@ -2900,8 +2959,16 @@ MonoBehaviour:
   animationTime: 1
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
   lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
@@ -3054,8 +3121,16 @@ MonoBehaviour:
   animationTime: 0
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
   lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
@@ -3098,8 +3173,16 @@ MonoBehaviour:
   animationTime: 0.5
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
   lookAtObject: {fileID: 0}
   transitionToTime: 1
   transitionBackTime: 1
@@ -8700,6 +8783,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 411049531}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1540320443377804339, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
       propertyPath: CamDummy
@@ -8720,10 +8807,60 @@ PrefabInstance:
       propertyPath: TESTLOOKAT
       value: 
       objectReference: {fileID: 2074334963}
-    - target: {fileID: 2126226365726663012, guid: b2eaf840aec546e4c90ab469ed34be5d,
+    - target: {fileID: 1540320443377804339, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 2
+      propertyPath: bite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183305506983849117, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7584541180804375011, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
