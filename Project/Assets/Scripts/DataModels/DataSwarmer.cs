@@ -35,6 +35,7 @@ public class DataSwarmer : DataEnemy
 
     public float numberOfSideTries = 4;
     public float tryStep = 1;
+    public float distanceDodgeStep = .7f;
 
     [Header("Material")]
     public Material mat;

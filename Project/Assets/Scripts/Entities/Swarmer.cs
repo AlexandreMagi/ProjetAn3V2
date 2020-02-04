@@ -247,7 +247,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //Vérification frontale. Seulement valide si c'est "relativement" dans la direction où le mob veut aller.
             if (Physics.Raycast(adaptedPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall) && angle <= 10)
             {
-
+                Debug.Log("Obstacle found.");
                 Debug.DrawRay(adaptedPosition, Vector3.up, Color.green);
                 Debug.DrawRay(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, Color.red);
 
@@ -311,7 +311,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         if (hasFoundExit)
                         {
                             //DO MOVE
-                            Debug.Log("Out trouvé");
+                            Debug.Log("Sortie trouvée");
                             isOutStepTwo = false;
                             oldForwardVector = forward;
                             isGettingOutOfObstacle = true;
@@ -332,7 +332,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
 
-            if(Vector3.Distance(transform.position, obstacleDodgePoint) <= .7f)
+            //Si on atteint l'étape de l'évitement
+            if(Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
             {
                 if (isOutStepTwo)
                 {
