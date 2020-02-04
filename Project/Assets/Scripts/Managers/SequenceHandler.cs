@@ -151,9 +151,9 @@ public class SequenceHandler : MonoBehaviour
             }
             else
             {
-                //DECLENCHEMENT DU FEEDBACK DE CAM
+                /*//DECLENCHEMENT DU FEEDBACK DE CAM
                 if (CameraHandler.Instance != null)
-                    CameraHandler.Instance.UpdateCamSteps(0, 100);
+                    CameraHandler.Instance.UpdateCamSteps(0, 100);*/
 
                 /*
                 C_Charger[] _Chargeurs = GameObject.FindObjectsOfType<C_Charger>();
@@ -333,10 +333,31 @@ public class SequenceHandler : MonoBehaviour
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
             {
-                CameraHandler.Instance.UpdateCamSteps(Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f) * currentSequence.modifierFrequenceCamStep, 100);
+                float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 5 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
+                if (currentSequence.isShortStep)
+                {
+                    CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime);
+                }
+                else
+                {
+                    if (currentSequence.modifySteps)
+                    {
+                        CameraHandler.Instance.UpdateCamSteps(frequencyValue * currentSequence.modifierFrequenceCamStep, currentSequence.animationTime);
+                        if (currentSequence.modifyStepsCurve)
+                            CameraHandler.Instance.SetCurrentAnimCurveModified(currentSequence.modifiedStepCurve);
+                        else
+                            CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
+                    }
+                    else
+                    {
+                        CameraHandler.Instance.UpdateCamSteps(frequencyValue, currentSequence.animationTime);
+                        CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
+                    }
+                }
                 if (currentSequence.lookAtObject != null) CameraHandler.Instance.CameraLookAt(currentSequence.lookAtObject, currentSequence.transitionToTime, currentSequence.transitionBackTime, currentSequence.lookAtTime);
+                
             }
-            if (currentSequence.animToPlay != "")
+            if (currentSequence.animToPlay != null)
             {
                 CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animationTime);
             }

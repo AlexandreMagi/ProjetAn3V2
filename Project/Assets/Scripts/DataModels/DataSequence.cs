@@ -21,10 +21,27 @@ public class DataSequence : ScriptableObject
 
     public bool cutsSlowMoOnEnd;
 
+    [Header("Steps")]
+
+    public bool isShortStep = false;
+    [ShowIf("isShortStep")]
+    public AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    [ShowIf("isShortStep")]
+    public float shortStepAmplitude = -1;
+
+    [HideIf("isShortStep")]
+    public bool modifySteps = false;
+    [ShowIf("modifySteps")]
     public float modifierFrequenceCamStep = 1;
+    [ShowIf("modifySteps")]
+    public bool modifyStepsCurve = false;
+    [ShowIf("modifySteps"), ShowIf("modifyStepsCurve")]
+    public AnimationCurve modifiedStepCurve = null;
 
-    public string animToPlay = "";
+    [Header("Animated Cam")]
+    public AnimationClip animToPlay = null;
 
+    [Header("Look At")]
     public Transform lookAtObject = null;
     [ShowIf("lookAtObject", null)]
     public float transitionToTime = 1;

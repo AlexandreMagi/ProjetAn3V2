@@ -27,6 +27,16 @@ public class DataSwarmer : DataEnemy
     public float jumpForce = 80f;
     public float speedMultiplierWhenAttacking = 4;
 
+    [Header("AI variables")]
+    public float frontalDetectionSight = 2;
+    public float jumpHeight = 3;
+    public float jumpDodgeForce = 2500;
+    public float jumpCooldownInitial = .5f;
 
+    public float numberOfSideTries = 4;
+    public float tryStep = 1;
+    public float distanceDodgeStep = .7f;
+
+    [Header("Material")]
     public Material mat;
 }
