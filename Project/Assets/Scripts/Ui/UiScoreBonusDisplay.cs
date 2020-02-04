@@ -1,0 +1,119 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UiScoreBonusDisplay : MonoBehaviour
+{
+    #region Singleton
+    private static UiScoreBonusDisplay _instance;
+    public static UiScoreBonusDisplay Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+    void Awake()
+    {
+        _instance = this;
+    }
+#endregion
+
+    List<GameObject> textDisplayed = new List<GameObject>();
+    List<ScoreBonusDisplayedInstance> scoresBonusHandler = new List<ScoreBonusDisplayedInstance>();
+    [SerializeField] GameObject emptyUiText = null;
+
+    [SerializeField] DataUiTemporaryText dataToSend;
+
+    [SerializeField]
+    Transform rootScoreBonus = null;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) AddScoreBonus( "Bonus Score + 15");
+
+        for (int i = textDisplayed.Count-1; i > -1; i--)
+        {
+            scoresBonusHandler[i].UpdateValues();
+            if (i < textDisplayed.Count && scoresBonusHandler[i] != null)
+            {
+                textDisplayed[i].GetComponent<Text>().color = scoresBonusHandler[i].currentColor;
+                textDisplayed[i].transform.localScale = Vector3.one * scoresBonusHandler[i].scale;
+                if (scoresBonusHandler[i].isPlacedOnWorld) MoveSprite(textDisplayed[i], scoresBonusHandler[i]);
+            }
+        }
+    }
+
+
+
+    public void AddScoreBonus (string textSend)
+    {
+        ScoreBonusDisplayedInstance handler;
+        GameObject newText = createObject(textSend, out handler);
+        Vector2 pos;
+        Vector2 posInput = new Vector2(Screen.width * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)), Screen.height * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)));
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posInput, GetComponent<Canvas>().worldCamera, out pos);
+        newText.transform.position = transform.TransformPoint(pos);
+    }
+
+
+    public void AddScoreBonus(string textSend, Vector3 posInit, float randomPosAdded = 0)
+    {
+        ScoreBonusDisplayedInstance handler;
+        GameObject newText = createObject(textSend, out handler);
+        handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
+        MoveSprite(newText, handler);
+    }
+
+    void MoveSprite(GameObject textObject, ScoreBonusDisplayedInstance handler)
+    {
+        Vector2 pos;
+        Vector3 posScreen = CameraHandler.Instance.renderingCam.WorldToScreenPoint(handler.posSave);
+        if (posScreen.z > 0)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posScreen, GetComponent<Canvas>().worldCamera, out pos);
+            textObject.transform.position = transform.TransformPoint(pos);
+        }
+        else
+        {
+            textObject.transform.position = -Vector3.one * Screen.width;
+        }
+    }
+
+    GameObject createObject(string textSend, out ScoreBonusDisplayedInstance newOne)
+    {
+        GameObject newText = Instantiate(emptyUiText, rootScoreBonus.transform);
+        Text textThis = newText.GetComponent<Text>();
+        textThis.text = textSend;
+        textThis.color = dataToSend.colorMain;
+        textThis.fontSize = Mathf.RoundToInt(dataToSend.fontSize);
+
+        newText.transform.localScale = Vector3.zero;
+        Outline stockoutline = newText.AddComponent<Outline>();
+        stockoutline.effectDistance = new Vector2(-1, 1) * dataToSend.outlineDistance;
+        stockoutline.effectColor = dataToSend.colorOutline;
+
+        textDisplayed.Add(newText);
+
+        newOne = new ScoreBonusDisplayedInstance();
+        newOne.OnCreation(dataToSend);
+        scoresBonusHandler.Add(newOne);
+        return newText;
+    }
+
+    public void deleteSpot(ScoreBonusDisplayedInstance spriteInstance)
+    {
+        for (int i = 0; i < scoresBonusHandler.Count; i++)
+        {
+            if (scoresBonusHandler[i] == spriteInstance)
+            {
+                scoresBonusHandler.RemoveAt(i);
+                GameObject stock = textDisplayed[i];
+                textDisplayed.RemoveAt(i);
+                Destroy(stock);
+            }
+        }
+    }
+
+}
