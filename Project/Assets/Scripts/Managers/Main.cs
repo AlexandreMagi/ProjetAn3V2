@@ -31,6 +31,9 @@ public class Main : MonoBehaviour
     [HideInInspector]
     public bool GameEnded = false;
 
+    [SerializeField]
+    bool isArduinoMode = false;
+
     public static Main Instance { get; private set; }
 
     void Awake()
@@ -72,7 +75,8 @@ public class Main : MonoBehaviour
         //UI
         if (UiCrossHair.Instance != null)
         {
-            UiCrossHair.Instance.UpdateCrossHair(Input.mousePosition);
+
+            UiCrossHair.Instance.UpdateCrossHair(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
         }
 
         if (Input.GetKey(KeyCode.Escape))
@@ -86,6 +90,11 @@ public class Main : MonoBehaviour
 
         #region Debug
         //DEBUG
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            isArduinoMode = !isArduinoMode;
+        }
+
         if (Input.GetKeyDown(KeyCode.N))
         {
             SequenceHandler.Instance.NextSequence(true);
@@ -116,12 +125,12 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, 50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, transform.position, null, 50);
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, -50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, transform.position, null, -50);
         }
 
         if (sequenceSkipMode)
@@ -303,11 +312,11 @@ public class Main : MonoBehaviour
         Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
         Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn);
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, transform.position);
 
         if(bonus > 0)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, null, bonus);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, transform.position, null, bonus);
         }
         
     }

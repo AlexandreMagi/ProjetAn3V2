@@ -18,7 +18,7 @@ public class KillerObject : MonoBehaviour
             if(timeBeforeEndOfMulti <= 0)
             {
                 timeBeforeEndOfMulti = 0;
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.EnvironmentKill);
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.EnvironmentKill, transform.position);
             }
         }
     }

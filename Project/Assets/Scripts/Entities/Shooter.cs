@@ -327,7 +327,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
         //Means it has been killed in some way and has not just attacked
         if (health <= 0)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, transform.position, this);
 
             if (SequenceHandler.Instance != null)
                 SequenceHandler.Instance.OnEnemyKill();
@@ -338,7 +338,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     public void OnHitByOwnBullet()
     {
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BackToSender);
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BackToSender, transform.position);
     }
 
     #region Gravity
