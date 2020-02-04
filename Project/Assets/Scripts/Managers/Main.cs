@@ -125,12 +125,12 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, transform.position, null, 50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, 50);
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, transform.position, null, -50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, -50);
         }
 
         if (sequenceSkipMode)
@@ -312,11 +312,11 @@ public class Main : MonoBehaviour
         Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
         Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, transform.position);
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, Vector3.zero);
 
         if(bonus > 0)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, transform.position, null, bonus);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, bonus);
         }
         
     }

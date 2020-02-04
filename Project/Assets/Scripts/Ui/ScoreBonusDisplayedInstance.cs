@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScoreBonusDisplayedInstance
 {
     public Color currentColor = Color.red;
+    Color savedColor = Color.red;
     private DataUiTemporaryText data = null;
     private float currentTimer = 0;
     public float scale = 0;
@@ -12,10 +13,11 @@ public class ScoreBonusDisplayedInstance
     public bool isPlacedOnWorld = false;
     public Vector3 posSave = Vector3.zero;
 
-    public void OnCreation(DataUiTemporaryText _data)
+    public void OnCreation(DataUiTemporaryText _data, Color _color)
     {
         data = _data;
-        currentColor = _data.colorMain;
+        savedColor = _color;
+        currentColor = _color;
     }
 
     public void IsPlacedInWorld(bool _isPlacedOnWorld, Vector3 _posSave)
@@ -35,7 +37,7 @@ public class ScoreBonusDisplayedInstance
             if (currentAlpha < 0)
                 UiScoreBonusDisplay.Instance.deleteSpot(this);
             else
-                currentColor = new Color(data.colorMain.r, data.colorMain.g, data.colorMain.b, currentAlpha);
+                currentColor = new Color(savedColor.r, savedColor.g, savedColor.b, currentAlpha);
         }
     }
 
