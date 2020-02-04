@@ -31,7 +31,6 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) AddScoreBonus( "Bonus Score + 15");
 
         for (int i = textDisplayed.Count-1; i > -1; i--)
         {
@@ -47,10 +46,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
 
 
-    public void AddScoreBonus (string textSend)
+    public void AddScoreBonus (string textSend, bool good)
     {
         ScoreBonusDisplayedInstance handler;
-        GameObject newText = createObject(textSend, out handler);
+        GameObject newText = createObject(textSend, good, out handler);
         Vector2 pos;
         Vector2 posInput = new Vector2(Screen.width * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)), Screen.height * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)));
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posInput, GetComponent<Canvas>().worldCamera, out pos);
@@ -58,10 +57,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
     }
 
 
-    public void AddScoreBonus(string textSend, Vector3 posInit, float randomPosAdded = 0)
+    public void AddScoreBonus(string textSend, bool good, Vector3 posInit, float randomPosAdded = 0)
     {
         ScoreBonusDisplayedInstance handler;
-        GameObject newText = createObject(textSend, out handler);
+        GameObject newText = createObject(textSend, good,out handler);
         handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
         MoveSprite(newText, handler);
     }
@@ -81,12 +80,12 @@ public class UiScoreBonusDisplay : MonoBehaviour
         }
     }
 
-    GameObject createObject(string textSend, out ScoreBonusDisplayedInstance newOne)
+    GameObject createObject(string textSend, bool good,out ScoreBonusDisplayedInstance newOne)
     {
         GameObject newText = Instantiate(emptyUiText, rootScoreBonus.transform);
         Text textThis = newText.GetComponent<Text>();
         textThis.text = textSend;
-        textThis.color = dataToSend.colorMain;
+        textThis.color = good? dataToSend.colorGood : dataToSend.colorBad;
         textThis.fontSize = Mathf.RoundToInt(dataToSend.fontSize);
 
         newText.transform.localScale = Vector3.zero;
@@ -97,7 +96,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
         textDisplayed.Add(newText);
 
         newOne = new ScoreBonusDisplayedInstance();
-        newOne.OnCreation(dataToSend);
+        newOne.OnCreation(dataToSend, textThis.color);
         scoresBonusHandler.Add(newOne);
         return newText;
     }

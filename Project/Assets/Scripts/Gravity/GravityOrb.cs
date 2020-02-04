@@ -66,7 +66,7 @@ public class GravityOrb : MonoBehaviour
             
         }
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
         return false;
 
     }
