@@ -8,7 +8,6 @@ public class TriggerSender : MonoBehaviour
     [SerializeField]
     TriggerType typeTrigger = 0;
 
-    [Tooltip("C'est un bug si ça s'affiche alors que c'est pas un type spawner, vivez avec <3")]
     [ShowIf("typeTrigger", TriggerType.Spawner), SerializeField]
     Spawner[] spawners = null;
 
