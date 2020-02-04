@@ -66,7 +66,7 @@ public class GravityOrb : MonoBehaviour
             
         }
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb);
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
         return false;
 
     }
@@ -114,7 +114,7 @@ public class GravityOrb : MonoBehaviour
 
         if (!hasHitSomething)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
         }
 
         if (hasSticked)

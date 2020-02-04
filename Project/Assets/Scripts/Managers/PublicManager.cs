@@ -59,7 +59,7 @@ public class PublicManager : MonoBehaviour
         return this.publicData.baseViewerGrowth;
     }
 
-    public void OnPlayerAction(ActionType action, IEntity cause = null, float bonus = 0)
+    public void OnPlayerAction(ActionType action, Vector3 position, IEntity cause = null, float bonus = 0)
     {
         switch (action)
         {

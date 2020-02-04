@@ -82,7 +82,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                         GameObject renderingCam = CameraHandler.Instance.renderingCam.gameObject;
                         FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
                         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
-                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnArmor);
+                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnArmor, transform.position);
 
                         value -= armor;
                         armor = 0;
@@ -125,15 +125,15 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
                     if (armor < 0)
                     {
-                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnLifeBar);
+                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnLifeBar, transform.position);
 
                         if (health <= 20)
                         {
-                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.SuperLowHp);
+                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.SuperLowHp, transform.position);
                         }
                         else if (health <= 50)
                         {
-                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.LowHp);
+                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.LowHp, transform.position);
                         }
                     }
 

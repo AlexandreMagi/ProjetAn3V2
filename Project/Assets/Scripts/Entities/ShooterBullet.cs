@@ -168,7 +168,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
                 //Vendetta preparation
                 if (this.owner != null && hVictim.GetComponent<Player>() != null)
                 {
-                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, this.owner.GetComponent<Shooter>());
+                    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, transform.position, this.owner.GetComponent<Shooter>());
                 }
             }
         }
