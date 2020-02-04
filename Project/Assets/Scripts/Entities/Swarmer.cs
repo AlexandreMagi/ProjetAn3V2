@@ -202,7 +202,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     protected virtual void FixedUpdate()
     {
-       
+        //Debug.DrawRay(transform.position, currentFollow.position, Color.magenta);
+
         if(jumpElapsedTime > 0)
         {
             jumpElapsedTime -= Time.fixedDeltaTime;
@@ -237,6 +238,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //Ça, c'est le truc pour les rendre moins débilos
             //------------- JUMP OBSTACLES
             Vector3 forward = transform.TransformDirection(Vector3.forward) * entityData.frontalDetectionSight;
+            Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
+            Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
             Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
             Debug.DrawRay(adaptedPosition, forward, Color.blue);
             //Angle of ray compared to point of path
@@ -247,7 +250,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //Vérification frontale. Seulement valide si c'est "relativement" dans la direction où le mob veut aller.
             if (Physics.Raycast(adaptedPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall) && angle <= 10)
             {
-                Debug.Log("Obstacle found.");
+                //Debug.Log("Obstacle found.");
                 Debug.DrawRay(adaptedPosition, Vector3.up, Color.green);
                 Debug.DrawRay(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, Color.red);
 
@@ -260,51 +263,37 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 { 
                     jumpElapsedTime = entityData.jumpCooldownInitial;
                     rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
-                    Debug.Log("jump");
+                    //Debug.Log("jump");
                 }
                 //Si saut impossible, lancement de la manoeuvre d'évitement d'obstacle
                 else
                 {
-                    if (!isGettingOutOfObstacle)
+                    if (!isGettingOutOfObstacle && jumpElapsedTime == 0)
                     {
                         //CANNOT JUMP, MUST DODGE OBSTACLE
                         bool hasFoundExit = false;
                         float currentStep = 1;
-                        bool isRightSide = false;
+                        int iStep = 1;
+                        bool isRightSide = true;
                         
-                        //Rightward tries
-                        for (int i = 1; i < entityData.numberOfSideTries + 1; i++)
+                        //Check for path tries
+                        for(int i = 0; i< entityData.numberOfSideTries * 2; i++)
                         {
-                            Vector3 rayInitialPosition = adaptedPosition + transform.TransformDirection(Vector3.right) * i * entityData.tryStep;
+                            isRightSide = !isRightSide;
+                            if(i%2 == 0)
+                            {
+                                iStep++;
+                            }
+
+                            Vector3 rayInitialPosition = adaptedPosition + (isRightSide?right:left) * iStep * entityData.tryStep;
                             Debug.DrawRay(rayInitialPosition, forward, Color.cyan);
 
-                            if (!Physics.Raycast(rayInitialPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall))
+                            if (!Physics.Raycast(rayInitialPosition, forward, out _, entityData.frontalDetectionSight + entityData.extraLengthByStep * iStep, maskOfWall) && !Physics.Raycast(adaptedPosition, (isRightSide ? right : left), out _, iStep * entityData.distanceDodgeStep, maskOfWall))
                             {
-                                currentStep = i;
-                                isRightSide = true;
+                                currentStep = iStep;
                                 hasFoundExit = true;
 
                                 break;
-                            }
-
-                        }
-
-                        //Leftward tries
-                        if (!hasFoundExit)
-                        {
-                            for (int i = 1; i < entityData.numberOfSideTries + 1; i++)
-                            {
-                                Vector3 rayInitialPosition = adaptedPosition + transform.TransformDirection(Vector3.left) * i * entityData.tryStep;
-                                Debug.DrawRay(rayInitialPosition, forward, Color.cyan);
-
-                                if (!Physics.Raycast(rayInitialPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall))
-                                {
-                                    currentStep = i;
-                                    hasFoundExit = true;
-                                   
-                                    break;
-                                }
-
                             }
                         }
 
@@ -313,9 +302,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             //DO MOVE
                             Debug.Log("Sortie trouvée");
                             isOutStepTwo = false;
-                            oldForwardVector = forward;
+                            oldForwardVector = forward + forward * entityData.extraLengthByStep * currentStep;
                             isGettingOutOfObstacle = true;
-                            obstacleDodgePoint = adaptedPosition + transform.TransformDirection(isRightSide ? Vector3.right : Vector3.left) * currentStep * entityData.tryStep;
+                            obstacleDodgePoint = adaptedPosition + (isRightSide ? right : left) * currentStep * entityData.tryStep;
                         }
                     }
                 }
@@ -332,8 +321,27 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
 
+            //Block check
+            Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
+            Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
+            Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
+            Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
+
+            //dodge to the right
+            Debug.DrawRay(adaptedPosition + left * .5f, forward * entityData.sideDetectionSight, Color.magenta);
+            if (Physics.Raycast(adaptedPosition + left * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall)) {
+                rbBody.AddForce(right * entityData.dodgeSlideForce);
+            }
+
+            //dodge to the left
+            Debug.DrawRay(adaptedPosition + right * .5f, forward * entityData.sideDetectionSight, Color.magenta);
+            if (Physics.Raycast(adaptedPosition + right * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall))
+            {
+                rbBody.AddForce(left * entityData.dodgeSlideForce);
+            }
+
             //Si on atteint l'étape de l'évitement
-            if(Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
+            if (Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
             {
                 if (isOutStepTwo)
                 {
@@ -368,7 +376,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
 
                     //Rotation
-                    Quaternion lookDirection = Quaternion.LookRotation(new Vector3(currentFollow.position.x, transform.position.y, currentFollow.position.z) - transform.position);
+                    Quaternion lookDirection = Quaternion.LookRotation(new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position);
 
                     transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
 

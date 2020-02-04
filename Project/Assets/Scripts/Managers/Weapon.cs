@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class Weapon : MonoBehaviour
 {
@@ -39,6 +40,11 @@ public class Weapon : MonoBehaviour
     GameObject weaponLight = null;
     [SerializeField]
     bool ignoreBulletLimitForCharge = false;
+    [SerializeField]
+    bool shotgunBounces = false;
+    [SerializeField, ShowIf("shotgunBounces")]
+    float bounceLag = 0.05f;
+
 
     float timerMuzzleFlash = 0;
     float timeMuzzleAdded = 0.05f;
@@ -205,7 +211,7 @@ public class Weapon : MonoBehaviour
     {
         if (bulletRemaining > 0)
         {
-            Debug.Log("Alex pu");
+            List<Ray> bounceCalculations = new List<Ray>();
             if(weaponMod == weapon.chargedShot)
             {
                 shotGunHasHit = false;
@@ -240,7 +246,7 @@ public class Weapon : MonoBehaviour
                         bAffect.OnHit(weaponMod, hit.point);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot();
-                        if (weaponMod == weapon.chargedShot)
+                        if (weaponMod == weapon.chargedShot) { }
                             bAffect.OnHitShotGun();
 
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
@@ -253,8 +259,24 @@ public class Weapon : MonoBehaviour
                             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile);
                         }
                     }
+
+                    if(shotgunBounces && weaponMod == weapon.chargedShot)
+                    {
+                        Vector3 directionShot = rayBullet.direction;
+                        Vector3 normalFromHit = hit.normal;
+
+                        Vector3 bounceDirection = directionShot - 2 * Vector3.Dot(directionShot, normalFromHit) * normalFromHit;
+                        Ray rayBounce = new Ray(hit.point, bounceDirection);
+
+                        bounceCalculations.Add(rayBounce);
+                    }
                 }
             }
+            if (bounceCalculations.Count > 0)
+            {
+                StartCoroutine(BounceBullets(bounceCalculations, bounceLag));
+            }
+
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
             UiReload.Instance.PlayerShot();
             CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot, true);
@@ -301,5 +323,45 @@ public class Weapon : MonoBehaviour
     public void OnShotGunHitTarget()
     {
         shotGunHasHit = true;
+    }
+
+    IEnumerator BounceBullets(List<Ray> bounces, float bounceLag)
+    {
+        yield return new WaitForSeconds(bounceLag);
+
+        //On divise par 2 lol
+        DataWeaponMod bounceMod = Instantiate(weapon.chargedShot);
+        bounceMod.bullet.damage /= 2;
+
+        foreach(Ray bounceBullet in bounces)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(bounceBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
+            {
+               
+                FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod);
+                CheckIfMustSlowMo(hit.transform.gameObject, bounceMod);
+
+                IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
+                if (bAffect != null)
+                {
+                    bAffect.OnHit(bounceMod, hit.point);
+
+                    bAffect.OnHitShotGun();
+
+                    TimeScaleManager.Instance.AddStopTime(bounceMod.stopTimeAtImpact);
+
+                    UiCrossHair.Instance.PlayerHitSomething(bounceMod.hitValueUiRecoil);
+
+                    //PUBLIC
+                    if (hit.collider.GetComponent<ShooterBullet>() != null && hit.distance < 2)
+                    {
+                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile);
+                    }
+                }
+            }
+        }
+
+        yield break;
     }
 }
