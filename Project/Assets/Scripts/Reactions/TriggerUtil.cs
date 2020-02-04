@@ -117,8 +117,8 @@ public static class TriggerUtil
     {
         yield return new WaitForSecondsRealtime(timeBeforeStart);
 
-        //if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, shakeDuration, pos);
-        //else CameraHandler.Instance.AddShake(shakeForce, shakeDuration);
+        if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos, shakeDuration);
+        else CameraHandler.Instance.AddShake(shakeForce, shakeDuration);
 
         yield break;
     }
