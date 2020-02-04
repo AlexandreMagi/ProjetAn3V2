@@ -411,7 +411,11 @@ public class CameraHandler : MonoBehaviour
             if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
         }
     }
-    public void AddShake (float value) {shakeSource.GenerateImpulse(Vector3.up * value); }
+    public void AddShake (float value, float duration = 0.2f) 
+    {
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration;
+        shakeSource.GenerateImpulse(Vector3.up * value); 
+    }
     public void AddShake (float value, Vector3 initPos)
     {
         float distance = Vector3.Distance(initPos, renderingCam.transform.position);
