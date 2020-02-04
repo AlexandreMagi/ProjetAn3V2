@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a62b0865723094b846026137b70a00, type: 3}
+  m_Name: DataShooter_Base
+  m_EditorClassIdentifier: 
+  maxHealth: 400
+  startHealth: 400
+  team: 1
+  spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
+    type: 2}
+  stunResistanceJauge: 1
+  stayLockedOnTarget: 1
+  timeBeforeCheckForAnotherTarget: 5
+  fxWhenDie: VFX_BigEnnemiDied
+  fxWhenStun: VFX_Stun
+  matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
+  matChangeTime: 0.05
+  rotationSpeed: 15
+  rotationMinimalBeforeCharge: 3
+  playerMoveTimeReset: 1
+  distanceDetection: 80
+  timeWaitBeforeShoot: 0.5
+  nbShootPerSalve: 5
+  nbBulletPerShoot: 1
+  timeBetweenBullet: 1
+  amplitudeMultiplier: 3
+  recoverTime: 1
+  shootEvenIfPlayerMoving: 0
+  bulletData: {fileID: 11400000, guid: 61260d68de6c8e845aaf51c92d31c15a, type: 2}
+  bulletPrefabs: {fileID: 8274719076216917017, guid: 5c5453cca8f7bc444ab1285c7e00988a,
+    type: 3}
+  muzzleFlashFx: VFX_MuzzleFlashShooter
+  stunRecoil: 0
