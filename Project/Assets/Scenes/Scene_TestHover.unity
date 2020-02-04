@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144792134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.09, y: 2.96, z: -7.66}
+  m_LocalPosition: {x: -9.57, y: 2.96, z: -7.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1614595341}
@@ -968,7 +968,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857414418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.33, y: 2.96, z: -1.11}
+  m_LocalPosition: {x: -0.16, y: 2.96, z: -0.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1614595341}
@@ -2069,7 +2069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675160438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.31, y: 2.96, z: -5.52}
+  m_LocalPosition: {x: -6.63, y: 2.96, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1614595341}
@@ -2202,8 +2202,21 @@ MonoBehaviour:
   animationTime: 0
   hasEventOnEnd: 0
   cutsSlowMoOnEnd: 0
+  modifySteps: 0
   modifierFrequenceCamStep: 1
-  animToPlay: 
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -2223,7 +2236,7 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
 --- !u!1 &1790957487
 GameObject:
   m_ObjectHideFlags: 0
@@ -7377,8 +7390,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129818386}
   m_LocalRotation: {x: -0, y: 0.38268274, z: -0, w: 0.9238798}
-  m_LocalPosition: {x: 11.025, y: 1.74, z: 10.41}
-  m_LocalScale: {x: 5.620071, y: 4.287534, z: 1}
+  m_LocalPosition: {x: 11.025, y: 0.772, z: 10.41}
+  m_LocalScale: {x: 5.620071, y: 1.0933212, z: 1}
   m_Children: []
   m_Father: {fileID: 738182337}
   m_RootOrder: 13
