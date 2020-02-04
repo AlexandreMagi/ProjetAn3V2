@@ -35,7 +35,10 @@ public class DataSwarmer : DataEnemy
 
     public float numberOfSideTries = 4;
     public float tryStep = 1;
-    public float distanceDodgeStep = .7f;
+    public float distanceDodgeStep = 1;
+    public float extraLengthByStep = .2f;
+    public float sideDetectionSight = 1;
+    public float dodgeSlideForce = 350;
 
     [Header("Material")]
     public Material mat;
