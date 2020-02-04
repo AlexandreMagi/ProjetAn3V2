@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b08872da3ce514789fe3cc5975b188, type: 3}
+  m_Name: DataShielder_Test
+  m_EditorClassIdentifier: 
+  maxHealth: 140
+  startHealth: 140
+  team: 1
+  spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  spriteToDisplayLife: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  stunResistanceJauge: 1
+  stayLockedOnTarget: 0
+  timeBeforeCheckForAnotherTarget: 5
+  fxWhenDie: fx_name_death_ennemi
+  fxWhenStun: VFX_Stun
+  matWhenTakeDammage: {fileID: 2100000, guid: ddfc43fb273d03845a052f11b9458bbd, type: 2}
+  matChangeTime: 0.1
+  distanceToStartFollowingAlly: 15
+  movementSpeed: 2400
+  shieldApplyRange: 10
+  shieldRadius: 5
+  timeShieldCast: 5
+  targetLockFollowSpeed: 5
+  timeBeforeDodgeStart: 0.15
+  dodgeSpeed: 750
+  recoveryTime: 1.5
+  floatSpeed: 1
+  floatAmplitude: 0.3
+  deathPropulsionForce: 20

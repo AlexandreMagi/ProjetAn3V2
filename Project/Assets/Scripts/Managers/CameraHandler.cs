@@ -75,6 +75,12 @@ public class CameraHandler : MonoBehaviour
     bool stepSoundPlayed = false; // Dit si le son a été joué à ce pas
     AnimationCurve currentCinemachineCurve;
     CinemachineBlendDefinition.Style currentCinemachineStyle = CinemachineBlendDefinition.Style.Linear;
+
+    // Short step
+    bool onShortStep = false;
+    AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    float shortStepAmplitude = -1;
+
     float timerRemainingOnThisSequence = 0;
     float timerSequenceTotal = 0;
 
@@ -192,7 +198,7 @@ public class CameraHandler : MonoBehaviour
         // Init
         camRef.transform.position = currentCamRef.transform.position;
         camRef.transform.rotation = currentCamRef.transform.rotation;
-        UpdateCamValues();
+        UpdateCamValues(onShortStep);
         if (feedbackTransition)
         {
             if (feedbackActivated)
@@ -277,7 +283,7 @@ public class CameraHandler : MonoBehaviour
         }
     }
 
-    private void UpdateCamValues()
+    private void UpdateCamValues(bool shortStep)
     {
 
         // Gestion du temps de la cam animé
@@ -312,12 +318,24 @@ public class CameraHandler : MonoBehaviour
         // Rotate en z en fonction de la vitesse horizontale
         rotZBySpeed = Mathf.Lerp (rotZBySpeed, -((currentCamRef.WorldToScreenPoint(camDelayPosDummy.transform.position).x - Screen.width / 2) / Screen.width) * camData.maxRotateWhileMoving, dt*camData.lerpOnLerpBecauseWhyTheFuckNot);
         //rotZBySpeed = -rotZBySpeed * camData.maxRotateWhileMoving / (Screen.width / 2);
-        // tanslate en fonction du pas actuel
-        camRef.transform.Translate(Vector3.up * stepValues[0], Space.World);
+
         // Translate en arrière recoil
         camRef.transform.Translate(Vector3.back * recoilTranslationValue, Space.Self);
-        // rotate en fonction de la vitesse horizontale et du pas actuel
-        camRef.transform.Rotate(0, 0, rotZBySpeed + stepValues[1], Space.Self);
+        if (shortStep)
+        {
+            Debug.Log("ShortStep");
+            // tanslate en fonction du pas actuel
+            camRef.transform.Translate(Vector3.up * shortStepCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal)) * shortStepAmplitude, Space.World);
+            // rotate en fonction de la vitesse horizontale et du pas actuel
+            camRef.transform.Rotate(0, 0, rotZBySpeed, Space.Self);
+        }
+        else
+        {
+            // tanslate en fonction du pas actuel
+            camRef.transform.Translate(Vector3.up * stepValues[0], Space.World);
+            // rotate en fonction de la vitesse horizontale et du pas actuel
+            camRef.transform.Rotate(0, 0, rotZBySpeed + stepValues[1], Space.Self);
+        }
 
         // Rotation en fonciton du cursor
         camRef.transform.Rotate(0, cursorRotateValue.y, 0, Space.World); // Rotation de la cam selon le placement du curseur (en Y)
@@ -393,7 +411,11 @@ public class CameraHandler : MonoBehaviour
             if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
         }
     }
-    public void AddShake (float value) {shakeSource.GenerateImpulse(Vector3.up * value); }
+    public void AddShake (float value, float duration = 0.2f) 
+    {
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration;
+        shakeSource.GenerateImpulse(Vector3.up * value); 
+    }
     public void AddShake (float value, Vector3 initPos)
     {
         float distance = Vector3.Distance(initPos, renderingCam.transform.position);
@@ -481,10 +503,20 @@ public class CameraHandler : MonoBehaviour
     }
     public void UpdateCamSteps (float _frequency, float timeSequence)
     {
+
+        onShortStep = false;
         frequency = _frequency;
         currentFrequency = _frequency;
         timerRemainingOnThisSequence = timeSequence;
         timerSequenceTotal = timeSequence;
+    }
+    public void ShortStep (AnimationCurve curve, float amplitude, float time)
+    {
+        onShortStep = true;
+        shortStepCurve = curve;
+        shortStepAmplitude = amplitude;
+        timerRemainingOnThisSequence = time;
+        timerSequenceTotal = time;
     }
     public void TriggerAnim (AnimationClip animName, float animDuration)
     {
