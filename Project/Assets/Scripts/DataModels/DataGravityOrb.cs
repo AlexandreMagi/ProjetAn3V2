@@ -76,4 +76,5 @@ public class DataGravityOrb : ScriptableObject
     public string fxName = "VFX_Orbe";
     public string fxExplosionName = "VFX_OrbExplosion";
     public float fxSizeMultiplier = 0.2f;
+    public float flashScreen = 0.2f;
 }

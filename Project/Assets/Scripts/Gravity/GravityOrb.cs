@@ -39,6 +39,7 @@ public class GravityOrb : MonoBehaviour
 
         if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
         {
+            UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
 
             GameObject hitObj = hit.collider.gameObject;

@@ -38,6 +38,10 @@ public class UiDamageHandler : MonoBehaviour
     [SerializeField]
     GameObject flashPanel = null;
     [SerializeField]
+    GameObject gravityFlash = null;
+    float timerGravityScreen = 0;
+    float stockTimerValue = 0;
+    [SerializeField]
     GameObject shieldBreakFlash = null;
     [SerializeField]
     GameObject shieldPanel = null;
@@ -93,11 +97,38 @@ public class UiDamageHandler : MonoBehaviour
             if (shieldBreakFlashTime < 0)
                 shieldBreakFlash.SetActive(false);
         }
+        if (timerGravityScreen > 0)
+        {
+            gravityFlash.SetActive(true);
+            timerGravityScreen -= Time.unscaledDeltaTime;
+
+            float GravAlpha;
+            Color gravityColor = gravityFlash.GetComponent<Image>().color;
+            if (timerGravityScreen > stockTimerValue / 2)
+            {
+                GravAlpha = 1 - ((timerGravityScreen - stockTimerValue / 2) / (stockTimerValue / 2));
+                gravityFlash.GetComponent<Image>().color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
+            }
+            else
+            {
+                GravAlpha = timerGravityScreen / (stockTimerValue / 2);
+                gravityFlash.GetComponent<Image>().color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
+            }
+
+            if (timerGravityScreen < 0)
+                gravityFlash.SetActive(false);
+        }
     }
 
     public void ClearScreen()
     {
 
+    }
+
+    public void GravityFlash(float value)
+    {
+        timerGravityScreen = value;
+        stockTimerValue = value;
     }
 
     public void UpdateZeroGScreen(DataZeroGOnPlayer datasend, float purcentage, bool onZeroG)
