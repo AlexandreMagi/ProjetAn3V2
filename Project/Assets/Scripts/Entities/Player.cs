@@ -169,4 +169,38 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
 
     }
+
+    public void Revive()
+    {
+        Collider[] tHits = Physics.OverlapSphere(this.transform.position, entityData.respawnExplosionRadius);
+
+        TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
+
+        foreach (Collider hVictim in tHits)
+        {
+            if (hVictim.gameObject != this.gameObject)
+            {
+                IEntity entityVictim = hVictim.GetComponent<IEntity>();
+                if (entityVictim != null && (hVictim.GetComponent<Player>() == null))
+                {
+                    entityVictim.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
+                }
+
+                ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
+                if (speAffect != null && (hVictim.GetComponent<Player>() == null))
+                {
+                    speAffect.OnExplosion(this.transform.position, entityData.respawnExplosionForce, entityData.respawnExplosionRadius, entityData.respawnExplosionDamage, entityData.respawnExplosionStun, entityData.respawnExplosionStunDuration, entityData.respawnExplosionLiftValue);
+                    //hVictim.gameObject.GetComponent<C_BulletAffected>().OnBulletHit(bullet.BulletDammage, bullet.StunValue, bullet.BulletName);
+                    //hVictim.gameObject.GetComponent<C_BulletAffected>().OnSoloHitPropulsion(transform.position, bullet.ForceAppliedOnImpact, bullet.BulletName);
+                }
+            }
+        }
+        FxManager.Instance.PlayFx(entityData.respawnExplosionFx, transform.position, transform.rotation, entityData.respawnExplosionRadius);
+        CameraHandler.Instance.RemoveShake();
+    }
+
+    public void DieForGood()
+    {
+
+    }
 }
