@@ -14,4 +14,12 @@ public class DataPlayer : DataEntity
 
     public float damageScaleShieldMultiplier = 1;
     public float damageScaleLifeMultiplier = 1.2f;
+
+    public float respawnExplosionRadius = 20;
+    public float respawnExplosionForce = 15000;
+    public float respawnExplosionDamage = 100;
+    public float respawnExplosionStun = 500;
+    public float respawnExplosionStunDuration = 1;
+    public float respawnExplosionLiftValue = 1;
+    public string respawnExplosionFx = "VFX_ExplosionShooterBullet";
 }
