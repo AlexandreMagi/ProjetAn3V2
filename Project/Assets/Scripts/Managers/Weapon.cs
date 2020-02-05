@@ -362,6 +362,8 @@ public class Weapon : MonoBehaviour
             }
         }
 
+        Destroy(bounceMod);
+
         yield break;
     }
 }
