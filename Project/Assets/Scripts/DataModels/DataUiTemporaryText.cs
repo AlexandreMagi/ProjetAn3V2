@@ -4,7 +4,8 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DataUiTemporaryText")]
 public class DataUiTemporaryText : ScriptableObject
 {
-    public Color colorMain = Color.red;
+    public Color colorGood = Color.blue;
+    public Color colorBad = Color.red;
     public Color colorOutline = Color.black;
 
     public float fontSize = 100;

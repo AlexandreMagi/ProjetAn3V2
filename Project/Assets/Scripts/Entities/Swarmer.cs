@@ -153,7 +153,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Means it has been killed in some way and has not just attacked
         if(health <= 0)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, transform.position, this);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, Vector3.zero, this);
 
             if(SequenceHandler.Instance != null)
             SequenceHandler.Instance.OnEnemyKill();
@@ -171,7 +171,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             IEntity targetEntity = target.GetComponent<IEntity>();
             if(other.GetComponent<Player>() != null)
             {
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, transform.position, this);
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
             }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
