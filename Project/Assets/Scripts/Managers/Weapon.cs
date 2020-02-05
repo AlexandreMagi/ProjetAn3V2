@@ -189,6 +189,7 @@ public class Weapon : MonoBehaviour
                 currentChargePurcentage += (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
                 if (currentChargePurcentage > 1)
                 {
+                    UiCrossHair.Instance.JustFinishedCharging();
                     currentChargePurcentage = 1;
                 }
             }
@@ -277,7 +278,7 @@ public class Weapon : MonoBehaviour
                 StartCoroutine(BounceBullets(bounceCalculations, bounceLag));
             }
 
-            UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
+            UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil, weaponMod == weapon.chargedShot);
             UiReload.Instance.PlayerShot();
             CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot, true);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);

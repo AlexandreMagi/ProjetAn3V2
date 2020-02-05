@@ -30,6 +30,17 @@ public class UiCrossHair : MonoBehaviour
     Sprite[] crosshairs = new Sprite[0];
 
     [SerializeField]
+    GameObject fxUICrossHair = null;
+    Animator animUICrossHair = null;
+    [SerializeField]
+    string animTriggerCharge = "";
+    [SerializeField]
+    string animTriggerRelease = "";
+
+    int animCharge;
+    int animRelease;
+
+    [SerializeField]
     DataCrossHair[] dataCrosshairs = new DataCrossHair[0];
 
     CrosshairInstance[] dataHandlerCrosshairs = new CrosshairInstance[0];
@@ -47,6 +58,9 @@ public class UiCrossHair : MonoBehaviour
             UiCrosshairs[i].GetComponent<Image>().sprite = crosshairs[i];
             dataHandlerCrosshairs[i] = new CrosshairInstance(dataCrosshairs[i]);
         }
+        animCharge = Animator.StringToHash(animTriggerCharge);
+        animRelease = Animator.StringToHash(animTriggerRelease);
+        animUICrossHair = fxUICrossHair.GetComponent<Animator>();
     }
 
     public void UpdateCrossHair(Vector2 mousePosition)
@@ -68,6 +82,9 @@ public class UiCrossHair : MonoBehaviour
             UiCrosshairs[i].SetActive(//Weapon.Instance.GetBulletAmmount().x > 0 && 
                 !Weapon.Instance.GetIfReloading());
         }
+        Vector2 posCrFx;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out posCrFx);
+        fxUICrossHair.transform.position = transform.TransformPoint(posCrFx);
     }
 
     public void PlayerHasOrb(bool haveOrb)
@@ -86,13 +103,17 @@ public class UiCrossHair : MonoBehaviour
         }
     }
 
-    public void PlayerShot(float value)
+    public void PlayerShot(float value, bool chargedShot)
     {
+        if (chargedShot) animUICrossHair.SetTrigger(animRelease);
+
         for (int i = 0; i < dataHandlerCrosshairs.Length; i++)
         {
             dataHandlerCrosshairs[i].PlayerShot(value);
         }
     }
+
+    public void JustFinishedCharging() { animUICrossHair.SetTrigger(animCharge); }
 
 
 }
