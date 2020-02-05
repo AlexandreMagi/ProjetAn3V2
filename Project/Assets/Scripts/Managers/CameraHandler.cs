@@ -323,7 +323,6 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Translate(Vector3.back * recoilTranslationValue, Space.Self);
         if (shortStep)
         {
-            Debug.Log("ShortStep");
             // tanslate en fonction du pas actuel
             camRef.transform.Translate(Vector3.up * shortStepCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal)) * shortStepAmplitude, Space.World);
             // rotate en fonction de la vitesse horizontale et du pas actuel
@@ -425,6 +424,10 @@ public class CameraHandler : MonoBehaviour
         value *= 1 - (distance / camData.distanceShakeCancelled);
         if (value > 0)
             shakeSource.GenerateImpulse(Vector3.up * value);
+    }
+    public void RemoveShake()
+    {
+        CinemachineImpulseManager.Instance.Clear();
     }
 
     private void HandleFBAtCharge()

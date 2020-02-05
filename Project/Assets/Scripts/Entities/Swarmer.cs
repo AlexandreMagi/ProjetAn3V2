@@ -318,6 +318,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Vector3 direction = (new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position).normalized;
             rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
 
+            bool moveRight = false;
+
             //Rotation
             Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
@@ -331,15 +333,22 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //dodge to the right
             Debug.DrawRay(adaptedPosition + left * .5f, forward * entityData.sideDetectionSight, Color.magenta);
             if (Physics.Raycast(adaptedPosition + left * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall)) {
-                rbBody.AddForce(right * entityData.dodgeSlideForce);
+                moveRight = true;
             }
 
             //dodge to the left
             Debug.DrawRay(adaptedPosition + right * .5f, forward * entityData.sideDetectionSight, Color.magenta);
             if (Physics.Raycast(adaptedPosition + right * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall))
             {
+                if(!moveRight)
                 rbBody.AddForce(left * entityData.dodgeSlideForce);
             }
+            else if (moveRight)
+            {
+                rbBody.AddForce(right * entityData.dodgeSlideForce);
+            }
+
+
 
             //Si on atteint l'étape de l'évitement
             if (Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
