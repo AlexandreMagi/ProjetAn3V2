@@ -39,6 +39,7 @@ public class GravityOrb : MonoBehaviour
 
         if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
         {
+            UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
 
             GameObject hitObj = hit.collider.gameObject;
@@ -66,7 +67,7 @@ public class GravityOrb : MonoBehaviour
             
         }
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb);
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
         return false;
 
     }
@@ -114,7 +115,7 @@ public class GravityOrb : MonoBehaviour
 
         if (!hasHitSomething)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
         }
 
         if (hasSticked)

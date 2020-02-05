@@ -152,7 +152,7 @@ public class Weapon : MonoBehaviour
                 CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil, true);
             }
             
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
         }
     }
 
@@ -189,6 +189,7 @@ public class Weapon : MonoBehaviour
                 currentChargePurcentage += (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
                 if (currentChargePurcentage > 1)
                 {
+                    UiCrossHair.Instance.JustFinishedCharging();
                     currentChargePurcentage = 1;
                 }
             }
@@ -256,7 +257,7 @@ public class Weapon : MonoBehaviour
                         //PUBLIC
                         if(hit.collider.GetComponent<ShooterBullet>() != null && hit.distance < 2)
                         {
-                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile);
+                            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile, transform.position);
                         }
                     }
 
@@ -277,7 +278,7 @@ public class Weapon : MonoBehaviour
                 StartCoroutine(BounceBullets(bounceCalculations, bounceLag));
             }
 
-            UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil);
+            UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil, weaponMod == weapon.chargedShot);
             UiReload.Instance.PlayerShot();
             CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot, true);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
@@ -316,7 +317,7 @@ public class Weapon : MonoBehaviour
     {
         if (!shotGunHasHit)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
         }
     }
 
@@ -356,11 +357,13 @@ public class Weapon : MonoBehaviour
                     //PUBLIC
                     if (hit.collider.GetComponent<ShooterBullet>() != null && hit.distance < 2)
                     {
-                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile);
+                        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectProjectile, transform.position);
                     }
                 }
             }
         }
+
+        Destroy(bounceMod);
 
         yield break;
     }

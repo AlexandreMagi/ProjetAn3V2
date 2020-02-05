@@ -59,21 +59,21 @@ public class PublicManager : MonoBehaviour
         return this.publicData.baseViewerGrowth;
     }
 
-    public void OnPlayerAction(ActionType action, IEntity cause = null, float bonus = 0)
+    public void OnPlayerAction(ActionType action, Vector3 _position, IEntity cause = null, float bonus = 0)
     {
         switch (action)
         {
             case ActionType.EnvironmentKill:
-                AddViewers(4, true, action);
+                AddViewers(4, true, action, "Environment Kill", _position);
                 break;
             case ActionType.RefuseBonus:
-                AddViewers(5, true, action);
+                AddViewers(5, true, action, "Big balls", _position);
                 break;
             case ActionType.PerfectProjectile:
-                AddViewers(3, true, action);
+                AddViewers(3, true, action, "So close ouuuh", _position);
                 break;
             case ActionType.BackToSender:
-                AddViewers(3, true, action);
+                AddViewers(3, true, action, "Back to mama !", _position);
                 break;
             case ActionType.Kill:
                 //Un peu spécial
@@ -82,18 +82,18 @@ public class PublicManager : MonoBehaviour
                 {
                     if(multiKillCounter > 5)
                     {
-                        AddViewers(3, false, ActionType.Kill);
+                        AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
                     }
                     else
                     {
-                        AddViewers(2, false, ActionType.Kill);
+                        AddViewers(2, false, ActionType.Kill, "Combo kill", _position);
                     }
                    
                 }
                 timeLeftForMultiKill = 0.8f; 
                 break;
             case ActionType.PerfectReload:
-                AddViewers(2, true, action);
+                AddViewers(2, true, action, "Perfect Reload", _position);
                 break;
             case ActionType.VendettaPrepare:
                 //Special
@@ -105,7 +105,7 @@ public class PublicManager : MonoBehaviour
             case ActionType.Vendetta:
                 if(cause == enemyForVendetta)
                 {
-                    AddViewers(3, true, action);
+                    AddViewers(3, true, action, "Revenge", _position);
                 }
                 break;
             case ActionType.SuperLowHp:
@@ -115,22 +115,22 @@ public class PublicManager : MonoBehaviour
                 hpMultiplier = 1.5f;
                 break;
             case ActionType.DamageOnArmor:
-                AddViewers(2, true, action);
+                AddViewers(2, true, action, "Damage", _position);
                 break;
             case ActionType.DamageOnLifeBar:
-                LoseViewers(3);
+                LoseViewers(3, "So weak", _position);
                 break;
             case ActionType.Repeat:
-                LoseViewers(3);
+                LoseViewers(3, "Stop doing that !", _position);
                 break;
             case ActionType.MissGravityOrb:
-                LoseViewers(7);
+                LoseViewers(7, "How can you miss this ?!", _position);
                 break;
             case ActionType.MissShotGun:
-                LoseViewers(2);
+                LoseViewers(2, "You killed the wall", _position);
                 break;
             case ActionType.DeathAndRespawn:
-                LoseViewers(10);
+                LoseViewers(10, "Somes don't like beggars", _position);
                 break;
             case ActionType.BonusOnRespawn:
                 AddRawViewers((int)bonus, false, action);
@@ -140,7 +140,7 @@ public class PublicManager : MonoBehaviour
         }
     }
 
-    private void AddViewers(int viewerLevel, bool isAffectedByBuffer, ActionType action)
+    private void AddViewers(int viewerLevel, bool isAffectedByBuffer, ActionType action, string textToDisplay, Vector3 pos)
     {
         float bufferMultiplier = 1;
         int capCount = 0;
@@ -166,7 +166,21 @@ public class PublicManager : MonoBehaviour
             AddToBuffer(action);
         }
 
-        nbViewers += Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+
+        if (difViewer != 0) 
+        {
+            if (pos != Vector3.zero)
+            {
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " + " + difViewer, true, pos, 1);
+            }
+            else
+            {
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " + " + difViewer, true);
+            }
+        }
+
+        nbViewers += difViewer;
 
         if(nbViewers <= 0)
         {
@@ -212,9 +226,21 @@ public class PublicManager : MonoBehaviour
         RecalculateMultiplier();
     }
 
-    private void LoseViewers(int viewerLevel)
+    private void LoseViewers(int viewerLevel, string textToDisplay, Vector3 pos)
     {
-        nbViewers -= Mathf.FloorToInt((publicData.baseViewerLoss + Random.Range(0, publicData.randomViewerLoss)) * viewerLevel);
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerLoss + Random.Range(0, publicData.randomViewerLoss)) * viewerLevel);
+        if (difViewer != 0)
+        {
+            if (pos != Vector3.zero)
+            {
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " - " + difViewer, false, pos, 1);
+            }
+            else
+            {
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " - " + difViewer, false);
+            }
+        }
+        nbViewers -= difViewer;
 
         if (nbViewers < 0) nbViewers = 0;
         //Kill player ?

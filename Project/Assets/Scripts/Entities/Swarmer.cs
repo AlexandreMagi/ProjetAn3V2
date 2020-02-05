@@ -153,7 +153,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Means it has been killed in some way and has not just attacked
         if(health <= 0)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, Vector3.zero, this);
 
             if(SequenceHandler.Instance != null)
             SequenceHandler.Instance.OnEnemyKill();
@@ -171,7 +171,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             IEntity targetEntity = target.GetComponent<IEntity>();
             if(other.GetComponent<Player>() != null)
             {
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, this);
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
             }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
@@ -235,6 +235,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
         else
         {
+            this.transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             //Ça, c'est le truc pour les rendre moins débilos
             //------------- JUMP OBSTACLES
             Vector3 forward = transform.TransformDirection(Vector3.forward) * entityData.frontalDetectionSight;
