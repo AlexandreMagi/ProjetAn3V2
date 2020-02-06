@@ -34,6 +34,9 @@ public class ShootTriggerManager : MonoBehaviour
 
     [SerializeField, ShowIf("startsShakeAfterAllTriggers")]
     float shakeForce = 0f;
+    
+    [SerializeField, ShowIf("startsShakeAfterAllTriggers")]
+    float shakeDuration = 0f;
 
     // SOUND ////////////////////////////////
     [SerializeField, Header("Sound")]
@@ -154,7 +157,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (startsShakeAfterAllTriggers)
         {
-            TriggerUtil.TriggerShake(timeBeforeShake, shakeForce);
+            TriggerUtil.TriggerShake(timeBeforeShake, shakeForce, shakeDuration);
         }
 
         if (isPlayingSound)

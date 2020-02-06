@@ -323,7 +323,6 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Translate(Vector3.back * recoilTranslationValue, Space.Self);
         if (shortStep)
         {
-            Debug.Log("ShortStep");
             // tanslate en fonction du pas actuel
             camRef.transform.Translate(Vector3.up * shortStepCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal)) * shortStepAmplitude, Space.World);
             // rotate en fonction de la vitesse horizontale et du pas actuel
@@ -411,17 +410,24 @@ public class CameraHandler : MonoBehaviour
             if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
         }
     }
-    public void AddShake (float value, float duration = 0.2f) 
+    public void AddShake (float value, float duration = 1)
     {
-        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration;
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration * 0.2f;
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = duration * 0.7f;
         shakeSource.GenerateImpulse(Vector3.up * value); 
     }
-    public void AddShake (float value, Vector3 initPos)
+    public void AddShake (float value, Vector3 initPos, float duration = 1)
     {
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration * 0.2f;
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = duration * 0.7f;
         float distance = Vector3.Distance(initPos, renderingCam.transform.position);
         value *= 1 - (distance / camData.distanceShakeCancelled);
         if (value > 0)
             shakeSource.GenerateImpulse(Vector3.up * value);
+    }
+    public void RemoveShake()
+    {
+        CinemachineImpulseManager.Instance.Clear();
     }
 
     private void HandleFBAtCharge()

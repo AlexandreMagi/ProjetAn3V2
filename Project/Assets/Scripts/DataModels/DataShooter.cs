@@ -11,6 +11,7 @@ public class DataShooter : DataEnemy
     public float rotationMinimalBeforeCharge;
     public float playerMoveTimeReset;
     public float distanceDetection;
+    public float distanceYWithPlayerUpSupported = 4;
 
     [Header("Tir")]
     public float timeWaitBeforeShoot;
