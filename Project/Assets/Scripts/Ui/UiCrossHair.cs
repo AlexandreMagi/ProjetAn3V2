@@ -93,11 +93,13 @@ public class UiCrossHair : MonoBehaviour
     {
         waitGameObject.SetActive(true);
         rootCrosshair.gameObject.SetActive(false);
+        waitGameObject.GetComponent<Animator>().SetTrigger("pop");
     }
 
     public void StopWaitFunction()
     {
-        waitGameObject.SetActive(false);
+        waitGameObject.GetComponent<Animator>().SetTrigger("depop");
+        //waitGameObject.SetActive(false);
         rootCrosshair.gameObject.SetActive(true);
     }
 
