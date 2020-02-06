@@ -15,6 +15,10 @@ public class Transmition : MonoBehaviour
     float factorY = 1.6f;
 
 
+    public bool isShotDown = false;
+    public bool isShotHeld = false;
+    public bool isShotUp = false;
+
 
     //------ data a transmettre
     [Header("Valeur a récupérer pour le jeux")]
@@ -76,8 +80,33 @@ public class Transmition : MonoBehaviour
 
         }
 
-        
 
+        if (bTableBouton[0])
+        {
+            if (isShotDown)
+            {
+                isShotDown = false;
+            }
+            else
+            {
+                isShotDown = true;
+            }
+
+            isShotHeld = true;
+        }
+        else
+        {
+            if (isShotHeld)
+            {
+                isShotUp = true;
+            }
+            else
+            {
+                isShotUp = false;
+            }
+            isShotHeld = false;
+            isShotDown = false;
+        }
     }
 
     public Vector3 positions()

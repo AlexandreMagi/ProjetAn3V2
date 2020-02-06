@@ -15,6 +15,8 @@ public class Main : MonoBehaviour
     private float timeLeftForRaycastCursor;
     private float timeTickCursor = .2f;
 
+    Transmition arduinoTransmettor;
+
     [SerializeField]
     int startWithCameraNumber = 0;
 
@@ -44,6 +46,11 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(arduinoTransmettor == null)
+        {
+            arduinoTransmettor = Transmition.Instance;
+        }
+
         if (!hasJumpedCam && startWithCameraNumber != 0)
         {
             hasJumpedCam = true;
@@ -55,22 +62,22 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.GravityOrbInput();
         }
-        if (Input.GetKey(KeyCode.Mouse0) && playerCanShoot)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKeyDown(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputHold();
         }
-        if(Input.GetKeyDown(KeyCode.Mouse0) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        if((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         {
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
         }
-        if (Input.GetKeyUp(KeyCode.Mouse0) && playerCanShoot)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyDown(KeyCode.Mouse0)) && playerCanShoot)
         {
-            Weapon.Instance.InputUp(Input.mousePosition);
+            Weapon.Instance.InputUp(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
         }
 
         //CAM
-        CameraHandler.Instance.DecalCamWithCursor(Input.mousePosition);
+        CameraHandler.Instance.DecalCamWithCursor(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -206,7 +213,7 @@ public class Main : MonoBehaviour
 
         if(timeLeftForRaycastCursor <= timeTickCursor)
         {
-            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(Input.mousePosition);
+            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
             RaycastHit hit;
             Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
             

@@ -16,7 +16,6 @@ public class Pather : MonoBehaviour
         InitChilds();
     }
 
-#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         InitChilds();
@@ -39,7 +38,7 @@ public class Pather : MonoBehaviour
         }
 
     }
-#endif
+
 
     void InitChilds()
     {

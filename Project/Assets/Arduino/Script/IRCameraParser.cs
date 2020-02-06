@@ -31,7 +31,7 @@ public class IRCameraParser : MonoBehaviour
         //Debug.Log(iTablePosition[2,0] + "  " + iTablePosition[2, 1]);
 
         string data = scrptArduinoConnect.getLastDataFromDevice();
-        Debug.Log(data);
+        //Debug.Log(data);
 
         if (data != null && data.Split(',').Length > 7)
         {
