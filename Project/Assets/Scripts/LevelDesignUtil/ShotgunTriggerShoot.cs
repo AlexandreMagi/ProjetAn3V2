@@ -74,6 +74,15 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     {
         Animator anim = GetComponent<Animator>();
         if (anim != null)
+
+
+
+
+
+
+
+
+
             anim.SetTrigger("MakeAction");
     }
 

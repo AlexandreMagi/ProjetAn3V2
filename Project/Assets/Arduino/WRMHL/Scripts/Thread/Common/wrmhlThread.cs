@@ -91,7 +91,7 @@ public abstract class wrmhlThread { // wrmhlThread is the common Thread for rece
 	}
 
 	public string readQueueThread(){ // return the data stocked in the Queue. Independent from the protocol.
-		if (inputQueue.Count == 0)
+		if (inputQueue != null && inputQueue.Count == 0)
 			return null;
 
 		return (string)inputQueue.Dequeue ();
