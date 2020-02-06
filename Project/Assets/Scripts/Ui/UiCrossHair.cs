@@ -48,6 +48,8 @@ public class UiCrossHair : MonoBehaviour
 
     [SerializeField]
     Transform rootCrosshair = null;
+    [SerializeField]
+    GameObject waitGameObject = null;
     private void Start()
     {
         UiCrosshairs = new GameObject[crosshairs.Length];
@@ -85,6 +87,18 @@ public class UiCrossHair : MonoBehaviour
         Vector2 posCrFx;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out posCrFx);
         fxUICrossHair.transform.position = transform.TransformPoint(posCrFx);
+    }
+
+    public void WaitFunction()
+    {
+        waitGameObject.SetActive(true);
+        rootCrosshair.gameObject.SetActive(false);
+    }
+
+    public void StopWaitFunction()
+    {
+        waitGameObject.SetActive(false);
+        rootCrosshair.gameObject.SetActive(true);
     }
 
     public void PlayerHasOrb(bool haveOrb)

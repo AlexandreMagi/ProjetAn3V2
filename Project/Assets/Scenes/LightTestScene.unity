@@ -616,18 +616,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeScaleIndependent: 0
-  blink: 0
+  blink: 1
   offRandomTime: {x: 0, y: 0.1}
-  onRandomTime: {x: 0.1, y: 0.2}
-  oscillate: 0
-  frequencyIntensity: 15
-  minValueIntensityRelative: -3.78
-  maxValueIntensityRelative: 50
-  changeColor: 1
+  onRandomTime: {x: 1, y: 1.5}
+  oscillate: 1
+  frequencyIntensity: 1
+  minValueIntensityRelative: -0.5
+  maxValueIntensityRelative: 0
+  changeColor: 0
   fluidified: 0
   lerped: 0
   speedFluidify: 3
-  currentMod: 2
+  currentMod: 1
   changeEvery: {x: 0.5, y: 1}
   colorRandOne: {r: 1, g: 0.5949938, b: 0, a: 1}
   colorRandTwo: {r: 1, g: 0, b: 0, a: 1}
@@ -665,6 +665,12 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   gradientTime: 0.5
   decalTime: 1
+  flickerIntensity: 1
+  flickerRandomIntensityMultiplier: {x: 1, y: 1.2}
+  intensityFlickDuration: 0.1
+  flickerPosition: 0
+  moveRange: 0.1
+  moveFlickDuration: 0.1
 --- !u!108 &1300811434
 Light:
   m_ObjectHideFlags: 0
@@ -677,7 +683,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3.78
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

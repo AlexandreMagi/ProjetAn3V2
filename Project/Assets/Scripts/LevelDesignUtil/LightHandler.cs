@@ -44,6 +44,21 @@ public class LightHandler : MonoBehaviour
     [SerializeField, ShowIf("currentMod", modOfColor.Gradient), ShowIf("changeColor")] float decalTime = 0;
 
 
+    [SerializeField] bool flickerIntensity = false;
+    [SerializeField, ShowIf("flickerIntensity")] Vector2 flickerRandomIntensityMultiplier = new Vector2(1.0f, 1.2f);
+    [SerializeField, ShowIf("flickerIntensity")] float intensityFlickDuration = 0.1f;
+    float currentIntensityMultiplier = 1.0f;
+    float targetIntensityMultiplier;
+    float timeLeftIntensity;
+
+    [SerializeField] bool flickerPosition = false;
+    [SerializeField, ShowIf("flickerPosition")] float moveRange = 0.1f;
+    [SerializeField, ShowIf("flickerPosition")] float moveFlickDuration = 0.1f;
+    Vector3 initPos;
+    Vector3 currentPos;
+    Vector3 targetPos;
+    float timeLeftPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +68,9 @@ public class LightHandler : MonoBehaviour
         {
             colorTimer = decalTime;
         }
+        initPos = transform.localPosition;// Save de la position de base
+        currentPos = initPos; // Setup de la var de position à celle de base
+
     }
 
     // Update is called once per frame
@@ -82,6 +100,22 @@ public class LightHandler : MonoBehaviour
         if (oscillate)
         {
             objLight.intensity = baseIntensity + Mathf.Lerp(minValueIntensityRelative, maxValueIntensityRelative, (Mathf.Sin(time * frequencyIntensity) + 1) / 2);
+        }
+        if (flickerIntensity)
+        {
+            if (timeLeftIntensity < dt)
+            {
+                targetIntensityMultiplier = Random.Range(flickerRandomIntensityMultiplier.x, flickerRandomIntensityMultiplier.y); //calcul d'une nouvelle intensité
+                timeLeftIntensity = intensityFlickDuration;
+            }
+            else
+            {
+                float valueLerp = dt / timeLeftIntensity; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
+                currentIntensityMultiplier = Mathf.Lerp(currentIntensityMultiplier, targetIntensityMultiplier, valueLerp); // lerp de la valeur actuelle vers la valeur visée
+                if (oscillate) objLight.intensity = objLight.intensity * currentIntensityMultiplier; 
+                else objLight.intensity = baseIntensity * currentIntensityMultiplier;
+                timeLeftIntensity -= dt;
+            }
         }
         if (changeColor)
         {
@@ -130,6 +164,21 @@ public class LightHandler : MonoBehaviour
             else
             {
                 objLight.color = aimedColor;
+            }
+        }
+        if (flickerPosition)
+        {
+            if (timeLeftPos < dt)
+            {
+                targetPos = initPos + Random.insideUnitSphere * moveRange;
+                timeLeftPos = moveFlickDuration;
+            }
+            else
+            {
+                float valueLerp = dt / timeLeftPos; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
+                currentPos = Vector3.Lerp(currentPos, targetPos, valueLerp); // lerp de la valeur actuelle vers la valeur visée
+                transform.localPosition = currentPos;
+                timeLeftPos -= dt;
             }
         }
     }

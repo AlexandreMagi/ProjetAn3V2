@@ -7,12 +7,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
 
     bool bPlayerCanDammage = true;
-    float fCurrentScale = 1;
-    float fScaleBoostBeforeExplosion = .5f;
+    [SerializeField] float fCurrentScale = 1;
+    [SerializeField] float fScaleBoostBeforeExplosion = .5f;
 
     float DammageDone = 0;
     float DammageDoneSaved = 0;
-    float DammageBeforeExplosion = 8;
+    [SerializeField] float DammageBeforeExplosion = 8;
 
     bool bItemDestroyed = false;
     bool bItemDestroyedCompletly = false;
@@ -71,7 +71,6 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         CameraHandler.Instance.AddShake(30,1);
         bItemDestroyedCompletly = true;
         // GravityOrb.GetComponent<C_GravityOrb>().StopHolding();
-        Debug.Log("Fx orbe");
         //GameObject.FindObjectOfType<C_Fx>().GatherOrb(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "EquipOrb_Boosted", false, 1f);
     }
