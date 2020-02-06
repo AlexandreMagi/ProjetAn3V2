@@ -65,7 +65,9 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             TriggerUtil.TriggerSequence(timerBeforeNextSequence);
             Invoke("resetNextSequence", 2f);
             callNextSequence = true;
-        }  
+        }
+
+        Weapon.Instance.OnShotGunHitTarget();
     }
 
     public void OnHitSingleShot()
