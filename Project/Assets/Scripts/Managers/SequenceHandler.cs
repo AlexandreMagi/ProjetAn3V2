@@ -50,7 +50,6 @@ public class SequenceHandler : MonoBehaviour
 
     }
 
-#if UNITY_EDITOR
     [Button("Add sequence")]
     private void AddSequence()
     {
@@ -107,7 +106,6 @@ public class SequenceHandler : MonoBehaviour
         }
     }
     
-#endif // UNITY_EDITOR
 
     public static SequenceHandler Instance { get; private set; }
 

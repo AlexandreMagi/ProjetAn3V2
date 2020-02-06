@@ -62,6 +62,7 @@ public class Spawner : MonoBehaviour
         this.GetComponent<MeshRenderer>().enabled = false;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         if (isRangedSpawner)
@@ -70,6 +71,8 @@ public class Spawner : MonoBehaviour
             UnityEditor.Handles.DrawWireDisc(this.transform.position, this.transform.up, rangeRadius);
         }
     }
+#endif
+
 
     public void StartSpawn()
     {
