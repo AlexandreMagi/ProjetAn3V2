@@ -250,7 +250,7 @@ public class Weapon : MonoBehaviour
                         bAffect.OnHit(weaponMod, hit.point);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot();
-                        if (weaponMod == weapon.chargedShot) { }
+                        if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun();
 
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
