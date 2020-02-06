@@ -62,16 +62,16 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.GravityOrbInput();
         }
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKeyDown(KeyCode.Mouse0)) && playerCanShoot)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputHold();
         }
-        if((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        if((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         {
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
         }
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyDown(KeyCode.Mouse0)) && playerCanShoot)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputUp(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
         }
