@@ -129,7 +129,7 @@ public class CameraHandler : MonoBehaviour
         if (cinemachineCam) cinemachineCam.enabled = false;
         else Debug.LogWarning("BUG : Camera isn't setup in CameraHandler");
         if (animatedCam) animatedCam.enabled = false;
-        else Debug.LogWarning("BUG : Camera isn't setup in CameraHandler");
+        else Debug.LogWarning("BUG : Animated Camera isn't setup in CameraHandler");
         if (renderingCam)
         {
             renderingCam.enabled = true;
