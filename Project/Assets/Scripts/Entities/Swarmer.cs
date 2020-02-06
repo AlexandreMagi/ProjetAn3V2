@@ -23,19 +23,22 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     LayerMask maskOfWall;
 
-    [ShowInInspector]
     Pather pathToFollow = null;
+    [ShowInInspector]
     int pathID = 0;
 
+    [ShowInInspector]
     Transform currentFollow;
 
     Vector3 v3VariancePoisitionFollow;
 
     Rigidbody rbBody;
 
+    [ShowInInspector]
     bool isChasingTarget;
 
     enum State { Basic, Waiting, Attacking };
+    [ShowInInspector]
     State nState = State.Basic;
 
     //Stimulus
@@ -148,11 +151,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Means it has been killed in some way and has not just attacked
         if(health <= 0)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, Vector3.zero, this);
-
-            if(SequenceHandler.Instance != null)
-            SequenceHandler.Instance.OnEnemyKill();
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, Vector3.zero, this); 
         }
+
+        if (SequenceHandler.Instance != null)
+            SequenceHandler.Instance.OnEnemyKill();
 
         this.gameObject.SetActive(false);
         //base.Die();        
@@ -170,7 +173,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
-            health = 0;
+            //health = 0;
             this.Die();
         }
     }
@@ -207,8 +210,19 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 {
                     isGettingOutOfObstacle = false;
                 }
+                else
+                {
+                    pathID++;
+                    currentFollow = pathToFollow.GetPathAt(pathID);
+                    if (currentFollow == null)
+                    {
+                        pathID--;
+                        isChasingTarget = true;
+                        target = Player.Instance.transform;
+                    }
+                }
 
-                if(timeBeingStuck >= entityData.maxBlockedSuicideTime)
+                if(timeBeingStuck >= entityData.maxBlockedSuicideTime && !isAirbone)
                 {
                     this.Die();
                 }
@@ -216,6 +230,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             else
             {
                 timeBeingStuck = 0;
+                lastKnownPosition = transform.position;
             }
         }
 
@@ -228,6 +243,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         pathToFollow = path;
 
         currentFollow = path.GetPathAt(0);
+
+        pathID = 0;
 
         v3VariancePoisitionFollow = currentFollow.position;
     }
@@ -402,7 +419,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
         else { 
             //Pathfinding
-            if (currentFollow != null && entityData != null && rbBody.useGravity && !isAirbone)
+            if ((currentFollow != null || target != null) && entityData != null && rbBody.useGravity && !isAirbone)
             {
 
                 if (nState == State.Basic)
@@ -427,8 +444,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     {
                         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.distanceBeforeNextPath)
                         {
-                            currentFollow = pathToFollow.GetPathAt(pathID++);
-                            if (currentFollow == null) pathID--;
+                            pathID++;
+                            currentFollow = pathToFollow.GetPathAt(pathID);
+                            if (currentFollow == null)
+                            {
+                                Debug.Log("End of path");
+                                pathID--;
+                                isChasingTarget = true;
+                                target = Player.Instance.transform;
+                            }
 
                             if (currentFollow != null && currentFollow != target)
                             {
