@@ -35,8 +35,16 @@ public class UiShooterCircle : MonoBehaviour
     public void MoveShooterCircle(GameObject obj, Transform parent)
     {
         Vector2 pos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, RenderCamera.WorldToScreenPoint(parent.transform.position), GetComponent<Canvas>().worldCamera, out pos);
-        obj.transform.position = transform.TransformPoint(pos);
+        Vector3 posScreen = RenderCamera.WorldToScreenPoint(parent.transform.position);
+        if (posScreen.z > 0)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posScreen, GetComponent<Canvas>().worldCamera, out pos);
+            obj.transform.position = transform.TransformPoint(pos);
+        }
+        else
+        {
+            obj.transform.position = -Vector3.one * Screen.width;
+        }
     }
 
 }

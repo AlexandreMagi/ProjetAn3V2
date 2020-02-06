@@ -252,6 +252,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnHold()
     {
+        onGravity = true;
+        Destroy(circlePrefab);
         // Nothing
     }
 

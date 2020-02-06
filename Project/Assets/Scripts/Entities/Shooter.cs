@@ -106,7 +106,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 Quaternion targetRotation = Quaternion.LookRotation(transform.position - vPos, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * entityData.rotationSpeed);
 
-                if (Quaternion.Angle(transform.rotation, targetRotation) < entityData.rotationMinimalBeforeCharge && Mathf.Abs(target.position.y - transform.position.y) < entityData.distanceYWithPlayerUpSupported)
+                if (Quaternion.Angle(transform.rotation, targetRotation) < entityData.rotationMinimalBeforeCharge && (target.position.y - transform.position.y) < entityData.distanceYWithPlayerUpSupported)
                 {
                     //PlayerLocked();
                     timerLoading += Time.deltaTime;

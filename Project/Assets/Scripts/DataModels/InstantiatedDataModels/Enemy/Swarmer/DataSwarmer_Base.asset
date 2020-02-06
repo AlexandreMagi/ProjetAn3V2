@@ -28,7 +28,7 @@ MonoBehaviour:
   matChangeTime: 0.1
   varianceInPath: 20
   timeBeforeNextPath: 0.05
-  distanceBeforeNextPath: 0.6
+  distanceBeforeNextPath: 0.3
   speed: 200
   damage: 10
   upScale: 10
@@ -38,4 +38,14 @@ MonoBehaviour:
   distanceBeforeAttack: 8
   jumpForce: 80
   speedMultiplierWhenAttacking: 4
+  frontalDetectionSight: 2
+  jumpHeight: 3
+  jumpDodgeForce: 2500
+  jumpCooldownInitial: 0.5
+  numberOfSideTries: 4
+  tryStep: 1
+  distanceDodgeStep: 0.7
+  extraLengthByStep: 0.2
+  sideDetectionSight: 1
+  dodgeSlideForce: 350
   mat: {fileID: 2100000, guid: c40cc56f9422c484a83c8a3190d17afb, type: 2}

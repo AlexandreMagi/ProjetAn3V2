@@ -17,8 +17,6 @@ public class DataSequence : ScriptableObject
 
     public float animationTime;
 
-    public bool hasEventOnEnd;
-
     public bool cutsSlowMoOnEnd;
 
     [Header("Steps")]
@@ -64,6 +62,7 @@ public class DataSequence : ScriptableObject
 
     //TYPES
     [Header("Séquence paramètres")]
+
     [EnumToggleButtons]
     public SequenceType sequenceType;
 
@@ -83,6 +82,9 @@ public class DataSequence : ScriptableObject
 
     //[SerializeField]
     //public float timeBeforeStart = 0;
+
+    [Header("Event on end")]
+    public bool hasEventOnEnd;
 
     [ShowIf("hasEventOnEnd")]
     public SequenceEndEventType seqEvent;
