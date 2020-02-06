@@ -83,6 +83,21 @@ public class FxManager : MonoBehaviour
         return clone;
     }
 
+    public ParticleSystem PlayFx(string name, Transform parent, float sizeMultiplier, float baseScale = 1)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
+
+        ParticleSystem clone = Instantiate(fxInstantiated, parent);
+        for (int i = 0; i < clone.transform.childCount; i++)
+        {
+            clone.transform.GetChild(i).localScale = Vector3.one * sizeMultiplier * baseScale;
+        }
+        clone.Play();
+        return clone;
+    }
+
     public ParticleSystem PlayFx (string name, Transform parent)
     {
         ParticleSystem fxInstantiated = FindFx(name);

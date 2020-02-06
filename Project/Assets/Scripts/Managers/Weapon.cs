@@ -53,7 +53,7 @@ public class Weapon : MonoBehaviour
     {
         _instance = this;
         bulletRemaining = weapon.bulletMax;
-        timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+        //timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
     }
     private void Start()
     {
