@@ -22,6 +22,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
     [SerializeField]
     private float distanceAllowedToPlayer = 5;
+    [SerializeField]
+    private float timeBetweenDeathAndNextSequence = 7f;
+    [SerializeField]
+    private float shakeTime = 1;
+    [SerializeField]
+    private float shakeForce = 30;
 
     /*[SerializeField]
     GameObject GravityOrb = null;
@@ -48,7 +54,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             FxManager.Instance.PlayFx("VFX_GatherableOrbExplosionFinal", transform.position /*+ Vector3.up * 0.9542458f * fCurrentScale*/,transform.rotation);
             Invoke("OrbPreDestroyed", 2.6f);
             Invoke("OrbDestroyed", 2.8f);
-            Invoke("GoToTuto", 7f);
+            Invoke("GoToTuto", timeBetweenDeathAndNextSequence);
             bItemDestroyed = true;
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "GravityOrbOvercharge_Boosted", false, 1f);
         }
@@ -68,7 +74,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
     void OrbDestroyed()
     {
-        CameraHandler.Instance.AddShake(30,1);
+        CameraHandler.Instance.AddShake(shakeForce, shakeTime);
         bItemDestroyedCompletly = true;
         // GravityOrb.GetComponent<C_GravityOrb>().StopHolding();
         //GameObject.FindObjectOfType<C_Fx>().GatherOrb(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
