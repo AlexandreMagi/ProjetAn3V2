@@ -121,6 +121,11 @@ public class SequenceHandler : MonoBehaviour
             return 1;
     }
 
+    public int GetCurrentSequenceIndex()
+    {
+        return sequenceIndex;
+    }
+
     /// <summary>
     /// During the Update, the handler will check if the completion confitions are met to get to the next sequence.
     /// </summary>

@@ -95,6 +95,11 @@ public class Main : MonoBehaviour
             isArduinoMode = !isArduinoMode;
         }
 
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log($"Current sequence index :{SequenceHandler.Instance.GetCurrentSequenceIndex()}");
+        }
+
         if (Input.GetKeyDown(KeyCode.N))
         {
             SequenceHandler.Instance.NextSequence(true);
