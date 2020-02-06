@@ -230,6 +230,9 @@ public class Main : MonoBehaviour
 
         if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
         {
+            if (state) UiCrossHair.Instance.StopWaitFunction();
+            else UiCrossHair.Instance.WaitFunction();
+
             playerCanShoot = state;
             //FindObjectOfType<C_Ui>().CannotShoot(state);
             
