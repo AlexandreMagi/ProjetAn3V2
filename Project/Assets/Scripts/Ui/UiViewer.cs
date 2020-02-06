@@ -131,9 +131,9 @@ public class UiViewer : MonoBehaviour
         voteSlider.gameObject.SetActive(false);
         rootLiveOrDie.gameObject.SetActive(false);
         cap.gameObject.SetActive(false);
+        TimeScaleManager.Instance.Stop();
         Main.Instance.EndReviveSituation(revive, bonusFromRez);
         if (revive) UiLifeBar.Instance.AddLife();
-        TimeScaleManager.Instance.Stop();
         yield break;
     }
 

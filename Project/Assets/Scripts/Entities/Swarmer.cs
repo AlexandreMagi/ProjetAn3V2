@@ -17,6 +17,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     Vector3 obstacleDodgePoint = Vector3.zero;
     Vector3 oldForwardVector = Vector3.zero;
 
+    float timeBeingStuck = 0;
+    Vector3 lastKnownPosition = Vector3.zero;
+
     [SerializeField]
     LayerMask maskOfWall;
 
@@ -46,6 +49,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void ResetSwarmer(DataEntity _entityData)
     {
         entityData = _entityData as DataSwarmer;
+        timeBeingStuck = 0;
+        lastKnownPosition = transform.position;
         health = entityData.startHealth;
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
         TeamsManager.Instance.RegistertoTeam(this.transform, entityData.team);
@@ -102,16 +107,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     #endregion
 
     #region Detection
-
-    protected override void Update()
-    {
-        base.Update();
-
-        if (this.transform.position.y <= -5)
-        {
-            this.Die();
-        }
-    }
 
     public override void OnMovementDetect()
     {
@@ -188,8 +183,45 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         this.health = entityData.startHealth;
         //enemyData = entityData as DataSwarmer;
         rbBody = GetComponent<Rigidbody>();
+
+        lastKnownPosition = transform.position;
         //TeamsManager.Instance.RegistertoTeam(this.transform, enemyData.team);
     }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (this.transform.position.y <= -5)
+        {
+            this.Die();
+        }
+
+        timeBeingStuck += Time.deltaTime;
+
+        if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
+        {
+            if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
+            {
+                if(timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
+                {
+                    isGettingOutOfObstacle = false;
+                }
+
+                if(timeBeingStuck >= entityData.maxBlockedSuicideTime)
+                {
+                    this.Die();
+                }
+            }
+            else
+            {
+                timeBeingStuck = 0;
+            }
+        }
+
+        
+    }
+
 
     public void SetPathToFollow(Pather path)
     {
@@ -318,6 +350,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Vector3 direction = (new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position).normalized;
             rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
 
+            bool moveRight = false;
+
             //Rotation
             Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
@@ -331,15 +365,22 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //dodge to the right
             Debug.DrawRay(adaptedPosition + left * .5f, forward * entityData.sideDetectionSight, Color.magenta);
             if (Physics.Raycast(adaptedPosition + left * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall)) {
-                rbBody.AddForce(right * entityData.dodgeSlideForce);
+                moveRight = true;
             }
 
             //dodge to the left
             Debug.DrawRay(adaptedPosition + right * .5f, forward * entityData.sideDetectionSight, Color.magenta);
             if (Physics.Raycast(adaptedPosition + right * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall))
             {
+                if(!moveRight)
                 rbBody.AddForce(left * entityData.dodgeSlideForce);
             }
+            else if (moveRight)
+            {
+                rbBody.AddForce(right * entityData.dodgeSlideForce);
+            }
+
+
 
             //Si on atteint l'étape de l'évitement
             if (Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
