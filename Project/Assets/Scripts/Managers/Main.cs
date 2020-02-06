@@ -187,6 +187,7 @@ public class Main : MonoBehaviour
                 if(sequenceCheat != "")
                 {
                     int sequenceToGo = int.Parse(sequenceCheat);
+
                     sequenceCheat = "";
                     SequenceHandler.Instance.SkipToSequence(sequenceToGo);
                 }
