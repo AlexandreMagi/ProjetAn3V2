@@ -41,7 +41,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     public void OnHit(DataWeaponMod mod, Vector3 position)
     {
-
+        Debug.Log(mod);
     }
 
     public void OnHitShotGun()
@@ -74,15 +74,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     {
         Animator anim = GetComponent<Animator>();
         if (anim != null)
-
-
-
-
-
-
-
-
-
             anim.SetTrigger("MakeAction");
     }
 

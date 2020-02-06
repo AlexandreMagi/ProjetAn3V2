@@ -41,6 +41,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [ShowInInspector]
     State nState = State.Basic;
 
+    ParticleSystem currentParticleOrb = null;
+    bool hasPlayedFxOnPull = false;
+
     //Stimulus
     #region Stimulus
     #region Gravity
@@ -64,22 +67,32 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         timerWait = 0;
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
+        if (currentParticleOrb) Destroy(currentParticleOrb);
+        hasPlayedFxOnPull = false;
         //InitColor();
     }
 
     public void OnHold()
     {
+        if (currentParticleOrb)
+            currentParticleOrb = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenHoldByGrav, transform, entityData.vfxSizeWhenHoldByGrav, entityData.vfxSizeWhenHoldByGrav);
         //Nothing happens on hold
     }
 
     public void OnPull(Vector3 origin, float force)
     {
         ReactGravity<DataSwarmer>.DoPull(rbBody, origin, force, isAirbone);
+        if (!hasPlayedFxOnPull)
+        {
+            hasPlayedFxOnPull = true;
+            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform, entityData.vfxSizeWhenPulledByGrav, entityData.vfxSizeWhenPulledByGrav);
+        }
     }
 
     public void OnRelease()
     {
         ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
+        if (currentParticleOrb) Destroy(currentParticleOrb);
     }
 
     public void OnZeroG()

@@ -53,7 +53,7 @@ public class Weapon : MonoBehaviour
     {
         _instance = this;
         bulletRemaining = weapon.bulletMax;
-        timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+        //timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
     }
     private void Start()
     {
@@ -203,6 +203,9 @@ public class Weapon : MonoBehaviour
             DataWeaponMod currentWeaponMod = null;
             if (currentChargePurcentage == 1) currentWeaponMod = weapon.chargedShot;
             else currentWeaponMod = weapon.baseShot;
+
+            Debug.Log(currentWeaponMod);
+
             currentChargePurcentage = 0;
             OnShoot(mousePosition, currentWeaponMod);
         }
@@ -247,7 +250,7 @@ public class Weapon : MonoBehaviour
                         bAffect.OnHit(weaponMod, hit.point);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot();
-                        if (weaponMod == weapon.chargedShot) { }
+                        if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun();
 
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
