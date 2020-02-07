@@ -5,10 +5,10 @@ using UnityEngine;
 public class TriggerableAnimator : MonoBehaviour
 {
     [SerializeField]
-    List<string> vfxNames;
+    List<string> vfxNames = null;
 
     [SerializeField]
-    List<Transform> vfxPositions;
+    List<Transform> vfxPositions = null;
     int currentVFX = 0;
 
 

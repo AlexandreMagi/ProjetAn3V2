@@ -59,6 +59,14 @@ public class LightHandler : MonoBehaviour
     Vector3 targetPos;
     float timeLeftPos;
 
+    Light lightComponent;
+
+    float elapsedTimeForCheckVisi = 0;
+    [SerializeField]
+    float optimisationTimeCheckVisi = 1f;
+
+    bool isSeen = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,116 +78,172 @@ public class LightHandler : MonoBehaviour
         }
         initPos = transform.localPosition;// Save de la position de base
         currentPos = initPos; // Setup de la var de position à celle de base
-
+        lightComponent = GetComponent<Light>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float dt = timeScaleIndependent ? Time.unscaledDeltaTime : Time.deltaTime;
-        float time = timeScaleIndependent ? Time.unscaledTime : Time.time;
-        if (blink)
+        elapsedTimeForCheckVisi += Time.unscaledDeltaTime;
+        if(elapsedTimeForCheckVisi >= optimisationTimeCheckVisi)
         {
-            blinkTimer += dt;
-            if (blinkTimer > currentTimerToNextState)
+            elapsedTimeForCheckVisi = 0;
+            isSeen = InSight();
+        }
+
+        if (isSeen)
+        {
+            lightComponent.enabled = true;
+
+            float dt = timeScaleIndependent ? Time.unscaledDeltaTime : Time.deltaTime;
+            float time = timeScaleIndependent ? Time.unscaledTime : Time.time;
+            if (blink)
             {
-                // Ici pour play Fx
-                blinkTimer -= currentTimerToNextState;
-                if (objLight.enabled)
+                blinkTimer += dt;
+                if (blinkTimer > currentTimerToNextState)
                 {
-                    currentTimerToNextState = Random.Range(offRandomTime.x, offRandomTime.y);
-                    objLight.enabled = false;
+                    // Ici pour play Fx
+                    blinkTimer -= currentTimerToNextState;
+                    if (objLight.enabled)
+                    {
+                        currentTimerToNextState = Random.Range(offRandomTime.x, offRandomTime.y);
+                        objLight.enabled = false;
+                    }
+                    else
+                    {
+                        currentTimerToNextState = Random.Range(onRandomTime.x, onRandomTime.y);
+                        objLight.enabled = true;
+                    }
+                }
+            }
+            if (oscillate)
+            {
+                objLight.intensity = baseIntensity + Mathf.Lerp(minValueIntensityRelative, maxValueIntensityRelative, (Mathf.Sin(time * frequencyIntensity) + 1) / 2);
+            }
+            if (flickerIntensity)
+            {
+                if (timeLeftIntensity < dt)
+                {
+                    targetIntensityMultiplier = Random.Range(flickerRandomIntensityMultiplier.x, flickerRandomIntensityMultiplier.y); //calcul d'une nouvelle intensité
+                    timeLeftIntensity = intensityFlickDuration;
                 }
                 else
                 {
-                    currentTimerToNextState = Random.Range(onRandomTime.x, onRandomTime.y);
-                    objLight.enabled = true;
+                    float valueLerp = dt / timeLeftIntensity; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
+                    currentIntensityMultiplier = Mathf.Lerp(currentIntensityMultiplier, targetIntensityMultiplier, valueLerp); // lerp de la valeur actuelle vers la valeur visée
+                    if (oscillate) objLight.intensity = objLight.intensity * currentIntensityMultiplier;
+                    else objLight.intensity = baseIntensity * currentIntensityMultiplier;
+                    timeLeftIntensity -= dt;
                 }
             }
-        }
-        if (oscillate)
-        {
-            objLight.intensity = baseIntensity + Mathf.Lerp(minValueIntensityRelative, maxValueIntensityRelative, (Mathf.Sin(time * frequencyIntensity) + 1) / 2);
-        }
-        if (flickerIntensity)
-        {
-            if (timeLeftIntensity < dt)
+            if (changeColor)
             {
-                targetIntensityMultiplier = Random.Range(flickerRandomIntensityMultiplier.x, flickerRandomIntensityMultiplier.y); //calcul d'une nouvelle intensité
-                timeLeftIntensity = intensityFlickDuration;
-            }
-            else
-            {
-                float valueLerp = dt / timeLeftIntensity; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
-                currentIntensityMultiplier = Mathf.Lerp(currentIntensityMultiplier, targetIntensityMultiplier, valueLerp); // lerp de la valeur actuelle vers la valeur visée
-                if (oscillate) objLight.intensity = objLight.intensity * currentIntensityMultiplier; 
-                else objLight.intensity = baseIntensity * currentIntensityMultiplier;
-                timeLeftIntensity -= dt;
-            }
-        }
-        if (changeColor)
-        {
-            if (currentMod == modOfColor.RandomBetweenColor)
-            {
-                colorTimer += dt;
-                if (colorTimer > currentTimerToNextColor)
+                if (currentMod == modOfColor.RandomBetweenColor)
                 {
-                    colorTimer -= currentTimerToNextColor;
-                    currentTimerToNextColor = Random.Range(changeEvery.x, changeEvery.y);
-                    aimedColor = new Color(
-                        Random.Range(colorRandOne.r, colorRandTwo.r),
-                        Random.Range(colorRandOne.g, colorRandTwo.g),
-                        Random.Range(colorRandOne.b, colorRandTwo.b),
-                        Random.Range(colorRandOne.a, colorRandTwo.a));
+                    colorTimer += dt;
+                    if (colorTimer > currentTimerToNextColor)
+                    {
+                        colorTimer -= currentTimerToNextColor;
+                        currentTimerToNextColor = Random.Range(changeEvery.x, changeEvery.y);
+                        aimedColor = new Color(
+                            Random.Range(colorRandOne.r, colorRandTwo.r),
+                            Random.Range(colorRandOne.g, colorRandTwo.g),
+                            Random.Range(colorRandOne.b, colorRandTwo.b),
+                            Random.Range(colorRandOne.a, colorRandTwo.a));
+                    }
+                }
+                else if (currentMod == modOfColor.OscillateBetweenTwoColor)
+                {
+                    aimedColor = Color.Lerp(colorOsciOne, colorOsciTwo, (Mathf.Sin(time * frequencyColor) + 1) / 2);
+                }
+                else if (currentMod == modOfColor.Gradient)
+                {
+                    colorTimer += dt / gradientTime;
+                    if (colorTimer > 1)
+                        colorTimer -= 1;
+                    aimedColor = colorGradient.Evaluate(colorTimer);
+                }
+
+
+                if (fluidified)
+                {
+                    if (lerped)
+                    {
+                        objLight.color = Color.Lerp(objLight.color, aimedColor, dt * speedFluidify);
+                    }
+                    else
+                    {
+                        objLight.color = new Color(
+                                Mathf.MoveTowards(objLight.color.r, aimedColor.r, dt * speedFluidify),
+                                Mathf.MoveTowards(objLight.color.g, aimedColor.g, dt * speedFluidify),
+                                Mathf.MoveTowards(objLight.color.b, aimedColor.b, dt * speedFluidify),
+                                Mathf.MoveTowards(objLight.color.a, aimedColor.a, dt * speedFluidify));
+                    }
+                }
+                else
+                {
+                    objLight.color = aimedColor;
                 }
             }
-            else if (currentMod == modOfColor.OscillateBetweenTwoColor)
+            if (flickerPosition)
             {
-                aimedColor = Color.Lerp(colorOsciOne, colorOsciTwo, (Mathf.Sin(time * frequencyColor) + 1) / 2);
-            }
-            else if (currentMod == modOfColor.Gradient)
-            {
-                colorTimer += dt / gradientTime;
-                if (colorTimer > 1)
-                    colorTimer -= 1;
-                aimedColor = colorGradient.Evaluate(colorTimer);
+                if (timeLeftPos < dt)
+                {
+                    targetPos = initPos + Random.insideUnitSphere * moveRange;
+                    timeLeftPos = moveFlickDuration;
+                }
+                else
+                {
+                    float valueLerp = dt / timeLeftPos; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
+                    currentPos = Vector3.Lerp(currentPos, targetPos, valueLerp); // lerp de la valeur actuelle vers la valeur visée
+                    transform.localPosition = currentPos;
+                    timeLeftPos -= dt;
+                }
+
             }
 
-            
-            if (fluidified)
-            {
-                if (lerped)
-                {
-                    objLight.color = Color.Lerp(objLight.color, aimedColor, dt * speedFluidify);
-                }
-                else
-                {
-                    objLight.color = new Color(
-                            Mathf.MoveTowards(objLight.color.r, aimedColor.r, dt * speedFluidify),
-                            Mathf.MoveTowards(objLight.color.g, aimedColor.g, dt * speedFluidify),
-                            Mathf.MoveTowards(objLight.color.b, aimedColor.b, dt * speedFluidify),
-                            Mathf.MoveTowards(objLight.color.a, aimedColor.a, dt * speedFluidify));
-                }
-            }
-            else
-            {
-                objLight.color = aimedColor;
-            }
         }
-        if (flickerPosition)
+        else
         {
-            if (timeLeftPos < dt)
-            {
-                targetPos = initPos + Random.insideUnitSphere * moveRange;
-                timeLeftPos = moveFlickDuration;
-            }
+            lightComponent.enabled = false;
+        }
+
+    }
+
+    bool InSight(float fovExtention = 0.0f)
+    {
+        Camera renderCam = CameraHandler.Instance.renderingCam;
+        Vector3 diff = transform.position - renderCam.transform.position;
+        float dist = diff.magnitude;
+
+        if (dist < Mathf.Max(lightComponent.range, 1e-5f)) // Overlapping or nearly zero?
+            return true;
+
+        // Within range of camera.
+        if (dist < renderCam.farClipPlane + lightComponent.range)
+        {
+            // If your aspect ratio <= 1.0f,
+            // than you'd use the (default) vertical fov.
+            // Otherwise you'd use the horizontal fov.
+            float halfFov;
+
+            if (renderCam.aspect <= 1.0f)
+                halfFov = (renderCam.fieldOfView + fovExtention) * Mathf.Deg2Rad * 0.5f;
             else
             {
-                float valueLerp = dt / timeLeftPos; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
-                currentPos = Vector3.Lerp(currentPos, targetPos, valueLerp); // lerp de la valeur actuelle vers la valeur visée
-                transform.localPosition = currentPos;
-                timeLeftPos -= dt;
+                // You could optimize this by having the horizontal fov
+                // calculated only once per frame in your camera class.
+                float angle = (renderCam.fieldOfView + fovExtention) * Mathf.Deg2Rad;
+                halfFov = Mathf.Atan(Mathf.Tan(angle * 0.5f) * renderCam.aspect);
             }
+
+            float d = Vector3.Dot(renderCam.transform.forward, diff);
+
+            // Within camera's field of view?
+            if (Mathf.Acos(d / dist) < halfFov)
+                return true;
         }
+
+        return false;
     }
 }
