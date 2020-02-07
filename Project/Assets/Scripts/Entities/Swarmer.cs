@@ -67,15 +67,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         timerWait = 0;
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
-        if (currentParticleOrb) Destroy(currentParticleOrb);
+        if (currentParticleOrb) currentParticleOrb.Stop();
         hasPlayedFxOnPull = false;
         //InitColor();
     }
 
     public void OnHold()
     {
-        if (currentParticleOrb)
-            currentParticleOrb = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenHoldByGrav, transform, entityData.vfxSizeWhenHoldByGrav, entityData.vfxSizeWhenHoldByGrav);
+        if (!currentParticleOrb)
+            currentParticleOrb = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenHoldByGrav, transform);
+        if (currentParticleOrb && !currentParticleOrb.isEmitting)
+            currentParticleOrb.Play();
         //Nothing happens on hold
     }
 
@@ -85,14 +87,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (!hasPlayedFxOnPull)
         {
             hasPlayedFxOnPull = true;
-            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform, entityData.vfxSizeWhenPulledByGrav, entityData.vfxSizeWhenPulledByGrav);
+            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
         }
     }
 
     public void OnRelease()
     {
         ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
-        if (currentParticleOrb) Destroy(currentParticleOrb);
+        if (currentParticleOrb) currentParticleOrb.Stop();
+        FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
     }
 
     public void OnZeroG()
@@ -147,6 +150,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     #endregion
     protected override void Die()
     {
+        if (currentParticleOrb) currentParticleOrb.Stop();
         FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
 
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
@@ -226,7 +230,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 else
                 {
                     pathID++;
-                    currentFollow = pathToFollow.GetPathAt(pathID);
+                    if(pathToFollow != null)
+                        currentFollow = pathToFollow.GetPathAt(pathID);
                     if (currentFollow == null)
                     {
                         pathID--;
