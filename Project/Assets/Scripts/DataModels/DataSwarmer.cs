@@ -49,7 +49,6 @@ public class DataSwarmer : DataEnemy
     public Material mat;
 
     public string vfxToPlayWhenPulledByGrav = "VFX_Orbe";
-    public float vfxSizeWhenPulledByGrav = 0.2f;
     public string vfxToPlayWhenHoldByGrav = "VFX_Orbe";
-    public float vfxSizeWhenHoldByGrav = 1;
+    public string vfxToPlayWhenReleaseByGrav = "VFX_Orbe";
 }
