@@ -100,6 +100,7 @@ public class CameraHandler : MonoBehaviour
 
     AnimatorOverrideController animatorOverrideController;
 
+    float currentPurcentageIdle = 0;
 
     #endregion
 
@@ -327,6 +328,15 @@ public class CameraHandler : MonoBehaviour
             camRef.transform.Translate(Vector3.up * shortStepCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal)) * shortStepAmplitude, Space.World);
             // rotate en fonction de la vitesse horizontale et du pas actuel
             camRef.transform.Rotate(0, 0, rotZBySpeed, Space.Self);
+        }
+        else if (frequency < camData.minimumIdleTransition)
+        {
+            currentPurcentageIdle += dt / camData.idleTime;
+            if (currentPurcentageIdle > 1) currentPurcentageIdle--;
+            // tanslate en fonction de la courbe d'idle
+            camRef.transform.Translate(Vector3.up * Mathf.Lerp(camData.idleCurve.Evaluate(currentPurcentageIdle) * camData.idleAmplitude, stepValues[0], frequency/ camData.minimumIdleTransition), Space.World);
+            // rotate en fonction de la courbe d'idle
+            camRef.transform.Rotate(0, 0, Mathf.Lerp(0, rotZBySpeed + stepValues[1], frequency / camData.minimumIdleTransition), Space.Self);
         }
         else
         {
