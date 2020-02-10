@@ -21,48 +21,69 @@ public class SceneHandler : MonoBehaviour
     [SerializeField]
     Canvas backgroundLoading = null;
 
+    bool alreadyChanging = false;
+
     void Awake ()
     {
         _instance = this;
     }
 
-    public void RestartScene(float delay)
+    public void RestartScene(float delay = 0)
     {
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().name, delay));
     }
 
-    public void ChangeScene (string sceneName, float delay)
+    public void ChangeScene (string sceneName, float delay = 0)
     {
         StartCoroutine(LoadScene(sceneName, delay));
     }
 
-    AsyncOperation async;
+    public void QuitGame (float delay = 0)
+    {
+        Invoke("_QuitGame", delay);
+    }
+    
+    void _QuitGame ()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif 
+    }
+
+        AsyncOperation async;
     IEnumerator LoadScene(string sceneName, float delay)
     {
-        Canvas[] allCanvas = GameObject.FindObjectsOfType<Canvas>();
-        for (int i = 0; i < allCanvas.Length; i++)
+        if (!alreadyChanging)
         {
-            allCanvas[i].gameObject.SetActive(false);
-        }
+            alreadyChanging = true;
 
-        Canvas canvasInstance = Instantiate(backgroundLoading);
-        Slider loadingBarCreated = Instantiate(loadingBar, canvasInstance.transform);
-
-        yield return new WaitForSecondsRealtime(delay);
-
-        loadingBarCreated.gameObject.SetActive(true);
-        async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
-        async.allowSceneActivation = false;
-
-        while (async.isDone == false)
-        {
-            loadingBarCreated.value = async.progress;
-            if (async.progress == 0.9f)
+            Canvas[] allCanvas = GameObject.FindObjectsOfType<Canvas>();
+            for (int i = 0; i < allCanvas.Length; i++)
             {
-                loadingBarCreated.value = 1f;
-                async.allowSceneActivation = true;
+                allCanvas[i].gameObject.SetActive(false);
             }
-            yield return null;
+
+            Canvas canvasInstance = Instantiate(backgroundLoading);
+            Slider loadingBarCreated = Instantiate(loadingBar, canvasInstance.transform);
+
+            if (delay != 0) yield return new WaitForSecondsRealtime(delay);
+
+            loadingBarCreated.gameObject.SetActive(true);
+            async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+            async.allowSceneActivation = false;
+
+            while (async.isDone == false)
+            {
+                loadingBarCreated.value = async.progress;
+                if (async.progress == 0.9f)
+                {
+                    loadingBarCreated.value = 1f;
+                    async.allowSceneActivation = true;
+                }
+                yield return null;
+            }
         }
     }
 
