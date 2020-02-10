@@ -41,7 +41,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     public void OnHit(DataWeaponMod mod, Vector3 position)
     {
-        Debug.Log(mod);
+        //Debug.Log(mod);
     }
 
     public void OnHitShotGun()

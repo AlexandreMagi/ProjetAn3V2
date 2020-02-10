@@ -228,7 +228,7 @@ public class Weapon : MonoBehaviour
                 Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
-                Ray rayBullet =mainCam.ScreenPointToRay(mousePosition);
+                Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
 
 
                 Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
