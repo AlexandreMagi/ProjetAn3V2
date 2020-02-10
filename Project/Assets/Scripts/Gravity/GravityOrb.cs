@@ -22,10 +22,10 @@ public class GravityOrb : MonoBehaviour
 
     private void Start()
     {
-        /*
+
         if (bActivedViaScene)
            Invoke("SpawnViaScene", 1);
-           */
+
     }
 
     public bool OnSpawning(Vector2 mousePosition)
@@ -76,7 +76,7 @@ public class GravityOrb : MonoBehaviour
     {
         //GameObject.FindObjectOfType<C_Fx>().GravityOrbFx(transform.position);
 
-        FxManager.Instance.PlayFx(orbData.fxName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+        //FxManager.Instance.PlayFx(orbData.fxName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
@@ -102,16 +102,17 @@ public class GravityOrb : MonoBehaviour
                 hasHitSomething = true;
                 gAffect.OnPull(this.transform.position, orbData.pullForce);
             }
-                
-            
         }
-
     }
 
     public void StopHolding()
     {
         int nbEnemiesHitByFloatExplo = 0;
+
+        FindObjectOfType<PostProcessEffects>().ChromaChanges(true);
+
         StopCoroutine("OnHoldAttraction");
+
 
         if (!hasHitSomething)
         {
@@ -134,6 +135,11 @@ public class GravityOrb : MonoBehaviour
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
             Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
+            if (tHits.Length > 0)
+            {
+                Invoke("OnZeroGRelease", orbData.floatTime);
+            }
+
             foreach (Collider hVictim in tHits)
             {
                 IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
@@ -147,7 +153,6 @@ public class GravityOrb : MonoBehaviour
                     if (orbData.isFloatExplosion)
                     {
                         gAffect.OnFloatingActivation(orbData.upwardsForceOnFloat, orbData.timeBeforeFloatActivate, orbData.isSlowedDownOnFloat, orbData.floatTime, orbData.zeroGIndependantTimeScale);
-
                         /*
                         if (hVictim.GetComponent<C_Enemy>() != null)
                         {
@@ -159,19 +164,20 @@ public class GravityOrb : MonoBehaviour
                 }
                 
             }
-            if (orbData.isExplosive)
-            {
+            if (!bActivedViaScene)
                 FxManager.Instance.PlayFx(orbData.fxExplosionName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
-                float newDuration = orbData.slowMoDuration;
+            float newDuration = orbData.slowMoDuration;
 
-                newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
+            newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
 
-                if(SequenceHandler.Instance != null && !SequenceHandler.Instance.isWaitingTimer)
-                    TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
-            }
+            if(SequenceHandler.Instance != null && !SequenceHandler.Instance.isWaitingTimer)
+                TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
+            
         }
-
-
+    }
+    void OnZeroGRelease()
+    {
+        FindObjectOfType<PostProcessEffects>().ChromaChanges(false);
         Destroy(this.gameObject);
     }
 
@@ -200,13 +206,16 @@ public class GravityOrb : MonoBehaviour
 
             }
 
-            fTimeHeld += orbData.waitingTimeBetweenAttractions;
-
-
-            if (fTimeHeld >= orbData.lockTime)
+            if (!bActivedViaScene)
             {
-                StopHolding();
+                fTimeHeld += orbData.waitingTimeBetweenAttractions;
+
+                if (fTimeHeld >= orbData.lockTime)
+                {
+                    StopHolding();
+                }
             }
+
 
             yield return new WaitForSecondsRealtime(orbData.waitingTimeBetweenAttractions);
         }
