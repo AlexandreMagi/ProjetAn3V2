@@ -13,6 +13,8 @@ public class DataCameraBasic : ScriptableObject
     public float shakeAtEndOfAnimation = 1;
     public float shakeWhenCharged = 10;
     public float shakeWhenCharging = 8;
+    public float shakeStep = .8f;
+    public float shakeStepDuration = .2f;
 
 
     [Header("Smooth transitions")]
@@ -63,6 +65,7 @@ public class DataCameraBasic : ScriptableObject
     public float frequencyDeccel = 0.02f;
     [PropertyRange(0.1f, 0.9f)]
     public float stepSoundPlay = 0.7f;
+    public float frequencyModifier = 0.5f;
 
     [Header("Recul caméra")]
     public float RecoilMaxValue = 1.5f;

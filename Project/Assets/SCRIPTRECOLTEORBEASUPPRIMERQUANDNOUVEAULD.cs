@@ -51,7 +51,6 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         {
             bPlayerCanDammage = false;
             //GameObject.FindObjectOfType<C_Fx>().OrbGatherableExplosionFinal(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-            FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position /*+ Vector3.up * 0.9542458f * fCurrentScale*/,transform.rotation);
             FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
             GetComponent<GravityOrb>().StopHolding();
             Invoke("OrbPreDestroyed", 2.6f);
@@ -80,7 +79,9 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         CameraHandler.Instance.AddShake(shakeForce, shakeTime);
         bItemDestroyedCompletly = true;
         // GravityOrb.GetComponent<C_GravityOrb>().StopHolding();
-        //GameObject.FindObjectOfType<C_Fx>().GatherOrb(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
+        //GameObject.FindObjectOfType<C_Fx>().GatherOrb(transform.position);// + Vector3.up * 0.9542458f * fCurrentScale);
+        //FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
+        FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position /*+ Vector3.up * 0.9542458f * fCurrentScale*/, transform.rotation);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "EquipOrb_Boosted", false, 1f);
     }
 

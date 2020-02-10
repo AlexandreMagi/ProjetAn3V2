@@ -336,7 +336,7 @@ public class SequenceHandler : MonoBehaviour
             //DECLENCHEMENT DU FEEDBACK DE CAM
             if (CameraHandler.Instance != null)
             {
-                float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 4 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
+                float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
                 if (currentSequence.isShortStep)
                 {
                     CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime);

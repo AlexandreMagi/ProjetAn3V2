@@ -133,7 +133,7 @@ public class GravityOrb : MonoBehaviour
         if (orbData.isExplosive)
         {
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_ZeroGRange);
 
             if (tHits.Length > 0)
             {
@@ -144,7 +144,7 @@ public class GravityOrb : MonoBehaviour
             {
                 IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
-
+                Debug.Log(hVictim.name);
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
                     gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);

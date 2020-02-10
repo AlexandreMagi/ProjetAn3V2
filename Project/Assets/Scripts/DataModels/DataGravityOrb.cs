@@ -11,6 +11,8 @@ public class DataGravityOrb : ScriptableObject
 
     [PropertyRange(0f, 50f)]
     public float gravityBullet_AttractionRange = 0f;
+    [PropertyRange(0f, 50f)]
+    public float gravityBullet_ZeroGRange = 0f;
 
     [PropertyRange(0f, 1000f)]
     public float pullForce = 0f;
