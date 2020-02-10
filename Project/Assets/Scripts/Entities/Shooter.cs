@@ -53,12 +53,15 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     [SerializeField]
     Transform fxStunPos = null;
 
+    float timerBeforeDeath = 0;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         state = (int)State.Nothing;
         entityData = entityData as DataShooter;
+        if (entityData.destroyAfterSomeTimes) timerBeforeDeath = entityData.timeBeforeDestroy;
     }
 
     public override void OnDistanceDetect(Transform possibleTarget, float distance)
@@ -96,6 +99,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
             state = (int)State.Nothing;
         }
 
+        if (timerBeforeDeath < Time.deltaTime) gameObject.SetActive(false);
+        else timerBeforeDeath -= Time.deltaTime;
 
         switch (state)
         {

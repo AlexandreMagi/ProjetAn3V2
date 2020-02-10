@@ -28,4 +28,9 @@ public class DataShooter : DataEnemy
     [Header("Specific Stun")]
     public float stunRecoil;
 
+    [Header("LevelDesign Specifics")]
+    public bool destroyAfterSomeTimes = false;
+    [ShowIf("destroyAfterSomeTimes")]
+    public float timeBeforeDestroy = 0;
+
 }
