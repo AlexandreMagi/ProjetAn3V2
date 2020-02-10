@@ -50,7 +50,6 @@ namespace ch.sycoforge.Decal.Demo
                     // Check if sphere cast hit something
                     if (hits.Length > 0)
                     {
-
                         foreach (RaycastHit hit in hits)
                         {
                             // Draw a line along the projection axis for visalizing the projection process.

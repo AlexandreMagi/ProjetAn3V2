@@ -231,8 +231,6 @@ public class LightHandler : MonoBehaviour
                 halfFov = (renderCam.fieldOfView + fovExtention) * Mathf.Deg2Rad * 0.5f;
             else
             {
-                // You could optimize this by having the horizontal fov
-                // calculated only once per frame in your camera class.
                 float angle = (renderCam.fieldOfView + fovExtention) * Mathf.Deg2Rad;
                 halfFov = Mathf.Atan(Mathf.Tan(angle * 0.5f) * renderCam.aspect);
             }

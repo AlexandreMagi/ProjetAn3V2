@@ -452,11 +452,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
                     rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
 
-                    //Rotation
-                    Quaternion lookDirection = Quaternion.LookRotation(new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position);
-
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
-
 
                     if (!isChasingTarget && pathToFollow != null)
                     {
@@ -535,6 +530,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         }
                     }
                 }
+
+                //Rotation
+                Quaternion lookDirection = Quaternion.LookRotation(new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
             }
         }
 
