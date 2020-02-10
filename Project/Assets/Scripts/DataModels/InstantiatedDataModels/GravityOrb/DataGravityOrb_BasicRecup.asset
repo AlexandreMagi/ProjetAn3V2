@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af7296e0d774824fbce6bee5bed4029, type: 3}
+  m_Name: DataGravityOrb_BasicRecup
+  m_EditorClassIdentifier: 
+  gravityBullet_AttractionRange: 1
+  pullForce: 152
+  timeBeforeHold: 0.141
+  lockTime: 1.8
+  waitingTimeBetweenAttractions: 0.03
+  holdRange: 3
+  holdForce: 30
+  isSticky: 1
+  isExplosive: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1793
+  offsetExplosion: {x: 0, y: -0.5, z: 0}
+  explosionForce: 1623
+  isFloatExplosion: 1
+  timeBeforeFloatActivate: 0.12
+  upwardsForceOnFloat: 422
+  isSlowedDownOnFloat: 1
+  floatTime: 3
+  zeroGIndependantTimeScale: 1
+  slowMoPower: 0.716
+  slowMoDuration: 2
+  slowMoProbability: 1
+  fxName: VFX_Orbe
+  fxExplosionName: VFX_OrbExplosion
+  fxSizeMultiplier: 0.05
+  flashScreen: 0.5
