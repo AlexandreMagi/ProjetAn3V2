@@ -77,4 +77,10 @@ public class DataCameraBasic : ScriptableObject
 
     [Header("Others")]
     public bool independentFromTimeScale = true;
+
+    [Header("Idle")]
+    public AnimationCurve idleCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    public float idleAmplitude = 0.5f;
+    public float idleTime = 0.5f;
+    public float minimumIdleTransition = 1;
 }

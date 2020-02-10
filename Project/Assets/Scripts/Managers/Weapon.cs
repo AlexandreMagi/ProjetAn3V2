@@ -241,6 +241,7 @@ public class Weapon : MonoBehaviour
                 if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
                 {
                     FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod);
+                    DecalManager.Instance.ProjectDecal("Bullet Hole", 0.2f, rayBullet, hit);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
 
 
@@ -342,7 +343,8 @@ public class Weapon : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(bounceBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
             {
-               
+
+                DecalManager.Instance.ProjectDecal("Bullet Hole", 0.2f, bounceBullet, hit);
                 FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod);
                 CheckIfMustSlowMo(hit.transform.gameObject, bounceMod);
 
