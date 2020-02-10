@@ -22,10 +22,10 @@ public class GravityOrb : MonoBehaviour
 
     private void Start()
     {
-        /*
+
         if (bActivedViaScene)
            Invoke("SpawnViaScene", 1);
-           */
+
     }
 
     public bool OnSpawning(Vector2 mousePosition)
@@ -76,7 +76,7 @@ public class GravityOrb : MonoBehaviour
     {
         //GameObject.FindObjectOfType<C_Fx>().GravityOrbFx(transform.position);
 
-        FxManager.Instance.PlayFx(orbData.fxName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+        //FxManager.Instance.PlayFx(orbData.fxName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
@@ -102,16 +102,17 @@ public class GravityOrb : MonoBehaviour
                 hasHitSomething = true;
                 gAffect.OnPull(this.transform.position, orbData.pullForce);
             }
-                
-            
         }
-
     }
 
     public void StopHolding()
     {
         int nbEnemiesHitByFloatExplo = 0;
+
+        FindObjectOfType<PostProcessEffects>().ChromaChanges(true);
+
         StopCoroutine("OnHoldAttraction");
+
 
         if (!hasHitSomething)
         {
@@ -161,7 +162,8 @@ public class GravityOrb : MonoBehaviour
             }
             if (orbData.isExplosive)
             {
-                FxManager.Instance.PlayFx(orbData.fxExplosionName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+                if (!bActivedViaScene)
+                    FxManager.Instance.PlayFx(orbData.fxExplosionName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
                 float newDuration = orbData.slowMoDuration;
 
                 newDuration *= (nbEnemiesHitByFloatExplo == 0 ? 0 : 1 + (nbEnemiesHitByFloatExplo * .03f));
@@ -170,8 +172,6 @@ public class GravityOrb : MonoBehaviour
                     TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
             }
         }
-
-
         Destroy(this.gameObject);
     }
 
@@ -200,13 +200,16 @@ public class GravityOrb : MonoBehaviour
 
             }
 
-            fTimeHeld += orbData.waitingTimeBetweenAttractions;
-
-
-            if (fTimeHeld >= orbData.lockTime)
+            if (!bActivedViaScene)
             {
-                StopHolding();
+                fTimeHeld += orbData.waitingTimeBetweenAttractions;
+
+                if (fTimeHeld >= orbData.lockTime)
+                {
+                    StopHolding();
+                }
             }
+
 
             yield return new WaitForSecondsRealtime(orbData.waitingTimeBetweenAttractions);
         }

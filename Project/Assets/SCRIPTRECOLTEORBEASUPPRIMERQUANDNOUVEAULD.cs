@@ -51,16 +51,19 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         {
             bPlayerCanDammage = false;
             //GameObject.FindObjectOfType<C_Fx>().OrbGatherableExplosionFinal(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-            FxManager.Instance.PlayFx("VFX_GatherableOrbExplosionFinal", transform.position /*+ Vector3.up * 0.9542458f * fCurrentScale*/,transform.rotation);
+            FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position /*+ Vector3.up * 0.9542458f * fCurrentScale*/,transform.rotation);
+            FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
+            GetComponent<GravityOrb>().StopHolding();
             Invoke("OrbPreDestroyed", 2.6f);
-            Invoke("OrbDestroyed", 2.8f);
+            Invoke("OrbDestroyed", 0.5f);
             Invoke("GoToTuto", timeBetweenDeathAndNextSequence);
             bItemDestroyed = true;
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "GravityOrbOvercharge_Boosted", false, 1f);
         }
         if (bItemDestroyed && !bItemDestroyedCompletly)
         {
-            CameraHandler.Instance.AddShake(15 * Time.deltaTime);
+            GetComponentInChildren<ParticleSystem>().Stop();
+            CameraHandler.Instance.AddShake(10 * Time.deltaTime);
         }
 
 
@@ -105,7 +108,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             for (int i = Mathf.CeilToInt(DammageDoneSaved); i < DammageDone; i++)
             {
                 //GameObject.FindObjectOfType<C_Fx>().OrbGatherableExplosion(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-                FxManager.Instance.PlayFx("VFX_GatherableOrbExplosion", transform.position, transform.rotation);
+                FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
                 CameraHandler.Instance.AddShake(i * 0.3f,0.1f);
                 //ustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "ImpactOrbeSequence_Boosted", false, 1f);
             }
