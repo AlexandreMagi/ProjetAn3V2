@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Emissive:
-        m_Texture: {fileID: 2800000, guid: 9fda5515a62f230448d07034655a736c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4f30308d43995b8458648b2f890fb181, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FlowMap:
@@ -53,6 +53,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ASEOutlineWidth: 0.02
+    - _ChromaticAberration: 0.1
+    - _Darknessamount: 0.3
     - _DistortionStrenght: 1.06
     - _EdgeLength: 2
     - _Edgedistance: 0.19
@@ -68,11 +70,17 @@ Material:
     - _Speed: 0.5
     - _Strength: 1.24
     - _Test: 0.31
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
     - _Value: 1.75
     - __dirty: 0
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0, b: 0, a: 0}
     - _Edgecolor: {r: 2, g: 0, b: 1.8509804, a: 0}
-    - _Emissivecolor: {r: 0, g: 0, b: 0, a: 0}
+    - _Emissivecolor: {r: 2.9960785, g: 0, b: 2.1490197, a: 0}
     - _HoleSize: {r: 1, g: 1, b: 1, a: 0}
