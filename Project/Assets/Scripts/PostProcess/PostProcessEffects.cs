@@ -49,7 +49,6 @@ public class PostProcessEffects : MonoBehaviour
 
     public void ChromaChanges(bool b)
     {
-        Debug.Log(b);
         if (b)
         {
             isChroma = true;

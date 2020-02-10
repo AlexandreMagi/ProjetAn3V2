@@ -14,12 +14,11 @@ public class FixedCameraScript : MonoBehaviour
     [SerializeField]
     float camSpeed = 5;
     [SerializeField]
-    float exploSize = 1;
-    [SerializeField]
     Vector2 camShake = new Vector2(0.3f, 0.4f);
     [SerializeField]
-    string fxName = "VFX_ExplosionShooterBullet";
+    string fxName = "VFX_CameraExplosion";
 
+    bool hitByBulletBool = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,21 +29,32 @@ public class FixedCameraScript : MonoBehaviour
 
     public void hitByBullet()
     {
-        FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation, exploSize);
+        FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation);
         CameraHandler.Instance.AddShake(camShake.x, camShake.y);
-        Destroy(this.gameObject);
+
+        Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbList)
+        {
+            rb.isKinematic = false;
+            rb.AddExplosionForce(500f, transform.position, 1f);
+        }
+
+        Destroy(this);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        Quaternion currentRot = cameraDummy.rotation;
-        Quaternion newRot;
+        if (!hitByBulletBool)
+        {
+            Quaternion currentRot = cameraDummy.rotation;
+            Quaternion newRot;
 
-        if (activatedCam) cameraDummy.LookAt(lookAtTarget, Vector3.up);
-        else cameraDummy.LookAt(cameraDummy.position + Vector3.down, Vector3.up);
-        newRot = cameraDummy.rotation;
-        cameraDummy.rotation = Quaternion.Lerp(currentRot, newRot, Time.deltaTime * camSpeed);
+            if (activatedCam) cameraDummy.LookAt(lookAtTarget, Vector3.up);
+            else cameraDummy.LookAt(cameraDummy.position + Vector3.down, Vector3.up);
+            newRot = cameraDummy.rotation;
+            cameraDummy.rotation = Quaternion.Lerp(currentRot, newRot, Time.deltaTime * camSpeed);
+        }
     }
 }
