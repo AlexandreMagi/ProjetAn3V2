@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: c4e720182f4bc9e48a0ccebead06f87d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Glossiness:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1da6c5b90cea99641b731469d339ce6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Handpainttexture:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a5976821eef025347a730bb6e4edaf15, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Painttexture:
@@ -105,9 +105,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Albedocontrast: 0
-    - _Contrast: 68.49
+    - _Contrast: 150
     - _DifferenceThreshold: 0.01
     - _DifferenceThreshold1: 0.05
+    - _Distancefalloff1: 1
     - _Float0: 1
     - _Float2: 151.8
     - _HandPaintEnabled: 1
@@ -118,14 +119,14 @@ Material:
     - _Power1: 102.2
     - _RevealLightEnabled: 1
     - _RimLightEnabled: 1
-    - _Rimoffset: 0.69
+    - _Rimoffset: 0.86
     - _Rimpower: 0.216
     - _Scaleandoffsetshadows: 0.306
     - _Spec: 1.18
     - _SpecEnabled: 1
-    - _Specintensity: 0.225
+    - _Specintensity: 0.217
     - _Speclighttransition: 0
-    - _Specvalue: 1.19
+    - _Specvalue: 1.13
     - _TEst: 22.64
     - _Test: 0
     - __dirty: 0

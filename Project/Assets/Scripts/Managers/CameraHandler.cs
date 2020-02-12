@@ -269,7 +269,7 @@ public class CameraHandler : MonoBehaviour
         if (curveValues[0].x > camData.stepSoundPlay && !stepSoundPlayed)
         {
             stepSoundPlayed = true;
-            Debug.Log("Joue son de pas");
+            //Debug.Log("Joue son de pas");
             //CustomSoundManager.Instance.PlaySound(RenderingCam, "Step_0" + Random.Range(1, 5), false, 1f);
         }
         for (int i = 0; i < curveValues.Length; i++)

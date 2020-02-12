@@ -23,6 +23,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     LayerMask maskOfWall;
 
+    [SerializeField]
+    GameObject deadBody = null;
+
     Pather pathToFollow = null;
     [ShowInInspector]
     int pathID = 0;
@@ -174,9 +177,25 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (SequenceHandler.Instance != null)
             SequenceHandler.Instance.OnEnemyKill();
 
+        InstansiateDeadBody();
+
         this.gameObject.SetActive(false);
+
         //base.Die();        
 
+    }
+
+    void InstansiateDeadBody()
+    {
+        GameObject deadBodyClone;
+        deadBodyClone = Instantiate(deadBody, transform.position, transform.rotation);
+        deadBodyClone.transform.parent = null;
+
+        //Rigidbody[] rbList = deadBodyClone.GetComponentsInChildren<Rigidbody>();
+        //foreach (Rigidbody rb in rbList)
+        //{
+        //    rb.AddExplosionForce(10500f, deadBodyClone.transform.position, 10f);
+        //}
     }
 
     public void OnTriggerEnter(Collider other)
