@@ -19,8 +19,6 @@ public class DecalManager : MonoBehaviour
     }
 
     [SerializeField]
-    Material[] matTab = null;
-    [SerializeField]
     EasyDecal[] decalTab = null;
 
     [SerializeField]
