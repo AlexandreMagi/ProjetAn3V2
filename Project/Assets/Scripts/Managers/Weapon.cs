@@ -240,8 +240,7 @@ public class Weapon : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
                 {
-                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod);
-                    DecalManager.Instance.ProjectDecal("Bullet Hole", 0.2f, rayBullet, hit);
+                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod, 0.2f, rayBullet, hit);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
 
 
@@ -306,13 +305,14 @@ public class Weapon : MonoBehaviour
             TimeScaleManager.Instance.AddStopTime(weaponMod.bullet.timeStopAtImpact, 0, weaponMod.bullet.timeStopProbability);
     }
 
-    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint, DataWeaponMod weaponMod)
+    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint, DataWeaponMod weaponMod, float castradius, Ray raybase, RaycastHit hitBase)
     {
         for (int i = 0; i < weaponMod.bullet.bulletFxs.allFxReaction.Length; i++)
         {
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
+                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase);
             }
         }
     }
@@ -344,8 +344,7 @@ public class Weapon : MonoBehaviour
             if (Physics.Raycast(bounceBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
             {
 
-                DecalManager.Instance.ProjectDecal("Bullet Hole", 0.2f, bounceBullet, hit);
-                FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod);
+                FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod, 0.2f, bounceBullet, hit);
                 CheckIfMustSlowMo(hit.transform.gameObject, bounceMod);
 
                 IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
