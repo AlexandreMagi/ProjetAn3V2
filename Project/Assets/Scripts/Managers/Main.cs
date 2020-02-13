@@ -74,7 +74,6 @@ public class Main : MonoBehaviour
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputUp(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
-            Debug.Log("Shoot");
         }
 
 
@@ -120,7 +119,7 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            SceneHandler.Instance.RestartScene(0);
+            SceneHandler.Instance.RestartScene(.3f, true);
         }
 
         if (Input.GetKeyDown(KeyCode.P))

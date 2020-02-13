@@ -204,7 +204,6 @@ public class Weapon : MonoBehaviour
             if (currentChargePurcentage == 1) currentWeaponMod = weapon.chargedShot;
             else currentWeaponMod = weapon.baseShot;
 
-            Debug.Log(currentWeaponMod);
 
             currentChargePurcentage = 0;
             OnShoot(mousePosition, currentWeaponMod);

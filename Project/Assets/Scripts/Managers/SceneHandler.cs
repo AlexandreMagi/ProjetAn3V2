@@ -21,6 +21,8 @@ public class SceneHandler : MonoBehaviour
     [SerializeField]
     Canvas backgroundLoading = null;
 
+    float timeAnim = .5f;
+
     bool alreadyChanging = false;
 
     void Awake ()
@@ -28,14 +30,14 @@ public class SceneHandler : MonoBehaviour
         _instance = this;
     }
 
-    public void RestartScene(float delay = 0)
+    public void RestartScene(float delay = 0, bool withFade = false)
     {
-        StartCoroutine(LoadScene(SceneManager.GetActiveScene().name, delay));
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().name, delay, withFade));
     }
 
-    public void ChangeScene (string sceneName, float delay = 0)
+    public void ChangeScene(string sceneName, float delay = 0, bool withFade = false)
     {
-        StartCoroutine(LoadScene(sceneName, delay));
+        StartCoroutine(LoadScene(sceneName, delay, withFade));
     }
 
     public void QuitGame (float delay = 0)
@@ -53,11 +55,14 @@ public class SceneHandler : MonoBehaviour
     }
 
         AsyncOperation async;
-    IEnumerator LoadScene(string sceneName, float delay)
+    IEnumerator LoadScene(string sceneName, float delay, bool withFade = false)
     {
         if (!alreadyChanging)
         {
             alreadyChanging = true;
+
+            if (withFade && delay != 0 && UiFade.Instance != null) UiFade.Instance.ChangeAlpha(1, delay);
+            if (delay != 0) yield return new WaitForSecondsRealtime(delay);
 
             Canvas[] allCanvas = GameObject.FindObjectsOfType<Canvas>();
             for (int i = 0; i < allCanvas.Length; i++)
@@ -68,11 +73,12 @@ public class SceneHandler : MonoBehaviour
             Canvas canvasInstance = Instantiate(backgroundLoading);
             Slider loadingBarCreated = Instantiate(loadingBar, canvasInstance.transform);
 
-            if (delay != 0) yield return new WaitForSecondsRealtime(delay);
 
             loadingBarCreated.gameObject.SetActive(true);
             async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
             async.allowSceneActivation = false;
+
+            yield return new WaitForSecondsRealtime(timeAnim);
 
             while (async.isDone == false)
             {
