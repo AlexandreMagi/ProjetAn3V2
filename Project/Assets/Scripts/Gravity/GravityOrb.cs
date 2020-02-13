@@ -55,10 +55,12 @@ public class GravityOrb : MonoBehaviour
                 hasSticked = true;
             }
 
-            
+
+
             this.OnAttractionStart();
 
-            FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+            //FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+            FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
             StartCoroutine("OnHoldAttraction");
 
@@ -105,6 +107,8 @@ public class GravityOrb : MonoBehaviour
         }
     }
 
+    public DataGravityOrb getOrbData () { return orbData; }
+
     public void StopHolding()
     {
         int nbEnemiesHitByFloatExplo = 0;
@@ -132,6 +136,8 @@ public class GravityOrb : MonoBehaviour
 
         if (orbData.isExplosive)
         {
+
+            CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
             //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
             Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
@@ -145,6 +151,7 @@ public class GravityOrb : MonoBehaviour
                 IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
 
+                if (hVictim.GetComponent<Prop>()) hVictim.GetComponent<Prop>().SetTimerToRelease(orbData.floatTime);
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
                     gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
@@ -175,6 +182,7 @@ public class GravityOrb : MonoBehaviour
             
         }
     }
+
     void OnZeroGRelease()
     {
         FindObjectOfType<PostProcessEffects>().ChromaChanges(false);

@@ -87,6 +87,7 @@ public static class ReactGravity<T> where T : DataEntity
                 rb.useGravity = true;
                 rb.AddForce(new Vector3(0, -2000, 0));
                 
+                
                 yield break;
             }
         }

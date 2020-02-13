@@ -311,8 +311,8 @@ public class Weapon : MonoBehaviour
         {
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
-                FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
-                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase, hit.layer);
+                FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, hitBase);
+                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase);
             }
         }
     }

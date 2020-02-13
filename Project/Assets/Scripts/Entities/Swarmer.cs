@@ -211,11 +211,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //        t.enabled = false;
         //}
 
-        //Rigidbody[] rbList = deadBodyClone.GetComponentsInChildren<Rigidbody>();
-        //foreach (Rigidbody rb in rbList)
-        //{
-        //    rb.AddExplosionForce(10500f, deadBodyClone.transform.position, 10f);
-        //}
+        Rigidbody[] rbList = deadBodyClone.GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbList)
+        {
+            rb.AddExplosionForce(1500f, deadBodyClone.transform.position, 1f);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
