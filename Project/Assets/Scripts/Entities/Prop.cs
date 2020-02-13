@@ -60,12 +60,12 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
         ReactBullet.PushFromHit(this.GetComponent<Rigidbody>(), position, 2400, 5);
     }
 
-    public void OnHitShotGun()
+    public void OnHitShotGun(DataWeaponMod mod)
     {
         
     }
 
-    public void OnHitSingleShot()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
        
     }

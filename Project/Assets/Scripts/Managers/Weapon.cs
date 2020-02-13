@@ -249,9 +249,9 @@ public class Weapon : MonoBehaviour
                     {
                         bAffect.OnHit(weaponMod, hit.point);
                         if (weaponMod == weapon.baseShot)
-                            bAffect.OnHitSingleShot();
+                            bAffect.OnHitSingleShot(weaponMod);
                         if (weaponMod == weapon.chargedShot)
-                            bAffect.OnHitShotGun();
+                            bAffect.OnHitShotGun(weaponMod);
 
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
 
@@ -312,7 +312,7 @@ public class Weapon : MonoBehaviour
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, Quaternion.identity);
-                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase);
+                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase, hit.layer);
             }
         }
     }
@@ -352,7 +352,7 @@ public class Weapon : MonoBehaviour
                 {
                     bAffect.OnHit(bounceMod, hit.point);
 
-                    bAffect.OnHitShotGun();
+                    bAffect.OnHitShotGun(bounceMod);
 
                     TimeScaleManager.Instance.AddStopTime(bounceMod.stopTimeAtImpact);
 

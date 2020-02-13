@@ -280,12 +280,12 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         //KillBullet();
     }
 
-    public void OnHitShotGun()
+    public void OnHitShotGun(DataWeaponMod mod)
     {
         // Nothing
     }
 
-    public void OnHitSingleShot()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
         // Nothing
     }

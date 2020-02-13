@@ -24,36 +24,41 @@ public class DecalManager : MonoBehaviour
     [SerializeField]
     float safeDistanceValue = 2;
 
-    public EasyDecal ProjectDecal (string name, float castRadius,Ray rayBase, RaycastHit hitBase)
+    public EasyDecal ProjectDecal (string name, float castRadius,Ray rayBase, RaycastHit hitBase, int layer)
     {
-        EasyDecal decalInstance = FindDecal(name);
-        if (decalInstance == null)
-            return null;
-
-        // Set the first hit as parent of the decal
-        GameObject parent = hitBase.collider.gameObject;
-        Vector3 pos = hitBase.point;
-
-        RaycastHit[] hits = Physics.SphereCastAll(rayBase, castRadius, Vector3.Distance(CameraHandler.Instance.renderingCam.transform.position, pos) + safeDistanceValue);
-        Vector3 averageNormal = hitBase.normal;
-
-        // Check if sphere cast hit something
-        if (hits.Length > 0)
+        if (layer == 9)
         {
-            foreach (RaycastHit hit in hits)
+            EasyDecal decalInstance = FindDecal(name);
+            if (decalInstance == null)
+                return null;
+
+            // Set the first hit as parent of the decal
+            GameObject parent = hitBase.collider.gameObject;
+            Vector3 pos = hitBase.point;
+
+            RaycastHit[] hits = Physics.SphereCastAll(rayBase, castRadius, Vector3.Distance(CameraHandler.Instance.renderingCam.transform.position, pos) + safeDistanceValue);
+            Vector3 averageNormal = hitBase.normal;
+
+            // Check if sphere cast hit something
+            if (hits.Length > 0)
             {
-                // Sum all collison point normals
-                averageNormal += hit.normal;
+                foreach (RaycastHit hit in hits)
+                {
+                    // Sum all collison point normals
+                    averageNormal += hit.normal;
+                }
             }
+
+            // Normalize normal
+            averageNormal /= hits.Length + 1;
+
+            // Instantiate the decal prefab according the hit normal
+            EasyDecal sendDecal = EasyDecal.ProjectAt(decalInstance.gameObject, parent, pos, averageNormal);
+
+
+            return sendDecal;
         }
-
-        // Normalize normal
-        averageNormal /= hits.Length + 1;
-
-        // Instantiate the decal prefab according the hit normal
-        EasyDecal sendDecal = EasyDecal.ProjectAt(decalInstance.gameObject, parent, pos, averageNormal);
-
-        return sendDecal;   
+        return null;
     }
 
     EasyDecal FindDecal (string name)

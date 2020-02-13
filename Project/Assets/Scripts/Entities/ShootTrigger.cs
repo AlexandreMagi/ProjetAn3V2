@@ -57,12 +57,12 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     }
 
-    public void OnHitShotGun()
+    public void OnHitShotGun(DataWeaponMod mod)
     {
         Weapon.Instance.OnShotGunHitTarget();
     }
 
-    public void OnHitSingleShot()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
         
     }

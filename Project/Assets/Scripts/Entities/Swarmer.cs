@@ -156,6 +156,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentParticleOrb) currentParticleOrb.Stop();
         FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
 
+        CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
        
         target = null;
@@ -190,6 +191,25 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         GameObject deadBodyClone;
         deadBodyClone = Instantiate(deadBody, transform.position, transform.rotation);
         deadBodyClone.transform.parent = null;
+
+        //int rand;
+        //int nbParts = 0;
+
+        //Prop[] tList = deadBodyClone.GetComponentsInChildren<Prop>();
+        //foreach (Prop t in tList)
+        //{
+        //    rand = Random.Range(0, 2);
+
+        //    if (rand == 0)
+        //        t.enabled = false;
+        //    else if (rand == 1 && nbParts <= 2)
+        //    {
+        //        t.enabled = true;
+        //        nbParts += 1;
+        //    }
+        //    else
+        //        t.enabled = false;
+        //}
 
         //Rigidbody[] rbList = deadBodyClone.GetComponentsInChildren<Rigidbody>();
         //foreach (Rigidbody rb in rbList)

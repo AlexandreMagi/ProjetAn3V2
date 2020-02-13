@@ -53,12 +53,12 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
         this.TakeDamage(mod.bullet.damage);
     }
 
-    public virtual void OnHitShotGun()
+    public virtual void OnHitShotGun(DataWeaponMod mod)
     {
         Weapon.Instance.OnShotGunHitTarget();
     }
 
-    public virtual void OnHitSingleShot()
+    public virtual void OnHitSingleShot(DataWeaponMod mods)
     {
 
     }

@@ -10,6 +10,12 @@ public class DeathBodyPart : MonoBehaviour
 
     float phosphoValue = 1;
 
+    [SerializeField]
+    float minTimerBeforeDisapear = 2;
+
+    [SerializeField]
+    float maxTimerBeforeDisapear = 5;
+
     float timerBeforeDisapear;
     float timerBeforeDisapearIncrement;
 
@@ -18,7 +24,7 @@ public class DeathBodyPart : MonoBehaviour
         meshRenderer = gameObject.GetComponent<Renderer>();
         instancedMaterial = meshRenderer.material;
 
-        timerBeforeDisapear = Random.Range(2, 5);
+        timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
     }
 
     void Update()
@@ -39,6 +45,7 @@ public class DeathBodyPart : MonoBehaviour
                     transform.localScale = new Vector3(transform.localScale.x - Time.deltaTime, transform.localScale.y - Time.deltaTime, transform.localScale.z - Time.deltaTime);
                 }else
                 {
+                    transform.localScale = new Vector3(0, 0, 0);
                     gameObject.SetActive(false);
                 }
 

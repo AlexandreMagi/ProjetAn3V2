@@ -29,6 +29,10 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     [SerializeField]
     private float shakeForce = 30;
 
+    private float timerSafeFx = 0.2f;
+    private float currentTimer = 0;
+
+
     /*[SerializeField]
     GameObject GravityOrb = null;
     [SerializeField]
@@ -39,8 +43,6 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     {
 
         bPlayerCanDammage = Vector3.Distance(Player.Instance.transform.position, transform.position) < distanceAllowedToPlayer;
-        
-
 
         if (DammageDone < DammageBeforeExplosion)
         {
@@ -66,6 +68,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             CameraHandler.Instance.AddShake(10 * Time.deltaTime);
         }
 
+        if (currentTimer < Time.deltaTime) currentTimer = 0;
+        else currentTimer -= Time.deltaTime;
 
     }
 
@@ -104,11 +108,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     {
         if (bPlayerCanDammage && !bItemDestroyed)
         {
+            currentTimer = timerSafeFx;
+            if (currentTimer == 0) FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
             DammageDone += Dmg / 35;
             for (int i = Mathf.CeilToInt(DammageDoneSaved); i < DammageDone; i++)
             {
                 //GameObject.FindObjectOfType<C_Fx>().OrbGatherableExplosion(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-                FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
                 CameraHandler.Instance.AddShake(i * 0.3f,0.1f);
                 //ustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "ImpactOrbeSequence_Boosted", false, 1f);
             }
@@ -118,15 +123,16 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
     public void OnHit(DataWeaponMod mod, Vector3 position)
     {
+    }
+
+    public void OnHitShotGun(DataWeaponMod mod)
+    {
         PlayerShootOnObjet(mod.bullet.damage);
     }
 
-    public void OnHitShotGun()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
-    }
-
-    public void OnHitSingleShot()
-    {
+        PlayerShootOnObjet(mod.bullet.damage);
     }
 
     public void OnBulletClose()
