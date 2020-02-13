@@ -24,7 +24,7 @@ public class DecalManager : MonoBehaviour
     [SerializeField]
     float safeDistanceValue = 2;
 
-    public EasyDecal ProjectDecal (string name, float castRadius,Ray rayBase, RaycastHit hitBase)
+    public EasyDecal ProjectDecal(string name, float castRadius, Ray rayBase, RaycastHit hitBase)
     {
         EasyDecal decalInstance = FindDecal(name);
         if (decalInstance == null)
@@ -53,10 +53,11 @@ public class DecalManager : MonoBehaviour
         // Instantiate the decal prefab according the hit normal
         EasyDecal sendDecal = EasyDecal.ProjectAt(decalInstance.gameObject, parent, pos, averageNormal);
 
-        return sendDecal;   
+
+        return sendDecal;
     }
 
-    EasyDecal FindDecal (string name)
+    EasyDecal FindDecal(string name)
     {
         for (int i = 0; i < decalTab.Length; i++)
         {

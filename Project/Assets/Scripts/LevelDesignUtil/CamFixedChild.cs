@@ -20,8 +20,8 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
         parentScript.hitByBullet();
     }
 
-    public void OnHitShotGun() { }
+    public void OnHitShotGun(DataWeaponMod mod) { }
 
-    public void OnHitSingleShot() { }
+    public void OnHitSingleShot(DataWeaponMod mod) { }
     #endregion
 }

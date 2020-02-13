@@ -44,7 +44,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         //Debug.Log(mod);
     }
 
-    public void OnHitShotGun()
+    public void OnHitShotGun(DataWeaponMod mod)
     {
         Destroy(GetComponent<Animator>());
 
@@ -70,7 +70,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         Weapon.Instance.OnShotGunHitTarget();
     }
 
-    public void OnHitSingleShot()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
         Animator anim = GetComponent<Animator>();
         if (anim != null)
