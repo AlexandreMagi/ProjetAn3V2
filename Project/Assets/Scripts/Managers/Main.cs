@@ -74,10 +74,12 @@ public class Main : MonoBehaviour
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputUp(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+            Debug.Log("Shoot");
         }
 
         //CAM
-        CameraHandler.Instance.DecalCamWithCursor(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+        if (!isArduinoMode) CameraHandler.Instance.DecalCamWithCursor(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+        else Debug.Log("Debug decal cam");
 
         //UI
         if (UiCrossHair.Instance != null)
