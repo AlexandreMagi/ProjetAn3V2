@@ -77,9 +77,13 @@ public class Main : MonoBehaviour
             Debug.Log("Shoot");
         }
 
+
         //CAM
-        if (!isArduinoMode) CameraHandler.Instance.DecalCamWithCursor(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
-        else Debug.Log("Debug decal cam");
+        Vector3 posCursor = isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition;
+        if ( (posCursor.x < Transmition.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < Transmition.Instance.iResolutionY && posCursor.y > 0)
+            || (posCursor.x < Screen.width && posCursor.x > 0 && posCursor.y < Screen.height && posCursor.y > 0))
+            CameraHandler.Instance.DecalCamWithCursor(posCursor);
+        
 
         //UI
         if (UiCrossHair.Instance != null)

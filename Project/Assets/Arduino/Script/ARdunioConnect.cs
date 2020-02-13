@@ -104,4 +104,9 @@ public class ARdunioConnect : MonoBehaviour
     { // close the Thread and Serial Port
         myDevice.close();
     }
+    private void OnDestroy()
+    {
+        myDevice.close();
+    }
+
 }
