@@ -53,6 +53,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     [SerializeField]
     Transform fxStunPos = null;
 
+    List<ShooterBullet> allBullets = new List<ShooterBullet>();
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -206,6 +208,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void StartShoot()
     {
         state = (int)State.Shooting;
+        allBullets.Clear();
     }
 
 
@@ -297,6 +300,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
             for (int i = 0; i < entityData.nbBulletPerShoot; i++)
             {
                 GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
+                allBullets.Add(CurrBullet.GetComponent<ShooterBullet>());
                 CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject);
             }
 
@@ -324,6 +328,11 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     protected override void Die()
     {
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Death", false, .6f);
+
+        foreach (var bullet in allBullets)
+        {
+            bullet.DesactivateBullet();
+        }
 
         //Means it has been killed in some way and has not just attacked
         if (health <= 0)

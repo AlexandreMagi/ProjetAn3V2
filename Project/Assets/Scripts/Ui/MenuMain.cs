@@ -78,7 +78,7 @@ public class MenuMain : MonoBehaviour
     public void GoToGame ()
     {
         canClickOnButton = false;
-        SceneHandler.Instance.ChangeScene(sceneNameGoTo);
+        SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
     }
 
     public void QuitAppli ()
