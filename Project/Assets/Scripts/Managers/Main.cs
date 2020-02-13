@@ -77,7 +77,7 @@ public class Main : MonoBehaviour
         }
 
         //CAM
-        CameraHandler.Instance.DecalCamWithCursor(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+        //CameraHandler.Instance.DecalCamWithCursor(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -235,6 +235,7 @@ public class Main : MonoBehaviour
         {
             timeLeftForRaycastCursor -= Time.deltaTime;
         }
+        Debug.Log("Fallait faire un code qui marche");
 
     }
 
