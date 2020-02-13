@@ -32,6 +32,13 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     private float timerSafeFx = 0.2f;
     private float currentTimer = 0;
 
+    [SerializeField]
+    GameObject player = null;
+
+    [SerializeField]
+    ParticleSystem pr;
+
+    bool canPlay = true;
 
     /*[SerializeField]
     GameObject GravityOrb = null;
@@ -41,6 +48,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     // Update is called once per frame
     void Update()
     {
+        if ((transform.position.magnitude - player.transform.position.magnitude <= 10) && canPlay)
+        {
+            pr.Play();
+            GetComponent<GravityOrb>().enabled = true;
+            canPlay = false;
+        }
 
         bPlayerCanDammage = Vector3.Distance(Player.Instance.transform.position, transform.position) < distanceAllowedToPlayer;
 
