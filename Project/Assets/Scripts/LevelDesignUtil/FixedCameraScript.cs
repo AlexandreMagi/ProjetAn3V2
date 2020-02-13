@@ -39,7 +39,10 @@ public class FixedCameraScript : MonoBehaviour
             rb.AddExplosionForce(500f, transform.position, 1f);
         }
 
-        Destroy(this);
+        if (this != null)
+        {
+            Destroy(this);
+        }    
     }
 
 
