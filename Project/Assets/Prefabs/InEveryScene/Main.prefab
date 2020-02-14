@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 510489345344129888}
   - component: {fileID: 549101692861708773}
   - component: {fileID: 7733319943031013696}
+  - component: {fileID: 649542029}
   m_Layer: 11
   m_Name: RenderCamera
   m_TagString: Untagged
@@ -228,7 +229,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3084161088736779531}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -351,6 +352,14 @@ MonoBehaviour:
   - assemblyQualifiedName: PostProcessOutline, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_AfterStackBundles: []
+--- !u!124 &649542029
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3084161088736779531}
+  m_Enabled: 1
 --- !u!1 &7584541180804375017
 GameObject:
   m_ObjectHideFlags: 0

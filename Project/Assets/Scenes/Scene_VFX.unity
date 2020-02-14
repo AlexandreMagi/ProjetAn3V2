@@ -136,7 +136,7 @@ PrefabInstance:
     - target: {fileID: 8562885557330992695, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8562885557330992714, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
@@ -193,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 8562885557330992715, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.3
+      value: -5.75
       objectReference: {fileID: 0}
     - target: {fileID: 8562885557330992715, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
@@ -568,6 +568,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!1 &292396098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,6 +1084,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 0.5
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!4 &399868980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7584541180804375022, guid: b2eaf840aec546e4c90ab469ed34be5d,
@@ -1220,7 +1230,7 @@ PrefabInstance:
     - target: {fileID: 74664189921445227, guid: 6fc1be46a79181344b99423390a4fa4f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.09
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 74664189921445227, guid: 6fc1be46a79181344b99423390a4fa4f,
         type: 3}
@@ -2584,6 +2594,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 0.5
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!1 &953921961
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3271,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!1 &1233267748
 GameObject:
   m_ObjectHideFlags: 0
@@ -4265,98 +4285,6 @@ Transform:
   m_Father: {fileID: 1918818624}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1662814399
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1662814401}
-  - component: {fileID: 1662814400}
-  m_Layer: 0
-  m_Name: Spot Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &1662814400
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662814399}
-  m_Enabled: 1
-  serializedVersion: 10
-  m_Type: 0
-  m_Shape: 0
-  m_Color: {r: 0.6981132, g: 0.25355998, b: 0.25355998, a: 1}
-  m_Intensity: 2.17
-  m_Range: 42.37
-  m_SpotAngle: 74.8
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 1
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
---- !u!4 &1662814401
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662814399}
-  m_LocalRotation: {x: 0.44343528, y: -0, z: -0, w: 0.8963064}
-  m_LocalPosition: {x: 3.72, y: 17.45, z: -14.65}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 52.647003, y: 0, z: 0}
 --- !u!1 &1717275288
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,6 +4456,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!4 &1750019988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1864541049839414522, guid: 76ad8b46336784549ae9aaca10a265c4,
@@ -4815,6 +4748,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!114 &1867869975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4902,6 +4840,11 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
 --- !u!1 &1918818623
 GameObject:
   m_ObjectHideFlags: 0
