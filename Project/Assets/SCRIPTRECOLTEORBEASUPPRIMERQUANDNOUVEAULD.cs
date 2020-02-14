@@ -96,6 +96,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     {
         CameraHandler.Instance.AddShake(shakeForce, shakeTime);
         bItemDestroyedCompletly = true;
+        GetComponent<SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD>().enabled = false;
         // GravityOrb.GetComponent<C_GravityOrb>().StopHolding();
         //GameObject.FindObjectOfType<C_Fx>().GatherOrb(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "EquipOrb_Boosted", false, 1f);
