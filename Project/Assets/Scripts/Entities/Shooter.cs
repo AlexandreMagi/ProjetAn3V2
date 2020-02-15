@@ -331,7 +331,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
         foreach (var bullet in allBullets)
         {
-            bullet.DesactivateBullet();
+            if (bullet != null)
+                bullet.DesactivateBullet();
         }
 
         //Means it has been killed in some way and has not just attacked

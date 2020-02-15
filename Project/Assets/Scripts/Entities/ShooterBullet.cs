@@ -100,7 +100,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             transform.Translate(randomCurve * ValueMax, Space.Self);
 
             Vector3 relativePos = transform.position - posAtLastFrame;
-            if (Time.timeScale > 0)
+            if (Time.timeScale > 0 && relativePos.magnitude > 0)
             {
                 Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
                 transform.rotation = rotation;
