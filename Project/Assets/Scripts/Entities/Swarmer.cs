@@ -180,9 +180,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         InstansiateDeadBody();
 
-        this.gameObject.SetActive(false);
-
-        //base.Die();        
+        this.gameObject.SetActive(false);       
 
     }
 
@@ -191,31 +189,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         GameObject deadBodyClone;
         deadBodyClone = Instantiate(deadBody, transform.position, transform.rotation);
         deadBodyClone.transform.parent = null;
-
-        //int rand;
-        //int nbParts = 0;
-
-        //Prop[] tList = deadBodyClone.GetComponentsInChildren<Prop>();
-        //foreach (Prop t in tList)
-        //{
-        //    rand = Random.Range(0, 2);
-
-        //    if (rand == 0)
-        //        t.enabled = false;
-        //    else if (rand == 1 && nbParts <= 2)
-        //    {
-        //        t.enabled = true;
-        //        nbParts += 1;
-        //    }
-        //    else
-        //        t.enabled = false;
-        //}
-
-        Rigidbody[] rbList = deadBodyClone.GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in rbList)
-        {
-            rb.AddExplosionForce(1500f, deadBodyClone.transform.position, 1f);
-        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -463,13 +436,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 {
                     isGettingOutOfObstacle = false;
                     isOutStepTwo = false;
-                    Debug.Log("End of dodge step");
+                    //Debug.Log("End of dodge step");
                 }
                 else
                 {
                     obstacleDodgePoint += oldForwardVector;
                     isOutStepTwo = true;
-                    Debug.Log("Step two");
+                    //Debug.Log("Step two");
                 }
                 
             }

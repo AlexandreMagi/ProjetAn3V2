@@ -15,13 +15,15 @@ MonoBehaviour:
   maxHealth: 1
   startHealth: 1
   team: 1
+  shakeOnDie: 0
+  shakeOnDieTime: 0
   spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
     type: 2}
   spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
     type: 2}
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
-  timeBeforeCheckForAnotherTarget: 1
+  timeBeforeCheckForAnotherTarget: 0
   fxWhenDie: VFX_Death
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
@@ -30,13 +32,13 @@ MonoBehaviour:
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.6
   speed: 160
-  damage: 10
-  upScale: 10
+  damage: 0
+  upScale: 0
   distanceToTargetEnemy: 0
   distanceMelee: 0
-  waitDuration: 0.3
+  waitDuration: 0
   distanceBeforeAttack: 0
-  jumpForce: 80
+  jumpForce: 0
   speedMultiplierWhenAttacking: 4
   frontalDetectionSight: 2
   jumpHeight: 3
