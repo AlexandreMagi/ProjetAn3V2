@@ -175,7 +175,9 @@ public class Weapon : MonoBehaviour
 
             else if(currentOrb != null && weapon.gravityOrbCanBeReactivated)
             {
-                currentOrb.GetComponent<GravityOrb>().StopHolding();
+                if (!currentOrb.GetComponent<GravityOrb>().hasExploded)
+                    currentOrb.GetComponent<GravityOrb>().StopHolding();
+                
             }
         }
     }

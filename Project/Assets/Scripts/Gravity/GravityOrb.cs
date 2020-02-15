@@ -20,6 +20,9 @@ public class GravityOrb : MonoBehaviour
     GameObject parentIfSticky = null;
     Camera MainCam = null;
 
+    [HideInInspector]
+    public bool hasExploded = false;
+
     private void Start()
     {
 
@@ -111,6 +114,7 @@ public class GravityOrb : MonoBehaviour
 
     public void StopHolding()
     {
+        hasExploded = true;
         int nbEnemiesHitByFloatExplo = 0;
 
         FindObjectOfType<PostProcessEffects>().ChromaChanges(true);
