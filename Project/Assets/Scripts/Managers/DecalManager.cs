@@ -23,9 +23,18 @@ public class DecalManager : MonoBehaviour
 
     [SerializeField]
     float safeDistanceValue = 2;
+    [SerializeField]
+    bool activeDecal = true;
 
     public EasyDecal ProjectDecal(string name, float castRadius, Ray rayBase, RaycastHit hitBase)
     {
+
+        if (!activeDecal)
+        {
+            Debug.Log("Decal not activated");
+            return null;
+        }
+
         EasyDecal decalInstance = FindDecal(name);
         if (decalInstance == null)
             return null;
