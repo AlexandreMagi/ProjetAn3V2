@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6936928073804823490
 Transform:
   m_ObjectHideFlags: 0
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decalTab:
-  - {fileID: 11400000, guid: f486be33491b64242a1669acd790bb31, type: 3}
+  - {fileID: 11400000, guid: 608f1f55f0880af4ab66b9f81023f201, type: 3}
   safeDistanceValue: 2
 --- !u!1 &8225693594273001723
 GameObject:
@@ -829,6 +829,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArduinoHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 4958556699101603293, guid: acd1cda6ba141ff43a32c88d168c56fa,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4958556699101603294, guid: acd1cda6ba141ff43a32c88d168c56fa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -882,6 +887,11 @@ PrefabInstance:
     - target: {fileID: 4958556699101603294, guid: acd1cda6ba141ff43a32c88d168c56fa,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958556699101603295, guid: acd1cda6ba141ff43a32c88d168c56fa,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
