@@ -6,9 +6,9 @@ public interface IBulletAffect
 {
     void OnHit(DataWeaponMod mod, Vector3 position);
 
-    void OnHitShotGun();
+    void OnHitShotGun(DataWeaponMod mod);
 
-    void OnHitSingleShot();
+    void OnHitSingleShot(DataWeaponMod mod);
 
     void OnBulletClose();
 }

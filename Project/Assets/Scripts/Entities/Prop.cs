@@ -10,6 +10,8 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     Rigidbody rb;
 
+    [HideInInspector] public bool isAffectedByGravity = false;
+
   //  DataProp propData;
 
     protected override void Start()
@@ -23,6 +25,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
     public void OnGravityDirectHit()
     {
         ReactGravity<DataProp>.DoFreeze(rb);
+        isAffectedByGravity = true;
     }
 
     public void OnHold()
@@ -33,6 +36,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
     public void OnPull(Vector3 origin, float force)
     {
         ReactGravity<DataProp>.DoPull(rb, origin, force, isAirbone);
+        isAffectedByGravity = true;
     }
 
     public void OnRelease()
@@ -45,11 +49,16 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
         //ReactGravity.DoSpin(this);
     }
 
+    public void SetTimerToRelease(float timeSent) { Invoke("CompleteRelease", timeSent + 2.5f ); }
+    void CompleteRelease() { isAffectedByGravity = false; }
+
+
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
     {
         ReactGravity<DataProp>.DoPull(rb, Vector3.up.normalized + this.transform.position, fGForce, false);
 
         ReactGravity<DataProp>.DoFloat(rb, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
+
     }
     #endregion
 
@@ -60,12 +69,12 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
         ReactBullet.PushFromHit(this.GetComponent<Rigidbody>(), position, 2400, 5);
     }
 
-    public void OnHitShotGun()
+    public void OnHitShotGun(DataWeaponMod mod)
     {
         
     }
 
-    public void OnHitSingleShot()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
        
     }
@@ -83,7 +92,6 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     protected virtual void FixedUpdate()
     {
-
         //Check for airbone and makes it spin if in the air
         if (isAirbone)
         {
@@ -99,11 +107,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
                 {
                     isAirbone = false;
                 }
-
             }
-
         }
-
     }
-
 }

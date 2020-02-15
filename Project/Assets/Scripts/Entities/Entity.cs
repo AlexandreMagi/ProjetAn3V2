@@ -20,7 +20,7 @@ public class Entity<T> : MonoBehaviour, IEntity where T : DataEntity
     protected virtual void Die()
     {
         TeamsManager.Instance.RemoveFromTeam(this.transform, this.entityData.team);
-
+        CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
         Destroy(this.gameObject);
         //this.gameObject.SetActive(false);
     }

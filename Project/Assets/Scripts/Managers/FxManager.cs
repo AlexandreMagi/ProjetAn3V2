@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 public class FxManager : MonoBehaviour
 {
     private static FxManager _instance;
@@ -38,6 +38,21 @@ public class FxManager : MonoBehaviour
         if (fxInstantiated == null)
             return null;
         ParticleSystem clone = Instantiate(fxInstantiated, pos, rot);
+        clone.Play();
+        return clone;
+    }
+
+    public ParticleSystem PlayFx(string name, Vector3 pos, RaycastHit hitFromCast)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
+
+        ParticleSystem clone = Instantiate(fxInstantiated, pos, Quaternion.identity);
+
+        clone.transform.LookAt(pos + hitFromCast.normal * 3, Vector3.up);
+        clone.transform.Rotate(90,0,0,Space.Self);
+
         clone.Play();
         return clone;
     }

@@ -231,17 +231,20 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnGravityDirectHit()
     {
-        onGravity = true;
-        rbBody.useGravity = true;
         ReactGravity<DataSwarmer>.DoFreeze(rbBody);
-        Destroy(circlePrefab);
+        DesactivateBullet();
     }
 
     public void OnPull(Vector3 position, float force)
     {
+        ReactGravity<DataEntity>.DoPull(rbBody, position, force, false);
+        DesactivateBullet();
+    }
+
+    public void DesactivateBullet()
+    {
         onGravity = true;
         rbBody.useGravity = true;
-        ReactGravity<DataEntity>.DoPull(rbBody, position, force, false);
         Destroy(circlePrefab);
     }
 
@@ -280,12 +283,12 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         //KillBullet();
     }
 
-    public void OnHitShotGun()
+    public void OnHitShotGun(DataWeaponMod mod)
     {
         // Nothing
     }
 
-    public void OnHitSingleShot()
+    public void OnHitSingleShot(DataWeaponMod mod)
     {
         // Nothing
     }

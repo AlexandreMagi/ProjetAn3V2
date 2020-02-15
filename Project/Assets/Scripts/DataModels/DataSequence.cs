@@ -137,4 +137,16 @@ public class DataSequence : ScriptableObject
         Sound = 3,
         Other = 9
     }
+
+    [Header("AffectObject")]
+    public GameObject affectedObject = null;
+    public enum gameObjectActionType { Activate, MoveTo }
+    [ShowIf("affectedObject", null)]
+    public gameObjectActionType actionType = gameObjectActionType.Activate;
+    [ShowIf("affectedObject", null)]
+    public float delayOnAction = 0;
+    [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.Activate)]
+    public bool _active = true;
+    [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.MoveTo)]
+    public Vector3 positionMoveTo = Vector3.zero;
 }

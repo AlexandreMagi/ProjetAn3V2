@@ -9,6 +9,9 @@ public abstract class DataEntity : ScriptableObject
     public float startHealth;
     public int team;
 
+    public float shakeOnDie;
+    public float shakeOnDieTime;
+
     public DataUiTemporarySprite spriteToDisplayShield;
     public DataUiTemporarySprite spriteToDisplayLife;
 

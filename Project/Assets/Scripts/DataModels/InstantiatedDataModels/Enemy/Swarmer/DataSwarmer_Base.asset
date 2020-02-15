@@ -15,6 +15,8 @@ MonoBehaviour:
   maxHealth: 20
   startHealth: 20
   team: 1
+  shakeOnDie: 6.31
+  shakeOnDieTime: 0.1
   spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
     type: 2}
   spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
@@ -52,9 +54,7 @@ MonoBehaviour:
   maxBlockedSuicideTime: 4
   considerStuckThreshhold: 1
   initialTimeToConsiderCheck: 0.5
-  mat: {fileID: 2100000, guid: c40cc56f9422c484a83c8a3190d17afb, type: 2}
+  mat: {fileID: 2100000, guid: 3700307f4e9af9b43b4b7e99a42dcd36, type: 2}
   vfxToPlayWhenPulledByGrav: VFXOrbPull
-  vfxSizeWhenPulledByGrav: 0.5
   vfxToPlayWhenHoldByGrav: VFXOrbHold
-  vfxSizeWhenHoldByGrav: 0.5
   vfxToPlayWhenReleaseByGrav: VFXOrbRelease

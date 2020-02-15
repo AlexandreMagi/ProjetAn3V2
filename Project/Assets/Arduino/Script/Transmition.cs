@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Transmition : MonoBehaviour
 {
-    [SerializeField]
-    int iResolutionX = 1920;
-    [SerializeField]
-    int iResolutionY = 1080;
+    public int iResolutionX = 1920;
+    public int iResolutionY = 1080;
 
     [SerializeField]
     float factorX = 3f;
