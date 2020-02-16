@@ -4,7 +4,7 @@ Shader "ShootTriggers"
 {
 	Properties
 	{
-		[HDR]_Fresnelcolor("Fresnel color", Color) = (0,0,0,0)
+		[HDR]_Fresnelcolor("Fresnel color", Color) = (1,0,0,0)
 		_Scale("Scale", Float) = 1
 		_Power("Power", Float) = 5
 		_TextureSample0("Texture Sample 0", 2D) = "white" {}
@@ -132,14 +132,14 @@ Shader "ShootTriggers"
 }
 /*ASEBEGIN
 Version=17700
-1053;136;1271;883;2278.408;539.3022;1.6;True;False
-Node;AmplifyShaderEditor.SimpleTimeNode;15;-1719.897,41.88658;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector2Node;18;-1829.098,135.4865;Inherit;False;Property;_Gradientdirectionandspeed;Gradient direction and speed;4;0;Create;True;0;0;False;0;0,0.5;0,0.5;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+1920;0;1920;1019;2178.285;407.9992;1;True;False
+Node;AmplifyShaderEditor.SimpleTimeNode;15;-1751.897,-5.113419;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;18;-1804.098,102.4865;Inherit;False;Property;_Gradientdirectionandspeed;Gradient direction and speed;4;0;Create;True;0;0;False;0;0,0.5;0,0.5;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.RangedFloatNode;5;-1528.394,357.6648;Inherit;False;Property;_Power;Power;2;0;Create;True;0;0;False;0;5;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;4;-1534.143,273.2956;Inherit;False;Property;_Scale;Scale;1;0;Create;True;0;0;False;0;1;7.5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;16;-1504.097,35.38658;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.ColorNode;2;-1160.849,447.9492;Inherit;False;Property;_Fresnelcolor;Fresnel color;0;1;[HDR];Create;True;0;0;False;0;0,0,0,0;1,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FresnelNode;1;-1243.969,216.2687;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;16;-1522.097,10.38658;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.FresnelNode;1;-1245.969,216.2687;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;2;-1160.849,447.9492;Inherit;False;Property;_Fresnelcolor;Fresnel color;0;1;[HDR];Create;True;0;0;False;0;1,0,0,0;1,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;14;-1364.281,-56.37905;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;3;-867.0714,246.3407;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;12;-1048.744,-35.52668;Inherit;True;Property;_TextureSample0;Texture Sample 0;3;0;Create;True;0;0;False;0;-1;None;6bc3fa78349cdd04a9f932bfe7aaf8a8;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -158,4 +158,4 @@ WireConnection;13;1;3;0
 WireConnection;0;2;13;0
 WireConnection;0;9;13;0
 ASEEND*/
-//CHKSM=B1B57F1636818A6197C8BB9A9BDBC72DD23B943B
+//CHKSM=B9F7868F8261311FB5D2FA19E5EEB0E3E89D67B0

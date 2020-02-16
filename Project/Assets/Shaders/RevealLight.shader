@@ -46,9 +46,9 @@ Shader "RevealLight"
 		uniform float4 _Reveallightcolor;
 		uniform sampler2D _Reveallighttexture;
 		uniform float4 _Reveallighttexture_ST;
+		uniform float _Contrast;
 		uniform float4 _ColortoBeFiltered;
 		uniform float _DifferenceThreshold;
-		uniform float _Contrast;
 		uniform float _RevealLightEnabled;
 		uniform float _Cutoff = 0.5;
 
@@ -80,7 +80,7 @@ Shader "RevealLight"
 			float3 normalizeResult160 = normalize( (( ase_lightColor * _WorldSpaceLightPos0.w )).rgb );
 			float3 normalizeResult161 = normalize( (_ColortoBeFiltered).rgb );
 			float dotResult165 = dot( normalizeResult160 , normalizeResult161 );
-			float4 handpaint373 = ( ( ( ( _Reveallightcolor * tex2D( _Reveallighttexture, uv_Reveallighttexture ).a ) * ( ( ( ase_lightAtten * ase_lightColor ) * _WorldSpaceLightPos0.w ) *  ( dotResult165 - _DifferenceThreshold > 1.0 ? 0.0 : dotResult165 - _DifferenceThreshold <= 1.0 && dotResult165 + _DifferenceThreshold >= 1.0 ? 1.0 : 0.0 )  ) ) * _Contrast ) * _RevealLightEnabled );
+			float4 handpaint373 = ( ( ( ( _Reveallightcolor * tex2D( _Reveallighttexture, uv_Reveallighttexture ).a ) * _Contrast ) * ( ( ( ase_lightAtten * ase_lightColor ) * _WorldSpaceLightPos0.w ) *  ( dotResult165 - _DifferenceThreshold > 1.0 ? 0.0 : dotResult165 - _DifferenceThreshold <= 1.0 && dotResult165 + _DifferenceThreshold >= 1.0 ? 1.0 : 0.0 )  ) ) * _RevealLightEnabled );
 			float4 temp_output_115_0 = handpaint373;
 			c.rgb = temp_output_115_0.rgb;
 			c.a = 1;
@@ -105,7 +105,7 @@ Shader "RevealLight"
 			float3 normalizeResult160 = normalize( (( ase_lightColor * _WorldSpaceLightPos0.w )).rgb );
 			float3 normalizeResult161 = normalize( (_ColortoBeFiltered).rgb );
 			float dotResult165 = dot( normalizeResult160 , normalizeResult161 );
-			float4 handpaint373 = ( ( ( ( _Reveallightcolor * tex2D( _Reveallighttexture, uv_Reveallighttexture ).a ) * ( ( ( 1 * ase_lightColor ) * _WorldSpaceLightPos0.w ) *  ( dotResult165 - _DifferenceThreshold > 1.0 ? 0.0 : dotResult165 - _DifferenceThreshold <= 1.0 && dotResult165 + _DifferenceThreshold >= 1.0 ? 1.0 : 0.0 )  ) ) * _Contrast ) * _RevealLightEnabled );
+			float4 handpaint373 = ( ( ( ( _Reveallightcolor * tex2D( _Reveallighttexture, uv_Reveallighttexture ).a ) * _Contrast ) * ( ( ( 1 * ase_lightColor ) * _WorldSpaceLightPos0.w ) *  ( dotResult165 - _DifferenceThreshold > 1.0 ? 0.0 : dotResult165 - _DifferenceThreshold <= 1.0 && dotResult165 + _DifferenceThreshold >= 1.0 ? 1.0 : 0.0 )  ) ) * _RevealLightEnabled );
 			float4 temp_output_115_0 = handpaint373;
 			o.Emission = temp_output_115_0.rgb;
 		}
@@ -189,7 +189,7 @@ Shader "RevealLight"
 }
 /*ASEBEGIN
 Version=17700
-1920;0;1920;1019;1727.556;-224.9662;1.529738;True;False
+1920;0;1920;1019;2922.632;-260.2573;1.189452;True;False
 Node;AmplifyShaderEditor.CommentaryNode;149;-3688.979,468.5045;Inherit;False;2733.683;1073.523;Comment;26;373;427;431;342;435;198;419;197;200;271;412;164;162;165;163;160;161;159;158;156;157;154;155;152;153;436;RevealLight;1,1,1,1;0;0
 Node;AmplifyShaderEditor.LightColorNode;153;-3641.517,999.7997;Inherit;False;0;3;COLOR;0;FLOAT3;1;FLOAT;2
 Node;AmplifyShaderEditor.WorldSpaceLightPos;152;-3515.967,802.439;Inherit;False;0;3;FLOAT4;0;FLOAT3;1;FLOAT;2
@@ -201,19 +201,19 @@ Node;AmplifyShaderEditor.NormalizeNode;160;-2863,1055.568;Inherit;False;1;0;FLOA
 Node;AmplifyShaderEditor.NormalizeNode;161;-2964.604,1210.015;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LightColorNode;159;-3282.021,657.1661;Inherit;False;0;3;COLOR;0;FLOAT3;1;FLOAT;2
 Node;AmplifyShaderEditor.LightAttenuation;158;-3280.717,566.5498;Inherit;False;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;162;-2719.75,1242.825;Float;False;Constant;_Float1;Float 1;4;0;Create;True;0;0;False;0;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;164;-3023.09,651.9681;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;163;-2837.449,1335.847;Float;False;Property;_DifferenceThreshold;Difference Threshold;4;0;Create;True;0;0;False;0;0.05;0.05;0;0.05;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DotProductOpNode;165;-2691.023,1142.59;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;197;-2739.428,712.2084;Inherit;True;Property;_Reveallighttexture;Reveal light texture;0;0;Create;True;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;200;-2594.425,543.7891;Inherit;False;Property;_Reveallightcolor;Reveal light color;3;1;[HDR];Create;True;0;0;False;0;1,0.07075471,0.07075471,0;1,0.07075471,0.07075471,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;197;-2739.428,712.2084;Inherit;True;Property;_Reveallighttexture;Reveal light texture;0;0;Create;True;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DotProductOpNode;165;-2691.023,1142.59;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;164;-3023.09,651.9681;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;162;-2719.75,1242.825;Float;False;Constant;_Float1;Float 1;4;0;Create;True;0;0;False;0;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;163;-2837.449,1335.847;Float;False;Property;_DifferenceThreshold;Difference Threshold;4;0;Create;True;0;0;False;0;0.05;0.05;0;0.05;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;198;-2313.708,718.4303;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TFHCIf;271;-2540.029,1141.865;Inherit;False;6;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;412;-2800.835,901.3683;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;419;-2272.812,979.264;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;198;-2199.52,848.0807;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;435;-1897.891,1058.107;Inherit;False;Property;_Contrast;Contrast;6;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;419;-2272.812,979.264;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;436;-2158.872,834.2352;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;342;-1993.359,937.8237;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;436;-1715.206,946.0437;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;431;-1685.545,1117;Inherit;False;Property;_RevealLightEnabled;RevealLightEnabled;5;0;Create;True;0;0;False;0;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;427;-1357.904,972.9705;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.CommentaryNode;105;-911.2739,755.3216;Inherit;False;1048.839;533.1951;Comment;2;0;115;Output;1,1,1,1;0;0
@@ -226,10 +226,12 @@ WireConnection;157;0;154;0
 WireConnection;156;0;155;0
 WireConnection;160;0;157;0
 WireConnection;161;0;156;0
-WireConnection;164;0;158;0
-WireConnection;164;1;159;0
 WireConnection;165;0;160;0
 WireConnection;165;1;161;0
+WireConnection;164;0;158;0
+WireConnection;164;1;159;0
+WireConnection;198;0;200;0
+WireConnection;198;1;197;4
 WireConnection;271;0;165;0
 WireConnection;271;1;162;0
 WireConnection;271;3;162;0
@@ -238,17 +240,15 @@ WireConnection;412;0;164;0
 WireConnection;412;1;152;2
 WireConnection;419;0;412;0
 WireConnection;419;1;271;0
-WireConnection;198;0;200;0
-WireConnection;198;1;197;4
-WireConnection;342;0;198;0
-WireConnection;342;1;419;0
-WireConnection;436;0;342;0
+WireConnection;436;0;198;0
 WireConnection;436;1;435;0
-WireConnection;427;0;436;0
+WireConnection;342;0;436;0
+WireConnection;342;1;419;0
+WireConnection;427;0;342;0
 WireConnection;427;1;431;0
 WireConnection;373;0;427;0
 WireConnection;0;2;115;0
 WireConnection;0;10;115;0
 WireConnection;0;13;115;0
 ASEEND*/
-//CHKSM=1111F61345346D93C951A65DC8CBE70CD2898E33
+//CHKSM=373F7BB7F725C2D10E81864EA3E3F8EA317AC357
