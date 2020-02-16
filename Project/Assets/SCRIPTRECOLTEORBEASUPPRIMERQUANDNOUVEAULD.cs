@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletAffect
 {
-
-
     bool bPlayerCanDammage = true;
     [SerializeField] float fCurrentScale = 1;
     [SerializeField] float fScaleBoostBeforeExplosion = .5f;
@@ -38,14 +36,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     [SerializeField]
     ParticleSystem pr;
 
+    bool pouletCoco = true;
+
     bool canPlay = true;
 
-    /*[SerializeField]
-    GameObject GravityOrb = null;
-    [SerializeField]
-    GameObject WiiMoteSprite = null;*/
+    float multiplierBoom = 1f;
 
-    // Update is called once per frame
     void Update()
     {
         if ((transform.position.magnitude - player.transform.position.magnitude <= 10) && canPlay)
@@ -65,20 +61,21 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         else if (!bItemDestroyed)
         {
             bPlayerCanDammage = false;
-            //GameObject.FindObjectOfType<C_Fx>().OrbGatherableExplosionFinal(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-            FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position /*+ Vector3.up * 0.9542458f * fCurrentScale*/,transform.rotation);
-            FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
             GetComponent<GravityOrb>().StopHolding();
             Invoke("OrbPreDestroyed", 2.6f);
-            Invoke("OrbDestroyed", 0.5f);
+            Invoke("OrbDestroyed", 0.1f);
             Invoke("GoToTuto", timeBetweenDeathAndNextSequence);
             bItemDestroyed = true;
-            //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "GravityOrbOvercharge_Boosted", false, 1f);
         }
-        if (bItemDestroyed && !bItemDestroyedCompletly)
+        if (bItemDestroyed && !bItemDestroyedCompletly && pouletCoco)
         {
-            GetComponentInChildren<ParticleSystem>().Stop();
+            GetComponent<SphereCollider>().enabled = false;
+
+            GetComponentInChildren<ParticleSystem>().gameObject.SetActive(false);
+
             CameraHandler.Instance.AddShake(10 * Time.deltaTime);
+
+            pouletCoco = false;
         }
 
         if (currentTimer < Time.deltaTime) currentTimer = 0;
@@ -94,28 +91,23 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
     void OrbDestroyed()
     {
+        FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position,transform.rotation);
+        CameraHandler.Instance.AddShake(shakeForce, 0.5f);
+        Invoke("SecondShake", 0.9f);
+    }
+
+    void SecondShake()
+    {
+
         CameraHandler.Instance.AddShake(shakeForce, shakeTime);
+
         bItemDestroyedCompletly = true;
         GetComponent<SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD>().enabled = false;
-        // GravityOrb.GetComponent<C_GravityOrb>().StopHolding();
-        //GameObject.FindObjectOfType<C_Fx>().GatherOrb(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "EquipOrb_Boosted", false, 1f);
     }
 
     void GoToTuto()
     {
-        //GameObject.FindObjectOfType<C_Main>().AllowPlayerOrb();
-        //bInTuto = true;
-        //WiiMoteSprite.SetActive(true);
-        //GameObject.FindObjectOfType<C_GravOrbReady>().PlayFeedback();
-        //GameObject.FindObjectOfType<MainFuncTest>().bActivation = true;
-        //GameObject.FindObjectOfType<MainFuncTest>().ChangeText("RIGHT CLICK TO ACTIVATE GRAVITY ORB");
         SequenceHandler.Instance.NextSequence();
-    }
-
-    public void TutoFinished()
-    {
-        //WiiMoteSprite.SetActive(false);
     }
 
     public void PlayerShootOnObjet(float Dmg)
@@ -123,14 +115,20 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         if (bPlayerCanDammage && !bItemDestroyed)
         {
             currentTimer = timerSafeFx;
-            if (currentTimer == 0) FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation);
+            if (currentTimer != 0)
+            {
+                FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation, multiplierBoom * 2.5f);
+            }
+
             DammageDone += Dmg / 35;
+
             for (int i = Mathf.CeilToInt(DammageDoneSaved); i < DammageDone; i++)
             {
-                //GameObject.FindObjectOfType<C_Fx>().OrbGatherableExplosion(transform.position + Vector3.up * 0.9542458f * fCurrentScale);
-                CameraHandler.Instance.AddShake(i * 0.3f,0.1f);
-                //ustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "ImpactOrbeSequence_Boosted", false, 1f);
+                CameraHandler.Instance.AddShake(i * 1.5f, 0.1f);
             }
+
+            multiplierBoom += 1.5f;
+
             DammageDoneSaved = DammageDone;
         }
     }
@@ -152,10 +150,4 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     public void OnBulletClose()
     {
     }
-
-
-    /*private void OnTriggerEnter(Collider other)
-    {
-        bPlayerCanDammage = true;
-    }*/
 }

@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 5035a286682d203448a0da7c4c4cbab5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -58,8 +58,13 @@ Material:
     - _DistortionStrenght: 1.06
     - _EdgeLength: 2
     - _Edgedetectionoffset: 0.92
-    - _Edgedistance: 0.19
-    - _Edgepower: 0.155
+    - _Edgedistance: 1.15
+    - _Edgepower: 1
+    - _Hit: 0
+    - _HitSize: 0.2
+    - _HitSize1: 0.2
+    - _HitTime: 0
+    - _HitTime1: 0
     - _HoleSmoothness: 0.3
     - _NoiseScale: 8.3
     - _NormalScale: 0.195
@@ -82,6 +87,9 @@ Material:
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0, b: 0, a: 0}
-    - _Edgecolor: {r: 2, g: 0, b: 1.9294118, a: 0}
+    - _Edgecolor: {r: 3.9999995, g: 0, b: 3.874345, a: 0}
     - _Emissivecolor: {r: 0, g: 0, b: 0, a: 0}
+    - _HitColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _HitPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _HitPosition1: {r: 0, g: 0, b: 0, a: 0}
     - _HoleSize: {r: 1, g: 1, b: 1, a: 0}
