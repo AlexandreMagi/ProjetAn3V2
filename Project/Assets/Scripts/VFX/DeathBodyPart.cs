@@ -21,14 +21,42 @@ public class DeathBodyPart : MonoBehaviour
 
     Prop prop;
 
+    float explosionForceOnSpawn = 10000f;
+
+    [SerializeField]
+    bool isAlwaysSpawning = true;
+
     void Start()
     {
         meshRenderer = gameObject.GetComponent<Renderer>();
-        instancedMaterial = meshRenderer.material;
+        instancedMaterial = meshRenderer.materials[1];
 
         timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
 
         prop = GetComponent<Prop>();
+
+        if (!isAlwaysSpawning)
+        {
+            int rand;
+            rand = Random.Range(0, 2);
+
+            if (rand == 0)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Rigidbody rb;
+                rb = GetComponent<Rigidbody>();
+                rb.AddExplosionForce(explosionForceOnSpawn, transform.position, 100f);
+            }
+        }
+        else
+        {
+            Rigidbody rb;
+            rb = GetComponent<Rigidbody>();
+            rb.AddExplosionForce(explosionForceOnSpawn, transform.position, 100f);
+        }
     }
 
     void Update()
