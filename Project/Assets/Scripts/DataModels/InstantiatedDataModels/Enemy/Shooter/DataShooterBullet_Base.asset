@@ -15,6 +15,8 @@ MonoBehaviour:
   maxHealth: 1
   startHealth: 1
   team: 1
+  shakeOnDie: 0
+  shakeOnDieTime: 0
   spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
     type: 2}
   spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
@@ -23,6 +25,7 @@ MonoBehaviour:
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 5
   fxWhenDie: fx_name_death_ennemi
+  fxWhenDieDecals: fx_name_death_decal_ennemi
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 0}
   matChangeTime: 0.1
@@ -154,9 +157,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   bulletSpeed: 5
   randomSpeedAdded: 2
-  shakeAtImpact: 3
+  shakeAtImpact: 2
   stopTimeAtImpact: 0.065
-  shakeIdle: 10
+  shakeIdle: 6
   rotationSpeed: 0
   circleScaleMultiplier: 0.4
   randomRotationAtStart: 0
@@ -164,8 +167,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2816
   timeBeforeCollisionAreActived: 1
-  randomFrom: {x: -1, y: 0.2, z: -1}
-  randomTo: {x: 1, y: 1, z: 1}
+  randomFrom: {x: 0, y: 0.3, z: 0}
+  randomTo: {x: 0, y: 1, z: 1}
   explosionForce: 500
   explosionRadius: 3
   explosionDamage: 50

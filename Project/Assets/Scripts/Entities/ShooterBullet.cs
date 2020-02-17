@@ -25,6 +25,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     float amplitudeShake = 0.3f;
     float shakeSpeedLerp = 5;
 
+    float amplitudeCap = 100;
+
     float timerEActivateCollider = 0;
     bool canCollideWithOthersBullet = false;
 
@@ -37,9 +39,10 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     protected override void Start()
     {
+        amplitudeShake = 0;
     }
 
-    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team, GameObject prop)
+    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team, GameObject prop, float baseRotation, float _amplitudeCap)
     {
         entityData = _bulletSettings as DataShooterBullet;
         health = entityData.startHealth;
@@ -50,6 +53,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         posEnd = transformPosEnd.position;
         posStart = EnnemiPos;
         amplitudeMissile = Amplitude;
+        amplitudeCap = _amplitudeCap;
         bulletSpeed = entityData.bulletSpeed + Random.Range(-entityData.randomSpeedAdded, entityData.randomSpeedAdded);
         bulletRotationSpeed = entityData.rotationSpeed * Mathf.Sign(Random.Range(-1f, 1f));
 
@@ -59,6 +63,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         randomCurve = new Vector3(Random.Range(entityData.randomFrom.x, entityData.randomTo.x), Random.Range(entityData.randomFrom.y, entityData.randomTo.y), Random.Range(entityData.randomFrom.z, entityData.randomTo.z));
         if (entityData.randomRotationAtStart)
             dummyIndicator.transform.Rotate(0, 0, Random.Range(0,360));
+
+        dummyIndicator.transform.Rotate(Vector3.forward * baseRotation);
 
         rbBody = GetComponent<Rigidbody>();
 
@@ -97,7 +103,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             bulletMesh.transform.position = Vector3.Lerp(bulletMesh.transform.position, dummyIndicator.transform.position + new Vector3(Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake)), Time.deltaTime* shakeSpeedLerp);
 
             float ValueMax = entityData.bulletTrajectory.Evaluate(Curr / MaxDistance) * amplitudeMissile;
-            transform.Translate(randomCurve * ValueMax, Space.Self);
+            transform.Translate(randomCurve * (ValueMax < amplitudeCap ? amplitudeCap : ValueMax), Space.Self);
 
             Vector3 relativePos = transform.position - posAtLastFrame;
             if (Time.timeScale > 0 && relativePos.magnitude > 0)

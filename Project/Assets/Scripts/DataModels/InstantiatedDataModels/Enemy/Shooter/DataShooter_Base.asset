@@ -25,6 +25,7 @@ MonoBehaviour:
   stayLockedOnTarget: 1
   timeBeforeCheckForAnotherTarget: 5
   fxWhenDie: VFX_BigEnnemiDied
+  fxWhenDieDecals: fx_name_death_decal_ennemi
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.05
@@ -35,9 +36,14 @@ MonoBehaviour:
   distanceYWithPlayerUpSupported: 4
   timeWaitBeforeShoot: 1.3
   nbShootPerSalve: 3
+  specifyBulletRotation:
+  - -90
+  - 0
+  - 90
   nbBulletPerShoot: 1
   timeBetweenBullet: 1
   amplitudeMultiplier: 3
+  amplitudeCap: 1
   recoverTime: 1
   shootEvenIfPlayerMoving: 0
   bulletData: {fileID: 11400000, guid: ab73124e92d9af345a5657a1239b0758, type: 2}

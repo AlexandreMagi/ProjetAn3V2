@@ -9,6 +9,8 @@ public class Main : MonoBehaviour
     private bool playerCanOrb = true;
     private bool playerCanShoot = true;
 
+    public bool PlayerCanOrb {get { return playerCanOrb; } }
+
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
 

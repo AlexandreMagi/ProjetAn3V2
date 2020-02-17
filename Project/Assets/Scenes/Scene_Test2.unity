@@ -4121,6 +4121,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6734139438723515353, guid: c88404accc7e7994a887d49576bc4a32,
+        type: 3}
+      propertyPath: overrideBulletRotation.Array.data[0]
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6734139438723515353, guid: c88404accc7e7994a887d49576bc4a32,
+        type: 3}
+      propertyPath: overrideBulletRotation.Array.data[2]
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6734139438723515353, guid: c88404accc7e7994a887d49576bc4a32,
+        type: 3}
+      propertyPath: overrideBulletRotation.Array.data[1]
+      value: 45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c88404accc7e7994a887d49576bc4a32, type: 3}
 --- !u!1 &1641104450
@@ -4424,13 +4439,13 @@ MonoBehaviour:
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
   timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
+  hasEventOnEnd: 1
+  seqEvent: 1
   timeBeforeEvent: 0
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
-  affected: 0
+  affected: 1
   tagsAnimated: []
   soundPlayed: 
   volume: 1

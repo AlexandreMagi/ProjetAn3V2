@@ -30,6 +30,13 @@ public class UiViewer : MonoBehaviour
 
     [SerializeField] AnimationCurve animOnBar = null;
 
+    [SerializeField] Image spritePublic = null;
+    [SerializeField] Text textPublic = null;
+    [SerializeField] float speedGoTo = 5;
+    [SerializeField] float speedRecover = 1;
+    [SerializeField] float speedIdle = 15;
+    [SerializeField] float amplitudeIdle = 0.08f;
+
     private void Start()
     {
         fontSize = ViewerText.fontSize;
@@ -50,19 +57,27 @@ public class UiViewer : MonoBehaviour
                     // Go Down
                     upArrow.SetActive(false);
                     downArrow.SetActive(true);
+                    spritePublic.color = Color.Lerp(spritePublic.color, Color.red, Time.deltaTime * speedGoTo);
+                    textPublic.color = Color.Lerp(spritePublic.color, Color.red, Time.deltaTime * speedGoTo);
                 }
                 else
                 {
                     // Go Up
                     upArrow.SetActive(true);
                     downArrow.SetActive(false);
+                    spritePublic.color = Color.Lerp(spritePublic.color, Color.cyan, Time.deltaTime * speedGoTo);
+                    textPublic.color = Color.Lerp(spritePublic.color, Color.cyan, Time.deltaTime * speedGoTo);
                 }
+                spritePublic.transform.localScale = Vector3.Lerp (spritePublic.transform.localScale, Mathf.Sin(Time.time * speedIdle) * amplitudeIdle * Vector3.one + Vector3.one, Time.deltaTime * speedGoTo);
             }
             else
             {
                 // Is Stable
                 upArrow.SetActive(false);
                 downArrow.SetActive(false);
+                spritePublic.color = Color.Lerp(spritePublic.color, Color.white, Time.deltaTime * speedRecover);
+                textPublic.color = Color.Lerp(spritePublic.color, Color.white, Time.deltaTime * speedRecover);
+                spritePublic.transform.localScale = Vector3.Lerp(spritePublic.transform.localScale, Vector3.one, Time.deltaTime * speedRecover);
             }
 
             ViewerText.fontSize = fontSize;

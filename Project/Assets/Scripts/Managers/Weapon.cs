@@ -49,6 +49,8 @@ public class Weapon : MonoBehaviour
     float timerMuzzleFlash = 0;
     float timeMuzzleAdded = 0.05f;
 
+    Main mainContainer = null;
+
     void Awake ()
     {
         _instance = this;
@@ -58,6 +60,7 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         CameraHandler.Instance.SetWeapon(weapon);
+        mainContainer = GetComponent<Main>();
     }
 
     private void Update()
@@ -70,7 +73,7 @@ public class Weapon : MonoBehaviour
 
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
 
-        UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0);
+        UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0 && mainContainer.PlayerCanOrb);
         UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), newPerfectPlacement, weapon.perfectRange, haveTriedPerfet);
 
         if (reloading)

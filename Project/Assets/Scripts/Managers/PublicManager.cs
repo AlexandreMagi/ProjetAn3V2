@@ -172,11 +172,11 @@ public class PublicManager : MonoBehaviour
         {
             if (pos != Vector3.zero)
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " + " + difViewer, true, pos, 1);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true, pos, 1);
             }
             else
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " + " + difViewer, true);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true);
             }
         }
 
@@ -233,11 +233,11 @@ public class PublicManager : MonoBehaviour
         {
             if (pos != Vector3.zero)
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " - " + difViewer, false, pos, 1);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false, pos, 1);
             }
             else
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " - " + difViewer, false);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false);
             }
         }
         nbViewers -= difViewer;
