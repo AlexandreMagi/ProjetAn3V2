@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RevealLightDecals
+  m_Shader: {fileID: 4800000, guid: 66b42c5827d26c541b96ab025e75d554, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _RevealLightTexture:
+        m_Texture: {fileID: 2800000, guid: a81a3dcfe057cb54abaf957d2ff75117, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Reveallighttexture:
+        m_Texture: {fileID: 2800000, guid: 6185dca2f6331284c89579c504c35af2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Contrast: 30.03
+    - _DifferenceThreshold: 0.001
+    - _RevealLightEnabled: 1
+    - _Softparticlesdistance: 0.1
+    - _Softparticlespower: 1
+    - __dirty: 0
+    m_Colors:
+    - _ColortoBeFiltered: {r: 0.69803923, g: 0.25490198, b: 0.25490198, a: 1}
+    - _Reveallightcolor: {r: 0.07058823, g: 1, b: 0.1809358, a: 0}
