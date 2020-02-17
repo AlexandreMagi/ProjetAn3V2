@@ -14,6 +14,7 @@ public class ParticleDecalPool : MonoBehaviour
     float decalSizeMax = 1.5f;
 
     int particleDecalDataIndex;
+
     ParticleDecalData[] particleData;
 
     ParticleSystem.Particle[] particles;
@@ -23,6 +24,7 @@ public class ParticleDecalPool : MonoBehaviour
     void Start()
     {
         particles = new ParticleSystem.Particle[maxDecals];
+
         particleData = new ParticleDecalData[maxDecals];
         for (int i = 0; i < maxDecals; i++)
         {
@@ -43,19 +45,21 @@ public class ParticleDecalPool : MonoBehaviour
         if (particleDecalDataIndex >= maxDecals)
         {
             particleDecalDataIndex = 0;
+        }else
+        {
+
+            particleData[particleDecalDataIndex].position = particleCollisionEvent.intersection;
+
+            Vector3 particleRotationEuler = Quaternion.LookRotation(particleCollisionEvent.normal).eulerAngles;
+            particleRotationEuler.z = Random.Range(0, 360);
+            particleData[particleDecalDataIndex].rotation = particleRotationEuler;
+
+            particleData[particleDecalDataIndex].size = Random.Range(decalSizeMin, decalSizeMax); ;
+
+            particleData[particleDecalDataIndex].color = Color.white;
+
+            particleDecalDataIndex++;
         }
-
-        particleData[particleDecalDataIndex].position = particleCollisionEvent.intersection;
-
-        Vector3 particleRotationEuler = Quaternion.LookRotation(particleCollisionEvent.normal).eulerAngles;
-        particleRotationEuler.z = Random.Range(0, 360);
-        particleData[particleDecalDataIndex].rotation = particleRotationEuler;
-
-        particleData[particleDecalDataIndex].size = Random.Range(decalSizeMin, decalSizeMax); ;
-
-        particleData[particleDecalDataIndex].color = Color.white;
-
-        particleDecalDataIndex ++;
     }
 
     void DisplayParticles()
