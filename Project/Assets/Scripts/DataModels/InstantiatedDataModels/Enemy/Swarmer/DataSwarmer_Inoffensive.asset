@@ -25,6 +25,7 @@ MonoBehaviour:
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 0
   fxWhenDie: VFX_Death
+  fxWhenDieDecals: VFX_OilSplater
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
@@ -40,7 +41,7 @@ MonoBehaviour:
   distanceBeforeAttack: 0
   jumpForce: 0
   speedMultiplierWhenAttacking: 4
-  frontalDetectionSight: 2
+  frontalDetectionSight: 0
   jumpHeight: 3
   jumpDodgeForce: 2800
   jumpCooldownInitial: 0.5
@@ -51,7 +52,7 @@ MonoBehaviour:
   sideDetectionSight: 1
   dodgeSlideForce: 350
   maxBlockedRetryPathTime: 2
-  maxBlockedSuicideTime: 4
+  maxBlockedSuicideTime: 10000
   considerStuckThreshhold: 1
   initialTimeToConsiderCheck: 0.5
   mat: {fileID: 2100000, guid: 3700307f4e9af9b43b4b7e99a42dcd36, type: 2}

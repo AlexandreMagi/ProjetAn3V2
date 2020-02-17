@@ -155,6 +155,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         if (currentParticleOrb) currentParticleOrb.Stop();
         FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
+        FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
 
         CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
