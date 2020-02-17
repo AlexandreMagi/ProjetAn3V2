@@ -20,6 +20,7 @@ public class DataShooter : DataEnemy
     public int nbBulletPerShoot = 1;
     public float timeBetweenBullet;
     public float amplitudeMultiplier;
+    public float amplitudeCap = 0;
     public float recoverTime;
     public bool shootEvenIfPlayerMoving = false;
     public DataShooterBullet bulletData;
