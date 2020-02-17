@@ -3850,6 +3850,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  spritePublic: {fileID: 7505788415543869003}
+  textPublic: {fileID: 7505788414953988972}
+  speedGoTo: 5
+  speedRecover: 1
+  speedIdle: 15
+  amplitudeIdle: 0.2
 --- !u!114 &5430353164671608246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3892,6 +3898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fonduNoir: {fileID: 7505788413925209177}
+  currentAlpha: 1
 --- !u!1 &7505788413890863684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4628,7 +4635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!1 &7505788414988320764
