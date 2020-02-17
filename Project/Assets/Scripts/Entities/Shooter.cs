@@ -46,6 +46,9 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     [SerializeField]
     GameObject canonPlacement = null;
 
+    [SerializeField]
+    float[] overrideBulletRotation = new float[0];
+
     bool playerMoving = false;
 
     bool canShoot = true;
@@ -301,7 +304,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
             {
                 GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
                 allBullets.Add(CurrBullet.GetComponent<ShooterBullet>());
-                CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject);
+                float bulletRotation = (bulletShot - 1) < overrideBulletRotation.Length ? overrideBulletRotation[(bulletShot - 1)] : (bulletShot - 1) < entityData.specifyBulletRotation.Length ? entityData.specifyBulletRotation[(bulletShot - 1)] : Random.Range(0, 360);
+                CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject, bulletRotation);
             }
 
         }

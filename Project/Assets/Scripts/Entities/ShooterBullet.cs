@@ -39,7 +39,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     {
     }
 
-    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team, GameObject prop)
+    public void OnCreation(GameObject _target, Vector3 EnnemiPos, float Amplitude, DataShooterBullet _bulletSettings, int _team, GameObject prop, float baseRotation)
     {
         entityData = _bulletSettings as DataShooterBullet;
         health = entityData.startHealth;
@@ -57,8 +57,11 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         dummyIndicator.transform.position = posStart;
         dummyIndicator.transform.LookAt (transformPosEnd, Vector3.up);
         randomCurve = new Vector3(Random.Range(entityData.randomFrom.x, entityData.randomTo.x), Random.Range(entityData.randomFrom.y, entityData.randomTo.y), Random.Range(entityData.randomFrom.z, entityData.randomTo.z));
+        randomCurve = Vector3.up;
         if (entityData.randomRotationAtStart)
             dummyIndicator.transform.Rotate(0, 0, Random.Range(0,360));
+
+        dummyIndicator.transform.Rotate(Vector3.forward * baseRotation);
 
         rbBody = GetComponent<Rigidbody>();
 

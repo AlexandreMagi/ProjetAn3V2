@@ -16,6 +16,7 @@ public class DataShooter : DataEnemy
     [Header("Tir")]
     public float timeWaitBeforeShoot;
     public int nbShootPerSalve;
+    public float[] specifyBulletRotation;
     public int nbBulletPerShoot = 1;
     public float timeBetweenBullet;
     public float amplitudeMultiplier;
