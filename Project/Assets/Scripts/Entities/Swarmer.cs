@@ -25,6 +25,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     [SerializeField]
     GameObject deadBody = null;
+    [SerializeField]
+    GameObject upPartMesh = null;
 
     Pather pathToFollow = null;
     [ShowInInspector]
@@ -72,6 +74,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         rbBody.velocity = Vector3.zero;
         if (currentParticleOrb) currentParticleOrb.Stop();
         hasPlayedFxOnPull = false;
+        upPartMesh.SetActive(true);
         //InitColor();
     }
 
@@ -181,7 +184,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         InstansiateDeadBody();
 
-        this.gameObject.SetActive(false);       
+        upPartMesh.SetActive(false);
+        this.gameObject.SetActive(false);
 
     }
 
