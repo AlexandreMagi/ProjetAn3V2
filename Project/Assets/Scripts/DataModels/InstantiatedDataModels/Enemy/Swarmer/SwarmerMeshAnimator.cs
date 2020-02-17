@@ -20,6 +20,7 @@ public class SwarmerMeshAnimator : MonoBehaviour
     [SerializeField] Transform[] legsRefs = new Transform[0];
 
     [SerializeField] float legDistForStep = 0.3f;
+    [SerializeField] float legDistForStepReplacement = 0.3f;
     [SerializeField] float legStepTime = 0.3f;
 
     [SerializeField] AnimationCurve stepRotateX;
@@ -89,7 +90,7 @@ public class SwarmerMeshAnimator : MonoBehaviour
                 legHandlers[i].onStep = true;
                 legHandlers[i].currentStepPurcentage = 0;
                 legHandlers[i].pastPos = legHandlers[i].posActual;
-                legHandlers[i].posActual = legsRefs[i].position + Vector3.Normalize(legsRefs[i].position - legHandlers[i].posActual) * 0.08f + new Vector3(Random.Range(-randomAddedPos, randomAddedPos),Random.Range(-randomAddedPos, randomAddedPos),Random.Range(-randomAddedPos, randomAddedPos));
+                legHandlers[i].posActual = legsRefs[i].position + Vector3.Normalize(legsRefs[i].position - legHandlers[i].posActual) * legDistForStepReplacement + new Vector3(Random.Range(-randomAddedPos, randomAddedPos),Random.Range(-randomAddedPos, randomAddedPos),Random.Range(-randomAddedPos, randomAddedPos));
             }
             else
             {
