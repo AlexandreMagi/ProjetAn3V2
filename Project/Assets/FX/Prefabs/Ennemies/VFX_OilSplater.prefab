@@ -659,15 +659,15 @@ ParticleSystem:
         m_RotationOrder: 4
   ShapeModule:
     serializedVersion: 6
-    enabled: 0
-    type: 4
+    enabled: 1
+    type: 2
     angle: 16.94
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: -90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -747,7 +747,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.04
+      value: 0.09
       mode: 0
       spread: 0
       speed:
@@ -9715,8 +9715,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
-      minScalar: 1
+      scalar: 3
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -13387,7 +13387,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 0
-    radiusScale: 0.1
+    radiusScale: 0.01
     collidesWith:
       serializedVersion: 2
       m_Bits: 512
@@ -19193,9 +19193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc06e32514c74e45bb7a0df5c737503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 100
-  decalSizeMin: 0.1
-  decalSizeMax: 0.25
+  maxDecals: 50
+  decalSizeMin: 0.3
+  decalSizeMax: 0.6
 --- !u!1 &4428783609674995375
 GameObject:
   m_ObjectHideFlags: 0
@@ -19238,7 +19238,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4428783609674995375}
   serializedVersion: 6
-  lengthInSec: 30
+  lengthInSec: 15
   simulationSpeed: 1
   stopAction: 2
   cullingMode: 0
