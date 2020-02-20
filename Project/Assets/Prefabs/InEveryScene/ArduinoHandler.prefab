@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4958556699101603294}
   - component: {fileID: 4958556699101603295}
-  - component: {fileID: 4958556699101603292}
   - component: {fileID: 4958556699101603293}
-  - component: {fileID: 4958556699101603289}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ArduinoHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,25 +48,6 @@ MonoBehaviour:
   baudRate: 250000
   ReadTimeout: 20
   QueueLenght: 1
---- !u!114 &4958556699101603292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4958556699101603266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f6ab7c844bbd3b4bbcb5a714dd72ed8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iResolutionX: 1920
-  iResolutionY: 1080
-  factorX: 3
-  factorY: 1.6
-  bTableBouton: 000000
-  fPositionX: 0
-  fPositionY: 0
 --- !u!114 &4958556699101603293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,20 +60,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7a61e36ef34f84995301f056315933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iTableInputs: 000000000000000000000000
---- !u!114 &4958556699101603289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4958556699101603266}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6f58b12ce2e64a4e9b6456042f26bab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hImageDebug:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  iResolutionX: 1920
+  iResolutionY: 1080
+  factorX: 3
+  factorY: 1.6
+  isShotDown: 0
+  isShotHeld: 0
+  isShotUp: 0
+  isGravityDown: 0
+  isGravityHeld: 0
+  isGravityUp: 0
+  isReloadDown: 0
+  isReloadHeld: 0
+  isReloadUp: 0
+  fPositionX: 0
+  fPositionY: 0
