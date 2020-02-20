@@ -58,7 +58,7 @@ public class UiCrossHair : MonoBehaviour
         {
             UiCrosshairs[i] = Instantiate(baseForCrosshair, rootCrosshair.transform);
             UiCrosshairs[i].GetComponent<Image>().sprite = crosshairs[i];
-            dataHandlerCrosshairs[i] = new CrosshairInstance(dataCrosshairs[i]);
+            dataHandlerCrosshairs[i] = new CrosshairInstance(dataCrosshairs[i], UiCrosshairs[i].GetComponent<RectTransform>(), UiCrosshairs[i].GetComponent<Image>(), UiCrosshairs[i].GetComponent<Outline>());
         }
         animCharge = Animator.StringToHash(animTriggerCharge);
         animRelease = Animator.StringToHash(animTriggerRelease);
@@ -71,11 +71,7 @@ public class UiCrossHair : MonoBehaviour
         for (int i = 0; i < UiCrosshairs.Length; i++)
         {
             dataHandlerCrosshairs[i].UpdateValues();
-            UiCrosshairs[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * dataHandlerCrosshairs[i].size;
-            UiCrosshairs[i].GetComponent<RectTransform>().localRotation = Quaternion.identity;
-            UiCrosshairs[i].GetComponent<RectTransform>().Rotate (Vector3.back * dataHandlerCrosshairs[i].rotation, Space.Self);
-            UiCrosshairs[i].GetComponent<Image>().color = dataHandlerCrosshairs[i].color;
-            UiCrosshairs[i].GetComponent<Outline>().effectColor = dataHandlerCrosshairs[i].outlineColor;
+            dataHandlerCrosshairs[i].UpdateTransformsAndColors();
 
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition + dataHandlerCrosshairs[i].offset, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);

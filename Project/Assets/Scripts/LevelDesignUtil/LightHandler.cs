@@ -56,7 +56,7 @@ public class LightHandler : MonoBehaviour
     [SerializeField, ShowIf("flickerPosition")] float moveFlickDuration = 0.1f;
     Vector3 initPos;
     Vector3 currentPos;
-    Vector3 targetPos;
+    Vector3 targetPos = Vector3.zero;
     float timeLeftPos;
 
     Light lightComponent;

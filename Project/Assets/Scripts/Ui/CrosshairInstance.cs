@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrosshairInstance
 {
@@ -23,11 +24,18 @@ public class CrosshairInstance
     public float orbModifierPurcentage = 0;
     public float purcentageReductionNoBullet = 0;
 
-    public CrosshairInstance (DataCrossHair _data)
+    public RectTransform rect = null;
+    public Image img = null;
+    public Outline outline = null;
+
+    public CrosshairInstance (DataCrossHair _data, RectTransform _rect, Image _img, Outline _outline)
     {
         data = _data;
         size = data.baseSize;
         currentRotation = Random.Range(data.randomRotateAtStart.x, data.randomRotateAtStart.y);
+        rect = _rect;
+        img = _img;
+        outline = _outline;
     }
 
     public void UpdateValues()
@@ -42,11 +50,21 @@ public class CrosshairInstance
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
 
-        size =  Mathf.Sin((time + data.offsetIdle) * bulletAmount.x == 0 ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue))
-                * (bulletAmount.x == 0 ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue))                     // Sin Idle
-                + (bulletAmount.x == 0 ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue)) + (data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier)                                                                    // Base Size + FB charged size
-                + (reculValue / data.reculMax) * data.reculSizeMultiplier                                                                                                                                       // Taille ajouté par recul
-                + (hitValue / data.hitMax) * data.hitSizeMultiplier;                                                                                                                                            // Taille ajouté par les Hit
+        float sizeIdle                      = Mathf.Sin((time + data.offsetIdle) * (bulletAmount.x == 0 ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)));
+        float sizeIdleMultiplier            = (bulletAmount.x == 0 ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue));
+        float sizeAffectedByBulletNumber    = bulletAmount.x == 0 ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : 0;
+        float sizeAffectedByCurrentCharge   = bulletAmount.x == 0 ? 0 : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue);
+        float sizeAffectedByAnim            = data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier;
+        float sizeAffectedByRecoil          = (reculValue / data.reculMax) * data.reculSizeMultiplier;
+        float sizeAffectedByHit             = (hitValue / data.hitMax) * data.hitSizeMultiplier;
+
+        size =  sizeIdle                        // Mathf sin pour l'idle
+                * sizeIdleMultiplier            // Multiplier du mathf sin
+                + sizeAffectedByBulletNumber    // Taille ajouté par le nombre de balle restant
+                + sizeAffectedByCurrentCharge   // Taille ajouté par la charge d'arme actuelle
+                + sizeAffectedByAnim            // Taille ajouté pra l'anim de charge
+                + sizeAffectedByRecoil          // Taille ajouté par recul
+                + sizeAffectedByHit;            // Taille ajouté par les Hit
 
 
         color = bulletAmount.x == 0 ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
@@ -78,6 +96,15 @@ public class CrosshairInstance
             outlineColor = Color.Lerp(outlineColor, data.outlineOrbChargedColor, orbModifierPurcentage);
         }
 
+    }
+
+    public void UpdateTransformsAndColors()
+    {
+        rect.sizeDelta = Vector2.one * size;
+        rect.localRotation = Quaternion.identity;
+        rect.Rotate(Vector3.back * rotation, Space.Self);
+        img.color = color;
+        outline.effectColor = outlineColor;
     }
 
     float UpdateChargeValue()
