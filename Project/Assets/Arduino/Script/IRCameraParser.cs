@@ -88,7 +88,7 @@ public class IRCameraParser : MonoBehaviour
         else
         {
 
-            Debug.Log("Perte Signial");
+            //Debug.Log("Perte Signial");
 
             //for (int i = 0; i < 3; i++)
             //{
