@@ -352,6 +352,11 @@ public class Main : MonoBehaviour
         
     }
 
+    public Vector3 GetCursorPos()
+    {
+        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+    }
+
     public float GetCurrentChacesOfSurvival()
     {
         float initialPublic = PublicManager.Instance.GetInitialViewers();
