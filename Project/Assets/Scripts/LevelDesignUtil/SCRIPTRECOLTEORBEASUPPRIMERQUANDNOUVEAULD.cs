@@ -61,8 +61,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
         if (DammageDone < DammageBeforeExplosion)
         {
-            fCurrentScale = Mathf.Lerp(fCurrentScale, 1 + DammageDone * fScaleBoostBeforeExplosion / DammageBeforeExplosion, Time.deltaTime * 5);
-            transform.localScale = Vector3.one * fCurrentScale;
+            //fCurrentScale = Mathf.Lerp(fCurrentScale, 1 + DammageDone * fScaleBoostBeforeExplosion / DammageBeforeExplosion, Time.deltaTime * 5);
+            //transform.localScale = Vector3.one * fCurrentScale;
         }
         else if (!bItemDestroyed)
         {
