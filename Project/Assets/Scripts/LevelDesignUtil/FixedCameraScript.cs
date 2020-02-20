@@ -23,7 +23,7 @@ public class FixedCameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (lookAtTarget == null) lookAtTarget = Player.Instance.transform;
+        if (lookAtTarget == null) lookAtTarget = CameraHandler.Instance.renderingCam.transform;
         cameraDummy.GetComponent<CamFixedChild>().parentScript = this;
     }
 

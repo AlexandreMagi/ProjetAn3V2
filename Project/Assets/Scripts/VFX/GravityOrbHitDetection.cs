@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GravityOrbHitDetection : MonoBehaviour
+public class GravityOrbHitDetection : MonoBehaviour, IBulletAffect
 {
     private float hitTime;
     private Material mat;
@@ -13,6 +13,7 @@ public class GravityOrbHitDetection : MonoBehaviour
     {
         mat = GetComponent<Renderer>().material;
     }
+
 
     void OnCollisionEnter(Collision collision)
     {
@@ -44,5 +45,26 @@ public class GravityOrbHitDetection : MonoBehaviour
                 asHit = false;
             }
         }
+    }
+
+    public void OnHit(DataWeaponMod mod, Vector3 position)
+    {
+        Debug.Log("aSaca");
+        mat.SetVector("_HitPosition", transform.InverseTransformPoint(position));
+        hitTime = 5;
+        mat.SetFloat("_HitTime", hitTime);
+        Invoke("AfterHit", 0.1f);
+    }
+
+    public void OnHitShotGun(DataWeaponMod mod)
+    {
+    }
+
+    public void OnHitSingleShot(DataWeaponMod mod)
+    {
+    }
+
+    public void OnBulletClose()
+    {
     }
 }

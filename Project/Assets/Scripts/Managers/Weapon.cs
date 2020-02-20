@@ -37,6 +37,8 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     GameObject muzzleFlash = null;
     [SerializeField]
+    bool rotateWithCursor = true;
+    [SerializeField]
     GameObject weaponLight = null;
     [SerializeField]
     bool ignoreBulletLimitForCharge = false;
@@ -225,7 +227,8 @@ public class Weapon : MonoBehaviour
                 shotGunHasHit = false;
                 Invoke("CheckIfShotGunHasHit", .1f);
             }
-
+            if (UiDamageHandler.Instance != null)
+                UiDamageHandler.Instance.MuzzleFlashFunc();
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 Camera mainCam = CameraHandler.Instance.renderingCam;
@@ -235,8 +238,15 @@ public class Weapon : MonoBehaviour
                 Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
 
 
-                Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
-                muzzleFlash.transform.rotation = Quaternion.LookRotation(newDirection);
+                if (rotateWithCursor)
+                {
+                    Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
+                    muzzleFlash.transform.rotation = Quaternion.LookRotation(newDirection);
+                }
+                else
+                {
+                    muzzleFlash.transform.rotation = Quaternion.LookRotation(CameraHandler.Instance.renderingCam.transform.forward, Vector3.up);
+                }
 
                 rayBullet.direction += imprecision;
 
@@ -315,7 +325,7 @@ public class Weapon : MonoBehaviour
         {
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
-                FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitPoint, hitBase);
+                FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitBase, raybase);
                 DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase);
             }
         }

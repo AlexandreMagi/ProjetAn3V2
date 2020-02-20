@@ -60,7 +60,7 @@ public class UiLifeBar : MonoBehaviour
         armorValues = new ArmorCapsuleInstance[armorBars.Length];
         for (int i = 0; i < armorValues.Length; i++)
         {
-            armorValues[i] = new ArmorCapsuleInstance(armorBarData);
+            armorValues[i] = new ArmorCapsuleInstance(armorBarData, armorBars[i].GetComponent<RectTransform>(), armorBars[i].GetComponent<Image>(), armorBars[i].GetComponent<Outline>());
             armorValues[i].stockArmor = stockArmor / armorValues.Length;
             armorValues[i].currentArmor = stockArmor / armorValues.Length;
         }
@@ -74,7 +74,6 @@ public class UiLifeBar : MonoBehaviour
         {
             capsules[i] = Instantiate(emptyUiBox, lifeBarRoot);
             capsules[i].GetComponent<Image>().sprite = dataLifebar.capsuleSprite;
-            dataHandlers[i] = new LifeCapsuleInstance(dataLifebar, i);
 
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2(0, i * distanceBetweenCapsule) + new Vector2(Screen.width * dataLifebar.decalSprites.x, Screen.height * dataLifebar.decalSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
@@ -85,6 +84,7 @@ public class UiLifeBar : MonoBehaviour
             Outline componentOutline = capsules[i].AddComponent<Outline>();
             componentOutline.effectColor = Color.black;
             componentOutline.effectDistance = new Vector2(1, -1) * dataLifebar.outlineSize;
+            dataHandlers[i] = new LifeCapsuleInstance(dataLifebar, i, capsules[i].GetComponent<RectTransform>(), capsules[i].GetComponent<Image>(), capsules[i].GetComponent<Outline>());
         }
     }
 
@@ -142,17 +142,15 @@ public class UiLifeBar : MonoBehaviour
         for (int i = 0; i < dataHandlers.Length; i++)
         {
             dataHandlers[i].UpdateValues();
-            capsules[i].GetComponent<RectTransform>().sizeDelta = dataHandlers[i].size;
-            capsules[i].GetComponent<Image>().color = dataHandlers[i].color;
-            capsules[i].GetComponent<Outline>().effectDistance = new Vector2(1, -1) * dataHandlers[i].outlineSize;
+            dataHandlers[i].DoValues();
+            dataHandlers[i].outlineLocal.effectDistance = new Vector2(1, -1) * dataHandlers[i].outlineSize;
         }
 
         for (int i = 0; i < armorValues.Length; i++)
         {
             armorValues[i].UpdateValues();
-            armorBars[i].GetComponent<RectTransform>().sizeDelta = armorValues[i].size;
-            armorBars[i].GetComponent<Image>().color = armorValues[i].color;
-            armorBars[i].GetComponent<Outline>().effectDistance = new Vector2(1, -1) * armorValues[i].outlineSize;
+            armorValues[i].DoValues();
+            armorValues[i].outlineLocal.effectDistance = new Vector2(1, -1) * armorValues[i].outlineSize;
         }
 
         bps -= dataLifebar.recoverBps * Time.unscaledDeltaTime;
