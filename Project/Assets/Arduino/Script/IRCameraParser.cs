@@ -4,11 +4,51 @@ using UnityEngine;
 
 public class IRCameraParser : MonoBehaviour
 {
+    [Header("Paramettre du jeux")]
+    public int iResolutionX = 1920;
+    public int iResolutionY = 1080;
 
-    public int[,] iTablePosition = new int [3, 2];
-    public int[] iTableInputs = new int [3];
+    [SerializeField]
+    float factorX = 3f;
+    [SerializeField]
+    float factorY = 1.6f;
+
+    bool[] bTableBouton = new bool[3];
+
+
+
+    //------ data a transmettre
+    [Header("Valeur a récupérer pour le jeux")]
+    public bool isShotDown = false;
+    public bool isShotHeld = false;
+    public bool isShotUp = false;
+
+    public bool isGravityDown = false;
+    public bool isGravityHeld = false;
+    public bool isGravityUp = false;
+
+    public bool isReloadDown = false;
+    public bool isReloadHeld = false;
+    public bool isReloadUp = false;
+
+    public float fPositionX = 0;
+    public float fPositionY = 0;
+    //------ ------------------------
+
+
+    int[,] iTablePosition = new int[3, 2];
+    int[] iTableInputs = new int[3];
 
     private ARdunioConnect scrptArduinoConnect = null;
+
+    public static IRCameraParser Instance { get; private set; }
+
+    void Awake()
+    {
+
+        Instance = this;
+
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -41,40 +81,47 @@ public class IRCameraParser : MonoBehaviour
 
             iTablePosition = funcTraitementDataDoubleEntrer(sTableDataType[1]);
 
-            
+            funcTransmition();
+
+
         }
         else
         {
 
-            
-            for (int i = 0; i < 3; i++)
-            {
-                iTableInputs[i] = 1;
+            Debug.Log("Perte Signial");
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    //iTableInputs[i] = 1;
 
 
-                for (int j = 0; j < 2; j++)
-                {
+            //    for (int j = 0; j < 2; j++)
+            //    {
 
-                    iTablePosition[i, j] = -1000;
-                    
+            //        /// -------------------------------------a modifier dans arduino (gardé la derniere valeur quand sortie de l'écrand)
+            //        iTablePosition[i, j] = -1000;
 
-                }
 
-            }
+            //    }
+
+            //}
 
         }
 
-        
+
+
+
     }
 
 
+    //--------------------------- traitement data ----------------------//
     string[] funcTraitementSectorisation(string sDataBrut)
     {
         string[] sTableDataFinal = new string[2];
 
         sTableDataFinal = sDataBrut.Split('|');
 
-        return sTableDataFinal; 
+        return sTableDataFinal;
     }
 
 
@@ -90,8 +137,8 @@ public class IRCameraParser : MonoBehaviour
 
             for (int j = 0; j < 2; j++) // 2
             {
-               
-                iTableSauvegardeData[i, j] =  int.Parse(sTableData[2 * i + j]);
+
+                iTableSauvegardeData[i, j] = int.Parse(sTableData[2 * i + j]);
 
             }
         }
@@ -108,7 +155,7 @@ public class IRCameraParser : MonoBehaviour
 
         //Debug.Log("sTableData longeur :" + sTableData.Length);
 
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < 3; i++)
         {
             //Debug.Log("i = " + i + "  sTable = " + sTableData[i]);
             iTableSauvegardeData[i] = int.Parse(sTableData[i]);
@@ -118,6 +165,137 @@ public class IRCameraParser : MonoBehaviour
         return iTableSauvegardeData;
     }
 
+    //----------- getion envoie
 
+
+    void funcTransmition()
+    {
+
+        for (int i = 0; i < 3; i++)
+        {
+
+            if (iTableInputs[i] == 0)
+            {
+
+                bTableBouton[i] = true;
+
+            }
+            else
+            {
+
+                bTableBouton[i] = false;
+
+            }
+
+        }
+
+
+        if (iTablePosition[2, 0] != -1000)
+        {
+
+            fPositionX = iTablePosition[2, 0] * factorX + (iResolutionX / 2);
+            fPositionY = iTablePosition[2, 1] * factorY + (iResolutionY / 2);
+
+        }
+        else
+        {
+
+            fPositionX = -1000;
+            fPositionY = -1000;
+
+
+        }
+
+
+        if (bTableBouton[0])
+        {
+            if (isShotDown)
+            {
+                isShotDown = false;
+            }
+            else
+            {
+                isShotDown = true;
+            }
+
+            isShotHeld = true;
+        }
+        else
+        {
+            if (isShotHeld)
+            {
+                isShotUp = true;
+            }
+            else
+            {
+                isShotUp = false;
+            }
+            isShotHeld = false;
+            isShotDown = false;
+        }
+
+        if (bTableBouton[1])
+        {
+            if (isGravityDown)
+            {
+                isGravityDown = false;
+            }
+            else
+            {
+                isGravityDown = true;
+            }
+
+            isGravityHeld = true;
+        }
+        else
+        {
+            if (isGravityHeld)
+            {
+                isGravityUp = true;
+            }
+            else
+            {
+                isGravityUp = false;
+            }
+            isGravityHeld = false;
+            isGravityDown = false;
+        }
+
+        if (bTableBouton[2])
+        {
+            if (isReloadDown)
+            {
+                isReloadDown = false;
+            }
+            else
+            {
+                isReloadDown = true;
+            }
+
+            isReloadHeld = true;
+        }
+        else
+        {
+            if (isReloadHeld)
+            {
+                isReloadUp = true;
+            }
+            else
+            {
+                isReloadUp = false;
+            }
+            isReloadHeld = false;
+            isReloadDown = false;
+        }
+
+
+    }
+
+    public Vector3 funcPositionsCursorArduino()
+    {
+
+        return new Vector3(fPositionX, fPositionY, 0);
+
+    }
 
 }
