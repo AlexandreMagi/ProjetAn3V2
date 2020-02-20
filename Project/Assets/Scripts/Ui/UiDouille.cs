@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiDouille
 {
@@ -11,17 +12,22 @@ public class UiDouille
     public Color pSColor = Color.Lerp(Color.white, Color.black, 0.7f);
     float pSRotate = 180;
 
-    public void InitValues(DataReloadGraph data)
+    RectTransform rect = null;
+    Image img = null;
+
+    public void InitValues(DataReloadGraph data, RectTransform _rect, Image _img)
     {
         pSGravity = Random.Range(data.gravityRandom.x, data.gravityRandom.y);
         pSRotate = Random.Range(data.rotateRandom.x, data.rotateRandom.y);
         pSVelocity = new Vector2(Random.Range(data.velocityXRandom.x, data.velocityXRandom.y), Random.Range(data.velocityYRandom.x, data.velocityYRandom.y));
         pSSize = Random.Range(data.sizeRandom.x, data.sizeRandom.y);
+        img = _img;
+        rect = _rect;
     }
 
-    public UiDouille(DataReloadGraph data)
+    public UiDouille(DataReloadGraph data, RectTransform _rect, Image _img)
     {
-        InitValues(data);
+        InitValues(data, _rect, _img);
     }
 
     public void UpdateValues()

@@ -51,12 +51,18 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             canPlay = false;
         }
 
-        bPlayerCanDammage = Vector3.Distance(Player.Instance.transform.position, transform.position) < distanceAllowedToPlayer;
+        if (Player.Instance == null)
+        {
+            Destroy(this);
+            bPlayerCanDammage = false;
+        }
+        else bPlayerCanDammage = Vector3.Distance(Player.Instance.transform.position, transform.position) < distanceAllowedToPlayer;
+
 
         if (DammageDone < DammageBeforeExplosion)
         {
-            fCurrentScale = Mathf.Lerp(fCurrentScale, 1 + DammageDone * fScaleBoostBeforeExplosion / DammageBeforeExplosion, Time.deltaTime * 5);
-            transform.localScale = Vector3.one * fCurrentScale;
+            //fCurrentScale = Mathf.Lerp(fCurrentScale, 1 + DammageDone * fScaleBoostBeforeExplosion / DammageBeforeExplosion, Time.deltaTime * 5);
+            //transform.localScale = Vector3.one * fCurrentScale;
         }
         else if (!bItemDestroyed)
         {

@@ -121,6 +121,11 @@ public class Main : MonoBehaviour
             SequenceHandler.Instance.NextSequence(true);
         }
 
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Player.Instance.TakeDamage(34);
+        }
+
         if (Input.GetKeyDown(KeyCode.Y))
         {
             SceneHandler.Instance.RestartScene(.3f, true);
