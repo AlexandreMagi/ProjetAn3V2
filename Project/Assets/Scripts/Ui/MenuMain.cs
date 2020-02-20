@@ -30,6 +30,9 @@ public class MenuMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.A)) isArduinoMode = !isArduinoMode;
+
         if (arduinoTransmettor == null)
         {
             arduinoTransmettor = IRCameraParser.Instance;
