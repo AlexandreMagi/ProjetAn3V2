@@ -63,7 +63,7 @@ public class GravityOrb : MonoBehaviour
             this.OnAttractionStart();
 
             //FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
-            FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+            FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit, true);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
             StartCoroutine("OnHoldAttraction");
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArmorCapsuleInstance
 {
@@ -15,15 +16,21 @@ public class ArmorCapsuleInstance
     DataArmorBarUi data;
     float timeRemainingAnimatedHit = 0;
 
+    public RectTransform rect = null;
+    public Image img = null;
+    public Outline outlineLocal = null;
 
     bool desactivated = false;
 
-    public ArmorCapsuleInstance (DataArmorBarUi _data)
+    public ArmorCapsuleInstance (DataArmorBarUi _data, RectTransform _rect, Image _img, Outline _outline)
     {
         data = _data;
         color = data.baseColor;
         size = data.baseSize;
         outlineSize = data.outlineSize;
+        rect = _rect;
+        img = _img;
+        outlineLocal = _outline;
     }
 
     public void UpdateValues()
@@ -54,6 +61,11 @@ public class ArmorCapsuleInstance
     {
         timeRemainingAnimatedHit = data.scaleAnimTime;
         //Debug.Log("Armor Bar take damage");
+    }
+    public void DoValues()
+    {
+        rect.sizeDelta = size;
+        img.color = color;
     }
 
     public void desactivate()

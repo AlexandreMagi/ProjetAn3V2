@@ -21,9 +21,9 @@ public class SplatOnCollision : MonoBehaviour
     {
         int numCollisionEvents = ParticlePhysicsExtensions.GetCollisionEvents(particleMain, other, collisionEvents);
 
-        //for (int i = 0; i < numCollisionEvents; i++)
-        //{
-        //    dropletDecalPool.ParticleHit(collisionEvents[i]);
-        //}
+        for (int i = 0; i < numCollisionEvents; i++)
+        {
+            dropletDecalPool.ParticleHit(collisionEvents[i]);
+        }
     }
 }

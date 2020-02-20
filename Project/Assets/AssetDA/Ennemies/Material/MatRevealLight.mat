@@ -55,6 +55,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RevealLightTexture:
+        m_Texture: {fileID: 2800000, guid: 9cf5279920a08a7448a6866263339e0c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RevealLightTexture1:
         m_Texture: {fileID: 2800000, guid: 9cf5279920a08a7448a6866263339e0c, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -69,7 +73,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Contrast: 250
+    - _Contrast: 100
     - _Cutoff: 0.01
     - _DetailNormalMapScale: 1
     - _DifferenceThreshold: 0.01
@@ -77,6 +81,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _IsNearOnly: 1
     - _IsNearOnly1: 0
     - _Metallic: 0
     - _Mode: 0

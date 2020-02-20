@@ -34,20 +34,33 @@ public class UiDamageHandler : MonoBehaviour
     float stateTimeRemaining = 0;
     float shieldBreakFlashTime = 0;
     [SerializeField]
-    GameObject statePanel = null;
+    Image statePanel = null;
     [SerializeField]
-    GameObject flashPanel = null;
+    Image flashPanel = null;
     [SerializeField]
-    GameObject gravityFlash = null;
+    Image gravityFlash = null;
     float timerGravityScreen = 0;
     float stockTimerValue = 0;
     [SerializeField]
     GameObject shieldBreakFlash = null;
     [SerializeField]
-    GameObject shieldPanel = null;
+    Image shieldPanel = null;
     [SerializeField]
-    GameObject zeroGPanel = null;
+    Image zeroGPanel = null;
 
+    [SerializeField]
+    Image muzzleFlash = null;
+    [SerializeField]
+    float muzzleFlashTimeStay = 0.1f;
+    [SerializeField]
+    float muzzleFlashTimeFade = 0.1f;
+    Color muzzleFlashColor = Color.white;
+    float currentMuzzleFlashTimer = 0;
+
+    private void Start()
+    {
+        muzzleFlashColor = muzzleFlash.color;
+    }
     private void Update()
     {
         for (int i = spritesDisplayed.Count-1; i > -1; i--)
@@ -55,7 +68,7 @@ public class UiDamageHandler : MonoBehaviour
             spritesHandler[i].UpdateValues();
             if (i < spritesDisplayed.Count && spritesHandler[i] != null)
             {
-                spritesDisplayed[i].GetComponent<Image>().color = spritesHandler[i].currentColor;
+                spritesHandler[i].imageComponent.color = spritesHandler[i].currentColor;
                 spritesDisplayed[i].transform.localScale = Vector3.one * spritesHandler[i].scale;
             }
         }
@@ -67,28 +80,28 @@ public class UiDamageHandler : MonoBehaviour
             Player player = GameObject.FindObjectOfType<Player>();
             if (player != null && player.getArmor() > 0)
             {
-                shieldPanel.SetActive(true);
-                shieldPanel.GetComponent<Image>().color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
-                statePanel.GetComponent<Image>().color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
-                flashPanel.GetComponent<Image>().color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, damageFeedbackData.flashAlpha);
+                shieldPanel.gameObject.SetActive (true);
+                shieldPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                statePanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                flashPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, damageFeedbackData.flashAlpha);
             }
             else
             {
-                statePanel.GetComponent<Image>().color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime);
-                flashPanel.GetComponent<Image>().color = new Color(Color.red.r, Color.red.g, Color.red.b, damageFeedbackData.flashAlpha);
+                statePanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                flashPanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, damageFeedbackData.flashAlpha);
             }
 
-            statePanel.SetActive(true);
-            flashPanel.SetActive(true);
+            statePanel.gameObject.SetActive(true);
+            flashPanel.gameObject.SetActive (true);
             stateTimeRemaining -= Time.unscaledDeltaTime;
 
             if (stateTimeRemaining < 0)
             {
-                statePanel.SetActive(false);
-                shieldPanel.SetActive(false);
+                statePanel.gameObject.SetActive(false);
+                shieldPanel.gameObject.SetActive (false);
             }
             if (stateTimeRemaining < damageFeedbackData.stateTime - damageFeedbackData.flashTime)
-            flashPanel.SetActive(false);
+            flashPanel.gameObject.SetActive (false);
         }
         if (shieldBreakFlashTime > 0)
         {
@@ -99,30 +112,56 @@ public class UiDamageHandler : MonoBehaviour
         }
         if (timerGravityScreen > 0)
         {
-            gravityFlash.SetActive(true);
+            gravityFlash.gameObject.SetActive( true);
             timerGravityScreen -= Time.unscaledDeltaTime;
 
             float GravAlpha;
-            Color gravityColor = gravityFlash.GetComponent<Image>().color;
+            Color gravityColor = gravityFlash.color;
             if (timerGravityScreen > stockTimerValue / 2)
             {
                 GravAlpha = 1 - ((timerGravityScreen - stockTimerValue / 2) / (stockTimerValue / 2));
-                gravityFlash.GetComponent<Image>().color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
+                gravityFlash.color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
             }
             else
             {
                 GravAlpha = timerGravityScreen / (stockTimerValue / 2);
-                gravityFlash.GetComponent<Image>().color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
+                gravityFlash.color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
             }
 
             if (timerGravityScreen < 0)
-                gravityFlash.SetActive(false);
+                gravityFlash.gameObject.SetActive (false);
         }
+
+        if (currentMuzzleFlashTimer < Time.unscaledDeltaTime)
+        {
+            muzzleFlash.gameObject.SetActive (false);
+            currentMuzzleFlashTimer = 0;
+        }
+        else
+        {
+            if (currentMuzzleFlashTimer < muzzleFlashTimeFade)
+            {
+                float currentAlpha = currentMuzzleFlashTimer / muzzleFlashTimeFade;
+                muzzleFlash.color = new Color(muzzleFlashColor.r, muzzleFlashColor.g, muzzleFlashColor.b, currentAlpha);
+            }
+            else
+            {
+                muzzleFlash.color = muzzleFlashColor;
+            }
+            currentMuzzleFlashTimer -= Time.unscaledDeltaTime;
+            muzzleFlash.gameObject.SetActive(true);
+        }
+
     }
 
     public void ClearScreen()
     {
 
+    }
+
+    public void MuzzleFlashFunc()
+    {
+        currentMuzzleFlashTimer = muzzleFlashTimeFade + muzzleFlashTimeStay;
     }
 
     public void GravityFlash(float value)
@@ -133,9 +172,9 @@ public class UiDamageHandler : MonoBehaviour
 
     public void UpdateZeroGScreen(DataZeroGOnPlayer datasend, float purcentage, bool onZeroG)
     {
-        zeroGPanel.SetActive(onZeroG);
-        Color zeroGColor = zeroGPanel.GetComponent<Image>().color;
-        zeroGPanel.GetComponent<Image>().color = new Color(zeroGColor.r, zeroGColor.g, zeroGColor.b, datasend.screenOpacity.Evaluate(purcentage));
+        zeroGPanel.gameObject.SetActive (onZeroG);
+        Color zeroGColor = zeroGPanel.color;
+        zeroGPanel.color = new Color(zeroGColor.r, zeroGColor.g, zeroGColor.b, datasend.screenOpacity.Evaluate(purcentage));
     }
 
     public void AddSprite (DataUiTemporarySprite dataSendShield, DataUiTemporarySprite dataSendLife)
@@ -162,7 +201,7 @@ public class UiDamageHandler : MonoBehaviour
         spritesDisplayed.Add(newSprite);
 
         SpriteDisplayedInstance newOne = new SpriteDisplayedInstance();
-        newOne.OnCreation(dataSend);
+        newOne.OnCreation(dataSend, newSprite.GetComponent<Image>());
         spritesHandler.Add(newOne);
 
         stateTimeRemaining = damageFeedbackData.stateTime;

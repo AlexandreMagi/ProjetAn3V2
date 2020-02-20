@@ -22,17 +22,32 @@ public class MenuMain : MonoBehaviour
 
     bool canClickOnButton = true;
 
+
+    IRCameraParser arduinoTransmettor;
+    [SerializeField]
+    bool isArduinoMode = false;
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y)) SceneHandler.Instance.RestartScene();
+        if (arduinoTransmettor == null)
+        {
+            arduinoTransmettor = IRCameraParser.Instance;
+        }
+        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SceneHandler.Instance.RestartScene();
+        }
+
         switch (currentState)
         {
             case menustate.intro:
-                if (Input.GetKeyDown(KeyCode.Mouse0)) SkipToHome();
+                if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0)) SkipToHome();
                 break;
             case menustate.home:
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
@@ -43,7 +58,7 @@ public class MenuMain : MonoBehaviour
                 {
                     if (button.gameObject.activeSelf)
                     {
-                        bool mouseOver = button.CheckIfMouseOver(Input.mousePosition);
+                        bool mouseOver = button.CheckIfMouseOver(posCursor);
                         if (mouseOver)
                         {
                             button.transform.localScale = Vector3.Lerp(button.transform.localScale, Vector3.one * scaleOver.y, Time.unscaledDeltaTime * speedOver);
@@ -54,7 +69,7 @@ public class MenuMain : MonoBehaviour
                         }
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Mouse0) && canClickOnButton) Click(Input.mousePosition);
+                if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0)) && canClickOnButton) Click(posCursor);
                 break;
             default:
                 break;

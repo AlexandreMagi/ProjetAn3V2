@@ -8,9 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MatAtlas
-  m_Shader: {fileID: 4800000, guid: c4e720182f4bc9e48a0ccebead06f87d, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -23,8 +23,28 @@ Material:
         m_Texture: {fileID: 2800000, guid: 743657ad60b6cfe46be431c0b22dca67, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: e1f01d545c4e98b4cb3150ccec1dcc9c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Diffuse:
         m_Texture: {fileID: 2800000, guid: a524034f3096ba84999196830c53fbb0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Gloss:
@@ -43,8 +63,20 @@ Material:
         m_Texture: {fileID: 2800000, guid: c1eca641bf8502543ac7f312395528cf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: a524034f3096ba84999196830c53fbb0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: 7a2ad38689131b64588d7cf22b144f1f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: e1f01d545c4e98b4cb3150ccec1dcc9c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Painttexture:
@@ -53,6 +85,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Painttexture1:
         m_Texture: {fileID: 2800000, guid: 2aed7015bc03a174fb153ccfe739a36f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Reveallighttexture:
@@ -105,15 +141,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Albedocontrast: 0
+    - _BumpScale: 1
     - _Contrast: 43.5
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
     - _DifferenceThreshold: 0.01
     - _DifferenceThreshold1: 0.05
+    - _DstBlend: 0
     - _Float0: 1
     - _Float2: 151.8
+    - _GlossMapScale: 0
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _HandPaintEnabled: 1
     - _LightIntensityDim: 1
     - _Max: 1
+    - _Metallic: 0
     - _Min: -1
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
     - _Power: -0.3
     - _Power1: 102.2
     - _RevealLightEnabled: 0
@@ -121,21 +168,28 @@ Material:
     - _Rimoffset: 0.62
     - _Rimpower: 0.16
     - _Scaleandoffsetshadows: 0.306
+    - _SmoothnessTextureChannel: 0
     - _Spec: 1.18
     - _SpecEnabled: 1
     - _Specintensity: 0.225
     - _Speclighttransition: 0
+    - _SpecularHighlights: 1
     - _Specvalue: 1.19
+    - _SrcBlend: 1
     - _TEst: 22.64
     - _Test: 0
+    - _UVSec: 0
+    - _ZWrite: 1
     - __dirty: 0
     - _max: 10
     - _min: 7
     - _test: 26.9
     m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 1, g: 0, b: 0, a: 0}
     - _ColortoBeFiltered: {r: 0.509434, g: 0.29076186, b: 0.29076186, a: 1}
     - _ColortoBeFiltered1: {r: 0.86727047, g: 0, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Handpaintcolor: {r: 0, g: 0, b: 0, a: 0}
     - _LightDim: {r: 0, g: 0, b: 0, a: 0}
     - _LightValueDim: {r: 0.5, g: 0.5, b: 0.5, a: 0}

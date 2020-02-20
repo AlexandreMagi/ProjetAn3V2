@@ -25,6 +25,11 @@ public class ARdunioConnect : MonoBehaviour
 
     private string lastData = null;
 
+    private void Awake()
+    {
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     public static string AutodetectArduinoPort(string deviceNameContains = "Arduino", bool debug = false)
     {
@@ -90,9 +95,12 @@ public class ARdunioConnect : MonoBehaviour
         if (data != null)
         {
             lastData = data;
-            //print("Data from Arduino : " + data);
+            
         }
-        
+
+        //Debug.Log("Data from Arduino data : " + data);
+        //Debug.Log("Data from Arduino  lastData : " + lastData);
+
     }
 
     public string getLastDataFromDevice()

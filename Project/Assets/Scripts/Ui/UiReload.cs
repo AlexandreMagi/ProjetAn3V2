@@ -66,6 +66,8 @@ public class UiReload : MonoBehaviour
     [SerializeField] Slider reloadSlider = null;
     [SerializeField] Text reloadSliderText = null;
 
+    Canvas thisCanvas = null;
+
     private void Start()
     {
         bar             = Instantiate(emptyUiBox, rootUiReloading.transform);
@@ -88,7 +90,7 @@ public class UiReload : MonoBehaviour
         {
             bulletSprites[i] = Instantiate(emptyUiBox, rootBullets.transform);
             bulletSprites[i].GetComponent<Image>().sprite = reloadData.bulletSprite;
-            bulletValues[i] = new UiDouille(reloadData);
+            bulletValues[i] = new UiDouille(reloadData, bulletSprites[i].GetComponent<RectTransform>(), bulletSprites[i].GetComponent<Image>());
 
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (0, i * distanceBetweenBullet + reloadData.spaceEveryThreeBullet * Screen.height * Mathf.CeilToInt(i / bulletCost)) + new Vector2 (Screen.width * reloadData.decalBulletSprites.x, Screen.height * reloadData.decalBulletSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
@@ -100,6 +102,8 @@ public class UiReload : MonoBehaviour
             componentOutline.effectDistance = new Vector2(1, -1) * 5;
             bulletSprites[i].SetActive(false);
         }
+
+        thisCanvas = GetComponent<Canvas>();
 
     }
 
@@ -127,7 +131,7 @@ public class UiReload : MonoBehaviour
 
         reloadSlider.value = bulletAmount.x > bulletAmount.y ? 1f : ((float)bulletAmount.x / (float)bulletAmount.y);
         Vector2 pos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Input.mousePosition + new Vector3(0, Screen.height * -0.07f), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Input.mousePosition + new Vector3(0, Screen.height * -0.07f), thisCanvas.worldCamera, out pos);
         //reloadSlider.transform.position = transform.TransformPoint(pos);
         reloadSlider.transform.position = Vector3.Lerp(reloadSlider.transform.position, transform.TransformPoint(pos), Time.unscaledDeltaTime * 10);
         reloadSliderText.text = ""+bulletAmount.x;
@@ -230,7 +234,7 @@ public class UiReload : MonoBehaviour
         reducing = true;
         perfectAnim = didPerfect;
 
-        holaValue = nbBulletBefore-reloadData.holaRange;
+        holaValue = nbBulletBefore-reloadData.holaRange;    
         int supBullet = Weapon.Instance.GetSuplementaryBullet();
         for (int i = 0; i < bulletSprites.Length; i++)
         {
@@ -239,7 +243,7 @@ public class UiReload : MonoBehaviour
             else if (i >= supBullet)
                 bulletSprites[i].transform.position = bulletPos[i - supBullet];
 
-            bulletValues[i].InitValues(reloadData);
+            bulletValues[i].InitValues(reloadData, bulletSprites[i].GetComponent<RectTransform>(), bulletSprites[i].GetComponent<Image>());
         }
 
         //rootUiReloading.SetActive(false);
