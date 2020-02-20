@@ -88,7 +88,7 @@ public class Weapon : MonoBehaviour
         }
         if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
 
-        var v3 = Input.mousePosition + Vector3.forward * 10; 
+        Vector3 v3 = Main.Instance.GetCursorPos() + Vector3.forward * 10; 
         v3 = CameraHandler.Instance.renderingCam.ScreenToWorldPoint(v3);
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.renderingCam.transform.position, 360, 0.0f);
         weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
