@@ -17,7 +17,7 @@ public class Main : MonoBehaviour
     private float timeLeftForRaycastCursor;
     private float timeTickCursor = .2f;
 
-    Transmition arduinoTransmettor;
+    IRCameraParser arduinoTransmettor;
 
     [SerializeField]
     int startWithCameraNumber = 0;
@@ -40,6 +40,8 @@ public class Main : MonoBehaviour
 
     public static Main Instance { get; private set; }
 
+    
+
     void Awake()
     {
         Instance = this;
@@ -50,7 +52,7 @@ public class Main : MonoBehaviour
     {
         if(arduinoTransmettor == null)
         {
-            arduinoTransmettor = Transmition.Instance;
+            arduinoTransmettor = IRCameraParser.Instance;
         }
 
         if (!hasJumpedCam && startWithCameraNumber != 0)
@@ -75,13 +77,13 @@ public class Main : MonoBehaviour
         }
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
-            Weapon.Instance.InputUp(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+            Weapon.Instance.InputUp(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
         }
 
 
         //CAM
-        Vector3 posCursor = isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition;
-        if ( (posCursor.x < Transmition.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < Transmition.Instance.iResolutionY && posCursor.y > 0)
+        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        if ( (posCursor.x < IRCameraParser.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < IRCameraParser.Instance.iResolutionY && posCursor.y > 0)
             || (posCursor.x < Screen.width && posCursor.x > 0 && posCursor.y < Screen.height && posCursor.y > 0))
             CameraHandler.Instance.DecalCamWithCursor(posCursor);
         
@@ -90,7 +92,7 @@ public class Main : MonoBehaviour
         if (UiCrossHair.Instance != null)
         {
 
-            UiCrossHair.Instance.UpdateCrossHair(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+            UiCrossHair.Instance.UpdateCrossHair(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
         }
 
         if (Input.GetKey(KeyCode.Escape))
@@ -220,7 +222,7 @@ public class Main : MonoBehaviour
 
         if(timeLeftForRaycastCursor <= timeTickCursor)
         {
-            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(isArduinoMode ? Transmition.Instance.positions() : Input.mousePosition);
+            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
             RaycastHit hit;
             Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
             
