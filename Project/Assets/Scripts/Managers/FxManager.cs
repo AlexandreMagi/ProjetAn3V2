@@ -42,7 +42,7 @@ public class FxManager : MonoBehaviour
         return clone;
     }
 
-    public ParticleSystem PlayFx(string name, Vector3 pos, RaycastHit hitFromCast)
+    public ParticleSystem PlayFx(string name, Vector3 pos, RaycastHit hitFromCast, bool addRotation = false)
     {
         ParticleSystem fxInstantiated = FindFx(name);
         if (fxInstantiated == null)
@@ -51,7 +51,25 @@ public class FxManager : MonoBehaviour
         ParticleSystem clone = Instantiate(fxInstantiated, pos, Quaternion.identity);
 
         clone.transform.LookAt(pos + hitFromCast.normal * 3, Vector3.up);
-        clone.transform.Rotate(90,0,0,Space.Self);
+        if (addRotation)
+            clone.transform.Rotate(90,0,0,Space.Self);
+
+        clone.Play();
+        return clone;
+    }
+
+    public ParticleSystem PlayFx(string name, RaycastHit hitFromCast, Ray rayRef)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
+
+        ParticleSystem clone = Instantiate(fxInstantiated, hitFromCast.point, Quaternion.identity);
+
+        Vector3 originDir = rayRef.direction;
+        Vector3 reflectedDir = Vector3.Reflect(originDir, hitFromCast.normal);
+
+        clone.transform.rotation = Quaternion.LookRotation(reflectedDir, Vector3.up);
 
         clone.Play();
         return clone;

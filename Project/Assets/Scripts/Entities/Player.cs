@@ -42,7 +42,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     
     public void DieForReal()
     {
-        Destroy(this);
+        gameObject.SetActive(false);
+        //Destroy(this);
     }
 
     protected override void Start()

@@ -51,7 +51,13 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             canPlay = false;
         }
 
-        bPlayerCanDammage = Vector3.Distance(Player.Instance.transform.position, transform.position) < distanceAllowedToPlayer;
+        if (Player.Instance == null)
+        {
+            Destroy(this);
+            bPlayerCanDammage = false;
+        }
+        else bPlayerCanDammage = Vector3.Distance(Player.Instance.transform.position, transform.position) < distanceAllowedToPlayer;
+
 
         if (DammageDone < DammageBeforeExplosion)
         {

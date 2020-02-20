@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LifeCapsuleInstance
 {
@@ -22,14 +23,20 @@ public class LifeCapsuleInstance
     int index = 0;
 
     bool desactivated = false;
+    public RectTransform rect = null;
+    public Image img = null;
+    public Outline outlineLocal = null;
 
-    public LifeCapsuleInstance (DataLifeBarUi _data, int i)
+    public LifeCapsuleInstance (DataLifeBarUi _data, int i, RectTransform _rect, Image _img, Outline _outline)
     {
         data = _data;
         color = data.lifeCapsuleColor;
         size = data.baseSize;
         outlineSize = data.outlineSize;
         index = i;
+        rect = _rect;
+        img = _img;
+        outlineLocal = _outline;
     }
 
     public void UpdateValues()
@@ -56,6 +63,12 @@ public class LifeCapsuleInstance
         color = Color.Lerp(desactivated ? data.lifeEmptyCapsuleColor : data.lifeCapsuleColor, data.hitedColor, data.takeDamageScaleAnim.Evaluate(1 - timeRemainingAnimatedHit / data.scaleAnimTime));
         
 
+    }
+
+    public void DoValues()
+    {
+        rect.sizeDelta = size;
+        img.color = color;
     }
 
     public void TakeDammage(float timerBeforeActivate)

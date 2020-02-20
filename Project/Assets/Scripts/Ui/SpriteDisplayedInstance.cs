@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpriteDisplayedInstance
 {
@@ -10,8 +11,9 @@ public class SpriteDisplayedInstance
     private float currentTimer = 0;
     public float scale = 0;
     private float currentAlpha = 1;
+    public Image imageComponent = null;
 
-    public void OnCreation(DataUiTemporarySprite _data)
+    public void OnCreation(DataUiTemporarySprite _data, Image _imageComponent)
     {
         data = _data;
         baseColor = new Color(
@@ -19,6 +21,7 @@ public class SpriteDisplayedInstance
             Random.Range(data.colorRandomOne.g, data.colorRandomTwo.g),
             Random.Range(data.colorRandomOne.b, data.colorRandomTwo.b));
         currentColor = baseColor;
+        imageComponent = _imageComponent;
     }
 
     public void UpdateValues()

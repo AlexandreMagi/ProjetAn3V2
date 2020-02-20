@@ -3,6 +3,8 @@ using UnityEditor;
 using System.Collections.Generic;
 
 public class MeshCombineWizard : ScriptableWizard {
+
+
     public GameObject parentOfObjectsToCombine;
 
     [MenuItem("Combine tool/Mesh Combine")]
@@ -64,10 +66,6 @@ public class MeshCombineWizard : ScriptableWizard {
         } else {
             resultGO = combinedObjects[0];
         }
-
-
-        //Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + resultGO.name + ".prefab");
-        //PrefabUtility.ReplacePrefab(resultGO, prefab, ReplacePrefabOptions.ConnectToPrefab);
 
         resultGO.gameObject.isStatic = true;
 
