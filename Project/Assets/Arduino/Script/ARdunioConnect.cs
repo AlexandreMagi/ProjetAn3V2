@@ -73,7 +73,7 @@ public class ARdunioConnect : MonoBehaviour
             }
         }
 
-        return "COM9";
+        return "NO CONNECT";
     }
 
 
@@ -82,22 +82,33 @@ public class ARdunioConnect : MonoBehaviour
     {
         portName = ARdunioConnect.AutodetectArduinoPort("Genuino");
         Debug.LogWarning("Device Detected on Port : " + portName);
+        if (portName != "NO CONNECT")
+        {
 
-        myDevice.set(portName, baudRate, ReadTimeout, QueueLenght); // This method set the communication with the following vars;
-                                                                    //                              Serial Port, Baud Rates, Read Timeout and QueueLenght.
-        myDevice.connect(); // This method open the Serial communication with the vars previously given.
+            myDevice.set(portName, baudRate, ReadTimeout, QueueLenght); // This method set the communication with the following vars;
+                                                                        //                              Serial Port, Baud Rates, Read Timeout and QueueLenght.
+            myDevice.connect(); // This method open the Serial communication with the vars previously given.
+
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        string data = myDevice.readQueue();
-        if (data != null)
-        {
-            lastData = data;
-            
-        }
 
+        if (portName != "NO CONNECT")
+        {
+
+            string data = myDevice.readQueue();
+            if (data != null)
+            {
+                lastData = data;
+
+            }
+
+        }
+        
         //Debug.Log("Data from Arduino data : " + data);
         //Debug.Log("Data from Arduino  lastData : " + lastData);
 
