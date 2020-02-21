@@ -27,7 +27,7 @@ public class SwarmerPullHandler : MonoBehaviour
     {
         for (int i = 0; i < 20; i++)
         {
-            GameObject current = Instantiate(swarmerPrefab);
+            GameObject current = Instantiate(swarmerPrefab, Vector3.one * 66, Quaternion.identity);
             current.SetActive(false);
             allSwarmers.Add(current);
         }
