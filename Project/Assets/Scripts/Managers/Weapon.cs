@@ -174,7 +174,7 @@ public class Weapon : MonoBehaviour
             {
                 currentOrb = Instantiate(orbPrefab);
 
-                currentOrb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
+                currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
             }
 
