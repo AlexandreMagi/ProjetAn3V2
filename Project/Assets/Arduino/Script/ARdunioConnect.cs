@@ -121,11 +121,22 @@ public class ARdunioConnect : MonoBehaviour
 
     void OnApplicationQuit()
     { // close the Thread and Serial Port
-        myDevice.close();
+        if (portName != "NO CONNECT")
+        {
+
+            myDevice.close();
+
+        }
+        
     }
     private void OnDestroy()
     {
-        myDevice.close();
+        if (portName != "NO CONNECT")
+        {
+
+            myDevice.close();
+
+        }
     }
 
 }
