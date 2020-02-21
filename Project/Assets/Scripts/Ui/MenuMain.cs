@@ -20,12 +20,19 @@ public class MenuMain : MonoBehaviour
     [SerializeField] private float speedOver = 5;
     [SerializeField] private string sceneNameGoTo = "LD_03";
 
+    [SerializeField] DataWeapon dataWeapon = null;
+    float currentChargePurcentage = 0;
+
+    private bool playerCanShoot = true;
+
     bool canClickOnButton = true;
 
+    [SerializeField] GameObject rootLogo = null;
+    [SerializeField] GameObject rootHome = null;
+    [SerializeField] GameObject rootMainMenu = null;
 
     IRCameraParser arduinoTransmettor;
-    [SerializeField]
-    bool isArduinoMode = false;
+    bool isArduinoMode = true;
 
     // Update is called once per frame
     void Update()
@@ -43,14 +50,36 @@ public class MenuMain : MonoBehaviour
         {
             SceneHandler.Instance.RestartScene();
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            currentState = menustate.home;
+            GetComponent<Animator>().SetTrigger("GoHome");
+        }
+
+
+        //UI
+        if (UiCrossHair.Instance != null)
+        {
+
+            UiCrossHair.Instance.UpdateCrossHair(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.visible = false;
+        }
 
         switch (currentState)
         {
             case menustate.intro:
-                if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0)) SkipToHome();
+                if (CheckIfShoot()) SkipToHome();
                 break;
             case menustate.home:
-                if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0))
+                if (CheckIfShoot())
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
@@ -72,12 +101,63 @@ public class MenuMain : MonoBehaviour
                         }
                     }
                 }
-                if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0)) && canClickOnButton) Click(posCursor);
+                if (CheckIfShoot() && canClickOnButton) Click(posCursor);
                 break;
             default:
                 break;
         }
 
+    }
+
+
+    public void GoBackToMenu()
+    {
+        rootLogo.SetActive(false);
+        rootHome.SetActive(true);
+        rootMainMenu.SetActive(false);
+    }
+
+    public bool CheckIfShoot()
+    {
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
+        {
+            InputHold();
+        }
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
+        {
+            InputUp();
+            return true;
+        }
+        return false;
+    }
+
+
+    public float GetChargeValue()
+    {
+        return currentChargePurcentage;
+    }
+
+    void InputHold()
+    {
+        if (currentChargePurcentage < 1)
+        {
+            currentChargePurcentage += (dataWeapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / dataWeapon.chargeTime;
+            if (currentChargePurcentage > 1)
+            {
+                UiCrossHair.Instance.JustFinishedCharging();
+                currentChargePurcentage = 1;
+            }
+        }
+    }
+
+    void InputUp()
+    {
+        DataWeaponMod currentWeaponMod = null;
+        if (currentChargePurcentage == 1) currentWeaponMod = dataWeapon.chargedShot;
+        else currentWeaponMod = dataWeapon.baseShot;
+
+        UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
+        currentChargePurcentage = 0;
     }
 
     void Click(Vector2 mousePosition)
@@ -103,6 +183,10 @@ public class MenuMain : MonoBehaviour
     {
         canClickOnButton = false;
         SceneHandler.Instance.QuitGame(0);
+    }
+    public Vector3 GetCursorPos()
+    {
+        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
     }
 
     void SkipToHome()
