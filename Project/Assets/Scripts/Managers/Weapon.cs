@@ -88,7 +88,7 @@ public class Weapon : MonoBehaviour
         }
         if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
 
-        Vector3 v3 = Main.Instance.GetCursorPos() + Vector3.forward * 10; 
+        var v3 = Input.mousePosition + Vector3.forward * 10; 
         v3 = CameraHandler.Instance.renderingCam.ScreenToWorldPoint(v3);
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.renderingCam.transform.position, 360, 0.0f);
         weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
@@ -174,7 +174,7 @@ public class Weapon : MonoBehaviour
             {
                 currentOrb = Instantiate(orbPrefab);
 
-                currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
+                currentOrb.GetComponent<GravityOrb>().OnSpawning(Input.mousePosition);
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
             }
 

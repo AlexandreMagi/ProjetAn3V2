@@ -38,6 +38,7 @@ public class wrmhl {
 
 	// gives the thread the vars needed for connecting your device and Unity:
 	public void set(string portName, int baudRate, int readTimeout, int QueueLenght){ // Connection requirements.
+        if (deviceReader != null)
 		    deviceReader = new wrmhlThread_Lines(portName, baudRate, readTimeout, QueueLenght); // wrmhlThread_ReadLines will be instancied
 		//                                                                            with those vars and use them to connect when wrmhl.connect() will be call.
 	}
@@ -51,13 +52,16 @@ public class wrmhl {
 	// connect the device and unity
 	public void connect()
     {
+        if (deviceReader != null)
+        {
             deviceReader.openFlow(); // Open the Serial Port data flow.
             deviceReader.startThread(); // Start the thread.
-        
+        }
 	}
 
 	// Close the connection beetwen your device and Unity:
 	public void close(){
+        if (deviceReader != null)
 		    deviceReader.StopThread(); // Stop the thread and close flow.
 	}
 
@@ -66,7 +70,10 @@ public class wrmhl {
 	// read the data from your device:
 	public string readQueue(){ // Return the string coming from the device.
 
+        if (deviceReader != null)
             return deviceReader.readQueueThread(); // call the Thread read method.
+        else
+            return null;
 	}
 
 	public void send(string dataToSend){
