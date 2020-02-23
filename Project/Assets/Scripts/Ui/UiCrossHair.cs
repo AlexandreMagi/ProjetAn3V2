@@ -77,7 +77,6 @@ public class UiCrossHair : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition + dataHandlerCrosshairs[i].offset, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
             UiCrosshairs[i].transform.position = transform.TransformPoint(pos);
 
-            if (Weapon.Instance)
             UiCrosshairs[i].SetActive(//Weapon.Instance.GetBulletAmmount().x > 0 && 
                 !Weapon.Instance.GetIfReloading());
         }

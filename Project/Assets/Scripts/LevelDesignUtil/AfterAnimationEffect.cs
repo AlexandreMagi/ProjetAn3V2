@@ -15,17 +15,12 @@ public class AfterAnimationEffect : MonoBehaviour
     {
         if (objectToDisable != null)
             foreach (GameObject obj in objectToDisable)
-            {
                 obj.SetActive(false);
-            }
     }
     void enableGameobject()
     {
-
         if (objectToEnable != null)
             foreach (GameObject obj in objectToEnable)
-            {
                 obj.SetActive(true);
-            }
     }
 }

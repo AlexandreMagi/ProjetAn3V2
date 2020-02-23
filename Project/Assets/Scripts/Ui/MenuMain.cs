@@ -32,13 +32,6 @@ public class MenuMain : MonoBehaviour
 
     bool canClickOnButton = true;
 
-    [SerializeField] GameObject rootLogo = null;
-    [SerializeField] GameObject rootHome = null;
-    [SerializeField] GameObject rootMainMenu = null;
-
-    IRCameraParser arduinoTransmettor;
-    bool isArduinoMode = true;
-
     // Update is called once per frame
     void Update()
     {
@@ -94,10 +87,10 @@ public class MenuMain : MonoBehaviour
         switch (currentState)
         {
             case menustate.intro:
-                if (CheckIfShoot()) SkipToHome();
+                if (Input.GetKeyDown(KeyCode.Mouse0)) SkipToHome();
                 break;
             case menustate.home:
-                if (CheckIfShoot())
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
@@ -124,63 +117,12 @@ public class MenuMain : MonoBehaviour
                         }
                     }
                 }
-                if (CheckIfShoot() && canClickOnButton) Click(posCursor);
+                if (Input.GetKeyDown(KeyCode.Mouse0) && canClickOnButton) Click(Input.mousePosition);
                 break;
             default:
                 break;
         }
 
-    }
-
-
-    public void GoBackToMenu()
-    {
-        rootLogo.SetActive(false);
-        rootHome.SetActive(true);
-        rootMainMenu.SetActive(false);
-    }
-
-    public bool CheckIfShoot()
-    {
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
-        {
-            InputHold();
-        }
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
-        {
-            InputUp();
-            return true;
-        }
-        return false;
-    }
-
-
-    public float GetChargeValue()
-    {
-        return currentChargePurcentage;
-    }
-
-    void InputHold()
-    {
-        if (currentChargePurcentage < 1)
-        {
-            currentChargePurcentage += (dataWeapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / dataWeapon.chargeTime;
-            if (currentChargePurcentage > 1)
-            {
-                UiCrossHair.Instance.JustFinishedCharging();
-                currentChargePurcentage = 1;
-            }
-        }
-    }
-
-    void InputUp()
-    {
-        DataWeaponMod currentWeaponMod = null;
-        if (currentChargePurcentage == 1) currentWeaponMod = dataWeapon.chargedShot;
-        else currentWeaponMod = dataWeapon.baseShot;
-
-        UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
-        currentChargePurcentage = 0;
     }
 
     void Click(Vector2 mousePosition)
@@ -206,10 +148,6 @@ public class MenuMain : MonoBehaviour
     {
         canClickOnButton = false;
         SceneHandler.Instance.QuitGame(0);
-    }
-    public Vector3 GetCursorPos()
-    {
-        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
     }
 
     void SkipToHome()

@@ -49,7 +49,7 @@ public class GravityOrb : MonoBehaviour
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
 
 
-            if (orbData.isSticky && hitObj != null && gAffect != null)
+            if (orbData.isSticky && hitObj.gameObject.activeSelf && hitObj != null && gAffect != null)
             {
                 gAffect.OnGravityDirectHit();
 
@@ -102,7 +102,7 @@ public class GravityOrb : MonoBehaviour
 
             IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
-            if (gAffect != null && hVictim.gameObject != parentIfSticky)
+            if (gAffect != null && hVictim.gameObject.activeSelf && hVictim.gameObject != parentIfSticky)
             {
                 hasHitSomething = true;
                 gAffect.OnPull(this.transform.position, orbData.pullForce);
@@ -156,7 +156,7 @@ public class GravityOrb : MonoBehaviour
 
 
                 if (hVictim.GetComponent<Prop>()) hVictim.GetComponent<Prop>().SetTimerToRelease(orbData.floatTime);
-                if (gAffect != null && hVictim.gameObject != parentIfSticky)
+                if (gAffect != null && hVictim.gameObject.activeSelf && hVictim.gameObject != parentIfSticky)
                 {
                     gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
                     gAffect.OnRelease();
@@ -208,7 +208,7 @@ public class GravityOrb : MonoBehaviour
             {
                 IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
-                if (gAffect != null && hVictim.gameObject != parentIfSticky)
+                if (gAffect != null && hVictim.gameObject.activeSelf && hVictim.gameObject != parentIfSticky)
                 {
                     gAffect.OnPull(this.transform.position, orbData.pullForce);
                     gAffect.OnHold();
