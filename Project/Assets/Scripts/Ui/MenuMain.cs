@@ -20,6 +20,11 @@ public class MenuMain : MonoBehaviour
     [SerializeField] private float speedOver = 5;
     [SerializeField] private string sceneNameGoTo = "LD_03";
 
+
+    [SerializeField] private float timeBeforeGoBackToStart = 5;
+    private float timerGoBack = 5;
+    private Vector3 saveLastCursorPos = Vector3.zero;
+
     [SerializeField] DataWeapon dataWeapon = null;
     float currentChargePurcentage = 0;
 
@@ -45,6 +50,20 @@ public class MenuMain : MonoBehaviour
             arduinoTransmettor = IRCameraParser.Instance;
         }
         Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        if (Vector3.Distance(saveLastCursorPos, posCursor) > 0 || currentState != menustate.mainmenu) 
+            timerGoBack = timeBeforeGoBackToStart;
+        else
+        {
+            if (timerGoBack < Time.unscaledDeltaTime)
+            {
+                currentState = menustate.home;
+                GetComponent<Animator>().SetTrigger("GoHome");
+            }
+            else
+                timerGoBack -= Time.unscaledDeltaTime;
+        }
+        saveLastCursorPos = posCursor;
+
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
@@ -52,8 +71,7 @@ public class MenuMain : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            currentState = menustate.home;
-            GetComponent<Animator>().SetTrigger("GoHome");
+            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
         }
 
 
@@ -83,6 +101,10 @@ public class MenuMain : MonoBehaviour
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
+                    foreach (var button in buttonMenuScripts)
+                    {
+                        button.UpdatePos(false);
+                    }
                 }
                 break;
             case menustate.mainmenu:
@@ -90,6 +112,7 @@ public class MenuMain : MonoBehaviour
                 {
                     if (button.gameObject.activeSelf)
                     {
+                        button.UpdatePos(true);
                         bool mouseOver = button.CheckIfMouseOver(posCursor);
                         if (mouseOver)
                         {

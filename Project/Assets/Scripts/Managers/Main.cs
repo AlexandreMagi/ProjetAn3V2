@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 
 public class Main : MonoBehaviour
 {
+    [SerializeField]
     private bool playerCanOrb = true;
     private bool playerCanShoot = true;
 
@@ -157,6 +158,10 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, -50);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?", 5);
         }
 
         if (sequenceSkipMode)
