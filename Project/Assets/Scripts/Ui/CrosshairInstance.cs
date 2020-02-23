@@ -45,7 +45,7 @@ public class CrosshairInstance
         float chargeValue = UpdateChargeValue();
         GetChargeFeedbackValue(chargeValue, dt);
 
-        Vector2Int bulletAmount = Weapon.Instance.GetBulletAmmount();
+        Vector2Int bulletAmount =Weapon.Instance != null? Weapon.Instance.GetBulletAmmount() : Vector2Int.one * 15;
         if (bulletAmount.x == 0) purcentageReductionNoBullet += dt / data.noBulletAnimTime;
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
@@ -109,7 +109,7 @@ public class CrosshairInstance
 
     float UpdateChargeValue()
     {
-        float currentChargevalue = Weapon.Instance.GetChargeValue();
+        float currentChargevalue = (Weapon.Instance != null? Weapon.Instance.GetChargeValue() : MenuMain.Instance.GetChargeValue());
         float chargevalue = 0;
         if (currentChargevalue > data.transitionStartAt)
             chargevalue = (currentChargevalue - data.transitionStartAt) / (1 - data.transitionStartAt);

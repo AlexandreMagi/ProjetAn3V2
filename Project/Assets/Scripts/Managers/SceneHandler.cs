@@ -27,7 +27,16 @@ public class SceneHandler : MonoBehaviour
 
     void Awake ()
     {
-        _instance = this;
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.LoadScene("ArduinoHandlerScene", LoadSceneMode.Additive);
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     public void RestartScene(float delay = 0, bool withFade = false)
@@ -87,6 +96,7 @@ public class SceneHandler : MonoBehaviour
                 {
                     loadingBarCreated.value = 1f;
                     async.allowSceneActivation = true;
+                    alreadyChanging = false;
                 }
                 yield return null;
             }

@@ -63,7 +63,7 @@ public class Main : MonoBehaviour
         }
 
         //SHOOT
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerCanOrb)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)) && playerCanOrb)
         {
             Weapon.Instance.GravityOrbInput();
         }
@@ -224,7 +224,7 @@ public class Main : MonoBehaviour
         #endregion
 
         //RELOAD
-        if (Input.GetKeyDown(KeyCode.R))
+        if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R))
         {
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
@@ -355,6 +355,11 @@ public class Main : MonoBehaviour
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, bonus);
         }
         
+    }
+
+    public Vector3 GetCursorPos()
+    {
+        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
     }
 
     public float GetCurrentChacesOfSurvival()
