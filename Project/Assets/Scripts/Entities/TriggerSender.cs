@@ -131,6 +131,11 @@ public class TriggerSender : MonoBehaviour
                 foreach(Light l in lightsToKill)
                 {
                     l.enabled = false;
+                    LightHandler lh = l.GetComponent<LightHandler>();
+                    if (lh)
+                    {
+                        lh.enabled = false;
+                    }
                 }
                 break;
             default:

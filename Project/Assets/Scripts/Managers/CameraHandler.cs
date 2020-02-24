@@ -291,7 +291,7 @@ public class CameraHandler : MonoBehaviour
         if (timerOnAnimatedCam > 0)
         {
             currentCamIsCine = false;
-            timerOnAnimatedCam -= dt;
+            timerOnAnimatedCam -= Time.deltaTime;
             if (timerOnAnimatedCam < 0)
             {
                 currentCamIsCine = true;

@@ -26,9 +26,6 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     private float shakeTime = 1;
     [SerializeField]
     private float shakeForce = 30;
-    [SerializeField]
-    private float safeShotgunValue = 0.4f;
-    float timerSafeShotgun = 0;
 
     private float timerSafeFx = 0.2f;
     private float currentTimer = 0;
@@ -47,8 +44,6 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
     void Update()
     {
-        timerSafeShotgun -= Time.unscaledDeltaTime;
-
         if ((transform.position.magnitude - player.transform.position.magnitude <= 10) && canPlay)
         {
             pr.Play();
@@ -121,12 +116,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         SequenceHandler.Instance.NextSequence();
     }
 
-    public void PlayerShootOnObjet(float Dmg, bool playFx)
+    public void PlayerShootOnObjet(float Dmg)
     {
         if (bPlayerCanDammage && !bItemDestroyed)
         {
             currentTimer = timerSafeFx;
-            if (currentTimer != 0 && playFx)
+            if (currentTimer != 0)
             {
                 FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation, multiplierBoom * 2.5f);
             }
@@ -150,19 +145,13 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
 
     public void OnHitShotGun(DataWeaponMod mod)
     {
-        bool playFx = false;
-        if (timerSafeShotgun < 0)
-        {
-            playFx = true;
-            timerSafeShotgun = safeShotgunValue;
-        }
-        PlayerShootOnObjet(mod.bullet.damage, playFx);
+        PlayerShootOnObjet(mod.bullet.damage);
         Weapon.Instance.OnShotGunHitTarget();
     }
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
-        PlayerShootOnObjet(mod.bullet.damage, true);
+        PlayerShootOnObjet(mod.bullet.damage);
     }
 
     public void OnBulletClose()
