@@ -28,7 +28,7 @@ public class ARdunioConnect : MonoBehaviour
     private void Awake()
     {
 
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public static string AutodetectArduinoPort(string deviceNameContains = "Arduino", bool debug = false)

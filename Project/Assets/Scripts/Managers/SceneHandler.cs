@@ -30,6 +30,7 @@ public class SceneHandler : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            transform.parent = null;
             DontDestroyOnLoad(gameObject);
             SceneManager.LoadScene("ArduinoHandlerScene", LoadSceneMode.Additive);
         }

@@ -36,7 +36,7 @@ public class ParticlesCollisonDetection : MonoBehaviour
     void EmitFromSplatter(ParticleCollisionEvent particleCollisionEvent)
     {
         particlesSystemSplatter.transform.position = particleCollisionEvent.intersection;
-        particlesSystemSplatter.transform.rotation = Quaternion.LookRotation(particleCollisionEvent.normal);
+        particlesSystemSplatter.transform.rotation = particleCollisionEvent.normal.magnitude != 0 ?Quaternion.LookRotation(particleCollisionEvent.normal) : Quaternion.identity;
 
         particlesSystemSplatter.Emit(1);
     }

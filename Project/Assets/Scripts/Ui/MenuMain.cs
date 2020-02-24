@@ -19,8 +19,9 @@ public class MenuMain : MonoBehaviour
     [SerializeField] private Vector2 scaleOver = new Vector2(1, 1.2f);
     [SerializeField] private float speedOver = 5;
     [SerializeField] private string sceneNameGoTo = "LD_03";
-
-
+    [SerializeField] private float checkInputEvery = 0.5f;
+    [SerializeField] private float distanceCheckIfInput = 0.05f;
+    float timerCheckInput = 0;
     [SerializeField] private float timeBeforeGoBackToStart = 5;
     private float timerGoBack = 5;
     private Vector3 saveLastCursorPos = Vector3.zero;
@@ -39,6 +40,11 @@ public class MenuMain : MonoBehaviour
     IRCameraParser arduinoTransmettor;
     bool isArduinoMode = true;
 
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -50,19 +56,9 @@ public class MenuMain : MonoBehaviour
             arduinoTransmettor = IRCameraParser.Instance;
         }
         Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
-        if (Vector3.Distance(saveLastCursorPos, posCursor) > 0 || currentState != menustate.mainmenu) 
-            timerGoBack = timeBeforeGoBackToStart;
-        else
-        {
-            if (timerGoBack < Time.unscaledDeltaTime)
-            {
-                currentState = menustate.home;
-                GetComponent<Animator>().SetTrigger("GoHome");
-            }
-            else
-                timerGoBack -= Time.unscaledDeltaTime;
-        }
-        saveLastCursorPos = posCursor;
+
+        CheckIfGoBacToMenu();
+
 
 
         if (Input.GetKeyDown(KeyCode.Y))
@@ -138,6 +134,34 @@ public class MenuMain : MonoBehaviour
         rootLogo.SetActive(false);
         rootHome.SetActive(true);
         rootMainMenu.SetActive(false);
+    }
+
+    void CheckIfGoBacToMenu()
+    {
+        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        timerCheckInput -= Time.unscaledDeltaTime;
+        if (timerCheckInput < 0)
+        {
+            timerCheckInput += checkInputEvery;
+            float currDist = Mathf.Sqrt(
+                Mathf.Pow(Mathf.Abs(saveLastCursorPos.x - posCursor.x) / Screen.width, 2) +
+                Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
+
+            if (currDist > distanceCheckIfInput || currentState != menustate.mainmenu)
+                timerGoBack = timeBeforeGoBackToStart;
+
+            else
+            {
+                if (timerGoBack < checkInputEvery)
+                {
+                    currentState = menustate.home;
+                    GetComponent<Animator>().SetTrigger("GoHome");
+                }
+                else
+                    timerGoBack -= checkInputEvery;
+            }
+            saveLastCursorPos = posCursor;
+        }
     }
 
     public bool CheckIfShoot()
