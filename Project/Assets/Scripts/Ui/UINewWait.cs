@@ -14,6 +14,12 @@ public class UINewWait : MonoBehaviour
 
     [SerializeField] GameObject[] objectToDisableOnWait = new GameObject[0];
     [SerializeField] GameObject waitRoot = null;
+    Animator waitAnmatr = null;
+
+    private void Start()
+    {
+        waitAnmatr = waitRoot.GetComponent<Animator>();
+    }
 
     public void TriggerWait()
     {
@@ -22,6 +28,7 @@ public class UINewWait : MonoBehaviour
             obj.SetActive(false);
         }
         waitRoot.SetActive(true);
+        waitAnmatr.SetTrigger("pop");
         
     }
 
@@ -32,6 +39,7 @@ public class UINewWait : MonoBehaviour
             obj.SetActive(true);
         }
         waitRoot.SetActive(false);
+        waitAnmatr.SetTrigger("depop");
     }
 
 }
