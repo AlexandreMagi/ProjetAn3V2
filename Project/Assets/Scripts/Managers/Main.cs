@@ -72,11 +72,7 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.InputHold();
         }
-        if((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
-        {
-            Weapon.Instance.ReloadValidate();
-            Weapon.Instance.ReloadingInput();
-        }
+
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputUp(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
@@ -236,8 +232,13 @@ public class Main : MonoBehaviour
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
         }
+        else if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        {
+            Weapon.Instance.ReloadValidate();
+            Weapon.Instance.ReloadingInput();
+        }
 
-        if(timeLeftForRaycastCursor <= timeTickCursor)
+        if (timeLeftForRaycastCursor <= timeTickCursor)
         {
             Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
             RaycastHit hit;
