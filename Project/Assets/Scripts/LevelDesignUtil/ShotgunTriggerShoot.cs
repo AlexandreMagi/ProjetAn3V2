@@ -39,6 +39,8 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     bool callNextSequence = false;
 
+    bool canDisplayHint = true;
+
     void PlaySound()
     {
         if (soundPlayed != "")
@@ -81,12 +83,14 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             callNextSequence = true;
         }
 
+        canDisplayHint = false;
+
         Weapon.Instance.OnShotGunHitTarget();
     }
 
     void Update()
     {
-        if (timerStarted)
+        if (timerStarted && canDisplayHint)
         {
             if (timerBeforeSecondHint > 0)
                timerBeforeSecondHint -= Time.unscaledDeltaTime;
