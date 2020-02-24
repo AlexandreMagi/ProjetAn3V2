@@ -157,6 +157,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             timerSafeShotgun = safeShotgunValue;
         }
         PlayerShootOnObjet(mod.bullet.damage, playFx);
+        Weapon.Instance.OnShotGunHitTarget();
     }
 
     public void OnHitSingleShot(DataWeaponMod mod)
