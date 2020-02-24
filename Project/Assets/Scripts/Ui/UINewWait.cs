@@ -13,7 +13,7 @@ public class UINewWait : MonoBehaviour
 
 
     [SerializeField] GameObject[] objectToDisableOnWait = new GameObject[0];
-    [SerializeField] GameObject[] objectToEnableOnWait = new GameObject[0];
+    [SerializeField] GameObject waitRoot = null;
 
     public void TriggerWait()
     {
@@ -21,10 +21,8 @@ public class UINewWait : MonoBehaviour
         {
             obj.SetActive(false);
         }
-        foreach (var obj in objectToEnableOnWait)
-        {
-            obj.SetActive(true);
-        }
+        waitRoot.SetActive(true);
+        
     }
 
     public void RemoveWait()
@@ -33,10 +31,7 @@ public class UINewWait : MonoBehaviour
         {
             obj.SetActive(true);
         }
-        foreach (var obj in objectToEnableOnWait)
-        {
-            obj.SetActive(false);
-        }
+        waitRoot.SetActive(false);
     }
 
 }
