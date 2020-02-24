@@ -15,6 +15,8 @@ public class HintScript : MonoBehaviour
     [SerializeField] Text hintText = null;
     [SerializeField] Animator anmtr = null;
 
+    bool hisPoped = false;
+
     public static HintScript Instance { get; private set; }
     void Awake()
     {
@@ -35,6 +37,7 @@ public class HintScript : MonoBehaviour
 
     void TruePopHint (string _text, bool _unlimited, float _stayTime = 0)
     {
+        hisPoped = true;
         hintText.text = _text;
         hintText.fontSize = hintFontSize;
         hasTimer = !_unlimited;
@@ -42,12 +45,16 @@ public class HintScript : MonoBehaviour
         anmtr.SetTrigger("pop");
     }
 
-    void Depop()
+    public void Depop()
     {
-        anmtr.SetTrigger("depop");
-        hasTimer = false;
-        timerUntilDepop = 0;
-        ChangeFontSize();
+        if (hisPoped)
+        {
+            anmtr.SetTrigger("depop");
+            hasTimer = false;
+            timerUntilDepop = 0;
+            ChangeFontSize();
+            hisPoped = false;
+        }
     }
 
     private void Update()
