@@ -6,8 +6,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
-using UnityEngine.UI;
 
 public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 {
@@ -27,20 +25,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     bool IsSoundPlayed = false;
 
     bool callNextSequence = false;
-
-    [SerializeField]
-    bool isHintTrigger = false;
-    [SerializeField, ShowIf("isHintTrigger")]
-    int baseShootCountBeforeFirstInt = 5;
-    [SerializeField, ShowIf("isHintTrigger")]
-    int baseShootCountBeforeSecondInt = 15;
-
-    [SerializeField]
-    Image firstUI;
-    [SerializeField]
-    Image secondUI;
-
-    int baseShootCountIncrement;
 
     void PlaySound()
     {
@@ -83,12 +67,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             callNextSequence = true;
         }
 
-        if (isHintTrigger)
-        {
-            firstUI.enabled = false;
-            secondUI.enabled = false;
-        }
-
         Weapon.Instance.OnShotGunHitTarget();
     }
 
@@ -97,23 +75,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         Animator anim = GetComponent<Animator>();
         if (anim != null)
             anim.SetTrigger("MakeAction");
-
-        if (isHintTrigger)
-        {
-            baseShootCountIncrement++;
-
-            if (baseShootCountIncrement == baseShootCountBeforeFirstInt)
-            {
-                firstUI.enabled = true;
-                Debug.Log("First hint");
-            }
-            else if (baseShootCountIncrement == baseShootCountBeforeSecondInt)
-            {
-                firstUI.enabled = false;
-                secondUI.enabled = true;
-                Debug.Log("Second hint");
-            }
-        }
     }
 
     public void OnBulletClose()

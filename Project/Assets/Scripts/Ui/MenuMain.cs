@@ -20,22 +20,91 @@ public class MenuMain : MonoBehaviour
     [SerializeField] private float speedOver = 5;
     [SerializeField] private string sceneNameGoTo = "LD_03";
 
+
+    [SerializeField] private float timeBeforeGoBackToStart = 5;
+    private float timerGoBack = 5;
+    private Vector3 saveLastCursorPos = Vector3.zero;
+
+    [SerializeField] DataWeapon dataWeapon = null;
+    float currentChargePurcentage = 0;
+
+    private bool playerCanShoot = true;
+
     bool canClickOnButton = true;
+
+    [SerializeField] GameObject rootLogo = null;
+    [SerializeField] GameObject rootHome = null;
+    [SerializeField] GameObject rootMainMenu = null;
+
+    IRCameraParser arduinoTransmettor;
+    bool isArduinoMode = true;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y)) SceneHandler.Instance.RestartScene();
+
+        if (Input.GetKeyDown(KeyCode.A)) isArduinoMode = !isArduinoMode;
+
+        if (arduinoTransmettor == null)
+        {
+            arduinoTransmettor = IRCameraParser.Instance;
+        }
+        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        if (Vector3.Distance(saveLastCursorPos, posCursor) > 0 || currentState != menustate.mainmenu) 
+            timerGoBack = timeBeforeGoBackToStart;
+        else
+        {
+            if (timerGoBack < Time.unscaledDeltaTime)
+            {
+                currentState = menustate.home;
+                GetComponent<Animator>().SetTrigger("GoHome");
+            }
+            else
+                timerGoBack -= Time.unscaledDeltaTime;
+        }
+        saveLastCursorPos = posCursor;
+
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SceneHandler.Instance.RestartScene();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
+        }
+
+
+        //UI
+        if (UiCrossHair.Instance != null)
+        {
+
+            UiCrossHair.Instance.UpdateCrossHair(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.visible = false;
+        }
+
         switch (currentState)
         {
             case menustate.intro:
-                if (Input.GetKeyDown(KeyCode.Mouse0)) SkipToHome();
+                if (CheckIfShoot()) SkipToHome();
                 break;
             case menustate.home:
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (CheckIfShoot())
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
+                    foreach (var button in buttonMenuScripts)
+                    {
+                        button.UpdatePos(false);
+                    }
                 }
                 break;
             case menustate.mainmenu:
@@ -43,7 +112,8 @@ public class MenuMain : MonoBehaviour
                 {
                     if (button.gameObject.activeSelf)
                     {
-                        bool mouseOver = button.CheckIfMouseOver(Input.mousePosition);
+                        button.UpdatePos(true);
+                        bool mouseOver = button.CheckIfMouseOver(posCursor);
                         if (mouseOver)
                         {
                             button.transform.localScale = Vector3.Lerp(button.transform.localScale, Vector3.one * scaleOver.y, Time.unscaledDeltaTime * speedOver);
@@ -54,12 +124,63 @@ public class MenuMain : MonoBehaviour
                         }
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Mouse0) && canClickOnButton) Click(Input.mousePosition);
+                if (CheckIfShoot() && canClickOnButton) Click(posCursor);
                 break;
             default:
                 break;
         }
 
+    }
+
+
+    public void GoBackToMenu()
+    {
+        rootLogo.SetActive(false);
+        rootHome.SetActive(true);
+        rootMainMenu.SetActive(false);
+    }
+
+    public bool CheckIfShoot()
+    {
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
+        {
+            InputHold();
+        }
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
+        {
+            InputUp();
+            return true;
+        }
+        return false;
+    }
+
+
+    public float GetChargeValue()
+    {
+        return currentChargePurcentage;
+    }
+
+    void InputHold()
+    {
+        if (currentChargePurcentage < 1)
+        {
+            currentChargePurcentage += (dataWeapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / dataWeapon.chargeTime;
+            if (currentChargePurcentage > 1)
+            {
+                UiCrossHair.Instance.JustFinishedCharging();
+                currentChargePurcentage = 1;
+            }
+        }
+    }
+
+    void InputUp()
+    {
+        DataWeaponMod currentWeaponMod = null;
+        if (currentChargePurcentage == 1) currentWeaponMod = dataWeapon.chargedShot;
+        else currentWeaponMod = dataWeapon.baseShot;
+
+        UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
+        currentChargePurcentage = 0;
     }
 
     void Click(Vector2 mousePosition)
@@ -85,6 +206,10 @@ public class MenuMain : MonoBehaviour
     {
         canClickOnButton = false;
         SceneHandler.Instance.QuitGame(0);
+    }
+    public Vector3 GetCursorPos()
+    {
+        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
     }
 
     void SkipToHome()

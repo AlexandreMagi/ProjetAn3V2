@@ -25,6 +25,11 @@ public class ARdunioConnect : MonoBehaviour
 
     private string lastData = null;
 
+    private void Awake()
+    {
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     public static string AutodetectArduinoPort(string deviceNameContains = "Arduino", bool debug = false)
     {
@@ -68,7 +73,7 @@ public class ARdunioConnect : MonoBehaviour
             }
         }
 
-        return "COM9";
+        return "NO CONNECT";
     }
 
 
@@ -77,22 +82,36 @@ public class ARdunioConnect : MonoBehaviour
     {
         portName = ARdunioConnect.AutodetectArduinoPort("Genuino");
         Debug.LogWarning("Device Detected on Port : " + portName);
+        if (portName != "NO CONNECT")
+        {
 
-        myDevice.set(portName, baudRate, ReadTimeout, QueueLenght); // This method set the communication with the following vars;
-                                                                    //                              Serial Port, Baud Rates, Read Timeout and QueueLenght.
-        myDevice.connect(); // This method open the Serial communication with the vars previously given.
+            myDevice.set(portName, baudRate, ReadTimeout, QueueLenght); // This method set the communication with the following vars;
+                                                                        //                              Serial Port, Baud Rates, Read Timeout and QueueLenght.
+            myDevice.connect(); // This method open the Serial communication with the vars previously given.
+
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        string data = myDevice.readQueue();
-        if (data != null)
+
+        if (portName != "NO CONNECT")
         {
-            lastData = data;
-            //print("Data from Arduino : " + data);
+
+            string data = myDevice.readQueue();
+            if (data != null)
+            {
+                lastData = data;
+
+            }
+
         }
         
+        //Debug.Log("Data from Arduino data : " + data);
+        //Debug.Log("Data from Arduino  lastData : " + lastData);
+
     }
 
     public string getLastDataFromDevice()
@@ -102,11 +121,22 @@ public class ARdunioConnect : MonoBehaviour
 
     void OnApplicationQuit()
     { // close the Thread and Serial Port
-        myDevice.close();
+        if (portName != "NO CONNECT")
+        {
+
+            myDevice.close();
+
+        }
+        
     }
     private void OnDestroy()
     {
-        myDevice.close();
+        if (portName != "NO CONNECT")
+        {
+
+            myDevice.close();
+
+        }
     }
 
 }
