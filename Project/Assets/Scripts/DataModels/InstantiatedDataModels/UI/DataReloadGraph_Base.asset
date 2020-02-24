@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc45569da9f54a46b08481e90214fb5, type: 3}
   m_Name: DataReloadGraph_Base
   m_EditorClassIdentifier: 
-  bulletSprite: {fileID: 21300000, guid: f25634d1a7613314e8ae536b11b90008, type: 3}
-  purcentageUsedY: 0.6
-  decalBulletSprites: {x: 0.97, y: 0.05}
+  bulletSprite: {fileID: 21300000, guid: e782a4a8224bf004bbf66d09d1dab595, type: 3}
+  purcentageUsedY: 0.63
+  decalBulletSprites: {x: 0.94, y: 0.08}
   spaceEveryThreeBullet: 0.02
   holaFeedbackTime: 0.4
   holaRange: 2
@@ -52,7 +52,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  baseSize: 80
+  baseSize: 100
+  outlineSize: 0
   bulletFallSpeep: 500
   scaleAnimBulletTextShot:
     serializedVersion: 2
@@ -93,8 +94,10 @@ MonoBehaviour:
   shortOnBulletColor: {r: 1, g: 0, b: 0, a: 1}
   midNumberOfBullet: 8
   midOnBulletColor: {r: 1, g: 0.46949857, b: 0, a: 1}
-  highOnBulletColor: {r: 1, g: 1, b: 1, a: 1}
+  highOnBulletColor: {r: 0, g: 0.9093275, b: 1, a: 1}
   noBulletColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
+  suplementaryBulletColor: {r: 0.9411765, g: 0.30588236, b: 0.13725491, a: 1}
+  textColor: {r: 0.9411765, g: 0.30588236, b: 0.13725491, a: 1}
   scaleIfNoBullet: 0
   scaleEmptySpeed: 5
   scaleRecoverSpeed: 5
