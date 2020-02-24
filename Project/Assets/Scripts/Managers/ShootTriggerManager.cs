@@ -59,6 +59,7 @@ public class ShootTriggerManager : MonoBehaviour
     [SerializeField, ShowIf("triggersBooleanSequence")]
     bool booleanStateSet = false;
 
+    GameObject[] childs;
 
     // Start is called before the first frame update
     void Start()
