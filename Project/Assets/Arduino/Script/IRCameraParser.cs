@@ -215,7 +215,8 @@ public class IRCameraParser : MonoBehaviour
             }
             else
             {
-                isShotDown = true;
+                if (!isShotHeld)
+                    isShotDown = true;
             }
 
             isShotHeld = true;
@@ -242,7 +243,8 @@ public class IRCameraParser : MonoBehaviour
             }
             else
             {
-                isGravityDown = true;
+                if (!isGravityHeld)
+                    isGravityDown = true;
             }
 
             isGravityHeld = true;
@@ -269,7 +271,8 @@ public class IRCameraParser : MonoBehaviour
             }
             else
             {
-                isReloadDown = true;
+                if (!isReloadHeld)
+                    isReloadDown = true;
             }
 
             isReloadHeld = true;

@@ -54,6 +54,9 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
     float followDuration = 0;
 
+    [ShowIf("typeTrigger", TriggerType.LightDisabler), SerializeField]
+    Light[] lightsToKill = null;
+
 
     [SerializeField]
     float timeBeforeStart = 0;
@@ -123,6 +126,13 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.EnemyFollow:
                 TriggerUtil.TriggerFollowTarget(timeBeforeStart, enemyFollow, timeGoTo, timeGoBack, followDuration);
                 break;
+
+            case TriggerType.LightDisabler:
+                foreach(Light l in lightsToKill)
+                {
+                    l.enabled = false;
+                }
+                break;
             default:
                 break;
         }
@@ -150,6 +160,7 @@ public class TriggerSender : MonoBehaviour
         Shake = 5,
         Boolean = 6,
         EnemyFollow = 7,
+        LightDisabler = 8,
         Other = 9
     }
 
