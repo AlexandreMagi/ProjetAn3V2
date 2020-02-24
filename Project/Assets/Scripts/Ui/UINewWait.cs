@@ -34,12 +34,18 @@ public class UINewWait : MonoBehaviour
 
     public void RemoveWait()
     {
+        waitAnmatr.SetTrigger("depop");
+        Invoke("RemoveWaitTrue", 0.39f);
+    }
+
+
+    public void RemoveWaitTrue()
+    {
         foreach (var obj in objectToDisableOnWait)
         {
             obj.SetActive(true);
         }
         waitRoot.SetActive(false);
-        waitAnmatr.SetTrigger("depop");
     }
 
 }
