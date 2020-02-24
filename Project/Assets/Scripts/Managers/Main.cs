@@ -232,7 +232,8 @@ public class Main : MonoBehaviour
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
         }
-        else if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         {
             Weapon.Instance.ReloadValidate();
             Weapon.Instance.ReloadingInput();
