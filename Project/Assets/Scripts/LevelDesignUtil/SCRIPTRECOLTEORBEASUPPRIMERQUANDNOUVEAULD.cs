@@ -146,6 +146,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     public void OnHitShotGun(DataWeaponMod mod)
     {
         PlayerShootOnObjet(mod.bullet.damage);
+        Weapon.Instance.OnShotGunHitTarget();
     }
 
     public void OnHitSingleShot(DataWeaponMod mod)
