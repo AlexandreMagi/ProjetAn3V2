@@ -282,7 +282,7 @@ public class Main : MonoBehaviour
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.x - posCursor.x) / Screen.width, 2) +
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
 
-            Debug.Log(timerGoBack + " / " + GameEnded);
+
             if (currDist > distanceCheckIfInput || !GameEnded)
                 timerGoBack = timeBeforeGoBackToStart;
 
