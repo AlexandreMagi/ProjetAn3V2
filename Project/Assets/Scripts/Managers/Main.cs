@@ -132,6 +132,11 @@ public class Main : MonoBehaviour
             SceneHandler.Instance.RestartScene(.3f, true);
         }
 
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
+        }
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             this.sequenceSkipMode = !this.sequenceSkipMode;
