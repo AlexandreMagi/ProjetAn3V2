@@ -64,20 +64,16 @@ public class PublicManager : MonoBehaviour
         switch (action)
         {
             case ActionType.EnvironmentKill:
-                //AddViewers(4, true, action, "Environment Kill", _position);
-                AddViewers(4, true, action, "Élimination environnemental", _position);
+                AddViewers(4, true, action, "Environment Kill", _position);
                 break;
             case ActionType.RefuseBonus:
-                //AddViewers(5, true, action, "Big balls", _position);
-                AddViewers(5, true, action, "Arrogance", _position);
+                AddViewers(5, true, action, "Big balls", _position);
                 break;
             case ActionType.PerfectProjectile:
-                //AddViewers(3, true, action, "So close ouuuh", _position);
-                AddViewers(3, true, action, "Si près ouuuh", _position);
+                AddViewers(3, true, action, "So close ouuuh", _position);
                 break;
             case ActionType.BackToSender:
-                //AddViewers(3, true, action, "Back to mama !", _position);
-                AddViewers(3, true, action, "Retour à l'envoyeur !", _position);
+                AddViewers(3, true, action, "Back to mama !", _position);
                 break;
             case ActionType.Kill:
                 //Un peu spécial
@@ -86,21 +82,18 @@ public class PublicManager : MonoBehaviour
                 {
                     if(multiKillCounter > 5)
                     {
-                        //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
-                        AddViewers(3, false, ActionType.Kill, "Mu-mu-multi éliminations", _position);
+                        AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
                     }
                     else
                     {
-                        //AddViewers(2, false, ActionType.Kill, "Combo kill", _position);
-                        AddViewers(2, false, ActionType.Kill, "Combo !", _position);
+                        AddViewers(2, false, ActionType.Kill, "Combo kill", _position);
                     }
                    
                 }
                 timeLeftForMultiKill = 0.8f; 
                 break;
             case ActionType.PerfectReload:
-                //AddViewers(2, true, action, "Perfect Reload", _position);
-                AddViewers(2, true, action, "Rechargement parfait", _position);
+                AddViewers(2, true, action, "Perfect Reload", _position);
                 break;
             case ActionType.VendettaPrepare:
                 //Special
@@ -112,8 +105,7 @@ public class PublicManager : MonoBehaviour
             case ActionType.Vendetta:
                 if(cause == enemyForVendetta)
                 {
-                    //AddViewers(3, true, action, "Revenge", _position);
-                    AddViewers(3, true, action, "Revanche", _position);
+                    AddViewers(3, true, action, "Revenge", _position);
                 }
                 break;
             case ActionType.SuperLowHp:
@@ -123,28 +115,22 @@ public class PublicManager : MonoBehaviour
                 hpMultiplier = 1.5f;
                 break;
             case ActionType.DamageOnArmor:
-                //AddViewers(2, true, action, "Damage", _position);
-                AddViewers(2, true, action, "Aïe", _position);
+                AddViewers(2, true, action, "Damage", _position);
                 break;
             case ActionType.DamageOnLifeBar:
-                //LoseViewers(3, "So weak", _position);
-                LoseViewers(3, "Si faible", _position);
+                LoseViewers(3, "So weak", _position);
                 break;
             case ActionType.Repeat:
-                //LoseViewers(3, "Stop doing that !", _position);
-                LoseViewers(3, "Répétition", _position);
+                LoseViewers(3, "Stop doing that !", _position);
                 break;
             case ActionType.MissGravityOrb:
-                //LoseViewers(7, "How can you miss this ?!", _position);
-                LoseViewers(7, "Inratable, et pourtant...", _position);
+                LoseViewers(7, "How can you miss this ?!", _position);
                 break;
             case ActionType.MissShotGun:
-                //LoseViewers(2, "You killed the wall", _position);
-                LoseViewers(2, "Tir raté", _position);
+                LoseViewers(2, "You killed the wall", _position);
                 break;
             case ActionType.DeathAndRespawn:
-                //LoseViewers(10, "Somes don't like beggars", _position);
-                LoseViewers(10, "Dernière chance", _position);
+                LoseViewers(10, "Somes don't like beggars", _position);
                 break;
             case ActionType.BonusOnRespawn:
                 AddRawViewers((int)bonus, false, action);

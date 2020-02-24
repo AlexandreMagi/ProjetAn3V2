@@ -88,13 +88,10 @@ public class UiCrossHair : MonoBehaviour
 
     public void WaitFunction()
     {
-        Debug.Log("Remettre wait");
-        //waitGameObject.SetActive(true);
+        waitGameObject.SetActive(true);
         rootCrosshair.gameObject.SetActive(false);
         if (waitGameObject.activeSelf)
             waitGameObject.GetComponent<Animator>().SetTrigger("pop");
-
-        UINewWait.Instance.TriggerWait();
     }
 
     public void StopWaitFunction()
@@ -103,7 +100,6 @@ public class UiCrossHair : MonoBehaviour
             waitGameObject.GetComponent<Animator>().SetTrigger("depop");
         //waitGameObject.SetActive(false);
         rootCrosshair.gameObject.SetActive(true);
-        UINewWait.Instance.RemoveWait();
     }
 
     public void PlayerHasOrb(bool haveOrb)
