@@ -35,6 +35,7 @@ public class Main : MonoBehaviour
 
     [HideInInspector]
     public bool GameEnded = false;
+    public bool lockSceneChange = false;
 
     [SerializeField]
     bool isArduinoMode = false;
@@ -88,6 +89,7 @@ public class Main : MonoBehaviour
             || (posCursor.x < Screen.width && posCursor.x > 0 && posCursor.y < Screen.height && posCursor.y > 0))
             CameraHandler.Instance.DecalCamWithCursor(posCursor);
         
+
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -259,9 +261,47 @@ public class Main : MonoBehaviour
         {
             timeLeftForRaycastCursor -= Time.deltaTime;
         }
+        CheckIfGoBackToMenu();
 
     }
 
+    [SerializeField] private float checkInputEvery = 0.5f;
+    [SerializeField] private float distanceCheckIfInput = 0.03f;
+    float timerCheckInput = 0;
+    [SerializeField] private float timeBeforeGoBackToStart = 10;
+    private float timerGoBack = 5;
+    private Vector3 saveLastCursorPos = Vector3.zero;
+    void CheckIfGoBackToMenu()
+    {
+        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        timerCheckInput -= Time.unscaledDeltaTime;
+        if (timerCheckInput < 0)
+        {
+            timerCheckInput += checkInputEvery;
+            float currDist = Mathf.Sqrt(
+                Mathf.Pow(Mathf.Abs(saveLastCursorPos.x - posCursor.x) / Screen.width, 2) +
+                Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
+
+            Debug.Log(timerGoBack + " / " + GameEnded);
+            if (currDist > distanceCheckIfInput || !GameEnded)
+                timerGoBack = timeBeforeGoBackToStart;
+
+            else
+            {
+                if (timerGoBack < checkInputEvery)
+                {
+                    if (!lockSceneChange)
+                    {
+                        lockSceneChange = true;
+                        SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+                    }
+                }
+                else
+                    timerGoBack -= checkInputEvery;
+            }
+            saveLastCursorPos = posCursor;
+        }
+    }
     public void SetControlState(TriggerSender.Activable control, bool state)
     {
 

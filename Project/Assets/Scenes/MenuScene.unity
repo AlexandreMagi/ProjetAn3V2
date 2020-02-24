@@ -1662,7 +1662,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 8b888ac92c780144080f0a3b2b5c80c4, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -1685,6 +1685,8 @@ MonoBehaviour:
   scaleOver: {x: 1, y: 1.2}
   speedOver: 10
   sceneNameGoTo: LD_03
+  checkInputEvery: 0.5
+  distanceCheckIfInput: 0.03
   timeBeforeGoBackToStart: 10
   dataWeapon: {fileID: 11400000, guid: 4ff7e96314d07c641a95ac7ec3b0510d, type: 2}
   rootLogo: {fileID: 2076310482}
