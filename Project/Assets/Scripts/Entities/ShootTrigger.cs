@@ -52,10 +52,6 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             }
 
 
-            if (GetComponent<DeleteAfterJPOKillsParticles>() != null)
-                GetComponent<DeleteAfterJPOKillsParticles>().StopParticles();
-
-
             Destroy(this);
         }
 

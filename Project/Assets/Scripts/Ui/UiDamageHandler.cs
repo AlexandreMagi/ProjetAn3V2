@@ -51,8 +51,6 @@ public class UiDamageHandler : MonoBehaviour
     [SerializeField]
     Image muzzleFlash = null;
     [SerializeField]
-    Sprite[] muzzleFlashSprites = null;
-    [SerializeField]
     float muzzleFlashTimeStay = 0.1f;
     [SerializeField]
     float muzzleFlashTimeFade = 0.1f;
@@ -136,16 +134,14 @@ public class UiDamageHandler : MonoBehaviour
 
         if (currentMuzzleFlashTimer < Time.unscaledDeltaTime)
         {
-
             muzzleFlash.gameObject.SetActive (false);
             currentMuzzleFlashTimer = 0;
         }
         else
         {
-
             if (currentMuzzleFlashTimer < muzzleFlashTimeFade)
             {
-                float currentAlpha = (currentMuzzleFlashTimer/3) / muzzleFlashTimeFade;
+                float currentAlpha = currentMuzzleFlashTimer / muzzleFlashTimeFade;
                 muzzleFlash.color = new Color(muzzleFlashColor.r, muzzleFlashColor.g, muzzleFlashColor.b, currentAlpha);
             }
             else
@@ -166,8 +162,6 @@ public class UiDamageHandler : MonoBehaviour
     public void MuzzleFlashFunc()
     {
         currentMuzzleFlashTimer = muzzleFlashTimeFade + muzzleFlashTimeStay;
-
-        muzzleFlash.sprite = muzzleFlashSprites[Random.Range(0, muzzleFlashSprites.Length)];
     }
 
     public void GravityFlash(float value)
