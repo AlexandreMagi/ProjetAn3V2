@@ -5,7 +5,30 @@ using System.Collections.Generic;
 #if (UNITY_EDITOR)
 public class MeshCombineWizard : ScriptableWizard {
 
-    public GameObject parentOfObjectsToCombine;
+    [SerializeField, Header("GameObject parent of all mesh to combine")]
+    GameObject parentOfObjectsToCombine;
+
+    [SerializeField, Header ("Path to save mesh combined")]
+    string meshPath = "Assets/AssetDA/CombinedMeshs/Meshs/LD_03/CombinedMeshes_";
+
+    string meshPathComp;
+
+    [SerializeField, Header("Path to save the new prefab")]
+    string prefabPath = "Assets/AssetDA/CombinedMeshs/Prefabs/LD_03/";
+
+    string prefabPathComp;
+
+    [SerializeField, Header("Layer combined mesh will be")]
+    int layerChoose = 9;
+
+    [SerializeField, Header("Combined object is static or not")]
+    bool isStatic = true;
+
+    [SerializeField, Header("Add box collider")]
+    bool boxCollider = false;
+
+    [SerializeField, Header("Add mesh collider")]
+    bool meshCollider = false;
 
     [MenuItem("Combine tool/Mesh Combine")]
     static void CreateWizard() {
@@ -14,6 +37,13 @@ public class MeshCombineWizard : ScriptableWizard {
 
     void OnWizardCreate() {
         if(parentOfObjectsToCombine == null) return;
+        if(meshPath == null) return;
+        if(prefabPath == null) return;
+        if (meshCollider && boxCollider)
+        {
+            Debug.LogError("Combined objects cannot have mesh collider AND box collider");
+            return;
+        }
 
         Vector3 originalPosition = parentOfObjectsToCombine.transform.position;
         parentOfObjectsToCombine.transform.position = Vector3.zero;
@@ -48,7 +78,8 @@ public class MeshCombineWizard : ScriptableWizard {
             Mesh combinedMesh = new Mesh();
             combinedMesh.CombineMeshes(combine);
             materialName += "_" + combinedMesh.GetInstanceID();
-            AssetDatabase.CreateAsset(combinedMesh, "Assets/AssetDA/CombinedMeshs/Meshs/CombinedMeshes_" + materialName + ".asset");
+
+            AssetDatabase.CreateAsset(combinedMesh, meshPath + materialName + ".obj");
 
             string goName = (materialToMeshFilterList.Count > 1)? "CombinedMeshes_" + materialName : "CombinedMeshes_" + parentOfObjectsToCombine.name;
             GameObject combinedObject = new GameObject(goName);
@@ -67,11 +98,16 @@ public class MeshCombineWizard : ScriptableWizard {
             resultGO = combinedObjects[0];
         }
 
-        resultGO.gameObject.isStatic = true;
+        resultGO.gameObject.isStatic = isStatic;
 
-        resultGO.gameObject.layer = 9;
+        resultGO.gameObject.layer = layerChoose;
 
-        PrefabUtility.SaveAsPrefabAssetAndConnect(resultGO, "Assets/AssetDA/CombinedMeshs/Prefabs/" + resultGO.name + ".prefab", InteractionMode.AutomatedAction);
+        if (meshCollider)
+            resultGO.gameObject.AddComponent<MeshCollider>();
+        else if (boxCollider)
+            resultGO.gameObject.AddComponent<BoxCollider>();
+
+        PrefabUtility.SaveAsPrefabAssetAndConnect(resultGO, prefabPath + resultGO.name + ".prefab", InteractionMode.AutomatedAction);
 
         parentOfObjectsToCombine.SetActive(false);
         parentOfObjectsToCombine.transform.position = originalPosition;
