@@ -302,7 +302,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
             CameraHandler.Instance.AddShake(0.5f, transform.position);
             for (int i = 0; i < entityData.nbBulletPerShoot; i++)
             {
-                GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
+                GameObject CurrBullet = Instantiate(entityData.bulletPrefabs,canonPlacement.transform.position,Quaternion.identity);
                 allBullets.Add(CurrBullet.GetComponent<ShooterBullet>());
                 float bulletRotation = (bulletShot - 1) < overrideBulletRotation.Length ? overrideBulletRotation[(bulletShot - 1)] : (bulletShot - 1) < entityData.specifyBulletRotation.Length ? entityData.specifyBulletRotation[(bulletShot - 1)] : Random.Range(0, 360);
                 CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject, bulletRotation, entityData.amplitudeCap);

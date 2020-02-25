@@ -224,7 +224,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             //FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", transform.position, Quaternion.identity, entityData.explosionRadius);
             //speAffect.OnExplosion(bullet.bulletDammage, bullet.forceAppliedOnImpact, bullet.stunValue);
             TakeDamage(100);
-            Debug.Log(collision.gameObject.name);
+
         }
            
             //HitBullet();

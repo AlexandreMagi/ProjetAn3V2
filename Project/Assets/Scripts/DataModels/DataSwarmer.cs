@@ -27,6 +27,8 @@ public class DataSwarmer : DataEnemy
     public float jumpForce = 80f;
     public float speedMultiplierWhenAttacking = 4;
 
+    public bool targetsPlayerAtEndOfPath = true;
+
     [Header("AI variables")]
     public float frontalDetectionSight = 2;
     public float jumpHeight = 3;

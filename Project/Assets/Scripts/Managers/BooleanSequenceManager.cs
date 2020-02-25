@@ -50,11 +50,10 @@ public class BooleanSequenceManager : MonoBehaviour
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Sequences/DataBooleanSequence")]
 public class DataBooleanSequence : ScriptableObject
 {
-    [InlineEditor(InlineEditorObjectFieldModes.Boxed)]
+
     public string boolName = "";
 
     [SerializeField]
-    [InlineEditor(InlineEditorObjectFieldModes.Boxed)]
     bool defaultState = false;
 
 

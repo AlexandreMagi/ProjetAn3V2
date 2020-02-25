@@ -38,6 +38,8 @@ public class Weapon : MonoBehaviour
     GameObject muzzleFlash = null;
     [SerializeField]
     bool rotateWithCursor = true;
+    [HideInInspector]
+    public bool rotateLocked = false;
     [SerializeField]
     GameObject weaponLight = null;
     [SerializeField]
@@ -252,7 +254,7 @@ public class Weapon : MonoBehaviour
                 Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
 
 
-                if (rotateWithCursor)
+                if (rotateWithCursor && !rotateLocked)
                 {
                     Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
                     muzzleFlash.transform.rotation = Quaternion.LookRotation(newDirection);

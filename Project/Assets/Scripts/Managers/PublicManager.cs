@@ -149,6 +149,9 @@ public class PublicManager : MonoBehaviour
             case ActionType.BonusOnRespawn:
                 AddRawViewers((int)bonus, false, action);
                 break;
+            case ActionType.Collectible:
+                AddViewers(1, false, ActionType.Collectible, "Destruction", _position);
+                break;
             default:
                 break;
         }
@@ -291,6 +294,7 @@ public class PublicManager : MonoBehaviour
         DeathAndRespawn = 13,
         VendettaPrepare = 14,
         BonusOnRespawn = 15,
-        DamageOnArmor = 16
+        DamageOnArmor = 16,
+        Collectible = 17
     }
 }
