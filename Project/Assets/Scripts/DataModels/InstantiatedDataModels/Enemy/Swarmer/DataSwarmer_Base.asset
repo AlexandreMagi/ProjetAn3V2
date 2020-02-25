@@ -41,6 +41,7 @@ MonoBehaviour:
   distanceBeforeAttack: 8
   jumpForce: 80
   speedMultiplierWhenAttacking: 4
+  targetsPlayerAtEndOfPath: 1
   frontalDetectionSight: 2
   jumpHeight: 3.5
   jumpDodgeForce: 2800
@@ -55,7 +56,8 @@ MonoBehaviour:
   maxBlockedSuicideTime: 4
   considerStuckThreshhold: 0.5
   initialTimeToConsiderCheck: 0.5
-  mat: {fileID: 2100000, guid: 3700307f4e9af9b43b4b7e99a42dcd36, type: 2}
+  maxHeightToChaseWaypoint: 10
+  mat: {fileID: 2100000, guid: 6c40e2d248447434ca0ae2f32e805353, type: 2}
   vfxToPlayWhenPulledByGrav: VFXOrbPull
   vfxToPlayWhenHoldByGrav: VFXOrbHold
   vfxToPlayWhenReleaseByGrav: VFXOrbRelease
