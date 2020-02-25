@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65228da64313d334287897a79669a36a, type: 3}
-  m_Name: DataCrossHair_Base
+  m_Name: DataCrossHair_Rotating
   m_EditorClassIdentifier: 
   affectedByTimeScale: 0
   baseSize: 0
@@ -36,22 +36,23 @@ MonoBehaviour:
   hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
   outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 1}
   transitionStartAt: 0.2
-  chargingSize: 500
+  chargingSize: 560
   chargingAmplitudeIdle: 0
   chargingSpeed: 10
   chargingRotation: 360
   chargingColor: {r: 1, g: 0.5668884, b: 0, a: 1}
   outlineChargingColor: {r: 0, g: 0, b: 0, a: 1}
-  chargingRotateSpeed: 900
+  chargingRotateSpeed: 500
   chargingOffset: {x: 0, y: 0}
   noBulletSize: 0
   noBulletAmplitudeIdle: 0
   noBulletIdleSpeed: 0
   noBulletColor: {r: 1, g: 1, b: 1, a: 1}
   noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  noBulletAnimTime: 2
   chargedColor: {r: 1, g: 0, b: 0.04082775, a: 1}
   outlineChargedColor: {r: 0, g: 0, b: 0, a: 1}
-  chargedRotateSpeed: 900
+  chargedRotateSpeed: 500
   reactToOrb: 0
   orbChargedColor: {r: 1, g: 1, b: 1, a: 1}
   outlineOrbChargedColor: {r: 1, g: 1, b: 1, a: 1}

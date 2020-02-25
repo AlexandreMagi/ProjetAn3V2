@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class MeshCombineWizard : ScriptableWizard {
 
     [SerializeField, Header("GameObject parent of all mesh to combine")]
-    GameObject parentOfObjectsToCombine;
+    GameObject parentOfObjectsToCombine = null;
 
     [SerializeField, Header ("Path to save mesh combined")]
     string meshPath = "Assets/AssetDA/CombinedMeshs/Meshs/LD_03/CombinedMeshes_";
