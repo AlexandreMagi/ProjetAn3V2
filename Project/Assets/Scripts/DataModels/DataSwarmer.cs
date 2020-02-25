@@ -45,6 +45,8 @@ public class DataSwarmer : DataEnemy
     public float considerStuckThreshhold = 1f;
     public float initialTimeToConsiderCheck = .5f;
 
+    public float maxHeightToChaseWaypoint = .3f;
+
     [Header("Material")]
     public Material mat;
 

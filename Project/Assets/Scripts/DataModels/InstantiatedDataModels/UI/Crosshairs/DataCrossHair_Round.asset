@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DataCrossHair_Round
   m_EditorClassIdentifier: 
   affectedByTimeScale: 0
-  baseSize: 100
+  baseSize: 200
   amplitudeIdle: 5
   speedIdle: 4
   offsetIdle: 0
@@ -36,13 +36,13 @@ MonoBehaviour:
   hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
   outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 1}
   transitionStartAt: 0.4
-  chargingSize: 200
+  chargingSize: 280
   chargingAmplitudeIdle: 15
   chargingSpeed: 40
-  chargingRotation: 360
+  chargingRotation: -360
   chargingColor: {r: 1, g: 0.627451, b: 0, a: 1}
   outlineChargingColor: {r: 0, g: 0, b: 0, a: 1}
-  chargingRotateSpeed: 0
+  chargingRotateSpeed: -50
   chargingOffset: {x: 0, y: 0}
   noBulletSize: 1000
   noBulletAmplitudeIdle: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   noBulletAnimTime: 0.2
   chargedColor: {r: 1, g: 0.627451, b: 0, a: 1}
   outlineChargedColor: {r: 0, g: 0, b: 0, a: 1}
-  chargedRotateSpeed: 0
+  chargedRotateSpeed: -50
   reactToOrb: 0
   orbChargedColor: {r: 1, g: 1, b: 1, a: 1}
   outlineOrbChargedColor: {r: 0, g: 0, b: 0, a: 1}

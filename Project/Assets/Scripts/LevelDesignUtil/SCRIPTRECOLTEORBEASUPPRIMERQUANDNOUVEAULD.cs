@@ -34,7 +34,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     GameObject player = null;
 
     [SerializeField]
-    ParticleSystem pr;
+    ParticleSystem pr = null;
 
     bool pouletCoco = true;
 

@@ -148,7 +148,7 @@ public class UiViewer : MonoBehaviour
         cap.gameObject.SetActive(false);
         TimeScaleManager.Instance.Stop();
         Main.Instance.EndReviveSituation(revive, bonusFromRez);
-        if (revive) UiLifeBar.Instance.AddLife();
+        //if (revive) UiLifeBar.Instance.AddLife();
         yield break;
     }
 
