@@ -24,7 +24,7 @@ public class Main : MonoBehaviour
     int startWithCameraNumber = 0;
 
     [SerializeField]
-    DataDifficulty difficultyData;
+    DataDifficulty difficultyData = null;
 
     bool playerResedAlready = false;
 

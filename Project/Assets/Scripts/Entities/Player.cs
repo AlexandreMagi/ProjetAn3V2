@@ -18,6 +18,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void SetLifeTo(int life)
     {
         health = life;
+        UiLifeBar.Instance.UpdateCapsules(health);
     }
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
@@ -161,7 +162,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void GainArmor(float value)
     {
         armor += value;
-        UiLifeBar.Instance.AddArmor(value);
+        //UiLifeBar.Instance.AddArmor(value);
+        UiLifeBar.Instance.UpdateArmor(armor);
 
         if(armor > 300)
         {
