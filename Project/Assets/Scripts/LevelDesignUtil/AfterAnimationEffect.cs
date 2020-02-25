@@ -11,9 +11,6 @@ public class AfterAnimationEffect : MonoBehaviour
     [SerializeField]
     GameObject[] objectToEnable = null;
 
-    [SerializeField]
-    float timeBeforeStart, shakeForce, shakeDuration;
-
     void disableGameobject()
     {
         if (objectToDisable != null)
@@ -30,11 +27,5 @@ public class AfterAnimationEffect : MonoBehaviour
             {
                 obj.SetActive(true);
             }
-    }
-
-    void Shake()
-    {
-        Debug.Log("Shake");
-        TriggerUtil.TriggerShake(timeBeforeStart, shakeForce, shakeDuration);
     }
 }

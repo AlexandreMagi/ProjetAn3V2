@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6675771386399970489}
   - component: {fileID: 1124092170221758528}
   m_Layer: 0
-  m_Name: MeMissile
+  m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,6 +60,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: bf8be92f49635e440acd5397091181d6, type: 2}
+  - {fileID: 2100000, guid: 6925461ca1ff3ec4cbbdc0255fd16a12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -998,7 +999,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 30
       minScalar: 0
       maxCurve:
         serializedVersion: 2

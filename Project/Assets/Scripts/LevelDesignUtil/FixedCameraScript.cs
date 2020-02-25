@@ -35,8 +35,12 @@ public class FixedCameraScript : MonoBehaviour
         Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in rbList)
         {
-            rb.isKinematic = false;
-            rb.AddExplosionForce(500f, transform.position, 1f);
+            if(rb != null)
+            {
+                rb.isKinematic = false;
+                rb.AddExplosionForce(500f, transform.position, 1f);
+            }
+           
         }
 
         if (this != null)

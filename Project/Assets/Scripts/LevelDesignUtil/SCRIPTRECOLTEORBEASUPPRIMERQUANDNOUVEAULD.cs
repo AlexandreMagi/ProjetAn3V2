@@ -120,10 +120,10 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     {
         if (bPlayerCanDammage && !bItemDestroyed)
         {
-            currentTimer = timerSafeFx;
-            if (currentTimer != 0)
+            if (currentTimer == 0)
             {
                 FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation, multiplierBoom * 2.5f);
+                currentTimer = timerSafeFx;
             }
 
             DammageDone += Dmg / 35;
