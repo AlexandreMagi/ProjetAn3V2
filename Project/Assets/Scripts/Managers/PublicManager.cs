@@ -150,7 +150,7 @@ public class PublicManager : MonoBehaviour
                 AddRawViewers((int)bonus, false, action);
                 break;
             case ActionType.Collectible:
-                AddViewers(1, true, ActionType.Collectible, "Destruction", _position);
+                AddViewers(1, false, ActionType.Collectible, "Destruction", _position);
                 break;
             default:
                 break;
