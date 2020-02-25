@@ -88,7 +88,7 @@ public class UiCrossHair : MonoBehaviour
 
     public void WaitFunction()
     {
-        waitGameObject.SetActive(true);
+        //waitGameObject.SetActive(true);
         rootCrosshair.gameObject.SetActive(false);
         if (waitGameObject.activeSelf)
             waitGameObject.GetComponent<Animator>().SetTrigger("pop");
