@@ -6,6 +6,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 {
     ShootTriggerManager parentManager = null;
 
+    [SerializeField]
+    bool isCollectible = false;
+
     bool isTriggered = false;
 
     //[SerializeField]
@@ -55,6 +58,8 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             if (GetComponent<DeleteAfterJPOKillsParticles>() != null)
                 GetComponent<DeleteAfterJPOKillsParticles>().StopParticles();
 
+            if (isCollectible)
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Collectible, transform.position);
 
             Destroy(this);
         }

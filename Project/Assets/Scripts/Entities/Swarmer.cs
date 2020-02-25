@@ -234,16 +234,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             this.Die();
         }
 
-        if(!isChasingTarget && currentFollow && Vector3.Distance(currentFollow.position, transform.position) >= entityData.maxHeightToChaseWaypoint)
+        if(!isChasingTarget && currentFollow && Mathf.Abs(currentFollow.position.y - transform.position.y) >= entityData.maxHeightToChaseWaypoint)
         {
+            Debug.Log("ding dong");
             pathID++;
             if (pathToFollow != null)
                 currentFollow = pathToFollow.GetPathAt(pathID);
         }
-        /*
+
         if (currentFollow == null)
             target = Player.Instance.transform;
-        */
+
         timeBeingStuck += Time.deltaTime;
 
         if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
