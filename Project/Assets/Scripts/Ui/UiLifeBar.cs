@@ -75,10 +75,12 @@ public class UiLifeBar : MonoBehaviour
         {
             lifeCapsules[i].SetActive(i < life / stockMaxLife * lifeCapsules.Length);
         }
+        stockLife = life;
     }
     public void UpdateArmor(float armor)
     {
         rootVerticalShield.transform.localScale = new Vector3(1, armor / stockMaxArmor, 1);
+        stockArmor = armor;
     }
     public void EndGame()
     {

@@ -150,6 +150,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 
                 }
 
+                UiDamageHandler.Instance.PlayerTookDammage();
                 UiLifeBar.Instance.PlayerTookDamage(armor, health);
             }
         }
@@ -166,11 +167,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         //UiLifeBar.Instance.AddArmor(value);
         UiLifeBar.Instance.UpdateArmor(armor);
 
-        if(armor > 300)
+        if(armor > entityData.armor)
         {
-            armor = 300;
+            armor = entityData.armor;
         }
-        //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+        UiLifeBar.Instance.UpdateArmor(armor);
 
     }
 
