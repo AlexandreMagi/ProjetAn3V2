@@ -250,7 +250,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if(!isChasingTarget && currentFollow && Mathf.Abs(currentFollow.position.y - transform.position.y) >= entityData.maxHeightToChaseWaypoint)
         {
-            Debug.Log("ding dong");
+
             pathID++;
             if (pathToFollow != null)
                 currentFollow = pathToFollow.GetPathAt(pathID);
@@ -533,6 +533,38 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                 currentFollow = target;
                             }
 
+                        }
+                        else
+                        {
+                            //Verification of next path distance
+                            Transform nextFollow = pathToFollow.GetPathAt(pathID + 1);
+                            
+                            if (nextFollow != null && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(nextFollow.position.x, nextFollow.position.z)) < entityData.distanceBeforeNextPath)
+                            {
+                                pathID++;
+                                currentFollow = pathToFollow.GetPathAt(pathID);
+                                if (currentFollow == null)
+                                {
+                                    Debug.Log("End of path");
+                                    pathID--;
+                                    isChasingTarget = true;
+                                    target = Player.Instance.transform;
+                                }
+
+                                if (currentFollow != null && currentFollow != target)
+                                {
+                                    //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
+                                    //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
+
+                                    v3VariancePoisitionFollow = new Vector3(
+                                        currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
+                                        currentFollow.position.y,
+                                        currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
+                                    );
+
+                                    //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
+                                }
+                            }
                         }
                         //Debug.Log("rotate");
 
