@@ -409,8 +409,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
         }
 
-        Debug.Log(currentFollow);
-
         if (isGettingOutOfObstacle)
         {
             //Movement
