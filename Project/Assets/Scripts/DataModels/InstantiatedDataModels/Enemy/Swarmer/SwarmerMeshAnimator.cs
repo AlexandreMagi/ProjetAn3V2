@@ -23,7 +23,7 @@ public class SwarmerMeshAnimator : MonoBehaviour
     [SerializeField] float legDistForStepReplacement = 0.3f;
     [SerializeField] float legStepTime = 0.3f;
 
-    [SerializeField] AnimationCurve stepRotateX;
+    [SerializeField] AnimationCurve stepRotateX = null;
     [SerializeField] float stepRotateMultiplier = 90;
 
     [SerializeField] float purcentageFollowHead = 0;
