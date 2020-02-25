@@ -29,13 +29,14 @@ public class UINewWait : MonoBehaviour
         }
         waitRoot.SetActive(true);
         waitAnmatr.SetTrigger("pop");
-        
+        Weapon.Instance.rotateLocked = true;
     }
 
     public void RemoveWait()
     {
         waitAnmatr.SetTrigger("depop");
         Invoke("RemoveWaitTrue", 0.39f);
+        Weapon.Instance.rotateLocked = false;
     }
 
 
