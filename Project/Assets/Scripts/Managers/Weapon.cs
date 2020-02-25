@@ -95,6 +95,11 @@ public class Weapon : MonoBehaviour
 
     }
 
+    public float GetOrbValue()
+    {
+        return mainContainer.PlayerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
+    }
+
     public Vector2Int GetBulletAmmount()
     {
         return new Vector2Int(bulletRemaining, weapon.bulletMax);
