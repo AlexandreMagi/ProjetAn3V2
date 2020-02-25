@@ -504,7 +504,7 @@ MonoBehaviour:
     m_Bits: 16777216
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 2
+  antialiasingMode: 0
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25
@@ -674,6 +674,7 @@ MonoBehaviour:
     type: 3}
   muzzleFlash: {fileID: 3069857249444509699}
   rotateWithCursor: 0
+  rotateLocked: 0
   weaponLight: {fileID: 8225693594273001723}
   ignoreBulletLimitForCharge: 1
   shotgunBounces: 0
@@ -921,7 +922,7 @@ Light:
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
