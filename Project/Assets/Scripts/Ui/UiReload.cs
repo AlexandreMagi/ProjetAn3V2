@@ -99,7 +99,7 @@ public class UiReload : MonoBehaviour
             bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
             Outline componentOutline = bulletSprites[i].AddComponent<Outline>();
             componentOutline.effectColor = Color.black;
-            componentOutline.effectDistance = new Vector2(1, -1) * 5;
+            componentOutline.effectDistance = new Vector2(1, -1) * reloadData.outlineSize;
             bulletSprites[i].SetActive(false);
         }
 
@@ -126,6 +126,7 @@ public class UiReload : MonoBehaviour
 
         Color bulletColor = bulletAmount.x == 0 ? reloadData.noBulletColor : bulletAmount.x < reloadData.shortNumberOfBullet ? reloadData.shortOnBulletColor : bulletAmount.x < reloadData.midNumberOfBullet ? reloadData.midOnBulletColor : reloadData.highOnBulletColor;
         bulletRemainingText.color = bulletColor;
+        bulletRemainingText.color = reloadData.textColor;
 
         if (holaValue < bulletPull -1 + reloadData.holaRange) holaValue += Time.unscaledDeltaTime * (bulletPull - 1 + reloadData.holaRange) / reloadData.holaFeedbackTime;
 
@@ -142,7 +143,7 @@ public class UiReload : MonoBehaviour
             if (Mathf.Abs(i - holaValue) < reloadData.holaRange) bulletSprites[i].transform.localScale = Vector3.one + Vector3.one * reloadData.holaEffectOnBullet.Evaluate((holaValue - i + reloadData.holaRange) / reloadData.holaRange) * reloadData.holaScaleMultiplier;
             else bulletSprites[i].transform.localScale = Vector3.one;
 
-            if (i < bulletAmount.x - bulletAmount.y + nbBulletShot) bulletSprites[i].GetComponent<Image>().color = Color.yellow;
+            if (i < bulletAmount.x - bulletAmount.y + nbBulletShot) bulletSprites[i].GetComponent<Image>().color = reloadData.suplementaryBulletColor;
             else bulletSprites[i].GetComponent<Image>().color = bulletColor;
 
             if (i >= nbBulletShot)

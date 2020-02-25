@@ -19,6 +19,7 @@ public class DataReloadGraph : ScriptableObject
     public AnimationCurve holaEffectOnBullet = AnimationCurve.Linear(0, 0, 1, 1);
 
     public float baseSize = 100;
+    public float outlineSize = 5;
 
     public float bulletFallSpeep = 3;
 
@@ -32,6 +33,8 @@ public class DataReloadGraph : ScriptableObject
     public Color midOnBulletColor = Color.red;
     public Color highOnBulletColor = Color.white;
     public Color noBulletColor = Color.black;
+    public Color suplementaryBulletColor = Color.yellow;
+    public Color textColor = Color.yellow;
     public float scaleIfNoBullet = 0.2f;
     public float scaleEmptySpeed = 1;
     public float scaleRecoverSpeed = 3;
