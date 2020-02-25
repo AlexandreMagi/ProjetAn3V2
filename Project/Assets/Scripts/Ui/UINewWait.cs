@@ -28,13 +28,15 @@ public class UINewWait : MonoBehaviour
             obj.SetActive(false);
         }
         waitRoot.SetActive(true);
-        waitAnmatr.SetTrigger("pop");
+        if (waitRoot.activeSelf)
+            waitAnmatr.SetTrigger("pop");
         
     }
 
     public void RemoveWait()
     {
-        waitAnmatr.SetTrigger("depop");
+        if (waitRoot.activeSelf)
+            waitAnmatr.SetTrigger("depop");
         Invoke("RemoveWaitTrue", 0.39f);
     }
 
