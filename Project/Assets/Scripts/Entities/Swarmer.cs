@@ -56,7 +56,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         ReactGravity<DataSwarmer>.DoFreeze(rbBody);
     }
-
     public void ResetSwarmer(DataEntity _entityData)
     {
         entityData = _entityData as DataSwarmer;
@@ -75,7 +74,21 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentParticleOrb) currentParticleOrb.Stop();
         hasPlayedFxOnPull = false;
         upPartMesh.SetActive(true);
+
+        if (Random.Range(0, 100) < 30)
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Spawn", false, 0.3f, 0.3f);
+        Invoke("MaybeGrunt", 1f);
         //InitColor();
+    }
+
+    void MaybeGrunt()
+    {
+        if (gameObject.activeSelf)
+        {
+            if (Random.Range(0, 100) < 5)
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Grunt", false, 0.5f, 0.3f);
+            Invoke("MaybeGrunt", 1f);
+        }
     }
 
     public void OnHold()
@@ -182,7 +195,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (SequenceHandler.Instance != null)
             SequenceHandler.Instance.OnEnemyKill();
 
-        InstansiateDeadBody();
+        InstansiateDeadBody();CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
 
         upPartMesh.SetActive(false);
         this.gameObject.SetActive(false);
@@ -222,6 +235,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         rbBody = GetComponent<Rigidbody>();
 
         lastKnownPosition = transform.position;
+        Invoke("MaybeGrunt", 1f);
         //TeamsManager.Instance.RegistertoTeam(this.transform, enemyData.team);
     }
 
@@ -543,7 +557,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
                             //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
                             rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
-                            //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
+                            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
                         }
                         else
                             nState = State.Basic;

@@ -95,6 +95,10 @@ public class Weapon : MonoBehaviour
 
     }
 
+    void HitMarkerSoundFunc()
+    {
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 1, 0, 3f, false);
+    }
     public float GetOrbValue()
     {
         return mainContainer.PlayerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
@@ -187,7 +191,11 @@ public class Weapon : MonoBehaviour
             {
                 if (!currentOrb.GetComponent<GravityOrb>().hasExploded)
                     currentOrb.GetComponent<GravityOrb>().StopHolding();
-                
+
+            }
+            else
+            {
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 0.3f, 0.2f);
             }
         }
     }
@@ -202,6 +210,7 @@ public class Weapon : MonoBehaviour
                 if (currentChargePurcentage > 1)
                 {
                     UiCrossHair.Instance.JustFinishedCharging();
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 0.5f, 0.1f);
                     currentChargePurcentage = 1;
                 }
             }
@@ -272,6 +281,7 @@ public class Weapon : MonoBehaviour
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun(weaponMod);
 
+                        Invoke("HitMarkerSoundFunc", 0.05f * Time.timeScale);
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
 
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
@@ -307,6 +317,7 @@ public class Weapon : MonoBehaviour
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, 0.5f, 0.2f);
 
         }
         else
