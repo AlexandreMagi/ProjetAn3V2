@@ -9,6 +9,9 @@ public class KillerObject : MonoBehaviour
     [SerializeField]
     bool killEnemyEqualsDamage = false;
 
+    [SerializeField]
+    bool countsAsPlayerKill = true;
+
 
     public void Update()
     {
@@ -35,8 +38,15 @@ public class KillerObject : MonoBehaviour
                     Player.Instance.TakeDamage(other.GetComponent<Swarmer>().GetDamage());
             }
 
-            otherEnemy.TakeDamage(999999);
-            timeBeforeEndOfMulti = 0.3f;
+            if (countsAsPlayerKill)
+            {
+                otherEnemy.TakeDamage(999999);
+                timeBeforeEndOfMulti = 0.3f;
+            }
+            else
+            {
+                otherEnemy.ForceKill();
+            }
 
         }
     }
