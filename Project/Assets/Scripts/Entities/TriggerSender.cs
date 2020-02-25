@@ -70,7 +70,7 @@ public class TriggerSender : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(typeTrigger == TriggerType.EnemyFollow)
+        if(typeTrigger == TriggerType.EnemyFollow && other.gameObject.layer == LayerMask.NameToLayer ("Camera"))
         {
             enemyFollow = other.transform;
         }
