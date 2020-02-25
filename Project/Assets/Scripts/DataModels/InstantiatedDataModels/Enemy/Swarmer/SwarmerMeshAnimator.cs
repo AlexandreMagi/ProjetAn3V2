@@ -31,6 +31,8 @@ public class SwarmerMeshAnimator : MonoBehaviour
 
     [SerializeField] float randomAddedPos = 0.5f;
 
+    [SerializeField] bool isBoss = false;
+
     Quaternion trueRotation;
 
     // Start is called before the first frame update
@@ -44,7 +46,7 @@ public class SwarmerMeshAnimator : MonoBehaviour
         }
         trueRotation = refForUpBox.rotation;
 
-        if (lookAt == null) lookAt = Player.Instance.transform;
+        if (lookAt == null && !isBoss) lookAt = Player.Instance.transform;
     }
 
     // Update is called once per frame
