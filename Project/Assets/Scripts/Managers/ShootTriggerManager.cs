@@ -148,7 +148,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (soundPlayed != "")
         {
-            CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
         }
 
         if (startsNextSequenceOnTrigger)

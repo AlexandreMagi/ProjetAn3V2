@@ -70,6 +70,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         if (health > 0)
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "PlayerDamage", false, 1, 0.2f);
             CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
             TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
             bool armorJustBroke = false;

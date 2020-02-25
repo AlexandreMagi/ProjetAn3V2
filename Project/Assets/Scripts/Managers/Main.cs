@@ -42,11 +42,18 @@ public class Main : MonoBehaviour
 
     public static Main Instance { get; private set; }
 
-    
+    AudioSource hSoundHandlerMainMusic = null;
+
 
     void Awake()
     {
         Instance = this;
+    }
+
+    void Start ()
+    {
+
+        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
     }
 
     // Update is called once per frame
@@ -128,11 +135,13 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             SceneHandler.Instance.RestartScene(.3f, true);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -383,6 +392,8 @@ public class Main : MonoBehaviour
         Player.Instance.DieForReal();
         UiLifeBar.Instance.EndGame();
         GameEnded = true;
+
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
     }
 
     private void DoResurrection(float bonus)
