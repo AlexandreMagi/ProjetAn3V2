@@ -8,8 +8,8 @@ public class ScriptFlicker : MonoBehaviour
 
     [SerializeField] bool independantFromTimeScale = false;
     [SerializeField] bool flickerPosition = false;
-    [SerializeField, ShowIf("flickerPosition")] float moveRange = 0.1f;
-    [SerializeField, ShowIf("flickerPosition")] float moveFlickDuration = 0.1f;
+    [ShowIf("flickerPosition")] public float moveRange = 0.1f;
+    [ShowIf("flickerPosition")] public float moveFlickDuration = 0.1f;
     Vector3 initPos;
     Vector3 currentPos;
     Vector3 targetPos = Vector3.zero;
