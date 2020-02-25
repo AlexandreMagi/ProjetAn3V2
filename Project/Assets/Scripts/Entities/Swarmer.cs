@@ -240,10 +240,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if (pathToFollow != null)
                 currentFollow = pathToFollow.GetPathAt(pathID);
         }
-
+        /*
         if (currentFollow == null)
             target = Player.Instance.transform;
-
+        */
         timeBeingStuck += Time.deltaTime;
 
         if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
