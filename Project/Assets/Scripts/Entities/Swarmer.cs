@@ -428,7 +428,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             //Movement
             Vector3 direction = (new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position).normalized;
-            rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+
+            bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, .5f, maskOfWall);
+
+            rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f:1));
 
             bool moveRight = false;
 
@@ -498,7 +501,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     //TODO : Follow the path
                     Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
 
-                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+                    bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, .5f, maskOfWall);
+                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
 
 
                     if (!isChasingTarget && pathToFollow != null)
