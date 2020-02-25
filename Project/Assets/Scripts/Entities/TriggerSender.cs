@@ -79,7 +79,7 @@ public class TriggerSender : MonoBehaviour
         
     void StartTrigger()
     {
-        if(needsSequenceIndex && securitySequenceIndexRequired <= SequenceHandler.Instance.GetCurrentSequenceIndex())
+        if((needsSequenceIndex && securitySequenceIndexRequired <= SequenceHandler.Instance.GetCurrentSequenceIndex()) || !needsSequenceIndex)
         {
             if (!timerStarted)
             {
