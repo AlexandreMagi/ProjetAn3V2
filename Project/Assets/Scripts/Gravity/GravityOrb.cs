@@ -67,7 +67,7 @@ public class GravityOrb : MonoBehaviour
 
             StartCoroutine("OnHoldAttraction");
 
-            //CustomSoundManager.Instance.PlaySound(MainCam.gameObject, "Sound_Orb_Boosted", false, 0.5f);
+            CustomSoundManager.Instance.PlaySound(MainCam.gameObject, "Sound_Orb_Boosted", false, 0.5f);
             return true;
             
         }
@@ -85,7 +85,7 @@ public class GravityOrb : MonoBehaviour
 
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sound_Orb_Boosted", false, 0.3f);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Sound_Orb_Boosted", false, 0.3f);
     }
 
     void OnAttractionStart()
@@ -142,7 +142,7 @@ public class GravityOrb : MonoBehaviour
         {
 
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
-            //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
             Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
             if (tHits.Length > 0)

@@ -29,4 +29,5 @@ public class DataWeaponMod : ScriptableObject
     [Header("Other")]
     public float shootValueUiRecoil = 1;
     public float hitValueUiRecoil = 1;
+    public string soundPlayed = "shootSound";
 }

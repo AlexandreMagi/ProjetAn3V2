@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CustomSoundManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class CustomSoundManager : MonoBehaviour
     float fCurrentTimer = 0;
     int nSoundDir = 0;
 
-    [SerializeField, Range (0.1f,1f)] float fMaxVolumeModifier = 0.5f;
+    [SerializeField,PropertyRange(0.1f, 1f)] float fMaxVolumeModifier = 0.5f;
     float nVolumeModifierLocal = 1;
 
     float fTimerBeforeNextSound = 5;
@@ -158,7 +159,7 @@ public class CustomSoundManager : MonoBehaviour
         {
             fCurrentTimerSound -= fTimerBeforeNextSound;
             fTimerBeforeNextSound = Random.Range(vRandomTimeBetweenAmbianceSound.x, vRandomTimeBetweenAmbianceSound.y);
-            PlaySound(Camera.main.gameObject, tSoundsAmbient[Random.Range(0, tSoundsAmbient.Length)], false, fVolumeAmbiance, vRandomAndFixedPitchAmbiance.x, vRandomAndFixedPitchAmbiance.y);
+            PlaySound(CameraHandler.Instance.renderingCam.gameObject, tSoundsAmbient[Random.Range(0, tSoundsAmbient.Length)], false, fVolumeAmbiance, vRandomAndFixedPitchAmbiance.x, vRandomAndFixedPitchAmbiance.y);
         }
     }
 
@@ -171,7 +172,7 @@ public class CustomSoundManager : MonoBehaviour
         }
     }
 
-    public GameObject PlaySound(GameObject hSource, string sSoundName, bool bLoop, float fVolume, float fPitchRandom = 0, float fPitchConstantModifier = 0, bool bCanPlayIfAlreadyExisting = true)
+    public AudioSource PlaySound(GameObject hSource, string sSoundName, bool bLoop, float fVolume, float fPitchRandom = 0, float fPitchConstantModifier = 0, bool bCanPlayIfAlreadyExisting = true)
     {
         int IndexSound = -1;
         for (int i = 0; i < tSounds.Length; i++)
@@ -192,7 +193,7 @@ public class CustomSoundManager : MonoBehaviour
                 {
                     if (hAudioSources[i].GetComponent<AudioSource>().isPlaying && hAudioSources[i].GetComponent<AudioSource>().clip == tSounds[IndexSound])
                     {
-                        return hAudioSources[i];
+                        return hAudioSources[i].GetComponent<AudioSource>();
                     }
                 }
             }
@@ -208,7 +209,7 @@ public class CustomSoundManager : MonoBehaviour
                     hAudioSources[i].GetComponent<AudioSource>().pitch = (1 + Random.Range(-fPitchRandom, fPitchRandom) + fPitchConstantModifier) * TimeScaleMultiplier;
                     hAudioSources[i].GetComponent<AudioSource>().volume = fVolume * nVolumeModifierLocal;
                     hAudioSources[i].GetComponent<AudioSource>().Play();
-                    return hAudioSources[i];
+                    return hAudioSources[i].GetComponent<AudioSource>();
                 }
             }
         }
