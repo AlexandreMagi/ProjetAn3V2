@@ -57,6 +57,10 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.LightDisabler), SerializeField]
     Light[] lightsToKill = null;
 
+    [SerializeField]
+    bool needsSequenceIndex = false;
+    [ShowIf("needsSequenceIndex"), SerializeField]
+    float securitySequenceIndexRequired = 0;
 
     [SerializeField]
     float timeBeforeStart = 0;
@@ -75,10 +79,15 @@ public class TriggerSender : MonoBehaviour
         
     void StartTrigger()
     {
-        if (!timerStarted)
+        if(needsSequenceIndex && securitySequenceIndexRequired <= SequenceHandler.Instance.GetCurrentSequenceIndex())
         {
-            timerStarted = true;
-            DoTrigger();
+            if (!timerStarted)
+            {
+                timerStarted = true;
+                DoTrigger();
+
+            }
+
 
         }
 
