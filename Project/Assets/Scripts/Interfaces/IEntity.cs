@@ -7,5 +7,7 @@
     void Heal(float value);
 
     void SetDataEnt(DataEntity data);
+
+    void ForceKill();
 }
 

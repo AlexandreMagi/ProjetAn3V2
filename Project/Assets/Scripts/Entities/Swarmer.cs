@@ -240,6 +240,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
             {
+                Debug.Log("Stuckloop");
+
                 if(timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
                 {
                     isGettingOutOfObstacle = false;
