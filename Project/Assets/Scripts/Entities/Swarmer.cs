@@ -21,7 +21,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     Vector3 lastKnownPosition = Vector3.zero;
 
     [SerializeField]
-    LayerMask maskOfWall;
+    LayerMask maskOfWall = default;
 
     [SerializeField]
     GameObject deadBody = null;
@@ -234,27 +234,38 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             this.Die();
         }
 
+        if(!isChasingTarget && currentFollow && Vector3.Distance(currentFollow.position, transform.position) >= entityData.maxHeightToChaseWaypoint)
+        {
+            pathID++;
+            if (pathToFollow != null)
+                currentFollow = pathToFollow.GetPathAt(pathID);
+        }
+
+        if (currentFollow == null)
+            target = Player.Instance.transform;
+
         timeBeingStuck += Time.deltaTime;
 
         if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
         {
             if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
             {
-                Debug.Log("Stuckloop");
-
                 if(timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
                 {
                     isGettingOutOfObstacle = false;
                 }
                 else
                 {
-                    pathID++;
-                    if(pathToFollow != null)
+                   if(pathToFollow != null)
                         currentFollow = pathToFollow.GetPathAt(pathID);
-                    if (currentFollow == null)
+
+                    if(currentFollow == null)
                     {
-                        pathID--;
                         isChasingTarget = true;
+                    }
+
+                    if (isChasingTarget)
+                    {
                         target = Player.Instance.transform;
                     }
                 }
@@ -398,6 +409,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
         }
 
+        Debug.Log(currentFollow);
+
         if (isGettingOutOfObstacle)
         {
             //Movement
@@ -454,13 +467,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 
             }
         }
-        else { 
+        else {
+
             //Pathfinding
             if ((currentFollow != null || target != null) && entityData != null && rbBody.useGravity && !isAirbone)
             {
 
                 if (nState == State.Basic)
                 {
+                    
+
                     if (isChasingTarget && target != null)
                     {
                         v3VariancePoisitionFollow = target.position;
