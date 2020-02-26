@@ -142,7 +142,6 @@ public class SequenceHandler : MonoBehaviour
         }
 
 
-
         //VERIFICATION DES SEQUENCES
         if (readSequences && !isWaitingTimer)
         {
@@ -187,11 +186,15 @@ public class SequenceHandler : MonoBehaviour
                 //CHECK AVANCEE KILL SEQUENCE
                 if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
                 {
+                    Main.Instance.setAIWalls(true);
+
                     if (enemiesKilled >= currentSequence.enemiesToKillInSequence)
                     {
                         TriggerUtil.TriggerSequence(currentSequence.timeBeforeNextSequenceOnKills);
                         isWaitingTimer = true;
                     }
+
+                   
                 }
 
                 //CHECK BOOLEAN SEQUENCE
@@ -231,6 +234,8 @@ public class SequenceHandler : MonoBehaviour
     /// </summary>
     public void NextSequence(bool isForced = false)
     {
+        Main.Instance.setAIWalls(false);
+
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
 
         
