@@ -49,6 +49,8 @@ public class DataSwarmer : DataEnemy
 
     public float maxHeightToChaseWaypoint = .3f;
 
+    public float rayCastRangeToConsiderAirbone = .7f;
+
     [Header("Material")]
     public Material mat;
 
