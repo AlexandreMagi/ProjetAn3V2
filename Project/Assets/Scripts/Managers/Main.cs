@@ -377,6 +377,10 @@ public class Main : MonoBehaviour
 
             //Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
         }
+        else
+        {
+            DoGameOver();
+        }
         
     }
 
