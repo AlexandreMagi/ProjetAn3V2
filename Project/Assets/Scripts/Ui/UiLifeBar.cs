@@ -128,7 +128,8 @@ public class UiLifeBar : MonoBehaviour
     public void UpdateArmor(float armor)
     {
         //rootVerticalShield.transform.localScale = new Vector3(1, armor / stockMaxArmor, 1);
-        if (stockArmor < armor) lastArmor = armor;
+        if (stockArmor <= armor)
+            lastArmor = armor;
         stockArmor = armor;
         currentRecoverPurcentage = 0;
     }
