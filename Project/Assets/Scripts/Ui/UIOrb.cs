@@ -46,9 +46,10 @@ public class UIOrb : MonoBehaviour
         {
             animPurcentage = 0;
         }
-        /*
+        
         if (animObtained < 1)
         {
+            orbObtainedMesh.transform.localScale = animWhenObtained.Evaluate(animObtained) * animMultiplierObtained * Vector3.one;
             animObtained += Time.unscaledDeltaTime / animTimeObtained;
         }
         if (animObtained > 1)
@@ -56,7 +57,7 @@ public class UIOrb : MonoBehaviour
             orbObtainedMesh.transform.localScale = Vector3.zero;
             animObtained = 1;
         }
-        */
+        
         foreach (var orb in orbs)
         {
             orb.refScale = currVal > 1 ? 1 + animWhenFull.Evaluate(animPurcentage) * animMultiplier : currVal;
@@ -66,6 +67,6 @@ public class UIOrb : MonoBehaviour
 
     public void ActivateOrb()
     {
-
+        animObtained = 0;
     }
 }
