@@ -53,7 +53,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             }
             else
             {
-                FxManager.Instance.PlayFx("VFX_EnvironnementTrigger", this.transform.position, Quaternion.identity);
+                FxManager.Instance.PlayFx("VFX_CollectiblesShoot", this.transform.position, Quaternion.identity);
                 CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
             }
 
