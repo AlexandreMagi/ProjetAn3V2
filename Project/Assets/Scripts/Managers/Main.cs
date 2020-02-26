@@ -9,6 +9,7 @@ public class Main : MonoBehaviour
     [SerializeField]
     private bool playerCanOrb = true;
     private bool playerCanShoot = true;
+    private bool playerUsedToHaveOrb = false;
 
     public bool PlayerCanOrb {get { return playerCanOrb; } }
 
@@ -341,6 +342,11 @@ public class Main : MonoBehaviour
 
     public void TriggerGameOverSequence()
     {
+        if (playerCanOrb)
+        {
+            playerUsedToHaveOrb = true;
+        }
+
         playerCanShoot = false;
         playerCanOrb = false;
 
@@ -400,7 +406,7 @@ public class Main : MonoBehaviour
     {
 
         playerCanShoot = true;
-        playerCanOrb = true;
+        if(playerUsedToHaveOrb) playerCanOrb = true;
 
         Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
         Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);

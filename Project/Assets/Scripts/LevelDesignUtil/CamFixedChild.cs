@@ -12,12 +12,14 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
     {
-        parentScript.hitByBullet();
+        if(parentScript != null)
+            parentScript.hitByBullet();
     }
 
     public void OnHit(DataWeaponMod mod, Vector3 position)
     {
-        parentScript.hitByBullet();
+        if (parentScript != null)
+            parentScript.hitByBullet();
     }
 
     public void OnHitShotGun(DataWeaponMod mod) { }
