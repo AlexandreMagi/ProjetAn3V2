@@ -14,7 +14,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerBooleanSequenceCoroutine(float timeBeforeStart)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         SequenceHandler.Instance.NextSequence();
 
@@ -29,7 +29,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerSpawnersCoroutine(float timeBeforeStart, Spawner[] spawners)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         foreach (Spawner spawner in spawners)
         {
@@ -47,7 +47,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerSlowMoCoroutine(float timeBeforeStart, float duration, float force)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         TimeScaleManager.Instance.AddSlowMo(force, duration);
 
@@ -62,7 +62,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         foreach (Animator anim in animators)
         {
@@ -80,7 +80,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerActivationCoroutine(float timeBeforeStart, TriggerSender.Activable activable, bool state)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         Main.Instance.SetControlState(activable, state);
 
@@ -95,7 +95,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, float volume)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundName, false, volume);
 
@@ -115,7 +115,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce,float shakeDuration, Vector3 pos)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos, shakeDuration);
         else CameraHandler.Instance.AddShake(shakeForce, shakeDuration);
@@ -132,7 +132,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerAnimationsFromTagsCoroutine(float timeBeforeStart, string[] tags)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         List<Animator> animTag = new List<Animator>();
         Animator anim;
@@ -169,7 +169,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerAnimationsCoroutine(float timeBeforeStart, Animator[] anims)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         foreach (Animator anima in anims)
         {
@@ -187,7 +187,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerBooleanSequenceCoroutine(float timeBeforeStart, string boolName, bool state)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         BooleanSequenceManager.Instance.SetStateOfBoolSequence(boolName, state);
 
@@ -202,7 +202,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerFollowTargetCoroutine(float timeBeforeStart, Transform target, float timeGoTo, float timeGoBack, float followDuration)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         CameraHandler.Instance.CameraLookAt(target, timeGoTo, timeGoBack, followDuration);
 

@@ -11,6 +11,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     bool isTriggered = false;
 
+    [SerializeField]
+    float armorGiven = 0;
+
     //[SerializeField]
     //bool keepsCombo = true;
 
@@ -57,6 +60,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
             if (GetComponent<DeleteAfterJPOKillsParticles>() != null)
                 GetComponent<DeleteAfterJPOKillsParticles>().StopParticles();
+
+            if (armorGiven != 0)
+                Player.Instance.GainArmor(armorGiven);
 
             if (isCollectible)
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Collectible, transform.position);
