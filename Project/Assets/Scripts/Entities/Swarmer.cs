@@ -284,7 +284,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (timeBeingStuck >= entityData.timeForUpwardsTransition && !hasTriedUp)
                 {
                     hasTriedUp = true;
-                    transform.Translate(Vector3.up * 0.15f);
+                    rbBody.AddForce(Vector3.up * 20);
                 }
 
                 if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
@@ -382,10 +382,18 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if(currentFollow)
                 angle = Vector3.Angle(forward, currentFollow.position - transform.position);
 
+            RaycastHit hit;
             //Vérification frontale. Seulement valide si c'est "relativement" dans la direction où le mob veut aller.
-            if (Physics.Raycast(adaptedPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall) && angle <= 10)
+            if (Physics.Raycast(adaptedPosition, forward, out hit, entityData.frontalDetectionSight, maskOfWall) && angle <= 10)
             {
                 //Debug.Log("Obstacle found.");
+
+                //Si il est bloqué contre une caisse, il la dégage
+                if(hit.collider.GetComponent<Prop>() != null)
+                {
+                    hit.collider.attachedRigidbody.AddForce(forward * entityData.pushForce + Vector3.up * entityData.upwardsPushForce);
+                }
+
                 Debug.DrawRay(adaptedPosition, Vector3.up, Color.green);
                 Debug.DrawRay(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, Color.red);
 

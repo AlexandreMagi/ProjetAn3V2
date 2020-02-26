@@ -52,6 +52,9 @@ public class DataSwarmer : DataEnemy
 
     public float rayCastRangeToConsiderAirbone = .7f;
 
+    public float pushForce = 150;
+    public float upwardsPushForce = 50;
+
     [Header("Material")]
     public Material mat;
 
