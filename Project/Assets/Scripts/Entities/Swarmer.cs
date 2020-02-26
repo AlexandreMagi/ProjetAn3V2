@@ -521,6 +521,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //Pathfinding
             if ((currentFollow != null || target != null) && entityData != null && rbBody.useGravity && !isAirbone)
             {
+                Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
+                Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
+                Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
                 Debug.DrawRay(transform.position + Vector3.up * .5f, v3VariancePoisitionFollow - (transform.position + Vector3.up * .5f), Color.cyan);
 
                 if (nState == State.Basic)
@@ -597,16 +600,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
                                 if (currentFollow != null && currentFollow != target)
                                 {
-                                    //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
-                                    //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
+                                    Vector3 initialPositionOfRayLeft = transform.position + Vector3.up * .5f + forward + left * .5f;
+                                    Vector3 initialPositionOfRayRight = transform.position + Vector3.up * .5f + forward + right * .5f;
 
-                                    v3VariancePoisitionFollow = new Vector3(
+                                    do
+                                    {
+                                        v3VariancePoisitionFollow = new Vector3(
                                         currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
                                         currentFollow.position.y,
                                         currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
-                                    );
-
-                                    //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
+                                        );
+                                    } while (!Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayLeft, 50f, maskOfWall) && !Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayRight, 50f, maskOfWall));
                                 }
                             }
                         }
