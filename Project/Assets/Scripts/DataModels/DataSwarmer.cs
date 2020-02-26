@@ -42,6 +42,7 @@ public class DataSwarmer : DataEnemy
     public float sideDetectionSight = 1;
     public float dodgeSlideForce = 350;
 
+    public float timeForUpwardsTransition = .2f;
     public float maxBlockedRetryPathTime = 2f;
     public float maxBlockedSuicideTime = 4f;
     public float considerStuckThreshhold = 1f;

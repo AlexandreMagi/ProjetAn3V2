@@ -11,7 +11,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     float elapsedTime = 0;
     float timerWait = 0;
 
+    float tryUpCd = 0;
+
     float jumpElapsedTime = 0;
+    bool hasTriedUp = false;
     bool isGettingOutOfObstacle = false;
     bool isOutStepTwo = false;
     Vector3 obstacleDodgePoint = Vector3.zero;
@@ -246,6 +249,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         base.Update();
 
+        if (hasTriedUp)
+        {
+            tryUpCd += Time.deltaTime;
+            if(tryUpCd >= .5f)
+            {
+                hasTriedUp = false;
+                tryUpCd = 0;
+            }
+        }
+
         if (this.transform.position.y <= -5)
         {
             this.Die();
@@ -268,7 +281,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
             {
-                if(timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
+                if (timeBeingStuck >= entityData.timeForUpwardsTransition && !hasTriedUp)
+                {
+                    hasTriedUp = true;
+                    transform.Translate(Vector3.up * 0.3f);
+                }
+
+                if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
                 {
                     isGettingOutOfObstacle = false;
                 }
@@ -421,6 +440,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             oldForwardVector = forward + forward * entityData.extraLengthByStep * currentStep;
                             isGettingOutOfObstacle = true;
                             obstacleDodgePoint = adaptedPosition + (isRightSide ? right : left) * currentStep * entityData.tryStep;
+                            hasTriedUp = false;
                         }
                     }
                 }
