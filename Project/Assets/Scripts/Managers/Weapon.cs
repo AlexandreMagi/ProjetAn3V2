@@ -93,7 +93,10 @@ public class Weapon : MonoBehaviour
         Vector3 v3 = Main.Instance.GetCursorPos() + Vector3.forward * 10; 
         v3 = CameraHandler.Instance.renderingCam.ScreenToWorldPoint(v3);
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.renderingCam.transform.position, 360, 0.0f);
-        weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
+        if (!rotateLocked)
+            weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
+        else
+            weaponLight.transform.rotation = Quaternion.LookRotation(CameraHandler.Instance.renderingCam.transform.forward, Vector3.up);
 
     }
 
@@ -254,7 +257,7 @@ public class Weapon : MonoBehaviour
                 Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
 
 
-                if (rotateWithCursor && !rotateLocked)
+                if (rotateWithCursor)
                 {
                     Vector3 newDirection = Vector3.RotateTowards(transform.forward, rayBullet.direction, 360, 0.0f);
                     muzzleFlash.transform.rotation = Quaternion.LookRotation(newDirection);
