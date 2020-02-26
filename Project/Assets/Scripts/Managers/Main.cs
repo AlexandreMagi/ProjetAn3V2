@@ -41,6 +41,9 @@ public class Main : MonoBehaviour
     [SerializeField]
     bool isArduinoMode = false;
 
+    [SerializeField]
+    BoxCollider[] aiWalls = null;
+
     public static Main Instance { get; private set; }
 
     AudioSource hSoundHandlerMainMusic = null;
@@ -438,5 +441,13 @@ public class Main : MonoBehaviour
         // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
 
         return (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty) * difficultyData.maxChanceOfSurvival; ;
+    }
+
+    public void setAIWalls(bool state)
+    {
+        foreach(BoxCollider col in aiWalls)
+        {
+            col.enabled = state;
+        }
     }
 }
