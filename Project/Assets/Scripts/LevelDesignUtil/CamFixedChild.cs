@@ -22,7 +22,10 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
             parentScript.hitByBullet();
     }
 
-    public void OnHitShotGun(DataWeaponMod mod) { }
+    public void OnHitShotGun(DataWeaponMod mod) {
+
+        Weapon.Instance.OnShotGunHitTarget();
+    }
 
     public void OnHitSingleShot(DataWeaponMod mod) { }
     #endregion
