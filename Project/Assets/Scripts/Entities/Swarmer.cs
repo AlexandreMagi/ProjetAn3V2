@@ -113,8 +113,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void OnRelease()
     {
         ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
-        if (currentParticleOrb) currentParticleOrb.Stop();
-        FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+        if (currentParticleOrb)
+        {
+            currentParticleOrb.Stop();
+            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+        }
     }
 
     public void OnZeroG()
