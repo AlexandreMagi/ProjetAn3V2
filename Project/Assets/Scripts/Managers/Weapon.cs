@@ -192,16 +192,12 @@ public class Weapon : MonoBehaviour
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
             }
 
-            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated)
+            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
             {
-                if (!currentOrb.GetComponent<GravityOrb>().hasExploded)
                     currentOrb.GetComponent<GravityOrb>().StopHolding();
-
             }
             else
-            {
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 0.3f, 0.2f);
-            }
+                UIOrb.Instance.cantOrb();
         }
     }
 

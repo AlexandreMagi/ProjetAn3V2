@@ -30,6 +30,13 @@ public class UIOrb : MonoBehaviour
     [SerializeField] float animTimeObtained = 0.8f;
     float animObtained = 1;
 
+
+    [SerializeField] ScriptIdleASuprimerPostJPO orbContainer = null;
+    [SerializeField] AnimationCurve animWhenOnCooldown = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField] float animMultiplierCooldown = 0.3f;
+    [SerializeField] float animTimeCooldown = 0.8f;
+    float animCooldown = 1;
+
     // Update is called once per frame
     void Update()
     {
@@ -58,6 +65,17 @@ public class UIOrb : MonoBehaviour
             animObtained = 1;
         }
         
+        if (animCooldown < 1)
+        {
+            orbContainer.refScale = animWhenOnCooldown.Evaluate(animCooldown) * animMultiplierCooldown + 1;
+            animCooldown += Time.unscaledDeltaTime / animTimeCooldown;
+        }
+        if (animCooldown > 1)
+        {
+            orbContainer.refScale = 1;
+            animCooldown = 1;
+        }
+        
         foreach (var orb in orbs)
         {
             orb.refScale = currVal > 1 ? 1 + animWhenFull.Evaluate(animPurcentage) * animMultiplier : currVal;
@@ -69,4 +87,14 @@ public class UIOrb : MonoBehaviour
     {
         animObtained = 0;
     }
+
+    public void cantOrb()
+    {
+        if (animCooldown == 1)
+        {
+            animCooldown = 0;
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 1, 0.2f);
+        }
+    }
+
 }
