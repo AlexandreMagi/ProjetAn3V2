@@ -27,8 +27,8 @@ public class UiLifeBar : MonoBehaviour
     [SerializeField] GameObject[] lifeCapsules = new GameObject[0];
     [SerializeField] GameObject gameOverRoot = null;
     [SerializeField] Image fonduNoirGameOver = null;
-
     bool mustFondu = false;
+    [SerializeField] float speedAlphaFonduGameOver = 0.3f;
 
     [SerializeField] AnimationCurve animDamageShield = AnimationCurve.Linear(0, 0, 1, 1);
     [SerializeField] float animDamageShieldAmplitude = 0.5f;
@@ -58,6 +58,7 @@ public class UiLifeBar : MonoBehaviour
 
     private void Update()
     {
+
         if (animDamageShieldPurcentage < 1)
         {
             rootMiddleShield.transform.localScale = Vector3.one + Vector3.one * animDamageShield.Evaluate(animDamageShieldPurcentage) * animDamageShieldAmplitude;
@@ -73,7 +74,14 @@ public class UiLifeBar : MonoBehaviour
         recoverCalqueOver.color = new Color(Color.white.r, Color.white.g, Color.white.b, (1-currentRecoverPurcentage) * baseRecoverAlpha);
 
         rootVerticalShield.transform.localScale = Vector3.Lerp (new Vector3(1, lastArmor / stockMaxArmor, 1), new Vector3(1, stockArmor / stockMaxArmor, 1), currentRecoverPurcentage);
+        //rootVerticalShield.transform.localScale = Vector3.Lerp (rootVerticalShield.transform.localScale, new Vector3(1, stockArmor / stockMaxArmor, 1), Time.unscaledDeltaTime * recoverLerpSpeed);
         flickerShield.moveRange = Mathf.Lerp(maxFlicker, 0, stockArmor / stockMaxArmor);
+
+
+        if (mustFondu)
+        {
+            fonduNoirGameOver.color = new Color(0, 0, 0, Mathf.MoveTowards(fonduNoirGameOver.color.a, 1, Time.unscaledDeltaTime * speedAlphaFonduGameOver));
+        }
     }
 
     public void PlayerTookDamage(float armor, float life)
@@ -120,7 +128,9 @@ public class UiLifeBar : MonoBehaviour
     public void UpdateArmor(float armor)
     {
         //rootVerticalShield.transform.localScale = new Vector3(1, armor / stockMaxArmor, 1);
+        if (stockArmor < armor) lastArmor = armor;
         stockArmor = armor;
+        currentRecoverPurcentage = 0;
     }
 
 
@@ -130,6 +140,7 @@ public class UiLifeBar : MonoBehaviour
         gameOverRoot.SetActive(true);
         mustFondu = true;
         gameOverRoot.GetComponent<Animator>().SetTrigger("pop");
+        fonduNoirGameOver.color = new Color(0, 0, 0, 0);
     }
 
 }
