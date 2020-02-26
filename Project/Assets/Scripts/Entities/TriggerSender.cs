@@ -26,7 +26,6 @@ public class TriggerSender : MonoBehaviour
 
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
     string soundPlayed = "";
-
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
     float volume = 1;
 
@@ -54,8 +53,18 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.EnemyFollow), SerializeField]
     float followDuration = 0;
 
-    [ShowIf("typeTrigger", TriggerType.LightDisabler), SerializeField]
-    Light[] lightsToKill = null;
+
+    [ShowIf("typeTrigger", TriggerType.Light), SerializeField]
+    Light[] lightsToAffect = null;
+    [ShowIf("typeTrigger", TriggerType.Light), SerializeField]
+    bool lightsState = false;
+
+
+    [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
+    ParticleSystem[] VFXToAffect = null;
+    [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
+    bool VFXState = false;
+
 
     [SerializeField]
     bool needsSequenceIndex = false;
@@ -136,16 +145,19 @@ public class TriggerSender : MonoBehaviour
                 TriggerUtil.TriggerFollowTarget(timeBeforeStart, enemyFollow, timeGoTo, timeGoBack, followDuration);
                 break;
 
-            case TriggerType.LightDisabler:
-                foreach(Light l in lightsToKill)
+            case TriggerType.Light:
+                foreach(Light l in lightsToAffect)
                 {
                     l.enabled = false;
                     LightHandler lh = l.GetComponent<LightHandler>();
                     if (lh)
                     {
-                        lh.enabled = false;
+                        lh.enabled = lightsState;
                     }
                 }
+                break;
+            case TriggerType.VFX:
+                TriggerUtil.TriggerVFX(timeBeforeStart, VFXToAffect, VFXState);
                 break;
             default:
                 break;
@@ -174,8 +186,9 @@ public class TriggerSender : MonoBehaviour
         Shake = 5,
         Boolean = 6,
         EnemyFollow = 7,
-        LightDisabler = 8,
-        Other = 9
+        Light = 8,
+        Other = 9,
+        VFX = 10,
     }
 
     public enum Activable
