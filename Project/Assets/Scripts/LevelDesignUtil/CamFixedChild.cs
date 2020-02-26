@@ -16,7 +16,7 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
             parentScript.hitByBullet();
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
         if (parentScript != null)
             parentScript.hitByBullet();

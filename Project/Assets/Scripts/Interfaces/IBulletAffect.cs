@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBulletAffect
 {
-    void OnHit(DataWeaponMod mod, Vector3 position);
+    void OnHit(DataWeaponMod mod, Vector3 position, float dammage);
 
     void OnHitShotGun(DataWeaponMod mod);
 

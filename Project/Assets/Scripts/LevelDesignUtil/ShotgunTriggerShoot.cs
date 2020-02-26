@@ -54,7 +54,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         callNextSequence = false;
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
         //Debug.Log(mod);
     }
