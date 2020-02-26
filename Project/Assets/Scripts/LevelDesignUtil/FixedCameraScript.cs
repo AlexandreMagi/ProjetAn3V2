@@ -31,6 +31,8 @@ public class FixedCameraScript : MonoBehaviour
 
     public void hitByBullet()
     {
+        Weapon.Instance.OnShotGunHitTarget();
+
         FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation);
         CameraHandler.Instance.AddShake(camShake.x, camShake.y);
 
