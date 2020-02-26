@@ -561,7 +561,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                 //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
                                 //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
 
-                                Vector3 initialPositionOfRay = transform.position + Vector3.up * .5f;
+                                Vector3 initialPositionOfRayLeft = transform.position + Vector3.up * .5f + forward + left * .5f;
+                                Vector3 initialPositionOfRayRight = transform.position + Vector3.up * .5f + forward + right * .5f;
 
                                 do
                                 {
@@ -570,7 +571,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                     currentFollow.position.y,
                                     currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
                                     );
-                                } while (!Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRay, 50f, maskOfWall));
+                                } while (!(Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayRight, 50f, maskOfWall)));
 
 
                                 //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
@@ -610,7 +611,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                         currentFollow.position.y,
                                         currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
                                         );
-                                    } while (!Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayLeft, 50f, maskOfWall) && !Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayRight, 50f, maskOfWall));
+                                    } while (!(Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayRight, 50f, maskOfWall)));
                                 }
                             }
                         }
