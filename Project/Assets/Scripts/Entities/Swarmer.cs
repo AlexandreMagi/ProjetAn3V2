@@ -113,8 +113,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void OnRelease()
     {
         ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
-        if (currentParticleOrb) currentParticleOrb.Stop();
-        FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+        if (currentParticleOrb)
+        {
+            currentParticleOrb.Stop();
+            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+        }
     }
 
     public void OnZeroG()
@@ -138,9 +141,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     }
 
     #region Bullets
-    public override void OnHit(DataWeaponMod mod, Vector3 position)
+    public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
-        this.TakeDamage(mod.bullet.damage);
+        this.TakeDamage(dammage);
     }
     #endregion
 

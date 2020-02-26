@@ -208,5 +208,29 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //VFX
+    public static void TriggerVFX(float timeBeforeStart, ParticleSystem[] VFXTab, bool state)
+    {
+        Main.Instance.StartCoroutine(TriggerVFXCoroutine(timeBeforeStart, VFXTab, state));
+    }
+
+    static IEnumerator TriggerVFXCoroutine(float timeBeforeStart, ParticleSystem[] VFXTab, bool state)
+    {
+        yield return new WaitForSecondsRealtime(timeBeforeStart);
+
+        foreach(ParticleSystem vfx in VFXTab)
+        {
+            if (vfx != null)
+            {
+                if (state)
+                    vfx.Play();
+                else
+                    vfx.Stop();
+            }
+        }
+
+        yield break;
+    }
 }
 

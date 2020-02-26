@@ -10,9 +10,9 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     //Stimulus
     #region Stimulus
     #region Bullets
-    public override void OnHit(DataWeaponMod mod, Vector3 position)
+    public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
-        this.TakeDamage(mod.bullet.damage);
+        this.TakeDamage(dammage);
     }
 
     #endregion

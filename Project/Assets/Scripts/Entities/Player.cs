@@ -165,13 +165,16 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         armor += value;
         //UiLifeBar.Instance.AddArmor(value);
-        UiLifeBar.Instance.UpdateArmor(armor);
+        //UiLifeBar.Instance.UpdateArmor(armor);
 
         if(armor > entityData.armor)
         {
             armor = entityData.armor;
         }
+        if (armor < 0)
+            armor = 0;
         UiLifeBar.Instance.UpdateArmor(armor);
+
 
     }
 
