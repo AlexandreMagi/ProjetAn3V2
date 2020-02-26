@@ -48,9 +48,9 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     #region Bullets
 
-    public virtual void OnHit(DataWeaponMod mod, Vector3 position)
+    public virtual void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
-        this.TakeDamage(mod.bullet.damage);
+        this.TakeDamage(dammage);
     }
 
     public virtual void OnHitShotGun(DataWeaponMod mod)
