@@ -67,7 +67,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         else if (!bItemDestroyed)
         {
             bPlayerCanDammage = false;
-            GetComponent<GravityOrb>().StopHolding();
+            GetComponent<GravityOrb>().StopHolding(false);
             Invoke("OrbPreDestroyed", 2.6f);
             Invoke("OrbDestroyed", 0.1f);
             Invoke("GoToTuto", timeBetweenDeathAndNextSequence);

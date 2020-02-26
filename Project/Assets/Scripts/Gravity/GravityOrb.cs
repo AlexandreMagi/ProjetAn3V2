@@ -112,7 +112,7 @@ public class GravityOrb : MonoBehaviour
 
     public DataGravityOrb getOrbData () { return orbData; }
 
-    public void StopHolding()
+    public void StopHolding(bool loosePointIfMissed = true)
     {
         hasExploded = true;
         int nbEnemiesHitByFloatExplo = 0;
@@ -122,7 +122,7 @@ public class GravityOrb : MonoBehaviour
         StopCoroutine("OnHoldAttraction");
 
 
-        if (!hasHitSomething)
+        if (!hasHitSomething && loosePointIfMissed)
         {
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
         }
