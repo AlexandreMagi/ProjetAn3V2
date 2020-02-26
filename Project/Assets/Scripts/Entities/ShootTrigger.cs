@@ -54,6 +54,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             else
             {
                 FxManager.Instance.PlayFx("VFX_CollectiblesShoot", this.transform.position, Quaternion.identity);
+                GetComponentInChildren<ParticleSystem>().Stop();
                 CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
             }
 
