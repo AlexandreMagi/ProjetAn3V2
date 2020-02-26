@@ -10,6 +10,8 @@ public class DataShooterBullet : DataEnemy
     public AnimationCurve bulletRotation;
     public AnimationCurve circleScale;
 
+    public bool desactivateCircles = true;
+
     public float bulletSpeed = 5;
     public float randomSpeedAdded = 2;
     public float shakeAtImpact = 10;
@@ -37,6 +39,7 @@ public class DataShooterBullet : DataEnemy
     [Header("Fx")]
     public string fxExplosion = "VFX_ExplosionShooterBullet";
     public GameObject circlePrefab;
+    public Vector2 meshRotationRandom = new Vector2 (120, 280);
 
 
 }
