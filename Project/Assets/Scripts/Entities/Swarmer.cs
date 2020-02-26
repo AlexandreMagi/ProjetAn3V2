@@ -250,7 +250,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if(!isChasingTarget && currentFollow && Mathf.Abs(currentFollow.position.y - transform.position.y) >= entityData.maxHeightToChaseWaypoint)
         {
-            Debug.Log("ding dong");
+
             pathID++;
             if (pathToFollow != null)
                 currentFollow = pathToFollow.GetPathAt(pathID);
@@ -428,7 +428,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             //Movement
             Vector3 direction = (new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position).normalized;
-            rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+
+            bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, .5f, maskOfWall);
+
+            rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f:1));
 
             bool moveRight = false;
 
@@ -498,7 +501,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     //TODO : Follow the path
                     Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
 
-                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
+                    bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, .5f, maskOfWall);
+                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
 
 
                     if (!isChasingTarget && pathToFollow != null)
@@ -533,6 +537,38 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                 currentFollow = target;
                             }
 
+                        }
+                        else
+                        {
+                            //Verification of next path distance
+                            Transform nextFollow = pathToFollow.GetPathAt(pathID + 1);
+                            
+                            if (nextFollow != null && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(nextFollow.position.x, nextFollow.position.z)) < entityData.distanceBeforeNextPath)
+                            {
+                                pathID++;
+                                currentFollow = pathToFollow.GetPathAt(pathID);
+                                if (currentFollow == null)
+                                {
+                                    Debug.Log("End of path");
+                                    pathID--;
+                                    isChasingTarget = true;
+                                    target = Player.Instance.transform;
+                                }
+
+                                if (currentFollow != null && currentFollow != target)
+                                {
+                                    //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
+                                    //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
+
+                                    v3VariancePoisitionFollow = new Vector3(
+                                        currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
+                                        currentFollow.position.y,
+                                        currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
+                                    );
+
+                                    //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
+                                }
+                            }
                         }
                         //Debug.Log("rotate");
 
