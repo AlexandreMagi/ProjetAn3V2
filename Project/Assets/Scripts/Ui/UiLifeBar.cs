@@ -23,8 +23,12 @@ public class UiLifeBar : MonoBehaviour
     [SerializeField] Transform rootVerticalShield = null;
     [SerializeField] Transform rootMiddleShield = null;
 
+
     [SerializeField] GameObject[] lifeCapsules = new GameObject[0];
     [SerializeField] GameObject gameOverRoot = null;
+    [SerializeField] Image fonduNoirGameOver = null;
+
+    bool mustFondu = false;
 
     float stockArmor = 300;
     float stockMaxArmor = 300;
@@ -80,9 +84,14 @@ public class UiLifeBar : MonoBehaviour
     {
         rootVerticalShield.transform.localScale = new Vector3(1, armor / stockMaxArmor, 1);
     }
+
+
+
     public void EndGame()
     {
         gameOverRoot.SetActive(true);
+        mustFondu = true;
+        gameOverRoot.GetComponent<Animator>().SetTrigger("pop");
     }
 
 }
