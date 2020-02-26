@@ -72,7 +72,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             Invoke("OrbDestroyed", 0.1f);
             Invoke("GoToTuto", timeBetweenDeathAndNextSequence);
             bItemDestroyed = true;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GravityOrbOvercharge_Boosted", false, 1f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GravityOrbOvercharge_Boosted", false, 0.2f);
         }
         if (bItemDestroyed && !bItemDestroyedCompletly && pouletCoco)
         {
@@ -99,7 +99,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     void OrbDestroyed()
     {
         FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position,transform.rotation);
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 1f);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 0.8f);
         CameraHandler.Instance.AddShake(shakeForce, 0.5f);
         Invoke("SecondShake", 0.9f);
     }

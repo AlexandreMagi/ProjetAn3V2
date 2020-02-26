@@ -152,6 +152,9 @@ public class PublicManager : MonoBehaviour
             case ActionType.Collectible:
                 AddViewers(1, false, ActionType.Collectible, "Destruction", _position);
                 break;
+            case ActionType.DamageOnEnemy:
+                AddViewers(1, false, ActionType.DamageOnEnemy, "Dégats", _position);
+                break;
             default:
                 break;
         }
@@ -189,15 +192,26 @@ public class PublicManager : MonoBehaviour
         {
             if (pos != Vector3.zero)
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true, pos, 1);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true, pos, 1);
+                if (action == ActionType.DamageOnEnemy)
+                {
+                    float darkenColor = 0.8f;
+                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + 1, true, pos, new Color(Color.green.r * darkenColor, Color.green.g * darkenColor, Color.green.b * darkenColor, 1), 1);
+                }
+                else
+                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer, true, pos + Vector3.up * 0.5f, 1);
             }
             else
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true);
+                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer, true);
             }
         }
 
-        nbViewers += difViewer;
+        if (action == ActionType.DamageOnEnemy)
+            nbViewers ++;
+        else
+            nbViewers += difViewer;
 
         if(nbViewers <= 0)
         {
@@ -250,11 +264,13 @@ public class PublicManager : MonoBehaviour
         {
             if (pos != Vector3.zero)
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false, pos, 1);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false, pos, 1);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer, false, pos, 1);
             }
             else
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer, false);
             }
         }
         nbViewers -= difViewer;
@@ -295,6 +311,7 @@ public class PublicManager : MonoBehaviour
         VendettaPrepare = 14,
         BonusOnRespawn = 15,
         DamageOnArmor = 16,
-        Collectible = 17
+        Collectible = 17,
+        DamageOnEnemy = 18
     }
 }
