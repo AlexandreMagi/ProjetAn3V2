@@ -23,13 +23,10 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     float timerBeforeNextSequence = 0.5f;
 
 
-    [SerializeField]
-    int nbShootBeforeFirstHint = 3;
-    [SerializeField]
-    int nbShootBeforeSecondHint = 10;
+    int nbShootBeforeFirstHint = 1;
+    int nbShootBeforeSecondHint = 5;
     int nbShoot = 0;
-    [SerializeField]
-    float timeBeforeSecondHint = 10;
+    float timeBeforeSecondHint = 5;
     bool timerStarted = false;
     bool secondHintPlayed = false;
     float timerBeforeSecondHint = 0;
