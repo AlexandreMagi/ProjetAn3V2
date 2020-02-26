@@ -252,7 +252,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (hasTriedUp)
         {
             tryUpCd += Time.deltaTime;
-            if(tryUpCd >= .5f)
+            if(tryUpCd >= entityData.considerStuckThreshhold && timeBeingStuck <= entityData.considerStuckThreshhold)
             {
                 hasTriedUp = false;
                 tryUpCd = 0;
@@ -284,7 +284,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (timeBeingStuck >= entityData.timeForUpwardsTransition && !hasTriedUp)
                 {
                     hasTriedUp = true;
-                    transform.Translate(Vector3.up * 0.3f);
+                    transform.Translate(Vector3.up * 0.15f);
                 }
 
                 if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
