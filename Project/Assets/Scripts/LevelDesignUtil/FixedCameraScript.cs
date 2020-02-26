@@ -20,17 +20,29 @@ public class FixedCameraScript : MonoBehaviour
 
     bool hitByBulletBool = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
         if (lookAtTarget == null) lookAtTarget = CameraHandler.Instance.renderingCam.transform;
         cameraDummy.GetComponent<CamFixedChild>().parentScript = this;
+
     }
 
     public void hitByBullet()
     {
         FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation);
         CameraHandler.Instance.AddShake(camShake.x, camShake.y);
+
+        //Prop[] prop = GetComponentsInChildren<Prop>();
+        //foreach (Prop pr in prop)
+        //{
+        //    if (pr != null)
+        //    {
+        //        pr.enabled = true;
+        //    }
+
+        //}
 
         Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in rbList)
@@ -42,6 +54,8 @@ public class FixedCameraScript : MonoBehaviour
             }
            
         }
+
+
 
         if (this != null)
         {
