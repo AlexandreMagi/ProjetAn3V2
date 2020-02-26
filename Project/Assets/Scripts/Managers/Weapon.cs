@@ -255,7 +255,7 @@ public class Weapon : MonoBehaviour
                 Vector3 imprecision = new Vector3(UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
-                if (i == 0 && !weaponMod.firstBulletAlwaysPrecise)
+                if (i == 0 && weaponMod.firstBulletAlwaysPrecise)
                     imprecision = Vector3.zero;
 
                 Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
