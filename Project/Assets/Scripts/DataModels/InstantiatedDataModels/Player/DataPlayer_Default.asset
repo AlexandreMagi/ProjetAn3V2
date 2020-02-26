@@ -15,9 +15,11 @@ MonoBehaviour:
   maxHealth: 100
   startHealth: 100
   team: 0
+  shakeOnDie: 0
+  shakeOnDieTime: 0
   spriteToDisplayShield: {fileID: 0}
   spriteToDisplayLife: {fileID: 0}
-  armor: 300
+  armor: 100
   damageShakeMultiplier: 40
   shakeAtArmorDestruction: 5
   shakeAtArmorFx: VFX_ShieldBreak
@@ -31,3 +33,4 @@ MonoBehaviour:
   respawnExplosionStun: 500
   respawnExplosionStunDuration: 1
   respawnExplosionLiftValue: 1
+  respawnExplosionFx: VFX_ExplosionShooterBullet
