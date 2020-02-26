@@ -119,8 +119,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentParticleOrb)
         {
             currentParticleOrb.Stop();
-            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
         }
+        FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
     }
 
     public void OnZeroG()

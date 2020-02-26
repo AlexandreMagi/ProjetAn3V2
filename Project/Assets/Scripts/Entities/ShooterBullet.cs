@@ -36,6 +36,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     bool hasExploded = false;
     GameObject circlePrefab;
+    float meshRotationRandom = 0;
 
     protected override void Start()
     {
@@ -47,6 +48,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         entityData = _bulletSettings as DataShooterBullet;
         health = entityData.startHealth;
         owner = prop;
+
+        meshRotationRandom = Random.Range(entityData.meshRotationRandom.x, entityData.meshRotationRandom.y) * Mathf.Sign(Random.Range(-1f,1f));
 
         target = _target;
         transformPosEnd = _target.transform;
@@ -101,6 +104,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             transform.rotation = dummyIndicator.transform.rotation;
             transform.position = dummyIndicator.transform.position;
             bulletMesh.transform.position = Vector3.Lerp(bulletMesh.transform.position, dummyIndicator.transform.position + new Vector3(Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake)), Time.deltaTime* shakeSpeedLerp);
+            bulletMesh.transform.Rotate(Vector3.forward * Time.deltaTime * meshRotationRandom);
 
             float ValueMax = entityData.bulletTrajectory.Evaluate(Curr / MaxDistance) * amplitudeMissile;
             transform.Translate(randomCurve * (ValueMax < amplitudeCap ? amplitudeCap : ValueMax), Space.Self);
@@ -133,6 +137,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
                 //circlePrefab.transform.LookAt(target.transform, Vector3.up);
                 circlePrefab.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(Curr / MaxDistance) * entityData.circleScaleMultiplier;
                 circlePrefab.GetComponent<Image>().color = Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance));
+                if (entityData.desactivateCircles) circlePrefab.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             }
             bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
             bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));

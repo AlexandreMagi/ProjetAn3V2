@@ -338,7 +338,8 @@ public class Main : MonoBehaviour
 
         if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)
         {
-            playerCanOrb = state;
+            if (!playerCanOrb && state) UIOrb.Instance.ActivateOrb();
+                playerCanOrb = state;
             //FindObjectOfType<C_Ui>().CannotShoot(state);
         }
     }
@@ -376,6 +377,10 @@ public class Main : MonoBehaviour
             UiViewer.Instance.PlayerJustDied(publicChoice < trueChance, publicChoice, bonusFromRez);
 
             //Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
+        }
+        else
+        {
+            DoGameOver();
         }
         
     }
