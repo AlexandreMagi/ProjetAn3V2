@@ -180,7 +180,7 @@ public class Weapon : MonoBehaviour
         return currentChargePurcentage;
     }
 
-    public void GravityOrbInput()
+    public bool GravityOrbInput()
     {
         if (!reloading)
         {
@@ -190,15 +190,16 @@ public class Weapon : MonoBehaviour
 
                 currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+                return true;
             }
 
-            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
+            else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
             {
-                    currentOrb.GetComponent<GravityOrb>().StopHolding();
+                currentOrb.GetComponent<GravityOrb>().StopHolding();
+                return true;
             }
-            else
-                UIOrb.Instance.cantOrb();
         }
+        return false;
     }
 
     public void InputHold()

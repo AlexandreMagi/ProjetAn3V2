@@ -78,11 +78,11 @@ public class Main : MonoBehaviour
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)))
         {
             if (playerCanOrb)
-                Weapon.Instance.GravityOrbInput();
-            else
             {
-                UIOrb.Instance.cantOrb();
+                if (!Weapon.Instance.GravityOrbInput())
+                    UIOrb.Instance.cantOrb();
             }
+            else UIOrb.Instance.cantOrb();
         }
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
         {
