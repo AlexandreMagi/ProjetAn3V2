@@ -251,9 +251,13 @@ public class Weapon : MonoBehaviour
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 Camera mainCam = CameraHandler.Instance.renderingCam;
-                Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
+
+                Vector3 imprecision = new Vector3(UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
+                if (i == 0 && !weaponMod.firstBulletAlwaysPrecise)
+                    imprecision = Vector3.zero;
+
                 Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
 
 
@@ -280,7 +284,7 @@ public class Weapon : MonoBehaviour
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                     {
-                        bAffect.OnHit(weaponMod, hit.point);
+                        bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot(weaponMod);
                         if (weaponMod == weapon.chargedShot)
@@ -385,7 +389,7 @@ public class Weapon : MonoBehaviour
                 IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                 if (bAffect != null)
                 {
-                    bAffect.OnHit(bounceMod, hit.point);
+                    bAffect.OnHit(bounceMod, hit.point, bounceMod.bullet.damage);
 
                     bAffect.OnHitShotGun(bounceMod);
 

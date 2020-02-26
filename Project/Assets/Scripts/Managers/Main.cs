@@ -409,7 +409,10 @@ public class Main : MonoBehaviour
         if(playerUsedToHaveOrb) playerCanOrb = true;
 
         Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
-        Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
+
+        float armorValueGain = difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty;
+        armorValueGain = Mathf.Clamp(armorValueGain, 0, difficultyData.maxArmorRaise);
+        Player.Instance.GainArmor(armorValueGain);
         Player.Instance.Revive();
 
         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, Vector3.zero);

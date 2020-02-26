@@ -30,4 +30,6 @@ public class DataWeaponMod : ScriptableObject
     public float shootValueUiRecoil = 1;
     public float hitValueUiRecoil = 1;
     public string soundPlayed = "shootSound";
+    public bool firstBulletAlwaysPrecise = true;
+    public float firstBulletDamageMultiplier = 1;
 }
