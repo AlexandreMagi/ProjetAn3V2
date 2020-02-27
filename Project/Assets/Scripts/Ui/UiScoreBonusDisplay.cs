@@ -65,6 +65,14 @@ public class UiScoreBonusDisplay : MonoBehaviour
         MoveSprite(newText, handler);
     }
 
+    public void AddScoreBonus(string textSend, bool good, Vector3 posInit, Color SpecificColor, float randomPosAdded = 0)
+    {
+        ScoreBonusDisplayedInstance handler;
+        GameObject newText = createObject(textSend, good, SpecificColor, out handler);
+        handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
+        MoveSprite(newText, handler);
+    }
+
     void MoveSprite(GameObject textObject, ScoreBonusDisplayedInstance handler)
     {
         Vector2 pos;
@@ -97,6 +105,26 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
         newOne = new ScoreBonusDisplayedInstance();
         newOne.OnCreation(dataToSend, textThis.color);
+        scoresBonusHandler.Add(newOne);
+        return newText;
+    }
+    GameObject createObject(string textSend, bool good, Color specificColor, out ScoreBonusDisplayedInstance newOne)
+    {
+        GameObject newText = Instantiate(emptyUiText, rootScoreBonus.transform);
+        Text textThis = newText.GetComponent<Text>();
+        textThis.text = textSend;
+        textThis.color = good? dataToSend.colorGood : dataToSend.colorBad;
+        textThis.fontSize = Mathf.RoundToInt(dataToSend.fontSize);
+
+        newText.transform.localScale = Vector3.zero;
+        Outline stockoutline = newText.AddComponent<Outline>();
+        stockoutline.effectDistance = new Vector2(-1, 1) * dataToSend.outlineDistance;
+        stockoutline.effectColor = dataToSend.colorOutline;
+
+        textDisplayed.Add(newText);
+
+        newOne = new ScoreBonusDisplayedInstance();
+        newOne.OnCreation(dataToSend, specificColor);
         scoresBonusHandler.Add(newOne);
         return newText;
     }

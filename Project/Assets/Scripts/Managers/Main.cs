@@ -56,8 +56,8 @@ public class Main : MonoBehaviour
 
     void Start ()
     {
-
-        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
+        Debug.Log("Remettre la musique");
+        //hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
     }
 
     // Update is called once per frame
@@ -247,14 +247,14 @@ public class Main : MonoBehaviour
         //RELOAD
         if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R))
         {
-            Weapon.Instance.ReloadValidate();
-            Weapon.Instance.ReloadingInput();
+            if (Weapon.Instance.ReloadValidate())
+                Weapon.Instance.ReloadingInput();
         }
 
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         {
-            Weapon.Instance.ReloadValidate();
-            Weapon.Instance.ReloadingInput();
+            if (Weapon.Instance.ReloadValidate())
+                Weapon.Instance.ReloadingInput();
         }
 
         if (timeLeftForRaycastCursor <= timeTickCursor)

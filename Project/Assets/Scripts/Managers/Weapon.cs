@@ -32,6 +32,7 @@ public class Weapon : MonoBehaviour
     float reloadingPurcentage = 0;
 
     bool shotGunHasHit = false;
+    float reloadCoolDown = 0;
 
 
     [SerializeField]
@@ -69,7 +70,8 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-
+        if (reloadCoolDown > 0) reloadCoolDown -= Time.unscaledDeltaTime;
+        if (reloadCoolDown < 0) reloadCoolDown = 0;
 
         if (timerMuzzleFlash >= 0) timerMuzzleFlash -= Time.unscaledDeltaTime;
         timerMuzzleFlash = Mathf.Clamp(timerMuzzleFlash, 0, 1);
@@ -128,7 +130,7 @@ public class Weapon : MonoBehaviour
 
     public void ReloadingInput()
     {
-        if (!reloading && bulletRemaining < weapon.bulletMax && currentChargePurcentage ==0 )
+        if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0)
         {
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
@@ -137,10 +139,11 @@ public class Weapon : MonoBehaviour
             UiReload.Instance.DisplayGraphics();
             reloadingPurcentage = 0;
             bulletRemaining = 0;
+            reloadCoolDown = weapon.reloadCooldown;
         }
     }
 
-    public void ReloadValidate()
+    public bool ReloadValidate()
     {
         if (reloading && !haveTriedPerfet)
         {
@@ -152,7 +155,9 @@ public class Weapon : MonoBehaviour
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
                 CameraHandler.Instance.AddRecoil(false, weapon.reloadingMissTryRecoil);
             }
+            return false;
         }
+        return true;
     }
 
     public void EndReload(bool perfect)

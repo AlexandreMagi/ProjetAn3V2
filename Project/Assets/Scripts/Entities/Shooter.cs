@@ -144,6 +144,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                         Shoot();
                     //GetComponent<Animator>().SetTrigger("Shoot");
                     CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Launch", false, 0.5f);
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_MissileLaunch", false, 0.7f);
                     if (bulletShot >= entityData.nbShootPerSalve)
                     {
                         // RESET DES VALEURS ET STUN

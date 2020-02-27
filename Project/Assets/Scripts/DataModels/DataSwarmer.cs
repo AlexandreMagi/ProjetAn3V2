@@ -13,6 +13,7 @@ public class DataSwarmer : DataEnemy
     public float distanceBeforeNextPath;
 
     public float speed;
+    public float maximumSpeed = 350;
 
     public float damage;
 
