@@ -43,6 +43,7 @@ public class MenuMain : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
+        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.5f);
     }
 
     // Update is called once per frame
@@ -97,6 +98,7 @@ public class MenuMain : MonoBehaviour
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
+                    CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_FirstValidate", false, 1);
                     foreach (var button in buttonMenuScripts)
                     {
                         button.UpdatePos(false);
