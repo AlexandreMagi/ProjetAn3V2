@@ -349,6 +349,11 @@ public class Main : MonoBehaviour
         }
     }
 
+    public void CutMusic()
+    {
+        hSoundHandlerMainMusic.volume = 0;
+    }
+
     public void TriggerGameOverSequence()
     {
         if (playerCanOrb)
