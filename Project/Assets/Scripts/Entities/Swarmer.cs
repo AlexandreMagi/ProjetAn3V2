@@ -123,7 +123,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnRelease()
     {
-        Debug.Log("Release");
         ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
         if (currentParticleOrb)
         {
@@ -465,7 +464,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         if (hasFoundExit)
                         {
                             //DO MOVE
-                            Debug.Log("Sortie trouvée");
+                            //Debug.Log("Sortie trouvée");
                             isOutStepTwo = false;
                             oldForwardVector = forward + forward * entityData.extraLengthByStep * currentStep;
                             isGettingOutOfObstacle = true;
@@ -574,7 +573,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             currentFollow = pathToFollow.GetPathAt(pathID);
                             if (currentFollow == null)
                             {
-                                Debug.Log("End of path");
+                                //Debug.Log("End of path");
                                 pathID--;
                                 isChasingTarget = true;
                                 target = Player.Instance.transform;
@@ -617,7 +616,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                 currentFollow = pathToFollow.GetPathAt(pathID);
                                 if (currentFollow == null)
                                 {
-                                    Debug.Log("End of path");
+                                    //Debug.Log("End of path");
                                     pathID--;
                                     isChasingTarget = true;
                                     target = Player.Instance.transform;
