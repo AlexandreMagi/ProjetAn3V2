@@ -69,7 +69,7 @@ public class CustomSoundManager : MonoBehaviour
     {
         
 
-        FadeSound(1, 5);
+        FadeSound(1, 2);
         // ######################################## FADE DE SON  ######################################## //
         #region Fade de Son
         // ----- Enlève l'ancien modifieur local

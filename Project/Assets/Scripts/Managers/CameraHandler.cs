@@ -270,7 +270,7 @@ public class CameraHandler : MonoBehaviour
         {
             stepSoundPlayed = true;
             //Debug.Log("Joue son de pas");
-            CustomSoundManager.Instance.PlaySound(renderingCam.gameObject, "Step_0" + UnityEngine.Random.Range(1, 5), false, 1f);
+            if (feedbackActivated) CustomSoundManager.Instance.PlaySound(renderingCam.gameObject, "Step_0" + UnityEngine.Random.Range(1, 5), false, 1f);
         }
         for (int i = 0; i < curveValues.Length; i++)
         {
