@@ -185,7 +185,7 @@ public class Weapon : MonoBehaviour
         return currentChargePurcentage;
     }
 
-    public void GravityOrbInput()
+    public bool GravityOrbInput()
     {
         if (!reloading)
         {
@@ -195,19 +195,16 @@ public class Weapon : MonoBehaviour
 
                 currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+                return true;
             }
 
-            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated)
+            else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
             {
-                if (!currentOrb.GetComponent<GravityOrb>().hasExploded)
-                    currentOrb.GetComponent<GravityOrb>().StopHolding();
-
-            }
-            else
-            {
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 0.3f, 0.2f);
+                currentOrb.GetComponent<GravityOrb>().StopHolding();
+                return true;
             }
         }
+        return false;
     }
 
     public void InputHold()
