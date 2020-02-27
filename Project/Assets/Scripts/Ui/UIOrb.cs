@@ -29,6 +29,7 @@ public class UIOrb : MonoBehaviour
     [SerializeField] float animMultiplierObtained = 0.3f;
     [SerializeField] float animTimeObtained = 0.8f;
     float animObtained = 1;
+    bool firstTime = true;
 
 
     [SerializeField] ScriptIdleASuprimerPostJPO orbContainer = null;
@@ -85,7 +86,11 @@ public class UIOrb : MonoBehaviour
 
     public void ActivateOrb()
     {
-        animObtained = 0;
+        if (firstTime)
+        {
+            animObtained = 0;
+            firstTime = false;
+        }
     }
 
     public void cantOrb()
