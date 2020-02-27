@@ -107,6 +107,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
     {
         base.TakeDamage(value);
         timeRemainingInMatFeedback += entityData.matChangeTime;
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnEnemy, transform.position);
     }
 
     protected virtual void IsStun(float stunDuration)
