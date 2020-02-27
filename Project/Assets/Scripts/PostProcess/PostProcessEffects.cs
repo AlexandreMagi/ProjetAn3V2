@@ -8,19 +8,28 @@ public class PostProcessEffects : MonoBehaviour
     PostProcessVolume Volume;
 
     ChromaticAberration chromaticAberrationEffect;
+    Vignette vignetteEffect;
 
     bool isChroma = false;
+
+    bool isVignetteFalling = true;
 
     [SerializeField]
     float maxChromaAberration = 1f;
 
     private void Start()
     {
+        vignetteEffect = ScriptableObject.CreateInstance<Vignette>();
+        vignetteEffect.enabled.Override(true);
+        vignetteEffect.intensity.Override(0.25f);
+        vignetteEffect.smoothness.Override(1);
+
         chromaticAberrationEffect = ScriptableObject.CreateInstance<ChromaticAberration>();
         chromaticAberrationEffect.enabled.Override(true);
         chromaticAberrationEffect.intensity.Override(0);
 
         Volume = PostProcessManager.instance.QuickVolume(11, 100f, chromaticAberrationEffect);
+        Volume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
     }
 
     void Update()
@@ -57,5 +66,10 @@ public class PostProcessEffects : MonoBehaviour
         {
             isChroma = false;
         }
+    }
+
+    public void VignetteChanges()
+    {
+        vignetteEffect.intensity.value = 1;
     }
 }

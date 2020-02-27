@@ -10132,6 +10132,7 @@ GameObject:
   - component: {fileID: 8724956490323836485}
   - component: {fileID: 8724956490323836489}
   - component: {fileID: 4476334576403535502}
+  - component: {fileID: 7677589553362193668}
   m_Layer: 8
   m_Name: Swarmer
   m_TagString: Untagged
@@ -10164,7 +10165,7 @@ BoxCollider:
   m_GameObject: {fileID: 8724956490323836483}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -10216,6 +10217,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.8307018
   m_Center: {x: 0, y: 0.45671558, z: 0}
+--- !u!136 &7677589553362193668
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724956490323836483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4801848
+  m_Height: 1.4978435
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.4688443, z: -0.07355237}
 --- !u!1 &9046064139514171450
 GameObject:
   m_ObjectHideFlags: 0
@@ -10507,6 +10522,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f98f5beb07942140a3753d79e1a36bd, type: 3}
+--- !u!4 &1098085982743393604 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2140691913268943846, guid: 2f98f5beb07942140a3753d79e1a36bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1335436681581637282}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1098085983965873455 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2140691914455526285, guid: 2f98f5beb07942140a3753d79e1a36bd,
@@ -10522,12 +10543,6 @@ Transform:
 --- !u!4 &1098085984201790690 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2140691914689477184, guid: 2f98f5beb07942140a3753d79e1a36bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1335436681581637282}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1098085982743393604 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2140691913268943846, guid: 2f98f5beb07942140a3753d79e1a36bd,
     type: 3}
   m_PrefabInstance: {fileID: 1335436681581637282}
   m_PrefabAsset: {fileID: 0}
