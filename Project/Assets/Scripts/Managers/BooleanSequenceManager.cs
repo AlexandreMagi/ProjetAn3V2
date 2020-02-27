@@ -9,21 +9,23 @@ public class BooleanSequenceManager : MonoBehaviour
     public static BooleanSequenceManager Instance { get; private set; }
 
     [SerializeField, ListDrawerSettings(NumberOfItemsPerPage = 10)]
-    List<DataBooleanSequence> sequenceBooleans = new List<DataBooleanSequence>();
+    List<DataBooleanSequence> sequenceBooleansData = new List<DataBooleanSequence>();
+
+    List<BooleanSequence> sequenceBooleans = new List<BooleanSequence>();
 
     public void Start()
     {
         Instance = this;
 
-        foreach (DataBooleanSequence bSeq in sequenceBooleans)
+        foreach (DataBooleanSequence bSeq in sequenceBooleansData)
         {
-            bSeq.OnInit();
+            sequenceBooleans.Add(bSeq.OnInit());
         }
     }
     
     public void SetStateOfBoolSequence(string _name, bool _state)
     {
-        foreach(DataBooleanSequence bSeq in sequenceBooleans)
+        foreach(BooleanSequence bSeq in sequenceBooleans)
         {
             if(bSeq.boolName == _name)
             {
@@ -35,7 +37,7 @@ public class BooleanSequenceManager : MonoBehaviour
 
     public bool GetStateOfBoolSequence(string _name)
     {
-        foreach (DataBooleanSequence bSeq in sequenceBooleans)
+        foreach (BooleanSequence bSeq in sequenceBooleans)
         {
             if (bSeq.boolName == _name)
             {
@@ -50,17 +52,26 @@ public class BooleanSequenceManager : MonoBehaviour
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Sequences/DataBooleanSequence")]
 public class DataBooleanSequence : ScriptableObject
 {
-
-    public string boolName = "";
+    [SerializeField]
+    string boolName = "";
 
     [SerializeField]
     bool defaultState = false;
 
+    public BooleanSequence OnInit()
+    {
+        return new BooleanSequence(boolName, defaultState);
+    }
+}
 
+public class BooleanSequence
+{
+    public string boolName = "";
     public bool runtimeState = false;
 
-    public void OnInit()
+    public BooleanSequence(string name, bool stateInit)
     {
-        runtimeState = defaultState;
+        boolName = name;
+        runtimeState = stateInit;
     }
 }
