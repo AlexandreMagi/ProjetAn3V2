@@ -349,6 +349,11 @@ public class Main : MonoBehaviour
         }
     }
 
+    public void CutMusic()
+    {
+        hSoundHandlerMainMusic.volume = 0;
+    }
+
     public void TriggerGameOverSequence()
     {
         if (playerCanOrb)
@@ -395,11 +400,13 @@ public class Main : MonoBehaviour
 
         if (rez)
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.5f);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
         }
         else
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Boo", false, 0.2f);
             DoGameOver();
         }
     }

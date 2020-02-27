@@ -6,6 +6,8 @@ public class AudioSourceTrigger : MonoBehaviour
 {
     [SerializeField]
     bool isActiveOnTrigger = true;
+    [SerializeField]
+    bool desactivateMusic = false;
 
     AudioSourceManager aud;
     private void Start()
@@ -19,5 +21,7 @@ public class AudioSourceTrigger : MonoBehaviour
             aud.SetAudioSource(true);
         else if (!isActiveOnTrigger)
             aud.SetAudioSource(false);
+
+        if (desactivateMusic) Main.Instance.CutMusic();
     }
 }
