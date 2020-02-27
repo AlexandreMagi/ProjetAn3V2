@@ -28,7 +28,7 @@ public class UiReload : MonoBehaviour
     Vector2 barSize = new Vector2(1300, 20);
     Vector2 extremitySize = new Vector2(25, 100);
     Vector2 checkBarSize = new Vector2(25, 100);
-    float perfectRangeHeight = 50;
+    float perfectRangeHeight = 80;
 
     [SerializeField] GameObject emptyUiBox = null;
     [SerializeField] GameObject rootUiReloading = null;
@@ -76,6 +76,12 @@ public class UiReload : MonoBehaviour
         perfectSpot     = Instantiate(emptyUiBox, rootUiReloading.transform);
         checkBar        = Instantiate(emptyUiBox, rootUiReloading.transform);
         HideGraphics(false, 0);
+
+        bar.GetComponent<Image>().sprite = reloadData.barImage;
+        extremityOne.GetComponent<Image>().sprite = reloadData.extremityImage;
+        extremityTwo.GetComponent<Image>().sprite = reloadData.extremityImage;
+        perfectSpot.GetComponent<Image>().sprite = reloadData.perfectSpotImage;
+        checkBar.GetComponent<Image>().sprite = reloadData.checkBarImage;
 
         bulletPull = Weapon.Instance.GetBulletAmmount().y + Weapon.Instance.GetSuplementaryBullet();
         bulletSprites = new GameObject[bulletPull];
@@ -308,7 +314,7 @@ public class UiReload : MonoBehaviour
 
     void ChangeColor (GameObject obj , Color mainColor)
     {
-        obj.GetComponent<Image>().color = mainColor;
+        //obj.GetComponent<Image>().color = mainColor;
     }
 
 }
