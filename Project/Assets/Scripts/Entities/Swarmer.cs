@@ -61,6 +61,14 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     }
     public void ResetSwarmer(DataEntity _entityData)
     {
+        ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem fx in releaseFx)
+        {
+            if (fx.name == "VFXOrbRelease(Clone)")
+            {
+                fx.Stop();
+            }
+        }
         entityData = _entityData as DataSwarmer;
         timeBeingStuck = 0;
         lastKnownPosition = transform.position;
@@ -115,6 +123,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnRelease()
     {
+        Debug.Log("Release");
         ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
         if (currentParticleOrb)
         {
@@ -186,7 +195,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         pathToFollow = null;
         currentFollow = null;
 
-        if(this.transform.GetComponentInParent<Spawner>() != null)
+        ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem fx in releaseFx)
+        {
+            if (fx.name == "VFXOrbRelease(Clone)")
+            {
+                fx.Stop();
+            }
+        }
+
+        if (this.transform.GetComponentInParent<Spawner>() != null)
         {
             this.transform.GetComponentInParent<Spawner>().ChildDied();
         }
