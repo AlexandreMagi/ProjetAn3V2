@@ -104,7 +104,7 @@ public class Weapon : MonoBehaviour
 
     void HitMarkerSoundFunc()
     {
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 1, 0, 3f, false);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.8f, 0, 3f, false);
     }
     public float GetOrbValue()
     {
@@ -217,7 +217,7 @@ public class Weapon : MonoBehaviour
                 if (currentChargePurcentage > 1)
                 {
                     UiCrossHair.Instance.JustFinishedCharging();
-                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 0.5f, 0.1f);
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 0.6f, 0.1f);
                     currentChargePurcentage = 1;
                 }
             }
@@ -328,7 +328,7 @@ public class Weapon : MonoBehaviour
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, 0.5f, 0.2f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, 0.2f, 0.2f);
 
         }
         else
