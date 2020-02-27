@@ -9,6 +9,7 @@ public class PostProcessEffects : MonoBehaviour
 
     ChromaticAberration chromaticAberrationEffect;
     Vignette vignetteEffect;
+    MotionBlur motionBlurEffect;
 
     bool isChroma = false;
 
@@ -19,6 +20,12 @@ public class PostProcessEffects : MonoBehaviour
 
     private void Start()
     {
+        vignetteEffect = ScriptableObject.CreateInstance<Vignette>();
+        vignetteEffect.enabled.Override(true);
+        vignetteEffect.intensity.Override(0.25f);
+        vignetteEffect.smoothness.Override(1);
+
+
         vignetteEffect = ScriptableObject.CreateInstance<Vignette>();
         vignetteEffect.enabled.Override(true);
         vignetteEffect.intensity.Override(0.25f);
