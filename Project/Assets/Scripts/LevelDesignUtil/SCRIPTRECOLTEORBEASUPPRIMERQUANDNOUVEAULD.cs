@@ -99,7 +99,6 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     void OrbDestroyed()
     {
         FxManager.Instance.PlayFx("VFX_OrbGatherExplosion", transform.position,transform.rotation);
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 0.8f);
         CameraHandler.Instance.AddShake(shakeForce, 0.5f);
         Invoke("SecondShake", 0.9f);
     }
@@ -107,6 +106,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     void SecondShake()
     {
 
+
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 1f);
         CameraHandler.Instance.AddShake(shakeForce, shakeTime);
 
         bItemDestroyedCompletly = true;
