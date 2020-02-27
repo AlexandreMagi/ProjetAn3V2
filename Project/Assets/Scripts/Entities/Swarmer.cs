@@ -275,6 +275,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentFollow == null)
             target = Player.Instance.transform;
 
+        #region BlockGestion
         timeBeingStuck += Time.deltaTime;
 
         if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
@@ -284,7 +285,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (timeBeingStuck >= entityData.timeForUpwardsTransition && !hasTriedUp)
                 {
                     hasTriedUp = true;
-                    rbBody.AddForce(Vector3.up * 250);
+                    //rbBody.AddForce(Vector3.up * 500);
                 }
 
                 if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
@@ -318,8 +319,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 lastKnownPosition = transform.position;
             }
         }
+        #endregion //BlockGestion
 
-        
     }
 
 
@@ -367,6 +368,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
 
         }
+        #region pathfinder
         else
         {
             this.transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
@@ -516,7 +518,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 
             }
         }
-        else {
+        #endregion Pathfinder
+        else
+        {
 
             //Pathfinding
             if ((currentFollow != null || target != null) && entityData != null && rbBody.useGravity && !isAirbone)
@@ -539,7 +543,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
 
                     bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
-                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+                    if(rbBody.velocity.magnitude <= entityData.maximumSpeed) { 
+                        rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+                    }
 
 
                     if (!isChasingTarget && pathToFollow != null)
