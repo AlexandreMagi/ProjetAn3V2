@@ -44,11 +44,11 @@ public class Main : MonoBehaviour
     [SerializeField]
     BoxCollider[] aiWalls = null;
 
-    public static Main Instance { get; private set; }
 
     AudioSource hSoundHandlerMainMusic = null;
 
 
+    public static Main Instance { get; private set; }
     void Awake()
     {
         Instance = this;
