@@ -59,6 +59,11 @@ public class ShootTriggerManager : MonoBehaviour
     [SerializeField, ShowIf("triggersBooleanSequence")]
     bool booleanStateSet = false;
 
+
+    // END GAME ////////////////////////////
+    [SerializeField]
+    bool gameEnder = false;
+
     GameObject[] childs;
 
     // Start is called before the first frame update
@@ -169,6 +174,12 @@ public class ShootTriggerManager : MonoBehaviour
         if (triggersBooleanSequence)
         {
             TriggerUtil.TriggerBooleanSequence(0, booleanName, booleanStateSet);
+        }
+
+        if (gameEnder)
+        {
+            SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
     }
 }
