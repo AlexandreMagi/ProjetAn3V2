@@ -104,7 +104,7 @@ public class Weapon : MonoBehaviour
 
     void HitMarkerSoundFunc()
     {
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.8f, 0, 3f, false);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.5f, 0, 3f, false);
     }
     public float GetOrbValue()
     {
@@ -140,6 +140,8 @@ public class Weapon : MonoBehaviour
             reloadingPurcentage = 0;
             bulletRemaining = 0;
             reloadCoolDown = weapon.reloadCooldown;
+
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ReloadStart", false, 0.7f);
         }
     }
 
@@ -154,6 +156,7 @@ public class Weapon : MonoBehaviour
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
                 CameraHandler.Instance.AddRecoil(false, weapon.reloadingMissTryRecoil);
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishMiss", false, 0.7f);
             }
             return false;
         }
@@ -177,6 +180,11 @@ public class Weapon : MonoBehaviour
             }
             
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 0.7f);
+        }
+        else
+        {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_Finish", false, 0.7f);
         }
     }
 

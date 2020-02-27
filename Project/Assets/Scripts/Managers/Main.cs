@@ -401,12 +401,14 @@ public class Main : MonoBehaviour
         if (rez)
         {
             CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.5f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Up", false, 1);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
         }
         else
         {
             CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Boo", false, 0.2f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Down", false, 1);
             DoGameOver();
         }
     }
