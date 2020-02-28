@@ -184,7 +184,11 @@ public class Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?", 5);
+            HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            HintScript.Instance.PopHint("Merci d'avoir joué à Death Live !", 5);
         }
 
         if (sequenceSkipMode)
