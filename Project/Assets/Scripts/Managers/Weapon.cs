@@ -336,7 +336,7 @@ public class Weapon : MonoBehaviour
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, 0.2f, 0.2f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.6f : 0.2f, 0.2f);
 
         }
         else

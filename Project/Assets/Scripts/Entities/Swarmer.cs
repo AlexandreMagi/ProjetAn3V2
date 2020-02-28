@@ -17,6 +17,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool hasTriedUp = false;
     bool isGettingOutOfObstacle = false;
     bool isOutStepTwo = false;
+    bool isDying = false;
     Vector3 obstacleDodgePoint = Vector3.zero;
     Vector3 oldForwardVector = Vector3.zero;
 
@@ -69,6 +70,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 fx.Stop();
             }
         }
+        isDying = false;
         entityData = _entityData as DataSwarmer;
         timeBeingStuck = 0;
         lastKnownPosition = transform.position;
@@ -183,45 +185,51 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     #endregion
     protected override void Die()
     {
-        if (currentParticleOrb) currentParticleOrb.Stop();
-        FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
-        FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
-
-        CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
-        TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
-       
-        target = null;
-        pathToFollow = null;
-        currentFollow = null;
-
-        ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
-        foreach (ParticleSystem fx in releaseFx)
+        if (!isDying)
         {
-            if (fx.name == "VFXOrbRelease(Clone)")
+            isDying = true;
+            if (currentParticleOrb) currentParticleOrb.Stop();
+            FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
+            FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
+
+            CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
+            TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
+
+            target = null;
+            pathToFollow = null;
+            currentFollow = null;
+
+            ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem fx in releaseFx)
             {
-                fx.Stop();
+                if (fx.name == "VFXOrbRelease(Clone)")
+                {
+                    fx.Stop();
+                }
             }
+
+            if (this.transform.GetComponentInParent<Spawner>() != null)
+            {
+                this.transform.GetComponentInParent<Spawner>().ChildDied();
+            }
+
+
+            //Means it has been killed in some way and has not just attacked
+            if (health <= 0)
+            {
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this.transform.position, this);
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Kill, this.transform.position, this);
+            }
+
+            if (SequenceHandler.Instance != null)
+                SequenceHandler.Instance.OnEnemyKill();
+
+            InstansiateDeadBody(); CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
+
+            upPartMesh.SetActive(false);
+            this.gameObject.SetActive(false);
+
         }
-
-        if (this.transform.GetComponentInParent<Spawner>() != null)
-        {
-            this.transform.GetComponentInParent<Spawner>().ChildDied();
-        }
-       
-
-        //Means it has been killed in some way and has not just attacked
-        if(health <= 0)
-        {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, Vector3.zero, this); 
-        }
-
-        if (SequenceHandler.Instance != null)
-            SequenceHandler.Instance.OnEnemyKill();
-
-        InstansiateDeadBody();CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
-
-        upPartMesh.SetActive(false);
-        this.gameObject.SetActive(false);
 
     }
 

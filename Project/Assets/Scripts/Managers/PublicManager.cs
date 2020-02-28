@@ -32,10 +32,11 @@ public class PublicManager : MonoBehaviour
     {
         if(timeLeftForMultiKill > 0)
         {
-            timeLeftForMultiKill -= Time.deltaTime;
+            timeLeftForMultiKill -= Time.unscaledDeltaTime;
             if(timeLeftForMultiKill <= 0)
             {
                 timeLeftForMultiKill = 0;
+                multiKillCounter = 0;
             } 
         }
 
@@ -81,23 +82,17 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.Kill:
                 //Un peu spécial
-                Debug.Log("kill");
                 multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-                    if(multiKillCounter > 3)
+                    if(multiKillCounter >= 3)
                     {
                         //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
-                        AddViewers(3, false, ActionType.Kill, "Multi-élimination", _position);
-                    }
-                    else
-                    {
-                        //AddViewers(2, false, ActionType.Kill, "Combo kill", _position);
-                        AddViewers(2, false, ActionType.Kill, "Combo !", _position);
+                        AddViewers(1, false, ActionType.Kill, "Multi-élimination", _position);
                     }
                    
                 }
-                timeLeftForMultiKill = 1.4f; 
+                timeLeftForMultiKill = 0.8f; 
                 break;
             case ActionType.PerfectReload:
                 //AddViewers(2, true, action, "Perfect Reload", _position);
