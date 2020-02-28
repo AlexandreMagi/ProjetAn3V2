@@ -8,6 +8,7 @@ public class DataDamageFb : ScriptableObject
     public float flashTime = 0.1f;
     public float flashAlpha = .6f;
     public float stateTime = 1;
+    public float stateAlpha = 1;
 
     public float shieldBreakFlash = 0.2f;
 
