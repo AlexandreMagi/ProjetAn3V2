@@ -370,7 +370,7 @@ public class Weapon : MonoBehaviour
     {
         if (!shotGunHasHit)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
+            //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
         }
     }
 

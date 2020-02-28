@@ -81,10 +81,11 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.Kill:
                 //Un peu spécial
+                Debug.Log("kill");
                 multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-                    if(multiKillCounter > 5)
+                    if(multiKillCounter > 3)
                     {
                         //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
                         AddViewers(3, false, ActionType.Kill, "Multi-élimination", _position);
@@ -96,7 +97,7 @@ public class PublicManager : MonoBehaviour
                     }
                    
                 }
-                timeLeftForMultiKill = 0.8f; 
+                timeLeftForMultiKill = 1.4f; 
                 break;
             case ActionType.PerfectReload:
                 //AddViewers(2, true, action, "Perfect Reload", _position);

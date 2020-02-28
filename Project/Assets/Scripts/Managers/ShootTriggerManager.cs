@@ -58,6 +58,8 @@ public class ShootTriggerManager : MonoBehaviour
     string booleanName = "";
     [SerializeField, ShowIf("triggersBooleanSequence")]
     bool booleanStateSet = false;
+    [SerializeField, ShowIf("triggersBooleanSequence")]
+    float delayOnBooleanActivation = 0;
 
 
     // END GAME ////////////////////////////
@@ -173,7 +175,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (triggersBooleanSequence)
         {
-            TriggerUtil.TriggerBooleanSequence(0, booleanName, booleanStateSet);
+            TriggerUtil.TriggerBooleanSequence(delayOnBooleanActivation, booleanName, booleanStateSet);
         }
 
         if (gameEnder)
