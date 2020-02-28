@@ -155,6 +155,9 @@ public class PublicManager : MonoBehaviour
             case ActionType.DamageOnEnemy:
                 AddViewers(1, false, ActionType.DamageOnEnemy, "Dégats", _position);
                 break;
+            case ActionType.DamageFixedCam:
+                AddViewers(1, false, ActionType.DamageFixedCam, "Boom", _position);
+                break;
             default:
                 break;
         }
@@ -312,6 +315,7 @@ public class PublicManager : MonoBehaviour
         BonusOnRespawn = 15,
         DamageOnArmor = 16,
         Collectible = 17,
-        DamageOnEnemy = 18
+        DamageOnEnemy = 18,
+        DamageFixedCam = 19
     }
 }

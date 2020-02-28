@@ -13,7 +13,8 @@ public class TutoDetectionOrb : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 13)
+        Debug.Log("azae");
+        if (other.gameObject.layer == 8)
         {
             MeshRenderer[] matList = pipeLine.GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer mat in matList)

@@ -29,6 +29,7 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
     {
         if (parentScript != null)
         {
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageFixedCam, gameObject.transform.position);
             CustomSoundManager.Instance.PlaySound(gameObject, sound, false, soundVolume, 0.3f, 0, true);
             parentScript.hitByBullet();
         }

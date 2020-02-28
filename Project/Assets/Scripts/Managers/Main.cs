@@ -47,6 +47,8 @@ public class Main : MonoBehaviour
 
     AudioSource hSoundHandlerMainMusic = null;
 
+    bool saveIfPlayerCouldShoot = true;
+
 
     public static Main Instance { get; private set; }
     void Awake()
@@ -245,17 +247,23 @@ public class Main : MonoBehaviour
         #endregion
 
         //RELOAD
-        if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R))
+        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)))
         {
             if (Weapon.Instance.ReloadValidate())
                 Weapon.Instance.ReloadingInput();
         }
 
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         {
             if (Weapon.Instance.ReloadValidate())
                 Weapon.Instance.ReloadingInput();
         }
+
+        if (!saveIfPlayerCouldShoot && playerCanShoot)
+        {
+            Weapon.Instance.EndReload(true);
+        }
+        saveIfPlayerCouldShoot = playerCanShoot;
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
