@@ -79,6 +79,8 @@ public class MeshCombineWizard : ScriptableWizard {
             combinedMesh.CombineMeshes(combine);
             materialName += "_" + combinedMesh.GetInstanceID();
 
+            Unwrapping.GenerateSecondaryUVSet(combinedMesh);
+
             AssetDatabase.CreateAsset(combinedMesh, meshPath + materialName + ".obj");
 
             string goName = (materialToMeshFilterList.Count > 1)? "CombinedMeshes_" + materialName : "CombinedMeshes_" + parentOfObjectsToCombine.name;
