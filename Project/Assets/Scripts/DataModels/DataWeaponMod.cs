@@ -12,6 +12,8 @@ public class DataWeaponMod : ScriptableObject
     [RangeAttribute(0f, 50f)]
     public float shakePerShot;
     [RangeAttribute(0f, 50f)]
+    public float shakeTimePerShot;
+    [RangeAttribute(0f, 50f)]
     public float shakePerHit;
     [RangeAttribute(0f, 1.5f)]
     public float recoilPerShot;
