@@ -7,7 +7,7 @@ public class CameraDiorama : MonoBehaviour
 
     [SerializeField]
     [Tooltip("en seconde pour un tour")]
-    float floatVitesseRotation;
+    float floatVitesseRotation = 1;
 
     // Update is called once per frame
     void Update()

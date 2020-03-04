@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimatedCamScriptTrigger : MonoBehaviour
 {
     [SerializeField]
-    Animator[] anim;
+    Animator[] anim = null;
 
     [SerializeField]
     float slowMoPower = 10;

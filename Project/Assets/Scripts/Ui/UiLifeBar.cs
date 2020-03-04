@@ -18,7 +18,6 @@ public class UiLifeBar : MonoBehaviour
         _instance = this;
     }
 
-    [SerializeField] DataLifeBarUi dataLifebar = null;
 
     [SerializeField] Transform rootVerticalShield = null;
     [SerializeField] Transform rootMiddleShield = null;

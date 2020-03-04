@@ -7,7 +7,7 @@ public class SplatOnCollision : MonoBehaviour
     ParticleSystem particleMain;
 
     [SerializeField]
-    ParticleDecalPool dropletDecalPool;
+    ParticleDecalPool dropletDecalPool = null;
 
     List<ParticleCollisionEvent> collisionEvents;
 

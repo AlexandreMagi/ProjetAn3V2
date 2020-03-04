@@ -5,7 +5,7 @@ using UnityEngine;
 public class PublicManager : MonoBehaviour
 {
     [SerializeField]
-    DataPublic publicData;
+    DataPublic publicData = null;
 
     IEntity enemyForVendetta = null;
 
