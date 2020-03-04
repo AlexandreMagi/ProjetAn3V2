@@ -10130,7 +10130,7 @@ GameObject:
   - component: {fileID: 8724956490323836482}
   - component: {fileID: 8724956490323836484}
   - component: {fileID: 8724956490323836485}
-  - component: {fileID: 8724956490323836489}
+  - component: {fileID: 2014583736134610594}
   - component: {fileID: 4476334576403535502}
   - component: {fileID: 7677589553362193668}
   m_Layer: 8
@@ -10185,7 +10185,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 2
---- !u!114 &8724956490323836489
+--- !u!114 &2014583736134610594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10194,16 +10194,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8724956490323836483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8961f4a8cc194142bca4f412f9be44f, type: 3}
+  m_Script: {fileID: 11500000, guid: 50d554520d197394988b33c890ad21e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   entityData: {fileID: 0}
   maskOfWall:
     serializedVersion: 2
-    m_Bits: 513
+    m_Bits: 1081857
   deadBody: {fileID: 7328945747328693308, guid: d63c0faba4957944f98474b5cb1ebbb2,
     type: 3}
-  upPartMesh: {fileID: 1098085983965873455}
 --- !u!135 &4476334576403535502
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10525,12 +10524,6 @@ PrefabInstance:
 --- !u!4 &1098085982743393604 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2140691913268943846, guid: 2f98f5beb07942140a3753d79e1a36bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1335436681581637282}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1098085983965873455 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2140691914455526285, guid: 2f98f5beb07942140a3753d79e1a36bd,
     type: 3}
   m_PrefabInstance: {fileID: 1335436681581637282}
   m_PrefabAsset: {fileID: 0}

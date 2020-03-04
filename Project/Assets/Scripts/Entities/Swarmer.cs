@@ -6,102 +6,89 @@ using Sirenix.OdinInspector;
 
 public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 {
-    bool isAirbone = false;
-    float timePropel = .5f;
-    float elapsedTime = 0;
-    float timerWait = 0;
+    private enum SwarmerState
+    {
+        FollowPath,
+        LookingForTarget,
+        HuntTarget,
+        WaitingForAttack,
+        Attacking,
+        DodgingObstacle,
+        CalculatingExit,
+        GravityControlled
+    }
+    //Basics
+    Rigidbody rbBody = null;
+    [ShowInInspector]
+    SwarmerState currentState = SwarmerState.FollowPath;
 
-    float tryUpCd = 0;
-
-    float jumpElapsedTime = 0;
-    bool hasTriedUp = false;
-    bool isGettingOutOfObstacle = false;
-    bool isOutStepTwo = false;
-    bool isDying = false;
-    Vector3 obstacleDodgePoint = Vector3.zero;
-    Vector3 oldForwardVector = Vector3.zero;
-
+    //Securities
     float timeBeingStuck = 0;
-    Vector3 lastKnownPosition = Vector3.zero;
 
-    [SerializeField]
-    LayerMask maskOfWall = default;
-
-    [SerializeField]
-    GameObject deadBody = null;
-    [SerializeField]
-    GameObject upPartMesh = null;
-
+    //Path follow
+    [ShowInInspector]
+    Vector3 currentDirection = Vector3.zero;
+    [ShowInInspector]
     Pather pathToFollow = null;
     [ShowInInspector]
     int pathID = 0;
 
-    [ShowInInspector]
-    Transform currentFollow;
+    //Attack variables
+    float timerWait = 0;
 
-    Vector3 v3VariancePoisitionFollow;
+    //Dodge phase variables
+    float jumpElapsedTime = 0;
+    bool isOutStepTwo = false;
+    Vector3 oldForwardVector = Vector3.zero;
+    Vector3 obstacleDodgePoint = Vector3.zero;
 
-    Rigidbody rbBody;
+    //Obstruction gestion
+    Vector3 lastKnownPosition = Vector3.zero;
+    [SerializeField]
+    LayerMask maskOfWall = default;
 
-    [ShowInInspector]
-    bool isChasingTarget;
-
-    enum State { Basic, Waiting, Attacking };
-    [ShowInInspector]
-    State nState = State.Basic;
-
+    //Gravity variables
+    float timePropel = .5f;
+    float elapsedTime = 0;
     ParticleSystem currentParticleOrb = null;
     bool hasPlayedFxOnPull = false;
 
-    //Stimulus
+    //Death variables
+    [SerializeField]
+    GameObject deadBody = null;
+    bool isDying = false;
+
+
     #region Stimulus
-    #region Gravity
+    public override void OnDistanceDetect(Transform p_target, float distance)
+    {
+        base.OnDistanceDetect(target, distance);
+
+        if (distance < entityData.distanceToTargetEnemy)
+        {
+            target = p_target;
+        }
+    }
+
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    {
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoProject(rbBody, explosionOrigin, explosionForce, explosionRadius, liftValue);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
+        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
+    }
+
+    public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
+    {
+        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, fGForce, false);
+
+        ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
+
+        currentState = SwarmerState.GravityControlled;
+    }
+
     public void OnGravityDirectHit()
     {
         ReactGravity<DataSwarmer>.DoFreeze(rbBody);
-    }
-    public void ResetSwarmer(DataEntity _entityData)
-    {
-        ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
-        foreach (ParticleSystem fx in releaseFx)
-        {
-            if (fx.name == "VFXOrbRelease(Clone)")
-            {
-                fx.Stop();
-            }
-        }
-        isDying = false;
-        entityData = _entityData as DataSwarmer;
-        timeBeingStuck = 0;
-        lastKnownPosition = transform.position;
-        health = entityData.startHealth;
-        TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
-        TeamsManager.Instance.RegistertoTeam(this.transform, entityData.team);
-        this.GetComponentInChildren<Renderer>().material = entityData.mat;
-        target = null;
-        isChasingTarget = false;
-        nState = (int)State.Basic;
-        timerWait = 0;
-        rbBody = GetComponent<Rigidbody>();
-        rbBody.velocity = Vector3.zero;
-        if (currentParticleOrb) currentParticleOrb.Stop();
-        hasPlayedFxOnPull = false;
-        upPartMesh.SetActive(true);
-
-        if (Random.Range(0, 100) < 30)
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Spawn", false, 0.3f, 0.3f);
-        Invoke("MaybeGrunt", 1f);
-        //InitColor();
-    }
-
-    void MaybeGrunt()
-    {
-        if (gameObject.activeSelf)
-        {
-            if (Random.Range(0, 100) < 5)
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Grunt", false, 0.5f, 0.3f);
-            Invoke("MaybeGrunt", 1f);
-        }
     }
 
     public void OnHold()
@@ -110,12 +97,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             currentParticleOrb = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenHoldByGrav, transform);
         if (currentParticleOrb && !currentParticleOrb.isEmitting)
             currentParticleOrb.Play();
-        //Nothing happens on hold
     }
 
-    public void OnPull(Vector3 origin, float force)
+    public void OnPull(Vector3 position, float force)
     {
-        ReactGravity<DataSwarmer>.DoPull(rbBody, origin, force, isAirbone);
+        ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, currentState==SwarmerState.GravityControlled);
         if (!hasPlayedFxOnPull)
         {
             hasPlayedFxOnPull = true;
@@ -138,51 +124,22 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         ReactGravity<DataSwarmer>.DoSpin(rbBody);
     }
 
-    public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float tFloatTime, bool bIndependantFromTimeScale)
+    public void OnTriggerEnter(Collider other)
     {
-        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, fGForce, false);
-
-        ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, tFloatTime, bIndependantFromTimeScale);
-    }
-    #endregion
-
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
-    {
-        ReactSpecial<DataSwarmer, DataSwarmer>.DoProject(rbBody, explosionOrigin, explosionForce, explosionRadius, liftValue);
-        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
-        ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);
-    }
-
-    #region Bullets
-    public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
-    {
-        this.TakeDamage(dammage);
-    }
-    #endregion
-
-    #region Detection
-
-    public override void OnMovementDetect()
-    {
-      
-    }
-
-    public override void OnDangerDetect()
-    {
-      
-    }
-
-    public override void OnDistanceDetect(Transform targetToHunt, float distance)
-    {
-        if (pathToFollow == null || distance < entityData.distanceToTargetEnemy)
+        if (other.transform == target)
         {
-            isChasingTarget = true;
-            target = targetToHunt;
-            currentFollow = target;
+            IEntity targetEntity = target.GetComponent<IEntity>();
+            if (other.GetComponent<Player>() != null)
+            {
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
+            }
+            targetEntity.TakeDamage(entityData.damage);
+            targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
+            //health = 0;
+            this.Die();
         }
-        
     }
-    #endregion
+
     protected override void Die()
     {
         if (!isDying)
@@ -197,7 +154,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             target = null;
             pathToFollow = null;
-            currentFollow = null;
+            currentDirection = Vector3.zero;
 
             ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem fx in releaseFx)
@@ -224,116 +181,62 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if (SequenceHandler.Instance != null)
                 SequenceHandler.Instance.OnEnemyKill();
 
-            InstansiateDeadBody(); CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
+            InstansiateDeadBody();
 
-            upPartMesh.SetActive(false);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
+
             this.gameObject.SetActive(false);
 
         }
 
     }
-
     void InstansiateDeadBody()
     {
         GameObject deadBodyClone;
         deadBodyClone = Instantiate(deadBody, transform.position, transform.rotation);
         deadBodyClone.transform.parent = null;
     }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if(other.transform == target)
-        {
-            IEntity targetEntity = target.GetComponent<IEntity>();
-            if(other.GetComponent<Player>() != null)
-            {
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
-            }
-            targetEntity.TakeDamage(entityData.damage);
-            targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
-            //health = 0;
-            this.Die();
-        }
-    }
-
-    #endregion //STIMULUS
+    #endregion
 
     // Start is called before the first frame update
     protected override void Start()
     {
         this.health = entityData.startHealth;
-        //enemyData = entityData as DataSwarmer;
         rbBody = GetComponent<Rigidbody>();
 
         lastKnownPosition = transform.position;
         Invoke("MaybeGrunt", 1f);
-        //TeamsManager.Instance.RegistertoTeam(this.transform, enemyData.team);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (hasTriedUp)
-        {
-            tryUpCd += Time.deltaTime;
-            if(tryUpCd >= entityData.considerStuckThreshhold && timeBeingStuck <= entityData.considerStuckThreshhold)
-            {
-                hasTriedUp = false;
-                tryUpCd = 0;
-            }
-        }
-
+        #region Securities
+        //Kill security
         if (this.transform.position.y <= -5)
         {
             this.Die();
         }
 
-        if(!isChasingTarget && currentFollow && Mathf.Abs(currentFollow.position.y - transform.position.y) >= entityData.maxHeightToChaseWaypoint)
-        {
+        //Rotation security
+        this.transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
 
-            pathID++;
-            if (pathToFollow != null)
-                currentFollow = pathToFollow.GetPathAt(pathID);
-        }
-
-        if (currentFollow == null)
-            target = Player.Instance.transform;
-
+        //Blocking security
         #region BlockGestion
         timeBeingStuck += Time.deltaTime;
 
-        if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
+        if (timeBeingStuck >= entityData.initialTimeToConsiderCheck)
         {
             if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
             {
-                if (timeBeingStuck >= entityData.timeForUpwardsTransition && !hasTriedUp)
+
+                if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && currentState == SwarmerState.DodgingObstacle)
                 {
-                    hasTriedUp = true;
-                    //rbBody.AddForce(Vector3.up * 500);
+                    currentState = SwarmerState.FollowPath;
                 }
 
-                if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
-                {
-                    isGettingOutOfObstacle = false;
-                }
-                else
-                {
-                   if(pathToFollow != null)
-                        currentFollow = pathToFollow.GetPathAt(pathID);
-
-                    if(currentFollow == null)
-                    {
-                        isChasingTarget = true;
-                    }
-
-                    if (isChasingTarget)
-                    {
-                        target = Player.Instance.transform;
-                    }
-                }
-
-                if(timeBeingStuck >= entityData.maxBlockedSuicideTime && !isAirbone)
+                if (timeBeingStuck >= entityData.maxBlockedSuicideTime && currentState != SwarmerState.GravityControlled)
                 {
                     this.Die();
                 }
@@ -344,84 +247,161 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 lastKnownPosition = transform.position;
             }
         }
-        #endregion //BlockGestion
+        #endregion
+        #endregion*
 
+        //Distance to attack check
+        if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
+        {
+            currentState = SwarmerState.WaitingForAttack;
+            rbBody.velocity = Vector3.zero;
+        }
     }
 
-
-    public void SetPathToFollow(Pather path)
+    // Update is called once per frame
+    protected void FixedUpdate()
     {
-        pathToFollow = path;
+        //Base vectors
+        Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
+        Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
+        Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
+        Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
 
-        currentFollow = path.GetPathAt(0);
-
-        pathID = 0;
-
-        v3VariancePoisitionFollow = currentFollow.position;
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        //Debug.DrawRay(transform.position, currentFollow.position, Color.magenta);
-
-        if(jumpElapsedTime > 0)
+        //State comportement
+        switch (currentState)
         {
-            jumpElapsedTime -= Time.fixedDeltaTime;
+            #region FollowPath
+            case SwarmerState.FollowPath:
+                //Debug ray
+                Debug.DrawRay(transform.position + Vector3.up * .5f, currentDirection - (transform.position + Vector3.up * .5f), Color.cyan);
 
-            if(jumpElapsedTime <= 0)
-            {
-                jumpElapsedTime = 0;
-            }
-        }
-
-        //Check for airbone and makes it spin if in the air
-        if (isAirbone)
-        {
-            elapsedTime += Time.deltaTime;
-
-            if (elapsedTime >= timePropel)
-            {
-                ReactGravity<DataSwarmer>.DoSpin(rbBody);
-
-                //Check si touche le sol
-                elapsedTime = 0;
-                if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
+                if(pathToFollow != null && currentDirection != Vector3.zero)
                 {
-                    isAirbone = false;
+                    //Displacement
+                    MoveTowardsTarget(currentDirection);
+
+                    //Path verifications
+                    if (CheckObjectiveDistance())
+                    {
+                        //Advance in the path
+                        pathID++;
+
+                        currentDirection = pathToFollow.GetPathAt(pathID);
+
+                        //If end of path
+                        if (currentDirection == Vector3.zero)
+                        {
+                            Debug.Log("End of path");
+
+                            currentState = SwarmerState.LookingForTarget;
+                        }
+                        else
+                        {
+                            //Variance in path definition
+                            if(entityData.varianceInPath > 0)
+                            {
+                                currentDirection = ApplyVarianceToPosition(currentDirection, transform.position);
+                            }
+                            
+                        }
+                    }
+
+                    if (CheckForObstacles() && entityData.hasDodgeIntelligence)
+                    {
+                        currentState = SwarmerState.CalculatingExit;
+                    }
+                    
                 }
 
-            }
-
-        }
-        #region pathfinder
-        else
-        {
-            this.transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
-            //Ça, c'est le truc pour les rendre moins débilos
-            //------------- JUMP OBSTACLES
-            Vector3 forward = transform.TransformDirection(Vector3.forward) * entityData.frontalDetectionSight;
-            Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
-            Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
-            Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-            Debug.DrawRay(adaptedPosition, forward, Color.blue);
-            //Angle of ray compared to point of path
-            float angle = 90;
-            if (currentFollow)
-                angle = Vector3.Angle(forward, v3VariancePoisitionFollow - transform.position);
-            else
-                angle = Vector3.Angle(forward, target.position - transform.position);
-
-            RaycastHit hit;
-            //Vérification frontale. Seulement valide si c'est "relativement" dans la direction où le mob veut aller.
-            if (Physics.Raycast(adaptedPosition, forward, out hit, entityData.frontalDetectionSight, maskOfWall) && angle <= 10)
-            {
-                //Debug.Log("Obstacle found.");
-
-                //Si il est bloqué contre une caisse, il la dégage
-                if(hit.collider.GetComponent<Prop>() != null)
+                else
                 {
-                    hit.collider.attachedRigidbody.AddForce(forward * entityData.pushForce + Vector3.up * entityData.upwardsPushForce);
+                    //If no current direction
+                    currentState = SwarmerState.LookingForTarget;
                 }
+
+                break;
+
+            #endregion
+
+            #region WaitingForAttack
+            case SwarmerState.WaitingForAttack:
+                timerWait += Time.fixedDeltaTime;
+                if (timerWait > entityData.waitDuration)
+                {
+                    timerWait = 0;
+                    if (target != null && CheckDistance())
+                    {
+                        currentState = SwarmerState.Attacking;
+
+                        //Start attack
+                        rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
+                        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
+                    }
+                    else
+                        currentState = SwarmerState.FollowPath;
+
+                }
+                else
+                {
+                    if (target != null)
+                    {
+                        //Rotation
+                        Quaternion look = Quaternion.LookRotation(new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position);
+
+                        transform.rotation = Quaternion.Slerp(transform.rotation, look, 5 * Time.fixedDeltaTime);
+                    }
+                    else
+                    {
+                        currentState = SwarmerState.LookingForTarget;
+                    }
+                }
+                break;
+            #endregion
+
+            #region Attacking
+            case SwarmerState.Attacking:
+                if (target != null)
+                {
+                    MoveTowardsTarget(target.position, entityData.speedMultiplierWhenAttacking);
+
+                    if (!CheckDistance())
+                    {
+                        currentState = SwarmerState.LookingForTarget;
+                    }
+                }
+                break;
+            #endregion
+
+            #region LookingForTarget
+            case SwarmerState.LookingForTarget:
+                if(target != null)
+                {
+                    currentState = SwarmerState.HuntTarget;
+                }
+                break;
+            #endregion
+
+            #region HuntTarget
+            case SwarmerState.HuntTarget:
+                if(target != null)
+                {
+                    MoveTowardsTarget(target.position);
+
+                    if (CheckForObstacles() && entityData.hasDodgeIntelligence)
+                    {
+                        currentState = SwarmerState.CalculatingExit;
+                    }
+                }
+                else
+                {
+                    currentState = SwarmerState.LookingForTarget;
+                }
+
+                break;
+            #endregion
+
+            #region CalculatingExit
+            case SwarmerState.CalculatingExit:
 
                 Debug.DrawRay(adaptedPosition, Vector3.up, Color.green);
                 Debug.DrawRay(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, Color.red);
@@ -429,35 +409,37 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 //Vérification de la possibilité du saut
                 if (
                     !Physics.Raycast(adaptedPosition, Vector3.up, out _, entityData.jumpHeight, maskOfWall) &&
-                    !Physics.Raycast(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, out _, entityData.jumpHeight+1, maskOfWall) &&
+                    !Physics.Raycast(adaptedPosition, (Vector3.up + forward) * entityData.jumpHeight, out _, entityData.jumpHeight + 1, maskOfWall) &&
                     jumpElapsedTime == 0
                    )
-                { 
+                {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
+                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce, ForceMode.Impulse);
+
+                    currentState = SwarmerState.FollowPath;
                     //Debug.Log("jump");
                 }
                 //Si saut impossible, lancement de la manoeuvre d'évitement d'obstacle
                 else
                 {
-                    if (!isGettingOutOfObstacle && jumpElapsedTime == 0)
+                    if (jumpElapsedTime == 0)
                     {
                         //CANNOT JUMP, MUST DODGE OBSTACLE
                         bool hasFoundExit = false;
                         float currentStep = 1;
                         int iStep = 1;
                         bool isRightSide = true;
-                        
+
                         //Check for path tries
-                        for(int i = 0; i< entityData.numberOfSideTries * 2; i++)
+                        for (int i = 0; i < entityData.numberOfSideTries * 2; i++)
                         {
                             isRightSide = !isRightSide;
-                            if(i%2 == 0)
+                            if (i % 2 == 0)
                             {
                                 iStep++;
                             }
 
-                            Vector3 rayInitialPosition = adaptedPosition + (isRightSide?right:left) * iStep * entityData.tryStep;
+                            Vector3 rayInitialPosition = adaptedPosition + (isRightSide ? right : left) * iStep * entityData.tryStep;
                             Debug.DrawRay(rayInitialPosition, forward, Color.cyan);
 
                             if (!Physics.Raycast(rayInitialPosition, forward, out _, entityData.frontalDetectionSight + entityData.extraLengthByStep * iStep, maskOfWall) && !Physics.Raycast(adaptedPosition, (isRightSide ? right : left), out _, iStep * entityData.distanceDodgeStep, maskOfWall))
@@ -475,230 +457,168 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             //Debug.Log("Sortie trouvée");
                             isOutStepTwo = false;
                             oldForwardVector = forward + forward * entityData.extraLengthByStep * currentStep;
-                            isGettingOutOfObstacle = true;
+                            currentState = SwarmerState.DodgingObstacle;
                             obstacleDodgePoint = adaptedPosition + (isRightSide ? right : left) * currentStep * entityData.tryStep;
-                            hasTriedUp = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (isGettingOutOfObstacle)
-        {
-            //Movement
-            Vector3 direction = (new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position).normalized;
-
-            bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
-
-            rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f:1));
-
-            bool moveRight = false;
-
-            //Rotation
-            Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
-
-            //Block check
-            Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
-            Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
-            Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
-            Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-
-            //dodge to the right
-            Debug.DrawRay(adaptedPosition + left * .5f, forward * entityData.sideDetectionSight, Color.magenta);
-            if (Physics.Raycast(adaptedPosition + left * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall)) {
-                moveRight = true;
-            }
-
-            //dodge to the left
-            Debug.DrawRay(adaptedPosition + right * .5f, forward * entityData.sideDetectionSight, Color.magenta);
-            if (Physics.Raycast(adaptedPosition + right * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall))
-            {
-                if(!moveRight)
-                rbBody.AddForce(left * entityData.dodgeSlideForce);
-            }
-            else if (moveRight)
-            {
-                rbBody.AddForce(right * entityData.dodgeSlideForce);
-            }
-
-
-
-            //Si on atteint l'étape de l'évitement
-            if (Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
-            {
-                if (isOutStepTwo)
-                {
-                    isGettingOutOfObstacle = false;
-                    isOutStepTwo = false;
-                    //Debug.Log("End of dodge step");
-                }
-                else
-                {
-                    obstacleDodgePoint += oldForwardVector;
-                    isOutStepTwo = true;
-                    //Debug.Log("Step two");
-                }
-                
-            }
-        }
-        #endregion Pathfinder
-        else
-        {
-
-            //Pathfinding
-            if ((currentFollow != null || target != null) && entityData != null && rbBody.useGravity && !isAirbone)
-            {
-                Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
-                Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
-                Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
-                Debug.DrawRay(transform.position + Vector3.up * .5f, v3VariancePoisitionFollow - (transform.position + Vector3.up * .5f), Color.cyan);
-
-                if (nState == State.Basic)
-                {
-                    
-
-                    if (isChasingTarget && target != null)
-                    {
-                        v3VariancePoisitionFollow = target.position;
-                    }
-
-                    //TODO : Follow the path
-                    Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
-
-                    bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
-                    if(rbBody.velocity.magnitude <= entityData.maximumSpeed) { 
-                        rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
-                    }
-
-
-                    if (!isChasingTarget && pathToFollow != null)
-                    {
-                        if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(v3VariancePoisitionFollow.x, v3VariancePoisitionFollow.z)) < entityData.distanceBeforeNextPath)
-                        {
-                            pathID++;
-                            currentFollow = pathToFollow.GetPathAt(pathID);
-                            if (currentFollow == null)
-                            {
-                                //Debug.Log("End of path");
-                                pathID--;
-                                isChasingTarget = true;
-                                target = Player.Instance.transform;
-                            }
-
-                            if (currentFollow != null && currentFollow != target)
-                            {
-                                //Debug.Log("Proc variance, variance = "+swarmer.varianceInPath+"%");
-                                //Debug.Log("Variance = "+ (swarmer.varianceInPath / 100 * Random.Range(-2f, 2f)));
-
-                                Vector3 initialPositionOfRayLeft = transform.position + Vector3.up * .5f + forward + left * .5f;
-                                Vector3 initialPositionOfRayRight = transform.position + Vector3.up * .5f + forward + right * .5f;
-
-                                do
-                                {
-                                    v3VariancePoisitionFollow = new Vector3(
-                                    currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
-                                    currentFollow.position.y,
-                                    currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
-                                    );
-                                } while (!(Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayRight, 50f, maskOfWall)));
-
-
-                                //Debug.Log("Initial pos X: " + currentFollow.position.x + " - Varied pos X : " + v3VariancePoisitionFollow.x);
-                            }
-                            else
-                            {
-                                currentFollow = target;
-                            }
-
                         }
                         else
                         {
-                            //Verification of next path distance
-                            Transform nextFollow = pathToFollow.GetPathAt(pathID + 1);
-                            
-                            if (nextFollow != null && Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(nextFollow.position.x, nextFollow.position.z)) < entityData.distanceBeforeNextPath)
-                            {
-                                pathID++;
-                                currentFollow = pathToFollow.GetPathAt(pathID);
-                                if (currentFollow == null)
-                                {
-                                    //Debug.Log("End of path");
-                                    pathID--;
-                                    isChasingTarget = true;
-                                    target = Player.Instance.transform;
-                                }
-
-                                if (currentFollow != null && currentFollow != target)
-                                {
-                                    Vector3 initialPositionOfRayLeft = transform.position + Vector3.up * .5f + forward + left * .5f;
-                                    Vector3 initialPositionOfRayRight = transform.position + Vector3.up * .5f + forward + right * .5f;
-
-                                    do
-                                    {
-                                        v3VariancePoisitionFollow = new Vector3(
-                                        currentFollow.position.x + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f)),
-                                        currentFollow.position.y,
-                                        currentFollow.position.z + (entityData.varianceInPath / 100 * Random.Range(-2f, 2f))
-                                        );
-                                    } while (!(Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, v3VariancePoisitionFollow - initialPositionOfRayRight, 50f, maskOfWall)));
-                                }
-                            }
-                        }
-                        //Debug.Log("rotate");
-
-                    }
-                    if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1)
-                    {
-                        nState = State.Waiting;
-                        rbBody.velocity = Vector3.zero;
-                        //GetComponent<Animator>().SetTrigger("PrepareToJump");
-                    }
-                }
-                else if (nState == State.Waiting)
-                {
-                    timerWait += Time.deltaTime;
-                    if (timerWait > entityData.waitDuration)
-                    {
-                        timerWait = 0;
-                        if (target != null && CheckDistance())
-                        {
-                            nState = State.Attacking;
-                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
-                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.red);
-                            rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
-                            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
-                        }
-                        else
-                            nState = State.Basic;
-
-                    }
-                }
-                else if (nState == State.Attacking)
-                {
-                    //TODO : Follow the path
-                    if (target != null)
-                    {
-                        Vector3 direction = (new Vector3(target.position.x, transform.position.y, target.position.z) - transform.position).normalized;
-                        rbBody.AddForce(direction * entityData.speed * entityData.speedMultiplierWhenAttacking + Vector3.up * Time.fixedDeltaTime * entityData.upScale);
-                        if (!CheckDistance())
-                        {
-                            nState = State.Basic;
-                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
-                            //GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.yellow, Color.red, 0.5f));
+                            currentState = SwarmerState.FollowPath;
                         }
                     }
                 }
+                break;
+            #endregion
+
+            #region DodgingObstacle
+            case SwarmerState.DodgingObstacle:
+                MoveTowardsTarget(obstacleDodgePoint);
+
+                bool moveRight = false;
 
                 //Rotation
-                Quaternion lookDirection = Quaternion.LookRotation(new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position);
-
+                Quaternion lookDirection = Quaternion.LookRotation(new Vector3(obstacleDodgePoint.x, transform.position.y, obstacleDodgePoint.z) - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
-            }
+
+                //dodge to the right
+                Debug.DrawRay(adaptedPosition + left * .5f, forward * entityData.sideDetectionSight, Color.magenta);
+                if (Physics.Raycast(adaptedPosition + left * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall))
+                {
+                    moveRight = true;
+                }
+
+                //dodge to the left
+                Debug.DrawRay(adaptedPosition + right * .5f, forward * entityData.sideDetectionSight, Color.magenta);
+                if (Physics.Raycast(adaptedPosition + right * .5f, forward, out _, entityData.sideDetectionSight, maskOfWall))
+                {
+                    if (!moveRight)
+                        rbBody.AddForce(left * entityData.dodgeSlideForce);
+                }
+                else if (moveRight)
+                {
+                    rbBody.AddForce(right * entityData.dodgeSlideForce);
+                }
+
+
+
+                //Si on atteint l'étape de l'évitement
+                if (Vector3.Distance(transform.position, obstacleDodgePoint) <= entityData.distanceDodgeStep)
+                {
+                    if (isOutStepTwo)
+                    {
+                        currentState = SwarmerState.FollowPath;
+                        isOutStepTwo = false;
+                        //Debug.Log("End of dodge step");
+                    }
+                    else
+                    {
+                        obstacleDodgePoint += oldForwardVector;
+                        isOutStepTwo = true;
+                        //Debug.Log("Step two");
+                    }
+
+                }
+                break;
+            #endregion
+
+            #region GravityControlled
+            case SwarmerState.GravityControlled:
+                elapsedTime += Time.fixedDeltaTime;
+
+                if (elapsedTime >= timePropel)
+                {
+                    ReactGravity<DataSwarmer>.DoSpin(rbBody);
+
+                    //Check si touche le sol
+                    elapsedTime = 0;
+                    if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
+                    {
+                        currentState = SwarmerState.FollowPath;
+                    }
+
+                }
+                break;
+            #endregion
+
+            default:
+                break;
         }
 
-        
+       
+    }
+
+    public void ResetSwarmer(DataEntity _entityData)
+    {
+        ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem fx in releaseFx)
+        {
+            if (fx.name == "VFXOrbRelease(Clone)")
+            {
+                fx.Stop();
+            }
+        }
+        isDying = false;
+        entityData = _entityData as DataSwarmer;
+        timeBeingStuck = 0;
+        lastKnownPosition = transform.position;
+        health = entityData.startHealth;
+        TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
+        TeamsManager.Instance.RegistertoTeam(this.transform, entityData.team);
+        this.GetComponentInChildren<Renderer>().material = entityData.mat;
+        target = null;
+        currentState = SwarmerState.FollowPath;
+        timerWait = 0;
+        rbBody = GetComponent<Rigidbody>();
+        rbBody.velocity = Vector3.zero;
+        if (currentParticleOrb) currentParticleOrb.Stop();
+        hasPlayedFxOnPull = false;
+
+        if (Random.Range(0, 100) < 30)
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Spawn", false, 0.3f, 0.3f);
+        Invoke("MaybeGrunt", 1f);
+        //InitColor();
+    }
+
+
+    public void SetPathToFollow(Pather path)
+    {
+        pathToFollow = path;
+
+        pathID = 0;
+
+        if (pathToFollow)
+        {
+            currentDirection = pathToFollow.GetPathAt(0);
+        }
+        else
+        {
+            currentState = SwarmerState.LookingForTarget;
+        }
+    }
+
+    void MoveTowardsTarget(Vector3 p_target, float speedMultiplier = 1f)
+    {
+        //Direction
+        Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
+
+        bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+
+        rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+        //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
+
+
+        //Debug
+        Debug.DrawRay(transform.position, direction, Color.red);
+
+
+        //Rotation
+        Quaternion lookDirection = Quaternion.LookRotation(new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
+    }
+
+    bool CheckObjectiveDistance()
+    {
+        return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(currentDirection.x, currentDirection.z)) < entityData.distanceBeforeNextPath;
     }
 
     bool CheckDistance()
@@ -709,8 +629,68 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             return false;
     }
 
-    public float GetDamage()
+    Vector3 ApplyVarianceToPosition(Vector3 posToVariate, Vector3 posBefore)
     {
-        return entityData.damage;
+        //Debug.Log($"Position to variate : {posToVariate} - Position to work with : {posBefore}");
+
+        //Vectors of direction
+        Vector3 direction = (posToVariate - posBefore);
+        Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
+        Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
+        Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
+        Vector3 initialPositionOfRayLeft = transform.position + Vector3.up * .5f + forward + left * .5f;
+        Vector3 initialPositionOfRayRight = transform.position + Vector3.up * .5f + forward + right * .5f;
+
+        float varianceAngle;
+        Vector3 angledDirection;
+
+        //DeathLock prevention
+        int varianceIterations = 0;
+        int maxIterations = 5;
+
+        do
+        {
+            varianceIterations++;
+            varianceAngle = Random.Range(-entityData.varianceInPath, entityData.varianceInPath);
+            angledDirection = Quaternion.AngleAxis(varianceAngle, Vector3.up) * direction;
+
+        } while (!(Physics.Raycast(transform.position, angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, angledDirection - initialPositionOfRayRight, 50f, maskOfWall)) || varianceIterations < maxIterations);
+
+        return posBefore + angledDirection;
     }
+
+    bool CheckForObstacles()
+    {
+        //Basic vectors
+        float angle = 90;
+        Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
+        Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
+        Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
+        Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
+
+        //Debug ray
+        Debug.DrawRay(adaptedPosition, forward, Color.blue);
+
+        if (currentState != SwarmerState.HuntTarget)
+            angle = Vector3.Angle(forward, currentDirection - transform.position);
+        else
+            angle = Vector3.Angle(forward, target.position - transform.position);
+
+        return (Physics.Raycast(adaptedPosition, forward, out _, entityData.frontalDetectionSight, maskOfWall) && angle <= 10);
+    }
+
+    void MaybeGrunt()
+    {
+        if (gameObject.activeSelf)
+        {
+            if (Random.Range(0, 100) < 5)
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Grunt", false, 0.5f, 0.3f);
+            Invoke("MaybeGrunt", 1f);
+        }
+    }
+
+    public float GetDamage()
+   {
+        return entityData.damage;
+   }
 }

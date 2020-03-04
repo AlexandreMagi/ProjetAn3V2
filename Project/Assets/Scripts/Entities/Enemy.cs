@@ -186,6 +186,8 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     protected virtual void CheckForTargets()
     {
+        Debug.Log("LFT");
+
         //Recherche de cible à attaquer
         enemies =  TeamsManager.Instance.GetAllEnemiesFromTeam(this.entityData.team, new int[]{2});
         if (enemies.Count > 0)

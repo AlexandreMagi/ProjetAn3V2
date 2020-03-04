@@ -31,6 +31,8 @@ public class DataSwarmer : DataEnemy
     public bool targetsPlayerAtEndOfPath = true;
 
     [Header("AI variables")]
+    public bool hasDodgeIntelligence = true;
+
     public float frontalDetectionSight = 2;
     public float jumpHeight = 3;
     public float jumpDodgeForce = 2500;

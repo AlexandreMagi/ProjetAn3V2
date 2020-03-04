@@ -29,6 +29,8 @@ MonoBehaviour:
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
   varianceInPath: 20
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.7
@@ -36,13 +38,14 @@ MonoBehaviour:
   maximumSpeed: 350
   damage: 10
   upScale: 10
-  distanceToTargetEnemy: 6
+  distanceToTargetEnemy: 50
   distanceMelee: 4
   waitDuration: 0.3
-  distanceBeforeAttack: 9
+  distanceBeforeAttack: 8
   jumpForce: 80
   speedMultiplierWhenAttacking: 4
   targetsPlayerAtEndOfPath: 1
+  hasDodgeIntelligence: 1
   frontalDetectionSight: 2
   jumpHeight: 3.5
   jumpDodgeForce: 2800

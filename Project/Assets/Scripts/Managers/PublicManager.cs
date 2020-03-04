@@ -85,14 +85,14 @@ public class PublicManager : MonoBehaviour
                 multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-                    if(multiKillCounter >= 3)
+                    if (multiKillCounter >= 3)
                     {
                         //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
                         AddViewers(1, false, ActionType.Kill, "Multi-élimination", _position);
                     }
-                   
+
                 }
-                timeLeftForMultiKill = 0.8f; 
+                timeLeftForMultiKill = 0.8f;
                 break;
             case ActionType.PerfectReload:
                 //AddViewers(2, true, action, "Perfect Reload", _position);
@@ -100,13 +100,13 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.VendettaPrepare:
                 //Special
-                if(cause != null)
+                if (cause != null)
                 {
                     enemyForVendetta = cause;
                 }
                 break;
             case ActionType.Vendetta:
-                if(cause == enemyForVendetta)
+                if (cause == enemyForVendetta)
                 {
                     //AddViewers(3, true, action, "Revenge", _position);
                     AddViewers(3, true, action, "Revanche", _position);
@@ -219,7 +219,6 @@ public class PublicManager : MonoBehaviour
 
         RecalculateMultiplier();
     }
-
     private void AddRawViewers(int number, bool isAffectedByBuffer, ActionType action)
     {
         float bufferMultiplier = 1;
@@ -289,6 +288,14 @@ public class PublicManager : MonoBehaviour
     public void RecalculateMultiplier()
     {
         currentMultiplier = nbViewers / publicData.startViewers;
+    }
+
+    public void RemoveFromVendetta(IEntity enemy)
+    {
+        if(enemyForVendetta == enemy)
+        {
+            enemyForVendetta = null;
+        }
     }
 
     public enum ActionType
