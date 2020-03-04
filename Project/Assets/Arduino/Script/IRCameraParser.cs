@@ -47,6 +47,8 @@ public class IRCameraParser : MonoBehaviour
     {
 
         Instance = this;
+        iResolutionX = Screen.width;
+        iResolutionY = Screen.height;
 
     }
 
