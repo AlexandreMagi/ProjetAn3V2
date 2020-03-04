@@ -281,7 +281,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     MoveTowardsTarget(currentDirection);
 
                     //Path verifications
-                    if (CheckObjectiveDistance())
+                    if (CheckObjectiveDistance() && CheckObjectiveAngle())
                     {
                         //Advance in the path
                         pathID++;
@@ -619,6 +619,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool CheckObjectiveDistance()
     {
         return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(currentDirection.x, currentDirection.z)) < entityData.distanceBeforeNextPath;
+    }
+
+    bool CheckObjectiveAngle()
+    {
+        Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
+        return (Mathf.Abs(Vector3.Angle(forward, currentDirection)) < entityData.angleToIgnorePath);
     }
 
     bool CheckDistance()

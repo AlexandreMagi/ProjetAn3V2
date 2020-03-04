@@ -11,6 +11,7 @@ public class DataSwarmer : DataEnemy
     public float timeBeforeNextPath;
 
     public float distanceBeforeNextPath;
+    public float angleToIgnorePath = 120;
 
     public float speed;
     public float maximumSpeed = 350;
