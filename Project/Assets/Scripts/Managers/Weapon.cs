@@ -104,7 +104,7 @@ public class Weapon : MonoBehaviour
 
     void HitMarkerSoundFunc()
     {
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 1, 0, 3f, false);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.5f, 0, 3f, false);
     }
     public float GetOrbValue()
     {
@@ -140,6 +140,8 @@ public class Weapon : MonoBehaviour
             reloadingPurcentage = 0;
             bulletRemaining = 0;
             reloadCoolDown = weapon.reloadCooldown;
+
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ReloadStart", false, 0.7f);
         }
     }
 
@@ -154,6 +156,7 @@ public class Weapon : MonoBehaviour
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
                 CameraHandler.Instance.AddRecoil(false, weapon.reloadingMissTryRecoil);
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishMiss", false, 0.7f);
             }
             return false;
         }
@@ -177,6 +180,11 @@ public class Weapon : MonoBehaviour
             }
             
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 0.7f);
+        }
+        else
+        {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_Finish", false, 0.7f);
         }
     }
 
@@ -185,7 +193,7 @@ public class Weapon : MonoBehaviour
         return currentChargePurcentage;
     }
 
-    public void GravityOrbInput()
+    public bool GravityOrbInput()
     {
         if (!reloading)
         {
@@ -195,19 +203,16 @@ public class Weapon : MonoBehaviour
 
                 currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+                return true;
             }
 
-            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated)
+            else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
             {
-                if (!currentOrb.GetComponent<GravityOrb>().hasExploded)
-                    currentOrb.GetComponent<GravityOrb>().StopHolding();
-
-            }
-            else
-            {
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 0.3f, 0.2f);
+                currentOrb.GetComponent<GravityOrb>().StopHolding();
+                return true;
             }
         }
+        return false;
     }
 
     public void InputHold()
@@ -220,7 +225,7 @@ public class Weapon : MonoBehaviour
                 if (currentChargePurcentage > 1)
                 {
                     UiCrossHair.Instance.JustFinishedCharging();
-                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 0.5f, 0.1f);
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 0.6f, 0.1f);
                     currentChargePurcentage = 1;
                 }
             }
@@ -331,7 +336,7 @@ public class Weapon : MonoBehaviour
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, 0.5f, 0.2f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.6f : 0.2f, 0.2f);
 
         }
         else
@@ -365,7 +370,7 @@ public class Weapon : MonoBehaviour
     {
         if (!shotGunHasHit)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
+            //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
         }
     }
 

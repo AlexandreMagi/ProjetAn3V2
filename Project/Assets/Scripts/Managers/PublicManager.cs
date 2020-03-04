@@ -32,10 +32,11 @@ public class PublicManager : MonoBehaviour
     {
         if(timeLeftForMultiKill > 0)
         {
-            timeLeftForMultiKill -= Time.deltaTime;
+            timeLeftForMultiKill -= Time.unscaledDeltaTime;
             if(timeLeftForMultiKill <= 0)
             {
                 timeLeftForMultiKill = 0;
+                multiKillCounter = 0;
             } 
         }
 
@@ -84,15 +85,10 @@ public class PublicManager : MonoBehaviour
                 multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-                    if(multiKillCounter > 5)
+                    if(multiKillCounter >= 3)
                     {
                         //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
-                        AddViewers(3, false, ActionType.Kill, "Multi-élimination", _position);
-                    }
-                    else
-                    {
-                        //AddViewers(2, false, ActionType.Kill, "Combo kill", _position);
-                        AddViewers(2, false, ActionType.Kill, "Combo !", _position);
+                        AddViewers(1, false, ActionType.Kill, "Multi-élimination", _position);
                     }
                    
                 }
@@ -154,6 +150,9 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.DamageOnEnemy:
                 AddViewers(1, false, ActionType.DamageOnEnemy, "Dégats", _position);
+                break;
+            case ActionType.DamageFixedCam:
+                AddViewers(1, false, ActionType.DamageFixedCam, "Boom", _position);
                 break;
             default:
                 break;
@@ -312,6 +311,7 @@ public class PublicManager : MonoBehaviour
         BonusOnRespawn = 15,
         DamageOnArmor = 16,
         Collectible = 17,
-        DamageOnEnemy = 18
+        DamageOnEnemy = 18,
+        DamageFixedCam = 19
     }
 }

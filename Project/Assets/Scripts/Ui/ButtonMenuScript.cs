@@ -109,6 +109,9 @@ public class ButtonMenuScript : MonoBehaviour
                     break;
                 case typeButton.play:
                     if (triggerToPop != "" && GetComponent<Animator>()) GetComponent<Animator>().SetTrigger(Animator.StringToHash(triggerToPop));
+
+                    CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_ValidatePlay", false, 0.5f);
+                    CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Cheer", false, 0.5f);
                     MenuMain.Instance.GoToGame();
                     break;
                 default:

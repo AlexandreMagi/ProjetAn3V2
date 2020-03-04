@@ -136,7 +136,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     }
     void TrueDisplay()
     {
-        HintScript.Instance.ChangeFontSize(23);
+        //HintScript.Instance.ChangeFontSize(23);
         HintScript.Instance.PopHint("Maintiens la gachette appuyée pour charger ton tir !");
     }
 

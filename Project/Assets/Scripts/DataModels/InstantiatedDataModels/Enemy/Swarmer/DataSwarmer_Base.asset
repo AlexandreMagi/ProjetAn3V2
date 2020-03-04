@@ -29,14 +29,17 @@ MonoBehaviour:
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
-  varianceInPath: 20
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
+  varianceInPath: 10
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.3
   speed: 200
+  maximumSpeed: 350
   damage: 10
   upScale: 10
   distanceToTargetEnemy: 4
-  distanceMelee: 4
+  distanceMelee: 5
   waitDuration: 0.3
   distanceBeforeAttack: 8
   jumpForce: 80
@@ -52,11 +55,15 @@ MonoBehaviour:
   extraLengthByStep: 0.2
   sideDetectionSight: 1
   dodgeSlideForce: 350
+  timeForUpwardsTransition: 0.2
   maxBlockedRetryPathTime: 2
   maxBlockedSuicideTime: 4
   considerStuckThreshhold: 0.5
   initialTimeToConsiderCheck: 0.5
   maxHeightToChaseWaypoint: 10
+  rayCastRangeToConsiderAirbone: 0.7
+  pushForce: 150
+  upwardsPushForce: 50
   mat: {fileID: 2100000, guid: 6c40e2d248447434ca0ae2f32e805353, type: 2}
   vfxToPlayWhenPulledByGrav: VFXOrbPull
   vfxToPlayWhenHoldByGrav: VFXOrbHold

@@ -69,7 +69,7 @@ public class CustomSoundManager : MonoBehaviour
     {
         
 
-        FadeSound(1, 5);
+        FadeSound(1, 2);
         // ######################################## FADE DE SON  ######################################## //
         #region Fade de Son
         // ----- Enlève l'ancien modifieur local
@@ -85,7 +85,9 @@ public class CustomSoundManager : MonoBehaviour
                     for (int j = 0; j < tSoundsNonPitchedByTimeScale.Length; j++)
                     {
                         if (hAudioSources[i].GetComponent<AudioSource>().clip.name == tSoundsNonPitchedByTimeScale[j])
+                        {
                             bPitchThisSound = false;
+                        }
                     }
                     if (bPitchThisSound)
                         hAudioSources[i].GetComponent<AudioSource>().pitch /= TimeScaleMultiplier;
@@ -206,7 +208,17 @@ public class CustomSoundManager : MonoBehaviour
                     hAudioSources[i].transform.position = hSource.transform.position;
                     hAudioSources[i].GetComponent<AudioSource>().clip = tSounds[IndexSound];
                     hAudioSources[i].GetComponent<AudioSource>().loop = bLoop;
-                    hAudioSources[i].GetComponent<AudioSource>().pitch = (1 + Random.Range(-fPitchRandom, fPitchRandom) + fPitchConstantModifier) * TimeScaleMultiplier;
+                    hAudioSources[i].GetComponent<AudioSource>().pitch = (1 + Random.Range(-fPitchRandom, fPitchRandom) + fPitchConstantModifier);
+
+                    bool bPitchThisSound = true;
+                    for (int j = 0; j < tSoundsNonPitchedByTimeScale.Length; j++)
+                    {
+                        if (hAudioSources[i].GetComponent<AudioSource>().clip.name == tSoundsNonPitchedByTimeScale[j])
+                            bPitchThisSound = false;
+                    }
+                    if (bPitchThisSound)
+                        hAudioSources[i].GetComponent<AudioSource>().pitch *= TimeScaleMultiplier;
+
                     hAudioSources[i].GetComponent<AudioSource>().volume = fVolume * nVolumeModifierLocal;
                     hAudioSources[i].GetComponent<AudioSource>().Play();
                     return hAudioSources[i].GetComponent<AudioSource>();

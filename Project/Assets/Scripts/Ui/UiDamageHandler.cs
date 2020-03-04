@@ -83,13 +83,13 @@ public class UiDamageHandler : MonoBehaviour
             if (player != null && player.getArmor() > 0)
             {
                 shieldPanel.enabled = true;
-                shieldPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
-                statePanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                shieldPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime * damageFeedbackData.stateAlpha);
+                statePanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime * damageFeedbackData.stateAlpha);
                 flashPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, damageFeedbackData.flashAlpha);
             }
             else
             {
-                statePanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                statePanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime * damageFeedbackData.stateAlpha);
                 flashPanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, damageFeedbackData.flashAlpha);
             }
 

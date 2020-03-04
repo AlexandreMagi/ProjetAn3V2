@@ -44,11 +44,13 @@ public class Main : MonoBehaviour
     [SerializeField]
     BoxCollider[] aiWalls = null;
 
-    public static Main Instance { get; private set; }
 
     AudioSource hSoundHandlerMainMusic = null;
 
+    bool saveIfPlayerCouldShoot = true;
 
+
+    public static Main Instance { get; private set; }
     void Awake()
     {
         Instance = this;
@@ -56,8 +58,8 @@ public class Main : MonoBehaviour
 
     void Start ()
     {
-        Debug.Log("Remettre la musique");
-        //hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
+        //Debug.Log("Remettre la musique");
+        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
     }
 
     // Update is called once per frame
@@ -75,9 +77,14 @@ public class Main : MonoBehaviour
         }
 
         //SHOOT
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)) && playerCanOrb)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)))
         {
-            Weapon.Instance.GravityOrbInput();
+            if (playerCanOrb)
+            {
+                if (!Weapon.Instance.GravityOrbInput())
+                    UIOrb.Instance.cantOrb();
+            }
+            else UIOrb.Instance.cantOrb();
         }
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
         {
@@ -177,7 +184,11 @@ public class Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?", 5);
+            HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            HintScript.Instance.PopHint("Merci d'avoir joué à Death Live !", 5);
         }
 
         if (sequenceSkipMode)
@@ -240,17 +251,23 @@ public class Main : MonoBehaviour
         #endregion
 
         //RELOAD
-        if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R))
+        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)))
         {
             if (Weapon.Instance.ReloadValidate())
                 Weapon.Instance.ReloadingInput();
         }
 
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         {
             if (Weapon.Instance.ReloadValidate())
                 Weapon.Instance.ReloadingInput();
         }
+
+        if (!saveIfPlayerCouldShoot && playerCanShoot)
+        {
+            Weapon.Instance.EndReload(true);
+        }
+        saveIfPlayerCouldShoot = playerCanShoot;
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
@@ -344,6 +361,11 @@ public class Main : MonoBehaviour
         }
     }
 
+    public void CutMusic()
+    {
+        hSoundHandlerMainMusic.volume = 0;
+    }
+
     public void TriggerGameOverSequence()
     {
         if (playerCanOrb)
@@ -390,11 +412,15 @@ public class Main : MonoBehaviour
 
         if (rez)
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.5f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Up", false, 1);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
         }
         else
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Boo", false, 0.2f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Down", false, 1);
             DoGameOver();
         }
     }

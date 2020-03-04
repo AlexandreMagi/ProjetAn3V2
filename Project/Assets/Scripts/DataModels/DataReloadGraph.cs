@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DataReloadGraph")]
@@ -45,6 +46,12 @@ public class DataReloadGraph : ScriptableObject
     public Color checkBarColor = Color.green;
     public Color checkBarColorFailed = Color.red;
     public Color perfectSpotColor = Color.blue;
+
+    [Header("Image")]
+    public Sprite barImage = null;
+    public Sprite extremityImage = null;
+    public Sprite checkBarImage = null;
+    public Sprite perfectSpotImage = null;
 
     [Header("Reload Anim")]
     public AnimationCurve verticalScaleAnimAatSpawn = AnimationCurve.Linear(0, 0, 1, 1);

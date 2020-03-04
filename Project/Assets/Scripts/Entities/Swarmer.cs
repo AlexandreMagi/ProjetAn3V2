@@ -17,6 +17,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool hasTriedUp = false;
     bool isGettingOutOfObstacle = false;
     bool isOutStepTwo = false;
+    bool isDying = false;
     Vector3 obstacleDodgePoint = Vector3.zero;
     Vector3 oldForwardVector = Vector3.zero;
 
@@ -61,6 +62,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     }
     public void ResetSwarmer(DataEntity _entityData)
     {
+        ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem fx in releaseFx)
+        {
+            if (fx.name == "VFXOrbRelease(Clone)")
+            {
+                fx.Stop();
+            }
+        }
+        isDying = false;
         entityData = _entityData as DataSwarmer;
         timeBeingStuck = 0;
         lastKnownPosition = transform.position;
@@ -175,36 +185,51 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     #endregion
     protected override void Die()
     {
-        if (currentParticleOrb) currentParticleOrb.Stop();
-        FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
-        FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
-
-        CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
-        TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
-       
-        target = null;
-        pathToFollow = null;
-        currentFollow = null;
-
-        if(this.transform.GetComponentInParent<Spawner>() != null)
+        if (!isDying)
         {
-            this.transform.GetComponentInParent<Spawner>().ChildDied();
+            isDying = true;
+            if (currentParticleOrb) currentParticleOrb.Stop();
+            FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
+            FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
+
+            CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
+            TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
+
+            target = null;
+            pathToFollow = null;
+            currentFollow = null;
+
+            ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem fx in releaseFx)
+            {
+                if (fx.name == "VFXOrbRelease(Clone)")
+                {
+                    fx.Stop();
+                }
+            }
+
+            if (this.transform.GetComponentInParent<Spawner>() != null)
+            {
+                this.transform.GetComponentInParent<Spawner>().ChildDied();
+            }
+
+
+            //Means it has been killed in some way and has not just attacked
+            if (health <= 0)
+            {
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this.transform.position, this);
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Kill, this.transform.position, this);
+            }
+
+            if (SequenceHandler.Instance != null)
+                SequenceHandler.Instance.OnEnemyKill();
+
+            InstansiateDeadBody(); CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
+
+            upPartMesh.SetActive(false);
+            this.gameObject.SetActive(false);
+
         }
-       
-
-        //Means it has been killed in some way and has not just attacked
-        if(health <= 0)
-        {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, Vector3.zero, this); 
-        }
-
-        if (SequenceHandler.Instance != null)
-            SequenceHandler.Instance.OnEnemyKill();
-
-        InstansiateDeadBody();CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
-
-        upPartMesh.SetActive(false);
-        this.gameObject.SetActive(false);
 
     }
 
@@ -275,6 +300,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentFollow == null)
             target = Player.Instance.transform;
 
+        #region BlockGestion
         timeBeingStuck += Time.deltaTime;
 
         if(timeBeingStuck >= entityData.initialTimeToConsiderCheck)
@@ -284,7 +310,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (timeBeingStuck >= entityData.timeForUpwardsTransition && !hasTriedUp)
                 {
                     hasTriedUp = true;
-                    rbBody.AddForce(Vector3.up * 250);
+                    //rbBody.AddForce(Vector3.up * 500);
                 }
 
                 if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && isGettingOutOfObstacle)
@@ -318,8 +344,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 lastKnownPosition = transform.position;
             }
         }
+        #endregion //BlockGestion
 
-        
     }
 
 
@@ -367,6 +393,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
 
         }
+        #region pathfinder
         else
         {
             this.transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
@@ -445,7 +472,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         if (hasFoundExit)
                         {
                             //DO MOVE
-                            Debug.Log("Sortie trouvée");
+                            //Debug.Log("Sortie trouvée");
                             isOutStepTwo = false;
                             oldForwardVector = forward + forward * entityData.extraLengthByStep * currentStep;
                             isGettingOutOfObstacle = true;
@@ -516,7 +543,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 
             }
         }
-        else {
+        #endregion Pathfinder
+        else
+        {
 
             //Pathfinding
             if ((currentFollow != null || target != null) && entityData != null && rbBody.useGravity && !isAirbone)
@@ -539,7 +568,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     Vector3 direction = (new Vector3(v3VariancePoisitionFollow.x, transform.position.y, v3VariancePoisitionFollow.z) - transform.position).normalized;
 
                     bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
-                    rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+                    if(rbBody.velocity.magnitude <= entityData.maximumSpeed) { 
+                        rbBody.AddForce(direction * entityData.speed * (jumpElapsedTime > 0 ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+                    }
 
 
                     if (!isChasingTarget && pathToFollow != null)
@@ -550,7 +581,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             currentFollow = pathToFollow.GetPathAt(pathID);
                             if (currentFollow == null)
                             {
-                                Debug.Log("End of path");
+                                //Debug.Log("End of path");
                                 pathID--;
                                 isChasingTarget = true;
                                 target = Player.Instance.transform;
@@ -593,7 +624,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                                 currentFollow = pathToFollow.GetPathAt(pathID);
                                 if (currentFollow == null)
                                 {
-                                    Debug.Log("End of path");
+                                    //Debug.Log("End of path");
                                     pathID--;
                                     isChasingTarget = true;
                                     target = Player.Instance.transform;
