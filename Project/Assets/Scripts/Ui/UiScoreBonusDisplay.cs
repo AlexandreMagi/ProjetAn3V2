@@ -24,7 +24,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
     List<ScoreBonusDisplayedInstance> scoresBonusHandler = new List<ScoreBonusDisplayedInstance>();
     [SerializeField] GameObject emptyUiText = null;
 
-    [SerializeField] DataUiTemporaryText dataToSend;
+    [SerializeField] DataUiTemporaryText dataToSend = null;
 
     [SerializeField]
     Transform rootScoreBonus = null;

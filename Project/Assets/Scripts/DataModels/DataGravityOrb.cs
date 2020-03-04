@@ -47,11 +47,11 @@ public class DataGravityOrb : ScriptableObject
 
     [Header("FloatExplo settings")]
 
-    [ShowWhen("isExplosive")]
+    [ShowIf("isExplosive")]
     public bool isFloatExplosion = false;
-    [ShowWhen("isExplosive")]
+    [ShowIf("isExplosive")]
     public float zeroGCamShake;
-    [ShowWhen("isExplosive")]
+    [ShowIf("isExplosive")]
     public float zeroGCamShakeTime;
 
     [PropertyRange(0f, 3f), ShowIf("isFloatExplosion")]
