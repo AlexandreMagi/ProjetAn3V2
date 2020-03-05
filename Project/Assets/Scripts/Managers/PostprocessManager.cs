@@ -46,19 +46,21 @@ public class PostprocessManager : MonoBehaviour
         vignetteEffect.intensity.Override(0.25f);
         vignetteEffect.smoothness.Override(1);
 
+        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
+
         // --- Vignette
         dofEffect = ScriptableObject.CreateInstance<DepthOfField>();
         dofEffect.enabled.Override(true);
+        dofEffect.focusDistance.Override(50);
 
-
-        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
+        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, dofEffect);
     }
 
     // Update is called once per frame
     void Update()
     {
         HandlerChroma();
-        HandleDepthOfField();
+        HandleDepthOfFieldDynamic();
     }
 
     void HandlerChroma()
@@ -68,9 +70,16 @@ public class PostprocessManager : MonoBehaviour
         chromaticAberrationEffect.intensity.value = Mathf.MoveTowards(chromaticAberrationEffect.intensity.value, valueGoTo, (dataPp.chromaChangeDependentFromTimeScale ? Time.deltaTime: Time.unscaledDeltaTime) * Mathf.Abs(dataPp.chromaMax - dataPp.chromaMin) / dataPp.chromaTimeTransition);
     }
 
-    void HandleDepthOfField()
+    void HandleDepthOfFieldDynamic()
     {
+        Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
 
+        //Shoot raycast
+        RaycastHit hit;
+        if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, dataPp.lmask))
+        {
+            dofEffect.focusDistance.value = Mathf.Lerp(dofEffect.focusDistance.value, hit.distance, (dataPp.dofDependentFromTimeScale ? Time.deltaTime : Time.unscaledDeltaTime) * dataPp.transitionSpeed);
+        }
     }
 
 

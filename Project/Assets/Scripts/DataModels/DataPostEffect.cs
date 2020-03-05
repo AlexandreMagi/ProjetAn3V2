@@ -10,4 +10,9 @@ public class DataPostEffect : ScriptableObject
     public float chromaTimeTransition = 1;
     public float chromaMax = 1;
     public float chromaMin = 0;
+
+    [Header("Depth Of Field")]
+    public bool dofDependentFromTimeScale = true;
+    public LayerMask lmask = 0;
+    public float transitionSpeed = 5;
 }
