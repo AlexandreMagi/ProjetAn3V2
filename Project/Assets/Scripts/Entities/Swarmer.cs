@@ -83,7 +83,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
 
-        currentState = SwarmerState.GravityControlled;
+        Invoke("ReleaseFromFloat", floatTime);
+    }
+
+    public void ReleaseFromFloat()
+    {
+        currentState = SwarmerState.FollowPath;
     }
 
     public void OnGravityDirectHit()
@@ -101,7 +106,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnPull(Vector3 position, float force)
     {
-        ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, currentState==SwarmerState.GravityControlled);
+        bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+
+        currentState = SwarmerState.GravityControlled;
+
+        ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir);
         if (!hasPlayedFxOnPull)
         {
             hasPlayedFxOnPull = true;
@@ -255,6 +264,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentState = SwarmerState.WaitingForAttack;
             rbBody.velocity = Vector3.zero;
+        }
+
+        if(jumpElapsedTime > 0)
+        {
+            jumpElapsedTime -= Time.deltaTime;
+            if (jumpElapsedTime < 0) jumpElapsedTime = 0;
         }
     }
 
@@ -414,7 +429,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                    )
                 {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce, ForceMode.Impulse);
+                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
 
                     currentState = SwarmerState.FollowPath;
                     //Debug.Log("jump");
@@ -527,14 +542,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (elapsedTime >= timePropel)
                 {
                     ReactGravity<DataSwarmer>.DoSpin(rbBody);
-
-                    //Check si touche le sol
-                    elapsedTime = 0;
-                    if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
-                    {
-                        currentState = SwarmerState.FollowPath;
-                    }
-
                 }
                 break;
             #endregion
@@ -625,7 +632,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
         //Debug.Log(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentDirection.x, currentDirection.z)));
-        return (Mathf.Abs(Vector3.Angle(forward, currentDirection)) < entityData.angleToIgnorePath);
+
+        return (Mathf.Abs(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentDirection.x - transform.position.x, currentDirection.z - transform.position.z))) < entityData.angleToIgnorePath);
     }
 
     bool CheckDistance()
@@ -654,6 +662,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //DeathLock prevention
         int varianceIterations = 0;
         int maxIterations = 5;
+        bool loopBroken = false;
 
         do
         {
@@ -663,11 +672,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             varianceAngle = Random.Range(-entityData.varianceInPath, entityData.varianceInPath);
             angledDirection = Quaternion.AngleAxis(varianceAngle, Vector3.up) * direction;
 
-            if (varianceIterations > maxIterations) break;
+            if (varianceIterations > maxIterations)
+            {
+                loopBroken = true;
+                break;
+            };
 
-        } while (!(Physics.Raycast(transform.position, angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, angledDirection - initialPositionOfRayRight, 50f, maskOfWall)));
+        } while (!(Physics.Raycast(transform.position, posBefore+angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, posBefore+angledDirection - initialPositionOfRayRight, 50f, maskOfWall)));
 
-        return posBefore + angledDirection;
+        return posBefore + (loopBroken?Vector3.zero:angledDirection);
     }
 
     bool CheckForObstacles()
