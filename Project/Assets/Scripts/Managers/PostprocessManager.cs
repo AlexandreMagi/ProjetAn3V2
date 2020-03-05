@@ -26,7 +26,6 @@ public class PostprocessManager : MonoBehaviour
     // --- LensDistortion
     LensDistortion distortionEffect;
     float distortionAnimPurcentage = 1;
-    public void doDistortion() { distortionAnimPurcentage = 0; }
 
     public static PostprocessManager Instance { get; private set; }
     void Awake()
@@ -62,6 +61,8 @@ public class PostprocessManager : MonoBehaviour
         distortionEffect = ScriptableObject.CreateInstance<LensDistortion>();
         distortionEffect.enabled.Override(true);
         distortionEffect.intensity.Override(0);
+        distortionEffect.centerX.Override(0);
+        distortionEffect.centerY.Override(0);
 
         ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, distortionEffect);
     }
@@ -98,6 +99,19 @@ public class PostprocessManager : MonoBehaviour
         else
         {
             dofEffect.focusDistance.value = 50;
+        }
+    }
+
+    public void doDistortion(Transform target) 
+    { 
+
+        Vector3 posScreen = CameraHandler.Instance.renderingCam.WorldToScreenPoint(target.position);
+        if (posScreen.z > 0)
+        {
+            Vector2 pos = new Vector2(posScreen.x / Screen.width, posScreen.y / Screen.height) * 2 - Vector2.one;
+            distortionEffect.centerX.value = pos.x;
+            distortionEffect.centerY.value = pos.y;
+            distortionAnimPurcentage = 0;
         }
     }
 

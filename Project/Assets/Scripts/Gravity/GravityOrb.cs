@@ -44,6 +44,7 @@ public class GravityOrb : MonoBehaviour
         {
             UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
+            PostprocessManager.Instance.doDistortion(transform);
 
             GameObject hitObj = hit.collider.gameObject;
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
@@ -118,7 +119,7 @@ public class GravityOrb : MonoBehaviour
         int nbEnemiesHitByFloatExplo = 0;
 
         PostprocessManager.Instance.setChroma(true);
-        PostprocessManager.Instance.doDistortion();
+        PostprocessManager.Instance.doDistortion(transform);
 
         StopCoroutine("OnHoldAttraction");
 
