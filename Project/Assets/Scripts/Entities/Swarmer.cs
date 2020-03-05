@@ -291,7 +291,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         //If end of path
                         if (currentDirection == Vector3.zero)
                         {
-                            Debug.Log("End of path");
+                            //Debug.Log("End of path");
 
                             currentState = SwarmerState.LookingForTarget;
                         }
@@ -624,6 +624,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool CheckObjectiveAngle()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
+        //Debug.Log(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentDirection.x, currentDirection.z)));
         return (Mathf.Abs(Vector3.Angle(forward, currentDirection)) < entityData.angleToIgnorePath);
     }
 
@@ -656,11 +657,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         do
         {
+            //Debug.Log("Loop");
+
             varianceIterations++;
             varianceAngle = Random.Range(-entityData.varianceInPath, entityData.varianceInPath);
             angledDirection = Quaternion.AngleAxis(varianceAngle, Vector3.up) * direction;
 
-        } while (!(Physics.Raycast(transform.position, angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, angledDirection - initialPositionOfRayRight, 50f, maskOfWall)) || varianceIterations < maxIterations);
+            if (varianceIterations > maxIterations) break;
+
+        } while (!(Physics.Raycast(transform.position, angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, angledDirection - initialPositionOfRayRight, 50f, maskOfWall)));
 
         return posBefore + angledDirection;
     }
