@@ -190,7 +190,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if (SequenceHandler.Instance != null)
                 SequenceHandler.Instance.OnEnemyKill();
 
-            InstansiateDeadBody();
+            if(entityData.spawnsPartsOnDeath)
+                InstansiateDeadBody();
 
             CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
 
@@ -322,7 +323,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     }
 
                     //Obstacle dodge intelligence
-                    if (CheckForObstacles() && entityData.hasDodgeIntelligence)
+                    if (entityData.hasDodgeIntelligence && CheckForObstacles())
                     {
                         currentState = SwarmerState.CalculatingExit;
                     }
@@ -405,7 +406,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 {
                     MoveTowardsTarget(target.position);
 
-                    if (CheckForObstacles() && entityData.hasDodgeIntelligence)
+                    if (entityData.hasDodgeIntelligence && CheckForObstacles())
                     {
                         currentState = SwarmerState.CalculatingExit;
                     }
