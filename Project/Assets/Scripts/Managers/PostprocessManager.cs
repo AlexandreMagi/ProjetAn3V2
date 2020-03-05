@@ -16,6 +16,7 @@ public class PostprocessManager : MonoBehaviour
     ChromaticAberration chromaticAberrationEffect;
     bool isChroma = false;
     public void setChroma(bool b) { isChroma = b; }
+    float multiplierByDistance = 0;
 
     // --- Vignette
     Vignette vignetteEffect;
@@ -52,9 +53,9 @@ public class PostprocessManager : MonoBehaviour
 
         ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
 
-        // --- Vignette
+        // --- DOF
         dofEffect = ScriptableObject.CreateInstance<DepthOfField>();
-        dofEffect.enabled.Override(true);
+        dofEffect.enabled.Override(dataPp.activateDof);
         dofEffect.focusDistance.Override(50);
 
         // --- Lens Distortion
@@ -71,7 +72,8 @@ public class PostprocessManager : MonoBehaviour
     void Update()
     {
         HandlerChroma();
-        HandleDepthOfFieldDynamic();
+        if (dataPp.activateDof)
+            HandleDepthOfFieldDynamic();
         HandleLensDistortion();
     }
 
@@ -85,20 +87,13 @@ public class PostprocessManager : MonoBehaviour
     void HandleDepthOfFieldDynamic()
     {
 
-        if (dataPp.activateDof)
-        {
-            Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+        Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
 
-            //Shoot raycast
-            RaycastHit hit;
-            if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, dataPp.lmask))
-            {
-                dofEffect.focusDistance.value = Mathf.Lerp(dofEffect.focusDistance.value, hit.distance, (dataPp.dofDependentFromTimeScale ? Time.deltaTime : Time.unscaledDeltaTime) * dataPp.transitionSpeed);
-            }
-        }
-        else
+        //Shoot raycast
+        RaycastHit hit;
+        if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, dataPp.lmask))
         {
-            dofEffect.focusDistance.value = 50;
+            dofEffect.focusDistance.value = Mathf.Lerp(dofEffect.focusDistance.value, hit.distance, (dataPp.dofDependentFromTimeScale ? Time.deltaTime : Time.unscaledDeltaTime) * dataPp.transitionSpeed);
         }
     }
 
@@ -106,6 +101,11 @@ public class PostprocessManager : MonoBehaviour
     { 
 
         Vector3 posScreen = CameraHandler.Instance.renderingCam.WorldToScreenPoint(target.position);
+
+        float distanceBetween = Vector3.Distance(target.position, CameraHandler.Instance.renderingCam.transform.position);
+        if (distanceBetween > dataPp.maxDistToFade) multiplierByDistance = 0;
+        else { multiplierByDistance = 1 - (distanceBetween / dataPp.maxDistToFade); }
+
         if (posScreen.z > 0)
         {
             Vector2 pos = new Vector2(posScreen.x / Screen.width, posScreen.y / Screen.height) * 2 - Vector2.one;
@@ -119,7 +119,7 @@ public class PostprocessManager : MonoBehaviour
     {
         if (distortionAnimPurcentage < 1)
         {
-            distortionEffect.intensity.value = dataPp.animDistortionAtOrb.Evaluate(distortionAnimPurcentage) * dataPp.animDistortionMultiplier;
+            distortionEffect.intensity.value = dataPp.animDistortionAtOrb.Evaluate(distortionAnimPurcentage) * dataPp.animDistortionMultiplier * multiplierByDistance;
             distortionAnimPurcentage += (dataPp.distortionDependentFromTimeScale ? Time.deltaTime : Time.unscaledDeltaTime) / dataPp.animDistortionDuration;
             if (distortionAnimPurcentage > 1)
             {
