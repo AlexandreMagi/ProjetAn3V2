@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+//[SelectionBase]
 public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 {
    // private DataShooter shooterData;
