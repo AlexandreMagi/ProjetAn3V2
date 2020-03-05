@@ -204,7 +204,6 @@ public class Weapon : MonoBehaviour
             if (timeRemainingBeforeOrb < 0)
             {
                 currentOrb = Instantiate(orbPrefab);
-
                 currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
                 return true;
