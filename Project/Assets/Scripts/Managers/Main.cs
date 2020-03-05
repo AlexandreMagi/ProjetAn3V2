@@ -190,6 +190,10 @@ public class Main : MonoBehaviour
         {
             HintScript.Instance.PopHint("Merci d'avoir joué à Death Live !", 5);
         }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            playerCanOrb = !playerCanOrb;
+        }
 
         if (sequenceSkipMode)
         {

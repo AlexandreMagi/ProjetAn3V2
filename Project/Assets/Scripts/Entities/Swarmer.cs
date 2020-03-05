@@ -27,7 +27,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     //Path follow
     [ShowInInspector]
-    Vector3 currentDirection = Vector3.zero;
+    Vector3 currentFollowPoint = Vector3.zero;
     [ShowInInspector]
     Pather pathToFollow = null;
     [ShowInInspector]
@@ -163,7 +163,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             target = null;
             pathToFollow = null;
-            currentDirection = Vector3.zero;
+            currentFollowPoint = Vector3.zero;
 
             ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem fx in releaseFx)
@@ -288,12 +288,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             #region FollowPath
             case SwarmerState.FollowPath:
                 //Debug ray
-                Debug.DrawRay(transform.position + Vector3.up * .5f, currentDirection - (transform.position + Vector3.up * .5f), Color.cyan);
+                Debug.DrawRay(transform.position + Vector3.up * .5f, currentFollowPoint - (transform.position + Vector3.up * .5f), Color.cyan);
 
-                if(pathToFollow != null && currentDirection != Vector3.zero)
+                if(pathToFollow != null && currentFollowPoint != Vector3.zero)
                 {
                     //Displacement
-                    MoveTowardsTarget(currentDirection);
+                    MoveTowardsTarget(currentFollowPoint);
 
                     //Path verifications
                     if (CheckObjectiveDistance() && CheckObjectiveAngle())
@@ -301,10 +301,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         //Advance in the path
                         pathID++;
 
-                        currentDirection = pathToFollow.GetPathAt(pathID);
+                        currentFollowPoint = pathToFollow.GetPathAt(pathID);
 
                         //If end of path
-                        if (currentDirection == Vector3.zero)
+                        if (currentFollowPoint == Vector3.zero)
                         {
                             //Debug.Log("End of path");
 
@@ -315,12 +315,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             //Variance in path definition
                             if(entityData.varianceInPath > 0)
                             {
-                                currentDirection = ApplyVarianceToPosition(currentDirection, transform.position);
+                                currentFollowPoint = ApplyVarianceToPosition(currentFollowPoint, transform.position);
                             }
                             
                         }
                     }
 
+                    //Obstacle dodge intelligence
                     if (CheckForObstacles() && entityData.hasDodgeIntelligence)
                     {
                         currentState = SwarmerState.CalculatingExit;
@@ -340,6 +341,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             #region WaitingForAttack
             case SwarmerState.WaitingForAttack:
+
+                //Waiting some time before attacking
                 timerWait += Time.fixedDeltaTime;
                 if (timerWait > entityData.waitDuration)
                 {
@@ -594,7 +597,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if (pathToFollow)
         {
-            currentDirection = pathToFollow.GetPathAt(0);
+            currentFollowPoint = pathToFollow.GetPathAt(0);
         }
         else
         {
@@ -609,7 +612,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+        rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1) * speedMultiplier);
         //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
 
 
@@ -625,15 +628,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     bool CheckObjectiveDistance()
     {
-        return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(currentDirection.x, currentDirection.z)) < entityData.distanceBeforeNextPath;
+        return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(currentFollowPoint.x, currentFollowPoint.z)) < entityData.distanceBeforeNextPath;
     }
 
     bool CheckObjectiveAngle()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
-        //Debug.Log(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentDirection.x, currentDirection.z)));
+        //Debug.Log(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentFollowPoint.x, currentFollowPoint.z)));
 
-        return (Mathf.Abs(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentDirection.x - transform.position.x, currentDirection.z - transform.position.z))) < entityData.angleToIgnorePath);
+        return (Mathf.Abs(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentFollowPoint.x - transform.position.x, currentFollowPoint.z - transform.position.z))) < entityData.angleToIgnorePath);
     }
 
     bool CheckDistance()
@@ -696,7 +699,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Debug.DrawRay(adaptedPosition, forward, Color.blue);
 
         if (currentState != SwarmerState.HuntTarget)
-            angle = Vector3.Angle(forward, currentDirection - transform.position);
+            angle = Vector3.Angle(forward, currentFollowPoint - transform.position);
         else
             angle = Vector3.Angle(forward, target.position - transform.position);
 
