@@ -46,4 +46,12 @@ public class DataWeapon : ScriptableObject
     public AnimationCurve AnimValue = AnimationCurve.Linear(0, 0, 1, 0);
     public float animTime = 5;
     public float fovModifier = 1;
+
+    [Header("Light parameters")]
+    public float baseAngle = 55;
+    public float chargedAngle = 80;
+    public float baseIntensity = 0.6f;
+    public float chargedIntensity = 0.8f;
+    public float baseRange = 15;
+    public float chargedRange = 25;
 }

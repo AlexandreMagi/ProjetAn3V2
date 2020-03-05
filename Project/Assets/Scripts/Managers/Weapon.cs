@@ -42,7 +42,7 @@ public class Weapon : MonoBehaviour
     [HideInInspector]
     public bool rotateLocked = false;
     [SerializeField]
-    GameObject weaponLight = null;
+    Light weaponLight = null;
     [SerializeField]
     bool ignoreBulletLimitForCharge = false;
     [SerializeField]
@@ -99,6 +99,10 @@ public class Weapon : MonoBehaviour
             weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
         else
             weaponLight.transform.rotation = Quaternion.LookRotation(CameraHandler.Instance.renderingCam.transform.forward, Vector3.up);
+
+        weaponLight.spotAngle = Mathf.Lerp(weapon.baseAngle, weapon.chargedAngle, currentChargePurcentage);
+        weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
+        weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
     }
 
