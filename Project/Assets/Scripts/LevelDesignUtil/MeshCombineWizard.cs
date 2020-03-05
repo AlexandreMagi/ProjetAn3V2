@@ -9,12 +9,12 @@ public class MeshCombineWizard : ScriptableWizard {
     public GameObject parentOfObjectsToCombine = null;
 
     [Header ("Path to save mesh combined")]
-    public string meshPath = "Assets/AssetDA/CombinedMeshs/Meshs/LD_03/CombinedMeshes_";
+    public string meshPath = "Assets/AssetDA/CombinedMeshs/LD_03/Meshs/LD_03/CombinedMeshes_";
 
     string meshPathComp;
 
     [Header("Path to save the new prefab")]
-    public string prefabPath = "Assets/AssetDA/CombinedMeshs/Prefabs/LD_03/";
+    public string prefabPath = "Assets/AssetDA/CombinedMeshs/LD_03/Prefabs/LD_03/";
 
     string prefabPathComp;
 
