@@ -73,7 +73,7 @@ public class GravityOrb : MonoBehaviour
             
         }
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
+        //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
         return false;
 
     }
@@ -124,10 +124,10 @@ public class GravityOrb : MonoBehaviour
         StopCoroutine("OnHoldAttraction");
 
 
-        if (!hasHitSomething && loosePointIfMissed)
-        {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
-        }
+        //if (!hasHitSomething && loosePointIfMissed)
+        //{
+        //    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
+        //}
 
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
