@@ -27,7 +27,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     //Path follow
     [ShowInInspector]
-    Vector3 currentDirection = Vector3.zero;
+    Vector3 currentFollowPoint = Vector3.zero;
     [ShowInInspector]
     Pather pathToFollow = null;
     [ShowInInspector]
@@ -83,7 +83,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
 
-        currentState = SwarmerState.GravityControlled;
+        Invoke("ReleaseFromFloat", floatTime);
+    }
+
+    public void ReleaseFromFloat()
+    {
+        currentState = SwarmerState.FollowPath;
     }
 
     public void OnGravityDirectHit()
@@ -101,7 +106,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnPull(Vector3 position, float force)
     {
-        ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, currentState==SwarmerState.GravityControlled);
+        bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+
+        currentState = SwarmerState.GravityControlled;
+
+        ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir);
         if (!hasPlayedFxOnPull)
         {
             hasPlayedFxOnPull = true;
@@ -154,7 +163,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             target = null;
             pathToFollow = null;
-            currentDirection = Vector3.zero;
+            currentFollowPoint = Vector3.zero;
 
             ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem fx in releaseFx)
@@ -256,6 +265,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             currentState = SwarmerState.WaitingForAttack;
             rbBody.velocity = Vector3.zero;
         }
+
+        if(jumpElapsedTime > 0)
+        {
+            jumpElapsedTime -= Time.deltaTime;
+            if (jumpElapsedTime < 0) jumpElapsedTime = 0;
+        }
     }
 
     // Update is called once per frame
@@ -273,12 +288,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             #region FollowPath
             case SwarmerState.FollowPath:
                 //Debug ray
-                Debug.DrawRay(transform.position + Vector3.up * .5f, currentDirection - (transform.position + Vector3.up * .5f), Color.cyan);
+                Debug.DrawRay(transform.position + Vector3.up * .5f, currentFollowPoint - (transform.position + Vector3.up * .5f), Color.cyan);
 
-                if(pathToFollow != null && currentDirection != Vector3.zero)
+                if(pathToFollow != null && currentFollowPoint != Vector3.zero)
                 {
                     //Displacement
-                    MoveTowardsTarget(currentDirection);
+                    MoveTowardsTarget(currentFollowPoint);
 
                     //Path verifications
                     if (CheckObjectiveDistance() && CheckObjectiveAngle())
@@ -286,10 +301,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         //Advance in the path
                         pathID++;
 
-                        currentDirection = pathToFollow.GetPathAt(pathID);
+                        currentFollowPoint = pathToFollow.GetPathAt(pathID);
 
                         //If end of path
-                        if (currentDirection == Vector3.zero)
+                        if (currentFollowPoint == Vector3.zero)
                         {
                             //Debug.Log("End of path");
 
@@ -300,12 +315,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                             //Variance in path definition
                             if(entityData.varianceInPath > 0)
                             {
-                                currentDirection = ApplyVarianceToPosition(currentDirection, transform.position);
+                                currentFollowPoint = ApplyVarianceToPosition(currentFollowPoint, transform.position);
                             }
                             
                         }
                     }
 
+                    //Obstacle dodge intelligence
                     if (CheckForObstacles() && entityData.hasDodgeIntelligence)
                     {
                         currentState = SwarmerState.CalculatingExit;
@@ -325,6 +341,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             #region WaitingForAttack
             case SwarmerState.WaitingForAttack:
+
+                //Waiting some time before attacking
                 timerWait += Time.fixedDeltaTime;
                 if (timerWait > entityData.waitDuration)
                 {
@@ -414,7 +432,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                    )
                 {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce, ForceMode.Impulse);
+                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
 
                     currentState = SwarmerState.FollowPath;
                     //Debug.Log("jump");
@@ -527,14 +545,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (elapsedTime >= timePropel)
                 {
                     ReactGravity<DataSwarmer>.DoSpin(rbBody);
-
-                    //Check si touche le sol
-                    elapsedTime = 0;
-                    if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 1f))
-                    {
-                        currentState = SwarmerState.FollowPath;
-                    }
-
                 }
                 break;
             #endregion
@@ -587,7 +597,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if (pathToFollow)
         {
-            currentDirection = pathToFollow.GetPathAt(0);
+            currentFollowPoint = pathToFollow.GetPathAt(0);
         }
         else
         {
@@ -602,7 +612,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1));
+        rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1) * speedMultiplier);
         //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
 
 
@@ -618,14 +628,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     bool CheckObjectiveDistance()
     {
-        return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(currentDirection.x, currentDirection.z)) < entityData.distanceBeforeNextPath;
+        return Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(currentFollowPoint.x, currentFollowPoint.z)) < entityData.distanceBeforeNextPath;
     }
 
     bool CheckObjectiveAngle()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
-        //Debug.Log(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentDirection.x, currentDirection.z)));
-        return (Mathf.Abs(Vector3.Angle(forward, currentDirection)) < entityData.angleToIgnorePath);
+        //Debug.Log(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentFollowPoint.x, currentFollowPoint.z)));
+
+        return (Mathf.Abs(Vector2.Angle(new Vector2(forward.x, forward.z), new Vector2(currentFollowPoint.x - transform.position.x, currentFollowPoint.z - transform.position.z))) < entityData.angleToIgnorePath);
     }
 
     bool CheckDistance()
@@ -654,6 +665,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //DeathLock prevention
         int varianceIterations = 0;
         int maxIterations = 5;
+        bool loopBroken = false;
 
         do
         {
@@ -663,11 +675,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             varianceAngle = Random.Range(-entityData.varianceInPath, entityData.varianceInPath);
             angledDirection = Quaternion.AngleAxis(varianceAngle, Vector3.up) * direction;
 
-            if (varianceIterations > maxIterations) break;
+            if (varianceIterations > maxIterations)
+            {
+                loopBroken = true;
+                break;
+            };
 
-        } while (!(Physics.Raycast(transform.position, angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, angledDirection - initialPositionOfRayRight, 50f, maskOfWall)));
+        } while (!(Physics.Raycast(transform.position, posBefore+angledDirection - initialPositionOfRayLeft, 50f, maskOfWall) || Physics.Raycast(transform.position, posBefore+angledDirection - initialPositionOfRayRight, 50f, maskOfWall)));
 
-        return posBefore + angledDirection;
+        return posBefore + (loopBroken?Vector3.zero:angledDirection);
     }
 
     bool CheckForObstacles()
@@ -683,7 +699,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Debug.DrawRay(adaptedPosition, forward, Color.blue);
 
         if (currentState != SwarmerState.HuntTarget)
-            angle = Vector3.Angle(forward, currentDirection - transform.position);
+            angle = Vector3.Angle(forward, currentFollowPoint - transform.position);
         else
             angle = Vector3.Angle(forward, target.position - transform.position);
 

@@ -31,9 +31,10 @@ MonoBehaviour:
   matChangeTime: 0.1
   shakeWhenTakeDamageForce: 0
   shakeWhenTakeDamageDuration: 0
-  varianceInPath: 20
+  varianceInPath: 0
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.7
+  angleToIgnorePath: 120
   speed: 200
   maximumSpeed: 350
   damage: 10
@@ -42,8 +43,8 @@ MonoBehaviour:
   distanceMelee: 4
   waitDuration: 0.3
   distanceBeforeAttack: 8
-  jumpForce: 80
-  speedMultiplierWhenAttacking: 4
+  jumpForce: 65
+  speedMultiplierWhenAttacking: 10
   targetsPlayerAtEndOfPath: 1
   hasDodgeIntelligence: 1
   frontalDetectionSight: 2
