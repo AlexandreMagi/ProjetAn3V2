@@ -65,14 +65,7 @@ public class PostProcessEffects : MonoBehaviour
 
     public void ChromaChanges(bool b)
     {
-        if (b)
-        {
-            isChroma = true;
-        }
-        else if (!b)
-        {
-            isChroma = false;
-        }
+        isChroma = b;
     }
 
     public void VignetteChanges()

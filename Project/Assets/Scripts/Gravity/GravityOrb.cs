@@ -117,7 +117,7 @@ public class GravityOrb : MonoBehaviour
         hasExploded = true;
         int nbEnemiesHitByFloatExplo = 0;
 
-        FindObjectOfType<PostProcessEffects>().ChromaChanges(true);
+        PostprocessManager.Instance.isChroma = true;
 
         StopCoroutine("OnHoldAttraction");
 
@@ -189,7 +189,7 @@ public class GravityOrb : MonoBehaviour
 
     void OnZeroGRelease()
     {
-        FindObjectOfType<PostProcessEffects>().ChromaChanges(false);
+        PostprocessManager.Instance.isChroma = false;
         Destroy(this.gameObject);
     }
 
