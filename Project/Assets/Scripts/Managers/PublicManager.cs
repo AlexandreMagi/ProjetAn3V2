@@ -19,6 +19,9 @@ public class PublicManager : MonoBehaviour
 
     float hpMultiplier = 1;
 
+    float randomBalancedUp = 0;
+    float randomBalancedDown = 0;
+
     List<ActionType> stallBuffer;
 
     void Awake()
@@ -185,7 +188,9 @@ public class PublicManager : MonoBehaviour
             AddToBuffer(action);
         }
 
-        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+        float _randomBalancedUp = Random.Range(0, publicData.randomViewerGrowth);
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth - randomBalancedUp + _randomBalancedUp) * viewerLevel * bufferMultiplier * hpMultiplier);;
+        randomBalancedUp = _randomBalancedUp;
 
         if (difViewer != 0) 
         {
@@ -257,7 +262,10 @@ public class PublicManager : MonoBehaviour
 
     private void LoseViewers(int viewerLevel, string textToDisplay, Vector3 pos)
     {
-        int difViewer = Mathf.FloorToInt((publicData.baseViewerLoss + Random.Range(0, publicData.randomViewerLoss)) * viewerLevel);
+        float _randomBalancedDown = Random.Range(0, publicData.randomViewerLoss);
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerLoss - randomBalancedDown + _randomBalancedDown) * viewerLevel);
+        randomBalancedDown = _randomBalancedDown;
+
         if (difViewer != 0)
         {
             if (pos != Vector3.zero)
