@@ -57,12 +57,10 @@ public class FixedCameraScript : MonoBehaviour
            
         }
 
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageFixedCam, gameObject.transform.position);
 
 
-        if (this != null)
-        {
-            Destroy(this);
-        }    
+        this.enabled = false;
     }
 
 
