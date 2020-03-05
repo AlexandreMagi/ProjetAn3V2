@@ -76,8 +76,19 @@ public class Main : MonoBehaviour
             SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
         }
 
+        ////SHOOT
+        //if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)))
+        //{
+        //    if (playerCanOrb)
+        //    {
+        //        if (!Weapon.Instance.GravityOrbInput())
+        //            UIOrb.Instance.cantOrb();
+        //    }
+        //    else UIOrb.Instance.cantOrb();
+        //}
+        
         //SHOOT
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)))
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
         {
             if (playerCanOrb)
             {
@@ -86,6 +97,12 @@ public class Main : MonoBehaviour
             }
             else UIOrb.Instance.cantOrb();
         }
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityHeld) : Input.GetKey(KeyCode.Mouse1)) && playerCanOrb)
+            Weapon.Instance.displayOrb = true;
+        else
+            Weapon.Instance.displayOrb = false;
+
+
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputHold();
@@ -261,11 +278,13 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
-        {
-            if (Weapon.Instance.ReloadValidate())
-                Weapon.Instance.ReloadingInput();
-        }
+        //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        //{
+        //    if (Weapon.Instance.ReloadValidate())
+        //        Weapon.Instance.ReloadingInput();
+        //}
+
+        if (Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)Weapon.Instance.ReloadingInput();
 
         if (!saveIfPlayerCouldShoot && playerCanShoot)
         {
@@ -453,7 +472,7 @@ public class Main : MonoBehaviour
         Player.Instance.GainArmor(armorValueGain);
         Player.Instance.Revive();
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, Vector3.zero);
+        //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, Vector3.zero);
 
         if(bonus > 0)
         {

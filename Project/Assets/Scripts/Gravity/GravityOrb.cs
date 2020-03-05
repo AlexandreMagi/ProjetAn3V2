@@ -44,6 +44,7 @@ public class GravityOrb : MonoBehaviour
         {
             UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
+            PostprocessManager.Instance.doDistortion(transform);
 
             GameObject hitObj = hit.collider.gameObject;
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
@@ -72,7 +73,7 @@ public class GravityOrb : MonoBehaviour
             
         }
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
+        //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
         return false;
 
     }
@@ -117,15 +118,16 @@ public class GravityOrb : MonoBehaviour
         hasExploded = true;
         int nbEnemiesHitByFloatExplo = 0;
 
-        PostprocessManager.Instance.isChroma = true;
+        PostprocessManager.Instance.setChroma(true);
+        PostprocessManager.Instance.doDistortion(transform);
 
         StopCoroutine("OnHoldAttraction");
 
 
-        if (!hasHitSomething && loosePointIfMissed)
-        {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
-        }
+        //if (!hasHitSomething && loosePointIfMissed)
+        //{
+        //    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
+        //}
 
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
@@ -189,7 +191,7 @@ public class GravityOrb : MonoBehaviour
 
     void OnZeroGRelease()
     {
-        PostprocessManager.Instance.isChroma = false;
+        PostprocessManager.Instance.setChroma(false);
         Destroy(this.gameObject);
     }
 
