@@ -104,7 +104,7 @@ public class Weapon : MonoBehaviour
         weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
-        if (displayOrb && timeRemainingBeforeOrb < 0 && (orb != null))
+        if (displayOrb && timeRemainingBeforeOrb < 0 && orb != null)
         {
             Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
