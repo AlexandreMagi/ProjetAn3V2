@@ -82,13 +82,13 @@ public class DecalManager : MonoBehaviour
                 allMats.RemoveAt(i);
                 allLifeTimes.RemoveAt(i);
                 allGo.RemoveAt(i);
-                Destroy(planeInstance);
+                Destroy(planeInstance);                                     
             }
             else
             {
                 if (allLifeTimes[i] < timeFade) currAlpha = allLifeTimes[i] * baseAlpha / timeFade;
-
-                allGo[i].transform.localScale = Vector3.one * scalePlane * currAlpha;
+                if (allGo[i] != null)
+                    allGo[i].transform.localScale = Vector3.one * scalePlane * currAlpha;
                 //SETUP ALPHA ICI
             }
 
