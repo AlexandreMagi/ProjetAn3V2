@@ -115,7 +115,7 @@ public class Weapon : MonoBehaviour
                 orb.transform.localScale = Vector3.Lerp(orb.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
             }
         }
-        else  orb.transform.localScale = Vector3.zero;
+        else if (orb != null) orb.transform.localScale = Vector3.zero;
 
 
     }

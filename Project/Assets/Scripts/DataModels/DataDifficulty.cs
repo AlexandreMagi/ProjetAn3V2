@@ -23,4 +23,6 @@ public class DataDifficulty : ScriptableObject
     public int maxArmorRaise = 80;
 
     public int maxChanceOfSurvival = 90;
+
+    public int malusScoreAtChoosedRevive = 500;
 }

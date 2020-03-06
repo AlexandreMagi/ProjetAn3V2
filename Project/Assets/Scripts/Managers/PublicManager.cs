@@ -260,6 +260,11 @@ public class PublicManager : MonoBehaviour
         RecalculateMultiplier();
     }
 
+    public void LoseRawViewer (int number)
+    {
+        nbViewers -= number;
+    }
+
     private void LoseViewers(int viewerLevel, string textToDisplay, Vector3 pos)
     {
         float _randomBalancedDown = Random.Range(0, publicData.randomViewerLoss);

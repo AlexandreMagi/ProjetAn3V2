@@ -49,6 +49,9 @@ public class Main : MonoBehaviour
 
     bool saveIfPlayerCouldShoot = true;
 
+    bool lastChoiceForPlayer = false;
+    float timerBeforeGameOver = 10;
+    float timeRemainingBeforeGameOver = 10;
 
     public static Main Instance { get; private set; }
     void Awake()
@@ -318,6 +321,36 @@ public class Main : MonoBehaviour
         }
         CheckIfGoBackToMenu();
 
+        if (lastChoiceForPlayer)
+        {
+            timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeGameOver < 0) DoGameOver();
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                TimeScaleManager.Instance.Stop();
+
+                float trueChance = GetCurrentChacesOfSurvival();
+                float bonusFromRez = 0;
+                if (trueChance > difficultyData.maxChanceOfSurvival)
+                {
+                    bonusFromRez = trueChance - difficultyData.maxChanceOfSurvival;
+
+                    trueChance = difficultyData.maxChanceOfSurvival;
+                }
+
+                PublicManager.Instance.LoseRawViewer(difficultyData.malusScoreAtChoosedRevive);
+                Main.Instance.EndReviveSituation(true, bonusFromRez);
+                lastChoiceForPlayer = false;
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                TriggerGameOverSequence();
+                lastChoiceForPlayer = false;
+            }
+
+        }
+
     }
 
     [SerializeField] private float checkInputEvery = 0.5f;
@@ -389,7 +422,7 @@ public class Main : MonoBehaviour
         hSoundHandlerMainMusic.volume = 0;
     }
 
-    public void TriggerGameOverSequence()
+    public void FinalChoice()
     {
         if (playerCanOrb)
         {
@@ -398,6 +431,24 @@ public class Main : MonoBehaviour
 
         playerCanShoot = false;
         playerCanOrb = false;
+
+
+        if (difficultyData.playerCanReraise || !playerResedAlready)
+        {
+            TimeScaleManager.Instance.AddStopTime(5000);
+            lastChoiceForPlayer = true;
+            timeRemainingBeforeGameOver = timerBeforeGameOver;
+        }
+        else
+        {
+            DoGameOver();
+        }
+
+
+    }
+
+    public void TriggerGameOverSequence()
+    {
 
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
@@ -472,7 +523,6 @@ public class Main : MonoBehaviour
         Player.Instance.GainArmor(armorValueGain);
         Player.Instance.Revive();
 
-        //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, Vector3.zero);
 
         if(bonus > 0)
         {
