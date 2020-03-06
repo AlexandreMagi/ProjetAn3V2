@@ -934,7 +934,7 @@ MonoBehaviour:
   shotgunBounces: 0
   bounceLag: 0.05
   orbData: {fileID: 11400000, guid: 689438db142b7c94bad45395ddce5466, type: 2}
-  orb: {fileID: 351651660190882522}
+  orb: {fileID: 0}
   displayOrb: 1
 --- !u!114 &7584541180804375021
 MonoBehaviour:
@@ -1079,10 +1079,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b1a1f44ef380849ac25a62872002bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decalTab:
-  - {fileID: 11400000, guid: 608f1f55f0880af4ab66b9f81023f201, type: 3}
-  safeDistanceValue: 2
+  maxDecal: {fileID: 2100000, guid: 76743296c0ab3e149b8447d1390cd23e, type: 2}
+  planeForDecal: {fileID: 7291992976004369661, guid: 98185f3686d622f4685bdbd15d27e15f,
+    type: 3}
   activeDecal: 1
+  scalePlane: 0.5
+  safeTranslateValue: 0.01
+  timeStayNormal: 3
+  timeFade: 3
+  baseAlpha: 1
 --- !u!114 &872805414747636926
 MonoBehaviour:
   m_ObjectHideFlags: 0

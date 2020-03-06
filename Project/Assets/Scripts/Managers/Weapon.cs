@@ -104,7 +104,7 @@ public class Weapon : MonoBehaviour
         weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
-        if (displayOrb && timeRemainingBeforeOrb < 0)
+        if (displayOrb && timeRemainingBeforeOrb < 0 && (orb != null))
         {
             Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
@@ -121,7 +121,7 @@ public class Weapon : MonoBehaviour
                 orb.transform.localScale = Vector3.Lerp(orb.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
             }
         }
-        else
+        else if(orb != null)
         {
             orb.transform.localScale = Vector3.zero;
             orb.SetActive(false);
@@ -396,7 +396,7 @@ public class Weapon : MonoBehaviour
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitBase, raybase);
-                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase);
+                DecalManager.Instance.ProjectDecal(hitBase);
             }
         }
     }
