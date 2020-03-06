@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -85,11 +89,13 @@ Material:
     - _GlossyReflections: 1
     - _IsNearOnly: 0
     - _IsNearOnly1: 0
+    - _IsSelfEmitting: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RevealLightEnabled: 1
+    - _SelfEmittingValue: 0.05
     - _SmoothnessTextureChannel: 0
     - _Softparticlesdistance: 1
     - _Softparticlespower: 1

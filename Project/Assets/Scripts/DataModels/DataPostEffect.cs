@@ -22,4 +22,5 @@ public class DataPostEffect : ScriptableObject
     public AnimationCurve animDistortionAtOrb = AnimationCurve.Linear(0, 0, 1, 0);
     public float animDistortionDuration = 1;
     public float animDistortionMultiplier = 1;
+    public float maxDistToFade = 15;
 }

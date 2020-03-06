@@ -104,7 +104,27 @@ public class Weapon : MonoBehaviour
         weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
+        if (displayOrb)
+        {
+            Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+            //Shoot raycast
+            RaycastHit hit;
+            if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, orbData.layerMask))
+            {
+                orb.transform.position = hit.point;
+                orb.transform.localScale = Vector3.Lerp(orb.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
+            }
+        }
+        else  orb.transform.localScale = Vector3.zero;
+
+
     }
+    [SerializeField]
+    private DataGravityOrb orbData = null;
+    [SerializeField]
+    private GameObject orb = null;
+    [HideInInspector]
+    public bool displayOrb = true;
 
     void HitMarkerSoundFunc()
     {
