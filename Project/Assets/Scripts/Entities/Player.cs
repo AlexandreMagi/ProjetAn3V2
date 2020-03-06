@@ -38,7 +38,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     protected override void Die()
     {
-        Main.Instance.TriggerGameOverSequence();
+        //Main.Instance.TriggerGameOverSequence();
+        Main.Instance.FinalChoice();
     }
     
     public void DieForReal()

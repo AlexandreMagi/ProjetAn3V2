@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ch.sycoforge.Decal;
 
 public class DecalManager : MonoBehaviour
 {
@@ -19,14 +18,30 @@ public class DecalManager : MonoBehaviour
     }
 
     [SerializeField]
-    EasyDecal[] decalTab = null;
-
+    Material maxDecal = null;
     [SerializeField]
-    float safeDistanceValue = 2;
+    GameObject planeForDecal = null;
+
     [SerializeField]
     bool activeDecal = true;
 
-    public EasyDecal ProjectDecal(string name, float castRadius, Ray rayBase, RaycastHit hitBase)
+    [SerializeField]
+    float scalePlane = 0.5f;
+    [SerializeField]
+    float safeTranslateValue = 0.1f;
+
+    List<Material> allMats = new List<Material>();
+    List<GameObject> allGo = new List<GameObject>();
+    List<float> allLifeTimes = new List<float>();
+
+    [SerializeField]
+    float timeStayNormal = 1;
+    [SerializeField]
+    float timeFade = 1;
+    [SerializeField]
+    float baseAlpha = 1;
+
+    public Transform ProjectDecal(RaycastHit hitBase, Material overrideMaterial = null)
     {
 
         if (!activeDecal)
@@ -35,48 +50,50 @@ public class DecalManager : MonoBehaviour
             return null;
         }
 
-        EasyDecal decalInstance = FindDecal(name);
-        if (decalInstance == null)
+        //EasyDecal decalInstance = FindDecal(name);
+        if (maxDecal == null)
             return null;
 
-        // Set the first hit as parent of the decal
-        GameObject parent = hitBase.collider.gameObject;
-        Vector3 pos = hitBase.point;
+        GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal*-1));
+        planeInstance.transform.localScale = Vector3.one * scalePlane;
+        planeInstance.transform.Rotate(Vector3.forward * Random.Range(0, 360), Space.Self);
+        planeInstance.transform.SetParent(hitBase.collider.transform, true);
 
-        RaycastHit[] hits = Physics.SphereCastAll(rayBase, castRadius, Vector3.Distance(CameraHandler.Instance.renderingCam.transform.position, pos) + safeDistanceValue);
-        Vector3 averageNormal = hitBase.normal;
+        MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
+        planeRenderer.material = overrideMaterial != null ? overrideMaterial : maxDecal;
 
-        // Check if sphere cast hit something
-        if (hits.Length > 0)
-        {
-            foreach (RaycastHit hit in hits)
-            {
-                // Sum all collison point normals
-                averageNormal += hit.normal;
-            }
-        }
+        allMats.Add(planeRenderer.material);
+        allLifeTimes.Add(timeStayNormal + timeFade);
+        allGo.Add(planeInstance);
 
-        // Normalize normal
-        averageNormal /= hits.Length + 1;
-
-        // Instantiate the decal prefab according the hit normal
-        EasyDecal sendDecal = EasyDecal.ProjectAt(decalInstance.gameObject, parent, pos, averageNormal);
-
-
-        return sendDecal;
+        return planeInstance.transform;
     }
 
-    EasyDecal FindDecal(string name)
+    private void Update()
     {
-        for (int i = 0; i < decalTab.Length; i++)
+        for (int i = allLifeTimes.Count-1; i > -1; i--)
         {
-            if (decalTab[i].name == name)
+            float currAlpha = baseAlpha;
+            allLifeTimes[i] -= Time.deltaTime;
+
+            if (allLifeTimes[i] < 0)
             {
-                return decalTab[i];
+                GameObject planeInstance = allGo[i];
+                allMats.RemoveAt(i);
+                allLifeTimes.RemoveAt(i);
+                allGo.RemoveAt(i);
+                Destroy(planeInstance);
             }
+            else
+            {
+                if (allLifeTimes[i] < timeFade) currAlpha = allLifeTimes[i] * baseAlpha / timeFade;
+
+                allGo[i].transform.localScale = Vector3.one * scalePlane * currAlpha;
+                //SETUP ALPHA ICI
+            }
+
+
         }
-        Debug.Log("ERROR - Decal named : '" + name + "' doesn't exist");
-        return null;
     }
 
 

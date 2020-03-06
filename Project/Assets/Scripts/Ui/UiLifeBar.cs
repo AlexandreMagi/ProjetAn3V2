@@ -47,6 +47,8 @@ public class UiLifeBar : MonoBehaviour
     float stockLife = 300;
     float stockMaxLife = 300;
 
+    bool endGameAnimPlayed = false;
+
     private void Start()
     {
         stockArmor = Player.Instance.GetBaseValues().x;
@@ -137,10 +139,14 @@ public class UiLifeBar : MonoBehaviour
 
     public void EndGame()
     {
-        gameOverRoot.SetActive(true);
-        mustFondu = true;
-        gameOverRoot.GetComponent<Animator>().SetTrigger("pop");
-        fonduNoirGameOver.color = new Color(0, 0, 0, 0);
+        if (!endGameAnimPlayed)
+        {
+            gameOverRoot.SetActive(true);
+            mustFondu = true;
+            endGameAnimPlayed = true;
+            gameOverRoot.GetComponent<Animator>().SetTrigger("pop");
+            fonduNoirGameOver.color = new Color(0, 0, 0, 0);
+        }
     }
 
 }
