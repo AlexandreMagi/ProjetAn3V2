@@ -1726,6 +1726,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469733066}
   m_CullTransparentMesh: 0
+--- !u!1 &1686269842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1686269843}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1686269843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686269842}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.862408, y: -19.205845, z: -15.418692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1720913987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,6 +2103,33 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 18867820b73f97c45858f7e371047ad2, type: 2}
   - {fileID: 11400000, guid: 4f890ef2f05ffab49a6c7744465fd783, type: 2}
   - {fileID: 11400000, guid: d26f1344d142dd44cb9db37538b91656, type: 2}
+  hitMarkerSprite: {fileID: 0}
+  hitMarkerPop:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hitMarkerTimeAnim: 0.2
+  hitMarkerMultiplierAnim: 100
   rootCrosshair: {fileID: 540209805}
   waitGameObject: {fileID: 0}
 --- !u!1 &1807811810
