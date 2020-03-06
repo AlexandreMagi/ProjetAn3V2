@@ -104,18 +104,29 @@ public class Weapon : MonoBehaviour
         weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
-        if (displayOrb && (orb != null))
+        if (displayOrb && timeRemainingBeforeOrb < 0 && orb != null)
         {
             Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
             RaycastHit hit;
             if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, orbData.layerMask))
             {
-                orb.transform.position = hit.point;
+                orb.SetActive(true);
+                if (tpOrb)
+                {
+                    tpOrb = false;
+                    orb.transform.position = hit.point;
+                }
+                orb.transform.position = Vector3.Lerp(orb.transform.position, hit.point + hit.normal * 1.3f, Time.unscaledDeltaTime * 8);
                 orb.transform.localScale = Vector3.Lerp(orb.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
             }
         }
-        else if (orb != null) orb.transform.localScale = Vector3.zero;
+        else if(orb != null)
+        {
+            orb.transform.localScale = Vector3.zero;
+            orb.SetActive(false);
+            tpOrb = true;
+        }
 
 
     }
@@ -125,6 +136,7 @@ public class Weapon : MonoBehaviour
     private GameObject orb = null;
     [HideInInspector]
     public bool displayOrb = true;
+    bool tpOrb = false;
 
     void HitMarkerSoundFunc()
     {
