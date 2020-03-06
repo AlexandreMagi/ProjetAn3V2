@@ -23,6 +23,8 @@ public class GravityOrb : MonoBehaviour
     [HideInInspector]
     public bool hasExploded = false;
 
+    ParticleSystem ps = null;
+
     private void Start()
     {
 
@@ -64,7 +66,7 @@ public class GravityOrb : MonoBehaviour
             this.OnAttractionStart();
 
             //FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
-            FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit, true);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+            ps = FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit, true);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
             StartCoroutine("OnHoldAttraction");
 
@@ -142,7 +144,8 @@ public class GravityOrb : MonoBehaviour
 
         if (orbData.isExplosive)
         {
-
+            if (ps != null && ps.isEmitting)
+                ps.Stop();
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
             CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
             Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
