@@ -52,6 +52,7 @@ public class Main : MonoBehaviour
     bool lastChoiceForPlayer = false;
     float timerBeforeGameOver = 10;
     float timeRemainingBeforeGameOver = 10;
+    public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
 
     public static Main Instance { get; private set; }
     void Awake()
@@ -321,37 +322,56 @@ public class Main : MonoBehaviour
         }
         CheckIfGoBackToMenu();
 
-        if (lastChoiceForPlayer)
+        if (lastChoiceForPlayer && !GameEnded)
         {
             timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
-            if (timeRemainingBeforeGameOver < 0) DoGameOver();
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (timeRemainingBeforeGameOver < 0)
             {
-                TimeScaleManager.Instance.Stop();
-
-                float trueChance = GetCurrentChacesOfSurvival();
-                float bonusFromRez = 0;
-                if (trueChance > difficultyData.maxChanceOfSurvival)
-                {
-                    bonusFromRez = trueChance - difficultyData.maxChanceOfSurvival;
-
-                    trueChance = difficultyData.maxChanceOfSurvival;
-                }
-
-                PublicManager.Instance.LoseRawViewer(difficultyData.malusScoreAtChoosedRevive);
-                Main.Instance.EndReviveSituation(true, bonusFromRez);
-                lastChoiceForPlayer = false;
+                timeRemainingBeforeGameOver = 0;
+                DoGameOver();
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) ReviveChoice();
+            if (Input.GetKeyDown(KeyCode.RightArrow)) VoteChoice();
+
+            if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0))
             {
-                TriggerGameOverSequence();
-                lastChoiceForPlayer = false;
+                foreach (var button in lastChanceButton.allButtons)
+                {
+                    button.Click();
+                }
             }
 
         }
 
     }
+
+    public void ReviveChoice()
+    {
+        TimeScaleManager.Instance.Stop();
+
+        float trueChance = GetCurrentChacesOfSurvival();
+        float bonusFromRez = 0;
+        if (trueChance > difficultyData.maxChanceOfSurvival)
+        {
+            bonusFromRez = trueChance - difficultyData.maxChanceOfSurvival;
+
+            trueChance = difficultyData.maxChanceOfSurvival;
+        }
+
+        PublicManager.Instance.LoseRawViewer(difficultyData.malusScoreAtChoosedRevive);
+        Main.Instance.EndReviveSituation(true, bonusFromRez);
+        lastChoiceForPlayer = false;
+        EndGameChoice.Instance.EndChoice();
+    }
+
+    public void VoteChoice()
+    {
+        TriggerGameOverSequence();
+        lastChoiceForPlayer = false;
+        EndGameChoice.Instance.EndChoice();
+    }
+
 
     [SerializeField] private float checkInputEvery = 0.5f;
     [SerializeField] private float distanceCheckIfInput = 0.03f;
@@ -438,6 +458,10 @@ public class Main : MonoBehaviour
             TimeScaleManager.Instance.AddStopTime(5000);
             lastChoiceForPlayer = true;
             timeRemainingBeforeGameOver = timerBeforeGameOver;
+
+            float trueChance = GetCurrentChacesOfSurvival();
+            if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
+            EndGameChoice.Instance.SetupChoice(difficultyData.malusScoreAtChoosedRevive, Mathf.RoundToInt(trueChance));
         }
         else
         {

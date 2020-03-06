@@ -859,6 +859,8 @@ GameObject:
   - component: {fileID: 979599978758664069}
   - component: {fileID: 8293429746743199694}
   - component: {fileID: 4934517951558171939}
+  - component: {fileID: 2514208216718090555}
+  - component: {fileID: 3442760517973110879}
   m_Layer: 5
   m_Name: ButtonRespawn
   m_TagString: Untagged
@@ -908,7 +910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -923,6 +925,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2514208216718090555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873013177007344922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
+--- !u!114 &3442760517973110879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873013177007344922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bbad42ea3c391c44b7eee43105e5d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 0
 --- !u!1 &1006717957373488499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,7 +1939,7 @@ GameObject:
   - component: {fileID: 8939907494316314320}
   - component: {fileID: 1148851048897153576}
   m_Layer: 5
-  m_Name: Text
+  m_Name: purcentage text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2598,7 +2628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2506864080082910635
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4908,7 +4938,7 @@ GameObject:
   - component: {fileID: 842095810618738286}
   - component: {fileID: 3370539975345122607}
   m_Layer: 5
-  m_Name: Text
+  m_Name: indicator text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5929,7 +5959,7 @@ GameObject:
   - component: {fileID: 6575337804912103404}
   - component: {fileID: 3465893751315063265}
   m_Layer: 5
-  m_Name: Text
+  m_Name: countdown text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5944,14 +5974,14 @@ RectTransform:
   m_GameObject: {fileID: 6641574826019640596}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8897, y: 1.8897, z: 1.8897}
   m_Children: []
   m_Father: {fileID: 2506864080082910635}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 301.7}
+  m_AnchoredPosition: {x: 0, y: 243}
   m_SizeDelta: {x: 662.1, y: 432.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6575337804912103404
@@ -5975,7 +6005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6416,7 +6446,7 @@ GameObject:
   - component: {fileID: 2495488404463030638}
   - component: {fileID: 3243052764366952984}
   m_Layer: 5
-  m_Name: Text
+  m_Name: indicator text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7261,6 +7291,7 @@ GameObject:
   - component: {fileID: 2154172479403043091}
   - component: {fileID: 2280302438725690095}
   - component: {fileID: 27678479764957509}
+  - component: {fileID: 5610113815433232862}
   m_Layer: 5
   m_Name: InGameCanvas
   m_TagString: Untagged
@@ -7916,6 +7947,57 @@ MonoBehaviour:
     m_RotationOrder: 4
   scaleMultiplier: 1
   animTime: 2
+--- !u!114 &5610113815433232862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7505788413885452066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790e0cfd0c1ca684393193c124c8b956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootGameEnd: {fileID: 3536209665014846888}
+  publicMalusText: {fileID: 8112853483417247551}
+  publicChanceSurvival: {fileID: 1148851048897153576}
+  countdown: {fileID: 3465893751315063265}
+  bumpAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.096521
+      outSlope: 3.096521
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.15063749
+    - serializedVersion: 3
+      time: 0.49953473
+      value: 0.9995347
+      inSlope: 0.033942774
+      outSlope: 0.033942774
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16622597
+    - serializedVersion: 3
+      time: 1
+      value: -0.0012741089
+      inSlope: -3.5924048
+      outSlope: -3.5924048
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10366426
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bumpAnimTime: 0.2
+  bumpAnimAmplitude: 0.2
 --- !u!1 &7505788413890863684
 GameObject:
   m_ObjectHideFlags: 0
@@ -9474,7 +9556,7 @@ GameObject:
   - component: {fileID: 7238753738241934141}
   - component: {fileID: 8112853483417247551}
   m_Layer: 5
-  m_Name: Text
+  m_Name: malus text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10085,6 +10167,8 @@ GameObject:
   - component: {fileID: 5631421807752504981}
   - component: {fileID: 267523402389699062}
   - component: {fileID: 69407907923072474}
+  - component: {fileID: 6807469078544586314}
+  - component: {fileID: 3939657747235892376}
   m_Layer: 5
   m_Name: ButtonChoixPublic
   m_TagString: Untagged
@@ -10134,7 +10218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -10149,6 +10233,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6807469078544586314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474418837923262860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
+--- !u!114 &3939657747235892376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474418837923262860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bbad42ea3c391c44b7eee43105e5d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 1
 --- !u!1 &8513828378526134848
 GameObject:
   m_ObjectHideFlags: 0
