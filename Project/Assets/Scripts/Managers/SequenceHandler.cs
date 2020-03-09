@@ -34,6 +34,8 @@ public class SequenceHandler : MonoBehaviour
     Vector3 pastCamPos = Vector3.one;
     Vector3 newCamPos = Vector3.one;
 
+    bool isSequenceTrigger = false;
+
     //CinemachineVirtualCamera StockPreviousCam = null;
 
     void Start()
@@ -194,6 +196,11 @@ public class SequenceHandler : MonoBehaviour
                         isWaitingTimer = true;
                     }
 
+                    if(currentSequence.activatesSpawnersDuringSequence && (!isSequenceTrigger) && enemiesKilled >= currentSequence.enemiesToKillInSequence)
+                    {
+                        TriggerUtil.TriggerSpawners(currentSequence.delayOnTrigger, currentSequence.spawnersToTrigger);
+                        isSequenceTrigger = true;
+                    }
                    
                 }
 
@@ -235,6 +242,8 @@ public class SequenceHandler : MonoBehaviour
     public void NextSequence(bool isForced = false)
     {
         Main.Instance.setAIWalls(false);
+
+        isSequenceTrigger = false;
 
         if (currentSequence.cutsSlowMoOnEnd) TimeScaleManager.Instance.Stop();
 
