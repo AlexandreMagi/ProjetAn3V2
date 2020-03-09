@@ -18,203 +18,135 @@ public class UiLifeBar : MonoBehaviour
         _instance = this;
     }
 
-    //[SerializeField]
-    //Slider lifeBar = null;
-    //[SerializeField]
-    //Slider lifeBarFeedBack = null;
-    //[SerializeField]
-    //Slider armorBar = null;
-    //[SerializeField]
-    //Slider armorBarFeedBack = null;
-    ////[SerializeField]
-    ////Text lifeText = null;
-    //[SerializeField]
-    //Text armorText = null;
 
-    int nbLife = 5;
-    int nbLifeMax = 5;
-    float bps = 2f;
-    float timerBps = 0;
-    float stockArmor = 300;
-    float stockLife = 300;
+    [SerializeField] Transform rootVerticalShield = null;
+    [SerializeField] Transform rootMiddleShield = null;
 
-    [SerializeField] DataLifeBarUi dataLifebar = null;
-    [SerializeField] Transform lifeBarRoot = null;
 
-    LifeCapsuleInstance[] dataHandlers = new LifeCapsuleInstance[0];
-    [SerializeField] GameObject emptyUiBox = null;
-    GameObject[] capsules = new GameObject[0];
-
-    [SerializeField] GameObject[] armorBars = null;
-    [SerializeField] ArmorCapsuleInstance[] armorValues = null;
-
-    [SerializeField] DataArmorBarUi armorBarData = null;
-
+    [SerializeField] GameObject[] lifeCapsules = new GameObject[0];
     [SerializeField] GameObject gameOverRoot = null;
+    [SerializeField] Image fonduNoirGameOver = null;
+    bool mustFondu = false;
+    [SerializeField] float speedAlphaFonduGameOver = 0.3f;
+
+    [SerializeField] AnimationCurve animDamageShield = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField] float animDamageShieldAmplitude = 0.5f;
+    [SerializeField] float animDamageShieldTime = 0.5f;
+    float animDamageShieldPurcentage = 1;
+
+    [SerializeField] float recoverLerpSpeed = 5;
+    [SerializeField] float baseRecoverAlpha = 0.3f;
+    [SerializeField] Image recoverCalqueOver = null;
+    [SerializeField] ScriptFlicker flickerShield = null;
+    [SerializeField] float maxFlicker = 7;
+    float currentRecoverPurcentage = 1;
+    float lastArmor = 300;
+
+    float stockArmor = 300;
+    float stockMaxArmor = 300;
+    float stockLife = 300;
+    float stockMaxLife = 300;
+
+    bool endGameAnimPlayed = false;
 
     private void Start()
     {
         stockArmor = Player.Instance.GetBaseValues().x;
+        stockMaxArmor = stockArmor;
         stockLife = Player.Instance.GetBaseValues().y;
-
-        armorValues = new ArmorCapsuleInstance[armorBars.Length];
-        for (int i = 0; i < armorValues.Length; i++)
-        {
-            armorValues[i] = new ArmorCapsuleInstance(armorBarData, armorBars[i].GetComponent<RectTransform>(), armorBars[i].GetComponent<Image>(), armorBars[i].GetComponent<Outline>());
-            armorValues[i].stockArmor = stockArmor / armorValues.Length;
-            armorValues[i].currentArmor = stockArmor / armorValues.Length;
-        }
-
-        dataHandlers = new LifeCapsuleInstance[nbLife];
-        capsules = new GameObject[nbLife];
-        float distanceBetweenCapsule = dataLifebar.purcentageUsedY * Screen.height / nbLife;
-        bps = dataLifebar.startBps;
-
-        for (int i = 0; i < nbLife; i++)
-        {
-            capsules[i] = Instantiate(emptyUiBox, lifeBarRoot);
-            capsules[i].GetComponent<Image>().sprite = dataLifebar.capsuleSprite;
-
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2(0, i * distanceBetweenCapsule) + new Vector2(Screen.width * dataLifebar.decalSprites.x, Screen.height * dataLifebar.decalSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
-            capsules[i].transform.position = transform.TransformPoint(pos);
-
-            capsules[i].GetComponent<RectTransform>().sizeDelta = dataLifebar.baseSize;
-            capsules[i].GetComponent<Image>().color = dataLifebar.lifeCapsuleColor;
-            Outline componentOutline = capsules[i].AddComponent<Outline>();
-            componentOutline.effectColor = Color.black;
-            componentOutline.effectDistance = new Vector2(1, -1) * dataLifebar.outlineSize;
-            dataHandlers[i] = new LifeCapsuleInstance(dataLifebar, i, capsules[i].GetComponent<RectTransform>(), capsules[i].GetComponent<Image>(), capsules[i].GetComponent<Outline>());
-        }
+        stockMaxLife = stockLife;
     }
 
-    //public void UpdateLifeDisplay(float value, float realValue)
-    //{
-    //    lifeBar.value = value;
-    //    //lifeText.text = Mathf.CeilToInt(realValue).ToString();
-    //}
-
-    //public void UpdateArmorDisplay(float value, float realValue)
-    //{
-    //    armorBar.value = value;
-    //    armorText.text = Mathf.CeilToInt(realValue).ToString();
-    //}
-    public void AddLife()
+    private void Update()
     {
-        dataHandlers[nbLife].activate();
-        nbLife++;
-        if (nbLife > nbLifeMax) nbLife--;
-        stockLife += Player.Instance.GetBaseValues().y / nbLifeMax;
-    }
-    public void AddArmor(float addedArmor)
-    {
-        for (int i = 0; i < armorValues.Length; i++)
+
+        if (animDamageShieldPurcentage < 1)
         {
-            armorValues[i].activate();
-            if (armorValues[i].currentArmor + addedArmor < armorValues[i].stockArmor)
+            rootMiddleShield.transform.localScale = Vector3.one + Vector3.one * animDamageShield.Evaluate(animDamageShieldPurcentage) * animDamageShieldAmplitude;
+            animDamageShieldPurcentage += Time.unscaledDeltaTime / animDamageShieldTime;
+            if (animDamageShieldPurcentage > 1)
             {
-                armorValues[i].currentArmor += addedArmor;
-                stockArmor += addedArmor;
-                addedArmor = 0;
-                break;
-            }
-            else
-            {
-                float valueAdded = armorValues[i].stockArmor - armorValues[i].currentArmor;
-                addedArmor -= valueAdded;
-                armorValues[i].stockArmor = armorValues[i].currentArmor;
-                stockArmor += valueAdded;
-            }
-        }
-    }
-
-    public void Update()
-    {
-        //if  (lifeBarFeedBack.value < lifeBar.value)     lifeBarFeedBack.value = lifeBar.value;
-        //else lifeBarFeedBack.value =                    Mathf.MoveTowards(lifeBarFeedBack.value, lifeBar.value, Time.deltaTime);
-        //if  (armorBarFeedBack.value < armorBar.value)   armorBarFeedBack.value = armorBar.value;
-        //else armorBarFeedBack.value =                   Mathf.MoveTowards(armorBarFeedBack.value, armorBar.value, Time.deltaTime);
-
-        //if (Input.GetKeyDown(KeyCode.Space)) PlayerTookDamage(300, 100);
-        //if (Input.GetKeyDown(KeyCode.Space)) Player.Instance.TakeDamage(25);
-
-
-        for (int i = 0; i < dataHandlers.Length; i++)
-        {
-            dataHandlers[i].UpdateValues();
-            dataHandlers[i].DoValues();
-            dataHandlers[i].outlineLocal.effectDistance = new Vector2(1, -1) * dataHandlers[i].outlineSize;
-        }
-
-        for (int i = 0; i < armorValues.Length; i++)
-        {
-            armorValues[i].UpdateValues();
-            armorValues[i].DoValues();
-            armorValues[i].outlineLocal.effectDistance = new Vector2(1, -1) * armorValues[i].outlineSize;
-        }
-
-        bps -= dataLifebar.recoverBps * Time.unscaledDeltaTime;
-        bps = Mathf.Clamp(bps, dataLifebar.startBps, dataLifebar.maxBps);
-
-        timerBps -= Time.unscaledDeltaTime * bps;
-        if (timerBps < 0)
-        {
-            timerBps += 1;
-            for (int i = 0; i < nbLife; i++)
-            {
-                dataHandlers[i].Beat(i * 0.05f);
+                animDamageShieldPurcentage = 1;
+                rootMiddleShield.transform.localScale = Vector3.one;
             }
         }
 
+        currentRecoverPurcentage = Mathf.Lerp(currentRecoverPurcentage, 1, Time.unscaledDeltaTime * recoverLerpSpeed);
+        recoverCalqueOver.color = new Color(Color.white.r, Color.white.g, Color.white.b, (1-currentRecoverPurcentage) * baseRecoverAlpha);
+
+        rootVerticalShield.transform.localScale = Vector3.Lerp (new Vector3(1, lastArmor / stockMaxArmor, 1), new Vector3(1, stockArmor / stockMaxArmor, 1), currentRecoverPurcentage);
+        //rootVerticalShield.transform.localScale = Vector3.Lerp (rootVerticalShield.transform.localScale, new Vector3(1, stockArmor / stockMaxArmor, 1), Time.unscaledDeltaTime * recoverLerpSpeed);
+        flickerShield.moveRange = Mathf.Lerp(maxFlicker, 0, stockArmor / stockMaxArmor);
+
+
+        if (mustFondu)
+        {
+            fonduNoirGameOver.color = new Color(0, 0, 0, Mathf.MoveTowards(fonduNoirGameOver.color.a, 1, Time.unscaledDeltaTime * speedAlphaFonduGameOver));
+        }
     }
 
     public void PlayerTookDamage(float armor, float life)
     {
+        lastArmor = stockArmor;
+        currentRecoverPurcentage = 0;
         if (armor < stockArmor)
         {
             float damageValue = stockArmor - armor;
-            bps += dataLifebar.addedBpsShield;
 
-            for (int i = armorBars.Length - 1; i > -1; i--)
+            if (damageValue > 0)
             {
-                if (damageValue > 0)
+                if (armor > 0)
                 {
-                    if (armorValues[i].currentArmor > damageValue)
-                    {
-                        armorValues[i].currentArmor -= damageValue;
-                        armorValues[i].TakeDammage(damageValue / armorValues[i].stockArmor);
-                        damageValue = 0;
-                        // Feedback armor qui prend des dégats.
-                    }
-                    else
-                    {
-                        damageValue -= armorValues[i].currentArmor;
-                        armorValues[i].currentArmor = 0;
-                        armorValues[i].desactivate();
-                        // Feedback armor qui casse.
-                    }
+                    Debug.Log("Armure prend dégats");
                 }
+                else
+                {
+                    Debug.Log("Armure casse");
+                }
+                UpdateArmor(armor);
             }
+
             stockArmor = armor;
+
         }
-        
+            
         if (life < stockLife)
         {
-            bps += dataLifebar.addedBps;
-            for (int i = 0; i < nbLife; i++)
-            {
-                dataHandlers[i].TakeDammage((nbLife - i) * 0.05f);
-            }
-            if (nbLife > 0) nbLife--;
-            dataHandlers[nbLife].desactivate();
-
+            UpdateCapsules(life);
             stockLife = life;
         }
+        animDamageShieldPurcentage = 0;
     }
+
+    public void UpdateCapsules(float life)
+    {
+        for (int i = 0; i < lifeCapsules.Length; i++)
+        {
+            lifeCapsules[i].SetActive(i < life / stockMaxLife * lifeCapsules.Length);
+        }
+        stockLife = life;
+    }
+    public void UpdateArmor(float armor)
+    {
+        //rootVerticalShield.transform.localScale = new Vector3(1, armor / stockMaxArmor, 1);
+        if (stockArmor <= armor)
+            lastArmor = armor;
+        stockArmor = armor;
+        currentRecoverPurcentage = 0;
+    }
+
+
 
     public void EndGame()
     {
-        gameOverRoot.SetActive(true);
+        if (!endGameAnimPlayed)
+        {
+            gameOverRoot.SetActive(true);
+            mustFondu = true;
+            endGameAnimPlayed = true;
+            gameOverRoot.GetComponent<Animator>().SetTrigger("pop");
+            fonduNoirGameOver.color = new Color(0, 0, 0, 0);
+        }
     }
 
 }

@@ -8,22 +8,22 @@ public class ParticlesCollisonDetection : MonoBehaviour
     ParticleSystem particlesSystemSplatter = null;
 
     [SerializeField]
-    ParticleDecalPool splatDecalPool;
+    ParticleDecalPool splatDecalPool = null;
 
-    ParticleSystem particleSystem;
+    ParticleSystem _particleSystem;
 
     List<ParticleCollisionEvent> collisionEvents;
 
     private void Start()
     {
-        particleSystem = GetComponent<ParticleSystem>();
+        _particleSystem = GetComponent<ParticleSystem>();
 
         collisionEvents = new List<ParticleCollisionEvent>();
     }
 
     void OnParticleCollision(GameObject other)
     {
-        ParticlePhysicsExtensions.GetCollisionEvents(particleSystem, other, collisionEvents);
+        ParticlePhysicsExtensions.GetCollisionEvents(_particleSystem, other, collisionEvents);
 
         for (int i = 0; i < collisionEvents.Count; i++)
         {

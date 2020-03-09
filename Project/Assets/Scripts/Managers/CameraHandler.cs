@@ -270,7 +270,7 @@ public class CameraHandler : MonoBehaviour
         {
             stepSoundPlayed = true;
             //Debug.Log("Joue son de pas");
-            //CustomSoundManager.Instance.PlaySound(RenderingCam, "Step_0" + Random.Range(1, 5), false, 1f);
+            if (feedbackActivated) CustomSoundManager.Instance.PlaySound(renderingCam.gameObject, "Step_0" + UnityEngine.Random.Range(1, 5), false, 1f);
         }
         for (int i = 0; i < curveValues.Length; i++)
         {
@@ -422,14 +422,23 @@ public class CameraHandler : MonoBehaviour
     }
     public void AddShake (float value, float duration = 1)
     {
-        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration * 0.2f;
-        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = duration * 0.7f;
+        ChangeShakeDuration(duration);
         shakeSource.GenerateImpulse(Vector3.up * value); 
     }
-    public void AddShake (float value, Vector3 initPos, float duration = 1)
+
+    void ChangeShakeDuration (float duration)
     {
+        shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_AttackTime = duration * 0.1f;
         shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = duration * 0.2f;
         shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = duration * 0.7f;
+        
+        //Debug.Log(shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime + shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_AttackTime + shakeSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime);
+    }
+
+    public void AddShake (float value, Vector3 initPos, float duration = 1)
+    {
+
+        ChangeShakeDuration(duration);
         float distance = Vector3.Distance(initPos, renderingCam.transform.position);
         value *= 1 - (distance / camData.distanceShakeCancelled);
         if (value > 0)
@@ -468,7 +477,7 @@ public class CameraHandler : MonoBehaviour
         {
             AddShake(camData.shakeWhenCharged * Time.unscaledDeltaTime);
         }
-        else if (chargevalue != fChargedValuePast)
+        else if (chargevalue > fChargedValuePast)
         {
             AddShake(camData.shakeWhenCharging * Time.unscaledDeltaTime);
         }

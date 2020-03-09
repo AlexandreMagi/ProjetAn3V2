@@ -82,28 +82,28 @@ public class UiDamageHandler : MonoBehaviour
             Player player = GameObject.FindObjectOfType<Player>();
             if (player != null && player.getArmor() > 0)
             {
-                shieldPanel.gameObject.SetActive (true);
-                shieldPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
-                statePanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                shieldPanel.enabled = true;
+                shieldPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime * damageFeedbackData.stateAlpha);
+                statePanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, stateTimeRemaining / damageFeedbackData.stateTime * damageFeedbackData.stateAlpha);
                 flashPanel.color = new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, damageFeedbackData.flashAlpha);
             }
             else
             {
-                statePanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime);
+                statePanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, stateTimeRemaining / damageFeedbackData.stateTime * damageFeedbackData.stateAlpha);
                 flashPanel.color = new Color(Color.red.r, Color.red.g, Color.red.b, damageFeedbackData.flashAlpha);
             }
 
-            statePanel.gameObject.SetActive(true);
-            flashPanel.gameObject.SetActive (true);
+            statePanel.enabled = true;
+            flashPanel.enabled = true;
             stateTimeRemaining -= Time.unscaledDeltaTime;
 
             if (stateTimeRemaining < 0)
             {
-                statePanel.gameObject.SetActive(false);
-                shieldPanel.gameObject.SetActive (false);
+                statePanel.enabled = false;
+                shieldPanel.enabled = false;
             }
             if (stateTimeRemaining < damageFeedbackData.stateTime - damageFeedbackData.flashTime)
-            flashPanel.gameObject.SetActive (false);
+            flashPanel.enabled = false;
         }
         if (shieldBreakFlashTime > 0)
         {
@@ -114,7 +114,7 @@ public class UiDamageHandler : MonoBehaviour
         }
         if (timerGravityScreen > 0)
         {
-            gravityFlash.gameObject.SetActive( true);
+            gravityFlash.enabled = true;
             timerGravityScreen -= Time.unscaledDeltaTime;
 
             float GravAlpha;
@@ -131,13 +131,13 @@ public class UiDamageHandler : MonoBehaviour
             }
 
             if (timerGravityScreen < 0)
-                gravityFlash.gameObject.SetActive (false);
+                gravityFlash.enabled = false;
         }
 
         if (currentMuzzleFlashTimer < Time.unscaledDeltaTime)
         {
 
-            muzzleFlash.gameObject.SetActive (false);
+            muzzleFlash.enabled = false;
             currentMuzzleFlashTimer = 0;
         }
         else
@@ -153,7 +153,7 @@ public class UiDamageHandler : MonoBehaviour
                 muzzleFlash.color = muzzleFlashColor;
             }
             currentMuzzleFlashTimer -= Time.unscaledDeltaTime;
-            muzzleFlash.gameObject.SetActive(true);
+            muzzleFlash.enabled = true;
         }
 
     }
@@ -178,7 +178,7 @@ public class UiDamageHandler : MonoBehaviour
 
     public void UpdateZeroGScreen(DataZeroGOnPlayer datasend, float purcentage, bool onZeroG)
     {
-        zeroGPanel.gameObject.SetActive (onZeroG);
+        zeroGPanel.enabled = onZeroG;
         Color zeroGColor = zeroGPanel.color;
         zeroGPanel.color = new Color(zeroGColor.r, zeroGColor.g, zeroGColor.b, datasend.screenOpacity.Evaluate(purcentage));
     }
@@ -210,6 +210,10 @@ public class UiDamageHandler : MonoBehaviour
         newOne.OnCreation(dataSend, newSprite.GetComponent<Image>());
         spritesHandler.Add(newOne);
 
+    }
+
+    public void PlayerTookDammage()
+    {
         stateTimeRemaining = damageFeedbackData.stateTime;
     }
 

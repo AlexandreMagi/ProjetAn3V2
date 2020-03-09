@@ -23,13 +23,15 @@ public class SwarmerMeshAnimator : MonoBehaviour
     [SerializeField] float legDistForStepReplacement = 0.3f;
     [SerializeField] float legStepTime = 0.3f;
 
-    [SerializeField] AnimationCurve stepRotateX;
+    [SerializeField] AnimationCurve stepRotateX = null;
     [SerializeField] float stepRotateMultiplier = 90;
 
     [SerializeField] float purcentageFollowHead = 0;
     [SerializeField] float purcentageFollowBottomBox = 0;
 
     [SerializeField] float randomAddedPos = 0.5f;
+
+    [SerializeField] bool isBoss = false;
 
     Quaternion trueRotation;
 
@@ -44,7 +46,7 @@ public class SwarmerMeshAnimator : MonoBehaviour
         }
         trueRotation = refForUpBox.rotation;
 
-        if (lookAt == null) lookAt = Player.Instance.transform;
+        if (lookAt == null && !isBoss) lookAt = Player.Instance.transform;
     }
 
     // Update is called once per frame

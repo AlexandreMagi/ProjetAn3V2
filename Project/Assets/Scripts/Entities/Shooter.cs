@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+//[SelectionBase]
 public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 {
    // private DataShooter shooterData;
@@ -10,9 +10,9 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     //Stimulus
     #region Stimulus
     #region Bullets
-    public override void OnHit(DataWeaponMod mod, Vector3 position)
+    public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
-        this.TakeDamage(mod.bullet.damage);
+        this.TakeDamage(dammage);
     }
 
     #endregion
@@ -143,7 +143,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                     if(canShoot)
                         Shoot();
                     //GetComponent<Animator>().SetTrigger("Shoot");
-                    //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Launch", false, 0.5f);
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Launch", false, 0.5f);
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_MissileLaunch", false, 0.7f);
                     if (bulletShot >= entityData.nbShootPerSalve)
                     {
                         // RESET DES VALEURS ET STUN
@@ -173,7 +174,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void SpotTarget()
     {
         state = (int)State.Rotating;
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Spot", false, 0.6f);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Spot", false, 0.6f);
     }
 
     /// <summary>
@@ -191,7 +192,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void StartLoading()
     {
         state = (int)State.Loading;
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Bip_Rockets", false, 1);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Bip_Rockets", false, 1);
     }
 
     /// <summary>
@@ -302,7 +303,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
             CameraHandler.Instance.AddShake(0.5f, transform.position);
             for (int i = 0; i < entityData.nbBulletPerShoot; i++)
             {
-                GameObject CurrBullet = Instantiate(entityData.bulletPrefabs);
+                GameObject CurrBullet = Instantiate(entityData.bulletPrefabs,canonPlacement.transform.position,Quaternion.identity);
                 allBullets.Add(CurrBullet.GetComponent<ShooterBullet>());
                 float bulletRotation = (bulletShot - 1) < overrideBulletRotation.Length ? overrideBulletRotation[(bulletShot - 1)] : (bulletShot - 1) < entityData.specifyBulletRotation.Length ? entityData.specifyBulletRotation[(bulletShot - 1)] : Random.Range(0, 360);
                 CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject, bulletRotation, entityData.amplitudeCap);
@@ -325,13 +326,13 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     public override void TakeDamage(float value)
     {
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Damage", false, 1, 0, 0, false); ;
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Damage", false, 1, 0, 0, false); ;
         base.TakeDamage(value);
     }
 
     protected override void Die()
     {
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_Shooter_Death", false, .6f);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Death", false, .6f);
 
         foreach (var bullet in allBullets)
         {

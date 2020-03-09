@@ -23,6 +23,8 @@ public class GravityOrb : MonoBehaviour
     [HideInInspector]
     public bool hasExploded = false;
 
+    ParticleSystem ps = null;
+
     private void Start()
     {
 
@@ -44,6 +46,7 @@ public class GravityOrb : MonoBehaviour
         {
             UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
+            PostprocessManager.Instance.doDistortion(transform);
 
             GameObject hitObj = hit.collider.gameObject;
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
@@ -63,16 +66,16 @@ public class GravityOrb : MonoBehaviour
             this.OnAttractionStart();
 
             //FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
-            FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit, true);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
+            ps = FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit, true);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
             StartCoroutine("OnHoldAttraction");
 
-            //CustomSoundManager.Instance.PlaySound(MainCam.gameObject, "Sound_Orb_Boosted", false, 0.5f);
+            CustomSoundManager.Instance.PlaySound(MainCam.gameObject, "Sound_Orb_Boosted", false, 0.5f);
             return true;
             
         }
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
+        //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, Vector3.zero);
         return false;
 
     }
@@ -85,7 +88,7 @@ public class GravityOrb : MonoBehaviour
 
         this.OnAttractionStart();
         StartCoroutine("OnHoldAttraction");
-        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sound_Orb_Boosted", false, 0.3f);
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Sound_Orb_Boosted", false, 0.3f);
     }
 
     void OnAttractionStart()
@@ -112,20 +115,21 @@ public class GravityOrb : MonoBehaviour
 
     public DataGravityOrb getOrbData () { return orbData; }
 
-    public void StopHolding()
+    public void StopHolding(bool loosePointIfMissed = true)
     {
         hasExploded = true;
         int nbEnemiesHitByFloatExplo = 0;
 
-        FindObjectOfType<PostProcessEffects>().ChromaChanges(true);
+        PostprocessManager.Instance.setChroma(true);
+        PostprocessManager.Instance.doDistortion(transform);
 
         StopCoroutine("OnHoldAttraction");
 
 
-        if (!hasHitSomething)
-        {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
-        }
+        //if (!hasHitSomething && loosePointIfMissed)
+        //{
+        //    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
+        //}
 
         if (hasSticked)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
@@ -140,9 +144,10 @@ public class GravityOrb : MonoBehaviour
 
         if (orbData.isExplosive)
         {
-
+            if (ps != null && ps.isEmitting)
+                ps.Stop();
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
-            //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Sounf_Orb_NoGrav_Boosted", false, 0.3f);
             Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
             if (tHits.Length > 0)
@@ -189,7 +194,7 @@ public class GravityOrb : MonoBehaviour
 
     void OnZeroGRelease()
     {
-        FindObjectOfType<PostProcessEffects>().ChromaChanges(false);
+        PostprocessManager.Instance.setChroma(false);
         Destroy(this.gameObject);
     }
 

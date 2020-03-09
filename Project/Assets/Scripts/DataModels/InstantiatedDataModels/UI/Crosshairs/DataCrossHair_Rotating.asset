@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65228da64313d334287897a79669a36a, type: 3}
+  m_Name: DataCrossHair_Rotating
+  m_EditorClassIdentifier: 
+  affectedByTimeScale: 0
+  baseSize: 0
+  amplitudeIdle: 0
+  speedIdle: 0
+  offsetIdle: 0
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineBaseColor: {r: 0, g: 0, b: 0, a: 1}
+  rotateSpeed: 0
+  rotateDir: 1
+  startRotation: 0
+  randomRotateAtStart: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  resetRotationOnRelease: 1
+  reculRecoverRate: 300
+  reculAddedPerShot: 0
+  reculMax: 20
+  reculSizeMultiplier: 500
+  hitRecoverRate: 0
+  hitAddedPerShot: 0
+  hitMax: 20
+  hitSizeMultiplier: 0
+  hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 1}
+  transitionStartAt: 0.2
+  chargingSize: 560
+  chargingAmplitudeIdle: 0
+  chargingSpeed: 10
+  chargingRotation: 360
+  chargingColor: {r: 0.94117653, g: 0.3019608, b: 0.13333334, a: 1}
+  outlineChargingColor: {r: 0, g: 0, b: 0, a: 1}
+  chargingRotateSpeed: 500
+  chargingOffset: {x: 0, y: 0}
+  noBulletSize: 0
+  noBulletAmplitudeIdle: 0
+  noBulletIdleSpeed: 0
+  noBulletColor: {r: 1, g: 1, b: 1, a: 1}
+  noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  noBulletAnimTime: 2
+  chargedColor: {r: 0.94117653, g: 0.3019608, b: 0.13333334, a: 1}
+  outlineChargedColor: {r: 0, g: 0, b: 0, a: 1}
+  chargedRotateSpeed: 500
+  reactToOrb: 0
+  orbChargedColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineOrbChargedColor: {r: 1, g: 1, b: 1, a: 1}
+  orbBonusSize: 0
+  orbGrowTime: 0.01
+  orbShrinkTime: 0.01
+  orbIdleSpeed: 0
+  orbIdleAmplitude: 0
+  timeToDoChargedFeedback: 0.2
+  sizeAnim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.7818177
+      outSlope: 2.7818177
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.24805889
+    - serializedVersion: 3
+      time: 0.49999994
+      value: 0.9878052
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.2153294
+      outSlope: -3.2153294
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.23940298
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  sizeMultiplier: 100

@@ -46,6 +46,17 @@ public class UiCrossHair : MonoBehaviour
     CrosshairInstance[] dataHandlerCrosshairs = new CrosshairInstance[0];
     GameObject[] UiCrosshairs = new GameObject[0];
 
+    RectTransform UiHitMarker = null;
+    [SerializeField]
+    Sprite hitMarkerSprite = null;
+    [SerializeField]
+    AnimationCurve hitMarkerPop = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField]
+    float hitMarkerTimeAnim = 0.2f;
+    [SerializeField]
+    float hitMarkerMultiplierAnim = 100;
+    float hitMarkerAnimPurcentage = 1;
+
     [SerializeField]
     Transform rootCrosshair = null;
     [SerializeField]
@@ -63,35 +74,55 @@ public class UiCrossHair : MonoBehaviour
         animCharge = Animator.StringToHash(animTriggerCharge);
         animRelease = Animator.StringToHash(animTriggerRelease);
         animUICrossHair = fxUICrossHair.GetComponent<Animator>();
+
+        UiHitMarker = Instantiate(baseForCrosshair, rootCrosshair.transform).GetComponent<RectTransform>();
+        UiHitMarker.GetComponent<Image>().sprite = hitMarkerSprite;
+        UiHitMarker.sizeDelta = Vector2.zero;
+
     }
 
     public void UpdateCrossHair(Vector2 mousePosition)
     {
 
+        Vector2 pos = Vector2.zero;
         for (int i = 0; i < UiCrosshairs.Length; i++)
         {
             dataHandlerCrosshairs[i].UpdateValues();
             dataHandlerCrosshairs[i].UpdateTransformsAndColors();
 
-            Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition + dataHandlerCrosshairs[i].offset, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
             UiCrosshairs[i].transform.position = transform.TransformPoint(pos);
 
-            if (Weapon.Instance)
+            /*if (Weapon.Instance)
             UiCrosshairs[i].SetActive(//Weapon.Instance.GetBulletAmmount().x > 0 && 
-                !Weapon.Instance.GetIfReloading());
+                !Weapon.Instance.GetIfReloading());*/
         }
-        Vector2 posCrFx;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out posCrFx);
-        fxUICrossHair.transform.position = transform.TransformPoint(posCrFx);
+
+        if (hitMarkerAnimPurcentage < 1)
+        {
+            UiHitMarker.sizeDelta = Vector2.one * hitMarkerPop.Evaluate(hitMarkerAnimPurcentage) * hitMarkerMultiplierAnim;
+            hitMarkerAnimPurcentage += Time.unscaledDeltaTime / hitMarkerTimeAnim;
+            UiHitMarker.transform.position = transform.TransformPoint(pos);
+            if (hitMarkerAnimPurcentage > 1)
+            {
+                hitMarkerAnimPurcentage = 1;
+                UiHitMarker.sizeDelta = Vector2.zero;
+            }
+        }
+
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+        fxUICrossHair.transform.position = transform.TransformPoint(pos);
+
     }
 
     public void WaitFunction()
     {
-        waitGameObject.SetActive(true);
+        //waitGameObject.SetActive(true);
         rootCrosshair.gameObject.SetActive(false);
         if (waitGameObject.activeSelf)
             waitGameObject.GetComponent<Animator>().SetTrigger("pop");
+        UINewWait.Instance.TriggerWait();
     }
 
     public void StopWaitFunction()
@@ -100,6 +131,7 @@ public class UiCrossHair : MonoBehaviour
             waitGameObject.GetComponent<Animator>().SetTrigger("depop");
         //waitGameObject.SetActive(false);
         rootCrosshair.gameObject.SetActive(true);
+        UINewWait.Instance.RemoveWait();
     }
 
     public void PlayerHasOrb(bool haveOrb)
@@ -116,6 +148,7 @@ public class UiCrossHair : MonoBehaviour
         {
             dataHandlerCrosshairs[i].PlayerHitSomething(value);
         }
+        hitMarkerAnimPurcentage = 0;
     }
 
     public void PlayerShot(float value, bool chargedShot)

@@ -6,15 +6,21 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 {
     ShootTriggerManager parentManager = null;
 
+    [SerializeField]
+    bool isCollectible = false;
+
     bool isTriggered = false;
+
+    [SerializeField]
+    float armorGiven = 0;
 
     //[SerializeField]
     //bool keepsCombo = true;
 
-    //[SerializeField]
-    //string soundPlayed = "";
-    //[SerializeField]
-    //float soundVolume = 1;
+    [SerializeField]
+    string soundPlayed = "ShootTriggerSound";
+    [SerializeField]
+    float soundVolume = 1;
 
     Collider thisCollider = null;
 
@@ -27,7 +33,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     //Stimulus reactions
     #region StimulusBullet
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
         if (!isTriggered)
         {
@@ -47,14 +53,20 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             }
             else
             {
-                FxManager.Instance.PlayFx("VFX_EnvironnementTrigger", this.transform.position, Quaternion.identity);
-                //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
+                FxManager.Instance.PlayFx("VFX_CollectiblesShoot", this.transform.position, Quaternion.identity);
+                GetComponentInChildren<ParticleSystem>().Stop();
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
             }
 
 
             if (GetComponent<DeleteAfterJPOKillsParticles>() != null)
                 GetComponent<DeleteAfterJPOKillsParticles>().StopParticles();
 
+            if (armorGiven != 0)
+                Player.Instance.GainArmor(armorGiven);
+
+            if (isCollectible)
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Collectible, transform.position);
 
             Destroy(this);
         }

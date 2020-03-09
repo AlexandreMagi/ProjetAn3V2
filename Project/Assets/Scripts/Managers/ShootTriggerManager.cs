@@ -58,6 +58,13 @@ public class ShootTriggerManager : MonoBehaviour
     string booleanName = "";
     [SerializeField, ShowIf("triggersBooleanSequence")]
     bool booleanStateSet = false;
+    [SerializeField, ShowIf("triggersBooleanSequence")]
+    float delayOnBooleanActivation = 0;
+
+
+    // END GAME ////////////////////////////
+    [SerializeField]
+    bool gameEnder = false;
 
     GameObject[] childs;
 
@@ -148,7 +155,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (soundPlayed != "")
         {
-            CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
         }
 
         if (startsNextSequenceOnTrigger)
@@ -168,7 +175,13 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (triggersBooleanSequence)
         {
-            TriggerUtil.TriggerBooleanSequence(0, booleanName, booleanStateSet);
+            TriggerUtil.TriggerBooleanSequence(delayOnBooleanActivation, booleanName, booleanStateSet);
+        }
+
+        if (gameEnder)
+        {
+            SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
     }
 }

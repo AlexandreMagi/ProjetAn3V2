@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a62b0865723094b846026137b70a00, type: 3}
   m_Name: DataShooter_SingleShoot
   m_EditorClassIdentifier: 
-  maxHealth: 400
-  startHealth: 400
+  maxHealth: 300
+  startHealth: 300
   team: 1
   shakeOnDie: 0
   shakeOnDieTime: 0
@@ -29,6 +29,8 @@ MonoBehaviour:
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.05
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
   rotationSpeed: 15
   rotationMinimalBeforeCharge: 3
   playerMoveTimeReset: 1
@@ -42,7 +44,7 @@ MonoBehaviour:
   - 180
   nbBulletPerShoot: 1
   timeBetweenBullet: 0.2
-  amplitudeMultiplier: 5
+  amplitudeMultiplier: 3
   amplitudeCap: 0
   recoverTime: 1000
   shootEvenIfPlayerMoving: 1

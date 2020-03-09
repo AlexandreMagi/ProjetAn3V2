@@ -5,7 +5,7 @@ using UnityEngine;
 public class PublicManager : MonoBehaviour
 {
     [SerializeField]
-    DataPublic publicData;
+    DataPublic publicData = null;
 
     IEntity enemyForVendetta = null;
 
@@ -18,6 +18,9 @@ public class PublicManager : MonoBehaviour
     float currentMultiplier = 1;
 
     float hpMultiplier = 1;
+
+    float randomBalancedUp = 0;
+    float randomBalancedDown = 0;
 
     List<ActionType> stallBuffer;
 
@@ -32,10 +35,11 @@ public class PublicManager : MonoBehaviour
     {
         if(timeLeftForMultiKill > 0)
         {
-            timeLeftForMultiKill -= Time.deltaTime;
+            timeLeftForMultiKill -= Time.unscaledDeltaTime;
             if(timeLeftForMultiKill <= 0)
             {
                 timeLeftForMultiKill = 0;
+                multiKillCounter = 0;
             } 
         }
 
@@ -64,48 +68,51 @@ public class PublicManager : MonoBehaviour
         switch (action)
         {
             case ActionType.EnvironmentKill:
-                AddViewers(4, true, action, "Environment Kill", _position);
+                //AddViewers(4, true, action, "Environment Kill", _position);
+                AddViewers(4, true, action, "Destruction environnementale", _position);
                 break;
             case ActionType.RefuseBonus:
-                AddViewers(5, true, action, "Big balls", _position);
+                //AddViewers(5, true, action, "Big balls", _position);
+                AddViewers(5, true, action, "Arogance", _position);
                 break;
             case ActionType.PerfectProjectile:
-                AddViewers(3, true, action, "So close ouuuh", _position);
+                //AddViewers(3, true, action, "So close ouuuh", _position);
+                AddViewers(3, true, action, "SI près ouuuh", _position);
                 break;
             case ActionType.BackToSender:
-                AddViewers(3, true, action, "Back to mama !", _position);
+                //AddViewers(3, true, action, "Back to mama !", _position);
+                AddViewers(3, true, action, "Retour à l'envoyeur !", _position);
                 break;
             case ActionType.Kill:
                 //Un peu spécial
                 multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-                    if(multiKillCounter > 5)
+                    if (multiKillCounter >= 3)
                     {
-                        AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
+                        //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
+                        AddViewers(1, false, ActionType.Kill, "Multi-élimination", _position);
                     }
-                    else
-                    {
-                        AddViewers(2, false, ActionType.Kill, "Combo kill", _position);
-                    }
-                   
+
                 }
-                timeLeftForMultiKill = 0.8f; 
+                timeLeftForMultiKill = 0.8f;
                 break;
             case ActionType.PerfectReload:
-                AddViewers(2, true, action, "Perfect Reload", _position);
+                //AddViewers(2, true, action, "Perfect Reload", _position);
+                AddViewers(2, true, action, "Rechargement parfait", _position);
                 break;
             case ActionType.VendettaPrepare:
                 //Special
-                if(cause != null)
+                if (cause != null)
                 {
                     enemyForVendetta = cause;
                 }
                 break;
             case ActionType.Vendetta:
-                if(cause == enemyForVendetta)
+                if (cause == enemyForVendetta)
                 {
-                    AddViewers(3, true, action, "Revenge", _position);
+                    //AddViewers(3, true, action, "Revenge", _position);
+                    AddViewers(3, true, action, "Revanche", _position);
                 }
                 break;
             case ActionType.SuperLowHp:
@@ -115,25 +122,40 @@ public class PublicManager : MonoBehaviour
                 hpMultiplier = 1.5f;
                 break;
             case ActionType.DamageOnArmor:
-                AddViewers(2, true, action, "Damage", _position);
+                //AddViewers(2, true, action, "Damage", _position);
+                AddViewers(2, true, action, "Vive le spectacle !", _position);
                 break;
             case ActionType.DamageOnLifeBar:
-                LoseViewers(3, "So weak", _position);
+                //LoseViewers(3, "So weak", _position);
+                LoseViewers(3, "Si faible...", _position);
                 break;
             case ActionType.Repeat:
-                LoseViewers(3, "Stop doing that !", _position);
+                //LoseViewers(3, "Stop doing that !", _position);
+                LoseViewers(3, "Répétition", _position);
                 break;
             case ActionType.MissGravityOrb:
-                LoseViewers(7, "How can you miss this ?!", _position);
+                //LoseViewers(7, "How can you miss this ?!", _position);
+                LoseViewers(7, "Inratable, et pourtant...", _position);
                 break;
             case ActionType.MissShotGun:
-                LoseViewers(2, "You killed the wall", _position);
+                //LoseViewers(2, "You killed the wall", _position);
+                LoseViewers(2, "Raté !", _position);
                 break;
             case ActionType.DeathAndRespawn:
-                LoseViewers(10, "Somes don't like beggars", _position);
+                //LoseViewers(10, "Somes don't like beggars", _position);
+                LoseViewers(10, "Dernière chance", _position);
                 break;
             case ActionType.BonusOnRespawn:
                 AddRawViewers((int)bonus, false, action);
+                break;
+            case ActionType.Collectible:
+                AddViewers(1, false, ActionType.Collectible, "Destruction", _position);
+                break;
+            case ActionType.DamageOnEnemy:
+                AddViewers(1, false, ActionType.DamageOnEnemy, "Dégats", _position);
+                break;
+            case ActionType.DamageFixedCam:
+                AddViewers(1, false, ActionType.DamageFixedCam, "Boom", _position);
                 break;
             default:
                 break;
@@ -166,21 +188,34 @@ public class PublicManager : MonoBehaviour
             AddToBuffer(action);
         }
 
-        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth + Random.Range(0, publicData.randomViewerGrowth)) * viewerLevel * bufferMultiplier * hpMultiplier);
+        float _randomBalancedUp = Random.Range(0, publicData.randomViewerGrowth);
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth - randomBalancedUp + _randomBalancedUp) * viewerLevel * bufferMultiplier * hpMultiplier);;
+        randomBalancedUp = _randomBalancedUp;
 
         if (difViewer != 0) 
         {
             if (pos != Vector3.zero)
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true, pos, 1);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true, pos, 1);
+                if (action == ActionType.DamageOnEnemy)
+                {
+                    float darkenColor = 0.8f;
+                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + 1, true, pos, new Color(Color.green.r * darkenColor, Color.green.g * darkenColor, Color.green.b * darkenColor, 1), 1);
+                }
+                else
+                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer, true, pos + Vector3.up * 0.5f, 1);
             }
             else
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true);
+                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer, true);
             }
         }
 
-        nbViewers += difViewer;
+        if (action == ActionType.DamageOnEnemy)
+            nbViewers ++;
+        else
+            nbViewers += difViewer;
 
         if(nbViewers <= 0)
         {
@@ -189,7 +224,6 @@ public class PublicManager : MonoBehaviour
 
         RecalculateMultiplier();
     }
-
     private void AddRawViewers(int number, bool isAffectedByBuffer, ActionType action)
     {
         float bufferMultiplier = 1;
@@ -226,18 +260,28 @@ public class PublicManager : MonoBehaviour
         RecalculateMultiplier();
     }
 
+    public void LoseRawViewer (int number)
+    {
+        nbViewers -= number;
+    }
+
     private void LoseViewers(int viewerLevel, string textToDisplay, Vector3 pos)
     {
-        int difViewer = Mathf.FloorToInt((publicData.baseViewerLoss + Random.Range(0, publicData.randomViewerLoss)) * viewerLevel);
+        float _randomBalancedDown = Random.Range(0, publicData.randomViewerLoss);
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerLoss - randomBalancedDown + _randomBalancedDown) * viewerLevel);
+        randomBalancedDown = _randomBalancedDown;
+
         if (difViewer != 0)
         {
             if (pos != Vector3.zero)
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false, pos, 1);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false, pos, 1);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer, false, pos, 1);
             }
             else
             {
-                UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false);
+                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer, false);
             }
         }
         nbViewers -= difViewer;
@@ -259,6 +303,14 @@ public class PublicManager : MonoBehaviour
         currentMultiplier = nbViewers / publicData.startViewers;
     }
 
+    public void RemoveFromVendetta(IEntity enemy)
+    {
+        if(enemyForVendetta == enemy)
+        {
+            enemyForVendetta = null;
+        }
+    }
+
     public enum ActionType
     {
         EnvironmentKill = 0,
@@ -277,6 +329,9 @@ public class PublicManager : MonoBehaviour
         DeathAndRespawn = 13,
         VendettaPrepare = 14,
         BonusOnRespawn = 15,
-        DamageOnArmor = 16
+        DamageOnArmor = 16,
+        Collectible = 17,
+        DamageOnEnemy = 18,
+        DamageFixedCam = 19
     }
 }

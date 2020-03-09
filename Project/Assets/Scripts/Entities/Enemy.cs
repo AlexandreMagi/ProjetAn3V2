@@ -48,9 +48,9 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     #region Bullets
 
-    public virtual void OnHit(DataWeaponMod mod, Vector3 position)
+    public virtual void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
-        this.TakeDamage(mod.bullet.damage);
+        this.TakeDamage(dammage);
     }
 
     public virtual void OnHitShotGun(DataWeaponMod mod)
@@ -107,6 +107,8 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
     {
         base.TakeDamage(value);
         timeRemainingInMatFeedback += entityData.matChangeTime;
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnEnemy, transform.position);
+        CameraHandler.Instance.AddShake(entityData.shakeWhenTakeDamageForce, entityData.shakeWhenTakeDamageDuration);
     }
 
     protected virtual void IsStun(float stunDuration)

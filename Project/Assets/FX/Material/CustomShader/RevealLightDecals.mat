@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RevealLightDecals
+  m_Shader: {fileID: 4800000, guid: bf01a4b77a9978f43aed143f3c157a90, type: 3}
+  m_ShaderKeywords: _ISNEARONLY1_ON _ISNEARONLY_ON _ISSELFEMITTING_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FlowGradient:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RevealLightTexture:
+        m_Texture: {fileID: 2800000, guid: cb4ab4b3f457ced4faf2fee6a727ce1d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RevealLightTexture1:
+        m_Texture: {fileID: 2800000, guid: cb4ab4b3f457ced4faf2fee6a727ce1d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Reveallighttexture:
+        m_Texture: {fileID: 2800000, guid: 6185dca2f6331284c89579c504c35af2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 2eab5d60eecf40f4b9a764a58ec7cd5d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Contrast: 100
+    - _DifferenceThreshold: 0.001
+    - _Edgedistance1: 8.88
+    - _Edgepower1: 1
+    - _IsNearOnly: 1
+    - _IsNearOnly1: 1
+    - _IsSelfEmitting: 1
+    - _Keyword0: 0
+    - _RevealLightEnabled: 1
+    - _SelfEmittingValue: 0.005
+    - _Softparticlesdistance: 0.15
+    - _Softparticlespower: 1
+    - __dirty: 0
+    - _isDependingOnLightDir: 0
+    - _isUsingFlowGradient: 0
+    m_Colors:
+    - _ColortoBeFiltered: {r: 0.69803923, g: 0.25490198, b: 0.25490198, a: 1}
+    - _ColortoBeFiltered1: {r: 0.6981132, g: 0.25355998, b: 0.25355998, a: 1}
+    - _Edgecolor1: {r: 1, g: 0, b: 0, a: 0}
+    - _FlowColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FlowGradientSpeedAndDirection: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Reveallightcolor: {r: 0.21960784, g: 2.9960785, b: 0.54901963, a: 0}

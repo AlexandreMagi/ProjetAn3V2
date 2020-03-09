@@ -196,6 +196,8 @@ public class LightHandler : MonoBehaviour
                 {
                     float valueLerp = dt / timeLeftPos; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
                     currentPos = Vector3.Lerp(currentPos, targetPos, valueLerp); // lerp de la valeur actuelle vers la valeur visée
+                    if (float.IsNaN(currentPos.magnitude))
+                        currentPos = initPos; // Setup de la var de position à celle de base
                     transform.localPosition = currentPos;
                     timeLeftPos -= dt;
                 }

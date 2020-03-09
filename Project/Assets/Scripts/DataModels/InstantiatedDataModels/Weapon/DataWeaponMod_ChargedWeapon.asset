@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: DataWeaponMod_ChargedWeapon
   m_EditorClassIdentifier: 
   bullet: {fileID: 11400000, guid: 57cc3b97a3119864e85d38af87cd02e6, type: 2}
-  shakePerShot: 1.3
+  shakePerShot: 25
+  shakeTimePerShot: 0.1
   shakePerHit: 0
   recoilPerShot: 1.5
   stopTimeAtImpact: 0.05
-  bulletPerShoot: 8
+  bulletPerShoot: 12
   bulletCost: 3
   bulletImprecision: 0.15
   shootValueUiRecoil: 100
   hitValueUiRecoil: 1
+  soundPlayed: ShotgunShot_Better_wav
+  firstBulletAlwaysPrecise: 1
+  firstBulletDamageMultiplier: 1

@@ -29,21 +29,23 @@ MonoBehaviour:
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 0}
   matChangeTime: 0.1
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
   bulletTrajectory:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0.000000059604645
-      inSlope: 3.057331
-      outSlope: 3.057331
+      inSlope: 2.2302942
+      outSlope: 2.2302942
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.27830222
-      value: 0.8508621
+      time: 0.2653933
+      value: 0.5919052
       inSlope: 0.08405881
       outSlope: 0.08405881
       tangentMode: 0
@@ -51,13 +53,13 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.1646252
     - serializedVersion: 3
-      time: 1
-      value: 0.10141373
-      inSlope: -0.000006225263
-      outSlope: -0.000006225263
+      time: 0.99900794
+      value: 0.09539151
+      inSlope: -0.49516314
+      outSlope: -0.49516314
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.30513698
+      inWeight: 0.06896703
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -155,7 +157,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bulletSpeed: 5
+  desactivateCircles: 1
+  bulletSpeed: 10
   randomSpeedAdded: 2
   shakeAtImpact: 2
   stopTimeAtImpact: 0.065
@@ -178,3 +181,4 @@ MonoBehaviour:
   fxExplosion: VFX_ExplosionShooterBullet
   circlePrefab: {fileID: 4410997737478668277, guid: 7afde0ac91fb26c4c8919c900391f13c,
     type: 3}
+  meshRotationRandom: {x: 120, y: 280}

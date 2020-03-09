@@ -9,6 +9,7 @@ public class Main : MonoBehaviour
     [SerializeField]
     private bool playerCanOrb = true;
     private bool playerCanShoot = true;
+    private bool playerUsedToHaveOrb = false;
 
     public bool PlayerCanOrb {get { return playerCanOrb; } }
 
@@ -24,7 +25,7 @@ public class Main : MonoBehaviour
     int startWithCameraNumber = 0;
 
     [SerializeField]
-    DataDifficulty difficultyData;
+    DataDifficulty difficultyData = null;
 
     bool playerResedAlready = false;
 
@@ -40,13 +41,29 @@ public class Main : MonoBehaviour
     [SerializeField]
     bool isArduinoMode = false;
 
+    [SerializeField]
+    BoxCollider[] aiWalls = null;
+
+
+    AudioSource hSoundHandlerMainMusic = null;
+
+    bool saveIfPlayerCouldShoot = true;
+
+    bool lastChoiceForPlayer = false;
+    float timerBeforeGameOver = 10;
+    float timeRemainingBeforeGameOver = 10;
+    public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
+
     public static Main Instance { get; private set; }
-
-    
-
     void Awake()
     {
         Instance = this;
+    }
+
+    void Start ()
+    {
+        //Debug.Log("Remettre la musique");
+        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
     }
 
     // Update is called once per frame
@@ -63,11 +80,33 @@ public class Main : MonoBehaviour
             SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
         }
 
+        ////SHOOT
+        //if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)))
+        //{
+        //    if (playerCanOrb)
+        //    {
+        //        if (!Weapon.Instance.GravityOrbInput())
+        //            UIOrb.Instance.cantOrb();
+        //    }
+        //    else UIOrb.Instance.cantOrb();
+        //}
+        
         //SHOOT
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityDown) : Input.GetKeyDown(KeyCode.Mouse1)) && playerCanOrb)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
         {
-            Weapon.Instance.GravityOrbInput();
+            if (playerCanOrb)
+            {
+                if (!Weapon.Instance.GravityOrbInput())
+                    UIOrb.Instance.cantOrb();
+            }
+            else UIOrb.Instance.cantOrb();
         }
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityHeld) : Input.GetKey(KeyCode.Mouse1)) && playerCanOrb)
+            Weapon.Instance.displayOrb = true;
+        else
+            Weapon.Instance.displayOrb = false;
+
+
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
         {
             Weapon.Instance.InputHold();
@@ -128,11 +167,13 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             SceneHandler.Instance.RestartScene(.3f, true);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -164,7 +205,15 @@ public class Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?", 5);
+            HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            HintScript.Instance.PopHint("Merci d'avoir joué à Death Live !", 5);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            playerCanOrb = !playerCanOrb;
         }
 
         if (sequenceSkipMode)
@@ -227,16 +276,25 @@ public class Main : MonoBehaviour
         #endregion
 
         //RELOAD
-        if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R))
+        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)))
         {
-            Weapon.Instance.ReloadValidate();
-            Weapon.Instance.ReloadingInput();
+            if (Weapon.Instance.ReloadValidate())
+                Weapon.Instance.ReloadingInput();
         }
-        else if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+
+        //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
+        //{
+        //    if (Weapon.Instance.ReloadValidate())
+        //        Weapon.Instance.ReloadingInput();
+        //}
+
+        if (Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)Weapon.Instance.ReloadingInput();
+
+        if (!saveIfPlayerCouldShoot && playerCanShoot)
         {
-            Weapon.Instance.ReloadValidate();
-            Weapon.Instance.ReloadingInput();
+            Weapon.Instance.EndReload(true);
         }
+        saveIfPlayerCouldShoot = playerCanShoot;
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
@@ -264,7 +322,56 @@ public class Main : MonoBehaviour
         }
         CheckIfGoBackToMenu();
 
+        if (lastChoiceForPlayer && !GameEnded)
+        {
+            timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeGameOver < 0)
+            {
+                timeRemainingBeforeGameOver = 0;
+                DoGameOver();
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) ReviveChoice();
+            if (Input.GetKeyDown(KeyCode.RightArrow)) VoteChoice();
+
+            if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                foreach (var button in lastChanceButton.allButtons)
+                {
+                    button.Click();
+                }
+            }
+
+        }
+
     }
+
+    public void ReviveChoice()
+    {
+        TimeScaleManager.Instance.Stop();
+
+        float trueChance = GetCurrentChacesOfSurvival();
+        float bonusFromRez = 0;
+        if (trueChance > difficultyData.maxChanceOfSurvival)
+        {
+            bonusFromRez = trueChance - difficultyData.maxChanceOfSurvival;
+
+            trueChance = difficultyData.maxChanceOfSurvival;
+        }
+
+        PublicManager.Instance.LoseRawViewer(difficultyData.malusScoreAtChoosedRevive);
+        Main.Instance.EndReviveSituation(true, bonusFromRez);
+        lastChoiceForPlayer = false;
+        EndGameChoice.Instance.EndChoice();
+    }
+
+    public void VoteChoice()
+    {
+        TriggerGameOverSequence();
+        lastChoiceForPlayer = false;
+        EndGameChoice.Instance.EndChoice();
+    }
+
 
     [SerializeField] private float checkInputEvery = 0.5f;
     [SerializeField] private float distanceCheckIfInput = 0.03f;
@@ -324,15 +431,48 @@ public class Main : MonoBehaviour
 
         if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)
         {
-            playerCanOrb = state;
+            if (!playerCanOrb && state) UIOrb.Instance.ActivateOrb();
+                playerCanOrb = state;
             //FindObjectOfType<C_Ui>().CannotShoot(state);
         }
     }
 
-    public void TriggerGameOverSequence()
+    public void CutMusic()
     {
+        hSoundHandlerMainMusic.volume = 0;
+    }
+
+    public void FinalChoice()
+    {
+        if (playerCanOrb)
+        {
+            playerUsedToHaveOrb = true;
+        }
+
         playerCanShoot = false;
         playerCanOrb = false;
+
+
+        if (difficultyData.playerCanReraise || !playerResedAlready)
+        {
+            TimeScaleManager.Instance.AddStopTime(5000);
+            lastChoiceForPlayer = true;
+            timeRemainingBeforeGameOver = timerBeforeGameOver;
+
+            float trueChance = GetCurrentChacesOfSurvival();
+            if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
+            EndGameChoice.Instance.SetupChoice(difficultyData.malusScoreAtChoosedRevive, Mathf.RoundToInt(trueChance));
+        }
+        else
+        {
+            DoGameOver();
+        }
+
+
+    }
+
+    public void TriggerGameOverSequence()
+    {
 
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
@@ -358,6 +498,10 @@ public class Main : MonoBehaviour
 
             //Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
         }
+        else
+        {
+            DoGameOver();
+        }
         
     }
 
@@ -366,11 +510,15 @@ public class Main : MonoBehaviour
 
         if (rez)
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.5f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Up", false, 1);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
         }
         else
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Boo", false, 0.2f);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Down", false, 1);
             DoGameOver();
         }
     }
@@ -382,19 +530,23 @@ public class Main : MonoBehaviour
         Player.Instance.DieForReal();
         UiLifeBar.Instance.EndGame();
         GameEnded = true;
+
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
     }
 
     private void DoResurrection(float bonus)
     {
 
         playerCanShoot = true;
-        playerCanOrb = true;
+        if(playerUsedToHaveOrb) playerCanOrb = true;
 
         Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
-        Player.Instance.GainArmor(difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty);
+
+        float armorValueGain = difficultyData.armorOnRaise + bonus * difficultyData.armorOnRaiseBonus / (int)difficultyData.difficulty;
+        armorValueGain = Mathf.Clamp(armorValueGain, 0, difficultyData.maxArmorRaise);
+        Player.Instance.GainArmor(armorValueGain);
         Player.Instance.Revive();
 
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DeathAndRespawn, Vector3.zero);
 
         if(bonus > 0)
         {
@@ -417,5 +569,13 @@ public class Main : MonoBehaviour
         // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
 
         return (currentPublic / (initialPublic + growthValue * (float)difficultyData.difficulty) / (float)difficultyData.difficulty) * difficultyData.maxChanceOfSurvival; ;
+    }
+
+    public void setAIWalls(bool state)
+    {
+        foreach(BoxCollider col in aiWalls)
+        {
+            col.enabled = state;
+        }
     }
 }

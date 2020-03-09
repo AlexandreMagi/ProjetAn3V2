@@ -26,10 +26,10 @@ public class Pather : MonoBehaviour
 
             for (int i = 0; i < totalPaths; i++)
             {
-                Vector3 pos = GetPathAt(i).position;
+                Vector3 pos = GetPathAt(i);
                 if (i > 0)
                 {
-                    Vector3 previous = GetPathAt(i - 1).position;
+                    Vector3 previous = GetPathAt(i - 1);
                     Gizmos.DrawLine(previous, pos);
                 }
                 Gizmos.DrawWireSphere(pos, .3f);
@@ -58,15 +58,16 @@ public class Pather : MonoBehaviour
 
     }
 
-    public Transform GetPathAt(int index)
+    public Vector3 GetPathAt(int index)
     {
         if (index < totalPaths)
         {
-            return pathTransforms[index];
+            //Debug.Log($"Returned position at : {pathTransforms[index].position}");
+            return pathTransforms[index].position;
         }
         else
         {
-            return null;
+            return Vector3.zero;
         }
 
     }

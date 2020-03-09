@@ -18,9 +18,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5646081
   chargeSpeedIndependantFromTimeScale: 1
-  chargeTime: 0.5
+  chargeTime: 0.8
+  canReloadAnytime: 1
   bulletMax: 12
-  reloadingTime: 0.8
+  reloadCooldown: 1.5
+  reloadingTime: 1
   perfectPlacement: 0.6
   perfectRandom: 0.1
   perfectRange: 0.08
@@ -35,7 +37,7 @@ MonoBehaviour:
   bulletAddedIfPerfect: 3
   recoilIfNoBullet: 0.5
   shakeIfNoBullet: 10
-  gravityOrbCooldown: 3
+  gravityOrbCooldown: 6
   grabityOrbCooldownRelativeToTime: 0
   gravityOrbCanBeReactivated: 1
   AnimValue:
@@ -73,3 +75,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   animTime: 0.4
   fovModifier: 3
+  baseAngle: 55
+  chargedAngle: 90
+  baseIntensity: 0.6
+  chargedIntensity: 0.7
+  baseRange: 15
+  chargedRange: 20

@@ -15,25 +15,56 @@ MonoBehaviour:
   maxHealth: 100
   startHealth: 100
   team: 0
+  shakeOnDie: 0
+  shakeOnDieTime: 0
   spriteToDisplayShield: {fileID: 0}
   spriteToDisplayLife: {fileID: 0}
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 1
   fxWhenDie: fx_name_death_ennemi
+  fxWhenDieDecals: fx_name_death_decal_ennemi
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
   varianceInPath: 10
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.8
+  angleToIgnorePath: 120
   speed: 250
+  maximumSpeed: 350
   damage: 10
   upScale: 10
-  distanceToTargetEnemy: 5
+  distanceToTargetEnemy: 500
   distanceMelee: 3
   waitDuration: 0.3
   distanceBeforeAttack: 8
   jumpForce: 80
   speedMultiplierWhenAttacking: 4
-  mat: {fileID: 2100000, guid: c40cc56f9422c484a83c8a3190d17afb, type: 2}
+  targetsPlayerAtEndOfPath: 1
+  hasDodgeIntelligence: 0
+  frontalDetectionSight: 2
+  jumpHeight: 3
+  jumpDodgeForce: 2500
+  jumpCooldownInitial: 0.5
+  numberOfSideTries: 4
+  tryStep: 1
+  distanceDodgeStep: 1
+  extraLengthByStep: 0.2
+  sideDetectionSight: 1
+  dodgeSlideForce: 350
+  timeForUpwardsTransition: 0.2
+  maxBlockedRetryPathTime: 2
+  maxBlockedSuicideTime: 4
+  considerStuckThreshhold: 1
+  initialTimeToConsiderCheck: 0.5
+  maxHeightToChaseWaypoint: 0.3
+  rayCastRangeToConsiderAirbone: 0.7
+  pushForce: 150
+  upwardsPushForce: 50
+  mat: {fileID: 2100000, guid: 6c40e2d248447434ca0ae2f32e805353, type: 2}
+  vfxToPlayWhenPulledByGrav: VFX_Orbe
+  vfxToPlayWhenHoldByGrav: VFX_Orbe
+  vfxToPlayWhenReleaseByGrav: VFX_Orbe

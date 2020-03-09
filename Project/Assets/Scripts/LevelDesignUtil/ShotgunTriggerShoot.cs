@@ -23,13 +23,10 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     float timerBeforeNextSequence = 0.5f;
 
 
-    [SerializeField]
-    int nbShootBeforeFirstHint = 3;
-    [SerializeField]
-    int nbShootBeforeSecondHint = 10;
+    int nbShootBeforeFirstHint = 1;
+    int nbShootBeforeSecondHint = 5;
     int nbShoot = 0;
-    [SerializeField]
-    float timeBeforeSecondHint = 10;
+    float timeBeforeSecondHint = 5;
     bool timerStarted = false;
     bool secondHintPlayed = false;
     float timerBeforeSecondHint = 0;
@@ -39,11 +36,13 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     bool callNextSequence = false;
 
+    bool canDisplayHint = true;
+
     void PlaySound()
     {
         if (soundPlayed != "")
         {
-            CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, soundPlayed, false, soundVolume);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
         }
     }
 
@@ -52,7 +51,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         callNextSequence = false;
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
         //Debug.Log(mod);
     }
@@ -81,12 +80,14 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             callNextSequence = true;
         }
 
+        canDisplayHint = false;
+
         Weapon.Instance.OnShotGunHitTarget();
     }
 
     void Update()
     {
-        if (timerStarted)
+        if (timerStarted && canDisplayHint)
         {
             if (timerBeforeSecondHint > 0)
                timerBeforeSecondHint -= Time.unscaledDeltaTime;
@@ -135,7 +136,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     }
     void TrueDisplay()
     {
-        HintScript.Instance.ChangeFontSize(23);
+        //HintScript.Instance.ChangeFontSize(23);
         HintScript.Instance.PopHint("Maintiens la gachette appuyée pour charger ton tir !");
     }
 

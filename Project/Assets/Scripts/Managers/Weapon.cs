@@ -32,14 +32,17 @@ public class Weapon : MonoBehaviour
     float reloadingPurcentage = 0;
 
     bool shotGunHasHit = false;
+    float reloadCoolDown = 0;
 
 
     [SerializeField]
     GameObject muzzleFlash = null;
     [SerializeField]
     bool rotateWithCursor = true;
+    [HideInInspector]
+    public bool rotateLocked = false;
     [SerializeField]
-    GameObject weaponLight = null;
+    Light weaponLight = null;
     [SerializeField]
     bool ignoreBulletLimitForCharge = false;
     [SerializeField]
@@ -67,7 +70,8 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-
+        if (reloadCoolDown > 0) reloadCoolDown -= Time.unscaledDeltaTime;
+        if (reloadCoolDown < 0) reloadCoolDown = 0;
 
         if (timerMuzzleFlash >= 0) timerMuzzleFlash -= Time.unscaledDeltaTime;
         timerMuzzleFlash = Mathf.Clamp(timerMuzzleFlash, 0, 1);
@@ -91,8 +95,56 @@ public class Weapon : MonoBehaviour
         Vector3 v3 = Main.Instance.GetCursorPos() + Vector3.forward * 10; 
         v3 = CameraHandler.Instance.renderingCam.ScreenToWorldPoint(v3);
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.renderingCam.transform.position, 360, 0.0f);
-        weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
+        if (!rotateLocked)
+            weaponLight.transform.rotation = Quaternion.LookRotation(newDirection);
+        else
+            weaponLight.transform.rotation = Quaternion.LookRotation(CameraHandler.Instance.renderingCam.transform.forward, Vector3.up);
 
+        weaponLight.spotAngle = Mathf.Lerp(weapon.baseAngle, weapon.chargedAngle, currentChargePurcentage);
+        weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
+        weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
+
+        if (displayOrb && timeRemainingBeforeOrb < 0 && orb != null)
+        {
+            Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+            //Shoot raycast
+            RaycastHit hit;
+            if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, orbData.layerMask))
+            {
+                orb.SetActive(true);
+                if (tpOrb)
+                {
+                    tpOrb = false;
+                    orb.transform.position = hit.point;
+                }
+                orb.transform.position = Vector3.Lerp(orb.transform.position, hit.point + hit.normal * 1.3f, Time.unscaledDeltaTime * 8);
+                orb.transform.localScale = Vector3.Lerp(orb.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
+            }
+        }
+        else if(orb != null)
+        {
+            orb.transform.localScale = Vector3.zero;
+            orb.SetActive(false);
+            tpOrb = true;
+        }
+
+
+    }
+    [SerializeField]
+    private DataGravityOrb orbData = null;
+    [SerializeField]
+    private GameObject orb = null;
+    [HideInInspector]
+    public bool displayOrb = true;
+    bool tpOrb = false;
+
+    void HitMarkerSoundFunc()
+    {
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.5f, 0, 3f, false);
+    }
+    public float GetOrbValue()
+    {
+        return mainContainer.PlayerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
     }
 
     public Vector2Int GetBulletAmmount()
@@ -114,7 +166,7 @@ public class Weapon : MonoBehaviour
 
     public void ReloadingInput()
     {
-        if (!reloading && bulletRemaining < weapon.bulletMax && currentChargePurcentage ==0 )
+        if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0)
         {
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
@@ -123,10 +175,13 @@ public class Weapon : MonoBehaviour
             UiReload.Instance.DisplayGraphics();
             reloadingPurcentage = 0;
             bulletRemaining = 0;
+            reloadCoolDown = weapon.reloadCooldown;
+
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ReloadStart", false, 1f);
         }
     }
 
-    public void ReloadValidate()
+    public bool ReloadValidate()
     {
         if (reloading && !haveTriedPerfet)
         {
@@ -137,8 +192,11 @@ public class Weapon : MonoBehaviour
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
                 CameraHandler.Instance.AddRecoil(false, weapon.reloadingMissTryRecoil);
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishMiss", false, 1f);
             }
+            return false;
         }
+        return true;
     }
 
     public void EndReload(bool perfect)
@@ -158,6 +216,11 @@ public class Weapon : MonoBehaviour
             }
             
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
+        }
+        else
+        {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_Finish", false, 1f);
         }
     }
 
@@ -166,25 +229,25 @@ public class Weapon : MonoBehaviour
         return currentChargePurcentage;
     }
 
-    public void GravityOrbInput()
+    public bool GravityOrbInput()
     {
         if (!reloading)
         {
             if (timeRemainingBeforeOrb < 0)
             {
                 currentOrb = Instantiate(orbPrefab);
-
                 currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+                return true;
             }
 
-            else if(currentOrb != null && weapon.gravityOrbCanBeReactivated)
+            else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
             {
-                if (!currentOrb.GetComponent<GravityOrb>().hasExploded)
-                    currentOrb.GetComponent<GravityOrb>().StopHolding();
-                
+                currentOrb.GetComponent<GravityOrb>().StopHolding();
+                return true;
             }
         }
+        return false;
     }
 
     public void InputHold()
@@ -197,6 +260,7 @@ public class Weapon : MonoBehaviour
                 if (currentChargePurcentage > 1)
                 {
                     UiCrossHair.Instance.JustFinishedCharging();
+                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
                     currentChargePurcentage = 1;
                 }
             }
@@ -232,9 +296,13 @@ public class Weapon : MonoBehaviour
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 Camera mainCam = CameraHandler.Instance.renderingCam;
-                Vector3 imprecision = new Vector3(  UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
+
+                Vector3 imprecision = new Vector3(UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision));
+                if (i == 0 && weaponMod.firstBulletAlwaysPrecise)
+                    imprecision = Vector3.zero;
+
                 Ray rayBullet = mainCam.ScreenPointToRay(mousePosition);
 
 
@@ -261,12 +329,13 @@ public class Weapon : MonoBehaviour
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                     {
-                        bAffect.OnHit(weaponMod, hit.point);
+                        bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot(weaponMod);
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun(weaponMod);
 
+                        Invoke("HitMarkerSoundFunc", 0.05f * Time.timeScale);
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
 
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
@@ -298,10 +367,11 @@ public class Weapon : MonoBehaviour
             UiCrossHair.Instance.PlayerShot(weaponMod.shootValueUiRecoil, weaponMod == weapon.chargedShot);
             UiReload.Instance.PlayerShot();
             CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot, true);
-            CameraHandler.Instance.AddShake(weaponMod.shakePerShot);
+            CameraHandler.Instance.AddShake(weaponMod.shakePerShot, weaponMod.shakeTimePerShot);
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
 
         }
         else
@@ -326,7 +396,7 @@ public class Weapon : MonoBehaviour
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitBase, raybase);
-                DecalManager.Instance.ProjectDecal(weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, castradius, raybase, hitBase);
+                DecalManager.Instance.ProjectDecal(hitBase);
             }
         }
     }
@@ -335,7 +405,7 @@ public class Weapon : MonoBehaviour
     {
         if (!shotGunHasHit)
         {
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
+            //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
         }
     }
 
@@ -364,7 +434,7 @@ public class Weapon : MonoBehaviour
                 IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                 if (bAffect != null)
                 {
-                    bAffect.OnHit(bounceMod, hit.point);
+                    bAffect.OnHit(bounceMod, hit.point, bounceMod.bullet.damage);
 
                     bAffect.OnHitShotGun(bounceMod);
 

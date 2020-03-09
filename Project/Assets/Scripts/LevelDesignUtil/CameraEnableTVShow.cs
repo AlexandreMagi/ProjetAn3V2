@@ -16,10 +16,18 @@ public class CameraEnableTVShow : MonoBehaviour
 
     bool collide = false;
 
+    BoxCollider boxCollider;
+
+    private void Start()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         timeBeforeStartIncrem = timeBeforeStart;
         collide = true;
+        boxCollider.enabled = false;
     }
 
     private void Update()

@@ -13,4 +13,7 @@ public abstract class DataEnemy : DataEntity
     public string fxWhenStun = "VFX_Stun";
     public Material matWhenTakeDammage = null;
     public float matChangeTime = 0.1f;
+
+    public float shakeWhenTakeDamageForce = 0;
+    public float shakeWhenTakeDamageDuration = 0;
 }

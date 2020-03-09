@@ -29,21 +29,27 @@ MonoBehaviour:
   fxWhenStun: VFX_Stun
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
-  varianceInPath: 20
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
+  varianceInPath: 10
   timeBeforeNextPath: 0.05
   distanceBeforeNextPath: 0.3
+  angleToIgnorePath: 120
   speed: 200
+  maximumSpeed: 350
   damage: 10
   upScale: 10
-  distanceToTargetEnemy: 4
-  distanceMelee: 4
+  distanceToTargetEnemy: 50
+  distanceMelee: 5
   waitDuration: 0.3
-  distanceBeforeAttack: 8
-  jumpForce: 80
-  speedMultiplierWhenAttacking: 4
+  distanceBeforeAttack: 4
+  jumpForce: 65
+  speedMultiplierWhenAttacking: 10
+  targetsPlayerAtEndOfPath: 1
+  hasDodgeIntelligence: 1
   frontalDetectionSight: 2
-  jumpHeight: 3
-  jumpDodgeForce: 2500
+  jumpHeight: 3.5
+  jumpDodgeForce: 2800
   jumpCooldownInitial: 0.5
   numberOfSideTries: 4
   tryStep: 1
@@ -51,11 +57,16 @@ MonoBehaviour:
   extraLengthByStep: 0.2
   sideDetectionSight: 1
   dodgeSlideForce: 350
+  timeForUpwardsTransition: 0.2
   maxBlockedRetryPathTime: 2
   maxBlockedSuicideTime: 4
-  considerStuckThreshhold: 1
+  considerStuckThreshhold: 0.5
   initialTimeToConsiderCheck: 0.5
-  mat: {fileID: 2100000, guid: 3700307f4e9af9b43b4b7e99a42dcd36, type: 2}
+  maxHeightToChaseWaypoint: 10
+  rayCastRangeToConsiderAirbone: 0.7
+  pushForce: 150
+  upwardsPushForce: 50
+  mat: {fileID: 2100000, guid: 6c40e2d248447434ca0ae2f32e805353, type: 2}
   vfxToPlayWhenPulledByGrav: VFXOrbPull
   vfxToPlayWhenHoldByGrav: VFXOrbHold
   vfxToPlayWhenReleaseByGrav: VFXOrbRelease

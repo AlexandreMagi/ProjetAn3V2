@@ -20,29 +20,47 @@ public class FixedCameraScript : MonoBehaviour
 
     bool hitByBulletBool = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
         if (lookAtTarget == null) lookAtTarget = CameraHandler.Instance.renderingCam.transform;
         cameraDummy.GetComponent<CamFixedChild>().parentScript = this;
+
     }
 
     public void hitByBullet()
     {
+        Weapon.Instance.OnShotGunHitTarget();
+
         FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation);
         CameraHandler.Instance.AddShake(camShake.x, camShake.y);
+
+        //Prop[] prop = GetComponentsInChildren<Prop>();
+        //foreach (Prop pr in prop)
+        //{
+        //    if (pr != null)
+        //    {
+        //        pr.enabled = true;
+        //    }
+
+        //}
 
         Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in rbList)
         {
-            rb.isKinematic = false;
-            rb.AddExplosionForce(500f, transform.position, 1f);
+            if(rb != null)
+            {
+                rb.isKinematic = false;
+                rb.AddExplosionForce(500f, transform.position, 1f);
+            }
+           
         }
 
-        if (this != null)
-        {
-            Destroy(this);
-        }    
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageFixedCam, gameObject.transform.position);
+
+
+        this.enabled = false;
     }
 
 

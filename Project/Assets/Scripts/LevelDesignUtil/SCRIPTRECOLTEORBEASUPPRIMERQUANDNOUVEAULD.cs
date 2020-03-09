@@ -34,7 +34,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     GameObject player = null;
 
     [SerializeField]
-    ParticleSystem pr;
+    ParticleSystem pr = null;
 
     bool pouletCoco = true;
 
@@ -67,11 +67,12 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         else if (!bItemDestroyed)
         {
             bPlayerCanDammage = false;
-            GetComponent<GravityOrb>().StopHolding();
+            GetComponent<GravityOrb>().StopHolding(false);
             Invoke("OrbPreDestroyed", 2.6f);
             Invoke("OrbDestroyed", 0.1f);
             Invoke("GoToTuto", timeBetweenDeathAndNextSequence);
             bItemDestroyed = true;
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GravityOrbOvercharge_Boosted", false, 0.2f);
         }
         if (bItemDestroyed && !bItemDestroyedCompletly && pouletCoco)
         {
@@ -105,6 +106,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     void SecondShake()
     {
 
+
+        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 1f);
         CameraHandler.Instance.AddShake(shakeForce, shakeTime);
 
         bItemDestroyedCompletly = true;
@@ -120,10 +123,11 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     {
         if (bPlayerCanDammage && !bItemDestroyed)
         {
-            currentTimer = timerSafeFx;
-            if (currentTimer != 0)
+            if (currentTimer == 0)
             {
                 FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation, multiplierBoom * 2.5f);
+                currentTimer = timerSafeFx;
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ImpactOrbeSequence_Boosted", false, 1f);
             }
 
             DammageDone += Dmg / 35;
@@ -139,7 +143,7 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
         }
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
     {
     }
 

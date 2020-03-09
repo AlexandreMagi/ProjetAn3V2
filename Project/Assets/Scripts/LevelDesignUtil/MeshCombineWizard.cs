@@ -5,30 +5,30 @@ using System.Collections.Generic;
 #if (UNITY_EDITOR)
 public class MeshCombineWizard : ScriptableWizard {
 
-    [SerializeField, Header("GameObject parent of all mesh to combine")]
-    GameObject parentOfObjectsToCombine;
+    [Header("GameObject parent of all mesh to combine")]
+    public GameObject parentOfObjectsToCombine = null;
 
-    [SerializeField, Header ("Path to save mesh combined")]
-    string meshPath = "Assets/AssetDA/CombinedMeshs/Meshs/LD_03/CombinedMeshes_";
+    [Header ("Path to save mesh combined")]
+    public string meshPath = "Assets/AssetDA/CombinedMeshs/LD_03/Meshs/LD_03/CombinedMeshes_";
 
     string meshPathComp;
 
-    [SerializeField, Header("Path to save the new prefab")]
-    string prefabPath = "Assets/AssetDA/CombinedMeshs/Prefabs/LD_03/";
+    [Header("Path to save the new prefab")]
+    public string prefabPath = "Assets/AssetDA/CombinedMeshs/LD_03/Prefabs/LD_03/";
 
     string prefabPathComp;
 
-    [SerializeField, Header("Layer combined mesh will be")]
-    int layerChoose = 9;
+    [Header("Layer combined mesh will be")]
+    public int layerChoose = 9;
 
-    [SerializeField, Header("Combined object is static or not")]
-    bool isStatic = true;
+    [Header("Combined object is static or not")]
+    public bool isStatic = true;
 
-    [SerializeField, Header("Add box collider")]
-    bool boxCollider = false;
+    [Header("Add box collider")]
+    public bool boxCollider = false;
 
-    [SerializeField, Header("Add mesh collider")]
-    bool meshCollider = false;
+    [Header("Add mesh collider")]
+    public bool meshCollider = false;
 
     [MenuItem("Combine tool/Mesh Combine")]
     static void CreateWizard() {
@@ -78,6 +78,8 @@ public class MeshCombineWizard : ScriptableWizard {
             Mesh combinedMesh = new Mesh();
             combinedMesh.CombineMeshes(combine);
             materialName += "_" + combinedMesh.GetInstanceID();
+
+            Unwrapping.GenerateSecondaryUVSet(combinedMesh);
 
             AssetDatabase.CreateAsset(combinedMesh, meshPath + materialName + ".obj");
 

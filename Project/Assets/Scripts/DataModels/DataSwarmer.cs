@@ -11,8 +11,10 @@ public class DataSwarmer : DataEnemy
     public float timeBeforeNextPath;
 
     public float distanceBeforeNextPath;
+    public float angleToIgnorePath = 120;
 
     public float speed;
+    public float maximumSpeed = 350;
 
     public float damage;
 
@@ -27,7 +29,13 @@ public class DataSwarmer : DataEnemy
     public float jumpForce = 80f;
     public float speedMultiplierWhenAttacking = 4;
 
+    public bool spawnsPartsOnDeath = true;
+
+    public bool targetsPlayerAtEndOfPath = true;
+
     [Header("AI variables")]
+    public bool hasDodgeIntelligence = true;
+
     public float frontalDetectionSight = 2;
     public float jumpHeight = 3;
     public float jumpDodgeForce = 2500;
@@ -40,10 +48,18 @@ public class DataSwarmer : DataEnemy
     public float sideDetectionSight = 1;
     public float dodgeSlideForce = 350;
 
+    public float timeForUpwardsTransition = .2f;
     public float maxBlockedRetryPathTime = 2f;
     public float maxBlockedSuicideTime = 4f;
     public float considerStuckThreshhold = 1f;
     public float initialTimeToConsiderCheck = .5f;
+
+    public float maxHeightToChaseWaypoint = .3f;
+
+    public float rayCastRangeToConsiderAirbone = .7f;
+
+    public float pushForce = 150;
+    public float upwardsPushForce = 50;
 
     [Header("Material")]
     public Material mat;

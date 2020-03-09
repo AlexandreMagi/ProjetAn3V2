@@ -18,6 +18,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void SetLifeTo(int life)
     {
         health = life;
+        UiLifeBar.Instance.UpdateCapsules(health);
     }
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
@@ -37,7 +38,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     protected override void Die()
     {
-        Main.Instance.TriggerGameOverSequence();
+        //Main.Instance.TriggerGameOverSequence();
+        Main.Instance.FinalChoice();
     }
     
     public void DieForReal()
@@ -51,6 +53,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         base.Start();
         entityData = entityData as DataPlayer;
         armor = entityData.armor;
+        TeamsManager.Instance.RegistertoTeam(transform, entityData.team);
         //Debug.Log("Must update Life");
         //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
         //UiLifeBar.Instance.UpdateLifeDisplay(health / entityData.maxHealth, health);
@@ -69,6 +72,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         if (health > 0)
         {
+            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "PlayerDamage", false, 1, 0.2f);
             CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
             TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
             bool armorJustBroke = false;
@@ -142,12 +146,14 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                     if (health <= entityData.startHealth / 20)
                     {
                         this.Die();
+                        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Death_ExportLong", false, 1);
 
                     }
 
                 
                 }
 
+                UiDamageHandler.Instance.PlayerTookDammage();
                 UiLifeBar.Instance.PlayerTookDamage(armor, health);
             }
         }
@@ -161,13 +167,17 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void GainArmor(float value)
     {
         armor += value;
-        UiLifeBar.Instance.AddArmor(value);
+        //UiLifeBar.Instance.AddArmor(value);
+        //UiLifeBar.Instance.UpdateArmor(armor);
 
-        if(armor > 300)
+        if(armor > entityData.armor)
         {
-            armor = 300;
+            armor = entityData.armor;
         }
-        //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
+        if (armor < 0)
+            armor = 0;
+        UiLifeBar.Instance.UpdateArmor(armor);
+
 
     }
 

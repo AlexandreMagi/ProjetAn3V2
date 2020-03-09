@@ -15,6 +15,8 @@ public class ButtonMenuScript : MonoBehaviour
 
     [SerializeField]
     bool move = false;
+    [SerializeField]
+    string triggerToPop = "";
     [SerializeField, ShowIf("move")]
     float speed = 5;
     Vector2 currentSpeed = Vector2.zero;
@@ -106,6 +108,10 @@ public class ButtonMenuScript : MonoBehaviour
                 case typeButton.settings:
                     break;
                 case typeButton.play:
+                    if (triggerToPop != "" && GetComponent<Animator>()) GetComponent<Animator>().SetTrigger(Animator.StringToHash(triggerToPop));
+
+                    CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_ValidatePlay", false, 0.5f);
+                    CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Cheer", false, 0.5f);
                     MenuMain.Instance.GoToGame();
                     break;
                 default:

@@ -12,6 +12,8 @@ public class DataWeaponMod : ScriptableObject
     [RangeAttribute(0f, 50f)]
     public float shakePerShot;
     [RangeAttribute(0f, 50f)]
+    public float shakeTimePerShot;
+    [RangeAttribute(0f, 50f)]
     public float shakePerHit;
     [RangeAttribute(0f, 1.5f)]
     public float recoilPerShot;
@@ -29,4 +31,7 @@ public class DataWeaponMod : ScriptableObject
     [Header("Other")]
     public float shootValueUiRecoil = 1;
     public float hitValueUiRecoil = 1;
+    public string soundPlayed = "shootSound";
+    public bool firstBulletAlwaysPrecise = true;
+    public float firstBulletDamageMultiplier = 1;
 }
