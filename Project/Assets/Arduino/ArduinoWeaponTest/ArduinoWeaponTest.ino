@@ -9,6 +9,9 @@ DFRobotIRPosition myDFRobotIRPosition;
 int positionX[4];     ///< Store the X position
 int positionY[4];     ///< Store the Y position
 
+int lastFinalX = 0;
+int lastFinalY = 0;  
+
 void setup()
 {
   Serial.begin(250000);
@@ -105,9 +108,7 @@ void IrPosition()
         pBy1 = tmpY;
        
       }
-      //-- calcule du tranblement 
-
-      //-------------------------
+      
       
       int deltaY = (pAy1 - pBy1);
       int deltaX = (pAx1 - pBx1);
@@ -116,9 +117,52 @@ void IrPosition()
 
       int centerX = ((pBx1 + pAx1)/2) - (1024/2);
       int centerY = ((pBy1 + pAy1)/2) - (768/2);
-      
+           
       int finalX = centerX * cos(resultRad) + centerY * sin(resultRad);
       int finalY = -centerX * sin(resultRad) + centerY * cos(resultRad);
+
+      //-- calcule du tranblement 
+      int deltaFinalX = abs(finalX - lastFinalX);
+      int deltaFinalY = abs(finalY - lastFinalY);
+
+      if(deltaFinalX+deltaFinalY > 1){
+
+        /*
+        Serial.println("{");
+        Serial.print("lastPosition > ");
+        Serial.print(lastFinalX);
+        Serial.print(",");
+        Serial.println(lastFinalY);
+  
+        Serial.print("Position Actuelle > ");
+        Serial.print(lastFinalX);
+        Serial.print(",");
+        Serial.println(lastFinalY);
+        
+        Serial.print("|Delta > ");
+        Serial.print(deltaFinalX);
+        Serial.print(",");
+        Serial.print(deltaFinalY);
+        Serial.print(",");
+        Serial.println(deltaFinalX+deltaFinalY);
+        
+        
+        Serial.println("}");
+        */
+        lastFinalX = finalX;
+        lastFinalY = finalY; 
+        
+      }else{
+
+        finalX = lastFinalX;
+        finalY = lastFinalY;
+        
+      }
+      
+
+      
+      //-------------------------
+
       
       Serial.print(finalX);
       Serial.print(",");
