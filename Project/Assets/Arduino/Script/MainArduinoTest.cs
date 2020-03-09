@@ -38,14 +38,23 @@ public class MainArduinoTest : MonoBehaviour
         Debug.Log(V3Delta.magnitude);
 
 
-        if (V3Delta.magnitude < 1 )
+        if (V3Delta.magnitude > 10)
         {
 
+            hImageMir.anchoredPosition = V3Data;
+            V3LastData = V3Data;
 
 
         }
+        else 
+        {
+            
+            hImageMir.anchoredPosition = V3LastData + (V3Data - V3LastData) * (0.05f * V3Delta.magnitude);
+            V3LastData = hImageMir.anchoredPosition;
 
-        V3LastData = V3Data;
+        }
+
+        
 
     }
 }
