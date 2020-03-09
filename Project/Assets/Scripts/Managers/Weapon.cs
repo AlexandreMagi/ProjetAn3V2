@@ -65,6 +65,13 @@ public class Weapon : MonoBehaviour
     [HideInInspector]
     public bool displayOrb = true;
     bool tpOrb = false;
+    float pauseOrbFx = 0;
+    float pauseOrbFxTimer = 0.5f;
+    private Transform gravityOrbRangeDisplay = null;
+    private float sizeAimedOrbVisu = 0;
+    private float timeToMaxSize = 0.2f;
+    private float timeToMinSize = 0.2f;
+    private float timerOrb = 0;
 
 
     void Awake ()
@@ -130,11 +137,18 @@ public class Weapon : MonoBehaviour
                 if (tpOrb)
                 {
                     tpOrb = false;
+                    pauseOrbFx = pauseOrbFxTimer;
                     orbPrevisu.transform.position = hit.point;
                     orbPrevisuFx.Play();
                 }
+                else if (pauseOrbFx < 0)
+                {
+                    pauseOrbFx = 0;
+                    orbPrevisuFx.Pause();
+                }
                 orbPrevisu.transform.position = Vector3.Lerp(orbPrevisu.transform.position, hit.point + hit.normal * 1.3f, Time.unscaledDeltaTime * 8);
                 orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
+                if (pauseOrbFx > 0) pauseOrbFx -= Time.deltaTime;
             }
         }
         else if(orbPrevisu != null)
@@ -144,9 +158,39 @@ public class Weapon : MonoBehaviour
             orbPrevisu.SetActive(false);
             orbPrevisuFx.Stop();
             tpOrb = true;
+            pauseOrbFx = 0;
         }
 
+        if (gravityOrbRangeDisplay != null)
+        {
+            if (timerOrb > 0) timerOrb -= Time.deltaTime;
 
+            if (timerOrb < timeToMinSize)
+            {
+                gravityOrbRangeDisplay.localScale = Vector3.one * sizeAimedOrbVisu * (timerOrb / timeToMinSize);
+            }
+            else
+            {
+                gravityOrbRangeDisplay.localScale = Vector3.MoveTowards(gravityOrbRangeDisplay.localScale, Vector3.one * sizeAimedOrbVisu, Time.deltaTime * orbData.gravityBullet_AttractionRange / timeToMaxSize);
+            }
+
+        }
+
+    }
+
+    public void SetupOrbRangeDisplay (Transform orbVisu)
+    {
+        sizeAimedOrbVisu = 0;
+        gravityOrbRangeDisplay = orbVisu;
+        gravityOrbRangeDisplay.localScale = Vector3.zero;
+        sizeAimedOrbVisu = orbData.gravityBullet_AttractionRange;
+        timerOrb = orbData.lockTime + orbData.timeBeforeHold;
+    }
+
+    public void MakeOrbDisplayDiseapear ()
+    {
+        timerOrb = 0;
+        //gravityOrbRangeDisplay = orbVisu;
     }
 
     void HitMarkerSoundFunc()
