@@ -49,6 +49,7 @@ public class SceneHandler : MonoBehaviour
     public void ChangeScene(string sceneName, float delay = 0, bool withFade = false)
     {
         StartCoroutine(LoadScene(sceneName, delay, withFade));
+        Application.targetFrameRate = 300;
     }
 
     public void QuitGame (float delay = 0)
