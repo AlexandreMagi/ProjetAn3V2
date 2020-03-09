@@ -180,7 +180,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (gameEnder)
         {
-            LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers);
+            LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers());
 
 
 
