@@ -6,6 +6,7 @@ public class GravityOrb : MonoBehaviour
 {
     [SerializeField]
     private DataGravityOrb orbData = null;
+    public DataGravityOrb OrbData { get { return orbData;  } }
 
     float fTimeHeld = 0f;
     bool hasSticked = false;

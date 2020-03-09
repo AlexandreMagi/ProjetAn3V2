@@ -933,8 +933,8 @@ MonoBehaviour:
   ignoreBulletLimitForCharge: 1
   shotgunBounces: 0
   bounceLag: 0.05
-  orbData: {fileID: 11400000, guid: 689438db142b7c94bad45395ddce5466, type: 2}
-  orb: {fileID: 351651660190882522}
+  orbPrevisu: {fileID: 351651660190882522}
+  orbPrevisuFx: {fileID: 425612142391744086}
   displayOrb: 1
 --- !u!114 &7584541180804375021
 MonoBehaviour:
@@ -1576,6 +1576,12 @@ GameObject:
 --- !u!4 &351651660190882525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4667531884869048599, guid: a0618884cf7ca2f45b39f30378ec5f27,
+    type: 3}
+  m_PrefabInstance: {fileID: 4910954217414804426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &425612142391744086 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4742049796748809628, guid: a0618884cf7ca2f45b39f30378ec5f27,
     type: 3}
   m_PrefabInstance: {fileID: 4910954217414804426}
   m_PrefabAsset: {fileID: 0}
