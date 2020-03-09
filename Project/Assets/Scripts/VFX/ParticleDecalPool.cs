@@ -47,7 +47,6 @@ public class ParticleDecalPool : MonoBehaviour
             particleDecalDataIndex = 0;
         }else
         {
-
             particleData[particleDecalDataIndex].position = particleCollisionEvent.intersection;
 
             Vector3 particleRotationEuler = particleCollisionEvent.normal.magnitude != 0 ? Quaternion.LookRotation(particleCollisionEvent.normal).eulerAngles : Quaternion.identity.eulerAngles;
