@@ -29,6 +29,7 @@ public class DeathBodyPart : MonoBehaviour
     [SerializeField]
     bool isPhophoAffected = false;
 
+    [SerializeField]
     bool isSwarmerPart = false;
 
     bool isActiveAndVisible = true;
