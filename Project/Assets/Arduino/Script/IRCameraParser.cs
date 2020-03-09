@@ -36,7 +36,7 @@ public class IRCameraParser : MonoBehaviour
     //------ ------------------------
 
 
-    int[,] iTablePosition = new int[3, 2];
+    int[] iTablePosition = new int[2];
     int[] iTableInputs = new int[3];
 
     private ARdunioConnect scrptArduinoConnect = null;
@@ -55,13 +55,9 @@ public class IRCameraParser : MonoBehaviour
     {
         scrptArduinoConnect = GetComponent<ARdunioConnect>();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
-
-            for (int j = 0; j < 2; j++)
-            {
-                iTablePosition[i, j] = 0;
-            }
+            iTablePosition[i] = 0;
         }
     }
 
@@ -73,43 +69,17 @@ public class IRCameraParser : MonoBehaviour
         string data = scrptArduinoConnect.getLastDataFromDevice();
         //Debug.Log(data);
 
-        if (data != null && data.Split(',').Length > 7)
+        if (data != null && data.Split(',').Length > 3)
         {
             string[] sTableDataType = funcTraitementSectorisation(data);
 
-            iTableInputs = funcTraitementDataSimpleEntrer(sTableDataType[0]);
+            iTableInputs = funcTraitementDataSimpleEntrer(sTableDataType[0],3);
 
-            iTablePosition = funcTraitementDataDoubleEntrer(sTableDataType[1]);
+            iTablePosition = funcTraitementDataSimpleEntrer(sTableDataType[1],2);
 
             funcTransmition();
 
-
         }
-        else
-        {
-
-            //Debug.Log("Perte Signial");
-
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    //iTableInputs[i] = 1;
-
-
-            //    for (int j = 0; j < 2; j++)
-            //    {
-
-            //        /// -------------------------------------a modifier dans arduino (gardé la derniere valeur quand sortie de l'écrand)
-            //        iTablePosition[i, j] = -1000;
-
-
-            //    }
-
-            //}
-
-        }
-
-
-
 
     }
 
@@ -125,37 +95,37 @@ public class IRCameraParser : MonoBehaviour
     }
 
 
-    int[,] funcTraitementDataDoubleEntrer(string sData)
+    //int[,] funcTraitementDataDoubleEntrer(string sData)
+    //{
+
+    //    int[,] iTableSauvegardeData = new int[3, 2]; // ligne = numéro du capteur | colone = coordonée x,y
+
+    //    string[] sTableData = sData.Split(',');
+
+    //    for (int i = 0; i < 3; i++) // 3
+    //    {
+
+    //        for (int j = 0; j < 2; j++) // 2
+    //        {
+
+    //            iTableSauvegardeData[i, j] = int.Parse(sTableData[2 * i + j]);
+
+    //        }
+    //    }
+
+    //    return iTableSauvegardeData;
+    //}
+
+    int[] funcTraitementDataSimpleEntrer(string sData,int iTailleTableau)
     {
 
-        int[,] iTableSauvegardeData = new int[3, 2]; // ligne = numéro du capteur | colone = coordonée x,y
-
-        string[] sTableData = sData.Split(',');
-
-        for (int i = 0; i < 3; i++) // 3
-        {
-
-            for (int j = 0; j < 2; j++) // 2
-            {
-
-                iTableSauvegardeData[i, j] = int.Parse(sTableData[2 * i + j]);
-
-            }
-        }
-
-        return iTableSauvegardeData;
-    }
-
-    int[] funcTraitementDataSimpleEntrer(string sData)
-    {
-
-        int[] iTableSauvegardeData = new int[3]; // ligne = numéro du capteur | colone = coordonée x,y
+        int[] iTableSauvegardeData = new int[iTailleTableau]; // ligne = numéro du capteur | colone = coordonée x,y
 
         string[] sTableData = sData.Split(',');
 
         //Debug.Log("sTableData longeur :" + sTableData.Length);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < iTailleTableau; i++)
         {
             //Debug.Log("i = " + i + "  sTable = " + sTableData[i]);
             iTableSauvegardeData[i] = int.Parse(sTableData[i]);
@@ -190,22 +160,15 @@ public class IRCameraParser : MonoBehaviour
         }
 
 
-        if (iTablePosition[2, 0] != -1000)
+        if (iTablePosition[0] != -1000)
         {
 
-            fPositionX = iTablePosition[2, 0] * factorX + (iResolutionX / 2);
-            fPositionY = iTablePosition[2, 1] * factorY + (iResolutionY / 2);
-
-        }
-        else
-        {
-
-            fPositionX = -1000;
-            fPositionY = -1000;
-
+            fPositionX = iTablePosition[0] * factorX + (iResolutionX / 2);
+            fPositionY = iTablePosition[1] * factorY + (iResolutionY / 2);
 
         }
 
+        //------------------------------------------------ gestion bouton 
 
         if (bTableBouton[0])
         {
