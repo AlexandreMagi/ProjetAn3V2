@@ -8,6 +8,8 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
     float timePropel = .5f;
     float elapsedTime = 0;
 
+    bool canDieVFX = true;
+
     Rigidbody rb;
 
     [HideInInspector] public bool isAffectedByGravity = false;
@@ -41,7 +43,29 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     protected override void Die()
     {
+        if (canDieVFX)
+        {
+            canDieVFX = false;
+            InstantiateExplosion();
+        }
         base.Die();
+    }
+
+    void InstantiateExplosion()
+    {
+        if (entityData.fracturedProp != null)
+        {
+            GameObject fract;
+            fract = Instantiate(entityData.fracturedProp, transform);
+            fract.transform.parent = null;
+
+            Rigidbody[] rb = fract.GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rbs in rb)
+            {
+                rbs.AddExplosionForce(entityData.fracturedForceOnDie * 10, rbs.transform.position, 10);
+            }
+        }
+
         FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
     }
 
