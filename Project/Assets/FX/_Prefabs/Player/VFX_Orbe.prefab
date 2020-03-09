@@ -96368,6 +96368,7 @@ GameObject:
   - component: {fileID: 6443198604883628712}
   - component: {fileID: 6443198604883628719}
   - component: {fileID: 6411271548695830025}
+  - component: {fileID: 8794962327829008015}
   m_Layer: 1
   m_Name: OrbPrevisuMesh
   m_TagString: Untagged
@@ -96384,7 +96385,7 @@ Transform:
   m_GameObject: {fileID: 6443198604883628718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 74664189921445227}
   m_RootOrder: 2
@@ -96449,6 +96450,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8794962327829008015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6443198604883628718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68001df31e3593c4fb878778a9e51a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7966360368170664436
 GameObject:
   m_ObjectHideFlags: 0

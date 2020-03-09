@@ -50,7 +50,7 @@ public class Main : MonoBehaviour
     bool saveIfPlayerCouldShoot = true;
 
     bool lastChoiceForPlayer = false;
-    float timerBeforeGameOver = 10;
+    [SerializeField] float timerBeforeGameOver = 10;
     float timeRemainingBeforeGameOver = 10;
     public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
 

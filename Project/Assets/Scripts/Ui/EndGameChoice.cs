@@ -26,8 +26,8 @@ public class EndGameChoice : MonoBehaviour
     public void SetupChoice(int publicMalus, int purcentageChance)
     {
         rootGameEnd.SetActive(true);
-        publicMalusText.text = "- " + publicMalus + " PUBLIC";
-        publicChanceSurvival.text = purcentageChance + "  % chance survie";
+        publicMalusText.text = "- " + publicMalus;
+        publicChanceSurvival.text = purcentageChance + " %";
         countdown.text = Mathf.RoundToInt(Main.Instance.TimeRemainingBeforeGameOver).ToString();
     }
 
