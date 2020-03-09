@@ -142,7 +142,7 @@ public class Spawner : MonoBehaviour
             }
 
             //Bullet changes
-            if(entDataToGive is DataShooter && switchesBulletData)
+            if(entDataToGive is DataShooter && switchesBulletData && dataBulletToSwap != null)
             {
                 Shooter shoot = spawnedEnemy.GetComponent<Shooter>();
                 if(shoot)
