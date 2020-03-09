@@ -33,6 +33,7 @@ public class SceneHandler : MonoBehaviour
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
             SceneManager.LoadScene("ArduinoHandlerScene", LoadSceneMode.Additive);
+            Application.targetFrameRate = 60;
         }
         else
         {
