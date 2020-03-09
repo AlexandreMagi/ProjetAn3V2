@@ -56,10 +56,22 @@ public class Weapon : MonoBehaviour
 
     Main mainContainer = null;
 
+    // --- Display gravity orb previsualisation
+    private DataGravityOrb orbData = null;
+    [SerializeField]
+    private GameObject orbPrevisu = null;
+    [SerializeField]
+    private ParticleSystem orbPrevisuFx = null;
+    [HideInInspector]
+    public bool displayOrb = true;
+    bool tpOrb = false;
+
+
     void Awake ()
     {
         _instance = this;
         bulletRemaining = weapon.bulletMax;
+        orbData = orbPrefab.GetComponent<GravityOrb>().OrbData;
         //timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
     }
     private void Start()
@@ -104,39 +116,38 @@ public class Weapon : MonoBehaviour
         weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
-        if (displayOrb && timeRemainingBeforeOrb < 0 && orb != null)
+
+        // --- Previsu orbe
+        if (displayOrb && timeRemainingBeforeOrb < 0 && orbPrevisu != null)
         {
             Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
             RaycastHit hit;
             if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, orbData.layerMask))
             {
-                orb.SetActive(true);
+                // Si touche, scale l'orbe pour afficher sa portée et lerp vers la position
+                orbPrevisu.SetActive(true);
                 if (tpOrb)
                 {
                     tpOrb = false;
-                    orb.transform.position = hit.point;
+                    orbPrevisu.transform.position = hit.point;
+                    orbPrevisuFx.Play();
                 }
-                orb.transform.position = Vector3.Lerp(orb.transform.position, hit.point + hit.normal * 1.3f, Time.unscaledDeltaTime * 8);
-                orb.transform.localScale = Vector3.Lerp(orb.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
+                orbPrevisu.transform.position = Vector3.Lerp(orbPrevisu.transform.position, hit.point + hit.normal * 1.3f, Time.unscaledDeltaTime * 8);
+                orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
             }
         }
-        else if(orb != null)
+        else if(orbPrevisu != null)
         {
-            orb.transform.localScale = Vector3.zero;
-            orb.SetActive(false);
+            // Si la touche n'est pas appuyé, fait disparaitre
+            orbPrevisu.transform.localScale = Vector3.zero;
+            orbPrevisu.SetActive(false);
+            orbPrevisuFx.Stop();
             tpOrb = true;
         }
 
 
     }
-    [SerializeField]
-    private DataGravityOrb orbData = null;
-    [SerializeField]
-    private GameObject orb = null;
-    [HideInInspector]
-    public bool displayOrb = true;
-    bool tpOrb = false;
 
     void HitMarkerSoundFunc()
     {
