@@ -223,6 +223,10 @@ public class Main : MonoBehaviour
         {
             playerCanOrb = !playerCanOrb;
         }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
+        }
 
         if (sequenceSkipMode)
         {

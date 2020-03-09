@@ -12,20 +12,28 @@ public class LeaderboardManager : MonoBehaviour
     //On assumera en permanence que le score est trié en ordre croissant
     LeaderboardDatabase scoreData = null;
 
-    int maxKeptScores = 10;
+    [SerializeField]
+    public int maxKeptScores = 10;
 
     public void Start()
     {
         Instance = this;
 
+        //RefabricXMLDataDefault();
+
         LoadScores();
+    }
+
+    public LeaderboardData GetHighestScore()
+    {
+        return scoreData.data[0];
     }
 
     public void SaveScores()
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
-        FileStream stream = new FileStream(Application.persistentDataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
+        FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
 
         //Sauvegarde
         serializer.Serialize(stream, scoreData);
@@ -34,11 +42,20 @@ public class LeaderboardManager : MonoBehaviour
         stream.Close();
     }
 
+    public void RefabricXMLDataDefault()
+    {
+        scoreData = new LeaderboardDatabase();
+        LeaderboardData temp = new LeaderboardData("AAA", 50);
+        scoreData.data.Add(temp);
+
+        SaveScores();
+    }
+
     void LoadScores()
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
-        FileStream stream = new FileStream(Application.persistentDataPath + "/Saves/Leaderboard/scores.xml", FileMode.OpenOrCreate);
+        FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Open);
 
         //Lecture
         scoreData = serializer.Deserialize(stream) as LeaderboardDatabase;
@@ -52,7 +69,7 @@ public class LeaderboardManager : MonoBehaviour
         bool scoreValuable = false;
         int indexOfNewScore = -1;
 
-        for(int i=0; i<scoreData.data.Length; i++)
+        for(int i=0; i<scoreData.data.Count; i++)
         {
             LeaderboardData currentData = scoreData.data[i];
 
@@ -64,13 +81,21 @@ public class LeaderboardManager : MonoBehaviour
             }
         }
 
+        //Si les high scores sont pas pleins, on met à la fin
+        if(!scoreValuable && scoreData.data.Count < maxKeptScores)
+        {
+            scoreValuable = true;
+            indexOfNewScore = scoreData.data.Count;
+        }
+
+        //Ajout du score
         if (scoreValuable)
         {
             LeaderboardData dataNewScore = new LeaderboardData(name, score);
 
-            LeaderboardData[] newData = new LeaderboardData[maxKeptScores];
+            List<LeaderboardData> newData = new List<LeaderboardData>(maxKeptScores);
 
-            for(int i = 0; i<scoreData.data.Length || i<maxKeptScores; i++)
+            for(int i = 0; i<scoreData.data.Count || i<maxKeptScores; i++)
             {
                 bool hasDecaled = false;
                 if (i == indexOfNewScore)
@@ -99,6 +124,12 @@ public class LeaderboardData
     public string name;
     public int score;
 
+    public LeaderboardData()
+    {
+        name = "DEF";
+        score = 0;
+    }
+
     public LeaderboardData(string p_name, int p_score)
     {
         name = p_name;
@@ -108,9 +139,14 @@ public class LeaderboardData
 
 public class LeaderboardDatabase
 {
-    public LeaderboardData[] data;
+    public List<LeaderboardData> data;
 
-    public void SetData(LeaderboardData[] datas)
+    public LeaderboardDatabase()
+    {
+        data = new List<LeaderboardData>();
+    }
+
+    public void SetData(List<LeaderboardData> datas)
     {
         data = datas;
     }
