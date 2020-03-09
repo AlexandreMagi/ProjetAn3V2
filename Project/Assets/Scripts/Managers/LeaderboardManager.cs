@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using UnityEngine;
+using System;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -29,14 +30,26 @@ public class LeaderboardManager : MonoBehaviour
         return scoreData.data[0];
     }
 
+    public List<LeaderboardData> GetLeaderboard()
+    {
+        return scoreData.data;
+    }
+
     public void SaveScores()
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
         FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
 
-        //Sauvegarde
-        serializer.Serialize(stream, scoreData);
+        //Sauvegarde try
+        {
+            serializer.Serialize(stream, scoreData);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Erreur lors de la sauvegarde ! Error : {e.Message}");
+        }
+       
 
         //Fermeture du stream
         stream.Close();
@@ -57,8 +70,17 @@ public class LeaderboardManager : MonoBehaviour
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
         FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Open);
 
-        //Lecture
-        scoreData = serializer.Deserialize(stream) as LeaderboardDatabase;
+        try
+        {
+            //Lecture
+            scoreData = serializer.Deserialize(stream) as LeaderboardDatabase;
+        }
+        catch(Exception e)
+        {
+            //Si le fichier est pas trouvé en gros, en créer un nouveau
+            RefabricXMLDataDefault();
+        }
+        
 
         //Fermeture du stream
         stream.Close();
