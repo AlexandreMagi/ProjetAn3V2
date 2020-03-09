@@ -67,10 +67,10 @@ void IrPosition()
    *  @brief If there is data available, print it. Otherwise show the error message.
    */
 
-  int pAx = -1;
-  int pAy = -1;
-  int pBx = -1;
-  int pBy = -1;
+  int pAx1 = -1;
+  int pAy1 = -1;
+  int pBx1 = -1;
+  int pBy1 = -1;
 
   if (myDFRobotIRPosition.available()) {
     for (int i=0; i<4; i++) {
@@ -80,60 +80,44 @@ void IrPosition()
 
       if(positionX[i] < 1023)
       {
-        if(pAx == -1)
+        if(pAx1 == -1)
         {
-          pAx = positionX[i];
-          pAy = positionY[i];
+          pAx1 = positionX[i];
+          pAy1 = positionY[i];
         } else {
-          pBx = positionX[i];
-          pBy = positionY[i];
+          pBx1 = positionX[i];
+          pBy1 = positionY[i];
         }
       } 
     }
 
-    if(pAx != -1 && pBx != -1)
+    if(pAx1 != -1 && pBx1 != -1)
     {
 
-      if(pBx < pAx)
+      if(pBx1 < pAx1)
       {
-        int tmpX = pAx;
-        int tmpY = pAy;
+        int tmpX = pAx1;
+        int tmpY = pAy1;
 
-        pAx = pBx;
-        pAy = pBy;
-        pBx = tmpX;
-        pBy = tmpY;
+        pAx1 = pBx1;
+        pAy1 = pBy1;
+        pBx1 = tmpX;
+        pBy1 = tmpY;
        
       }
-      
-      Serial.print(pAx);
-      Serial.print(",");
-      Serial.print(pAy);
-      Serial.print(",");
-      Serial.print(pBx);
-      Serial.print(",");
-      Serial.print(pBy);
-      Serial.print(",");
-
-      int deltaY = (pAy - pBy);
-      int deltaX = (pAx - pBx);
+            
+      int deltaY = (pAy1 - pBy1);
+      int deltaX = (pAx1 - pBx1);
       float resultRad = atan2(deltaY, deltaX);
       float resultDeg = resultRad * 180/PI;
 
-      //resultRad = (resultRad < 0) ? (2*PI+resultRad) : resultRad;
-      //resultDeg = (resultDeg < 0) ? (360+resultDeg) : resultDeg;
-
-      int centerX = ((pBx + pAx)/2) - (1024/2);
-      int centerY = ((pBy + pAy)/2) - (768/2);
-
-      //Serial.print(" (");
-      //Serial.print(centerX);
-      //Serial.print(",");
-      //Serial.print(centerY);
-      //Serial.println(")");
+      int centerX = ((pBx1 + pAx1)/2) - (1024/2);
+      int centerY = ((pBy1 + pAy1)/2) - (768/2);
       
       int finalX = centerX * cos(resultRad) + centerY * sin(resultRad);
       int finalY = -centerX * sin(resultRad) + centerY * cos(resultRad);
+
+
       
       Serial.print(finalX);
       Serial.print(",");
