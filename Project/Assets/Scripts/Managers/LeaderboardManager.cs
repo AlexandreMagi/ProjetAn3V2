@@ -42,7 +42,7 @@ public class LeaderboardManager : MonoBehaviour
         FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
 
         //Sauvegarde try
-        {
+        try {
             serializer.Serialize(stream, scoreData);
         }
         catch (Exception e)
