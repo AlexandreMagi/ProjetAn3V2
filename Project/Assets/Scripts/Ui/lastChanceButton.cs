@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(RectTransform), typeof(CanvasGroup))]
+[RequireComponent(typeof(RectTransform), typeof(CanvasGroup))]//, typeof(Animator))]
 public class lastChanceButton : MonoBehaviour
 {
     RectTransform rect = null;
@@ -36,19 +36,48 @@ public class lastChanceButton : MonoBehaviour
     [SerializeField] float glowGrowLerp = 8;
     float glowScaleValue = 0;
 
+    Animator anmtrButton = null;
+
     private void Awake()
     {
         if (allButtons == null) allButtons = new List<lastChanceButton>();
         allButtons.Add(this);
         rect = GetComponent<RectTransform>();
         cvsGroup = GetComponent<CanvasGroup>();
+        //anmtrButton = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        //anmtrButton.enabled = false;
     }
 
+    private void OnDisable()
+    {
+        //anmtrButton.enabled = false;
+    }
+
+
+    public void DoAnim (int choiceMade)
+    {
+        anmtrButton.enabled = true;
+        if (choiceMade == 0 || choiceMade == 1)
+        {
+            if (choiceMade == (int)buttonType)
+            {
+                anmtrButton.SetTrigger("Validated");
+            }
+            else
+            {
+                anmtrButton.SetTrigger("OtherValidated");
+            }
+        }
+        else
+        {
+            anmtrButton.SetTrigger("NotValidated");
+        }
+    }
 
     public bool CheckIfMouseOver()
     {
@@ -90,20 +119,22 @@ public class lastChanceButton : MonoBehaviour
         glow.transform.localScale = Vector3.Lerp(glow.transform.localScale, Vector3.zero, Time.unscaledDeltaTime * glowRecoverLerp);
     }
 
-    public void Click()
+    public int Click()
     {
         if (CheckIfMouseOver())
         {
-            switch (buttonType)
-            {
-                case typeOfButton.beg:
-                    Main.Instance.ReviveChoice();
-                    break;
-                case typeOfButton.vote:
-                    Main.Instance.VoteChoice();
-                    break;
-            }
+            return (int)buttonType;
+            //switch (buttonType)
+            //{
+            //    case typeOfButton.beg:
+            //        Main.Instance.ReviveChoice();
+            //        break;
+            //    case typeOfButton.vote:
+            //        Main.Instance.VoteChoice();
+            //        break;
+            //}
         }
+        return -1;
     }
 
     private void OnDestroy()
