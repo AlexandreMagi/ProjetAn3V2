@@ -24,9 +24,14 @@ public class PostprocessManager : MonoBehaviour
     // --- DepthOfField
     DepthOfField dofEffect;
 
-    // --- LensDistortion
+    // --- Lens Distortion
     LensDistortion distortionEffect;
     float distortionAnimPurcentage = 1;
+
+    // --- Color Grading
+    ColorGrading gradingEffect;
+    float saturationGoTo = 0;
+    float saturationSpeed = 0;
 
     public static PostprocessManager Instance { get; private set; }
     void Awake()
@@ -66,6 +71,13 @@ public class PostprocessManager : MonoBehaviour
         distortionEffect.centerY.Override(0);
 
         ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, distortionEffect);
+
+        // --- Grading Effect
+        gradingEffect = ScriptableObject.CreateInstance<ColorGrading>();
+        gradingEffect.enabled.Override(true);
+        gradingEffect.saturation.Override(0);
+        
+        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, gradingEffect);
     }
 
     // Update is called once per frame
@@ -75,6 +87,8 @@ public class PostprocessManager : MonoBehaviour
         if (dataPp.activateDof)
             HandleDepthOfFieldDynamic();
         HandleLensDistortion();
+
+        gradingEffect.saturation.value = Mathf.MoveTowards(gradingEffect.saturation.value, saturationGoTo, Time.unscaledDeltaTime * saturationSpeed);
     }
 
     void HandlerChroma()
@@ -82,6 +96,12 @@ public class PostprocessManager : MonoBehaviour
         float valueGoTo = dataPp.chromaMin;
         if (isChroma) valueGoTo = dataPp.chromaMax;
         chromaticAberrationEffect.intensity.value = Mathf.MoveTowards(chromaticAberrationEffect.intensity.value, valueGoTo, (dataPp.chromaChangeDependentFromTimeScale ? Time.deltaTime: Time.unscaledDeltaTime) * Mathf.Abs(dataPp.chromaMax - dataPp.chromaMin) / dataPp.chromaTimeTransition);
+    }
+
+    public void SetupSaturation (int value, float timeGoTo)
+    {
+        saturationGoTo = value;
+        saturationSpeed = Mathf.Abs(gradingEffect.saturation.value - saturationGoTo) / timeGoTo;
     }
 
     void HandleDepthOfFieldDynamic()

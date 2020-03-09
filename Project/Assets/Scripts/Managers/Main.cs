@@ -560,6 +560,7 @@ public class Main : MonoBehaviour
         playerCanOrb = false;
 
 
+        if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(-100, 1f);
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
             timeRemainingBeforeChoice = timeBeforeChoice;
@@ -629,6 +630,7 @@ public class Main : MonoBehaviour
             CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Up", false, 1);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
+            if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(0, 0.5f);
         }
         else
         {
