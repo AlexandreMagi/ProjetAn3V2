@@ -24,9 +24,18 @@ public class Spawner : MonoBehaviour
     [SerializeField, ShowIf("isPathedSpawner"), HideIf("isRandomSpawner")]
     bool loops = false;
 
+    //ENTITY DATA
     [SerializeField]
     DataEntity entDataToGive = null;
 
+    [Header("Data bullet changes")]
+    [SerializeField]
+    public bool switchesBulletData;
+
+    [SerializeField, ShowIf("switchesBulletData")]
+    public DataShooterBullet dataBulletToSwap;
+
+    //SPAWNER DATA
     [SerializeField]
     protected DataSpawner spawnerType = null;
 
@@ -130,6 +139,14 @@ public class Spawner : MonoBehaviour
             else
             {
                 spawnedEnemy.transform.position = transform.position;
+            }
+
+            //Bullet changes
+            if(entDataToGive is DataShooter && switchesBulletData && dataBulletToSwap != null)
+            {
+                Shooter shoot = spawnedEnemy.GetComponent<Shooter>();
+                if(shoot)
+                    shoot.SetBullets(dataBulletToSwap);
             }
 
             //Debug.Log(pathsToGive.Count);

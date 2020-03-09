@@ -76,6 +76,19 @@ public class DataSequence : ScriptableObject
     [ShowIf("sequenceType", SequenceType.KillEnnemies)]
     public float timeBeforeNextSequenceOnKills;
 
+    [ShowIf("sequenceType", SequenceType.KillEnnemies)]
+    public bool activatesSpawnersDuringSequence = false;
+
+    [ShowIf("sequenceType", SequenceType.KillEnnemies), ShowIf("activatesSpawnersDuringSequence")]
+    public float numberOfKillsRequiredToPop = 0;
+
+    [ShowIf("sequenceType", SequenceType.KillEnnemies), ShowIf("activatesSpawnersDuringSequence")]
+    public Spawner[] spawnersToTrigger = null;
+
+    [ShowIf("sequenceType", SequenceType.KillEnnemies), ShowIf("activatesSpawnersDuringSequence")]
+    public float delayOnTrigger = 0;
+
+
     //TIMER SETTINGS
     [ShowIf("sequenceType", SequenceType.Timer)]
     public float timeSequenceDuration;
