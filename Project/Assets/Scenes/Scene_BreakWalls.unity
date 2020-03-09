@@ -873,6 +873,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 0
   seqEvent: 0
@@ -1363,6 +1367,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 1
   seqEvent: 1
@@ -3249,6 +3257,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 0
   seqEvent: 0
@@ -3328,6 +3340,36 @@ Transform:
   - {fileID: 39317299}
   m_Father: {fileID: 0}
   m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &965399754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 965399755}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &965399755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965399754}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.8296618, y: 0.9851227, z: -8.66673}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1034792194
 PrefabInstance:
@@ -4227,6 +4269,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 0
   seqEvent: 0
@@ -5922,6 +5968,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 1
   seqEvent: 1
@@ -6190,6 +6240,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 0
   seqEvent: 0
@@ -6525,6 +6579,10 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 0
   seqEvent: 0

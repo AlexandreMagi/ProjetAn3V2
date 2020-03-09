@@ -26,16 +26,26 @@ public class DeathBodyPart : MonoBehaviour
     [SerializeField]
     bool isAlwaysSpawning = true;
 
+    [SerializeField]
+    bool isPhophoAffected = false;
+
+    bool isSwarmerPart = false;
+
+    bool isActiveAndVisible = true;
+
     void Start()
     {
-        meshRenderer = gameObject.GetComponent<Renderer>();
-        instancedMaterial = meshRenderer.materials[1];
+        if (isPhophoAffected)
+        {
+            meshRenderer = gameObject.GetComponent<Renderer>();
+            instancedMaterial = meshRenderer.materials[1];
+        }
 
         timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
 
         prop = GetComponent<Prop>();
 
-        if (!isAlwaysSpawning)
+        if (!isAlwaysSpawning && isSwarmerPart)
         {
             int rand;
             rand = Random.Range(0, 2);
@@ -51,7 +61,7 @@ public class DeathBodyPart : MonoBehaviour
                 rb.AddExplosionForce(explosionForceOnSpawn, transform.position, 100f);
             }
         }
-        else
+        else if (isSwarmerPart)
         {
             Rigidbody rb;
             rb = GetComponent<Rigidbody>();
@@ -61,9 +71,9 @@ public class DeathBodyPart : MonoBehaviour
 
     void Update()
     {
-        if (gameObject != null)
+        if (gameObject != null && isActiveAndVisible)
         {
-            if (phosphoValue >= 0)
+            if (phosphoValue >= 0 && isPhophoAffected)
             {
                 phosphoValue = phosphoValue - 0.005f - Time.deltaTime;
 
@@ -80,6 +90,7 @@ public class DeathBodyPart : MonoBehaviour
                 }else if (!prop.isAffectedByGravity)
                 {
                     transform.localScale = new Vector3(0, 0, 0);
+                    isActiveAndVisible = false;
                     gameObject.SetActive(false);
                 }
 
