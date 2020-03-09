@@ -180,6 +180,10 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (gameEnder)
         {
+            LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers);
+
+
+
             SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
             CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
         }
