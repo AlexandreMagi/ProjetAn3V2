@@ -50,8 +50,16 @@ public class Main : MonoBehaviour
     bool saveIfPlayerCouldShoot = true;
 
     bool lastChoiceForPlayer = false;
+    [SerializeField] float timeBeforeChoice = 2;
+    float timeRemainingBeforeChoice = 0;
+    [SerializeField] float timeAfterChoice = 1;
     [SerializeField] float timerBeforeGameOver = 10;
     float timeRemainingBeforeGameOver = 10;
+    lastChanceButton buttonMouseOver = null;
+    float buttonMouseOverLerpSpeed = 8;
+    float buttonMouseOverScale = 1.2f;
+    float buttonNotMouseOverScale = 1f;
+    float buttonOtherMouseOverScale = 0.8f;
     public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
 
     public static Main Instance { get; private set; }
@@ -322,12 +330,57 @@ public class Main : MonoBehaviour
         }
         CheckIfGoBackToMenu();
 
+        if (timeRemainingBeforeChoice > 0)
+        {
+            timeRemainingBeforeChoice -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeChoice < 0)
+            {
+                timeRemainingBeforeChoice = 0;
+                CanDoLastChoice();
+            }
+        }
+
         if (lastChoiceForPlayer && !GameEnded)
         {
+            if (lastChanceButton.allButtons != null)
+            {
+                bool aButtonIsMouseOvered = false;
+                foreach (lastChanceButton button in lastChanceButton.allButtons)
+                {
+                    if (button != null && button.enabled)
+                    {
+                        if (button.CheckIfMouseOver())
+                        {
+                            button.baseScale = Mathf.Lerp(button.baseScale, buttonMouseOverScale, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
+                            button.CvsGroup.alpha = Mathf.Lerp(button.CvsGroup.alpha,1, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
+                            buttonMouseOver = button;
+                            aButtonIsMouseOvered = true;
+                            button.AnimateIfMouseOver();
+                        }
+                        else
+                        {
+                            if (buttonMouseOver)
+                            {
+                                button.baseScale = Mathf.Lerp(button.baseScale, buttonOtherMouseOverScale, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
+                                button.CvsGroup.alpha = Mathf.Lerp(button.CvsGroup.alpha, 0.2f, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
+                            }
+                            else
+                            {
+                                button.baseScale = Mathf.Lerp(button.baseScale, buttonNotMouseOverScale, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
+                                button.CvsGroup.alpha = Mathf.Lerp(button.CvsGroup.alpha, 0.7f, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
+                            }
+                            button.unanimateIfNoMouseOver();
+                        }
+                    }
+                }
+                if (!aButtonIsMouseOvered) buttonMouseOver = null;
+            }
+
             timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
             if (timeRemainingBeforeGameOver < 0)
             {
                 timeRemainingBeforeGameOver = 0;
+                EndGameChoice.Instance.EndChoice();
                 DoGameOver();
             }
 
@@ -391,7 +444,7 @@ public class Main : MonoBehaviour
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
 
 
-            if (currDist > distanceCheckIfInput || !GameEnded)
+            if (/*currDist > distanceCheckIfInput || */!GameEnded)
                 timerGoBack = timeBeforeGoBackToStart;
 
             else
@@ -455,9 +508,9 @@ public class Main : MonoBehaviour
 
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
-            TimeScaleManager.Instance.AddStopTime(5000);
-            lastChoiceForPlayer = true;
+            timeRemainingBeforeChoice = timeBeforeChoice;
             timeRemainingBeforeGameOver = timerBeforeGameOver;
+            TimeScaleManager.Instance.AddStopTime(5000);
 
             float trueChance = GetCurrentChacesOfSurvival();
             if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
@@ -468,6 +521,14 @@ public class Main : MonoBehaviour
             DoGameOver();
         }
 
+
+    }
+
+    void CanDoLastChoice()
+    {
+        lastChoiceForPlayer = true;
+        timeRemainingBeforeGameOver = timerBeforeGameOver;
+        EndGameChoice.Instance.ActivateChoice();
 
     }
 

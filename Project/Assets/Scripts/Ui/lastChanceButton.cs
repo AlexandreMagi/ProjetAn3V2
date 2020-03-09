@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(RectTransform), typeof(CanvasGroup))]
 public class lastChanceButton : MonoBehaviour
 {
     RectTransform rect = null;
@@ -12,13 +12,43 @@ public class lastChanceButton : MonoBehaviour
 
     public static List<lastChanceButton> allButtons;
 
+    [SerializeField] Transform headLine = null;
+    [SerializeField] float headLineIdleScale = 0.1f;
+    [SerializeField] float headLineIdleScaleSpeed = 0.1f;
+    [SerializeField] float headLinerecoverLerp = 8;
+
+    [SerializeField] float idleScale = 0.1f;
+    [SerializeField] float idleScaleSpeed = 15f;
+    [SerializeField] float recoverLerp = 8;
+    float sizeAddedByIdle = 0;
+
+    CanvasGroup cvsGroup = null;
+    public CanvasGroup CvsGroup { get { return cvsGroup; } }
+
+    [HideInInspector]
+    public float baseScale = 1;
+
+    [SerializeField]
+    Transform glow = null;
+    [SerializeField] float glowIdleScale = 0.1f;
+    [SerializeField] float glowIdleScaleSpeed = 9f;
+    [SerializeField] float glowRecoverLerp = 8;
+    [SerializeField] float glowGrowLerp = 8;
+    float glowScaleValue = 0;
+
+    private void Awake()
+    {
+        if (allButtons == null) allButtons = new List<lastChanceButton>();
+        allButtons.Add(this);
+        rect = GetComponent<RectTransform>();
+        cvsGroup = GetComponent<CanvasGroup>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        rect = GetComponent<RectTransform>();
-        if (allButtons == null) allButtons = new List<lastChanceButton>();
-        allButtons.Add(this);
     }
+
 
     public bool CheckIfMouseOver()
     {
@@ -38,6 +68,26 @@ public class lastChanceButton : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void AnimateIfMouseOver()
+    {
+        sizeAddedByIdle = Mathf.Sin(Time.unscaledTime * idleScaleSpeed) * idleScale;
+        transform.localScale = Vector3.one * (baseScale + sizeAddedByIdle);
+        headLine.transform.localScale = Vector3.one + Vector3.one * Mathf.Sin(Time.unscaledTime * headLineIdleScaleSpeed) * headLineIdleScale;
+
+        glowScaleValue = Mathf.Lerp(glowScaleValue, 1, Time.unscaledDeltaTime * glowGrowLerp);
+        glow.transform.localScale = Vector3.one * glowScaleValue + Vector3.one * glowScaleValue * Mathf.Sin(Time.unscaledTime * glowIdleScaleSpeed) * glowIdleScale;
+    }
+
+    public void unanimateIfNoMouseOver()
+    {
+        sizeAddedByIdle = Mathf.Lerp(sizeAddedByIdle, 0, Time.unscaledDeltaTime * recoverLerp);
+        transform.localScale = Vector3.one * (baseScale + sizeAddedByIdle);
+        headLine.transform.localScale = Vector3.Lerp(headLine.transform.localScale, Vector3.one, Time.unscaledDeltaTime * headLinerecoverLerp);
+
+        glowScaleValue = Mathf.Lerp(glowScaleValue, 0, Time.unscaledDeltaTime * glowRecoverLerp);
+        glow.transform.localScale = Vector3.Lerp(glow.transform.localScale, Vector3.zero, Time.unscaledDeltaTime * glowRecoverLerp);
     }
 
     public void Click()
