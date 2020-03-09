@@ -58,12 +58,17 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     List<ShooterBullet> allBullets = new List<ShooterBullet>();
 
+    DataShooterBullet currentDataBullet = null;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         state = (int)State.Nothing;
         entityData = entityData as DataShooter;
+
+        //On crée un clone, en cas de modifications à la volée
+        currentDataBullet = Instantiate(entityData.bulletData);
     }
 
     public override void OnDistanceDetect(Transform possibleTarget, float distance)
@@ -306,7 +311,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 GameObject CurrBullet = Instantiate(entityData.bulletPrefabs,canonPlacement.transform.position,Quaternion.identity);
                 allBullets.Add(CurrBullet.GetComponent<ShooterBullet>());
                 float bulletRotation = (bulletShot - 1) < overrideBulletRotation.Length ? overrideBulletRotation[(bulletShot - 1)] : (bulletShot - 1) < entityData.specifyBulletRotation.Length ? entityData.specifyBulletRotation[(bulletShot - 1)] : Random.Range(0, 360);
-                CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, entityData.bulletData, 2, this.gameObject, bulletRotation, entityData.amplitudeCap);
+                CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, currentDataBullet, 2, this.gameObject, bulletRotation, entityData.amplitudeCap);
             }
 
         }
@@ -355,6 +360,11 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     public void OnHitByOwnBullet()
     {
         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BackToSender, transform.position);
+    }
+
+    public void SetBullets(DataShooterBullet data)
+    {
+        currentDataBullet = data;
     }
 
     #region Gravity
