@@ -110,7 +110,7 @@ public class ARdunioConnect : MonoBehaviour
         }
         
         //Debug.Log("Data from Arduino data : " + data);
-        Debug.Log("Data from Arduino  lastData : " + lastData);
+        //Debug.Log("Data from Arduino  lastData : " + lastData);
 
     }
 
