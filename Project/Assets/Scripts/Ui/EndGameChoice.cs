@@ -47,6 +47,12 @@ public class EndGameChoice : MonoBehaviour
         anmtrDisplay.enabled = false;
     }
 
+    public void AnimateEndOfChoice()
+    {
+        anmtrDisplay.enabled = true;
+        anmtrDisplay.SetTrigger("Depop");
+    }
+
     public void EndChoice()
     {
         rootGameEnd.SetActive(false);

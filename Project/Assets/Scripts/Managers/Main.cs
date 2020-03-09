@@ -49,6 +49,8 @@ public class Main : MonoBehaviour
 
     bool saveIfPlayerCouldShoot = true;
 
+
+    // --- Variables choix final
     bool lastChoiceForPlayer = false;
     [SerializeField] float timeBeforeChoice = 2;
     float timeRemainingBeforeChoice = 0;
@@ -60,6 +62,9 @@ public class Main : MonoBehaviour
     float buttonMouseOverScale = 1.2f;
     float buttonNotMouseOverScale = 1f;
     float buttonOtherMouseOverScale = 0.8f;
+    float timeBeforeChoiceDone = 0;
+    int choiceMade = -1;
+
     public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
 
     public static Main Instance { get; private set; }
@@ -342,7 +347,7 @@ public class Main : MonoBehaviour
 
         if (lastChoiceForPlayer && !GameEnded)
         {
-            if (lastChanceButton.allButtons != null)
+            if (lastChanceButton.allButtons != null && choiceMade == -1)
             {
                 bool aButtonIsMouseOvered = false;
                 foreach (lastChanceButton button in lastChanceButton.allButtons)
@@ -376,12 +381,12 @@ public class Main : MonoBehaviour
                 if (!aButtonIsMouseOvered) buttonMouseOver = null;
             }
 
-            timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeGameOver > 0)
+                timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
             if (timeRemainingBeforeGameOver < 0)
             {
                 timeRemainingBeforeGameOver = 0;
-                EndGameChoice.Instance.EndChoice();
-                DoGameOver();
+                ValidateEndGameChoice(2);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow)) ReviveChoice();
@@ -391,12 +396,57 @@ public class Main : MonoBehaviour
             {
                 foreach (var button in lastChanceButton.allButtons)
                 {
-                    button.Click();
+                    int buttonClicked = button.Click();
+                    if (buttonClicked != -1) ValidateEndGameChoice(buttonClicked);
                 }
             }
 
         }
 
+        if (timeBeforeChoiceDone > 0)
+        {
+            timeBeforeChoiceDone -= Time.unscaledDeltaTime;
+            if (timeBeforeChoiceDone < 0)
+            {
+                timeBeforeChoiceDone = 0;
+                DoWhatPlayerChoosed(choiceMade);
+            }
+        }
+    }
+
+    void ValidateEndGameChoice(int choice)
+    {
+        if (timeBeforeChoiceDone == 0)
+        {
+            timeBeforeChoiceDone = timeAfterChoice;
+            choiceMade = choice;
+            foreach (lastChanceButton button in lastChanceButton.allButtons)
+            {
+                if (button != null && button.enabled)
+                {
+                    //button.DoAnim(choiceMade);
+                }
+            }
+            EndGameChoice.Instance.AnimateEndOfChoice();
+        }
+    }
+
+    void DoWhatPlayerChoosed(int choice)
+    {
+        switch (choice)
+        {
+            case 0:
+                ReviveChoice();
+                break;
+            case 1:
+                VoteChoice();
+                break;
+            default:
+                EndGameChoice.Instance.EndChoice();
+                DoGameOver();
+                break;
+        }
+        choiceMade = -1;
     }
 
     public void ReviveChoice()
