@@ -105,10 +105,7 @@ void IrPosition()
         pBy1 = tmpY;
        
       }
-      //-- calcule du tranblement 
-
-      //-------------------------
-      
+            
       int deltaY = (pAy1 - pBy1);
       int deltaX = (pAx1 - pBx1);
       float resultRad = atan2(deltaY, deltaX);
