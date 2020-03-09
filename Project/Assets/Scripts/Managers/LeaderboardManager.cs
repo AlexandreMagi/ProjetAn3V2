@@ -39,7 +39,7 @@ public class LeaderboardManager : MonoBehaviour
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
-        FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
+        FileStream stream = new FileStream(Application.persistentDataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
 
         //Sauvegarde try
         try {
@@ -68,7 +68,7 @@ public class LeaderboardManager : MonoBehaviour
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
-        FileStream stream = new FileStream(Application.dataPath + "/Saves/Leaderboard/scores.xml", FileMode.Open);
+        FileStream stream = new FileStream(Application.persistentDataPath + "/Saves/Leaderboard/scores.xml", FileMode.Open);
 
         try
         {
