@@ -44,7 +44,6 @@ public class MainArduinoTest : MonoBehaviour
             hImageMir.anchoredPosition = V3Data;
             V3LastData = V3Data;
 
-
         }
         else 
         {

@@ -59,6 +59,9 @@ public class IRCameraParser : MonoBehaviour
         {
             iTablePosition[i] = 0;
         }
+
+        V3LastData = Vector3.zero;
+
     }
 
     // Update is called once per frame
@@ -257,10 +260,32 @@ public class IRCameraParser : MonoBehaviour
 
     }
 
+    Vector3 V3LastData;
+
     public Vector3 funcPositionsCursorArduino()
     {
+        Vector3 V3Positon = Vector3.zero;
 
-        return new Vector3(fPositionX, fPositionY, 0);
+        Vector3 V3Data = new Vector3(fPositionX, fPositionY, 0);
+
+        Vector3 V3Delta = V3Data - V3LastData;
+
+        if (V3Delta.magnitude > 10)
+        {
+
+            V3Positon = V3Data;
+            V3LastData = V3Data;
+
+        }
+        else
+        {
+
+            V3Positon = V3LastData + (V3Data - V3LastData) * (0.05f * V3Delta.magnitude);
+            V3LastData = V3Positon;
+
+        }
+
+        return V3Positon;
 
     }
 
