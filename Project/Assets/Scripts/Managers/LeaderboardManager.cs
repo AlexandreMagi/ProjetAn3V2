@@ -39,11 +39,14 @@ public class LeaderboardManager : MonoBehaviour
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
-        FileStream stream = new FileStream(Application.persistentDataPath + "/Saves/Leaderboard/scores.xml", FileMode.Create);
-
+        
         //Sauvegarde try
         try {
+            FileStream stream = new FileStream(Application.persistentDataPath + "/Pangoblin/Leaderboard/scores.xml", FileMode.Create);
             serializer.Serialize(stream, scoreData);
+
+            //Fermeture du stream
+            stream.Close();
         }
         catch (Exception e)
         {
@@ -51,12 +54,14 @@ public class LeaderboardManager : MonoBehaviour
         }
        
 
-        //Fermeture du stream
-        stream.Close();
+        
     }
 
     public void RefabricXMLDataDefault()
     {
+
+        Directory.CreateDirectory(Application.persistentDataPath + "/Pangoblin/Leaderboard");
+
         scoreData = new LeaderboardDatabase();
         LeaderboardData temp = new LeaderboardData("AAA", 50);
         scoreData.data.Add(temp);
@@ -68,23 +73,28 @@ public class LeaderboardManager : MonoBehaviour
     {
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(LeaderboardDatabase));
-        FileStream stream = new FileStream(Application.persistentDataPath + "/Saves/Leaderboard/scores.xml", FileMode.Open);
-
+        
         try
         {
+            FileStream stream = new FileStream(Application.persistentDataPath + "/Pangoblin/Leaderboard/scores.xml", FileMode.Open);
+
             //Lecture
             scoreData = serializer.Deserialize(stream) as LeaderboardDatabase;
+
+            //Fermeture du stream
+            stream.Close();
         }
         catch(Exception e)
         {
             //Si le fichier est pas trouvé en gros, en créer un nouveau
             Debug.LogWarning($"Erreur lors de la lecture ! Création de sauvegarde par défaut...");
+
+
             RefabricXMLDataDefault();
         }
         
 
-        //Fermeture du stream
-        stream.Close();
+
     }
 
     public bool SubmitScoreToLeaderboard(string name, int score)

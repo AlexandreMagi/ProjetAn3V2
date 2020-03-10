@@ -33,6 +33,12 @@ public class SceneHandler : MonoBehaviour
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
             SceneManager.LoadScene("ArduinoHandlerScene", LoadSceneMode.Additive);
+
+#if UNITY_EDITOR
+            Application.targetFrameRate = 300;
+#else
+            Application.targetFrameRate = 60;
+#endif 
         }
         else
         {
@@ -47,7 +53,14 @@ public class SceneHandler : MonoBehaviour
 
     public void ChangeScene(string sceneName, float delay = 0, bool withFade = false)
     {
+        CheckIfMustLockFrame(sceneName);
         StartCoroutine(LoadScene(sceneName, delay, withFade));
+    }
+
+    void CheckIfMustLockFrame (string sName)
+    {
+        if (sName == "MenuScene") Application.targetFrameRate = 60;
+        else Application.targetFrameRate = 300;
     }
 
     public void QuitGame (float delay = 0)
