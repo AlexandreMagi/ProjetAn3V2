@@ -379,6 +379,8 @@ public class Weapon : MonoBehaviour
                 {
                     FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod, 0.2f, rayBullet, hit);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
+                    if (TrailManager.Instance != null ) TrailManager.Instance.RequestBulletTrail(rayBullet.origin, hit.point);
+                    else Debug.Log("No Trail Manager");
 
 
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
@@ -485,6 +487,8 @@ public class Weapon : MonoBehaviour
 
                 FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod, 0.2f, bounceBullet, hit);
                 CheckIfMustSlowMo(hit.transform.gameObject, bounceMod);
+                if (TrailManager.Instance != null) TrailManager.Instance.RequestBulletTrail(bounceBullet.origin, hit.point);
+                else Debug.Log("No Trail Manager");
 
                 IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                 if (bAffect != null)
