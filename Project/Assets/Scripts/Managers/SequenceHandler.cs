@@ -7,10 +7,14 @@ using Sirenix.OdinInspector;
 
 public class SequenceHandler : MonoBehaviour
 {
-    [SerializeField, ListDrawerSettings(NumberOfItemsPerPage = 50)]
+    [HideInInspector, ListDrawerSettings(NumberOfItemsPerPage = 50)]
     List<DataSequence> sequences = null;
 
+    [SerializeField]
+    List<SequenceBranch> sequenceBranches = null;
+
     DataSequence currentSequence = null;
+    SequenceBranch currentBranch = null;
 
     Camera cameraObj = null;
     CinemachineVirtualCamera currentVirtualCamera = null;
@@ -22,6 +26,7 @@ public class SequenceHandler : MonoBehaviour
     float elapsedTime = 0;
     float delayOnBlendSequence = 0;
     int sequenceIndex = 0;
+    int branchIndex = 0;
 
     uint enemiesKilled = 0;
     uint bufferedKills = 0;
@@ -46,37 +51,69 @@ public class SequenceHandler : MonoBehaviour
 
         cameraBrain = GameObject.FindObjectOfType<CinemachineBrain>();
 
-        currentSequence = sequences[0];
+        currentBranch = sequenceBranches[0];
+
+        currentSequence = currentBranch.GetDataSequenceAt(0);
 
         blenderSettings = ScriptableObject.CreateInstance("CinemachineBlenderSettings") as CinemachineBlenderSettings;
 
+    }
+
+    //[Button("Transfer")]
+    void Transfer()
+    {
+        foreach(DataSequence seq in sequences)
+        {
+            sequenceBranches[0].AddSequence(seq);
+        }
+    }
+
+    [Button("Add branch")]
+    private void AddBranch()
+    {
+        SequenceBranch branch = ScriptableObject.CreateInstance<SequenceBranch>() as SequenceBranch;
+
+        branch.name = "New branch" + (sequenceBranches.Count + 1);
+
+        sequenceBranches.Add(branch);
+
+        originalBranchName = branch.name;
     }
 
     [Button("Add sequence")]
     private void AddSequence()
     {
         DataSequence dSeq = ScriptableObject.CreateInstance<DataSequence>() as DataSequence;
-        dSeq.name = "DS" + (sequences.Count+1);
-        sequences.Add(dSeq);
-        originalName = "DS" + sequences.Count;
+
+        SequenceBranch lastBranch = sequenceBranches[sequenceBranches.Count - 1];
+
+        dSeq.name = "DS" + (lastBranch.GetNumberOfSequences()+1);
+
+        lastBranch.AddSequence(dSeq);
+
+        originalName = "DS" + lastBranch.GetNumberOfSequences();
     }
 
     [Button("Add sequence copied")]
     private void AddSequenceCopied()
     {
-        if(sequences.Count > 0)
-        {
-            DataSequence dSeq = Instantiate(sequences[sequences.Count - 1]);
-            dSeq.name = "AutoSequence" + (sequences.Count + 1);
+        SequenceBranch lastBranch = sequenceBranches[sequenceBranches.Count - 1];
 
-            string seqName = sequences[sequences.Count - 1].camTargetName;
-            string[] namesParts = seqName.Split('m');
+        if (lastBranch.GetNumberOfSequences() > 0)
+        {
+            DataSequence dSeq = Instantiate(lastBranch.GetDataSequenceAt(lastBranch.GetNumberOfSequences() - 1));
+
+            dSeq.name = "AutoSequence" + (lastBranch.GetNumberOfSequences() + 1);
+
+            string seqCamName = dSeq.camTargetName;
+            string[] namesParts = seqCamName.Split('m');
             int numberPost = int.Parse(namesParts[1]) + 1;
 
             dSeq.camTargetName = namesParts[0] + "m" + numberPost;
 
-            sequences.Add(dSeq);
-            originalName = "AutoSequence" + sequences.Count;
+            lastBranch.AddSequence(dSeq);
+
+            originalName = "AutoSequence" + lastBranch.GetNumberOfSequences();
         }
         else
         {
@@ -98,16 +135,47 @@ public class SequenceHandler : MonoBehaviour
     [Button("Rename")]
     private void renameVar()
     {
-        foreach(DataSequence sequence in sequences)
+        foreach(SequenceBranch branch in sequenceBranches)
         {
-            if(sequence.name == originalName)
+            List<DataSequence> sequencesInBranch = branch.GetAllSequences();
+
+            foreach (DataSequence sequence in sequencesInBranch)
             {
-                sequence.name = newName;
-                break;
+                if (sequence.name == originalName)
+                {
+                    sequence.name = newName;
+                    break;
+                }
             }
         }
+
+        
     }
-    
+
+    [HorizontalGroup("RenameBranch", LabelWidth = 45)]
+    [LabelText("Original")]
+    public string originalBranchName;
+
+    [HorizontalGroup("RenameBranch", LabelWidth = 30)]
+    [LabelText("New")]
+    public string newBranchName;
+
+    [HorizontalGroup("RenameBranch")]
+    [Button("Rename branch")]
+    private void renameBranch()
+    {
+        foreach (SequenceBranch branch in sequenceBranches)
+        {
+             if (branch.name == originalBranchName)
+             {
+                 branch.name = newBranchName;
+                 break;
+             }
+        }
+
+
+    }
+
 
     public static SequenceHandler Instance { get; private set; }
 
@@ -221,10 +289,34 @@ public class SequenceHandler : MonoBehaviour
 
     public void SkipToSequence(int sequenceNumber)
     {
-        if(sequenceNumber < sequences.Count)
+        if(sequenceNumber < GetLargeSequenceNumber())
         {
-            sequenceIndex = sequenceNumber - 1;
-            currentVirtualCamera = GameObject.Find(sequences[sequenceNumber - 1].camTargetName).GetComponent<CinemachineVirtualCamera>();
+            int indexLeft = sequenceNumber;
+            int subBranchID = 0;
+            foreach(SequenceBranch branch in sequenceBranches)
+            {
+                int numSeq = branch.GetNumberOfSequences();
+
+                if (indexLeft >= numSeq)
+                {
+                    indexLeft -= numSeq;
+                    subBranchID++;
+                    continue;
+                }
+                else
+                {
+                    if(indexLeft == 0)
+                    {
+                        subBranchID--;
+                        indexLeft = sequenceBranches[subBranchID].GetNumberOfSequences() - 1;
+                    }
+
+                    sequenceIndex = indexLeft;
+                    branchIndex = subBranchID;
+                }
+            }
+
+            currentVirtualCamera = GameObject.Find(sequenceBranches[branchIndex].GetDataSequenceAt(sequenceIndex - 1).camTargetName).GetComponent<CinemachineVirtualCamera>();
 
             //CHANGEMENT DE CAM -- Pour pas casser les timers
             currentVirtualCamera.Priority = 10;
@@ -296,12 +388,39 @@ public class SequenceHandler : MonoBehaviour
             }
         }
 
-        if (sequenceIndex < sequences.Count - 1)
+        if (sequenceIndex < currentBranch.GetNumberOfSequences() - 1)
         {
-            sequenceIndex++;
+            if (currentSequence.skipsToBranchOnEnd)
+            {
+                if (currentSequence.affectedByBooleanSequenceBranch)
+                {
+                    foreach(DataSequence.BooleanLink link in currentSequence.booleanLinks)
+                    {
+                        if(link.booleanSequence.runtimeState == link.bSeqRequiredStatus)
+                        {
+                            currentBranch = sequenceBranches[link.indexOfBranchLinked];
+                            branchIndex = link.indexOfBranchLinked;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    currentBranch = sequenceBranches[currentSequence.branchLinkedId];
+                    branchIndex = currentSequence.branchLinkedId;
+                }
+
+                sequenceIndex = 0;
+            }
+            else
+            {
+                sequenceIndex++;
+            }
+
+            
             isWaitingTimer = false;
 
-            currentSequence = sequences[sequenceIndex];
+            currentSequence = currentBranch.GetDataSequenceAt(sequenceIndex);
 
             //Debug.Log(currentVirtualCamera);
             
@@ -404,9 +523,36 @@ public class SequenceHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("No sequence left");
+            if (currentSequence.skipsToBranchOnEnd)
+            {
+                if (currentSequence.affectedByBooleanSequenceBranch)
+                {
+                    foreach (DataSequence.BooleanLink link in currentSequence.booleanLinks)
+                    {
+                        if (link.booleanSequence.runtimeState == link.bSeqRequiredStatus)
+                        {
+                            currentBranch = sequenceBranches[link.indexOfBranchLinked];
+                            branchIndex = link.indexOfBranchLinked;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    currentBranch = sequenceBranches[currentSequence.branchLinkedId];
+                    branchIndex = currentSequence.branchLinkedId;
+                }
 
-            readSequences = false;
+                sequenceIndex = 0;
+            }
+            else
+            {
+                readSequences = false;
+
+                Debug.Log("No more sequences in this branch");
+            }
+
+            
         }
     }
 
@@ -430,5 +576,17 @@ public class SequenceHandler : MonoBehaviour
     public bool IsCurrentSequenceOnAction()
     {
         return (readSequences && currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies);
+    }
+
+    public int GetLargeSequenceNumber()
+    {
+        int number = 0;
+
+        foreach(SequenceBranch branch in sequenceBranches)
+        {
+            number += branch.GetNumberOfSequences();
+        }
+
+        return number;
     }
 }

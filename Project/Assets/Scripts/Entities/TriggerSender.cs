@@ -67,11 +67,6 @@ public class TriggerSender : MonoBehaviour
 
 
     [SerializeField]
-    bool needsSequenceIndex = false;
-    [ShowIf("needsSequenceIndex"), SerializeField]
-    float securitySequenceIndexRequired = 0;
-
-    [SerializeField]
     float timeBeforeStart = 0;
 
     bool timerStarted = false;
@@ -87,16 +82,11 @@ public class TriggerSender : MonoBehaviour
     }
         
     void StartTrigger()
-    {
-        if((needsSequenceIndex && securitySequenceIndexRequired <= SequenceHandler.Instance.GetCurrentSequenceIndex()) || !needsSequenceIndex)
+    { 
+        if (!timerStarted)
         {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                DoTrigger();
-
-            }
-
+            timerStarted = true;
+            DoTrigger();
 
         }
 
