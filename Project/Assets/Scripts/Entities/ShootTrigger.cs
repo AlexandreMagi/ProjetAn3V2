@@ -33,7 +33,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     //Stimulus reactions
     #region StimulusBullet
-    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         if (!isTriggered)
         {

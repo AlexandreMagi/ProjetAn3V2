@@ -204,7 +204,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
         if(triggerShoot != null)
         {
-            triggerShoot.OnHit(null, Vector3.zero, 100);
+            triggerShoot.OnHit(null, Vector3.zero, 100, new Ray());
         }
 
         CameraHandler.Instance.AddShake(entityData.shakeAtImpact, transform.position);
@@ -286,7 +286,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     #endregion
     #region Bullet Affected
 
-    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         isShot = true;
         TakeDamage(100);

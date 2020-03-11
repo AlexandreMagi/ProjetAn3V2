@@ -386,7 +386,7 @@ public class Weapon : MonoBehaviour
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                     {
-                        bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage);
+                        bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage, rayBullet);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot(weaponMod);
                         if (weaponMod == weapon.chargedShot)
@@ -493,7 +493,7 @@ public class Weapon : MonoBehaviour
                 IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                 if (bAffect != null)
                 {
-                    bAffect.OnHit(bounceMod, hit.point, bounceMod.bullet.damage);
+                    bAffect.OnHit(bounceMod, hit.point, bounceMod.bullet.damage, bounceBullet);
 
                     bAffect.OnHitShotGun(bounceMod);
 
