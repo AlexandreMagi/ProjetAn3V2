@@ -47,7 +47,7 @@ public class GravityOrbHitDetection : MonoBehaviour, IBulletAffect
         }
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         Debug.Log("aSaca");
         mat.SetVector("_HitPosition", transform.InverseTransformPoint(position));

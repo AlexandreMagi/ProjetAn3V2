@@ -23,7 +23,7 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
         Destroyed();
     }
 
-    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         Destroyed();
     }
