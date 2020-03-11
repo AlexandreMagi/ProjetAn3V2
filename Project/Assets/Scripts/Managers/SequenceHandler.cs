@@ -225,6 +225,14 @@ public class SequenceHandler : MonoBehaviour
         {
             sequenceIndex = sequenceNumber - 1;
             currentVirtualCamera = GameObject.Find(sequences[sequenceNumber - 1].camTargetName).GetComponent<CinemachineVirtualCamera>();
+
+            //CHANGEMENT DE CAM -- Pour pas casser les timers
+            currentVirtualCamera.Priority = 10;
+            pastCamPos = currentVirtualCamera.transform.position;
+            currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
+            currentVirtualCamera.Priority = 11;
+            newCamPos = currentVirtualCamera.transform.position;
+
             NextSequence();
         }
         else
