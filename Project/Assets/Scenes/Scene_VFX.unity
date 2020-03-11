@@ -1012,6 +1012,20 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7584541180600198618}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &402479016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1212d20ff48cf14ab83ae00bae73203, type: 3}
+  m_Name: New branch1
+  m_EditorClassIdentifier: 
+  sequencesInBranch:
+  - {fileID: 11400000, guid: d2216fc83c4e13044b4120912bd29b63, type: 2}
 --- !u!1 &411049530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,11 +2446,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a848d734ca52644c988afe033cda1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequenceBranches: []
+  sequenceBranches:
+  - {fileID: 402479016}
   isWaitingTimer: 0
   originalName: AutoSequence8
   newName: Turn
-  originalBranchName: 
+  originalBranchName: New branch1
   newBranchName: 
 --- !u!4 &942163119
 Transform:
