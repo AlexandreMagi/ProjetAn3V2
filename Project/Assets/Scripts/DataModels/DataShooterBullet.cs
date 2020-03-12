@@ -21,6 +21,8 @@ public class DataShooterBullet : DataEnemy
     public float circleScaleMultiplier = 1;
     public bool randomRotationAtStart = false;
 
+    public float gravityPullForceMultiplier = 20;
+
     public LayerMask layerAffected;
 
     public float timeBeforeCollisionAreActived = 1;

@@ -248,8 +248,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnPull(Vector3 position, float force)
     {
-        ReactGravity<DataEntity>.DoPull(rbBody, position, force, false);
         DesactivateBullet();
+        ReactGravity<DataEntity>.DoPull(rbBody, position, force * entityData.gravityPullForceMultiplier, false);
     }
 
     public void DesactivateBullet()
