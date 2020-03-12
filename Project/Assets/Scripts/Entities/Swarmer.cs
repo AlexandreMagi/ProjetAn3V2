@@ -51,6 +51,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     float timePropel = .5f;
     float elapsedTime = 0;
     ParticleSystem currentParticleOrb = null;
+    ParticleSystem currentOrbExplosion = null;
     bool hasPlayedFxOnPull = false;
 
     //Death variables
@@ -125,7 +126,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentParticleOrb.Stop();
         }
-        FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+        currentOrbExplosion = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
     }
 
     public void OnZeroG()
@@ -140,7 +141,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             IEntity targetEntity = target.GetComponent<IEntity>();
             if (other.GetComponent<Player>() != null)
             {
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
+                //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
             }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
@@ -155,6 +156,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             isDying = true;
             if (currentParticleOrb) currentParticleOrb.Stop();
+            if (currentOrbExplosion) currentOrbExplosion.Stop();
             FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
             FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
 
@@ -258,7 +260,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
         }
         #endregion
-        #endregion*
+        #endregion
 
         //Distance to attack check
         if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
