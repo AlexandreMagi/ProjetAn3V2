@@ -6,7 +6,7 @@ using UnityEngine;
 public class DataBooleanSequence : ScriptableObject
 {
     [SerializeField]
-    string boolName = "";
+    public string boolName = "";
 
     [SerializeField]
     bool defaultState = false;
