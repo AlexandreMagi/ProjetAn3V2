@@ -58,9 +58,16 @@ public class UiCrossHair : MonoBehaviour
     float hitMarkerAnimPurcentage = 1;
 
     [SerializeField]
+    Image crossHairVignetage = null;
+
+    [SerializeField]
     Transform rootCrosshair = null;
     [SerializeField]
     GameObject waitGameObject = null;
+
+    [SerializeField] Color singleShotColor = Color.black;
+    [SerializeField] Color chargedShotColor = Color.black;
+
     private void Start()
     {
         UiCrosshairs = new GameObject[crosshairs.Length];
@@ -113,6 +120,8 @@ public class UiCrossHair : MonoBehaviour
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
         fxUICrossHair.transform.position = transform.TransformPoint(pos);
+        crossHairVignetage.gameObject.transform.position = transform.TransformPoint(pos);
+        crossHairVignetage.color = Color.Lerp(singleShotColor, chargedShotColor, Weapon.Instance.GetChargeValue());
 
     }
 
