@@ -58,6 +58,8 @@ public class DataWeapon : ScriptableObject
     public float distanceIntensityMultiplier = 1;
     public float distanceRangeMultiplier = 1;
 
+    public float distanceMax = 10;
+
     [Range (0f,1f)]
     public float distanceImpactPurcentageOnValueIntensity = 0.5f;
     [Range(0f, 1f)]
