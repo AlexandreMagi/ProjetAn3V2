@@ -358,6 +358,15 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public void CanNotShoot()
+    {
+        if (currentChargePurcentage > 0)
+        {
+            currentChargePurcentage -= (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
+            if (currentChargePurcentage < 0) currentChargePurcentage = 0;
+        }
+    }
+
     private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod)
     {
         if (bulletRemaining > 0)
