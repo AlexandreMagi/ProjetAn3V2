@@ -17,6 +17,8 @@ MonoBehaviour:
   team: 1
   shakeOnDie: 6.31
   shakeOnDieTime: 0.3
+  fracturedProp: {fileID: 0}
+  fracturedForceOnDie: 100
   spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
     type: 2}
   spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
@@ -27,6 +29,7 @@ MonoBehaviour:
   fxWhenDie: VFX_BigEnnemiDied
   fxWhenDieDecals: fx_name_death_decal_ennemi
   fxWhenStun: VFX_Stun
+  fxWhenTakeDamage: VFX_BloodProjectedShooter
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.05
   shakeWhenTakeDamageForce: 0
