@@ -396,7 +396,7 @@ public class SequenceHandler : MonoBehaviour
                 {
                     foreach(DataSequence.BooleanLink link in currentSequence.booleanLinks)
                     {
-                        if(link.booleanSequence.runtimeState == link.bSeqRequiredStatus)
+                        if(BooleanSequenceManager.Instance.GetStateOfBoolSequence(link.booleanSequence.boolName) == link.bSeqRequiredStatus)
                         {
                             currentBranch = sequenceBranches[link.indexOfBranchLinked];
                             branchIndex = link.indexOfBranchLinked;
@@ -529,7 +529,7 @@ public class SequenceHandler : MonoBehaviour
                 {
                     foreach (DataSequence.BooleanLink link in currentSequence.booleanLinks)
                     {
-                        if (link.booleanSequence.runtimeState == link.bSeqRequiredStatus)
+                        if (BooleanSequenceManager.Instance.GetStateOfBoolSequence(link.booleanSequence.boolName) == link.bSeqRequiredStatus)
                         {
                             currentBranch = sequenceBranches[link.indexOfBranchLinked];
                             branchIndex = link.indexOfBranchLinked;
