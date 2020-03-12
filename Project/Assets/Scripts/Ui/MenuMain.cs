@@ -194,6 +194,7 @@ public class MenuMain : MonoBehaviour
             currentChargePurcentage += (dataWeapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / dataWeapon.chargeTime;
             if (currentChargePurcentage > 1)
             {
+                CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
                 UiCrossHair.Instance.JustFinishedCharging();
                 currentChargePurcentage = 1;
             }
@@ -205,6 +206,8 @@ public class MenuMain : MonoBehaviour
         DataWeaponMod currentWeaponMod = null;
         if (currentChargePurcentage == 1) currentWeaponMod = dataWeapon.chargedShot;
         else currentWeaponMod = dataWeapon.baseShot;
+
+        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", false, currentChargePurcentage == 1 ? 0.8f : 0.4f, 0.2f);
 
         UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
         currentChargePurcentage = 0;
