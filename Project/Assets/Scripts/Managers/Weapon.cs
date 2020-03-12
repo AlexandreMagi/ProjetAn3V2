@@ -132,8 +132,9 @@ public class Weapon : MonoBehaviour
         RaycastHit hitLight;
         if (Physics.Raycast(rayFromMouse, out hitLight, Mathf.Infinity, weapon.maskCheckDistanceForLight))
         {
-            intensityMultiplier = Mathf.Lerp(intensityMultiplier, hitLight.distance * weapon.distanceIntensityMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
-            rangeMultipler = Mathf.Lerp(rangeMultipler, hitLight.distance * weapon.distanceRangeMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
+            float distance = Mathf.Clamp(hitLight.distance, 0, weapon.distanceMax);
+            intensityMultiplier = Mathf.Lerp(intensityMultiplier, distance * weapon.distanceIntensityMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
+            rangeMultipler = Mathf.Lerp(rangeMultipler, distance * weapon.distanceRangeMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
         }
 
         weaponLight.spotAngle = Mathf.Lerp(weapon.baseAngle, weapon.chargedAngle, currentChargePurcentage);

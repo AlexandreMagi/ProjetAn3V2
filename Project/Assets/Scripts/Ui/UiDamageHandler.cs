@@ -165,6 +165,7 @@ public class UiDamageHandler : MonoBehaviour
 
     public void MuzzleFlashFunc()
     {
+        Debug.Log("aze");
         currentMuzzleFlashTimer = muzzleFlashTimeFade + muzzleFlashTimeStay;
 
         muzzleFlash.sprite = muzzleFlashSprites[Random.Range(0, muzzleFlashSprites.Length)];
