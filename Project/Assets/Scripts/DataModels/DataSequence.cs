@@ -181,9 +181,10 @@ public class DataSequence : ScriptableObject
         Other = 9
     }
 
+    [System.Serializable]
     public struct BooleanLink
     {
-        public BooleanSequence booleanSequence;
+        public DataBooleanSequence booleanSequence;
         public bool bSeqRequiredStatus;
         public int indexOfBranchLinked;
     }
