@@ -28835,9 +28835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc06e32514c74e45bb7a0df5c737503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 100
-  decalSizeMin: 1
-  decalSizeMax: 2
+  maxDecals: 50
+  decalSizeMin: 3
+  decalSizeMax: 6
 --- !u!1 &5330432776271921368
 GameObject:
   m_ObjectHideFlags: 0
@@ -28865,7 +28865,7 @@ Transform:
   m_GameObject: {fileID: 5330432776271921368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 9054583822267457258}
   m_Father: {fileID: 4426806474779461935}
@@ -38360,9 +38360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc06e32514c74e45bb7a0df5c737503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 50
-  decalSizeMin: 0.6
-  decalSizeMax: 0.9
+  maxDecals: 25
+  decalSizeMin: 1
+  decalSizeMax: 3
 --- !u!1 &6139580873812656903
 GameObject:
   m_ObjectHideFlags: 0
@@ -44155,7 +44155,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 50
+        scalar: 20
         minScalar: 30
         maxCurve:
           serializedVersion: 2
