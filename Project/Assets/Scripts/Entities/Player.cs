@@ -68,6 +68,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         UiDamageHandler.Instance.AddSprite(dataSpriteShield, dataSpriteLife);
     }
 
+    public Vector2 GetLifeValues()
+    {
+        return new Vector2(health, entityData.maxHealth);
+    }
+
     public override void TakeDamage(float value)
     {
         if (health > 0)
@@ -155,6 +160,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
                 UiDamageHandler.Instance.PlayerTookDammage();
                 UiLifeBar.Instance.PlayerTookDamage(armor, health);
+                PostprocessManager.Instance.SetupDepthOfField();
             }
         }
     }

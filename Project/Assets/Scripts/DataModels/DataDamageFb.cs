@@ -12,4 +12,5 @@ public class DataDamageFb : ScriptableObject
 
     public float shieldBreakFlash = 0.2f;
 
+    public float bloodEffectAlphaDependentOnLife = 1;
 }

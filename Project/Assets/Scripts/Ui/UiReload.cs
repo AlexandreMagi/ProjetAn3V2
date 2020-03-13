@@ -57,6 +57,7 @@ public class UiReload : MonoBehaviour
     UiDouille[] bulletValues = new UiDouille[0];
     Vector3[] bulletPos = new Vector3[0];
     int bulletPull;
+    Vector3 correctionPosValue = Vector3.zero;
 
     float holaValue = 0;
 
@@ -91,7 +92,7 @@ public class UiReload : MonoBehaviour
         int numberOfSeparation = Mathf.CeilToInt(bulletPull / bulletCost) - 1;
         float distanceBetweenBullet = (reloadData.purcentageUsedY - reloadData.spaceEveryThreeBullet * numberOfSeparation) * Screen.height / bulletPull;
 
-
+        correctionPosValue = new Vector3(Screen.width, Screen.height, 0) / 2 * -1;
         for (int i = 0; i < bulletPull; i++)
         {
             bulletSprites[i] = Instantiate(emptyUiBox, rootBullets.transform);
@@ -101,7 +102,7 @@ public class UiReload : MonoBehaviour
             Vector2 pos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, new Vector2 (0, i * distanceBetweenBullet + reloadData.spaceEveryThreeBullet * Screen.height * Mathf.CeilToInt(i / bulletCost)) + new Vector2 (Screen.width * reloadData.decalBulletSprites.x, Screen.height * reloadData.decalBulletSprites.y), this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
             bulletPos[i] = transform.TransformPoint(pos);
-            bulletSprites[i].transform.position = bulletPos[i];
+            bulletSprites[i].transform.localPosition = bulletPos[i] + correctionPosValue;
             bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
             Outline componentOutline = bulletSprites[i].AddComponent<Outline>();
             componentOutline.effectColor = Color.black;
@@ -155,7 +156,7 @@ public class UiReload : MonoBehaviour
             if (i >= nbBulletShot)
             {
                 bulletSprites[i].SetActive(true);
-                bulletSprites[i].transform.position = Vector3.MoveTowards(bulletSprites[i].transform.position, bulletPos[i - nbBulletShot], Time.unscaledDeltaTime * reloadData.bulletFallSpeep);
+                bulletSprites[i].transform.localPosition = Vector3.MoveTowards(bulletSprites[i].transform.localPosition, bulletPos[i - nbBulletShot] + correctionPosValue, Time.unscaledDeltaTime * reloadData.bulletFallSpeep);
                 bulletSprites[i].transform.localRotation = Quaternion.identity;
                 bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
             }
@@ -246,9 +247,9 @@ public class UiReload : MonoBehaviour
         for (int i = 0; i < bulletSprites.Length; i++)
         {
             if (didPerfect)
-                bulletSprites[i].transform.position = bulletPos[i];
+                bulletSprites[i].transform.localPosition = bulletPos[i] + correctionPosValue;
             else if (i >= supBullet)
-                bulletSprites[i].transform.position = bulletPos[i - supBullet];
+                bulletSprites[i].transform.localPosition = bulletPos[i - supBullet] + correctionPosValue;
 
             bulletValues[i].InitValues(reloadData, bulletSprites[i].GetComponent<RectTransform>(), bulletSprites[i].GetComponent<Image>());
         }
