@@ -51,6 +51,7 @@ public class DataSequence : ScriptableObject
     public bool cutLookAtOnEndOfSequence = false;
 
     //BOOLEAN SEQUENCES
+    [Header("Boolean sequence")]
     public bool isAffectedByBooleanSequence;
 
     [ShowIf("isAffectedByBooleanSequence")]
@@ -136,6 +137,34 @@ public class DataSequence : ScriptableObject
     public float transitionTime = 2;
 
 
+    //SEQUENCE BRANCHES
+    [Header("Sequence branches")]
+    [SerializeField]
+    public bool skipsToBranchOnEnd = false;
+
+    [SerializeField, ShowIf("skipsToBranchOnEnd")]
+    public bool affectedByBooleanSequenceBranch = false;
+
+    [SerializeField, ShowIf("skipsToBranchOnEnd"), HideIf("affectedByBooleanSequenceBranch")]
+    public int branchLinkedId = 0;
+
+    [SerializeField, ShowIf("skipsToBranchOnEnd"), ShowIf("affectedByBooleanSequenceBranch")]
+    public List<BooleanLink> booleanLinks = null;
+
+
+    //OBJECT AFFECT
+    [Header("AffectObject")]
+    public GameObject affectedObject = null;
+    public enum gameObjectActionType { Activate, MoveTo }
+    [ShowIf("affectedObject", null)]
+    public gameObjectActionType actionType = gameObjectActionType.Activate;
+    [ShowIf("affectedObject", null)]
+    public float delayOnAction = 0;
+    [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.Activate)]
+    public bool _active = true;
+    [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.MoveTo)]
+    public Vector3 positionMoveTo = Vector3.zero;
+
     public enum SequenceType
     {
         KillEnnemies = 0,
@@ -152,15 +181,11 @@ public class DataSequence : ScriptableObject
         Other = 9
     }
 
-    [Header("AffectObject")]
-    public GameObject affectedObject = null;
-    public enum gameObjectActionType { Activate, MoveTo }
-    [ShowIf("affectedObject", null)]
-    public gameObjectActionType actionType = gameObjectActionType.Activate;
-    [ShowIf("affectedObject", null)]
-    public float delayOnAction = 0;
-    [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.Activate)]
-    public bool _active = true;
-    [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.MoveTo)]
-    public Vector3 positionMoveTo = Vector3.zero;
+    [System.Serializable]
+    public struct BooleanLink
+    {
+        public DataBooleanSequence booleanSequence;
+        public bool bSeqRequiredStatus;
+        public int indexOfBranchLinked;
+    }
 }

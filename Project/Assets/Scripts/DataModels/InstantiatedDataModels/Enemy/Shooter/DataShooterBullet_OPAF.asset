@@ -15,15 +15,23 @@ MonoBehaviour:
   maxHealth: 1
   startHealth: 1
   team: 1
+  shakeOnDie: 0
+  shakeOnDieTime: 0
+  fracturedProp: {fileID: 0}
+  fracturedForceOnDie: 100
   spriteToDisplayShield: {fileID: 0}
   spriteToDisplayLife: {fileID: 0}
   stunResistanceJauge: 1
   stayLockedOnTarget: 0
   timeBeforeCheckForAnotherTarget: 5
   fxWhenDie: fx_name_death_ennemi
+  fxWhenDieDecals: fx_name_death_decal_ennemi
   fxWhenStun: VFX_Stun
+  fxWhenTakeDamage: VFX_BloodProjected
   matWhenTakeDammage: {fileID: 0}
   matChangeTime: 0.1
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
   bulletTrajectory:
     serializedVersion: 2
     m_Curve:
@@ -150,6 +158,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  desactivateCircles: 1
   bulletSpeed: 50
   randomSpeedAdded: 2
   shakeAtImpact: 2
@@ -158,6 +167,7 @@ MonoBehaviour:
   rotationSpeed: 0
   circleScaleMultiplier: 0.4
   randomRotationAtStart: 0
+  gravityPullForceMultiplier: 5
   layerAffected:
     serializedVersion: 2
     m_Bits: 3895
@@ -172,3 +182,4 @@ MonoBehaviour:
   liftValue: 0
   fxExplosion: VFX_ExplosionShooterBullet
   circlePrefab: {fileID: 0}
+  meshRotationRandom: {x: 120, y: 280}

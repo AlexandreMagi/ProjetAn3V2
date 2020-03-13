@@ -93,7 +93,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
     #endregion
 
     #region Bullet
-    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage)
+    public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         TakeDamage(mod.bullet.damage);
         ReactBullet.PushFromHit(this.GetComponent<Rigidbody>(), position, 2400, 5);

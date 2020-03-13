@@ -34,6 +34,14 @@ public class Weapon : MonoBehaviour
     bool shotGunHasHit = false;
     float reloadCoolDown = 0;
 
+    [SerializeField]
+    bool ignoreBulletLimitForCharge = false;
+    [SerializeField]
+    bool shotgunBounces = false;
+    [SerializeField, ShowIf("shotgunBounces")]
+    float bounceLag = 0.05f;
+
+    // --- Lumières sur le gun
 
     [SerializeField]
     GameObject muzzleFlash = null;
@@ -43,16 +51,11 @@ public class Weapon : MonoBehaviour
     public bool rotateLocked = false;
     [SerializeField]
     Light weaponLight = null;
-    [SerializeField]
-    bool ignoreBulletLimitForCharge = false;
-    [SerializeField]
-    bool shotgunBounces = false;
-    [SerializeField, ShowIf("shotgunBounces")]
-    float bounceLag = 0.05f;
-
-
     float timerMuzzleFlash = 0;
     float timeMuzzleAdded = 0.05f;
+
+    float rangeMultipler = 1;
+    float intensityMultiplier = 1;
 
     Main mainContainer = null;
 
@@ -111,6 +114,9 @@ public class Weapon : MonoBehaviour
         }
         if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
 
+
+        // --- Gestion de la lumière sur le gun
+
         Vector3 v3 = Main.Instance.GetCursorPos() + Vector3.forward * 10; 
         v3 = CameraHandler.Instance.renderingCam.ScreenToWorldPoint(v3);
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, v3 - CameraHandler.Instance.renderingCam.transform.position, 360, 0.0f);
@@ -119,10 +125,26 @@ public class Weapon : MonoBehaviour
         else
             weaponLight.transform.rotation = Quaternion.LookRotation(CameraHandler.Instance.renderingCam.transform.forward, Vector3.up);
 
-        weaponLight.spotAngle = Mathf.Lerp(weapon.baseAngle, weapon.chargedAngle, currentChargePurcentage);
-        weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage);
-        weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage);
 
+        Ray rayFromMouse = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+
+        //Shoot raycast
+        RaycastHit hitLight;
+        if (Physics.Raycast(rayFromMouse, out hitLight, Mathf.Infinity, weapon.maskCheckDistanceForLight))
+        {
+            float distance = Mathf.Clamp(hitLight.distance, 0, weapon.distanceMax);
+            intensityMultiplier = Mathf.Lerp(intensityMultiplier, distance * weapon.distanceIntensityMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
+            rangeMultipler = Mathf.Lerp(rangeMultipler, distance * weapon.distanceRangeMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
+        }
+
+        weaponLight.spotAngle = Mathf.Lerp(weapon.baseAngle, weapon.chargedAngle, currentChargePurcentage);
+        weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage); // Calcul de la range en fonction de la charge actuelle
+
+        float stock = weaponLight.range;
+
+        weaponLight.range = weaponLight.range * (1 - weapon.distanceImpactPurcentageOnValueRange) + weaponLight.range * weapon.distanceImpactPurcentageOnValueRange * rangeMultipler; // Calcul de la range en prenant compte la distance avec l'endroit visé
+        weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage); // Calcul de l'intensité en fonction de la charge actuelle
+        weaponLight.intensity = weaponLight.intensity * (1 - weapon.distanceImpactPurcentageOnValueIntensity) + weaponLight.intensity * weapon.distanceImpactPurcentageOnValueIntensity * intensityMultiplier; // Calcul de l'intensité en prenant compte la distance avec l'endroit visé
 
         // --- Previsu orbe
         if (displayOrb && timeRemainingBeforeOrb < 0 && orbPrevisu != null)
@@ -336,6 +358,15 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public void CanNotShoot()
+    {
+        if (currentChargePurcentage > 0)
+        {
+            currentChargePurcentage -= (weapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / weapon.chargeTime;
+            if (currentChargePurcentage < 0) currentChargePurcentage = 0;
+        }
+    }
+
     private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod)
     {
         if (bulletRemaining > 0)
@@ -379,12 +410,14 @@ public class Weapon : MonoBehaviour
                 {
                     FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod, 0.2f, rayBullet, hit);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
+                    if (TrailManager.Instance != null ) TrailManager.Instance.RequestBulletTrail(rayBullet.origin, hit.point);
+                    else Debug.Log("No Trail Manager");
 
 
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                     {
-                        bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage);
+                        bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage, rayBullet);
                         if (weaponMod == weapon.baseShot)
                             bAffect.OnHitSingleShot(weaponMod);
                         if (weaponMod == weapon.chargedShot)
@@ -485,11 +518,13 @@ public class Weapon : MonoBehaviour
 
                 FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod, 0.2f, bounceBullet, hit);
                 CheckIfMustSlowMo(hit.transform.gameObject, bounceMod);
+                if (TrailManager.Instance != null) TrailManager.Instance.RequestBulletTrail(bounceBullet.origin, hit.point);
+                else Debug.Log("No Trail Manager");
 
                 IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                 if (bAffect != null)
                 {
-                    bAffect.OnHit(bounceMod, hit.point, bounceMod.bullet.damage);
+                    bAffect.OnHit(bounceMod, hit.point, bounceMod.bullet.damage, bounceBullet);
 
                     bAffect.OnHitShotGun(bounceMod);
 

@@ -11,6 +11,7 @@ public abstract class DataEnemy : DataEntity
     public string fxWhenDie = "fx_name_death_ennemi";
     public string fxWhenDieDecals = "fx_name_death_decal_ennemi";
     public string fxWhenStun = "VFX_Stun";
+    public string fxWhenTakeDamage = "VFX_BloodProjected";
     public Material matWhenTakeDammage = null;
     public float matChangeTime = 0.1f;
 

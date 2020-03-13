@@ -129,6 +129,7 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.InputUp(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
         }
+        if (!playerCanShoot) Weapon.Instance.CanNotShoot();
 
 
         //CAM

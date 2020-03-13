@@ -126,19 +126,20 @@ public class LeaderboardManager : MonoBehaviour
         {
             LeaderboardData dataNewScore = new LeaderboardData(name, score);
 
-            List<LeaderboardData> newData = new List<LeaderboardData>(maxKeptScores);
+            List<LeaderboardData> newData = new List<LeaderboardData>();
 
-            for(int i = 0; i<scoreData.data.Count || i<maxKeptScores; i++)
+            bool hasDecaled = false;
+            for (int i = 0; i<=scoreData.data.Count && i<maxKeptScores; i++)
             {
-                bool hasDecaled = false;
+                
                 if (i == indexOfNewScore)
                 {
                     hasDecaled = true;
-                    newData[i] = dataNewScore;
+                    newData.Add(dataNewScore);
                 }
                 else
                 {
-                    newData[i] = scoreData.data[i - (hasDecaled ? 1 : 0)];
+                    newData.Add(scoreData.data[i - (hasDecaled ? 1 : 0)]);
                 }
             }
 

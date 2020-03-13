@@ -48,9 +48,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     LayerMask maskOfWall = default;
 
     //Gravity variables
-    float timePropel = .5f;
+    readonly float timePropel = .5f;
     float elapsedTime = 0;
     ParticleSystem currentParticleOrb = null;
+    ParticleSystem currentOrbExplosion = null;
+    ParticleSystem currentPullParticles = null;
     bool hasPlayedFxOnPull = false;
 
     //Death variables
@@ -114,7 +116,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (!hasPlayedFxOnPull)
         {
             hasPlayedFxOnPull = true;
-            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
+            currentPullParticles = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
         }
     }
 
@@ -125,7 +127,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentParticleOrb.Stop();
         }
-        FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+        currentOrbExplosion = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
     }
 
     public void OnZeroG()
@@ -140,7 +142,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             IEntity targetEntity = target.GetComponent<IEntity>();
             if (other.GetComponent<Player>() != null)
             {
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
+                //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.VendettaPrepare, Vector3.zero, this);
             }
             targetEntity.TakeDamage(entityData.damage);
             targetEntity.OnAttack(entityData.spriteToDisplayShield, entityData.spriteToDisplayLife);
@@ -155,6 +157,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             isDying = true;
             if (currentParticleOrb) currentParticleOrb.Stop();
+            if (currentOrbExplosion) currentOrbExplosion.Stop();
+            if (currentPullParticles) currentPullParticles.Stop();
             FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
             FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
 
@@ -258,7 +262,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             }
         }
         #endregion
-        #endregion*
+        #endregion
 
         //Distance to attack check
         if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
@@ -690,10 +694,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool CheckForObstacles()
     {
         //Basic vectors
-        float angle = 90;
+        float angle;
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
-        Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
-        Vector3 right = transform.TransformDirection(Vector3.right).normalized * entityData.sideDetectionSight;
         Vector3 adaptedPosition = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
 
         //Debug ray
