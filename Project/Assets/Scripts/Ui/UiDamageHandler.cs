@@ -47,6 +47,8 @@ public class UiDamageHandler : MonoBehaviour
     Image shieldPanel = null;
     [SerializeField]
     Image zeroGPanel = null;
+    [SerializeField]
+    Image bloodEffect = null;
 
     [SerializeField]
     Image muzzleFlash = null;
@@ -74,6 +76,10 @@ public class UiDamageHandler : MonoBehaviour
                 spritesDisplayed[i].transform.localScale = Vector3.one * spritesHandler[i].scale;
             }
         }
+
+
+        Vector2 playerLifeValues = Player.Instance.GetLifeValues();
+        bloodEffect.color = new Color (bloodEffect.color.r, bloodEffect.color.g,bloodEffect.color.b, (Player.Instance.getArmor() > 0 ? 0 : Mathf.RoundToInt((1-playerLifeValues.x / playerLifeValues.y) * damageFeedbackData.bloodEffectAlphaDependentOnLife)));
 
         // ###### SHIELD ET VIE ###### //
 
