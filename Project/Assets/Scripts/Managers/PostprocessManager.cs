@@ -23,6 +23,8 @@ public class PostprocessManager : MonoBehaviour
 
     // --- DepthOfField
     DepthOfField dofEffect;
+    float dofEffectDamageRecoverSpeed = 500;
+    float recoverTimerDof = 0;
 
     // --- Lens Distortion
     LensDistortion distortionEffect;
@@ -32,6 +34,9 @@ public class PostprocessManager : MonoBehaviour
     ColorGrading gradingEffect;
     float saturationGoTo = 0;
     float saturationSpeed = 0;
+    float currentSaturation = 0;
+
+    float lifeImpactSaturation = 0;
 
     public static PostprocessManager Instance { get; private set; }
     void Awake()
@@ -60,8 +65,11 @@ public class PostprocessManager : MonoBehaviour
 
         // --- DOF
         dofEffect = ScriptableObject.CreateInstance<DepthOfField>();
-        dofEffect.enabled.Override(dataPp.activateDof);
-        dofEffect.focusDistance.Override(50);
+        //dofEffect.enabled.Override(dataPp.activateDof);
+        dofEffect.enabled.Override(false);
+        dofEffect.focusDistance.Override(dataPp.baseValueDof);
+
+        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, dofEffect);
 
         // --- Lens Distortion
         distortionEffect = ScriptableObject.CreateInstance<LensDistortion>();
@@ -84,11 +92,26 @@ public class PostprocessManager : MonoBehaviour
     void Update()
     {
         HandlerChroma();
-        if (dataPp.activateDof)
-            HandleDepthOfFieldDynamic();
+        //if (dataPp.activateDof)
+        //    HandleDepthOfFieldDynamic();
         HandleLensDistortion();
 
-        gradingEffect.saturation.value = Mathf.MoveTowards(gradingEffect.saturation.value, saturationGoTo, Time.unscaledDeltaTime * saturationSpeed);
+        if (recoverTimerDof > 0)
+        {
+            recoverTimerDof -= Time.unscaledDeltaTime;
+            if (recoverTimerDof < dataPp.takeDamageTimeDofRecover) dofEffect.focusDistance.value = Mathf.Lerp(dataPp.baseValueDof, 0, recoverTimerDof / dataPp.takeDamageTimeDofRecover);
+            else dofEffect.focusDistance.value = 0;
+            if (recoverTimerDof < 0)
+            {
+                recoverTimerDof = 0;
+                dofEffect.focusDistance.value = dataPp.baseValueDof;
+            }
+        }
+
+        Vector2 playerLifeValues = Player.Instance.GetLifeValues();
+        SetupLifeSaturation(Player.Instance.getArmor() > 0 ? 0 : Mathf.RoundToInt((1 - playerLifeValues.x / playerLifeValues.y) * dataPp.saturationLostViaPlayerLife));
+        currentSaturation = Mathf.MoveTowards(currentSaturation, saturationGoTo, Time.unscaledDeltaTime * saturationSpeed);
+        gradingEffect.saturation.value = Mathf.Clamp(currentSaturation + lifeImpactSaturation, -100, 100);
     }
 
     void HandlerChroma()
@@ -102,6 +125,16 @@ public class PostprocessManager : MonoBehaviour
     {
         saturationGoTo = value;
         saturationSpeed = Mathf.Abs(gradingEffect.saturation.value - saturationGoTo) / timeGoTo;
+    }
+
+    public void SetupLifeSaturation (int value)
+    {
+        lifeImpactSaturation = value;
+    }
+
+    public void SetupDepthOfField ()
+    {
+        recoverTimerDof = dataPp.takeDamageTimeDofRecover + dataPp.takeDamageTimeDofStayBlur;
     }
 
     void HandleDepthOfFieldDynamic()

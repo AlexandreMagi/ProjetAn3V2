@@ -110,11 +110,11 @@ public class UiLifeBar : MonoBehaviour
             {
                 if (armor > 0)
                 {
-                    Debug.Log("Armure prend dégats");
+                    //Debug.Log("Armure prend dégats");
                 }
                 else
                 {
-                    Debug.Log("Armure casse");
+                    //Debug.Log("Armure casse");
                 }
                 UpdateArmor(armor);
             }

@@ -17,10 +17,17 @@ public class DataPostEffect : ScriptableObject
     public LayerMask lmask = 0;
     public float transitionSpeed = 5;
 
+    public float takeDamageTimeDofRecover = 0.5f;
+    public float takeDamageTimeDofStayBlur = 0.5f;
+    public float baseValueDof = 20;
+
     [Header("Lens Distortion")]
     public bool distortionDependentFromTimeScale = true;
     public AnimationCurve animDistortionAtOrb = AnimationCurve.Linear(0, 0, 1, 0);
     public float animDistortionDuration = 1;
     public float animDistortionMultiplier = 1;
     public float maxDistToFade = 15;
+
+    [Header("Saturation")]
+    public float saturationLostViaPlayerLife = -100;
 }
