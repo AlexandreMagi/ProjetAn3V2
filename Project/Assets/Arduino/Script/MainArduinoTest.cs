@@ -35,7 +35,7 @@ public class MainArduinoTest : MonoBehaviour
         hImageData.anchoredPosition = V3Data;
 
         Vector3 V3Delta = V3Data - V3LastData;
-        Debug.Log(V3Delta.magnitude);
+        //Debug.Log(V3Delta.magnitude);
 
 
         if (V3Delta.magnitude > 10)

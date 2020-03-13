@@ -97,27 +97,46 @@ public class ARdunioConnect : MonoBehaviour
     void Update()
     {
 
-        if (portName != "NO CONNECT")
-        {
+        if (portName != "NO CONNECT") {
 
+            string data = null;
+            do  {
+                data = myDevice.readQueue();
+
+                if (data != null && data.Split(',').Length > 2)
+                {
+                    lastData = data;
+                    Debug.Log("Data from Arduino  lastData : " + lastData);
+
+                }
+            } while (data != null);
+          
+            
+            /*
             string data = myDevice.readQueue();
             if (data != null)
             {
                 lastData = data;
 
             }
-
+            /**/
         }
         
-        //Debug.Log("Data from Arduino data : " + data);
-        //Debug.Log("Data from Arduino  lastData : " + lastData);
-
     }
 
     public string getLastDataFromDevice()
     {
         return lastData;
     }
+
+    public void funcSendArduino(string sDataSend)
+    {
+
+        //myDevice.Write(sDataSend);
+        myDevice.send(sDataSend);
+
+    }
+
 
     void OnApplicationQuit()
     { // close the Thread and Serial Port

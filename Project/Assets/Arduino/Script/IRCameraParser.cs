@@ -38,6 +38,7 @@ public class IRCameraParser : MonoBehaviour
 
     int[] iTablePosition = new int[2];
     int[] iTableInputs = new int[3];
+    int iDistance = 0;
 
     private ARdunioConnect scrptArduinoConnect = null;
 
@@ -64,33 +65,67 @@ public class IRCameraParser : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    //--------------------------- Update ----------------------//
     void Update()
     {
-        //Debug.Log(iTablePosition[2,0] + "  " + iTablePosition[2, 1]);
+        
+        funcUpdateReception();
+        funcUpdateEnvoie();
+
+    }
+
+
+    float fIncrémentationTime;
+    float fMaxTime = 3;
+    void funcUpdateEnvoie()
+    {
+        if(fIncrémentationTime > fMaxTime)
+        {
+
+            fIncrémentationTime = fIncrémentationTime + Time.deltaTime;
+
+        }
+        else
+        {
+
+            scrptArduinoConnect.funcSendArduino("Bonjour");
+
+
+        }
+
+
+    }
+
+    void funcUpdateReception() 
+    {
 
         string data = scrptArduinoConnect.getLastDataFromDevice();
-        //Debug.Log(data);
+        //Debug.Log($"Mes data arduino : {data}");
 
         if (data != null && data.Split(',').Length > 3)
         {
             string[] sTableDataType = funcTraitementSectorisation(data);
 
-            iTableInputs = funcTraitementDataSimpleEntrer(sTableDataType[0],3);
+            iTableInputs = funcTraitementDataSimpleEntrer(sTableDataType[0], 3);
 
-            iTablePosition = funcTraitementDataSimpleEntrer(sTableDataType[1],2);
+            iTablePosition = funcTraitementDataSimpleEntrer(sTableDataType[2], 2);
+
+            int[] iTableSauv = funcTraitementDataSimpleEntrer(sTableDataType[1], 1);
+            iDistance = iTableSauv[0];
 
             funcTransmition();
 
         }
 
+
     }
+
 
 
     //--------------------------- traitement data ----------------------//
     string[] funcTraitementSectorisation(string sDataBrut)
     {
-        string[] sTableDataFinal = new string[2];
+        string[] sTableDataFinal = new string[3];
 
         sTableDataFinal = sDataBrut.Split('|');
 
