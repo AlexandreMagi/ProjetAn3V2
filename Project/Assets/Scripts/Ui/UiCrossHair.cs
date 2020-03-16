@@ -120,8 +120,11 @@ public class UiCrossHair : MonoBehaviour
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
         fxUICrossHair.transform.position = transform.TransformPoint(pos);
-        crossHairVignetage.gameObject.transform.position = transform.TransformPoint(pos);
-        crossHairVignetage.color = Color.Lerp(singleShotColor, chargedShotColor, Weapon.Instance.GetChargeValue());
+        if (crossHairVignetage != null)
+        {
+            crossHairVignetage.gameObject.transform.position = transform.TransformPoint(pos);
+            crossHairVignetage.color = Color.Lerp(singleShotColor, chargedShotColor, Weapon.Instance.GetChargeValue());
+        }
 
     }
 

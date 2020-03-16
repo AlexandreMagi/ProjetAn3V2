@@ -121,6 +121,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &131600132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131600133}
+  - component: {fileID: 131600134}
+  m_Layer: 5
+  m_Name: Root_BulletHoles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &131600133
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131600132}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1804844365}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &131600134
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131600132}
+  m_CullTransparentMesh: 0
 --- !u!1 &169954289
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +369,7 @@ RectTransform:
   - {fileID: 1720913988}
   - {fileID: 1876835433}
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -480,7 +524,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -622,7 +666,7 @@ RectTransform:
   m_Children:
   - {fileID: 1389431360}
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1537,7 +1581,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1866,7 +1910,7 @@ RectTransform:
   - {fileID: 1863220962}
   - {fileID: 488565034}
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2004,6 +2048,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 2123314683}
+  - {fileID: 131600133}
   - {fileID: 2076310483}
   - {fileID: 454287963}
   - {fileID: 1733618956}
@@ -2062,6 +2107,16 @@ MonoBehaviour:
   rootLogo: {fileID: 2076310482}
   rootHome: {fileID: 454287962}
   rootMainMenu: {fileID: 1733618955}
+  rootBulletHole: {fileID: 131600133}
+  emptyUISquare: {fileID: 8185052777874490288, guid: 7407902248a48ab4d8e758b8ae9fc84c,
+    type: 3}
+  spriteBulletHole: {fileID: 21300000, guid: 744be6a3531645a4497936b4f915bab4, type: 3}
+  basePullBulleltHole: 15
+  timeBulletHoleRemain: 6
+  timeBulletHoleFade: 1
+  bulletSize: 25
+  shotGunNbBullet: 12
+  shotGunAddedSpread: 1200
 --- !u!114 &1804844368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2130,8 +2185,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   hitMarkerTimeAnim: 0.2
   hitMarkerMultiplierAnim: 100
+  crossHairVignetage: {fileID: 0}
   rootCrosshair: {fileID: 540209805}
   waitGameObject: {fileID: 0}
+  singleShotColor: {r: 0, g: 0, b: 0, a: 1}
+  chargedShotColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1807811810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,7 +2311,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2718,7 +2776,7 @@ RectTransform:
   - {fileID: 588164446}
   - {fileID: 1469733067}
   m_Father: {fileID: 1804844365}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2851,7 +2909,7 @@ PrefabInstance:
     - target: {fileID: 3405569619691708482, guid: 1fbdaeda49beb314fa0af9eb8cb7bd19,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3405569619691708482, guid: 1fbdaeda49beb314fa0af9eb8cb7bd19,
         type: 3}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuMain : MonoBehaviour
 {
@@ -40,11 +41,31 @@ public class MenuMain : MonoBehaviour
     IRCameraParser arduinoTransmettor;
     bool isArduinoMode = true;
 
+    [Header ("Bullet Holes")]
+    // --- BUllet Holes
+    [SerializeField] Transform rootBulletHole = null;
+    [SerializeField] GameObject emptyUISquare = null;
+    [SerializeField] Sprite spriteBulletHole = null;
+    List<BulletHoleInstance> allBulletHole = new List<BulletHoleInstance>();
+    [SerializeField] int basePullBulleltHole = 15;
+    [SerializeField] float timeBulletHoleRemain = 3;
+    [SerializeField] float timeBulletHoleFade = 1;
+    [SerializeField] float bulletSize = 50;
+    [SerializeField] int shotGunNbBullet = 12;
+    [SerializeField] float shotGunAddedSpread = 1200;
+
     private void Start()
     {
         Time.timeScale = 1;
         CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
         CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
+
+        for (int i = 0; i < basePullBulleltHole; i++)
+        {
+            BulletHoleInstance instance = CreateBulletHoleDecal();
+            instance.go.SetActive(false);
+            allBulletHole.Add(instance);
+        }
     }
 
     // Update is called once per frame
@@ -88,7 +109,7 @@ public class MenuMain : MonoBehaviour
         {
             Cursor.visible = false;
         }
-
+        HandleBulletInstances();
         switch (currentState)
         {
             case menustate.intro:
@@ -137,6 +158,59 @@ public class MenuMain : MonoBehaviour
         rootLogo.SetActive(false);
         rootHome.SetActive(true);
         rootMainMenu.SetActive(false);
+    }
+
+    void InstanceBulletHoleDecal (Vector2 cursorPos, float randomPosAdded = 0)
+    {
+        BulletHoleInstance currBulletHole = null;
+        for (int i = 0; i < allBulletHole.Count; i++)
+        {
+            if (allBulletHole[i].lifeTimeRemaining == 0)
+            {
+                currBulletHole = allBulletHole[i];
+                currBulletHole.lifeTimeRemaining = timeBulletHoleRemain;
+                currBulletHole.lifeTimeDesapearing = timeBulletHoleFade;
+                currBulletHole.go.SetActive(true);
+                break;
+            }
+        }
+        if (currBulletHole == null)
+            currBulletHole = CreateBulletHoleDecal();
+
+        if (randomPosAdded != 0) cursorPos += new Vector2 (Random.Range(0f, randomPosAdded) * Mathf.Sign(Random.Range(-1f, 1f)), Random.Range(0f, randomPosAdded) * Mathf.Sign(Random.Range(-1f, 1f)));
+
+        Vector2 pos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, cursorPos, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+        currBulletHole.go.transform.position = transform.TransformPoint(pos);
+        currBulletHole.go.transform.Rotate(Vector3.forward * Random.Range(0, 360));
+    }
+
+    BulletHoleInstance CreateBulletHoleDecal()
+    {
+        GameObject currGo = Instantiate(emptyUISquare, rootBulletHole);
+        currGo.GetComponent<Image>().sprite = spriteBulletHole;
+        BulletHoleInstance currInstance = new BulletHoleInstance(currGo.GetComponent<RectTransform>(), currGo.GetComponent<Image>(), bulletSize);
+        allBulletHole.Add(currInstance);
+        return currInstance;
+    }
+
+    void HandleBulletInstances()
+    {
+        foreach (var bulletHole in allBulletHole)
+        {
+            if (bulletHole.lifeTimeRemaining > 0)
+            {
+                bulletHole.lifeTimeRemaining -= Time.unscaledDeltaTime;
+                if (bulletHole.lifeTimeRemaining < 0)
+                {
+                    bulletHole.lifeTimeRemaining = 0;
+                    bulletHole.go.SetActive(false);
+                }
+
+                if (bulletHole.lifeTimeRemaining < bulletHole.lifeTimeDesapearing) bulletHole.img.color = new Color(1, 1, 1, bulletHole.lifeTimeRemaining / bulletHole.lifeTimeDesapearing);
+                else bulletHole.img.color = Color.white;
+            }
+        }
     }
 
     void CheckIfGoBacToMenu()
@@ -207,10 +281,19 @@ public class MenuMain : MonoBehaviour
         if (currentChargePurcentage == 1) currentWeaponMod = dataWeapon.chargedShot;
         else currentWeaponMod = dataWeapon.baseShot;
 
-        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", false, currentChargePurcentage == 1 ? 0.8f : 0.4f, 0.2f);
+        for (int i = 0; i < currentWeaponMod.bulletPerShoot; i++)
+        {
+            if (i == 0)
+                InstanceBulletHoleDecal(GetCursorPos(), 0);
+            else
+                InstanceBulletHoleDecal(GetCursorPos(), currentWeaponMod.bulletImprecision * shotGunAddedSpread);
+        }
 
+        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", false, currentChargePurcentage == 1 ? 0.8f : 0.4f, 0.2f);
+        
         UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
         currentChargePurcentage = 0;
+
     }
 
     void Click(Vector2 mousePosition)
@@ -262,5 +345,24 @@ public class MenuMain : MonoBehaviour
     {
         currentState = menustate.intro;
     }*/
+
+}
+
+public class BulletHoleInstance
+{
+    public float lifeTimeRemaining = 0;
+    public float lifeTimeDesapearing = 0;
+    public RectTransform rect = null;
+    public GameObject go = null;
+    public Image img = null;
+
+    public BulletHoleInstance(RectTransform _rect, Image _img, float bulletSize)
+    {
+        rect = _rect;
+        go = rect.gameObject;
+        img = _img;
+
+        rect.sizeDelta = bulletSize * Vector2.one;
+    }
 
 }
