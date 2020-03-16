@@ -14,8 +14,8 @@ public class MenuMain : MonoBehaviour
     public List<ButtonMenuScript> buttonMenuScripts;
 
     [HideInInspector]
-    public enum menustate { intro, home, mainmenu }
-    menustate currentState = menustate.intro;
+    public enum menustate { idle, intro, home, mainmenu }
+    menustate currentState = menustate.idle;
 
     [SerializeField] private Vector2 scaleOver = new Vector2(1, 1.2f);
     [SerializeField] private float speedOver = 5;
@@ -53,6 +53,11 @@ public class MenuMain : MonoBehaviour
     [SerializeField] float bulletSize = 50;
     [SerializeField] int shotGunNbBullet = 12;
     [SerializeField] float shotGunAddedSpread = 1200;
+
+
+    [SerializeField] GameObject idleBornVideo = null;
+    [SerializeField] float TimeBeforeGoRestart = 10;
+    float timeRemainingBeforeRestart = 0;
 
     private void Start()
     {
@@ -112,10 +117,28 @@ public class MenuMain : MonoBehaviour
         HandleBulletInstances();
         switch (currentState)
         {
+            case menustate.idle:
+                if (CheckIfShoot())
+                {
+                    idleBornVideo.SetActive(false);
+                    currentState = menustate.intro;
+                    GetComponent<Animator>().SetTrigger("ReplayIntro");
+                }
+                CustomSoundManager.Instance.Mute();
+                break;
             case menustate.intro:
+                CustomSoundManager.Instance.UnMute();
                 if (CheckIfShoot()) SkipToHome();
                 break;
             case menustate.home:
+                if (timeRemainingBeforeRestart > 0)
+                {
+                    timeRemainingBeforeRestart -= Time.unscaledDeltaTime;
+                    if (timeRemainingBeforeRestart < 0)
+                    {
+                        SceneHandler.Instance.RestartScene();
+                    }
+                }
                 if (CheckIfShoot())
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
@@ -232,6 +255,7 @@ public class MenuMain : MonoBehaviour
                 if (timerGoBack < checkInputEvery)
                 {
                     currentState = menustate.home;
+                    timeRemainingBeforeRestart = TimeBeforeGoRestart;
                     GetComponent<Animator>().SetTrigger("GoHome");
                 }
                 else
@@ -306,7 +330,11 @@ public class MenuMain : MonoBehaviour
 
     public void setValueState (menustate value)
     {
-        currentState = value;
+        if (currentState != menustate.idle)
+            currentState = value;
+        if (value == menustate.home)
+            timeRemainingBeforeRestart = TimeBeforeGoRestart;
+
     }
 
     public void GoToGame ()
@@ -329,6 +357,7 @@ public class MenuMain : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("SkipToHome");
         currentState = menustate.home;
+        timeRemainingBeforeRestart = TimeBeforeGoRestart;
     }
     /*
     public void IsOnMainMenu()
