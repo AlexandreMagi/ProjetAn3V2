@@ -12,8 +12,17 @@ public class UiDouille
     public Color pSColor = Color.Lerp(Color.white, Color.black, 0.7f);
     float pSRotate = 180;
 
+    // --- ShakeVariables
+    public Vector3 addedPosViaShake = Vector3.zero;
+    float timeCounter = 0; // Temps custom
+    float trauma; // Valeur de base pour les calculs
+    public float Trauma { get { return trauma; } set { trauma = Mathf.Clamp01(value); } } // Accesseur qui clamp trauma entre 0 et 1
+    DataReloadGraph stockData = null;
+    Vector2 randomSeedsForShake = Vector2.zero;
+
     RectTransform rect = null;
     Image img = null;
+
 
     public void InitValues(DataReloadGraph data, RectTransform _rect, Image _img)
     {
@@ -23,6 +32,8 @@ public class UiDouille
         pSSize = Random.Range(data.sizeRandom.x, data.sizeRandom.y);
         img = _img;
         rect = _rect;
+        stockData = data;
+        randomSeedsForShake = new Vector2(Random.Range(0, 100), Random.Range(0, 100));
     }
 
     public UiDouille(DataReloadGraph data, RectTransform _rect, Image _img)
@@ -39,4 +50,37 @@ public class UiDouille
             pSRotation += 360;
         pSVelocity.y -= pSGravity * Time.unscaledDeltaTime;
     }
+
+    public void UpdateShakeValue()
+    {
+        if (Trauma > 0)
+        {
+            float powedTrauma = Mathf.Pow(Trauma, stockData.traumaPow);
+            timeCounter += Time.unscaledDeltaTime * Mathf.Pow(Trauma, stockData.traumaSpeedPow) * stockData.traumaMult;
+            addedPosViaShake = GetPerlinVectorThree() * stockData.traumaMag * powedTrauma;
+            Trauma -= Time.unscaledDeltaTime * Mathf.Pow(stockData.traumaDecay, stockData.traumaDecayPow);
+        }
+        else
+        {
+            addedPosViaShake = Vector3.zero;
+        }
+    }
+
+    #region Methodes qui permettent de get les valeurs via perlin
+
+    /// <summary>
+    /// Récupère une valeur sur un perlin noise
+    /// </summary>
+    /// <param name="seed"></param>
+    /// <returns></returns>
+    float GetFloat(float seed) { return (Mathf.PerlinNoise(seed, timeCounter) - 0.5f) * 2f; }
+
+    /// <summary>
+    /// Get un vector 3 en fonction de perlin noises
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetPerlinVectorThree() { return new Vector3(GetFloat(randomSeedsForShake.x), GetFloat(randomSeedsForShake.y), 0); }
+
+    #endregion
+
 }

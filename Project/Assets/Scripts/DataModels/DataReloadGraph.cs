@@ -72,5 +72,12 @@ public class DataReloadGraph : ScriptableObject
     public Vector2 rotateRandom = new Vector2(-720f, 720f);
     public Vector2 sizeRandom = new Vector2(60f, 80f);
     public Color colorDouille = Color.Lerp(Color.white, Color.black, 0.7f);
+
+    public float traumaSpeedPow = 2;
+    public float traumaMult = 2;
+    public float traumaMag = 2;
+    public float traumaPow = 2;
+    public float traumaDecay = 2;
+    public float traumaDecayPow = 2;
 }
 

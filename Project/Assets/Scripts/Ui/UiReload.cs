@@ -163,10 +163,11 @@ public class UiReload : MonoBehaviour
             if (i < bulletAmount.x - bulletAmount.y + nbBulletShot) bulletSprites[i].GetComponent<Image>().color = reloadData.suplementaryBulletColor;
             else bulletSprites[i].GetComponent<Image>().color = bulletColor;
 
+            bulletValues[i].UpdateShakeValue();
             if (i >= nbBulletShot)
             {
                 bulletSprites[i].SetActive(true);
-                bulletSprites[i].transform.localPosition = Vector3.MoveTowards(bulletSprites[i].transform.localPosition, bulletPos[i - nbBulletShot] + correctionPosValue, Time.unscaledDeltaTime * reloadData.bulletFallSpeep);
+                bulletSprites[i].transform.localPosition = Vector3.MoveTowards(bulletSprites[i].transform.localPosition, bulletPos[i - nbBulletShot] + correctionPosValue, Time.unscaledDeltaTime * reloadData.bulletFallSpeep) + bulletValues[i].addedPosViaShake;
                 bulletSprites[i].transform.localRotation = Quaternion.identity;
                 bulletSprites[i].GetComponent<RectTransform>().sizeDelta = Vector2.one * reloadData.baseSize;
             }
@@ -294,6 +295,16 @@ public class UiReload : MonoBehaviour
     {
         timerShot = 0;
         timeRemainingReducing = timeUnusedToReduce + timeToReduce;
+
+        Vector2Int bulletAmount = Weapon.Instance.GetBulletAmmount();
+        int nbBulletShot = bulletPull - bulletAmount.x;
+        for (int i = 0; i < bulletPull; i++)
+        {
+            if (i >= nbBulletShot)
+            {
+                bulletValues[i].Trauma = 1;
+            }
+        }
 
     }
 
