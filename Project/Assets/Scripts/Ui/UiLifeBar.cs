@@ -19,9 +19,10 @@ public class UiLifeBar : MonoBehaviour
     }
 
 
+    [SerializeField] RectTransform rectRootArmor = null;
     [SerializeField] Transform rootVerticalShield = null;
     [SerializeField] Transform rootMiddleShield = null;
-
+    float baseHeightMask = 0;
 
     [SerializeField] GameObject[] lifeCapsules = new GameObject[0];
     [SerializeField] GameObject gameOverRoot = null;
@@ -48,6 +49,9 @@ public class UiLifeBar : MonoBehaviour
     float stockMaxLife = 300;
 
     bool endGameAnimPlayed = false;
+    
+    [SerializeField] Image matShaderShield = null;
+    Material matShaderShieldInstance = null;
 
     private void Start()
     {
@@ -55,6 +59,10 @@ public class UiLifeBar : MonoBehaviour
         stockMaxArmor = stockArmor;
         stockLife = Player.Instance.GetBaseValues().y;
         stockMaxLife = stockLife;
+
+        baseHeightMask = rectRootArmor.sizeDelta.y;
+
+        matShaderShieldInstance = matShaderShield.material;
     }
 
     private void Update()
@@ -74,7 +82,12 @@ public class UiLifeBar : MonoBehaviour
         currentRecoverPurcentage = Mathf.Lerp(currentRecoverPurcentage, 1, Time.unscaledDeltaTime * recoverLerpSpeed);
         recoverCalqueOver.color = new Color(Color.white.r, Color.white.g, Color.white.b, (1-currentRecoverPurcentage) * baseRecoverAlpha);
 
-        rootVerticalShield.transform.localScale = Vector3.Lerp (new Vector3(1, lastArmor / stockMaxArmor, 1), new Vector3(1, stockArmor / stockMaxArmor, 1), currentRecoverPurcentage);
+        rectRootArmor.sizeDelta = new Vector2(rectRootArmor.sizeDelta.x, Mathf.Lerp(lastArmor / stockMaxArmor * baseHeightMask, stockArmor / stockMaxArmor * baseHeightMask, currentRecoverPurcentage));
+        //rectRootArmor.sizeDelta = new Vector2 (100,100);
+
+        matShaderShieldInstance.SetFloat("_Mask", 1-Mathf.Lerp(lastArmor / stockMaxArmor, stockArmor / stockMaxArmor, currentRecoverPurcentage));
+
+        //rootVerticalShield.transform.localScale = Vector3.Lerp (new Vector3(1, lastArmor / stockMaxArmor, 1), new Vector3(1, stockArmor / stockMaxArmor, 1), currentRecoverPurcentage);
         //rootVerticalShield.transform.localScale = Vector3.Lerp (rootVerticalShield.transform.localScale, new Vector3(1, stockArmor / stockMaxArmor, 1), Time.unscaledDeltaTime * recoverLerpSpeed);
         flickerShield.moveRange = Mathf.Lerp(maxFlicker, 0, stockArmor / stockMaxArmor);
 
@@ -97,11 +110,11 @@ public class UiLifeBar : MonoBehaviour
             {
                 if (armor > 0)
                 {
-                    Debug.Log("Armure prend dégats");
+                    //Debug.Log("Armure prend dégats");
                 }
                 else
                 {
-                    Debug.Log("Armure casse");
+                    //Debug.Log("Armure casse");
                 }
                 UpdateArmor(armor);
             }

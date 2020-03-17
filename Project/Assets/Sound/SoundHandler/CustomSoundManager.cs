@@ -24,6 +24,9 @@ public class CustomSoundManager : MonoBehaviour
 
     [SerializeField,PropertyRange(0.1f, 1f)] float fMaxVolumeModifier = 0.5f;
     float nVolumeModifierLocal = 1;
+    float MuteMultiplier = 1;
+    bool muted = false;
+    bool WasMuted = false;
 
     float fTimerBeforeNextSound = 5;
     float fCurrentTimerSound = 0;
@@ -64,6 +67,11 @@ public class CustomSoundManager : MonoBehaviour
     }
 
 
+    public void Mute() { muted = true;  }
+    public void _Mute() { MuteMultiplier = 0.0001f; WasMuted = true; }
+    public void UnMute() { muted = false; }
+    public void _UnMute() { MuteMultiplier = 1; WasMuted = false; }
+
     // Update is called once per frame
     void Update()
     {
@@ -78,7 +86,10 @@ public class CustomSoundManager : MonoBehaviour
             for (int i = 0; i < hAudioSources.Length; i++)
             {
                 if (hAudioSources[i] != null)
+                {
                     hAudioSources[i].GetComponent<AudioSource>().volume /= nVolumeModifierLocal;
+                    hAudioSources[i].GetComponent<AudioSource>().volume /= MuteMultiplier;
+                }
                 bool bPitchThisSound = true;
                 if (hAudioSources[i].GetComponent<AudioSource>().clip != null)
                 {
@@ -112,6 +123,12 @@ public class CustomSoundManager : MonoBehaviour
         else
             nVolumeModifierLocal = fCurrentTimer * fMaxVolumeModifier / nTimeFade;
 
+        if (WasMuted != muted)
+        {
+            if (muted) _Mute();
+            else _UnMute();
+        }
+
         TimeScaleMultiplier = 0.5f + Time.timeScale / 2;
 
         // ----- Ré-attribue le modifieur local
@@ -120,7 +137,10 @@ public class CustomSoundManager : MonoBehaviour
             for (int i = 0; i < hAudioSources.Length; i++)
             {
                 if (hAudioSources[i] != null)
+                {
                     hAudioSources[i].GetComponent<AudioSource>().volume *= nVolumeModifierLocal;
+                    hAudioSources[i].GetComponent<AudioSource>().volume *= MuteMultiplier;
+                }
 
                 bool bPitchThisSound = true;
                 if (hAudioSources[i].GetComponent<AudioSource>().clip != null)
@@ -219,7 +239,7 @@ public class CustomSoundManager : MonoBehaviour
                     if (bPitchThisSound)
                         hAudioSources[i].GetComponent<AudioSource>().pitch *= TimeScaleMultiplier;
 
-                    hAudioSources[i].GetComponent<AudioSource>().volume = fVolume * nVolumeModifierLocal;
+                    hAudioSources[i].GetComponent<AudioSource>().volume = fVolume * nVolumeModifierLocal * MuteMultiplier;
                     hAudioSources[i].GetComponent<AudioSource>().Play();
                     return hAudioSources[i].GetComponent<AudioSource>();
                 }

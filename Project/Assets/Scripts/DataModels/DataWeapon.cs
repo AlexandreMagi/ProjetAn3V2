@@ -54,4 +54,17 @@ public class DataWeapon : ScriptableObject
     public float chargedIntensity = 0.8f;
     public float baseRange = 15;
     public float chargedRange = 25;
+
+    public float distanceIntensityMultiplier = 1;
+    public float distanceRangeMultiplier = 1;
+
+    public float distanceMax = 10;
+
+    [Range (0f,1f)]
+    public float distanceImpactPurcentageOnValueIntensity = 0.5f;
+    [Range(0f, 1f)]
+    public float distanceImpactPurcentageOnValueRange = 0.5f;
+
+    public float distanceMultiplierLerpSpeed = 8;
+    public LayerMask maskCheckDistanceForLight = 0;
 }

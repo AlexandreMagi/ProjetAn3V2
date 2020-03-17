@@ -72,5 +72,6 @@ public class ParticleDecalPool : MonoBehaviour
         }
 
         decalParticleSystem.SetParticles(particles, particles.Length);
+        decalParticleSystem.transform.rotation = Quaternion.Euler(0,0,0);
     }
 }

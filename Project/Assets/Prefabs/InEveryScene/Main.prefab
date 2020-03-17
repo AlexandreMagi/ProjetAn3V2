@@ -833,6 +833,7 @@ GameObject:
   - component: {fileID: 8650589456090871021}
   - component: {fileID: 872805414747636926}
   - component: {fileID: 8791258131886555901}
+  - component: {fileID: 9143118701283523650}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -930,13 +931,13 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: 4ff7e96314d07c641a95ac7ec3b0510d, type: 2}
   orbPrefab: {fileID: 6739442340765076622, guid: a39ff4878dea45e4a994e597921ce8f5,
     type: 3}
+  ignoreBulletLimitForCharge: 1
+  shotgunBounces: 0
+  bounceLag: 0.05
   muzzleFlash: {fileID: 3069857249444509699}
   rotateWithCursor: 0
   rotateLocked: 0
   weaponLight: {fileID: 358009428842991904}
-  ignoreBulletLimitForCharge: 1
-  shotgunBounces: 0
-  bounceLag: 0.05
   orbPrevisu: {fileID: 351651660190882522}
   orbPrevisuFx: {fileID: 425612142391744086}
   displayOrb: 1
@@ -991,6 +992,8 @@ MonoBehaviour:
   - {fileID: 9002458048863764819, guid: d4a7576cd7f590240b53ec1f9577f18c, type: 3}
   - {fileID: 4428783609674995373, guid: 55965f604e1c1a249b801a69480ffb0d, type: 3}
   - {fileID: 6203170343853254968, guid: 838abc6e6f5783a488e67180391c3d49, type: 3}
+  - {fileID: 4426806474779461934, guid: 056dcbc9691e5aa4ba14852179f4c9d9, type: 3}
+  - {fileID: 4426806474779461934, guid: 1ed8ba1efe50d0146a624a2313854699, type: 3}
 --- !u!114 &7244353406021666021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,6 +1122,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7149aac3087ad4e98cdbd5b313b593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxKeptScores: 10
+--- !u!114 &9143118701283523650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584541180804375017}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc80b2906363857479b63ee3fd88b956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletTrailPrefab: {fileID: 2997627145891259109, guid: f481af62ebd643d4ca159065a5982eb1,
+    type: 3}
+  pullSize: 20
+  trailSpeed: 30
+  distanceToEndKill: 0.3
+  timeBeforeBulletCanBeShootAgain: 1
+  offsetPosInit: -0.5
 --- !u!1 &7679686884423550348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,15 +1525,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01bb7bbe576bc494ebfffb055e48f36d, type: 3}
---- !u!4 &3183305506983849117 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2211647413142285169, guid: 01bb7bbe576bc494ebfffb055e48f36d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3646797377262634988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3183305506983849088 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2211647413142285164, guid: 01bb7bbe576bc494ebfffb055e48f36d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3646797377262634988}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3183305506983849117 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2211647413142285169, guid: 01bb7bbe576bc494ebfffb055e48f36d,
     type: 3}
   m_PrefabInstance: {fileID: 3646797377262634988}
   m_PrefabAsset: {fileID: 0}

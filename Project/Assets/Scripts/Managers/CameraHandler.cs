@@ -256,6 +256,16 @@ public class CameraHandler : MonoBehaviour
 
     }
 
+    public Vector3 pointDelayOnRotation()
+    {
+        return cinemachineCam.WorldToScreenPoint(currentCamIsCine ? (camData.followRotDummy ? camDelayRotDummy.transform.position : camDelayPosDummy.transform.position) : new Vector3(Screen.width, Screen.height, 0) / 2);
+    }
+
+    public float decalFromStepY()
+    {
+        return GetStepValues()[0];
+    }
+
     private void UpdateCamDummyValues()
     {
         camDelayRotDummyParent.transform.position = currentCamRef.transform.position;
@@ -335,6 +345,7 @@ public class CameraHandler : MonoBehaviour
             if (currentPurcentageIdle > 1) currentPurcentageIdle--;
             // tanslate en fonction de la courbe d'idle
             camRef.transform.Translate(Vector3.up * Mathf.Lerp(camData.idleCurve.Evaluate(currentPurcentageIdle) * camData.idleAmplitude, stepValues[0], frequency/ camData.minimumIdleTransition), Space.World);
+            //camRef.transform.Translate(Vector3.right * Mathf.Lerp(0, stepValues[1], frequency/ camData.minimumIdleTransition), Space.Self);
             // rotate en fonction de la courbe d'idle
             camRef.transform.Rotate(0, 0, Mathf.Lerp(0, rotZBySpeed + stepValues[1], frequency / camData.minimumIdleTransition), Space.Self);
         }
@@ -342,6 +353,7 @@ public class CameraHandler : MonoBehaviour
         {
             // tanslate en fonction du pas actuel
             camRef.transform.Translate(Vector3.up * stepValues[0], Space.World);
+            //camRef.transform.Translate(Vector3.right * stepValues[2], Space.Self);
             // rotate en fonction de la vitesse horizontale et du pas actuel
             camRef.transform.Rotate(0, 0, rotZBySpeed + stepValues[1], Space.Self);
         }
