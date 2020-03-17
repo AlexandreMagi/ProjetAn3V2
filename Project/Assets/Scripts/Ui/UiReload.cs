@@ -25,6 +25,15 @@ public class UiReload : MonoBehaviour
 
     #endregion
 
+    [SerializeField] RectTransform RootLifeBarReducing = null;
+    [SerializeField] CanvasGroup CvsGroupLifeBar = null;
+    [SerializeField] float timeUnusedToReduce = 5;
+    [SerializeField] float timeToReduce = 3;
+    [SerializeField] float timeToGrow = 0.05f;
+    [SerializeField] float aimedScale = 0.5f;
+    [SerializeField] float aimedAlpha = 0.5f;
+    float timeRemainingReducing = 0;
+
     Vector2 barSize = new Vector2(1300, 20);
     Vector2 extremitySize = new Vector2(25, 100);
     Vector2 checkBarSize = new Vector2(25, 100);
@@ -116,6 +125,7 @@ public class UiReload : MonoBehaviour
 
     void Update()
     {
+        UpdateScaleIfUsed();
 
         // ######################################################################################################################## //
         // ################################################## BULLET DISPLAY ###################################################### //
@@ -225,6 +235,28 @@ public class UiReload : MonoBehaviour
         #endregion
 
     }
+    void UpdateScaleIfUsed()
+    {
+        timeRemainingReducing -= Time.unscaledDeltaTime;
+        if (timeRemainingReducing > 0)
+        {
+            if (timeRemainingReducing < timeToReduce)
+            {
+                CvsGroupLifeBar.alpha = Mathf.Lerp(1, aimedAlpha, 1 - timeRemainingReducing / timeToReduce);
+                RootLifeBarReducing.localScale = Vector3.one * Mathf.Lerp(1, aimedScale, 1 - timeRemainingReducing / timeToReduce);
+            }
+            else
+            {
+                CvsGroupLifeBar.alpha = Mathf.MoveTowards(CvsGroupLifeBar.alpha, 1, Time.unscaledDeltaTime / timeToGrow);
+                RootLifeBarReducing.localScale = Vector3.one * Mathf.MoveTowards(RootLifeBarReducing.localScale.x, 1, Time.unscaledDeltaTime / timeToGrow);
+            }
+        }
+        else
+        {
+            CvsGroupLifeBar.alpha = aimedAlpha;
+            RootLifeBarReducing.localScale = Vector3.one * aimedScale;
+        }
+    }
 
     void ChangeScale (GameObject obj, float scale, float basescale)
     {
@@ -238,6 +270,7 @@ public class UiReload : MonoBehaviour
         //extremityTwo.SetActive(false);
         //checkBar.SetActive(false);
         //perfectSpot.SetActive(false);
+        timeRemainingReducing = timeUnusedToReduce + timeToReduce;
 
         reducing = true;
         perfectAnim = didPerfect;
@@ -260,6 +293,7 @@ public class UiReload : MonoBehaviour
     public void PlayerShot()
     {
         timerShot = 0;
+        timeRemainingReducing = timeUnusedToReduce + timeToReduce;
 
     }
 

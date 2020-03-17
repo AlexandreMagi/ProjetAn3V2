@@ -18,6 +18,15 @@ public class UiLifeBar : MonoBehaviour
         _instance = this;
     }
 
+    [SerializeField] RectTransform RootLifeBarReducing = null;
+    [SerializeField] CanvasGroup CvsGroupLifeBar = null;
+    [SerializeField] float timeUnusedToReduce = 5;
+    [SerializeField] float timeToReduce = 1;
+    [SerializeField] float timeToGrow = 0.5f;
+    [SerializeField] float aimedScale = 0.5f;
+    [SerializeField] float aimedAlpha = 0.5f;
+
+    float timeRemainingReducing = 0;
 
     [SerializeField] RectTransform rectRootArmor = null;
     [SerializeField] Transform rootVerticalShield = null;
@@ -68,6 +77,8 @@ public class UiLifeBar : MonoBehaviour
     private void Update()
     {
 
+        UpdateScaleIfUsed();
+
         if (animDamageShieldPurcentage < 1)
         {
             rootMiddleShield.transform.localScale = Vector3.one + Vector3.one * animDamageShield.Evaluate(animDamageShieldPurcentage) * animDamageShieldAmplitude;
@@ -95,6 +106,29 @@ public class UiLifeBar : MonoBehaviour
         if (mustFondu)
         {
             fonduNoirGameOver.color = new Color(0, 0, 0, Mathf.MoveTowards(fonduNoirGameOver.color.a, 1, Time.unscaledDeltaTime * speedAlphaFonduGameOver));
+        }
+    }
+
+    void UpdateScaleIfUsed()
+    {
+        timeRemainingReducing -= Time.unscaledDeltaTime;
+        if (timeRemainingReducing > 0)
+        {
+            if (timeRemainingReducing < timeToReduce)
+            {
+                CvsGroupLifeBar.alpha = Mathf.Lerp(1, aimedAlpha, 1 - timeRemainingReducing / timeToReduce);
+                RootLifeBarReducing.localScale = Vector3.one * Mathf.Lerp(1, aimedScale, 1 - timeRemainingReducing / timeToReduce);
+            }
+            else
+            {
+                CvsGroupLifeBar.alpha = Mathf.MoveTowards(CvsGroupLifeBar.alpha, 1, Time.unscaledDeltaTime / timeToGrow);
+                RootLifeBarReducing.localScale = Vector3.one * Mathf.MoveTowards(RootLifeBarReducing.localScale.x, 1, Time.unscaledDeltaTime / timeToGrow);
+            }
+        }
+        else
+        {
+            CvsGroupLifeBar.alpha = aimedAlpha;
+            RootLifeBarReducing.localScale = Vector3.one * aimedScale;
         }
     }
 
@@ -129,6 +163,7 @@ public class UiLifeBar : MonoBehaviour
             stockLife = life;
         }
         animDamageShieldPurcentage = 0;
+        timeRemainingReducing = timeUnusedToReduce + timeToReduce;
     }
 
     public void UpdateCapsules(float life)
@@ -138,6 +173,7 @@ public class UiLifeBar : MonoBehaviour
             lifeCapsules[i].SetActive(i < life / stockMaxLife * lifeCapsules.Length);
         }
         stockLife = life;
+        timeRemainingReducing = timeUnusedToReduce + timeToReduce;
     }
     public void UpdateArmor(float armor)
     {
@@ -146,6 +182,7 @@ public class UiLifeBar : MonoBehaviour
             lastArmor = armor;
         stockArmor = armor;
         currentRecoverPurcentage = 0;
+        timeRemainingReducing = timeUnusedToReduce + timeToReduce;
     }
 
 
