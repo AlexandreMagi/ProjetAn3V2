@@ -160,7 +160,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
                 UiDamageHandler.Instance.PlayerTookDammage();
                 UiLifeBar.Instance.PlayerTookDamage(armor, health);
-                PostprocessManager.Instance.SetupDepthOfField();
+                if (PostprocessManager.Instance != null )PostprocessManager.Instance.SetupDepthOfField();
             }
         }
     }

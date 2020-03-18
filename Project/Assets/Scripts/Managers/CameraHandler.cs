@@ -95,12 +95,31 @@ public class CameraHandler : MonoBehaviour
     float timeRemainingLookAt = 0;
     float currentPurcentageLookAt = 0;
     Vector3 savePosLookAt = Vector3.zero;
+    float weightLookAt = 1;
+    float weightRemoveRotLookAt = 1;
 
     float dt = 0;
 
     AnimatorOverrideController animatorOverrideController;
 
     float currentPurcentageIdle = 0;
+
+    Vector3 rotateBalancePivot = Vector3.zero;
+    Transform refPointBalance = null;
+    Quaternion savedRotGoTo = Quaternion.identity;
+    float timeToGoToRot = 0.001f;
+    float currentPurcentageGoToNewRot = 0;
+    float speedBalancing = 0;
+    float dampingBalancing = 0;
+    float personalTimeForMathfSin = 0;
+    float minSpeedValue = 0;
+    float balancingFrequency = 0;
+
+    Quaternion goBackFromBalancingRotSaved = Quaternion.identity;
+    Vector3 goBackFromBalancePosSaved = Vector3.zero;
+    float purcentageLerpGoBack = 1;
+    float returnLerpSpeedFromBalance = 1;
+    float minSpeedRot = 1;
 
     #endregion
 
@@ -109,6 +128,7 @@ public class CameraHandler : MonoBehaviour
     private DataWeapon weaponData = null;
 
     #endregion
+
 
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
@@ -160,6 +180,8 @@ public class CameraHandler : MonoBehaviour
          curveValues = new Vector2[camData.CurvesAndValues.Length]; // Stock des valeurs des curves
         // Init des values des steps
         for (int i = 0; i < curveValues.Length; i++) { curveValues[i] = new Vector2(camData.CurvesAndValues[i].Decal, 1); }
+
+        refPointBalance = new GameObject().transform;
 
         ResyncCamera(true); // Place les dummies
     }
@@ -231,9 +253,21 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
         camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
 
+        BalancingCamUpdate(); // Ovveride les feedbacks et la position si en balancement
+
+        if (purcentageLerpGoBack < 1)
+        {
+            purcentageLerpGoBack = Mathf.Lerp(purcentageLerpGoBack, 1, Time.deltaTime * returnLerpSpeedFromBalance);
+            if (purcentageLerpGoBack > 1 - 0.005f) purcentageLerpGoBack = 1;
+            camRef.transform.rotation = Quaternion.Lerp(goBackFromBalancingRotSaved, camRef.transform.rotation, purcentageLerpGoBack);
+            camRef.transform.position = Vector3.Lerp(goBackFromBalancePosSaved, camRef.transform.position, purcentageLerpGoBack);
+        }
+
         renderingCam.transform.position = camRef.transform.position;
         renderingCam.transform.rotation = camRef.transform.rotation;
         renderingCam.fieldOfView = camRef.fieldOfView;
+
+        Quaternion saveRotBeforeLookAt = camRef.transform.rotation;
 
         if (cameraLookAt != null && (cameraLookAt.gameObject ? cameraLookAt.gameObject.activeSelf : true))
         {
@@ -251,9 +285,46 @@ public class CameraHandler : MonoBehaviour
         }
         if (timeRemainingLookAt > 0) timeRemainingLookAt -= dt;
         if (timeRemainingLookAt < 0) ReleaselookAt();
-        renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, camRef.transform.rotation, currentPurcentageLookAt);
 
 
+        renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, Quaternion.Lerp(saveRotBeforeLookAt, camRef.transform.rotation,weightRemoveRotLookAt), currentPurcentageLookAt * weightLookAt);
+
+
+    }
+
+    private void BalancingCamUpdate()
+    {
+        if (speedBalancing > 0)
+        {
+            personalTimeForMathfSin += Time.deltaTime * balancingFrequency;
+            camRef.transform.position = refPointBalance.position;
+            camRef.transform.rotation = Quaternion.Lerp(refPointBalance.rotation, savedRotGoTo, currentPurcentageGoToNewRot);
+
+            speedBalancing = Mathf.MoveTowards(speedBalancing, minSpeedRot, speedBalancing * dampingBalancing * Time.deltaTime);
+
+            camRef.transform.RotateAround(rotateBalancePivot, camRef.transform.right*-1, speedBalancing * Mathf.Sin(personalTimeForMathfSin));
+
+
+            currentPurcentageGoToNewRot = Mathf.MoveTowards(currentPurcentageGoToNewRot, 1, Time.deltaTime / timeToGoToRot);
+
+
+            goBackFromBalancingRotSaved = camRef.transform.rotation;
+            goBackFromBalancePosSaved = camRef.transform.position;
+        }
+        else
+        {
+            personalTimeForMathfSin = 0;
+            currentPurcentageGoToNewRot = 0;
+        }
+    }
+
+    public void StopBalancing()
+    {
+        if (speedBalancing > 0)
+        {
+            speedBalancing = 0;
+            purcentageLerpGoBack = 0;
+        }
     }
 
     public Vector3 pointDelayOnRotation()
@@ -399,7 +470,7 @@ public class CameraHandler : MonoBehaviour
     /// </summary>
     public void ResyncCamera(bool hardResync = false)
     {
-        CameraLookAt(null, 0, 0.001f, 0);
+        CameraLookAt(null, 0,0,0, 0.001f, 0);
         renderingCam.fieldOfView = camData.BaseFov;
 
         camDelayRotDummyParent.transform.position = renderingCam.transform.position;
@@ -527,11 +598,13 @@ public class CameraHandler : MonoBehaviour
         currentCinemachineStyle = CinemachineBlendDefinition.Style.Custom;
         currentCinemachineCurve = customCurve;
     }
-    public void CameraLookAt(Transform camFollow, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1)
+    public void CameraLookAt(Transform camFollow, float _weightLookAt, float _weightRemoveRotLookAt, float _timeTransitionTo, float _timeTransitionBack, float timerBeforeGoBack = -1)
     {
         cameraLookAt = camFollow;
         timeTransitionTo = _timeTransitionTo;
         timeTransitionBack = _timeTransitionBack;
+        weightLookAt = _weightLookAt;
+        weightRemoveRotLookAt = _weightRemoveRotLookAt;
         timeRemainingLookAt = timerBeforeGoBack > 0 ? timerBeforeGoBack : timeRemainingLookAt;
     }
     public void ReleaselookAt()
@@ -561,6 +634,23 @@ public class CameraHandler : MonoBehaviour
         currentCamIsCine = false;
         animatedCam.GetComponent<Animator>().SetTrigger("trigger");
         timerOnAnimatedCam = animDuration;
+    }
+    public void SetupBalancing (float _distanceUpBalancingAnchor, float initSpeedBalancing, float _dampingBalancing, float initialRot, float _minSpeedValue, float _returnLerpSpeedFromBalance,float _minSpeedRot,float _balancingFrequency, float _timeToGoToRot = 0.001f)
+    {
+        rotateBalancePivot = cinemachineCam.transform.position + Vector3.up * _distanceUpBalancingAnchor;
+        refPointBalance.position = cinemachineCam.transform.position;
+        refPointBalance.rotation = cinemachineCam.transform.rotation;
+        refPointBalance.Rotate(Vector3.up * initialRot, Space.World);
+        savedRotGoTo = refPointBalance.rotation;
+        refPointBalance.rotation = cinemachineCam.transform.rotation;
+        speedBalancing = initSpeedBalancing;
+        dampingBalancing = _dampingBalancing;
+        timeToGoToRot = _timeToGoToRot;
+        minSpeedValue = _minSpeedValue;
+        returnLerpSpeedFromBalance = _returnLerpSpeedFromBalance;
+        minSpeedRot = _minSpeedRot;
+        balancingFrequency = _balancingFrequency;
+        if (timeToGoToRot < 0.001f) timeToGoToRot = 0.001f;
     }
 
     #endregion

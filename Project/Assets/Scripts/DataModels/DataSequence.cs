@@ -49,6 +49,10 @@ public class DataSequence : ScriptableObject
     public float lookAtTime = 1;
     [ShowIf("lookAtObject", null)]
     public bool cutLookAtOnEndOfSequence = false;
+    [ShowIf("lookAtObject", null), PropertyRange(0f,1f)]
+    public float weightLookAt = 1;
+    [ShowIf("lookAtObject", null), PropertyRange(0f,1f)]
+    public float weightRemoveRotLookAt = 1;
 
     //BOOLEAN SEQUENCES
     [Header("Boolean sequence")]
@@ -130,6 +134,23 @@ public class DataSequence : ScriptableObject
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Sound), ShowIf("hasEventOnEnd")]
     public float volume = 1;
 
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Distance en up de la ou la corde est attachée")]
+    public float distanceToAnchor = 5;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse à l'init de balancement")]
+    public float initImpulseBalancing = 30;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip ("Damping en pourcentage")]
+    public float dampingOnBalancing = 0.3f;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Offset de direction sur le balancing")]
+    public float angleBalancing = 0;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Frequence de balancement")]
+    public float balancingFrequency = 1;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), PropertyRange(0.001f, 360f), Tooltip("Vitesse minimal de rotation")]
+    public float minSpeedRot = 0;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), PropertyRange(0.001f,50f), Tooltip("Temps de transition vers la nouvelle direction")]
+    public float timeGoToNewRot = 0;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse Lerp de retour sur la caméra")]
+    public float returnLerpSpeedFromBalance = 5;
+
     [Header("Camera")]
     public bool enableCamFeedback = true;
     public bool enableCamTransition = false;
@@ -178,6 +199,7 @@ public class DataSequence : ScriptableObject
         Activation = 1,
         Animation = 2,
         Sound = 3,
+        Balancing = 4,
         Other = 9
     }
 
