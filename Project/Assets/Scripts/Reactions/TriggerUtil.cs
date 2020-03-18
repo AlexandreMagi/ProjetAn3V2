@@ -204,7 +204,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        CameraHandler.Instance.CameraLookAt(target, timeGoTo, timeGoBack, followDuration);
+        CameraHandler.Instance.CameraLookAt(target, 1, 1, timeGoTo, timeGoBack, followDuration);
 
         yield break;
     }

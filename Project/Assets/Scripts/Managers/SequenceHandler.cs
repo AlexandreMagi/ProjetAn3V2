@@ -350,6 +350,7 @@ public class SequenceHandler : MonoBehaviour
         
         if (CameraHandler.Instance != null)
         {
+            CameraHandler.Instance.StopBalancing();
             if (isForced) CameraHandler.Instance.ResyncCamera(true);
             CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.transitionTime);
             if (currentSequence.cutLookAtOnEndOfSequence) CameraHandler.Instance.ReleaselookAt();
@@ -380,6 +381,12 @@ public class SequenceHandler : MonoBehaviour
                 case DataSequence.SequenceEndEventType.Animation:
 
                     TriggerUtil.TriggerAnimationsFromTags(currentSequence.timeBeforeEvent, currentSequence.tagsAnimated);
+
+                    break;
+
+                case DataSequence.SequenceEndEventType.Balancing:
+
+                    CameraHandler.Instance.SetupBalancing(currentSequence.distanceToAnchor, currentSequence.initImpulseBalancing, currentSequence.dampingOnBalancing, currentSequence.angleBalancing, currentSequence.minSpeedRot, currentSequence.returnLerpSpeedFromBalance,currentSequence.minSpeedRot, currentSequence.balancingFrequency, currentSequence.timeGoToNewRot);
 
                     break;
 
@@ -503,7 +510,7 @@ public class SequenceHandler : MonoBehaviour
                         CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
                     }
                 }
-                if (currentSequence.lookAtObject != null) CameraHandler.Instance.CameraLookAt(currentSequence.lookAtObject, currentSequence.transitionToTime, currentSequence.transitionBackTime, currentSequence.lookAtTime);
+                if (currentSequence.lookAtObject != null) CameraHandler.Instance.CameraLookAt(currentSequence.lookAtObject, currentSequence.weightLookAt, currentSequence.weightRemoveRotLookAt, currentSequence.transitionToTime, currentSequence.transitionBackTime, currentSequence.lookAtTime);
                 
             }
             if (currentSequence.animToPlay != null)

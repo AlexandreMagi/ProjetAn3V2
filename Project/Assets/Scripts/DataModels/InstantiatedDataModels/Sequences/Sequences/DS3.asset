@@ -12,11 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
   m_Name: DS3
   m_EditorClassIdentifier: 
-  camTargetName: CM vcam3
+  camTargetName: CM vcam1
   animationStyle: 3
-  animationTime: 2
-  hasEventOnEnd: 0
+  animationTime: 0.1
   cutsSlowMoOnEnd: 0
+  isShortStep: 0
+  shortStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shortStepAmplitude: -1
+  modifySteps: 0
+  modifierFrequenceCamStep: 1
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -24,8 +64,12 @@ MonoBehaviour:
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
   timeSequenceDuration: 0
-  timeBeforeStart: 0
+  hasEventOnEnd: 0
   seqEvent: 0
   timeBeforeEvent: 0
   slowMoPower: 0
@@ -37,4 +81,13 @@ MonoBehaviour:
   volume: 1
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
