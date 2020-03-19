@@ -59,6 +59,8 @@ public class MenuMain : MonoBehaviour
     [SerializeField] float TimeBeforeGoRestart = 10;
     float timeRemainingBeforeRestart = 0;
 
+    float timeRemainingBeforeChargeScene = 1;
+
     private void Start()
     {
         Time.timeScale = 1;
@@ -87,6 +89,11 @@ public class MenuMain : MonoBehaviour
 
         CheckIfGoBacToMenu();
 
+        if (timeRemainingBeforeChargeScene > 0 && Time.unscaledDeltaTime < 0.5f)
+        {
+            timeRemainingBeforeChargeScene -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene("LD_03"); }
+        }
 
 
         if (Input.GetKeyDown(KeyCode.Y))
@@ -340,7 +347,8 @@ public class MenuMain : MonoBehaviour
     public void GoToGame ()
     {
         canClickOnButton = false;
-        SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
+        SceneHandler.Instance.AllowChangeToPreloadScene();
+        //SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
     }
 
     public void QuitAppli ()
