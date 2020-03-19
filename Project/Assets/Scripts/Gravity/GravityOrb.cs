@@ -47,7 +47,7 @@ public class GravityOrb : MonoBehaviour
         {
             UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
-            PostprocessManager.Instance.doDistortion(transform);
+            if (PostprocessManager.Instance!=null)PostprocessManager.Instance.doDistortion(transform);
 
             GameObject hitObj = hit.collider.gameObject;
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
@@ -121,8 +121,11 @@ public class GravityOrb : MonoBehaviour
         hasExploded = true;
         int nbEnemiesHitByFloatExplo = 0;
 
-        PostprocessManager.Instance.setChroma(true);
-        PostprocessManager.Instance.doDistortion(transform);
+        if (PostprocessManager.Instance != null)
+        {
+            PostprocessManager.Instance.setChroma(true);
+            PostprocessManager.Instance.doDistortion(transform);
+        }
 
         StopCoroutine("OnHoldAttraction");
 
@@ -195,7 +198,7 @@ public class GravityOrb : MonoBehaviour
 
     void OnZeroGRelease()
     {
-        PostprocessManager.Instance.setChroma(false);
+        if (PostprocessManager.Instance != null) PostprocessManager.Instance.setChroma(false);
         Destroy(this.gameObject);
     }
 
