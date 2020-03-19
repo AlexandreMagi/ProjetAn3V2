@@ -46,6 +46,11 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        //PreLoadScene("LD_03");
+    }
+
     public void RestartScene(float delay = 0, bool withFade = false)
     {
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().name, delay, withFade));
@@ -67,7 +72,39 @@ public class SceneHandler : MonoBehaviour
     {
         Invoke("_QuitGame", delay);
     }
-    
+
+    AsyncOperation asyncPreload;
+    public void PreLoadScene(string sceneName)
+    {
+        if (!alreadyChanging)
+        {
+            Debug.Log("Load Scene : " + sceneName);
+            alreadyChanging = true;
+            asyncPreload = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+            asyncPreload.allowSceneActivation = false;
+            asyncPreload.priority = 0;
+        }
+    }
+
+    public void AllowChangeToPreloadScene()
+    {
+        StartCoroutine(ChargePreloadedScene());
+        //if (asyncPreload != null)
+        //{
+        //    asyncPreload.allowSceneActivation = true;
+        //    alreadyChanging = false;
+        //}
+
+    }
+
+    //private void Update()
+    //{
+    //    //if (asyncPreload == null && SceneManager.GetActiveScene().name == "MenuScene") PreLoadScene("LD_03");
+    //    if (Input.GetKeyDown(KeyCode.V)) PreLoadScene("LD_03");
+    //    //if (Input.GetKeyDown(KeyCode.B)) AllowChangeToPreloadScene();
+    //    if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(ChargePreloadedScene());
+    //}
+
     void _QuitGame ()
     {
 #if UNITY_EDITOR
@@ -75,6 +112,20 @@ public class SceneHandler : MonoBehaviour
 #else
         Application.Quit();
 #endif 
+    }
+
+    IEnumerator ChargePreloadedScene()
+    {
+        if (asyncPreload != null)
+        {
+            float delay = 0.5f;
+            if (delay != 0 && UiFade.Instance != null) UiFade.Instance.ChangeAlpha(1, delay);
+            if (delay != 0) yield return new WaitForSecondsRealtime(delay);
+
+            asyncPreload.allowSceneActivation = true;
+            alreadyChanging = false;
+        }
+        yield break;
     }
 
         AsyncOperation async;
@@ -115,6 +166,7 @@ public class SceneHandler : MonoBehaviour
                 yield return null;
             }
         }
+        yield break;
     }
 
 }
