@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
   m_Name: DS3
   m_EditorClassIdentifier: 
-  camTargetName: CM vcam1
-  animationStyle: 3
+  camTargetName: vcam1
+  animationStyle: 0
   animationTime: 0.1
   cutsSlowMoOnEnd: 0
   isShortStep: 0
@@ -57,6 +57,8 @@ MonoBehaviour:
   transitionBackTime: 1
   lookAtTime: 1
   cutLookAtOnEndOfSequence: 0
+  weightLookAt: 1
+  weightRemoveRotLookAt: 1
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -69,9 +71,9 @@ MonoBehaviour:
   spawnersToTrigger: []
   delayOnTrigger: 0
   timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
-  timeBeforeEvent: 0
+  hasEventOnEnd: 1
+  seqEvent: 1
+  timeBeforeEvent: 0.5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
@@ -79,6 +81,14 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  angleBalancing: 0
+  balancingFrequency: 1
+  minSpeedRot: 0
+  timeGoToNewRot: 0
+  returnLerpSpeedFromBalance: 5
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2

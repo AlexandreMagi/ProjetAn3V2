@@ -630,6 +630,8 @@ public class CameraHandler : MonoBehaviour
     }
     public void TriggerAnim (AnimationClip animName, float animDuration)
     {
+        animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
+        animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
         animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animName;
         currentCamIsCine = false;
         animatedCam.GetComponent<Animator>().SetTrigger("trigger");
