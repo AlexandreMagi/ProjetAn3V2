@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SwarmerProceduralAnimation : MonoBehaviour
 {
+    public bool activeProcedu = true;
+    [SerializeField] Animator meshAnimator = null;
 
     [Header("Torso")]
     [SerializeField] Transform pelvisAnim = null;
@@ -25,9 +27,18 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     [Header("Head")]
 
     [SerializeField] Transform head = null;
+    [SerializeField] Transform[] headTrueBone = null;
+    [SerializeField] Transform[] headBoneRefs = null;
     [SerializeField] Transform lookAt = null;
     [SerializeField] float headMaxTurnAngle = 60;
     [SerializeField] float headTrackingSpeed = 3;
+
+    [SerializeField] AnimationCurve animMachoireRot = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField] float animMachoireRotAmplitude = -40;
+    [SerializeField] float animMachoireRotTime = .5f;
+    [SerializeField] float animMachoireRotTimeAddedRandom = .3f;
+    float currentRotAnimPurcentage = 0;
+    float currentRotAnimTime = 0;
 
     [Header("Teeth")]
 
@@ -36,6 +47,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     [SerializeField] Vector3 InitTeethEulerAngle = new Vector3(0, 0, -90);
     [SerializeField] Vector2 randomSpeedTeeth = new Vector2(180, 360);
     float[] teethSpeeds = new float[0];
+
 
 
     void Start()
@@ -60,21 +72,29 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             teethSpeeds[i] = Random.Range(0, 360);
             if (i % 2 == 0) teethSpeeds[i] *= -1;
         }
+        lookAt = CameraHandler.Instance.renderingCam.transform;
 
+        currentRotAnimPurcentage = Random.Range(0f, 1f);
+        currentRotAnimTime = animMachoireRotTime + Random.Range(-animMachoireRotTimeAddedRandom, animMachoireRotTimeAddedRandom);
     }
 
     void Update()
     {
-        //HeadRotation();
+        meshAnimator.enabled = !activeProcedu;
 
-        distanceReplace = Mathf.Clamp(distanceReplace, 0, distanceDetectReplace);
+        if (activeProcedu)
+        {
+            HeadRotation();
 
-        LegRotation();
+            distanceReplace = Mathf.Clamp(distanceReplace, 0, distanceDetectReplace);
 
-        TeethsRotations();
+            LegRotation();
 
-        pelvisRef.position = pelvis.position;
-        pelvisRef.rotation = pelvis.rotation;
+            TeethsRotations();
+
+            pelvisRef.position = pelvis.position;
+            pelvisRef.rotation = pelvis.rotation;
+        }
     }
 
     void HeadRotation()
@@ -90,6 +110,19 @@ public class SwarmerProceduralAnimation : MonoBehaviour
         Quaternion targetLocalRotation = Quaternion.LookRotation(targetLocalLookDir, Vector3.up);
 
         head.localRotation = Quaternion.Slerp(currentLocalRotation, targetLocalRotation, 1 - Mathf.Exp(-headTrackingSpeed * Time.deltaTime));
+        for (int i = 0; i < headTrueBone.Length; i++)
+        {
+            headTrueBone[i].rotation = headBoneRefs[i].rotation;
+        }
+
+        currentRotAnimPurcentage += Time.deltaTime / currentRotAnimTime;
+        if (currentRotAnimPurcentage > 1)
+        {
+            currentRotAnimPurcentage--;
+            currentRotAnimTime = animMachoireRotTime + Random.Range(-animMachoireRotTimeAddedRandom, animMachoireRotTimeAddedRandom);
+        }
+
+        headTrueBone[0].Rotate(Vector3.forward, animMachoireRot.Evaluate(currentRotAnimPurcentage) * animMachoireRotAmplitude);
     }
 
     void LegRotation()

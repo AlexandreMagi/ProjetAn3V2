@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5341183314149556352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5106361220343774494}
+  m_Layer: 0
+  m_Name: HeadRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5106361220343774494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5341183314149556352}
+  m_LocalRotation: {x: 0.5041513, y: -0.4958139, z: -0.5041514, w: -0.495814}
+  m_LocalPosition: {x: -0.09883796, y: 0.556586, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6465257038044125721}
+  m_Father: {fileID: 6465257038970192219}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6465257038044125720
 GameObject:
   m_ObjectHideFlags: 0
@@ -23,13 +54,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6465257038044125720}
-  m_LocalRotation: {x: 0.50415134, y: -0.49581388, z: -0.5041514, w: -0.495814}
-  m_LocalPosition: {x: -0.09883802, y: 0.5565859, z: 0}
+  m_LocalRotation: {x: -0.000000044703473, y: 0.000000014901158, z: -0.000000044703473,
+    w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6465257039291605212}
-  m_Father: {fileID: 6465257038970192219}
-  m_RootOrder: 10
+  - {fileID: 2589620131282284563}
+  m_Father: {fileID: 5106361220343774494}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6465257038381076520
 GameObject:
@@ -260,7 +293,7 @@ MonoBehaviour:
   pelvisAnim: {fileID: 6465257038970192219}
   pelvis: {fileID: 0}
   distanceDetectReplace: 0.5
-  distanceReplace: 0.5
+  distanceReplace: 0.45
   bones:
   - {fileID: 0}
   - {fileID: 0}
@@ -277,9 +310,52 @@ MonoBehaviour:
   - {fileID: 6465257038536802529}
   - {fileID: 6465257038381076521}
   head: {fileID: 6465257038044125721}
+  headTrueBone: []
+  headBoneRefs:
+  - {fileID: 2589620131282284563}
+  - {fileID: 6465257039291605212}
   lookAt: {fileID: 0}
   headMaxTurnAngle: 60
-  headTrackingSpeed: 3
+  headTrackingSpeed: 5
+  animMachoireRot:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.3864746
+      inSlope: 2.776108
+      outSlope: 2.776108
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.500877
+      value: 1.0040917
+      inSlope: 2.751691
+      outSlope: -2.829964
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.993286
+    - serializedVersion: 3
+      time: 1
+      value: -0.4114914
+      inSlope: -2.8409545
+      outSlope: -2.8409545
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animMachoireRotAmplitude: -40
+  animMachoireRotTime: 0.5
+  animMachoireRotTimeAddedRandom: 0.3
+  allTeethsBones: []
+  InitTeethEulerAngle: {x: 0, y: 0, z: -90}
+  randomSpeedTeeth: {x: 180, y: 360}
 --- !u!1 &6465257038970192217
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +393,7 @@ Transform:
   - {fileID: 6465257038549782254}
   - {fileID: 6465257038536802529}
   - {fileID: 6465257038381076521}
-  - {fileID: 6465257038044125721}
+  - {fileID: 5106361220343774494}
   m_Father: {fileID: 6465257038968453701}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -422,7 +498,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6465257039291605212}
   m_Layer: 0
-  m_Name: HeadBoneRef
+  m_Name: CasqueBoneRef
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,4 +668,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6465257038399518658}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7778178265425233674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2589620131282284563}
+  m_Layer: 0
+  m_Name: MachoireBoneRef
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2589620131282284563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778178265425233674}
+  m_LocalRotation: {x: 0.49896613, y: 0.5010316, z: -0.49896634, w: -0.50103164}
+  m_LocalPosition: {x: 0, y: 0.23427114, z: 0.15379761}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6465257038044125721}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
