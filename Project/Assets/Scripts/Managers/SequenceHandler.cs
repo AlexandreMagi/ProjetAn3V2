@@ -98,6 +98,10 @@ public class SequenceHandler : MonoBehaviour
     private void AddSequenceCopied()
     {
         SequenceBranch lastBranch = sequenceBranches[sequenceBranches.Count - 1];
+        if(branchIndexCopy >= 0 && branchIndexCopy < sequenceBranches.Count)
+        {
+            lastBranch = sequenceBranches[branchIndexCopy];
+        }
 
         if (lastBranch.GetNumberOfSequences() > 0)
         {
@@ -160,6 +164,10 @@ public class SequenceHandler : MonoBehaviour
     [LabelText("New")]
     public string newBranchName;
 
+    [HorizontalGroup("BranchCopy")]
+    [LabelText("Branch to copy sequence")]
+    public int branchIndexCopy = -1;
+
     [HorizontalGroup("RenameBranch")]
     [Button("Rename branch")]
     private void renameBranch()
@@ -172,7 +180,6 @@ public class SequenceHandler : MonoBehaviour
                  break;
              }
         }
-
 
     }
 
@@ -395,173 +402,146 @@ public class SequenceHandler : MonoBehaviour
             }
         }
 
-        if (sequenceIndex < currentBranch.GetNumberOfSequences() - 1)
+        if (currentSequence.skipsToBranchOnEnd)
         {
-            if (currentSequence.skipsToBranchOnEnd)
+            if (currentSequence.affectedByBooleanSequenceBranch)
             {
-                if (currentSequence.affectedByBooleanSequenceBranch)
+                foreach (DataSequence.BooleanLink link in currentSequence.booleanLinks)
                 {
-                    foreach(DataSequence.BooleanLink link in currentSequence.booleanLinks)
+                    if (BooleanSequenceManager.Instance.GetStateOfBoolSequence(link.booleanSequence.boolName) == link.bSeqRequiredStatus)
                     {
-                        if(BooleanSequenceManager.Instance.GetStateOfBoolSequence(link.booleanSequence.boolName) == link.bSeqRequiredStatus)
-                        {
-                            currentBranch = sequenceBranches[link.indexOfBranchLinked];
-                            branchIndex = link.indexOfBranchLinked;
-                            break;
-                        }
+                        currentBranch = sequenceBranches[link.indexOfBranchLinked];
+                        branchIndex = link.indexOfBranchLinked;
+                        break;
+                            
                     }
                 }
-                else
-                {
-                    currentBranch = sequenceBranches[currentSequence.branchLinkedId];
-                    branchIndex = currentSequence.branchLinkedId;
-                }
+            }
+            else
+            {
+                currentBranch = sequenceBranches[currentSequence.branchLinkedId];
+                branchIndex = currentSequence.branchLinkedId;
+            }
 
-                sequenceIndex = 0;
+            sequenceIndex = 0;
+        }
+        else
+        {
+            if(sequenceIndex >= currentBranch.GetNumberOfSequences() - 1)
+            {
+                Debug.Log("No more sequences");
             }
             else
             {
                 sequenceIndex++;
             }
-
-            
-            isWaitingTimer = false;
-
-            currentSequence = currentBranch.GetDataSequenceAt(sequenceIndex);
-
-            //Debug.Log(currentVirtualCamera);
-            
-            //CREATION DU NOUVEAU BLEND
-            CinemachineBlendDefinition blendDef = new CinemachineBlendDefinition
-            {
-                m_Style = currentSequence.animationStyle,
-                m_Time = currentSequence.animationTime
-            };
-
-            //SETUP BLEND
-            CinemachineBlenderSettings.CustomBlend blend = new CinemachineBlenderSettings.CustomBlend
-            {
-                m_From = currentVirtualCamera.Name,
-                m_To = currentSequence.camTargetName,
-                m_Blend = blendDef
-            };
-
-            if(blenderSettings.m_CustomBlends == null)
-            {
-                blenderSettings.m_CustomBlends = new CinemachineBlenderSettings.CustomBlend[1];
-            }
-
-
-            blenderSettings.m_CustomBlends[0] = blend;
-
-            cameraBrain.m_CustomBlends = blenderSettings;
-
-            //CHANGEMENT DE CAM
-            currentVirtualCamera.Priority = 10;
-            pastCamPos = currentVirtualCamera.transform.position;
-            currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
-            currentVirtualCamera.Priority = 11;
-            newCamPos = currentVirtualCamera.transform.position;
-
-            /*
-            //APPEL DE FONCTIONS DANS LES CHARGEURS
-            C_Charger[] _Chargeurs = GameObject.FindObjectsOfType<C_Charger>();
-            for (int i = 0; i < _Chargeurs.Length; i++)
-            {
-                _Chargeurs[i].PlayerChangePosition();
-            }
-            C_Shooter[] _Shooter = GameObject.FindObjectsOfType<C_Shooter>();
-            for (int i = 0; i < _Shooter.Length; i++)
-            {
-                _Shooter[i].PlayerChangePosition();
-            }
-            */
-
-            delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration : 0);
-            enemiesKilled = 0;
-
-            if (currentSequence.affectedObject != null)
-            {
-                if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
-                else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
-            }
-
-            //DECLENCHEMENT DU FEEDBACK DE CAM
-            if (CameraHandler.Instance != null)
-            {
-                float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 4 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
-                if (currentSequence.isShortStep)
-                {
-                    CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime);
-                }
-                else
-                {
-                    if (currentSequence.modifySteps)
-                    {
-                        CameraHandler.Instance.UpdateCamSteps(frequencyValue * currentSequence.modifierFrequenceCamStep, currentSequence.animationTime);
-                        if (currentSequence.modifyStepsCurve)
-                            CameraHandler.Instance.SetCurrentAnimCurveModified(currentSequence.modifiedStepCurve);
-                        else
-                            CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
-                    }
-                    else
-                    {
-                        CameraHandler.Instance.UpdateCamSteps(frequencyValue, currentSequence.animationTime);
-                        CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
-                    }
-                }
-                if (currentSequence.lookAtObject != null) CameraHandler.Instance.CameraLookAt(currentSequence.lookAtObject, currentSequence.weightLookAt, currentSequence.weightRemoveRotLookAt, currentSequence.transitionToTime, currentSequence.transitionBackTime, currentSequence.lookAtTime);
-                
-            }
-            if (currentSequence.animToPlay != null)
-            {
-                CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animationTime);
-            }
-
-            if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
-            {
-                if (currentSequence.acceptsBufferKill)
-                {
-                    enemiesKilled = bufferedKills;
-
-                }
-                bufferedKills = 0;
-            }
+           
         }
-        else
-        {
-            if (currentSequence.skipsToBranchOnEnd)
-            {
-                if (currentSequence.affectedByBooleanSequenceBranch)
-                {
-                    foreach (DataSequence.BooleanLink link in currentSequence.booleanLinks)
-                    {
-                        if (BooleanSequenceManager.Instance.GetStateOfBoolSequence(link.booleanSequence.boolName) == link.bSeqRequiredStatus)
-                        {
-                            currentBranch = sequenceBranches[link.indexOfBranchLinked];
-                            branchIndex = link.indexOfBranchLinked;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    currentBranch = sequenceBranches[currentSequence.branchLinkedId];
-                    branchIndex = currentSequence.branchLinkedId;
-                }
 
-                sequenceIndex = 0;
+        isWaitingTimer = false;
+
+        currentSequence = currentBranch.GetDataSequenceAt(sequenceIndex);
+
+        //Debug.Log(currentVirtualCamera);
+            
+        //CREATION DU NOUVEAU BLEND
+        CinemachineBlendDefinition blendDef = new CinemachineBlendDefinition
+        {
+            m_Style = currentSequence.animationStyle,
+            m_Time = currentSequence.animationTime
+        };
+
+        //SETUP BLEND
+        CinemachineBlenderSettings.CustomBlend blend = new CinemachineBlenderSettings.CustomBlend
+        {
+            m_From = currentVirtualCamera.Name,
+            m_To = currentSequence.camTargetName,
+            m_Blend = blendDef
+        };
+
+        if(blenderSettings.m_CustomBlends == null)
+        {
+            blenderSettings.m_CustomBlends = new CinemachineBlenderSettings.CustomBlend[1];
+        }
+
+
+        blenderSettings.m_CustomBlends[0] = blend;
+
+        cameraBrain.m_CustomBlends = blenderSettings;
+
+        //CHANGEMENT DE CAM
+        currentVirtualCamera.Priority = 10;
+        pastCamPos = currentVirtualCamera.transform.position;
+        currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
+        currentVirtualCamera.Priority = 11;
+        newCamPos = currentVirtualCamera.transform.position;
+
+        /*
+        //APPEL DE FONCTIONS DANS LES CHARGEURS
+        C_Charger[] _Chargeurs = GameObject.FindObjectsOfType<C_Charger>();
+        for (int i = 0; i < _Chargeurs.Length; i++)
+        {
+            _Chargeurs[i].PlayerChangePosition();
+        }
+        C_Shooter[] _Shooter = GameObject.FindObjectsOfType<C_Shooter>();
+        for (int i = 0; i < _Shooter.Length; i++)
+        {
+            _Shooter[i].PlayerChangePosition();
+        }
+        */
+
+        delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration : 0);
+        enemiesKilled = 0;
+
+        if (currentSequence.affectedObject != null)
+        {
+            if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
+            else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
+        }
+
+        //DECLENCHEMENT DU FEEDBACK DE CAM
+        if (CameraHandler.Instance != null)
+        {
+            float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 4 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
+            if (currentSequence.isShortStep)
+            {
+                CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime);
             }
             else
             {
-                readSequences = false;
-
-                Debug.Log("No more sequences in this branch");
+                if (currentSequence.modifySteps)
+                {
+                    CameraHandler.Instance.UpdateCamSteps(frequencyValue * currentSequence.modifierFrequenceCamStep, currentSequence.animationTime);
+                    if (currentSequence.modifyStepsCurve)
+                        CameraHandler.Instance.SetCurrentAnimCurveModified(currentSequence.modifiedStepCurve);
+                    else
+                        CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
+                }
+                else
+                {
+                    CameraHandler.Instance.UpdateCamSteps(frequencyValue, currentSequence.animationTime);
+                    CameraHandler.Instance.SetCurrentAnimCurve(blendDef);
+                }
             }
+            if (currentSequence.lookAtObject != null) CameraHandler.Instance.CameraLookAt(currentSequence.lookAtObject, currentSequence.weightLookAt, currentSequence.weightRemoveRotLookAt, currentSequence.transitionToTime, currentSequence.transitionBackTime, currentSequence.lookAtTime);
+                
+        }
+        if (currentSequence.animToPlay != null)
+        {
+            CameraHandler.Instance.TriggerAnim(currentSequence.animToPlay, currentSequence.animationTime);
+        }
 
-            
+        if (currentSequence.sequenceType == DataSequence.SequenceType.KillEnnemies)
+        {
+            if (currentSequence.acceptsBufferKill)
+            {
+                enemiesKilled = bufferedKills;
+
+            }
+            bufferedKills = 0;
         }
     }
+
 
     /// <summary>
     /// Called when an Enemy dies by the player
