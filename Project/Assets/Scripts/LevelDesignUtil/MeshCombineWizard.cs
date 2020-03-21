@@ -9,12 +9,12 @@ public class MeshCombineWizard : ScriptableWizard {
     public GameObject parentOfObjectsToCombine = null;
 
     [Header ("Path to save mesh combined")]
-    public string meshPath = "Assets/AssetDA/CombinedMeshs/LD_03/Meshs/LD_03/CombinedMeshes_";
+    public string meshPath = "Assets/AssetDA/CombinedMeshs/LD_04/Meshs/CombinedMeshes_";
 
     string meshPathComp;
 
     [Header("Path to save the new prefab")]
-    public string prefabPath = "Assets/AssetDA/CombinedMeshs/LD_03/Prefabs/LD_03/";
+    public string prefabPath = "Assets/AssetDA/CombinedMeshs/LD_04/Prefabs/";
 
     string prefabPathComp;
 
@@ -83,7 +83,7 @@ public class MeshCombineWizard : ScriptableWizard {
 
             AssetDatabase.CreateAsset(combinedMesh, meshPath + materialName + ".obj");
 
-            string goName = (materialToMeshFilterList.Count > 1)? "CombinedMeshes_" + materialName : "CombinedMeshes_" + parentOfObjectsToCombine.name;
+            string goName = (materialToMeshFilterList.Count > 1)? "CombinedMeshes_" + materialName : parentOfObjectsToCombine.name;
             GameObject combinedObject = new GameObject(goName);
             var filter = combinedObject.AddComponent<MeshFilter>();
             filter.sharedMesh = combinedMesh;
@@ -94,7 +94,7 @@ public class MeshCombineWizard : ScriptableWizard {
 
         GameObject resultGO = null;
         if(combinedObjects.Count > 1) {
-            resultGO = new GameObject("CombinedMeshes_" + parentOfObjectsToCombine.name);
+            resultGO = new GameObject(parentOfObjectsToCombine.name);
             foreach(var combinedObject in combinedObjects) combinedObject.transform.parent = resultGO.transform;
         } else {
             resultGO = combinedObjects[0];
