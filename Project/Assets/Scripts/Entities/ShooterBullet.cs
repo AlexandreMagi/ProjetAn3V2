@@ -183,7 +183,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
                 }
             }
         }
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Explosion", false, 0.7f);
+        CustomSoundManager.Instance.PlaySound("SE_Shooter_Explosion", "Effect", .7f);
 
     }
 

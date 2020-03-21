@@ -217,7 +217,8 @@ public class Weapon : MonoBehaviour
 
     void HitMarkerSoundFunc()
     {
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.5f, 0, 3f, false);
+        //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.5f, 0, 3f, false);
+        CustomSoundManager.Instance.PlaySound("HitMarker_Boosted", "PlayerUnpitched", null, 0.5f, false, 1, .3f);
     }
     public float GetOrbValue()
     {
@@ -254,7 +255,8 @@ public class Weapon : MonoBehaviour
             bulletRemaining = 0;
             reloadCoolDown = weapon.reloadCooldown;
 
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ReloadStart", false, 1f);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ReloadStart", false, 1f);
+            CustomSoundManager.Instance.PlaySound("ReloadStart", "PlayerUnpitched", 1f);
         }
     }
 
@@ -269,7 +271,8 @@ public class Weapon : MonoBehaviour
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
                 CameraHandler.Instance.AddRecoil(false, weapon.reloadingMissTryRecoil);
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishMiss", false, 1f);
+                //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishMiss", false, 1f);
+                CustomSoundManager.Instance.PlaySound("Reload_FinishMiss", "PlayerUnpitched", 1f);
             }
             return false;
         }
@@ -293,11 +296,13 @@ public class Weapon : MonoBehaviour
             }
             
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
+            CustomSoundManager.Instance.PlaySound("Reload_FinishPerfect", "PlayerUnpitched", 1f);
         }
         else
         {
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_Finish", false, 1f);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_Finish", false, 1f);
+            CustomSoundManager.Instance.PlaySound("Reload_Finish", "PlayerUnpitched", 1f);
         }
     }
 
@@ -337,7 +342,8 @@ public class Weapon : MonoBehaviour
                 if (currentChargePurcentage > 1)
                 {
                     UiCrossHair.Instance.JustFinishedCharging();
-                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
+                    //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
+                    CustomSoundManager.Instance.PlaySound("Charged_Shotgun", "Player", null, 1f,false,1,0.1f);
                     currentChargePurcentage = 1;
                 }
             }
@@ -459,7 +465,8 @@ public class Weapon : MonoBehaviour
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
+            CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player",null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f,false,1, .2f);
 
         }
         else

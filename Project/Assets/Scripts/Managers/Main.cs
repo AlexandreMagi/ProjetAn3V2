@@ -76,7 +76,7 @@ public class Main : MonoBehaviour
     void Start ()
     {
         //Debug.Log("Remettre la musique");
-        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Drone_Ambiant", true, 0.5f);
+        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "Music",null, 0.5f, true);
     }
 
     // Update is called once per frame
@@ -181,13 +181,13 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             SceneHandler.Instance.RestartScene(.3f, true);
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
+           CustomSoundManager.Instance.PlaySound("RestartSound", "UI",1);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
+            CustomSoundManager.Instance.PlaySound("RestartSound", "UI",1);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -216,6 +216,11 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, -50);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -627,16 +632,16 @@ public class Main : MonoBehaviour
 
         if (rez)
         {
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.5f);
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Up", false, 1);
+            CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "UI", 0.5f);
+            CustomSoundManager.Instance.PlaySound("Bell_Up", "UI", 1);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
             if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(0, 0.5f);
         }
         else
         {
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Boo", false, 0.2f);
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Bell_Down", false, 1);
+            CustomSoundManager.Instance.PlaySound("Crowd_Boo", "UI", 0.2f);
+            CustomSoundManager.Instance.PlaySound("Bell_Down", "UI", 1);
             DoGameOver();
         }
     }
@@ -649,7 +654,8 @@ public class Main : MonoBehaviour
         UiLifeBar.Instance.EndGame();
         GameEnded = true;
 
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
+        //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
+        CustomSoundManager.Instance.PlaySound("GameOver_Sound", "UI", 1);
     }
 
     private void DoResurrection(float bonus)

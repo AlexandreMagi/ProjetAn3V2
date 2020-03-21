@@ -168,8 +168,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                     if(canShoot)
                         Shoot();
                     //GetComponent<Animator>().SetTrigger("Shoot");
-                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Launch", false, 0.5f);
-                    CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_MissileLaunch", false, 0.7f);
+                    CustomSoundManager.Instance.PlaySound("SE_Shooter_Launch", "Effect", .5f);
+                    CustomSoundManager.Instance.PlaySound("SE_MissileLaunch", "Effect", .7f);
                     if (bulletShot >= entityData.nbShootPerSalve)
                     {
                         // RESET DES VALEURS ET STUN
@@ -199,7 +199,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void SpotTarget()
     {
         state = (int)State.Rotating;
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Spot", false, 0.6f);
+        CustomSoundManager.Instance.PlaySound("SE_Shooter_Spot", "Effect", .6f);
     }
 
     /// <summary>
@@ -217,7 +217,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void StartLoading()
     {
         state = (int)State.Loading;
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Bip_Rockets", false, 1);
+        CustomSoundManager.Instance.PlaySound("SE_Shooter_Bip_Rockets", "Effect", 1);
     }
 
     /// <summary>
@@ -351,13 +351,13 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     public override void TakeDamage(float value)
     {
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Damage", false, 1, 0, 0, false); ;
+        CustomSoundManager.Instance.PlaySound("SE_Shooter_Damage", "Effect", null, 1, false, 1, 0, 0, false);
         base.TakeDamage(value);
     }
 
     protected override void Die()
     {
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Shooter_Death", false, .6f);
+        CustomSoundManager.Instance.PlaySound("SE_Shooter_Death", "Effect", .6f);
 
         foreach (var bullet in allBullets)
         {

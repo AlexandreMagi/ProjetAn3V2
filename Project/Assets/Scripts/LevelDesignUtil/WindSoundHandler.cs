@@ -27,27 +27,31 @@ public class WindSoundHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wind = CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Wind", false, 0.5f);
-        wind.pitch = startPitch;
+        wind = CustomSoundManager.Instance.PlaySound("SE_Wind", "Ambiant", 0.5f);
+
+        if (wind != null) wind.pitch = startPitch;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (purcentage < 1)
+        if (wind != null)
         {
-            purcentage += Time.deltaTime / timeToMaxPitch;
-            wind.pitch = Mathf.Lerp(startPitch, maxPitchGoTo, purcentage);
-        }
-        if (purcentage > 1)
-        {
-            purcentage = 1;
-            wind.pitch = maxPitchGoTo;
+            if (purcentage < 1)
+            {
+                purcentage += Time.deltaTime / timeToMaxPitch;
+                wind.pitch = Mathf.Lerp(startPitch, maxPitchGoTo, purcentage);
+            }
+            if (purcentage > 1)
+            {
+                purcentage = 1;
+                wind.pitch = maxPitchGoTo;
+            }
         }
     }
 
     public void Cut()
     {
-        wind.Stop();
+        if (wind != null) wind.Stop();
     }
 }

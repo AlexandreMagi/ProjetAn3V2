@@ -97,7 +97,8 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundName, false, volume);
+        //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundName, false, volume);
+        CustomSoundManager.Instance.PlaySound(soundName, "Effect", volume);
 
         yield break;
     }

@@ -98,7 +98,8 @@ public class UIOrb : MonoBehaviour
         if (animCooldown == 1)
         {
             animCooldown = 0;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 1, 0.2f);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "NoAmmoEnergetic", false, 1, 0.2f);
+            CustomSoundManager.Instance.PlaySound("NoAmmoEnergetic", "UI", null, 1, false,1, 0.2f);
         }
     }
 

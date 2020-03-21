@@ -72,7 +72,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             Invoke("OrbDestroyed", 0.1f);
             Invoke("GoToTuto", timeBetweenDeathAndNextSequence);
             bItemDestroyed = true;
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GravityOrbOvercharge_Boosted", false, 0.2f);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GravityOrbOvercharge_Boosted", false, 0.2f);
+            CustomSoundManager.Instance.PlaySound("GravityOrbOvercharge_Boosted", "Effect", 0.2f);
         }
         if (bItemDestroyed && !bItemDestroyedCompletly && pouletCoco)
         {
@@ -107,7 +108,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
     {
 
 
-        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 1f);
+        //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "EquipOrb_Boosted", false, 1f);
+        CustomSoundManager.Instance.PlaySound("EquipOrb_Boosted", "Effect", 1f);
         CameraHandler.Instance.AddShake(shakeForce, shakeTime);
 
         bItemDestroyedCompletly = true;
@@ -127,7 +129,8 @@ public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletA
             {
                 FxManager.Instance.PlayFx("VFX_DistortionBoom", transform.position, transform.rotation, multiplierBoom * 2.5f);
                 currentTimer = timerSafeFx;
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ImpactOrbeSequence_Boosted", false, 1f);
+                //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ImpactOrbeSequence_Boosted", false, 1f);
+                CustomSoundManager.Instance.PlaySound("ImpactOrbeSequence_Boosted", "Effect", 1f);
             }
 
             DammageDone += Dmg / 35;
