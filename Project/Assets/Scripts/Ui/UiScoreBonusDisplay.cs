@@ -71,10 +71,14 @@ public class UiScoreBonusDisplay : MonoBehaviour
     {
         if (Random.Range(0f,100f)< 30f)
         {
-            if (Random.Range(0f, 100f) < 50)
+            /*if (Random.Range(0f, 100f) < 50)
                 CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.3f, 0.1f);
             else
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer2", false, 0.3f, 0.1f);
+                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer2", false, 0.3f, 0.1f);*/
+            if (Random.Range(0f, 100f) < 50)
+                CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "PublicAmbiant", null, 0.3f,false,1, 0.1f);
+            else
+                CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.3f, false, 1, 0.1f);
         }
     }
 

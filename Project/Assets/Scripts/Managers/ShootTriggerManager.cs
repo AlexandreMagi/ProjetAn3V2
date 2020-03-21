@@ -155,7 +155,8 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (soundPlayed != "")
         {
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
+            CustomSoundManager.Instance.PlaySound(soundPlayed, "Effect", soundVolume);
         }
 
         if (startsNextSequenceOnTrigger)
@@ -185,7 +186,8 @@ public class ShootTriggerManager : MonoBehaviour
 
 
             SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
+            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
+            CustomSoundManager.Instance.PlaySound("RestartSound", "UI", 1);
         }
     }
 }

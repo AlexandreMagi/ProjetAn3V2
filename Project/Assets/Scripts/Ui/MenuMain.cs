@@ -64,8 +64,10 @@ public class MenuMain : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1;
-        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
-        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
+        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
+        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
+        CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "UI",null, .4f, true);
+        CustomSoundManager.Instance.PlaySound("Crowd_Idle", "UI",null, .2f, true);
 
         for (int i = 0; i < basePullBulleltHole; i++)
         {
@@ -131,10 +133,10 @@ public class MenuMain : MonoBehaviour
                     currentState = menustate.intro;
                     GetComponent<Animator>().SetTrigger("ReplayIntro");
                 }
-                CustomSoundManager.Instance.Mute();
+                //CustomSoundManager.Instance.Mute();
                 break;
             case menustate.intro:
-                CustomSoundManager.Instance.UnMute();
+                //CustomSoundManager.Instance.UnMute();
                 if (CheckIfShoot()) SkipToHome();
                 break;
             case menustate.home:
@@ -150,7 +152,8 @@ public class MenuMain : MonoBehaviour
                 {
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
-                    CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_FirstValidate", false, 1);
+                    //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_FirstValidate", false, 1);
+                    CustomSoundManager.Instance.PlaySound("SE_FirstValidate", "UI", 1);
                     foreach (var button in buttonMenuScripts)
                     {
                         button.UpdatePos(false);
@@ -299,7 +302,8 @@ public class MenuMain : MonoBehaviour
             currentChargePurcentage += (dataWeapon.chargeSpeedIndependantFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime) / dataWeapon.chargeTime;
             if (currentChargePurcentage > 1)
             {
-                CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
+                //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
+                CustomSoundManager.Instance.PlaySound("Charged_Shotgun", "UI", 1);
                 UiCrossHair.Instance.JustFinishedCharging();
                 currentChargePurcentage = 1;
             }
@@ -320,7 +324,8 @@ public class MenuMain : MonoBehaviour
                 InstanceBulletHoleDecal(GetCursorPos(), currentWeaponMod.bulletImprecision * shotGunAddedSpread);
         }
 
-        CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", false, currentChargePurcentage == 1 ? 0.8f : 0.4f, 0.2f);
+        //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", false, currentChargePurcentage == 1 ? 0.8f : 0.4f, 0.2f);
+        CustomSoundManager.Instance.PlaySound(currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot","UI",null, currentChargePurcentage == 1 ? 0.8f : 0.4f,false, 0.2f);
         
         UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
         currentChargePurcentage = 0;

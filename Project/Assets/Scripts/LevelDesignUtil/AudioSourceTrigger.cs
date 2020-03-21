@@ -29,7 +29,7 @@ public class AudioSourceTrigger : MonoBehaviour
         if (desactivateWind && WindSoundHandler.Instance != null)
         {
             WindSoundHandler.Instance.Cut();
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 1f);
+            CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "Effect", 1f);
         }
     }
 }

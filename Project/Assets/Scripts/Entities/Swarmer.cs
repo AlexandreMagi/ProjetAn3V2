@@ -197,7 +197,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if(entityData.spawnsPartsOnDeath)
                 InstansiateDeadBody();
 
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Death", false, 0.8f, 0.3f);
+            CustomSoundManager.Instance.PlaySound("SE_Swarmer_Death", "Effect", null, 0.8f,false,1,0.3f);
 
             this.gameObject.SetActive(false);
 
@@ -358,7 +358,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
                         //Start attack
                         rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
-                        CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Attack", false, 0.4f, 0.3f);
+                        CustomSoundManager.Instance.PlaySound("SE_Swarmer_Attack", "Effect", null, 0.4f, false, 1, 0.3f);
                     }
                     else
                         currentState = SwarmerState.FollowPath;
@@ -588,7 +588,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         hasPlayedFxOnPull = false;
 
         if (Random.Range(0, 100) < 30)
-            CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Spawn", false, 0.3f, 0.3f);
+            CustomSoundManager.Instance.PlaySound("SE_Swarmer_Spawn", "Effect",null,.3f,false,1,.3f);
         Invoke("MaybeGrunt", 1f);
         //InitColor();
     }
@@ -714,7 +714,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (gameObject.activeSelf)
         {
             if (Random.Range(0, 100) < 5)
-                CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "SE_Swarmer_Grunt", false, 0.5f, 0.3f);
+                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Grunt", "Effect", null, .5f, false, 1, .3f);
             Invoke("MaybeGrunt", 1f);
         }
     }
