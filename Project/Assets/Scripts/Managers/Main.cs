@@ -75,8 +75,8 @@ public class Main : MonoBehaviour
 
     void Start ()
     {
-        //Debug.Log("Remettre la musique");
-        hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "Music",null, 0.5f, true);
+        Debug.Log("Remettre la musique");
+        //hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "Music",null, 0.5f, true);
     }
 
     // Update is called once per frame
