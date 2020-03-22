@@ -218,7 +218,7 @@ public class Weapon : MonoBehaviour
     void HitMarkerSoundFunc()
     {
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "HitMarker_Boosted", false, 0.5f, 0, 3f, false);
-        CustomSoundManager.Instance.PlaySound("HitMarker_Boosted", "PlayerUnpitched", null, 0.5f, false, 1, .3f);
+        CustomSoundManager.Instance.PlaySound("HitMarker_Boosted", "PlayerUnpitched", null, 0.5f, false, 1,0f, -.3f);
     }
     public float GetOrbValue()
     {
