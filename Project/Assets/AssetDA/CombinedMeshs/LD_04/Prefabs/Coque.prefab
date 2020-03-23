@@ -124,12 +124,13 @@ GameObject:
   - component: {fileID: 5128799383141423658}
   - component: {fileID: 8981862446956396698}
   - component: {fileID: 827656023820691137}
+  - component: {fileID: 402764200}
   m_Layer: 9
   m_Name: Fermeture avion bas
-  m_TagString: Untagged
+  m_TagString: FermetureAvionBas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5128799383141423658
 Transform:
@@ -192,6 +193,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &402764200
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2821727675314491405}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 330a533d37eda8d42a666b1ccef0824a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7198778737082141360
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,12 +302,13 @@ GameObject:
   - component: {fileID: 5914028451289081237}
   - component: {fileID: 5866104228923730292}
   - component: {fileID: 6221658549622219709}
+  - component: {fileID: 1524463990}
   m_Layer: 9
   m_Name: Fermeture avion haut
-  m_TagString: Untagged
+  m_TagString: FermetureAvionHaut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5914028451289081237
 Transform:
@@ -350,3 +371,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &1524463990
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7574917226887914981}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c243c350d600a6044abbd375241db3c9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
