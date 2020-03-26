@@ -77,7 +77,11 @@ public class CameraHandler : MonoBehaviour
     CinemachineBlendDefinition.Style currentCinemachineStyle = CinemachineBlendDefinition.Style.Linear;
 
     Vector3 posCurrentSequenceEnd = Vector3.zero;
+    Vector3 posCurrentSequenceStart = Vector3.zero;
     bool fadeStepsAtEndOfSequence = false;
+    bool fadeStepsAtStartOfSequence = false;
+    float distanceFadeStepsAtEnd = 1;
+    float distanceFadeStepsAtStart = 2;
 
     // Short step
     bool onShortStep = false;
@@ -219,9 +223,15 @@ public class CameraHandler : MonoBehaviour
 
         //Permet de ralentir les pas à la fin d'un déplacement
         float distanceWithEnd = Vector3.Distance(currentCamRef.transform.position, posCurrentSequenceEnd);
-        if (distanceWithEnd < camData.distanceFadeStepsAtEnd && fadeStepsAtEndOfSequence)
+        if (distanceWithEnd < distanceFadeStepsAtEnd && fadeStepsAtEndOfSequence)
         {
-            currentFrequency = Mathf.Lerp(frequency, 0, distanceWithEnd / camData.distanceFadeStepsAtEnd);
+            currentFrequency = Mathf.Lerp(currentFrequency, 0, distanceWithEnd / distanceFadeStepsAtEnd);
+        }
+        //Permet de faire un fade des steps au lancement d'une séquence
+        float distanceWithStart = Vector3.Distance(currentCamRef.transform.position, posCurrentSequenceStart);
+        if (distanceWithStart < distanceFadeStepsAtStart && fadeStepsAtStartOfSequence)
+        {
+            currentFrequency = Mathf.Lerp(0, currentFrequency, distanceWithStart / distanceFadeStepsAtStart);
         }
         
 
@@ -631,10 +641,14 @@ public class CameraHandler : MonoBehaviour
         timerRemainingOnThisSequence = timeSequence;
         timerSequenceTotal = timeSequence;
     }
-    public void UpdatePosFinal (Vector3 pos, bool stopAtEnd)
+    public void UpdatePos(Vector3 posStart, Vector3 posEnd, bool startAtStart, bool stopAtEnd, float fadeDistanceStart, float fadeDistanceEnd)
     {
-        posCurrentSequenceEnd = pos;
+        posCurrentSequenceStart = posStart;
+        posCurrentSequenceEnd = posEnd;
+        fadeStepsAtStartOfSequence = startAtStart;
         fadeStepsAtEndOfSequence = stopAtEnd;
+        distanceFadeStepsAtStart = fadeDistanceStart;
+        distanceFadeStepsAtEnd = fadeDistanceEnd;
     }
     public void ShortStep (AnimationCurve curve, float amplitude, float time)
     {
