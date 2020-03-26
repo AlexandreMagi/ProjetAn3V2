@@ -84,10 +84,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8274719076216917016}
     m_Modifications:
+    - target: {fileID: 1124092170221758528, guid: e7507cd172974894cb3c53834245d843,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1703844807397317788, guid: e7507cd172974894cb3c53834245d843,
         type: 3}
       propertyPath: m_Name
       value: Missile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1703844807397317788, guid: e7507cd172974894cb3c53834245d843,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2449426084645138063, guid: e7507cd172974894cb3c53834245d843,
         type: 3}
@@ -164,7 +174,9 @@ PrefabInstance:
       propertyPath: useRigidbodyForVelocity
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1124092170221758528, guid: e7507cd172974894cb3c53834245d843, type: 3}
+    - {fileID: 6675771386399970489, guid: e7507cd172974894cb3c53834245d843, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e7507cd172974894cb3c53834245d843, type: 3}
 --- !u!1 &1720401387163947334 stripped
 GameObject:

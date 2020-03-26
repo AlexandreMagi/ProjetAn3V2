@@ -60,6 +60,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     GameObject deadBody = null;
     bool isDying = false;
 
+    [Header("Animator")]
+    [SerializeField] SwarmerProceduralAnimation animatorCustom = null;
 
     #region Stimulus
     public override void OnDistanceDetect(Transform p_target, float distance)
@@ -118,6 +120,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             hasPlayedFxOnPull = true;
             currentPullParticles = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
         }
+        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
     }
 
     public void OnRelease()
@@ -133,6 +136,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void OnZeroG()
     {
         ReactGravity<DataSwarmer>.DoSpin(rbBody);
+        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -267,6 +271,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Distance to attack check
         if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
         {
+            if (currentState != SwarmerState.WaitingForAttack)
+                animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.prepare);
             currentState = SwarmerState.WaitingForAttack;
             rbBody.velocity = Vector3.zero;
         }
@@ -359,6 +365,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         //Start attack
                         rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
                         CustomSoundManager.Instance.PlaySound("SE_Swarmer_Attack", "Effect", null, 0.4f, false, 1, 0.3f);
+                        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.jump);
                     }
                     else
                         currentState = SwarmerState.FollowPath;
@@ -390,6 +397,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     if (!CheckDistance())
                     {
                         currentState = SwarmerState.LookingForTarget;
+                        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
                     }
                 }
                 break;
@@ -590,6 +598,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (Random.Range(0, 100) < 30)
             CustomSoundManager.Instance.PlaySound("SE_Swarmer_Spawn", "Effect",null,.3f,false,1,.3f);
         Invoke("MaybeGrunt", 1f);
+
+        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         //InitColor();
     }
 
