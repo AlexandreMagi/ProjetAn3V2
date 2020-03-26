@@ -76,6 +76,8 @@ public class CameraHandler : MonoBehaviour
     AnimationCurve currentCinemachineCurve;
     CinemachineBlendDefinition.Style currentCinemachineStyle = CinemachineBlendDefinition.Style.Linear;
 
+    Vector3 posCurrentSequenceEnd = Vector3.zero;
+
     // Short step
     bool onShortStep = false;
     AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -620,6 +622,10 @@ public class CameraHandler : MonoBehaviour
         currentFrequency = _frequency;
         timerRemainingOnThisSequence = timeSequence;
         timerSequenceTotal = timeSequence;
+    }
+    public void UpdatePosFinal (Vector3 pos)
+    {
+        posCurrentSequenceEnd = pos;
     }
     public void ShortStep (AnimationCurve curve, float amplitude, float time)
     {
