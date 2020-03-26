@@ -83,4 +83,8 @@ public class DataCameraBasic : ScriptableObject
     public float idleAmplitude = 0.5f;
     public float idleTime = 0.5f;
     public float minimumIdleTransition = 1;
+
+    [Header("Stop automatique des Steps et Idle")]
+    public float distanceFadeStepsAtEnd = 1f;
+
 }

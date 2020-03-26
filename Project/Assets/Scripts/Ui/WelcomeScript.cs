@@ -10,6 +10,8 @@ public class WelcomeScript : MonoBehaviour
         Instance = this;
     }
 
+    [SerializeField] bool activate = false;
+
     [SerializeField] float timerBeforeCall = 1;
     [SerializeField] GameObject textMesh = null;
     [SerializeField] AnimationCurve anim = AnimationCurve.Linear(0, 0, 1, 1);
@@ -19,6 +21,8 @@ public class WelcomeScript : MonoBehaviour
 
     private void Start()
     {
+        if (!activate) Destroy(this);
+        else
         Invoke("LaunchWelcome", timerBeforeCall);
     }
 

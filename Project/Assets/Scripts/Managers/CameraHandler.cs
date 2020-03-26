@@ -76,6 +76,9 @@ public class CameraHandler : MonoBehaviour
     AnimationCurve currentCinemachineCurve;
     CinemachineBlendDefinition.Style currentCinemachineStyle = CinemachineBlendDefinition.Style.Linear;
 
+    Vector3 posCurrentSequenceEnd = Vector3.zero;
+    bool fadeStepsAtEndOfSequence = false;
+
     // Short step
     bool onShortStep = false;
     AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -200,6 +203,7 @@ public class CameraHandler : MonoBehaviour
         if (timerRemainingOnThisSequence > 0) timerRemainingOnThisSequence -= Time.deltaTime;
         if (timerRemainingOnThisSequence < 0) timerRemainingOnThisSequence  = 0;
 
+        //Changement de frequence en fonction des curves cinémachines
         currentFrequency = frequency;
         if (currentCinemachineCurve != null)
         {
@@ -213,6 +217,12 @@ public class CameraHandler : MonoBehaviour
                 currentFrequency = frequency * currentCinemachineCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal));
         }
 
+        //Permet de ralentir les pas à la fin d'un déplacement
+        float distanceWithEnd = Vector3.Distance(currentCamRef.transform.position, posCurrentSequenceEnd);
+        if (distanceWithEnd < camData.distanceFadeStepsAtEnd && fadeStepsAtEndOfSequence)
+        {
+            currentFrequency = Mathf.Lerp(frequency, 0, distanceWithEnd / camData.distanceFadeStepsAtEnd);
+        }
         
 
         // Fait le switch entre la caméra cinemachine et la caméra animée
@@ -620,6 +630,11 @@ public class CameraHandler : MonoBehaviour
         currentFrequency = _frequency;
         timerRemainingOnThisSequence = timeSequence;
         timerSequenceTotal = timeSequence;
+    }
+    public void UpdatePosFinal (Vector3 pos, bool stopAtEnd)
+    {
+        posCurrentSequenceEnd = pos;
+        fadeStepsAtEndOfSequence = stopAtEnd;
     }
     public void ShortStep (AnimationCurve curve, float amplitude, float time)
     {

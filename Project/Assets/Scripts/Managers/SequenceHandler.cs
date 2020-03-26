@@ -503,6 +503,7 @@ public class SequenceHandler : MonoBehaviour
         if (CameraHandler.Instance != null)
         {
             float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 4 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
+            CameraHandler.Instance.UpdatePosFinal(newCamPos, true);
             if (currentSequence.isShortStep)
             {
                 CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime);
