@@ -139,8 +139,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
                 circlePrefab.GetComponent<Image>().color = Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance));
                 if (entityData.desactivateCircles) circlePrefab.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             }
-            bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
-            bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
+            //bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_BaseColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
+            //bulletMesh.GetComponent<MeshRenderer>().material.SetColor ("_EmissionColor", Color.Lerp(Color.yellow, Color.red, (Curr / MaxDistance)));
 
 
             GetComponent<BoxCollider>().enabled = true;
