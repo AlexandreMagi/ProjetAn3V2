@@ -246,6 +246,9 @@ public class Weapon : MonoBehaviour
     {
         if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0)
         {
+            //Metrics
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Reload);
+
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
             reloading = true;
@@ -266,7 +269,11 @@ public class Weapon : MonoBehaviour
         {
             haveTriedPerfet = true;
             if (reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange))
+            {
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.PerfectReload);
                 EndReload(true);
+            }
+                
             else
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
@@ -317,6 +324,8 @@ public class Weapon : MonoBehaviour
         {
             if (timeRemainingBeforeOrb < 0)
             {
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedGravity);
+
                 currentOrb = Instantiate(orbPrefab);
                 currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
                 timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
@@ -377,10 +386,13 @@ public class Weapon : MonoBehaviour
     {
         if (bulletRemaining > 0)
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Shoot);
+
             List<Ray> bounceCalculations = new List<Ray>();
             if(weaponMod == weapon.chargedShot)
             {
                 shotGunHasHit = false;
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedShotgun);
                 Invoke("CheckIfShotGunHasHit", .1f);
             }
             if (UiDamageHandler.Instance != null)
@@ -501,6 +513,10 @@ public class Weapon : MonoBehaviour
         if (!shotGunHasHit)
         {
             //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissShotGun, transform.position);
+        }
+        else
+        {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
         }
     }
 

@@ -834,6 +834,8 @@ GameObject:
   - component: {fileID: 872805414747636926}
   - component: {fileID: 8791258131886555901}
   - component: {fileID: 9143118701283523650}
+  - component: {fileID: 4518846406276800005}
+  - component: {fileID: 6795190160362316574}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -1143,6 +1145,32 @@ MonoBehaviour:
   distanceToEndKill: 0.3
   timeBeforeBulletCanBeShootAgain: 1
   offsetPosInit: -0.5
+--- !u!114 &4518846406276800005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584541180804375017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a8ebe078f8ddc46beeb3d1f572e69b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6795190160362316574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7584541180804375017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1ffa9396bb57c24ea88d6602f90d6de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataTitles: {fileID: 11400000, guid: 966adb09203507240beccfe3abb2d018, type: 2}
+  recordMetrics: 1
 --- !u!1 &7679686884423550348
 GameObject:
   m_ObjectHideFlags: 0

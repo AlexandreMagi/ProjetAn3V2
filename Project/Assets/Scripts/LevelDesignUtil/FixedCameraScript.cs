@@ -18,6 +18,7 @@ public class FixedCameraScript : MonoBehaviour
     [SerializeField]
     string fxName = "VFX_CameraExplosion";
 
+
     bool hitByBulletBool = false;
 
 
@@ -31,36 +32,44 @@ public class FixedCameraScript : MonoBehaviour
 
     public void hitByBullet()
     {
-        Weapon.Instance.OnShotGunHitTarget();
-
-        FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation);
-        CameraHandler.Instance.AddShake(camShake.x, camShake.y);
-
-        //Prop[] prop = GetComponentsInChildren<Prop>();
-        //foreach (Prop pr in prop)
-        //{
-        //    if (pr != null)
-        //    {
-        //        pr.enabled = true;
-        //    }
-
-        //}
-
-        Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in rbList)
+        if (!hitByBulletBool)
         {
-            if(rb != null)
+            hitByBulletBool = true;
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.CameraDestroyed);
+
+            Weapon.Instance.OnShotGunHitTarget();
+
+            FxManager.Instance.PlayFx(fxName, cameraDummy.position, cameraDummy.rotation);
+            CameraHandler.Instance.AddShake(camShake.x, camShake.y);
+
+            //Prop[] prop = GetComponentsInChildren<Prop>();
+            //foreach (Prop pr in prop)
+            //{
+            //    if (pr != null)
+            //    {
+            //        pr.enabled = true;
+            //    }
+
+            //}
+
+            Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rb in rbList)
             {
-                rb.isKinematic = false;
-                rb.AddExplosionForce(500f, transform.position, 1f);
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                    rb.AddExplosionForce(500f, transform.position, 1f);
+                }
+
             }
-           
+
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageFixedCam, gameObject.transform.position);
+
+
+            this.enabled = false;
         }
-
-        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageFixedCam, gameObject.transform.position);
-
-
-        this.enabled = false;
+        
     }
 
 
