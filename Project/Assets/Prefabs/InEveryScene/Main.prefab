@@ -330,8 +330,8 @@ Camera:
   m_GameObject: {fileID: 3084161088736779531}
   m_Enabled: 0
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineCam: {fileID: 0}
-  animatedCam: {fileID: 3183305506983849118}
+  animatedCam: {fileID: 0}
   animatorFromAnimatedCam: {fileID: 3183305506983849088}
   renderingCam: {fileID: 7950423414511688772}
   camData: {fileID: 11400000, guid: e9cf6c4ce67cae443b06cc1ed673e767, type: 2}
@@ -994,6 +994,7 @@ MonoBehaviour:
   - {fileID: 6203170343853254968, guid: 838abc6e6f5783a488e67180391c3d49, type: 3}
   - {fileID: 4426806474779461934, guid: 056dcbc9691e5aa4ba14852179f4c9d9, type: 3}
   - {fileID: 4426806474779461934, guid: 1ed8ba1efe50d0146a624a2313854699, type: 3}
+  - {fileID: 7709727678840268018, guid: 3a789061032ba094bb9f760745e68314, type: 3}
 --- !u!114 &7244353406021666021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,21 +1531,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01bb7bbe576bc494ebfffb055e48f36d, type: 3}
---- !u!4 &3183305506983849117 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2211647413142285169, guid: 01bb7bbe576bc494ebfffb055e48f36d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3646797377262634988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3183305506983849088 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2211647413142285164, guid: 01bb7bbe576bc494ebfffb055e48f36d,
     type: 3}
   m_PrefabInstance: {fileID: 3646797377262634988}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &3183305506983849118 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2211647413142285170, guid: 01bb7bbe576bc494ebfffb055e48f36d,
+--- !u!4 &3183305506983849117 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2211647413142285169, guid: 01bb7bbe576bc494ebfffb055e48f36d,
     type: 3}
   m_PrefabInstance: {fileID: 3646797377262634988}
   m_PrefabAsset: {fileID: 0}
