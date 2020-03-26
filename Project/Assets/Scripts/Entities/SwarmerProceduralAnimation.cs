@@ -96,10 +96,10 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             pelvisRef.rotation = pelvis.rotation;
         }
 
-        if (Input.GetKeyDown(KeyCode.W)) PlayAnim(AnimSwarmer.prepare);
-        if (Input.GetKeyDown(KeyCode.X)) PlayAnim(AnimSwarmer.jump);
-        if (Input.GetKeyDown(KeyCode.C)) PlayAnim(AnimSwarmer.attack);
-        if (Input.GetKeyDown(KeyCode.V)) PlayAnim(AnimSwarmer.reset);
+        //if (Input.GetKeyDown(KeyCode.W)) PlayAnim(AnimSwarmer.prepare);
+        //if (Input.GetKeyDown(KeyCode.X)) PlayAnim(AnimSwarmer.jump);
+        //if (Input.GetKeyDown(KeyCode.C)) PlayAnim(AnimSwarmer.attack);
+        //if (Input.GetKeyDown(KeyCode.V)) PlayAnim(AnimSwarmer.reset);
 
     }
 
