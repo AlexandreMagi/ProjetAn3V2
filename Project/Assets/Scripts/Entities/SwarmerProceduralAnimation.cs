@@ -95,6 +95,12 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             pelvisRef.position = pelvis.position;
             pelvisRef.rotation = pelvis.rotation;
         }
+
+        if (Input.GetKeyDown(KeyCode.W)) PlayAnim(AnimSwarmer.prepare);
+        if (Input.GetKeyDown(KeyCode.X)) PlayAnim(AnimSwarmer.jump);
+        if (Input.GetKeyDown(KeyCode.C)) PlayAnim(AnimSwarmer.attack);
+        if (Input.GetKeyDown(KeyCode.V)) PlayAnim(AnimSwarmer.reset);
+
     }
 
     void HeadRotation()
@@ -153,6 +159,27 @@ public class SwarmerProceduralAnimation : MonoBehaviour
 
         }
     }
+
+    public enum AnimSwarmer { reset, prepare, jump, attack }
+    int[] triggers = new int[]
+    { 
+        Animator.StringToHash("reset"),
+        Animator.StringToHash("prepareAttack"),
+        Animator.StringToHash("jump"),
+        Animator.StringToHash("attack")
+    };
+
+    public void PlayAnim(AnimSwarmer animType)
+    {
+        meshAnimator.SetTrigger(triggers[(int)animType]);
+
+        if (animType == AnimSwarmer.reset)
+            Invoke("ActivateProcedural", 0.1f);
+        else
+            activeProcedu = false;
+    }
+
+    void ActivateProcedural() { activeProcedu = true; }
 
 
 

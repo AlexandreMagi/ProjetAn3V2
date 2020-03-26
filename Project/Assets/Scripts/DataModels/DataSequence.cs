@@ -154,9 +154,17 @@ public class DataSequence : ScriptableObject
     [Header("Camera")]
     public bool enableCamFeedback = true;
     public bool enableCamTransition = false;
-    public bool stepStopAtEnd = false;
     [ShowIf("enableCamTransition")]
     public float transitionTime = 2;
+
+    [ShowIf("enableCamFeedback")]
+    public bool stepFadeAtStart = false;
+    [ShowIf("stepFadeAtStart"), ShowIf("enableCamFeedback")]
+    public float distFadeStart = 2;
+    [ShowIf("enableCamFeedback")]
+    public bool stepFadeAtEnd = false;
+    [ShowIf("stepFadeAtEnd"), ShowIf("enableCamFeedback")]
+    public float distFadeEnd = 1;
 
 
     //SEQUENCE BRANCHES
