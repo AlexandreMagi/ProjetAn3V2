@@ -138,8 +138,11 @@ public class UiViewer : MonoBehaviour
         }
         //yield return new WaitForSecondsRealtime(4);
 
-        
 
+        if (revive)
+        {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.RevivedByCrowd);
+        }
 
         publicBackground.SetActive(false);
         publicSpriteonDeath.SetActive(false);

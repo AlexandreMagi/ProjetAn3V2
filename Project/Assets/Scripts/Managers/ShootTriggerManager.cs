@@ -183,6 +183,7 @@ public class ShootTriggerManager : MonoBehaviour
         {
             LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers());
 
+            MetricsGestionnary.Instance.SaveMetrics();
 
 
             SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);

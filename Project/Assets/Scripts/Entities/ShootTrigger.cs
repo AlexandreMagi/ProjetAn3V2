@@ -7,7 +7,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     ShootTriggerManager parentManager = null;
 
     [SerializeField]
-    bool isCollectible = false;
+    public bool isCollectible = false;
 
     bool isTriggered = false;
 
@@ -37,6 +37,8 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     {
         if (!isTriggered)
         {
+            //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
+
             isTriggered = true;
             //if (keepsCombo) C_ComboManager.Instance.MaintainCombo();
 
@@ -67,7 +69,11 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
                 Player.Instance.GainArmor(armorGiven);
 
             if (isCollectible)
+            {
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Collectible, transform.position);
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ArmorPadDestroyed);
+            }
+                
 
             Destroy(this);
         }

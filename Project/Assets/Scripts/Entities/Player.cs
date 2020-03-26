@@ -39,6 +39,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     protected override void Die()
     {
         //Main.Instance.TriggerGameOverSequence();
+        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Death);
+
         Main.Instance.FinalChoice();
     }
     
@@ -77,6 +79,9 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     {
         if (health > 0)
         {
+            //Metrics
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTaken, value);
+
             CustomSoundManager.Instance.PlaySound("PlayerDamage", "PlayerUnpitched",null, 1,false,1,0.2f);
             CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
             TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
@@ -106,6 +111,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             {
                 if (!godMode)
                 {
+                    MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTakenOnHealth);
                     armor -= value;
                     value = 0;
                 }

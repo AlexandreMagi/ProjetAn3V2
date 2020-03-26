@@ -161,21 +161,25 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             isArduinoMode = !isArduinoMode;
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log($"Current sequence index :{SequenceHandler.Instance.GetCurrentSequenceIndex()}");
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.N))
         {
             SequenceHandler.Instance.NextSequence(true);
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
             Player.Instance.TakeDamage(34);
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.Y))
@@ -192,12 +196,14 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             this.sequenceSkipMode = !this.sequenceSkipMode;
             Debug.Log($"Sequence skip : {sequenceSkipMode}");
         }
 
         if (Input.GetKeyDown(KeyCode.K))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Player.Instance.SetLifeTo(1);
             Player.Instance.GainArmor(-9999);
             Player.Instance.TakeDamage(1);
@@ -205,21 +211,25 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Player.Instance.SetGod();
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, 50);
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, -50);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
         }
         if (Input.GetKeyDown(KeyCode.E))
@@ -232,10 +242,12 @@ public class Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             playerCanOrb = !playerCanOrb;
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
         }
 
@@ -632,6 +644,8 @@ public class Main : MonoBehaviour
 
         if (rez)
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Resurrection);
+
             CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "UI", 0.5f);
             CustomSoundManager.Instance.PlaySound("Bell_Up", "UI", 1);
             DoResurrection(bonusFromRez);

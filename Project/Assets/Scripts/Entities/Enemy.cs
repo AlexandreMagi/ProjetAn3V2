@@ -50,6 +50,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     public virtual void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
+        //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
         FxManager.Instance.PlayFx(entityData.fxWhenTakeDamage, position, Quaternion.LookRotation(rayShot.direction, Vector3.up)); //LookRotation(rayShot.direction, Vector3.up)
         this.TakeDamage(dammage);
     }
@@ -61,7 +62,7 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     public virtual void OnHitSingleShot(DataWeaponMod mods)
     {
-
+        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
     }
 
     public virtual void OnBulletClose()
