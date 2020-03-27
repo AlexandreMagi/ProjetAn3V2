@@ -128,6 +128,10 @@ public class CameraHandler : MonoBehaviour
     float returnLerpSpeedFromBalance = 1;
     float minSpeedRot = 1;
 
+    bool breathingEnabled = false;
+    float timeFadeBreathing = 1;
+    float breathingIdlePurcentageActivated = 0;
+
     #endregion
 
     // Stock
@@ -435,8 +439,14 @@ public class CameraHandler : MonoBehaviour
         {
             currentPurcentageIdle += dt / camData.idleTime;
             if (currentPurcentageIdle > 1) currentPurcentageIdle--;
+
+            //Calcul des transition d'idle
+            breathingIdlePurcentageActivated = Mathf.MoveTowards(breathingIdlePurcentageActivated, breathingEnabled ? 1 : 0, Time.deltaTime / timeFadeBreathing);
+
             // tanslate en fonction de la courbe d'idle
-            camRef.transform.Translate(Vector3.up * Mathf.Lerp(camData.idleCurve.Evaluate(currentPurcentageIdle) * camData.idleAmplitude, stepValues[0], frequency/ camData.minimumIdleTransition), Space.World);
+            float valueIdle = Mathf.Lerp(camData.idleCurve.Evaluate(currentPurcentageIdle) * camData.idleAmplitude, stepValues[0], frequency / camData.minimumIdleTransition);
+            valueIdle = Mathf.Lerp(0, valueIdle, breathingIdlePurcentageActivated);
+            camRef.transform.Translate(Vector3.up * valueIdle, Space.World);
             //camRef.transform.Translate(Vector3.right * Mathf.Lerp(0, stepValues[1], frequency/ camData.minimumIdleTransition), Space.Self);
             // rotate en fonction de la courbe d'idle
             camRef.transform.Rotate(0, 0, Mathf.Lerp(0, rotZBySpeed + stepValues[1], frequency / camData.minimumIdleTransition), Space.Self);
@@ -649,6 +659,11 @@ public class CameraHandler : MonoBehaviour
         fadeStepsAtEndOfSequence = stopAtEnd;
         distanceFadeStepsAtStart = fadeDistanceStart;
         distanceFadeStepsAtEnd = fadeDistanceEnd;
+    }
+    public void UpdateBreathing(bool _breathingEnabled, float _timeFadeBreathing)
+    {
+        breathingEnabled = _breathingEnabled;
+        timeFadeBreathing = _timeFadeBreathing;
     }
     public void ShortStep (AnimationCurve curve, float amplitude, float time)
     {

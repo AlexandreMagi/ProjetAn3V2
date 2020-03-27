@@ -166,6 +166,11 @@ public class DataSequence : ScriptableObject
     [ShowIf("stepFadeAtEnd"), ShowIf("enableCamFeedback")]
     public float distFadeEnd = 1;
 
+    [ShowIf("enableCamFeedback")]
+    public bool breathingEnabled = false;
+    [ShowIf("enableCamFeedback")]
+    public float timeFadeBreathing = 1;
+
 
     //SEQUENCE BRANCHES
     [Header("Sequence branches")]
