@@ -21,7 +21,8 @@ public class DeathBodyPart : MonoBehaviour
 
     Prop prop;
 
-    float explosionForceOnSpawn = 10000f;
+    [SerializeField]
+    float explosionForceOnSpawn = 300f;
 
     [SerializeField]
     bool isAlwaysSpawning = true;
@@ -30,7 +31,7 @@ public class DeathBodyPart : MonoBehaviour
     bool isPhophoAffected = false;
 
     [SerializeField]
-    bool isSwarmerPart = false;
+    bool isEnemyPart = false;
 
     bool isActiveAndVisible = true;
 
@@ -46,8 +47,11 @@ public class DeathBodyPart : MonoBehaviour
 
         prop = GetComponent<Prop>();
 
-        if (!isAlwaysSpawning && isSwarmerPart)
+        transform.rotation = Random.rotation;
+
+        if (!isAlwaysSpawning && isEnemyPart)
         {
+
             int rand;
             rand = Random.Range(0, 2);
 
@@ -59,19 +63,30 @@ public class DeathBodyPart : MonoBehaviour
             {
                 Rigidbody rb;
                 rb = GetComponent<Rigidbody>();
-                rb.AddExplosionForce(explosionForceOnSpawn, transform.position, 100f);
+                StartCoroutine(AddExplosionEffect(rb));
             }
         }
-        else if (isSwarmerPart)
+        else if (isAlwaysSpawning && isEnemyPart)
         {
             Rigidbody rb;
             rb = GetComponent<Rigidbody>();
-            rb.AddExplosionForce(explosionForceOnSpawn, transform.position, 100f);
+            StartCoroutine(AddExplosionEffect(rb));
         }
+    }
+
+    IEnumerator AddExplosionEffect(Rigidbody rb)
+    {
+        yield return new WaitForEndOfFrame();
+
+        rb.AddExplosionForce(explosionForceOnSpawn * explosionForceOnSpawn, transform.position, 3f);
+
+        yield break;
     }
 
     void Update()
     {
+
+
         if (gameObject != null && isActiveAndVisible)
         {
             if (phosphoValue >= 0 && isPhophoAffected)

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7499680602010568785}
   - component: {fileID: 312828312392801422}
   - component: {fileID: 1155814868497772912}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Canon3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,11 +140,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &544009419801034502
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +161,7 @@ GameObject:
   - component: {fileID: 1748468838332822716}
   - component: {fileID: 6656125671463421921}
   - component: {fileID: 4362779734150472925}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Jaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,11 +286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &1261804489168154756
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +307,7 @@ GameObject:
   - component: {fileID: 7854208641845067745}
   - component: {fileID: 12718588049472513}
   - component: {fileID: 8920036852397933658}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Canon1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,11 +432,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &1428776031843151184
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +453,7 @@ GameObject:
   - component: {fileID: 5233298245716398184}
   - component: {fileID: 5368954705371581174}
   - component: {fileID: 2584773723870172595}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,11 +578,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &1651720755331912882
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +599,7 @@ GameObject:
   - component: {fileID: 6391316265198955216}
   - component: {fileID: 3710325783149472052}
   - component: {fileID: 8875086168728417564}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,11 +724,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &2841015876542182205
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,7 +739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7946430087492053555}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: MeshContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +785,7 @@ GameObject:
   - component: {fileID: 8814110786428536813}
   - component: {fileID: 2674866988163023511}
   - component: {fileID: 4764015654159537005}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -905,11 +910,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &4878106038091294667
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8496562141607253464}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: ShooterCut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -956,7 +962,7 @@ GameObject:
   - component: {fileID: 3358096463231893824}
   - component: {fileID: 3968171143681945918}
   - component: {fileID: 2033581895440122948}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1081,11 +1087,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &5685618031098038222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,7 +1108,7 @@ GameObject:
   - component: {fileID: 3067427167699755227}
   - component: {fileID: 5266310970261303863}
   - component: {fileID: 2086276008909480962}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1226,11 +1233,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &6848442745461731001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,7 +1254,7 @@ GameObject:
   - component: {fileID: 7858933382920550215}
   - component: {fileID: 7155977272932499382}
   - component: {fileID: 6964636816168941131}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Canon2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,11 +1379,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
 --- !u!1 &7628226748609308877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,7 +1400,7 @@ GameObject:
   - component: {fileID: 4070130289328538978}
   - component: {fileID: 2058265445909946491}
   - component: {fileID: 958015427236378635}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1516,8 +1525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTimerBeforeDisapear: 1
-  maxTimerBeforeDisapear: 2
+  minTimerBeforeDisapear: 3
+  maxTimerBeforeDisapear: 5
+  explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
-  isSwarmerPart: 1
+  isEnemyPart: 1
