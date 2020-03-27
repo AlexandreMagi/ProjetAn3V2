@@ -64,6 +64,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     [SerializeField] Vector3[] canonRootBasePos = new Vector3[0];
     [SerializeField] float distTravel = 1.2f;
 
+    [SerializeField] Animator anmt = null;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -125,6 +127,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 Quaternion targetRotation = Quaternion.LookRotation(transform.position - vPos, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * entityData.rotationSpeed);
 
+                anmt.SetTrigger("PrepareShoot");
                 if (Quaternion.Angle(transform.rotation, targetRotation) < entityData.rotationMinimalBeforeCharge && (target.position.y - transform.position.y) < entityData.distanceYWithPlayerUpSupported)
                 {
                     //PlayerLocked();
@@ -149,6 +152,10 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 }
                 break;
             case (int)State.Loading:
+
+
+                anmt.SetTrigger("PrepareShoot");
+
                 timerLoading += Time.deltaTime;
                 if (timerLoading > entityData.timeWaitBeforeShoot)
                 {
@@ -324,6 +331,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     {
         if (canShoot)
         {
+            anmt.SetTrigger("Shoot");
             FxManager.Instance.PlayFx(entityData.muzzleFlashFx, canonPlacement.transform.position, canonPlacement.transform.rotation);
             CameraHandler.Instance.AddShake(0.5f, transform.position);
             for (int i = 0; i < entityData.nbBulletPerShoot; i++)
