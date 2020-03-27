@@ -56,8 +56,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool hasPlayedFxOnPull = false;
 
     //Death variables
-    [SerializeField]
-    GameObject deadBody = null;
     bool isDying = false;
 
     [Header("Animator")]
@@ -218,7 +216,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     void InstansiateDeadBody()
     {
         GameObject deadBodyClone;
-        deadBodyClone = Instantiate(deadBody, transform.position, transform.rotation);
+        deadBodyClone = Instantiate(entityData.deadBody, transform.position, transform.rotation);
         deadBodyClone.transform.parent = null;
     }
     #endregion

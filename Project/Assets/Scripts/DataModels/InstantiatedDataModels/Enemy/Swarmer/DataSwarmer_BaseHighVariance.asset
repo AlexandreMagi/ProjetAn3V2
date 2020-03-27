@@ -17,6 +17,8 @@ MonoBehaviour:
   team: 1
   shakeOnDie: 6.31
   shakeOnDieTime: 0.1
+  fracturedProp: {fileID: 0}
+  fracturedForceOnDie: 100
   spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
     type: 2}
   spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
@@ -27,6 +29,7 @@ MonoBehaviour:
   fxWhenDie: VFX_Death
   fxWhenDieDecals: VFX_OilSplater
   fxWhenStun: VFX_Stun
+  fxWhenTakeDamage: VFX_BloodProjected
   matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
   matChangeTime: 0.1
   shakeWhenTakeDamageForce: 0
@@ -45,6 +48,9 @@ MonoBehaviour:
   distanceBeforeAttack: 6
   jumpForce: 65
   speedMultiplierWhenAttacking: 10
+  spawnsPartsOnDeath: 1
+  deadBody: {fileID: 7328945747328693308, guid: d63c0faba4957944f98474b5cb1ebbb2,
+    type: 3}
   targetsPlayerAtEndOfPath: 1
   hasDodgeIntelligence: 1
   frontalDetectionSight: 2
@@ -70,3 +76,4 @@ MonoBehaviour:
   vfxToPlayWhenPulledByGrav: VFXOrbPull
   vfxToPlayWhenHoldByGrav: VFXOrbHold
   vfxToPlayWhenReleaseByGrav: VFXOrbRelease
+  distanceMinWithCamToPlayVFX: 5

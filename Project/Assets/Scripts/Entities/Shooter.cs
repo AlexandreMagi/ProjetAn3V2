@@ -382,8 +382,19 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 SequenceHandler.Instance.OnEnemyKill();
         }
 
+        if (entityData.spawnsPartsOnDeath)
+            InstansiateDeadBody();
+
         base.Die();
     }
+
+    void InstansiateDeadBody()
+    {
+        GameObject deadBodyClone;
+        deadBodyClone = Instantiate(entityData.deadBody, transform.position, transform.rotation);
+        deadBodyClone.transform.parent = null;
+    }
+
 
     public void OnHitByOwnBullet()
     {
