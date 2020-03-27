@@ -317,6 +317,8 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
+        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.F), 5);
+
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
         //    if (Weapon.Instance.ReloadValidate())
