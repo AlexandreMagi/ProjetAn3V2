@@ -218,7 +218,7 @@ public static class TriggerUtil
 
     static IEnumerator TriggerVFXCoroutine(float timeBeforeStart, ParticleSystem[] VFXTab, bool state)
     {
-        yield return new WaitForSecondsRealtime(timeBeforeStart);
+        yield return new WaitForSeconds(timeBeforeStart);
 
         foreach(ParticleSystem vfx in VFXTab)
         {
