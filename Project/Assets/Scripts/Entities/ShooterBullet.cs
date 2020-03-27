@@ -149,7 +149,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void HitBullet()
     {
-        FxManager.Instance.PlayFx(entityData.fxExplosion, transform.position, Quaternion.identity, entityData.explosionRadius);
+        if (CameraHandler.Instance.GetDistanceWithCam(transform.position) > entityData.distanceMinWithCamToPlayVFX)
+            FxManager.Instance.PlayFx(entityData.fxExplosion, transform.position, Quaternion.identity, entityData.explosionRadius);
 
         Collider[] tHits = Physics.OverlapSphere(this.transform.position, entityData.explosionRadius);
 

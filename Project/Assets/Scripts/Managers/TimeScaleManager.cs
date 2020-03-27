@@ -23,6 +23,9 @@ public class TimeScaleManager : MonoBehaviour
     bool slowMoEnable = true;
     //bool stopTime = false;
 
+    bool timeIsAccelerated = false;
+    float timeScaleAccel = 5;
+
     public void AddSlowMo(float power, float duration, float delay = 0, float probability = 1)
     {
         if (Random.Range(0f, 1f) < probability)
@@ -33,6 +36,12 @@ public class TimeScaleManager : MonoBehaviour
     {
         if (Random.Range(0f, 1f) < probability)
             stopTimeRequest.Add(new Vector2(duration, delay));
+    }
+
+    public void AccelGame (bool accelTime, float accel)
+    {
+        timeIsAccelerated = accelTime;
+        timeScaleAccel = accel;
     }
 
     public void Pause()
@@ -58,6 +67,8 @@ public class TimeScaleManager : MonoBehaviour
         if (!UpdateStopTime())
             UpdateSlowMo();
 
+        if (timeIsAccelerated)
+            Time.timeScale = timeScaleAccel;
     }
 
     private bool UpdateStopTime()

@@ -673,6 +673,12 @@ public class CameraHandler : MonoBehaviour
         timerRemainingOnThisSequence = time;
         timerSequenceTotal = time;
     }
+
+    public float GetDistanceWithCam(Vector3 pos)
+    {
+        return Vector3.Distance(pos, renderingCam.transform.position);
+    }
+
     public void TriggerAnim (AnimationClip animName, float animDuration)
     {
         animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
