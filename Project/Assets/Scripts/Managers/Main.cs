@@ -564,7 +564,8 @@ public class Main : MonoBehaviour
 
     public void CutMusic()
     {
-        hSoundHandlerMainMusic.volume = 0;
+        if (hSoundHandlerMainMusic != null)
+            hSoundHandlerMainMusic.volume = 0;
     }
 
     public void FinalChoice()
