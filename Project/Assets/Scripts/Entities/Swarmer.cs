@@ -61,6 +61,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [Header("Animator")]
     [SerializeField] SwarmerProceduralAnimation animatorCustom = null;
 
+    // Variable servant à changer la couleur du swarmer lors de l'attaque
+    float attackStatePurcentage = 0;
+
     #region Stimulus
     public override void OnDistanceDetect(Transform p_target, float distance)
     {
@@ -568,6 +571,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 break;
         }
 
+        attackStatePurcentage = Mathf.MoveTowards(attackStatePurcentage, (currentState == SwarmerState.Attacking) ? 1 : 0, Time.fixedDeltaTime / entityData.timeToChangeColorWhileAttacking);
        
     }
 
