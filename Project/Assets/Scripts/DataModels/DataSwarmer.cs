@@ -67,4 +67,5 @@ public class DataSwarmer : DataEnemy
     public string vfxToPlayWhenPulledByGrav = "VFX_Orbe";
     public string vfxToPlayWhenHoldByGrav = "VFX_Orbe";
     public string vfxToPlayWhenReleaseByGrav = "VFX_Orbe";
+    public float distanceMinWithCamToPlayVFX = 5;
 }

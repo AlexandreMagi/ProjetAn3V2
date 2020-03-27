@@ -42,6 +42,7 @@ public class DataShooterBullet : DataEnemy
     public string fxExplosion = "VFX_ExplosionShooterBullet";
     public GameObject circlePrefab;
     public Vector2 meshRotationRandom = new Vector2 (120, 280);
+    public float distanceMinWithCamToPlayVFX = 3;
 
 
 }
