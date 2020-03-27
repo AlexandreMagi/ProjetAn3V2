@@ -31,6 +31,8 @@ public class DataSwarmer : DataEnemy
 
     public bool spawnsPartsOnDeath = true;
 
+    public GameObject deadBody = null;
+
     public bool targetsPlayerAtEndOfPath = true;
 
     [Header("AI variables")]
