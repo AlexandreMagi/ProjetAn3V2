@@ -181,14 +181,13 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (gameEnder)
         {
-            LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers());
+            //LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers(), "default title in shoot trigger maanger");
+            //MetricsGestionnary.Instance.SaveMetrics();
 
-            MetricsGestionnary.Instance.SaveMetrics();
+            Main.Instance.InitLeaderboard();
 
-
-            SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
-            //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "RestartSound", false, 1);
-            CustomSoundManager.Instance.PlaySound("RestartSound", "UI", 1);
+            //SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+            //CustomSoundManager.Instance.PlaySound("RestartSound", "UI", 1);
         }
     }
 }

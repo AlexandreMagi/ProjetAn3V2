@@ -10,6 +10,7 @@ public class Main : MonoBehaviour
     private bool playerCanOrb = true;
     private bool playerCanShoot = true;
     private bool playerUsedToHaveOrb = false;
+    [HideInInspector] public bool playerInLeaderboard = false;
 
     public bool PlayerCanOrb {get { return playerCanOrb; } }
 
@@ -132,6 +133,8 @@ public class Main : MonoBehaviour
         if (!playerCanShoot) Weapon.Instance.CanNotShoot();
 
 
+        if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) UILeaderboard.Instance.PlayerClicked();
+
         //CAM
         Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
         if ( (posCursor.x < IRCameraParser.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < IRCameraParser.Instance.iResolutionY && posCursor.y > 0)
@@ -236,10 +239,10 @@ public class Main : MonoBehaviour
         {
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        /*if (Input.GetKeyDown(KeyCode.F))
         {
             HintScript.Instance.PopHint("Merci d'avoir joué à Death Live !", 5);
-        }
+        }*/
         if (Input.GetKeyDown(KeyCode.O))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
@@ -249,6 +252,13 @@ public class Main : MonoBehaviour
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (!playerInLeaderboard)
+                InitLeaderboard();
+            else
+                UILeaderboard.Instance.NextScreen();
         }
 
         if (sequenceSkipMode)
@@ -311,7 +321,7 @@ public class Main : MonoBehaviour
         #endregion
 
         //RELOAD
-        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)))
+        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)) && !playerInLeaderboard)
         {
             if (Weapon.Instance.ReloadValidate())
                 Weapon.Instance.ReloadingInput();
@@ -436,6 +446,26 @@ public class Main : MonoBehaviour
                 DoWhatPlayerChoosed(choiceMade);
             }
         }
+    }
+
+    public void InitLeaderboard()
+    {
+        //TimeScaleManager.Instance.AddStopTime(5000);
+        Debug.Log("Ici on met le vrai score");
+        UILeaderboard.Instance.InitLeaderboard(Random.Range(0,200000));
+        playerCanShoot = true;
+        playerCanOrb = false;
+        playerInLeaderboard = true;
+    }
+
+    public void EndGame(LeaderboardData playerData)
+    {
+        LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
+
+        MetricsGestionnary.Instance.SaveMetrics();
+
+        SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+        CustomSoundManager.Instance.PlaySound("RestartSound", "UI", 1);
     }
 
     void ValidateEndGameChoice(int choice)

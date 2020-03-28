@@ -13,6 +13,9 @@ public class LeaderboardManager : MonoBehaviour
     //On assumera en permanence que le score est trié en ordre croissant
     LeaderboardDatabase scoreData = null;
 
+    public static string lastName = "SAC";
+    public static string lastTitle = "Gladiateur";
+
     [SerializeField]
     public int maxKeptScores = 10;
 
@@ -63,7 +66,7 @@ public class LeaderboardManager : MonoBehaviour
         Directory.CreateDirectory(Application.persistentDataPath + "/Pangoblin/Leaderboard");
 
         scoreData = new LeaderboardDatabase();
-        LeaderboardData temp = new LeaderboardData("AAA", 50);
+        LeaderboardData temp = new LeaderboardData("AAA", 50, "Nobody");
         scoreData.data.Add(temp);
 
         SaveScores();
@@ -97,7 +100,7 @@ public class LeaderboardManager : MonoBehaviour
 
     }
 
-    public bool SubmitScoreToLeaderboard(string name, int score)
+    public bool SubmitScoreToLeaderboard(string name, int score, string title)
     {
         bool scoreValuable = false;
         int indexOfNewScore = -1;
@@ -124,7 +127,7 @@ public class LeaderboardManager : MonoBehaviour
         //Ajout du score
         if (scoreValuable)
         {
-            LeaderboardData dataNewScore = new LeaderboardData(name, score);
+            LeaderboardData dataNewScore = new LeaderboardData(name, score, title);
 
             List<LeaderboardData> newData = new List<LeaderboardData>();
 
@@ -156,18 +159,21 @@ public class LeaderboardManager : MonoBehaviour
 public class LeaderboardData
 {
     public string name;
+    public string title;
     public int score;
 
     public LeaderboardData()
     {
         name = "DEF";
         score = 0;
+        title = "Chewing gum aromatisé";
     }
 
-    public LeaderboardData(string p_name, int p_score)
+    public LeaderboardData(string p_name, int p_score, string p_title)
     {
         name = p_name;
         score = p_score;
+        title = p_title;
     }
 }
 
