@@ -366,6 +366,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     protected override void Die()
     {
         CustomSoundManager.Instance.PlaySound("SE_Shooter_Death", "Effect", .6f);
+        CameraHandler.Instance.AddShake(5, transform.position);
 
         foreach (var bullet in allBullets)
         {

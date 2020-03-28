@@ -132,6 +132,15 @@ public class CameraHandler : MonoBehaviour
     float timeFadeBreathing = 1;
     float breathingIdlePurcentageActivated = 0;
 
+    // Noise sur la caméra
+    float noiseAmplitudePos = 0.5f;
+    float noiseAmplitudeRot = 5f;
+    float noiseFrequency = 0.01f;
+    float customTimeForNoise = 0;
+    float timeTransitionNoise = 1;
+    float noisePurcentage = 0;
+    float noisePurcentageAimed = 0;
+
     #endregion
 
     // Stock
@@ -313,7 +322,22 @@ public class CameraHandler : MonoBehaviour
 
         renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, Quaternion.Lerp(saveRotBeforeLookAt, camRef.transform.rotation,weightRemoveRotLookAt), currentPurcentageLookAt * weightLookAt);
 
+        // Recuperation du shake de caméra de cinémachine si on est pas sur ce systeme
+        if (!currentCamIsCine)
+        {
+            Vector3 cinemachineShakeAddedPos = Vector3.zero;
+            Quaternion cinemachineShakeAddedRot = Quaternion.identity;
+            CinemachineImpulseManager.Instance.GetImpulseAt(renderingCam.transform.position, false, 1, out cinemachineShakeAddedPos, out cinemachineShakeAddedRot);
+            renderingCam.transform.position += cinemachineShakeAddedPos;
+            renderingCam.transform.Rotate(cinemachineShakeAddedRot.eulerAngles);
+        }
 
+        // Noise effect
+        customTimeForNoise += Time.deltaTime * noiseFrequency;
+        Vector3 noiseValue = GetPerlinVectorThree();
+        noisePurcentage = Mathf.MoveTowards(noisePurcentage, noisePurcentageAimed, Time.deltaTime / timeTransitionNoise);
+        renderingCam.transform.position += noiseValue * noiseAmplitudePos * noisePurcentage;
+        renderingCam.transform.Rotate (noiseValue * noiseAmplitudeRot * noisePurcentage);
     }
 
     private void BalancingCamUpdate()
@@ -673,6 +697,16 @@ public class CameraHandler : MonoBehaviour
         timerRemainingOnThisSequence = time;
         timerSequenceTotal = time;
     }
+    public void ChangeNoiseSettings(float _noisePurcentageAimed, float _timeTransitionNoise, float _noiseAmplitudePos = 0.5f, float _noiseAmplitudeRot = 5f, float _noiseFrequency = 0.01f)
+    {
+        noisePurcentageAimed = _noisePurcentageAimed;
+        timeTransitionNoise = _timeTransitionNoise;
+        noiseAmplitudePos = _noiseAmplitudePos;
+        noiseAmplitudeRot = _noiseAmplitudeRot;
+        noiseFrequency = _noiseFrequency;
+    }
+    float GetFloat(float seed) { return (Mathf.PerlinNoise(seed, customTimeForNoise) - 0.5f) * 2f; }
+    Vector3 GetPerlinVectorThree() { return new Vector3(GetFloat(1), GetFloat(10), GetFloat(100)); }
 
     public float GetDistanceWithCam(Vector3 pos)
     {
