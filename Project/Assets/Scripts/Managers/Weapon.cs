@@ -475,7 +475,7 @@ public class Weapon : MonoBehaviour
             CameraHandler.Instance.AddRecoil(false,weaponMod.recoilPerShot, true);
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot, weaponMod.shakeTimePerShot);
             timerMuzzleFlash += timeMuzzleAdded;
-            bulletRemaining -= weaponMod.bulletCost;
+            bulletRemaining -= Main.Instance.playerInLeaderboard ? 0 : weaponMod.bulletCost;
             if (bulletRemaining < 0) bulletRemaining = 0;
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
             CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player",null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f,false,1, .2f);

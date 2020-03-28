@@ -19,10 +19,16 @@ public class UiCrossHair : MonoBehaviour
 
     void Awake()
     {
-        _instance = this;
+        if (beInstance)
+            _instance = this;
     }
 
+    public void SetAsInstance() { _instance = this; }
+
     #endregion
+
+    [SerializeField] bool beInstance = true;
+    [SerializeField] Canvas cvs = null;
 
     [SerializeField]
     GameObject baseForCrosshair = null;
@@ -97,7 +103,7 @@ public class UiCrossHair : MonoBehaviour
             dataHandlerCrosshairs[i].UpdateValues();
             dataHandlerCrosshairs[i].UpdateTransformsAndColors();
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition + dataHandlerCrosshairs[i].offset, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition + dataHandlerCrosshairs[i].offset, cvs.worldCamera, out pos);
             UiCrosshairs[i].transform.position = transform.TransformPoint(pos);
 
             /*if (Weapon.Instance)
@@ -118,7 +124,7 @@ public class UiCrossHair : MonoBehaviour
         }
 
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, this.gameObject.GetComponent<Canvas>().worldCamera, out pos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, cvs.worldCamera, out pos);
         fxUICrossHair.transform.position = transform.TransformPoint(pos);
         if (crossHairVignetage != null)
         {
