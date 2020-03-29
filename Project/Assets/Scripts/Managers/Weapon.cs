@@ -382,7 +382,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod)
+    private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod, bool cantHit = false)
     {
         if (bulletRemaining > 0)
         {
@@ -424,7 +424,7 @@ public class Weapon : MonoBehaviour
 
                 //Shoot raycast
                 RaycastHit hit;
-                if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
+                if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit) && !cantHit)
                 {
                     FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod, 0.2f, rayBullet, hit);
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);

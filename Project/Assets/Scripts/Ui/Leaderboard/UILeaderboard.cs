@@ -63,7 +63,7 @@ public class UILeaderboard : MonoBehaviour
         }
     }
 
-    public void PlayerClicked() { if (inLeaderboard) foreach (var charSelect in charSelectors) { charSelect.PlayerClicked(); } cvsVars.titleHandler.PlayerClicked(); }
+    public void PlayerClicked() { if (inLeaderboard) { foreach (var charSelect in charSelectors) { charSelect.PlayerClicked(); } cvsVars.titleHandler.PlayerClicked(); } }
 
     public void NextScreen()
     {

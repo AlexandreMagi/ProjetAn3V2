@@ -451,8 +451,9 @@ public class Main : MonoBehaviour
     public void InitLeaderboard()
     {
         //TimeScaleManager.Instance.AddStopTime(5000);
-        Debug.Log("Ici on met le vrai score");
-        UILeaderboard.Instance.InitLeaderboard(Random.Range(0,200000));
+        //Debug.Log("Ici on met le vrai score");
+        //UILeaderboard.Instance.InitLeaderboard(Random.Range(0,200000));
+        UILeaderboard.Instance.InitLeaderboard(PublicManager.Instance.GetNbViewers());
         playerCanShoot = true;
         playerCanOrb = false;
         playerInLeaderboard = true;
@@ -516,7 +517,7 @@ public class Main : MonoBehaviour
             trueChance = difficultyData.maxChanceOfSurvival;
         }
 
-        PublicManager.Instance.LoseRawViewer(difficultyData.malusScoreAtChoosedRevive);
+        PublicManager.Instance.LoseRawViewer(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.scoreMultiplier));
         Main.Instance.EndReviveSituation(true, bonusFromRez);
         lastChoiceForPlayer = false;
         EndGameChoice.Instance.EndChoice();
@@ -557,8 +558,9 @@ public class Main : MonoBehaviour
                 {
                     if (!lockSceneChange)
                     {
+                        InitLeaderboard();
                         lockSceneChange = true;
-                        SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+                        //SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
                     }
                 }
                 else
@@ -620,7 +622,7 @@ public class Main : MonoBehaviour
 
             float trueChance = GetCurrentChacesOfSurvival();
             if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
-            EndGameChoice.Instance.SetupChoice(difficultyData.malusScoreAtChoosedRevive, Mathf.RoundToInt(trueChance));
+            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.scoreMultiplier), Mathf.RoundToInt(trueChance));
         }
         else
         {
@@ -734,7 +736,7 @@ public class Main : MonoBehaviour
     public float GetCurrentChacesOfSurvival()
     {
         float initialPublic = PublicManager.Instance.GetInitialViewers();
-        float currentPublic = PublicManager.Instance.GetNbViewers();
+        float currentPublic = PublicManager.Instance.GetNbViewers() / PublicManager.scoreMultiplier;
         float growthValue = PublicManager.Instance.GetGrowthValue();
 
         // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");

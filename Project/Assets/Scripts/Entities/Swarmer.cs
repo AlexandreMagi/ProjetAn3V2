@@ -198,6 +198,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             {
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this.transform.position, this);
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Kill, this.transform.position, this);
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.KillSwarmer, this.transform.position);
             }
 
             if (SequenceHandler.Instance != null)
