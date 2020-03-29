@@ -35,7 +35,7 @@ public class EndGameChoice : MonoBehaviour
     public void SetupChoice(int publicMalus, int purcentageChance)
     {
         rootGameEnd.SetActive(true);
-        publicMalusText.text = "- " + publicMalus;
+        publicMalusText.text = "- " + publicMalus.ToString("N0");
         publicChanceSurvival.text = purcentageChance + " %";
         countdown.text = Mathf.RoundToInt(Main.Instance.TimeRemainingBeforeGameOver).ToString();
         anmtrDisplay.SetTrigger("Pop");

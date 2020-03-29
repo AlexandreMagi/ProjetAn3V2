@@ -365,6 +365,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     protected override void Die()
     {
+        PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.KillSwarmer, this.transform.position);
         CustomSoundManager.Instance.PlaySound("SE_Shooter_Death", "Effect", .6f);
         CameraHandler.Instance.AddShake(5, transform.position);
 

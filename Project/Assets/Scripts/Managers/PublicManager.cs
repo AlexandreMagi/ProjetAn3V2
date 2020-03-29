@@ -24,6 +24,9 @@ public class PublicManager : MonoBehaviour
 
     List<ActionType> stallBuffer;
 
+    // Multiplicateur de score
+    public const float scoreMultiplier = 183.492761f;
+
     void Awake()
     {
         Instance = this;
@@ -152,17 +155,23 @@ public class PublicManager : MonoBehaviour
                 AddViewers(1, false, ActionType.Collectible, "Destruction", _position);
                 break;
             case ActionType.DamageOnEnemy:
-                AddViewers(1, false, ActionType.DamageOnEnemy, "Dégats", _position);
+                AddViewers(0.1f, false, ActionType.DamageOnEnemy, "Dégats", _position);
                 break;
             case ActionType.DamageFixedCam:
                 AddViewers(1, false, ActionType.DamageFixedCam, "Boom", _position);
+                break;
+            case ActionType.KillSwarmer:
+                AddViewers(0.4f, false, ActionType.DamageOnEnemy, "Kill Swarmer", _position);
+                break;
+            case ActionType.KillShooter:
+                AddViewers(1, false, ActionType.DamageOnEnemy, "Kill Shooter", _position);
                 break;
             default:
                 break;
         }
     }
 
-    private void AddViewers(int viewerLevel, bool isAffectedByBuffer, ActionType action, string textToDisplay, Vector3 pos)
+    private void AddViewers(float viewerLevel, bool isAffectedByBuffer, ActionType action, string textToDisplay, Vector3 pos)
     {
         float bufferMultiplier = 1;
         int capCount = 0;
@@ -189,33 +198,24 @@ public class PublicManager : MonoBehaviour
         }
 
         float _randomBalancedUp = Random.Range(0, publicData.randomViewerGrowth);
-        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth - randomBalancedUp + _randomBalancedUp) * viewerLevel * bufferMultiplier * hpMultiplier);;
+        int difViewer = Mathf.FloorToInt((publicData.baseViewerGrowth - randomBalancedUp + _randomBalancedUp) * viewerLevel * bufferMultiplier * hpMultiplier);
         randomBalancedUp = _randomBalancedUp;
+
+        difViewer = Mathf.RoundToInt(difViewer * scoreMultiplier);
 
         if (difViewer != 0) 
         {
             if (pos != Vector3.zero)
             {
-                //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true, pos, 1);
-                if (action == ActionType.DamageOnEnemy)
-                {
-                    float darkenColor = 0.8f;
-                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + 1, true, pos, new Color(Color.green.r * darkenColor, Color.green.g * darkenColor, Color.green.b * darkenColor, 1), 1);
-                }
-                else
-                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer, true, pos + Vector3.up * 0.5f, 1);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer.ToString("N0"), true, pos + Vector3.up * 0.5f, 1);
             }
             else
             {
                 //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : + " + difViewer, true);
-                    UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer, true);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" + " + difViewer.ToString("N0"), true);
             }
         }
-
-        if (action == ActionType.DamageOnEnemy)
-            nbViewers ++;
-        else
-            nbViewers += difViewer;
+         nbViewers += difViewer;
 
         if(nbViewers <= 0)
         {
@@ -271,17 +271,18 @@ public class PublicManager : MonoBehaviour
         int difViewer = Mathf.FloorToInt((publicData.baseViewerLoss - randomBalancedDown + _randomBalancedDown) * viewerLevel);
         randomBalancedDown = _randomBalancedDown;
 
+        difViewer = Mathf.RoundToInt(difViewer * scoreMultiplier);
         if (difViewer != 0)
         {
             if (pos != Vector3.zero)
             {
                 //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false, pos, 1);
-                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer, false, pos, 1);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer.ToString("N0"), false, pos, 1);
             }
             else
             {
                 //UiScoreBonusDisplay.Instance.AddScoreBonus(textToDisplay + " : - " + difViewer, false);
-                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer, false);
+                UiScoreBonusDisplay.Instance.AddScoreBonus(" - " + difViewer.ToString("N0"), false);
             }
         }
         nbViewers -= difViewer;
@@ -332,6 +333,8 @@ public class PublicManager : MonoBehaviour
         DamageOnArmor = 16,
         Collectible = 17,
         DamageOnEnemy = 18,
-        DamageFixedCam = 19
+        DamageFixedCam = 19,
+        KillSwarmer = 20,
+        KillShooter = 21
     }
 }

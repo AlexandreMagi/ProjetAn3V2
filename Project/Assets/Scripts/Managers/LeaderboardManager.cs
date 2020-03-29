@@ -13,7 +13,7 @@ public class LeaderboardManager : MonoBehaviour
     //On assumera en permanence que le score est trié en ordre croissant
     LeaderboardDatabase scoreData = null;
 
-    public static string lastName = "SAC";
+    public static string lastName = "AAA";
     public static string lastTitle = "Gladiateur";
 
     [SerializeField]
