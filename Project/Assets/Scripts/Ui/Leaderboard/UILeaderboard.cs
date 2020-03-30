@@ -19,6 +19,9 @@ public class UILeaderboard : MonoBehaviour
     LeaderboardSingleScoreAccesseur[] singleScoreAcces = new LeaderboardSingleScoreAccesseur[0];
     int nbSingleScoreDisplayed = 0;
 
+    // Acces bonus handler
+    public BonusHandler bonusHandler = null;
+
     // Settings
     public DataLeaderboardUI dataLeaderboard = null;
 
@@ -29,9 +32,13 @@ public class UILeaderboard : MonoBehaviour
     LeaderboardData[] leaderboardDatas = new LeaderboardData[0];
     bool inLeaderboard = false; // Indique que l'on est en état leaderboard
     LeaderboardData playerData = null;
-    enum leaderboardScreens { startLeaderboard, nameAndTitleChoice, finalLeaderboard }
+    public enum leaderboardScreens { startLeaderboard, nameAndTitleChoice, finalLeaderboard }
     leaderboardScreens currentScreen = leaderboardScreens.startLeaderboard;
+    public leaderboardScreens CurrentScreen { get { return currentScreen; } }
 
+    public float deltaTimeMultiplier = 1;
+
+    public int Score { get { return playerData.score; } }
 
     public void InitLeaderboard(int score)
     {
@@ -61,9 +68,14 @@ public class UILeaderboard : MonoBehaviour
         {
             cvsVars.charSelectors[i].charText.text = LeaderboardManager.lastName[i].ToString();
         }
+
+        // Permet de commencer le premier screen
+        cvsVars.bonusHandler.allowToNext = true;
     }
 
-    public void PlayerClicked() { if (inLeaderboard) { foreach (var charSelect in charSelectors) { charSelect.PlayerClicked(); } cvsVars.titleHandler.PlayerClicked(); } }
+    public void addScore (int score) { playerData.score += score; }
+
+    public void PlayerClicked() { if (inLeaderboard && UILeaderboard.Instance.CurrentScreen == UILeaderboard.leaderboardScreens.nameAndTitleChoice) { foreach (var charSelect in charSelectors) { charSelect.PlayerClicked(); } cvsVars.titleHandler.PlayerClicked(); } }
 
     public void NextScreen()
     {
@@ -172,10 +184,10 @@ public class UILeaderboard : MonoBehaviour
             singleScoreAcces[i].scoreText.text = dataSend[i].score.ToString("N0");
 
             if (i == playerIndex) singleScoreAcces[i].background.color = dataLeaderboard.playerColorInLeaderboard;
+            if (i == dataSend.Length-1) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.lastScoreOutlineColor;
 
             if (i == dataSend.Length-1) singleScoreAcces[i].rankText.text = "X";
             else singleScoreAcces[i].rankText.text = (i + 1).ToString();
-
         }
     }
 

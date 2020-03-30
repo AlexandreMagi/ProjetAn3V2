@@ -191,6 +191,11 @@ public class Main : MonoBehaviour
            CustomSoundManager.Instance.PlaySound("RestartSound", "UI",1);
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            AddEndGameBonus(100, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", null, "%");
+        }
+
         if (Input.GetKeyDown(KeyCode.U))
         {
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
@@ -528,6 +533,15 @@ public class Main : MonoBehaviour
         TriggerGameOverSequence();
         lastChoiceForPlayer = false;
         EndGameChoice.Instance.EndChoice();
+    }
+
+    List<EndGameBonus> allEndGameBonus = new List<EndGameBonus>();
+    public List<EndGameBonus> AllEndGameBonus { get { return allEndGameBonus; } }
+    public void AddEndGameBonus(EndGameBonus endGameBonus) { allEndGameBonus.Add(endGameBonus); }
+    public void AddEndGameBonus(float currValue, float maxValue, string type, int addedScore, string title, string description, Sprite sprite = null, string addedCharacter = "")
+    {
+        EndGameBonus newInstance = new EndGameBonus(currValue, maxValue, type, addedScore, title, description, sprite, addedCharacter);
+        allEndGameBonus.Add(newInstance);
     }
 
 
