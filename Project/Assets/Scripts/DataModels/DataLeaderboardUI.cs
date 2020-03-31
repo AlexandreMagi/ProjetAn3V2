@@ -12,4 +12,6 @@ public class DataLeaderboardUI : ScriptableObject
     public Color highlightedColorButtons = Color.white;
 
     public Color playerColorInLeaderboard = Color.white;
+
+    public Color lastScoreOutlineColor = Color.white;
 }

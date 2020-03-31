@@ -12,4 +12,5 @@ public class LeaderboardCanvasAccesseur : MonoBehaviour
     public UiCrossHair crossHairHandler = null;
     public Text titleChoiceText = null;
     public TitleSelecHandler titleHandler = null;
+    public BonusHandler bonusHandler = null;
 }
