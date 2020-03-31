@@ -45,6 +45,7 @@ public class GravityOrb : MonoBehaviour
 
         if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
         {
+            TutorialCheckpoint.Instance.PlayerUsedOrb();
             UiDamageHandler.Instance.GravityFlash(orbData.flashScreen);
             this.transform.position = hit.point;
             if (PostprocessManager.Instance!=null)PostprocessManager.Instance.doDistortion(transform);
