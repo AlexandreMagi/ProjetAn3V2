@@ -286,8 +286,11 @@ public class Weapon : MonoBehaviour
         return true;
     }
 
-    public void EndReload(bool perfect)
+    public void EndReload(bool perfect, bool canGainScore = true)
     {
+
+        TutorialCheckpoint.Instance.PlayerReloaded(perfect);
+
         reloading = false;
         UiReload.Instance.HideGraphics(perfect, bulletRemaining);
         bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
@@ -302,7 +305,7 @@ public class Weapon : MonoBehaviour
                 CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil, true);
             }
             
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
+            if (canGainScore) PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
             CustomSoundManager.Instance.PlaySound("Reload_FinishPerfect", "PlayerUnpitched", 1f);
         }
@@ -334,6 +337,7 @@ public class Weapon : MonoBehaviour
 
             else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
             {
+                TutorialCheckpoint.Instance.PlayerUsedZeroG();
                 currentOrb.GetComponent<GravityOrb>().StopHolding();
                 return true;
             }
@@ -364,7 +368,11 @@ public class Weapon : MonoBehaviour
         if (!reloading)
         {
             DataWeaponMod currentWeaponMod = null;
-            if (currentChargePurcentage == 1) currentWeaponMod = weapon.chargedShot;
+            if (currentChargePurcentage == 1)
+            {
+                currentWeaponMod = weapon.chargedShot;
+                TutorialCheckpoint.Instance.PlayerUsedShotGun();
+            }
             else currentWeaponMod = weapon.baseShot;
 
 

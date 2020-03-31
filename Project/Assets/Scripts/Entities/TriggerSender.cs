@@ -186,6 +186,7 @@ public class TriggerSender : MonoBehaviour
         BaseWeapon = 0,
         Orb = 1,
         Both = 2,
+        Reload = 3,
         Other = 9
     }
 }

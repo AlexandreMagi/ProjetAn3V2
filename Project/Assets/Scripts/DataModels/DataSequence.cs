@@ -200,6 +200,10 @@ public class DataSequence : ScriptableObject
     [ShowIf("affectedObject", null), ShowIf("actionType", gameObjectActionType.MoveTo)]
     public Vector3 positionMoveTo = Vector3.zero;
 
+
+    [Header("Chekpoint tutoriel")]
+    public DataTutorialCheckpoint checkpointToUse = null;
+
     public enum SequenceType
     {
         KillEnnemies = 0,

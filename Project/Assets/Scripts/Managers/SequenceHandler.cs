@@ -498,6 +498,7 @@ public class SequenceHandler : MonoBehaviour
             if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
             else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
         }
+        if (currentSequence.checkpointToUse != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
 
         //DECLENCHEMENT DU FEEDBACK DE CAM
         if (CameraHandler.Instance != null)

@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 {
     [SerializeField]
     private bool playerCanOrb = true;
+    private bool playerCanReload = true;
     private bool playerCanShoot = true;
     private bool playerUsedToHaveOrb = false;
     [HideInInspector] public bool playerInLeaderboard = false;
@@ -326,7 +327,7 @@ public class Main : MonoBehaviour
         #endregion
 
         //RELOAD
-        if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)) && !playerInLeaderboard)
+        if (playerCanReload && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R)) && !playerInLeaderboard)
         {
             if (Weapon.Instance.ReloadValidate())
                 Weapon.Instance.ReloadingInput();
@@ -344,7 +345,7 @@ public class Main : MonoBehaviour
 
         if (!saveIfPlayerCouldShoot && playerCanShoot)
         {
-            Weapon.Instance.EndReload(true);
+            Weapon.Instance.EndReload(true, false);
         }
         saveIfPlayerCouldShoot = playerCanShoot;
 
@@ -460,6 +461,7 @@ public class Main : MonoBehaviour
         //UILeaderboard.Instance.InitLeaderboard(Random.Range(0,200000));
         UILeaderboard.Instance.InitLeaderboard(PublicManager.Instance.GetNbViewers());
         playerCanShoot = true;
+        playerCanReload = false;
         playerCanOrb = false;
         playerInLeaderboard = true;
     }
@@ -583,13 +585,16 @@ public class Main : MonoBehaviour
             saveLastCursorPos = posCursor;
         }
     }
-    public void SetControlState(TriggerSender.Activable control, bool state)
+    public void SetControlState(TriggerSender.Activable control, bool state, bool triggerWaitScreen = true)
     {
 
         if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
         {
-            if (state) UiCrossHair.Instance.StopWaitFunction();
-            else UiCrossHair.Instance.WaitFunction();
+            if (triggerWaitScreen)
+            {
+                if (state) UiCrossHair.Instance.StopWaitFunction();
+                else UiCrossHair.Instance.WaitFunction();
+            }
 
             playerCanShoot = state;
             //FindObjectOfType<C_Ui>().CannotShoot(state);
@@ -601,6 +606,8 @@ public class Main : MonoBehaviour
             }
             */
         }
+
+        if (control == TriggerSender.Activable.Reload) playerCanReload = state;
 
         if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)
         {
@@ -624,6 +631,7 @@ public class Main : MonoBehaviour
         }
 
         playerCanShoot = false;
+        playerCanReload = false;
         playerCanOrb = false;
 
 
@@ -725,6 +733,7 @@ public class Main : MonoBehaviour
     {
 
         playerCanShoot = true;
+        playerCanReload = true;
         if(playerUsedToHaveOrb) playerCanOrb = true;
 
         Player.Instance.SetLifeTo(Mathf.RoundToInt(Player.Instance.GetBaseValues().y / 5));
