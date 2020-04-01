@@ -603,6 +603,8 @@ public class Main : MonoBehaviour
             */
         }
 
+        if (control == TriggerSender.Activable.AutoReload) autoReloadOnNoAmmo = state;
+
         if (control == TriggerSender.Activable.Reload) playerCanReload = state;
 
         if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)

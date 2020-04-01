@@ -24,6 +24,14 @@ public class PlaneShakeManager : MonoBehaviour
     float customTimeForPerlin = 0;
     [SerializeField] float randomDirOnJumps = 0.1f;
 
+    public static PlaneShakeManager Instance { get; private set; }
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    public bool activated = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,37 +42,43 @@ public class PlaneShakeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        customTimeForPerlin += Time.deltaTime * frequencyPerlinNoise;
-        if (remainingTimeBeforeLittleShake > 0)
+        if (activated)
         {
-            remainingTimeBeforeLittleShake -= Time.deltaTime;
-            if (remainingTimeBeforeLittleShake < 0)
+            customTimeForPerlin += Time.deltaTime * frequencyPerlinNoise;
+            if (remainingTimeBeforeLittleShake > 0)
             {
-                remainingTimeBeforeLittleShake = Random.Range(randomTimePassiveShake.x, randomTimePassiveShake.y);
-                float shakeForce = Mathf.Lerp(minPassiveShake, maxPassiveShake, GetPerlinFloat(18));
-                ShakeProps(shakeForce);
+                remainingTimeBeforeLittleShake -= Time.deltaTime;
+                if (remainingTimeBeforeLittleShake < 0)
+                {
+                    remainingTimeBeforeLittleShake = Random.Range(randomTimePassiveShake.x, randomTimePassiveShake.y);
+                    float shakeForce = Mathf.Lerp(minPassiveShake, maxPassiveShake, GetPerlinFloat(18));
+                    ShakeProps(shakeForce);
+                }
             }
-        }
 
-        if (remainingTimeBeforeBigShake > 0)
-        {
-            remainingTimeBeforeBigShake -= Time.deltaTime;
-            if (remainingTimeBeforeBigShake < 0)
+            if (remainingTimeBeforeBigShake > 0)
             {
-                remainingTimeBeforeBigShake = Random.Range(randomTimeActiveShake.x, randomTimeActiveShake.y);
-                float shakeForce = Mathf.Lerp(minActiveShake, maxActiveShake, GetPerlinFloat(10));
-                ShakeProps(shakeForce);
-                CameraHandler.Instance.PlaneShake(GetPerlinFloat(10));
+                remainingTimeBeforeBigShake -= Time.deltaTime;
+                if (remainingTimeBeforeBigShake < 0)
+                {
+                    remainingTimeBeforeBigShake = Random.Range(randomTimeActiveShake.x, randomTimeActiveShake.y);
+                    float shakeForce = Mathf.Lerp(minActiveShake, maxActiveShake, GetPerlinFloat(10));
+                    ShakeProps(shakeForce);
+                    CameraHandler.Instance.PlaneShake(GetPerlinFloat(10));
+                }
             }
         }
     }
 
     void ShakeProps(float force)
     {
-        foreach (var propRb in allAffectedProps)
+        if (activated)
         {
-            Vector3 dirVector = (Vector3.up + new Vector3(Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps))).normalized;
-            propRb.AddForce(dirVector * (force + force * Random.Range(0, randomPurcentageOnEachObject) * Mathf.Sign(Random.Range(-1f,1f))), ForceMode.Impulse);
+            foreach (var propRb in allAffectedProps)
+            {
+                Vector3 dirVector = (Vector3.up + new Vector3(Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps))).normalized;
+                propRb.AddForce(dirVector * (force + force * Random.Range(0, randomPurcentageOnEachObject) * Mathf.Sign(Random.Range(-1f, 1f))), ForceMode.Impulse);
+            }
         }
     }
 
