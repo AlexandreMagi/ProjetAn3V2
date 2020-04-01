@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5776442974884775122}
   - component: {fileID: 7552916153503709186}
   - component: {fileID: 8875903329959192814}
+  - component: {fileID: 644944440}
   m_Layer: 9
   m_Name: Box
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2464289678940107049}
-  m_LocalRotation: {x: -0, y: 0.14587837, z: -0, w: 0.9893026}
+  m_LocalRotation: {x: 0, y: 0.14587587, z: 0, w: 0.98930293}
   m_LocalPosition: {x: -0.23, y: 0.463, z: 9.49}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children: []
@@ -93,3 +94,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &644944440
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464289678940107049}
+  serializedVersion: 2
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
