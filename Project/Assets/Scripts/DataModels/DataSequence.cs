@@ -151,6 +151,14 @@ public class DataSequence : ScriptableObject
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse Lerp de retour sur la caméra")]
     public float returnLerpSpeedFromBalance = 5;
 
+    [Header("WaitScreen")]
+    public bool changeWaitScreen = false;
+    [ShowIf("changeWaitScreen")]
+    public bool activateWaitScreen = false;
+
+    // ##############################################################################################################################
+
+
     [Header("Camera")]
     public bool enableCamFeedback = true;
     public bool enableCamTransition = false;
@@ -170,6 +178,25 @@ public class DataSequence : ScriptableObject
     public bool breathingEnabled = false;
     [ShowIf("enableCamFeedback")]
     public float timeFadeBreathing = 1;
+
+    [Tooltip("Indique si les parametres du noises doivent changer")]
+    public bool changeNoiseSettings = false;
+    [Tooltip("Temps avant que les parametres ne soit changés (n'est pas reset par un changement de séquence)"), ShowIf("changeNoiseSettings")]
+    public float timerBeforeEffect = 0;
+    [Tooltip("Indique quel pourcentage de noise afficher 1=max, 0=rien"), ShowIf("changeNoiseSettings")]
+    public float noisePurcentageAimed = 0;
+    [Tooltip("Temps de transition vers le pourcentage visé (1/valeur) donc en vrai c'est plutot une vitesse mais np"), ShowIf("changeNoiseSettings")]
+    public float timeTransitionNoise = 1;
+    [Tooltip("Amplitude du noise en position"), ShowIf("changeNoiseSettings")]
+    public float noiseAmplitudePos = 0.1f;
+    [Tooltip("Amplitude du noise en rotation"), ShowIf("changeNoiseSettings")]
+    public float noiseAmplitudeRot = 0.5f;
+    [Tooltip("Frequence du noise"), ShowIf("changeNoiseSettings")]
+    public float noiseFrequency = 3;
+
+
+
+    // ##############################################################################################################################
 
 
     //SEQUENCE BRANCHES
