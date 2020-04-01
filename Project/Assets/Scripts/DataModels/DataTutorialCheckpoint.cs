@@ -42,7 +42,7 @@ public class DataTutorialCheckpoint : ScriptableObject
 
     [Tooltip("Actions que le joueur ne peut pas faire pendant le tuto")] public List<playerActions> actionsPlayerCantDo = new List<playerActions>();
     [Tooltip("Actions que le joueur peut faire après le tuto")] public List<playerActions> actionsPlayerCanDoAfter = new List<playerActions>();
-    public enum playerActions { shoot, orb, reload }
+    public enum playerActions { shoot, orb, reload, autoReload }
 
 
 
@@ -63,5 +63,7 @@ public class DataTutorialCheckpoint : ScriptableObject
     [Header("Autres")]
 
     public bool independentFromTimeScale = false;
+    public bool changeNbBullet = false;
+    [ShowIf("changeNbBullet")] public int nbBullet = 0;
 
 }

@@ -187,6 +187,7 @@ public class TriggerSender : MonoBehaviour
         Orb = 1,
         Both = 2,
         Reload = 3,
+        AutoReload = 4,
         Other = 9
     }
 }

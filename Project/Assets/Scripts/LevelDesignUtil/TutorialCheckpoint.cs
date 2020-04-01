@@ -46,6 +46,9 @@ public class TutorialCheckpoint : MonoBehaviour
                 case DataTutorialCheckpoint.playerActions.orb:
                     Main.Instance.SetControlState(TriggerSender.Activable.Orb, false);
                     break;
+                case DataTutorialCheckpoint.playerActions.autoReload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, false);
+                    break;
             }
         }
 
@@ -59,6 +62,8 @@ public class TutorialCheckpoint : MonoBehaviour
             timerBeforeNextForcedAction = checkpointData.timeBeforeFirstAction;
             mustForceAction = (checkpointData.timeBeforeFirstAction == 0);
         }
+
+        if (checkpointData.changeNbBullet) Weapon.Instance.SetBulletAmmount(checkpointData.nbBullet);
     }
 
     /// <summary>
@@ -79,6 +84,9 @@ public class TutorialCheckpoint : MonoBehaviour
                     break;
                 case DataTutorialCheckpoint.playerActions.orb:
                     Main.Instance.SetControlState(TriggerSender.Activable.Orb, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.autoReload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, true);
                     break;
             }
         }
