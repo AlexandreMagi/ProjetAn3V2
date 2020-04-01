@@ -55,6 +55,12 @@ public class SequenceHandler : MonoBehaviour
 
         currentSequence = currentBranch.GetDataSequenceAt(0);
 
+        if (currentSequence.changeWaitScreen)
+        {
+            if (!currentSequence.activateWaitScreen) UiCrossHair.Instance.StopWaitFunction();
+            else UiCrossHair.Instance.WaitFunction();
+        }
+
         blenderSettings = ScriptableObject.CreateInstance("CinemachineBlenderSettings") as CinemachineBlenderSettings;
 
     }

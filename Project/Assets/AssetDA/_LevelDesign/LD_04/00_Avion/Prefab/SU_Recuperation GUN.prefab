@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 465996082556404472}
   - component: {fileID: 1231443380599853285}
   - component: {fileID: 6305929618826205657}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &465996082556404472
 Transform:
@@ -90,12 +90,13 @@ GameObject:
   - component: {fileID: 9209728805036419461}
   - component: {fileID: 185915538980983731}
   - component: {fileID: 5883962095126720330}
-  m_Layer: 0
+  - component: {fileID: 6714643484914724513}
+  m_Layer: 9
   m_Name: SU_Recuperation GUN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &9209728805036419461
 Transform:
@@ -159,3 +160,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &6714643484914724513
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5302107119627410326}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8515880837625653103, guid: c9c1fa839a667114ba4992c8b42d77e7, type: 3}
