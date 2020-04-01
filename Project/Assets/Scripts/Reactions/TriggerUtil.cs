@@ -233,5 +233,21 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //Plane Shake
+    public static void TriggerPlaneShake(bool activate, float timeBeforeStart)
+    {
+        Main.Instance.StartCoroutine(TriggerPlaneShakeCoroutine(activate, timeBeforeStart));
+    }
+
+    static IEnumerator TriggerPlaneShakeCoroutine(bool activate, float timeBeforeStart)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        PlaneShakeManager.Instance.activated = activate;
+
+        yield break;
+    }
+
 }
 
