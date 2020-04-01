@@ -155,16 +155,16 @@ public class PublicManager : MonoBehaviour
                 AddViewers(1, false, ActionType.Collectible, "Destruction", _position);
                 break;
             case ActionType.DamageOnEnemy:
-                AddViewers(0.1f, false, ActionType.DamageOnEnemy, "Dégats", _position);
+                //AddViewers(0.1f, false, ActionType.DamageOnEnemy, "Dégats", _position);
                 break;
             case ActionType.DamageFixedCam:
                 AddViewers(1, false, ActionType.DamageFixedCam, "Boom", _position);
                 break;
             case ActionType.KillSwarmer:
-                AddViewers(0.4f, false, ActionType.DamageOnEnemy, "Kill Swarmer", _position);
+                AddViewers(0.4f, false, ActionType.KillSwarmer, "Kill Swarmer", _position);
                 break;
             case ActionType.KillShooter:
-                AddViewers(1, false, ActionType.DamageOnEnemy, "Kill Shooter", _position);
+                AddViewers(1, false, ActionType.KillShooter, "Kill Shooter", _position);
                 break;
             default:
                 break;

@@ -289,7 +289,7 @@ public class Weapon : MonoBehaviour
     public void EndReload(bool perfect, bool canGainScore = true)
     {
 
-        TutorialCheckpoint.Instance.PlayerReloaded(perfect);
+        if (canGainScore) TutorialCheckpoint.Instance.PlayerReloaded(perfect);
 
         reloading = false;
         UiReload.Instance.HideGraphics(perfect, bulletRemaining);
