@@ -66,6 +66,9 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     [SerializeField] Animator anmt = null;
 
+    [SerializeField] Transform[] missilesScalable = null;
+    [SerializeField] float scaleMultiplierOnMissile = 2;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -142,6 +145,10 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                         {
                             canonRoot[i].transform.localPosition = new Vector3(canonRootBasePos[i].x, canonRootBasePos[i].y, (1- timerLoading / entityData.timeWaitBeforeShoot) * distTravel);
                         }
+                        for (int i = 0; i < missilesScalable.Length; i++)
+                        {
+                            missilesScalable[i].localScale = Vector3.one * ((timerLoading / entityData.timeWaitBeforeShoot) * scaleMultiplierOnMissile);
+                        }
                     }
                     //StartLoading();
                 }
@@ -170,6 +177,11 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
                     if (bulletShot < canonRoot.Length)
                         canonRoot[bulletShot].transform.localPosition = new Vector3(canonRootBasePos[bulletShot].x, canonRootBasePos[bulletShot].y, distTravel);
+                    if (bulletShot < missilesScalable.Length)
+                    {
+                        FxManager.Instance.PlayFx("VFX_BasicShooterMuzzleFlash", missilesScalable[bulletShot].transform.position, missilesScalable[bulletShot].transform.rotation);
+                        missilesScalable[bulletShot].transform.localScale = Vector3.zero;
+                    }
 
                     bulletShot++;
                     if(canShoot)
