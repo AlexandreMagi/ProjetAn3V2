@@ -30,7 +30,7 @@ public class PlaneShakeManager : MonoBehaviour
         Instance = this;
     }
 
-    public bool activated = true;
+    public bool activated = false;
 
     // Start is called before the first frame update
     void Start()

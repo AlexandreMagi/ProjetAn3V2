@@ -4814,6 +4814,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 259674590}
   - {fileID: 1684605157}
   m_Father: {fileID: 722394507}
   m_RootOrder: 0
@@ -6565,6 +6566,86 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 259095548}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &259674589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 259674590}
+  - component: {fileID: 259674592}
+  - component: {fileID: 259674591}
+  m_Layer: 12
+  m_Name: Trigger_Noise - Init noise
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &259674590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259674589}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.394, y: 1.359, z: 0.329}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 212485715}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &259674591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259674589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 11
+  spawners: []
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  volume: 1
+  animated:
+  - {fileID: 1761387677}
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  VFXToAffect: []
+  VFXState: 0
+  activateIt: 1
+  timeBeforeStart: 0
+--- !u!65 &259674592
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259674589}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &260517927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23062,6 +23143,7 @@ MonoBehaviour:
   randomPurcentageOnEachObject: 0.2
   frequencyPerlinNoise: 0.1
   randomDirOnJumps: 0.4
+  activated: 0
 --- !u!1001 &535139857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56972,7 +57054,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 212485715}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1684605158
 MonoBehaviour:
@@ -57007,6 +57089,7 @@ MonoBehaviour:
   lightsState: 0
   VFXToAffect: []
   VFXState: 0
+  activateIt: 0
   timeBeforeStart: 0.48
 --- !u!65 &1684605159
 BoxCollider:
