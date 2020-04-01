@@ -511,7 +511,7 @@ public class SequenceHandler : MonoBehaviour
         {
             if (currentSequence.changeNoiseSettings)
             {
-
+                CameraHandler.Instance.ChangeNoiseSettings(currentSequence.noisePurcentageAimed, currentSequence.timeTransitionNoise, currentSequence.noiseAmplitudePos, currentSequence.noiseAmplitudeRot, currentSequence.noiseFrequency);
             }
             float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 4 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
             CameraHandler.Instance.UpdatePos(pastCamPos,newCamPos, currentSequence.stepFadeAtStart, currentSequence.stepFadeAtEnd, currentSequence.distFadeStart, currentSequence.distFadeEnd);

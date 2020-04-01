@@ -181,8 +181,6 @@ public class DataSequence : ScriptableObject
 
     [Tooltip("Indique si les parametres du noises doivent changer")]
     public bool changeNoiseSettings = false;
-    [Tooltip("Temps avant que les parametres ne soit changés (n'est pas reset par un changement de séquence)"), ShowIf("changeNoiseSettings")]
-    public float timerBeforeEffect = 0;
     [Tooltip("Indique quel pourcentage de noise afficher 1=max, 0=rien"), ShowIf("changeNoiseSettings")]
     public float noisePurcentageAimed = 0;
     [Tooltip("Temps de transition vers le pourcentage visé (1/valeur) donc en vrai c'est plutot une vitesse mais np"), ShowIf("changeNoiseSettings")]

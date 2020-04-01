@@ -141,6 +141,11 @@ public class CameraHandler : MonoBehaviour
     float noisePurcentage = 0;
     float noisePurcentageAimed = 0;
 
+    //
+    Vector3 dirShakePlane = Vector3.up;
+    float magnitudeShakePlane = 1;
+    float animShakePlanePurcentage = 1;
+
     #endregion
 
     // Stock
@@ -294,6 +299,14 @@ public class CameraHandler : MonoBehaviour
             if (purcentageLerpGoBack > 1 - 0.005f) purcentageLerpGoBack = 1;
             camRef.transform.rotation = Quaternion.Lerp(goBackFromBalancingRotSaved, camRef.transform.rotation, purcentageLerpGoBack);
             camRef.transform.position = Vector3.Lerp(goBackFromBalancePosSaved, camRef.transform.position, purcentageLerpGoBack);
+        }
+
+        // --- Shake d'avion
+        if (animShakePlanePurcentage < 1)
+        {
+            animShakePlanePurcentage += Time.deltaTime / camData.timeAnimShakePlane;
+            camRef.transform.Translate(dirShakePlane * magnitudeShakePlane * camData.animShakePlane.Evaluate(animShakePlanePurcentage));
+            if (animShakePlanePurcentage > 1) animShakePlanePurcentage = 1;
         }
 
         renderingCam.transform.position = camRef.transform.position;
@@ -738,6 +751,16 @@ public class CameraHandler : MonoBehaviour
         minSpeedRot = _minSpeedRot;
         balancingFrequency = _balancingFrequency;
         if (timeToGoToRot < 0.001f) timeToGoToRot = 0.001f;
+    }
+    public void PlaneShake(float random)
+    {
+        dirShakePlane = (Vector3.up + new Vector3(
+            UnityEngine.Random.Range(-camData.randomOnPlaneShakeDir, camData.randomOnPlaneShakeDir),
+            UnityEngine.Random.Range(-camData.randomOnPlaneShakeDir, camData.randomOnPlaneShakeDir),
+            UnityEngine.Random.Range(-camData.randomOnPlaneShakeDir, camData.randomOnPlaneShakeDir))).normalized;
+
+        magnitudeShakePlane = camData.magnitudeAnimShakePlane + camData.magnitudeAddedByRandomAnimShakePlane * random;
+        animShakePlanePurcentage = 0;
     }
 
     #endregion
