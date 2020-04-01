@@ -84,6 +84,15 @@ public class DataCameraBasic : ScriptableObject
     public float idleTime = 0.5f;
     public float minimumIdleTransition = 1;
 
+
+    [Header("Shake dans l'avion")]
+    public AnimationCurve animShakePlane = AnimationCurve.Linear(0, 0, 1, 1);
+    public float timeAnimShakePlane = 1;
+    public float magnitudeAnimShakePlane = 1;
+    public float magnitudeAddedByRandomAnimShakePlane = 0.1f;
+    public float randomOnPlaneShakeDir = 0.1f;
+
+
     //[Header("Stop automatique des Steps et Idle")]
     //public float distanceFadeStepsAtEnd = 1f;
     //public float distanceFadeStepsAtStart = 1f;
