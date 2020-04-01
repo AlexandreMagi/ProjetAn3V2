@@ -38,13 +38,13 @@ public class TutorialCheckpoint : MonoBehaviour
             switch (desactivation)
             {
                 case DataTutorialCheckpoint.playerActions.shoot:
-                    Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, false, false);
+                    Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, false);
                     break;
                 case DataTutorialCheckpoint.playerActions.reload:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Reload, false, false);
+                    Main.Instance.SetControlState(TriggerSender.Activable.Reload, false);
                     break;
                 case DataTutorialCheckpoint.playerActions.orb:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Orb, false, false);
+                    Main.Instance.SetControlState(TriggerSender.Activable.Orb, false);
                     break;
             }
         }
@@ -72,13 +72,13 @@ public class TutorialCheckpoint : MonoBehaviour
             switch (activation)
             {
                 case DataTutorialCheckpoint.playerActions.shoot:
-                    Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, true, false);
+                    Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, true);
                     break;
                 case DataTutorialCheckpoint.playerActions.reload:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Reload, true, false);
+                    Main.Instance.SetControlState(TriggerSender.Activable.Reload, true);
                     break;
                 case DataTutorialCheckpoint.playerActions.orb:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Orb, true, false);
+                    Main.Instance.SetControlState(TriggerSender.Activable.Orb, true);
                     break;
             }
         }

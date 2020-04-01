@@ -11,6 +11,7 @@ public class Main : MonoBehaviour
     private bool playerCanReload = true;
     private bool playerCanShoot = true;
     private bool playerUsedToHaveOrb = false;
+
     [HideInInspector] public bool playerInLeaderboard = false;
 
     public bool PlayerCanOrb {get { return playerCanOrb; } }
@@ -585,16 +586,11 @@ public class Main : MonoBehaviour
             saveLastCursorPos = posCursor;
         }
     }
-    public void SetControlState(TriggerSender.Activable control, bool state, bool triggerWaitScreen = true)
+    public void SetControlState(TriggerSender.Activable control, bool state)
     {
 
         if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
         {
-            if (triggerWaitScreen)
-            {
-                if (state) UiCrossHair.Instance.StopWaitFunction();
-                else UiCrossHair.Instance.WaitFunction();
-            }
 
             playerCanShoot = state;
             //FindObjectOfType<C_Ui>().CannotShoot(state);
