@@ -65,6 +65,9 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
     bool VFXState = false;
 
+    [ShowIf("typeTrigger", TriggerType.PlaneShake), SerializeField]
+    bool activateIt = false;
+
 
     [SerializeField]
     float timeBeforeStart = 0;
@@ -149,6 +152,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.VFX:
                 TriggerUtil.TriggerVFX(timeBeforeStart, VFXToAffect, VFXState);
                 break;
+            case TriggerType.PlaneShake:
+                TriggerUtil.TriggerPlaneShake(activateIt, timeBeforeStart);
+                break;
             default:
                 break;
         }
@@ -179,6 +185,7 @@ public class TriggerSender : MonoBehaviour
         Light = 8,
         Other = 9,
         VFX = 10,
+        PlaneShake = 11,
     }
 
     public enum Activable
@@ -187,6 +194,7 @@ public class TriggerSender : MonoBehaviour
         Orb = 1,
         Both = 2,
         Reload = 3,
+        AutoReload = 4,
         Other = 9
     }
 }
