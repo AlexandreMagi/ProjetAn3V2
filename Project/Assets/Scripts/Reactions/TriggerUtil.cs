@@ -249,5 +249,46 @@ public static class TriggerUtil
         yield break;
     }
 
+    // Desactivation/Activation de l'outline
+    public static void TriggerOutline(bool activate, float timeBeforeStart)
+    {
+        Main.Instance.StartCoroutine(TriggerOutlineCoroutine(activate, timeBeforeStart));
+    }
+
+    static IEnumerator TriggerOutlineCoroutine(bool activate, float timeBeforeStart)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        if (PostprocessManager.Instance != null)
+            PostprocessManager.Instance.OutlineSetActive(activate);
+        yield break;
+    }
+
+    // Desactivation/Activation de la reveal light
+    public static void TriggerRevealLight(bool activate, float timeBeforeStart)
+    {
+        Main.Instance.StartCoroutine(TriggerRevealLightCoroutine(activate, timeBeforeStart));
+    }
+
+    static IEnumerator TriggerRevealLightCoroutine(bool activate, float timeBeforeStart)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        Weapon.Instance.EnableDisableRevealLight(activate);
+        yield break;
+    }
+
+    // White Screen Effect
+    public static void TriggerWhiteScreenEffect(float timeBeforeStart)
+    {
+        Main.Instance.StartCoroutine(TriggerWhiteScreenEffectCoroutine(timeBeforeStart));
+    }
+
+    static IEnumerator TriggerWhiteScreenEffectCoroutine(float timeBeforeStart)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        if (WhiteScreenEffect.Instance != null)
+            WhiteScreenEffect.Instance.StartWhiteScreenEffect();
+        yield break;
+    }
+
 }
 

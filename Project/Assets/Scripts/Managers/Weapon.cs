@@ -538,6 +538,11 @@ public class Weapon : MonoBehaviour
         shotGunHasHit = true;
     }
 
+    public void EnableDisableRevealLight(bool activation)
+    {
+        weaponLight.gameObject.SetActive(activation);
+    }
+
     IEnumerator BounceBullets(List<Ray> bounces, float bounceLag)
     {
         yield return new WaitForSeconds(bounceLag);

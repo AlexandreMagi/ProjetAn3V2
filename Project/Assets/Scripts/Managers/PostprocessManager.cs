@@ -21,6 +21,10 @@ public class PostprocessManager : MonoBehaviour
     // --- Vignette
     Vignette vignetteEffect;
 
+    // --- Outline
+    [SerializeField] bool outlineActivatedAtInit = true;
+    PostProcessOutline outlineEffect;
+
     // --- DepthOfField
     DepthOfField dofEffect;
     float dofEffectDamageRecoverSpeed = 500;
@@ -62,6 +66,12 @@ public class PostprocessManager : MonoBehaviour
         vignetteEffect.smoothness.Override(1);
 
         ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
+
+        // --- Outine
+        outlineEffect = ScriptableObject.CreateInstance<PostProcessOutline>();
+        outlineEffect.enabled.Override(outlineActivatedAtInit);
+
+        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, outlineEffect);
 
         // --- DOF
         dofEffect = ScriptableObject.CreateInstance<DepthOfField>();
@@ -180,6 +190,11 @@ public class PostprocessManager : MonoBehaviour
                 distortionEffect.intensity.value = 0;
             }
         }
+    }
+
+    public void OutlineSetActive (bool active)
+    {
+        outlineEffect.active = active;
     }
 
 
