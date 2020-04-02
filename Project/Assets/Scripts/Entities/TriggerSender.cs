@@ -65,7 +65,7 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
     bool VFXState = false;
 
-    [ShowIf("typeTrigger", TriggerType.PlaneShake), SerializeField]
+    [ShowIf("typeTrigger", TriggerType.PlaneShake), ShowIf("typeTrigger", TriggerType.OutlineShader), ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
     bool activateIt = false;
 
 
@@ -155,6 +155,15 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.PlaneShake:
                 TriggerUtil.TriggerPlaneShake(activateIt, timeBeforeStart);
                 break;
+            case TriggerType.OutlineShader:
+                TriggerUtil.TriggerOutline(activateIt, timeBeforeStart);
+                break;
+            case TriggerType.RevealLight:
+                TriggerUtil.TriggerRevealLight(activateIt, timeBeforeStart);
+                break;
+            case TriggerType.WhiteScreenEffect:
+                TriggerUtil.TriggerWhiteScreenEffect(timeBeforeStart);
+                break;
             default:
                 break;
         }
@@ -186,6 +195,9 @@ public class TriggerSender : MonoBehaviour
         Other = 9,
         VFX = 10,
         PlaneShake = 11,
+        OutlineShader = 12,
+        RevealLight = 13,
+        WhiteScreenEffect = 14
     }
 
     public enum Activable
