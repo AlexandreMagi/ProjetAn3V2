@@ -19,6 +19,10 @@ public class UILeaderboard : MonoBehaviour
     LeaderboardSingleScoreAccesseur[] singleScoreAcces = new LeaderboardSingleScoreAccesseur[0];
     int nbSingleScoreDisplayed = 0;
 
+    // Timer
+    [SerializeField] float timerBeforeActivateProgressBars = 2;
+    float timeRemainingBeforeProgress = 0;
+
     // Acces bonus handler
     public BonusHandler bonusHandler = null;
 
@@ -68,9 +72,19 @@ public class UILeaderboard : MonoBehaviour
         {
             cvsVars.charSelectors[i].charText.text = LeaderboardManager.lastName[i].ToString();
         }
-
-        // Permet de commencer le premier screen
-        cvsVars.bonusHandler.allowToNext = true;
+        timeRemainingBeforeProgress = timerBeforeActivateProgressBars;
+    }
+    private void Update()
+    {
+        if (timeRemainingBeforeProgress > 0)
+        {
+            timeRemainingBeforeProgress -= cvsVars.bonusHandler.dt;
+            if (timeRemainingBeforeProgress < 0)
+            {
+                // Permet de commencer le premier screen
+                cvsVars.bonusHandler.allowToNext = true;
+            }
+        }
     }
 
     public void addScore (int score) { playerData.score += score; }
