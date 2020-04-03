@@ -124,6 +124,12 @@ public class BonusHandler : MonoBehaviour
 
     bool goingAway = false;
 
+
+    [Header("Particles Projection")]
+    [SerializeField] Transform refProjection = null;
+    [SerializeField] UIParticuleSystemDispersion[] allParticlsToActivate = null;
+    [SerializeField] UIParticuleSystemDispersion looseParticle = null;
+
     private void Start()
     {
         cvsGroupAlpha = 0;
@@ -196,6 +202,7 @@ public class BonusHandler : MonoBehaviour
 
     void Update()
     {
+
         dt = Time.unscaledDeltaTime * UILeaderboard.Instance.deltaTimeMultiplier * localSpeedMultiplier;
         customTime += dt;
         currScoreDisplayed = Mathf.Lerp(currScoreDisplayed, UILeaderboard.Instance.Score, dt * scoreLerpSpeed);
@@ -266,11 +273,19 @@ public class BonusHandler : MonoBehaviour
                     {
                         playAnimProgressSucces = true;
                         currentPurcentageExplosion = 0;
+                        foreach (var particleSystem in allParticlsToActivate)
+                        {
+                            particleSystem.Play(refProjection.position);
+                        }
                         idlePurcentage = 1;
                         animExplosionPurcentage = 0;
                         doAnimExplosion = true;
                     }
-                    else playAnimFailureSucces = true;
+                    else
+                    {
+                        playAnimFailureSucces = true;
+                        looseParticle.Play(refProjection.position);
+                    }
                     progressAnimPurcentage = 0;
                     progressState = stateProgress.anim;
                 }
