@@ -195,6 +195,10 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
+            AddEndGameBonus(50, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", null, "%");
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
             AddEndGameBonus(100, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", null, "%");
         }
 
