@@ -14,4 +14,5 @@ public class DataLeaderboardUI : ScriptableObject
     public Color playerColorInLeaderboard = Color.white;
 
     public Color lastScoreOutlineColor = Color.white;
+    public Color normalScoreOutlineColor = Color.white;
 }

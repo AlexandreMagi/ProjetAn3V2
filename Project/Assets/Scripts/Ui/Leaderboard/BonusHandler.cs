@@ -35,7 +35,8 @@ public class BonusHandler : MonoBehaviour
     float purcentageInState = 1;
     float cvsGroupAlpha = 1;
     float outlineAlphaPow = 3;
-    float dt = 0;
+    [HideInInspector] public float dt = 0;
+    float customTime = 0;
     bool firstLoop = true;
 
     float currScoreDisplayed = 0;
@@ -43,14 +44,54 @@ public class BonusHandler : MonoBehaviour
 
     [HideInInspector] public bool allowToNext = false;
 
+    [SerializeField] float localSpeedMultiplier = 1;
+
     [Header("ProgressAnim")]
+    [SerializeField] Image colorToChangeProgress = null;
+    [SerializeField] Color colorProgressNormal = Color.white;
+
+    [SerializeField] Color colorProgressSucces = Color.white;
     [SerializeField] Transform transformToScaleInSuccesAnim = null;
     [SerializeField] DataSimpleAnim progressSuccesAnim = null;
     bool playAnimProgressSucces = false;
+    [SerializeField] Color colorProgressFailure = Color.white;
     [SerializeField] Transform transformToScaleInFailureAnim = null;
     [SerializeField] DataSimpleAnim progressFailureAnim = null;
     bool playAnimFailureSucces = false;
     float progressAnimPurcentage = 1;
+
+    [Header("Score Anim")]
+    [SerializeField] float scoreAnimMaxSize = .3f;
+    [SerializeField] float scoreAnimRangeConsideredSame = 1;
+    [SerializeField] float scoreIdleSpeed = 7;
+    [SerializeField] float scoreIdleAmplitude = 7;
+
+
+    [SerializeField] float refForMaxSizeAndShake = 500000;
+    [SerializeField] float maxAddedSizeTitle = 0.2f;
+    [SerializeField] float scoreIdleShakeSpeed = 7;
+    [SerializeField] float scoreIdleShakeAmplitude = 7;
+
+    float currAddedScaleToTitle = 0;
+    Vector3 stockedScoreInitialLocalPos = Vector3.zero;
+
+
+    [Header("Dynamic Leaderboard")]
+    [SerializeField] Transform rootParentLeaderboard = null;
+    [SerializeField] Transform rootParentLeaderboardGraphs = null;
+    [SerializeField] GameObject prefabSoloScoreFirstScreen = null;
+    List<LeaderboardSingleScoreFirstScreenAccesseur> allScoreAcesseurs = new List<LeaderboardSingleScoreFirstScreenAccesseur>();
+    int nbScoreKept = 0;
+
+    List<LeaderboardData> leaderboardDatas = new List<LeaderboardData>();
+    List<LeaderboardData> newLeaderboardDatas = new List<LeaderboardData>();
+    LeaderboardData playerData = null;
+    Transform playerSoloScore = null;
+    LeaderboardSingleScoreFirstScreenAccesseur playerAccesseur = null;
+
+    [SerializeField] float timeDelayBeforePop = 0.2f;
+    [SerializeField] float timeDelayBetweenPops = 0.2f;
+    [SerializeField] float timeBeforeUpdateLeaderboard = 2f;
 
     private void Start()
     {
@@ -59,15 +100,85 @@ public class BonusHandler : MonoBehaviour
 
         currScoreDisplayed = UILeaderboard.Instance.Score;
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
+        stockedScoreInitialLocalPos = scoreText.transform.localPosition;
+        InitLeaderboard();
+    }
+
+    void InitLeaderboard()
+    {
+        leaderboardDatas = LeaderboardManager.Instance.GetLeaderboard();
+        nbScoreKept = LeaderboardManager.Instance.maxKeptScores + 1;
+        for (int i = 0; i < nbScoreKept; i++)
+        {
+            bool isPlayer = false;
+            GameObject currGo = Instantiate(prefabSoloScoreFirstScreen, rootParentLeaderboard);
+            LeaderboardSingleScoreFirstScreenAccesseur currAccess = currGo.GetComponent<LeaderboardSingleScoreFirstScreenAccesseur>();
+
+            LeaderboardData currIndexData = null;
+            if (i == nbScoreKept - 1)
+            {
+                playerData = new LeaderboardData("YOU", Mathf.RoundToInt(currScoreDisplayed), "No Title");
+                currIndexData = playerData = new LeaderboardData("YOU", Mathf.RoundToInt(currScoreDisplayed), "No Title");
+                playerSoloScore = currGo.transform;
+                playerAccesseur = currAccess;
+                isPlayer = true;
+            }
+            else if (i < leaderboardDatas.Count && leaderboardDatas[i] != null)
+                currIndexData = leaderboardDatas[i];
+            else
+                currIndexData = new LeaderboardData("---", 0, "No Title");
+            newLeaderboardDatas.Add(currIndexData);
+            currAccess.InitSoloScore(rootParentLeaderboardGraphs, this, currIndexData, i+1, nbScoreKept, isPlayer, timeDelayBeforePop + timeDelayBetweenPops*i);
+            allScoreAcesseurs.Add(currAccess);
+        }
+    }
+
+    void UpdatePlayerInDynamicLeaderboard()
+    {
+        int currPlayerIndex = nbScoreKept - 1;
+        for (int i = newLeaderboardDatas.Count-2; i > -1; i--)
+        {
+            if (newLeaderboardDatas[i].score < currScoreDisplayed)
+            {
+                allScoreAcesseurs[i].rank = i + 2;
+                currPlayerIndex--;
+            }
+            else
+            {
+                allScoreAcesseurs[i].rank = i + 1;
+            }
+        }
+        if (currPlayerIndex < 0) currPlayerIndex = 0;
+        playerSoloScore.SetSiblingIndex(currPlayerIndex);
+        playerData.score = Mathf.RoundToInt(currScoreDisplayed);
+        playerAccesseur.rank = currPlayerIndex + 1;
     }
 
     void Update()
     {
-        dt = Time.unscaledDeltaTime * UILeaderboard.Instance.deltaTimeMultiplier;
+        dt = Time.unscaledDeltaTime * UILeaderboard.Instance.deltaTimeMultiplier * localSpeedMultiplier;
+        customTime += dt;
         currScoreDisplayed = Mathf.Lerp(currScoreDisplayed, UILeaderboard.Instance.Score, dt * scoreLerpSpeed);
+
+        // --- Anim Score
+        if (Mathf.Abs(currScoreDisplayed - UILeaderboard.Instance.Score) > scoreAnimRangeConsideredSame)
+            currAddedScaleToTitle = Mathf.Lerp(currAddedScaleToTitle, scoreAnimMaxSize, dt);
+        else
+            currAddedScaleToTitle = Mathf.Lerp(currAddedScaleToTitle, 0, dt);
+        scoreText.transform.localScale = Vector3.one + Vector3.one * Mathf.Sin(customTime * scoreIdleSpeed) * scoreIdleAmplitude + Vector3.one * currAddedScaleToTitle + Vector3.one * (maxAddedSizeTitle * currScoreDisplayed / refForMaxSizeAndShake);
+
+        scoreText.transform.localPosition = stockedScoreInitialLocalPos
+            + (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude* currScoreDisplayed/ refForMaxSizeAndShake));
+
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
 
         DoProgressBarAnim();
+
+        if (timeBeforeUpdateLeaderboard >= 0)
+        {
+            timeBeforeUpdateLeaderboard -= dt;
+        }
+        if (timeBeforeUpdateLeaderboard < 0) UpdatePlayerInDynamicLeaderboard();
 
         #region Progress Bar
         switch (progressState)
@@ -173,6 +284,7 @@ public class BonusHandler : MonoBehaviour
                         typeText.text = Main.Instance.AllEndGameBonus[0].type;
                         numberText.text = "0" + Main.Instance.AllEndGameBonus[0].addedCharacter;
                         numberMaxText.text = "/" + Main.Instance.AllEndGameBonus[0].maxValue + Main.Instance.AllEndGameBonus[0].addedCharacter;
+                        colorToChangeProgress.color = colorProgressNormal;
                     }
                 }
                 break;
@@ -188,7 +300,6 @@ public class BonusHandler : MonoBehaviour
     {
         if (purcentageInState < 1)
         {
-            float dt = Time.unscaledDeltaTime * UILeaderboard.Instance.deltaTimeMultiplier;
             purcentageInState += dt / time;
             if (purcentageInState > 1)
             {
@@ -206,11 +317,13 @@ public class BonusHandler : MonoBehaviour
         {
             playAnimProgressSucces = !progressSuccesAnim.AddPurcentage(progressAnimPurcentage, dt, out progressAnimPurcentage);
             transformToScaleInSuccesAnim.localScale = Vector3.one + Vector3.one * progressSuccesAnim.ValueAt(progressAnimPurcentage);
+            colorToChangeProgress.color = colorProgressSucces;
         }
         if (playAnimFailureSucces)
         {
             playAnimFailureSucces = !progressFailureAnim.AddPurcentage(progressAnimPurcentage, dt, out progressAnimPurcentage);
             transformToScaleInFailureAnim.localScale = Vector3.one + Vector3.one * progressFailureAnim.ValueAt(progressAnimPurcentage);
+            colorToChangeProgress.color = colorProgressFailure;
         }
     }
 
