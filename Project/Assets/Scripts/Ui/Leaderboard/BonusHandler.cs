@@ -93,6 +93,37 @@ public class BonusHandler : MonoBehaviour
     [SerializeField] float timeDelayBetweenPops = 0.2f;
     [SerializeField] float timeBeforeUpdateLeaderboard = 2f;
 
+
+    [Header("Explosion If Succes")]
+    [SerializeField] float idlePurcentage = 0;
+    [SerializeField] float minValueIdle = 0.2f;
+    [SerializeField] float idlePurcentageTimeCancel = 2;
+    [SerializeField] Image explosionImage = null;
+    [SerializeField] float timeExplosion = 1.75f;
+    [SerializeField] float scaleMaxExplosion = 15f;
+    [SerializeField] float scaleMinExplosion = 1f;
+    float currentPurcentageExplosion = 1;
+    [SerializeField] Color explosionColorStart = Color.white;
+    [SerializeField] Color explosionColorEnd = Color.white;
+
+    [Header("ExplosionDecalSprites")]
+    [SerializeField] Transform explosionSource = null;
+    [SerializeField] Transform[] affectedByExplosion = null;
+    [SerializeField] float explosionForceMultiplierByScore = 5;
+    float explosionCurrentMultiplier = 1;
+    Vector3[] basePos = null;
+    [SerializeField] DataSimpleAnim explosionAnim = null;
+    bool doAnimExplosion = false;
+    float animExplosionPurcentage = 1;
+
+
+    Vector3[] ildedPos = null;
+    [SerializeField] Transform idleRefMiddle = null;
+    [SerializeField] float idleSpeed = 1;
+    [SerializeField] float idleMagnitude = 20;
+
+    bool goingAway = false;
+
     private void Start()
     {
         cvsGroupAlpha = 0;
@@ -102,6 +133,7 @@ public class BonusHandler : MonoBehaviour
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
         stockedScoreInitialLocalPos = scoreText.transform.localPosition;
         InitLeaderboard();
+        explosionImage.enabled = false;
     }
 
     void InitLeaderboard()
@@ -130,6 +162,14 @@ public class BonusHandler : MonoBehaviour
             newLeaderboardDatas.Add(currIndexData);
             currAccess.InitSoloScore(rootParentLeaderboardGraphs, this, currIndexData, i+1, nbScoreKept, isPlayer, timeDelayBeforePop + timeDelayBetweenPops*i);
             allScoreAcesseurs.Add(currAccess);
+        }
+
+        // Anim explosion
+        basePos = new Vector3[affectedByExplosion.Length];
+        ildedPos = new Vector3[affectedByExplosion.Length];
+        for (int i = 0; i < affectedByExplosion.Length; i++)
+        {
+            basePos[i] = affectedByExplosion[i].position;
         }
     }
 
@@ -165,10 +205,28 @@ public class BonusHandler : MonoBehaviour
             currAddedScaleToTitle = Mathf.Lerp(currAddedScaleToTitle, scoreAnimMaxSize, dt);
         else
             currAddedScaleToTitle = Mathf.Lerp(currAddedScaleToTitle, 0, dt);
-        scoreText.transform.localScale = Vector3.one + Vector3.one * Mathf.Sin(customTime * scoreIdleSpeed) * scoreIdleAmplitude + Vector3.one * currAddedScaleToTitle + Vector3.one * (maxAddedSizeTitle * currScoreDisplayed / refForMaxSizeAndShake);
 
-        scoreText.transform.localPosition = stockedScoreInitialLocalPos
-            + (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude* currScoreDisplayed/ refForMaxSizeAndShake));
+
+        // --- IDLE
+
+        idlePurcentage = Mathf.MoveTowards(idlePurcentage, minValueIdle, (1- minValueIdle)* dt / idlePurcentageTimeCancel);
+
+        Vector3 scaleChange = Vector3.one * Mathf.Sin(customTime * scoreIdleSpeed) * scoreIdleAmplitude + Vector3.one * currAddedScaleToTitle + Vector3.one * (maxAddedSizeTitle * currScoreDisplayed / refForMaxSizeAndShake);
+        scoreText.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one + scaleChange, idlePurcentage);
+
+        Vector3 posChange = (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude * currScoreDisplayed / refForMaxSizeAndShake));
+        scoreText.transform.localPosition = Vector3.Lerp(stockedScoreInitialLocalPos, stockedScoreInitialLocalPos + posChange, idlePurcentage);
+
+        if (!goingAway)
+        {
+            for (int i = 0; i < basePos.Length; i++)
+            {
+                Vector3 dir = Vector3.Normalize(basePos[i] - idleRefMiddle.position);
+                ildedPos[i] = basePos[i] + dir * Mathf.Sin(customTime * idleSpeed) * idleMagnitude;
+                affectedByExplosion[i].position = ildedPos[i];
+            }
+        }
+        HandleExplosionAnim();
 
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
 
@@ -204,7 +262,14 @@ public class BonusHandler : MonoBehaviour
                     numberText.text = Main.Instance.AllEndGameBonus[0].currValue.ToString() + Main.Instance.AllEndGameBonus[0].addedCharacter;
                     maskProgress.fillAmount = Main.Instance.AllEndGameBonus[0].currValue / Main.Instance.AllEndGameBonus[0].maxValue;
 
-                    if (Main.Instance.AllEndGameBonus[0].currValue >= Main.Instance.AllEndGameBonus[0].maxValue) playAnimProgressSucces = true;
+                    if (Main.Instance.AllEndGameBonus[0].currValue >= Main.Instance.AllEndGameBonus[0].maxValue)
+                    {
+                        playAnimProgressSucces = true;
+                        currentPurcentageExplosion = 0;
+                        idlePurcentage = 1;
+                        animExplosionPurcentage = 0;
+                        doAnimExplosion = true;
+                    }
                     else playAnimFailureSucces = true;
                     progressAnimPurcentage = 0;
                     progressState = stateProgress.anim;
@@ -224,6 +289,7 @@ public class BonusHandler : MonoBehaviour
                     {
                         SpawnNewBonusInstance("+ " + Main.Instance.AllEndGameBonus[0].addedScore.ToString("N0"), Main.Instance.AllEndGameBonus[0].title, Main.Instance.AllEndGameBonus[0].description);
                         UILeaderboard.Instance.addScore(Main.Instance.AllEndGameBonus[0].addedScore);
+                        explosionCurrentMultiplier = 1 + UILeaderboard.Instance.Score * (explosionForceMultiplierByScore -1)/ refForMaxSizeAndShake;
                     }
                     progressState = stateProgress.depop;
                 }
@@ -293,7 +359,36 @@ public class BonusHandler : MonoBehaviour
         outlineBar.effectColor = new Color(outlineBar.effectColor.r, outlineBar.effectColor.g, outlineBar.effectColor.b, Mathf.Pow (cvsGroupAlpha, outlineAlphaPow));
         #endregion
 
+        if (currentPurcentageExplosion < 1)
+        {
+            currentPurcentageExplosion += dt / timeExplosion;
+            explosionImage.enabled = true;
+            explosionImage.transform.localScale = Vector3.Lerp(Vector3.one * scaleMinExplosion, Vector3.one * scaleMaxExplosion, currentPurcentageExplosion);
+            explosionImage.color = Color.Lerp(explosionColorStart, explosionColorEnd, currentPurcentageExplosion);
+            if (currentPurcentageExplosion > 1)
+            {
+                currentPurcentageExplosion = 1;
+                explosionImage.enabled = false;
+            }
+        }
+
+
         //if (Input.GetKeyDown(KeyCode.H)) SpawnNewBonusInstance("+ 50 000", "test titre", "test description de titre long");
+    }
+
+    void HandleExplosionAnim()
+    {
+        if (doAnimExplosion)
+        {
+            doAnimExplosion = !explosionAnim.AddPurcentage(animExplosionPurcentage, dt, out animExplosionPurcentage);
+            for (int i = 0; i < affectedByExplosion.Length; i++)
+            {
+                Vector3 dir = Vector3.Normalize(ildedPos[i] - explosionSource.position);
+                affectedByExplosion[i].transform.position = ildedPos[i];
+                affectedByExplosion[i].transform.Translate(dir * explosionAnim.ValueAt(animExplosionPurcentage) * explosionCurrentMultiplier, Space.World);
+
+            }
+        }
     }
 
     bool upPurcentage (float time)
