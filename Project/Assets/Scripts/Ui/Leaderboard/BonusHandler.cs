@@ -35,13 +35,22 @@ public class BonusHandler : MonoBehaviour
     float purcentageInState = 1;
     float cvsGroupAlpha = 1;
     float outlineAlphaPow = 3;
-
+    float dt = 0;
     bool firstLoop = true;
 
     float currScoreDisplayed = 0;
     [SerializeField] float scoreLerpSpeed = 8;
 
     [HideInInspector] public bool allowToNext = false;
+
+    [Header("ProgressAnim")]
+    [SerializeField] Transform transformToScaleInSuccesAnim = null;
+    [SerializeField] DataSimpleAnim progressSuccesAnim = null;
+    bool playAnimProgressSucces = false;
+    [SerializeField] Transform transformToScaleInFailureAnim = null;
+    [SerializeField] DataSimpleAnim progressFailureAnim = null;
+    bool playAnimFailureSucces = false;
+    float progressAnimPurcentage = 1;
 
     private void Start()
     {
@@ -54,9 +63,11 @@ public class BonusHandler : MonoBehaviour
 
     void Update()
     {
-        float dt = Time.unscaledDeltaTime * UILeaderboard.Instance.deltaTimeMultiplier;
+        dt = Time.unscaledDeltaTime * UILeaderboard.Instance.deltaTimeMultiplier;
         currScoreDisplayed = Mathf.Lerp(currScoreDisplayed, UILeaderboard.Instance.Score, dt * scoreLerpSpeed);
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
+
+        DoProgressBarAnim();
 
         #region Progress Bar
         switch (progressState)
@@ -81,6 +92,10 @@ public class BonusHandler : MonoBehaviour
                 {
                     numberText.text = Main.Instance.AllEndGameBonus[0].currValue.ToString() + Main.Instance.AllEndGameBonus[0].addedCharacter;
                     maskProgress.fillAmount = Main.Instance.AllEndGameBonus[0].currValue / Main.Instance.AllEndGameBonus[0].maxValue;
+
+                    if (Main.Instance.AllEndGameBonus[0].currValue >= Main.Instance.AllEndGameBonus[0].maxValue) playAnimProgressSucces = true;
+                    else playAnimFailureSucces = true;
+                    progressAnimPurcentage = 0;
                     progressState = stateProgress.anim;
                 }
                 else
@@ -153,6 +168,8 @@ public class BonusHandler : MonoBehaviour
                         purcentageInState = 0;
                         cvsGroupAlpha = 0;
                         maskProgress.fillAmount = 0;
+                        transformToScaleInSuccesAnim.localScale = Vector3.one;
+                        transformToScaleInFailureAnim.localScale = Vector3.one;
                         typeText.text = Main.Instance.AllEndGameBonus[0].type;
                         numberText.text = "0" + Main.Instance.AllEndGameBonus[0].addedCharacter;
                         numberMaxText.text = "/" + Main.Instance.AllEndGameBonus[0].maxValue + Main.Instance.AllEndGameBonus[0].addedCharacter;
@@ -183,7 +200,19 @@ public class BonusHandler : MonoBehaviour
         return false;
     }
 
-
+    void DoProgressBarAnim()
+    {
+        if (playAnimProgressSucces)
+        {
+            playAnimProgressSucces = !progressSuccesAnim.AddPurcentage(progressAnimPurcentage, dt, out progressAnimPurcentage);
+            transformToScaleInSuccesAnim.localScale = Vector3.one + Vector3.one * progressSuccesAnim.ValueAt(progressAnimPurcentage);
+        }
+        if (playAnimFailureSucces)
+        {
+            playAnimFailureSucces = !progressFailureAnim.AddPurcentage(progressAnimPurcentage, dt, out progressAnimPurcentage);
+            transformToScaleInFailureAnim.localScale = Vector3.one + Vector3.one * progressFailureAnim.ValueAt(progressAnimPurcentage);
+        }
+    }
 
     public void SpawnNewBonusInstance(string _scoreText, string _titleText, string _descriptionText)
     {
