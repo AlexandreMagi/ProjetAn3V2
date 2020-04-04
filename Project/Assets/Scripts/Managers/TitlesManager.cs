@@ -16,6 +16,7 @@ public class TitlesManager : MonoBehaviour
         public string titleDesc;
         public bool isUnlocked;
         public int bonusScore;
+        public uint titleID;
     }
 
     // Start is called before the first frame update
@@ -72,6 +73,46 @@ public class TitlesManager : MonoBehaviour
 
     }
 
+    public void CalculateScores()
+    {
+        MetricsGestionnary mI = MetricsGestionnary.Instance;
+
+        foreach(Title title in dbTitles.titlesRegistered)
+        {
+            switch (title.titleID)
+            {
+                case 0: case 1: case 2: case 8: case 9: case 10: case 11: case 12: case 14: case 15:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(1, 1, "Conditon", title.bonusScore, title.titleName, title.titleDesc);
+                    break;
+                case 3:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().aim, 60, "Aim", title.bonusScore, title.titleName, title.titleDesc, null, "%");
+                    break;
+                case 4:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().timeOfGame, 240000, "Time", title.bonusScore, title.titleName, title.titleDesc, null, "ms");
+                    break;
+                case 5:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().camerasHit, mI.countOfCameras, "Cameras", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                    break;
+                case 7:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit, mI.countOfCollectibles, "Armor", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                    break;
+                case 6:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit + mI.GetMetrics().camerasHit, mI.countOfCollectibles + mI.countOfCameras, "Bonus", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                    break;
+                case 13:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().totalDamageTaken, mI.dataTitles.damageTakenRequired, "Damage taken", title.bonusScore, title.titleName, title.titleDesc);
+                    break;
+            }
+        }
+    }
+
     public void ChangeTitleState(string titleName, bool unlocked)
     {
         Title titleToChange;
@@ -87,6 +128,26 @@ public class TitlesManager : MonoBehaviour
         }
 
         if(changeDoable)
+        {
+            titleToChange.isUnlocked = unlocked;
+        }
+    }
+
+    public void ChangeTitleState(uint titleID, bool unlocked)
+    {
+        Title titleToChange;
+        bool changeDoable = false;
+        foreach (Title titleInTab in dbTitles.titlesRegistered)
+        {
+            if (titleID == titleInTab.titleID)
+            {
+                titleToChange = titleInTab;
+                changeDoable = true;
+                break;
+            }
+        }
+
+        if (changeDoable)
         {
             titleToChange.isUnlocked = unlocked;
         }

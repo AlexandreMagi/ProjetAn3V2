@@ -473,6 +473,8 @@ public class Main : MonoBehaviour
 
     public void EndGame(LeaderboardData playerData)
     {
+        MetricsGestionnary.Instance.EndMetrics();
+
         LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
 
         MetricsGestionnary.Instance.SaveMetrics();
