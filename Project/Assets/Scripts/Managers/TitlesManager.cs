@@ -83,31 +83,31 @@ public class TitlesManager : MonoBehaviour
             {
                 case 0: case 1: case 2: case 8: case 9: case 10: case 11: case 12: case 14: case 15:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(1, 1, "nope", title.bonusScore, title.titleName, title.titleDesc);
+                        Main.Instance.AddEndGameBonus(1, 1, "Conditon", title.bonusScore, title.titleName, title.titleDesc);
                     break;
                 case 3:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(mI.GetMetrics().aim, 60, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "%");
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().aim, 60, "Aim", title.bonusScore, title.titleName, title.titleDesc, null, "%");
                     break;
                 case 4:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(mI.GetMetrics().timeOfGame, 240000, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "ms");
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().timeOfGame, 240000, "Time", title.bonusScore, title.titleName, title.titleDesc, null, "ms");
                     break;
                 case 5:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(mI.GetMetrics().camerasHit, mI.countOfCameras, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().camerasHit, mI.countOfCameras, "Cameras", title.bonusScore, title.titleName, title.titleDesc, null, "");
                     break;
                 case 7:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit, mI.countOfCollectibles, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit, mI.countOfCollectibles, "Armor", title.bonusScore, title.titleName, title.titleDesc, null, "");
                     break;
                 case 6:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit + mI.GetMetrics().camerasHit, mI.countOfCollectibles + mI.countOfCameras, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit + mI.GetMetrics().camerasHit, mI.countOfCollectibles + mI.countOfCameras, "Bonus", title.bonusScore, title.titleName, title.titleDesc, null, "");
                     break;
                 case 13:
                     if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(mI.GetMetrics().totalDamageTaken, mI.dataTitles.damageTakenRequired, "nope", title.bonusScore, title.titleName, title.titleDesc);
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().totalDamageTaken, mI.dataTitles.damageTakenRequired, "Damage taken", title.bonusScore, title.titleName, title.titleDesc);
                     break;
             }
         }
