@@ -138,11 +138,11 @@ public class BonusHandler : MonoBehaviour
         currScoreDisplayed = UILeaderboard.Instance.Score;
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
         stockedScoreInitialLocalPos = scoreText.transform.localPosition;
-        InitLeaderboard();
+        //InitLeaderboard();
         explosionImage.enabled = false;
     }
 
-    void InitLeaderboard()
+    public void InitLeaderboard()
     {
         leaderboardDatas = LeaderboardManager.Instance.GetLeaderboard();
         nbScoreKept = LeaderboardManager.Instance.maxKeptScores + 1;
@@ -224,7 +224,7 @@ public class BonusHandler : MonoBehaviour
         Vector3 posChange = (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude * currScoreDisplayed / refForMaxSizeAndShake));
         scoreText.transform.localPosition = Vector3.Lerp(stockedScoreInitialLocalPos, stockedScoreInitialLocalPos + posChange, idlePurcentage);
 
-        if (!goingAway)
+        if (!goingAway && basePos != null)
         {
             for (int i = 0; i < basePos.Length; i++)
             {

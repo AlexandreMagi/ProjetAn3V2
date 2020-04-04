@@ -44,7 +44,11 @@ public class UILeaderboard : MonoBehaviour
 
     public int Score { get { return playerData.score; } }
 
-    public void InitLeaderboard(int score)
+    public void InitLeaderboard(int score) { StartCoroutine(InitLeaderboardCoroutine(score)); }
+
+    [SerializeField] float timeBeforePopUI = 0.7f;
+    [SerializeField] float timeBeforePopFirstScreenLeaderboard = 1.5f;
+    IEnumerator InitLeaderboardCoroutine (int score)
     {
         // --- Desactivation des canvas existants
         Canvas[] existingsCanvas = FindObjectsOfType<Canvas>();
@@ -54,9 +58,6 @@ public class UILeaderboard : MonoBehaviour
         cvs = Instantiate(cvs);
         // Pop
         cvsVars = cvs.GetComponent<LeaderboardCanvasAccesseur>();
-        cvsVars.root_FirstLeaderboard.gameObject.SetActive(true);
-        cvsVars.root_NameAndTitleChoice.gameObject.SetActive(false);
-        cvsVars.root_FinalLeaderboard.gameObject.SetActive(false);
         charSelectors = cvsVars.charSelectors;
         cvsVars.crossHairHandler.SetAsInstance();
 
@@ -67,13 +68,27 @@ public class UILeaderboard : MonoBehaviour
         playerData = new LeaderboardData();
         playerData.score = score;
 
+        yield return new WaitForSecondsRealtime(timeBeforePopUI);
+
+        // Pop des trucs
+        cvsVars.root_FirstLeaderboard.gameObject.SetActive(true);
+        cvsVars.root_NameAndTitleChoice.gameObject.SetActive(false);
+        cvsVars.root_FinalLeaderboard.gameObject.SetActive(false);
+
         // Init au dernier nom marqué
         for (int i = 0; i < cvsVars.charSelectors.Length; i++)
         {
             cvsVars.charSelectors[i].charText.text = LeaderboardManager.lastName[i].ToString();
         }
         timeRemainingBeforeProgress = timerBeforeActivateProgressBars;
+
+        yield return new WaitForSecondsRealtime(timeBeforePopFirstScreenLeaderboard);
+
+        cvsVars.bonusHandler.InitLeaderboard();
+
+        yield break;
     }
+
     private void Update()
     {
         if (timeRemainingBeforeProgress > 0)
