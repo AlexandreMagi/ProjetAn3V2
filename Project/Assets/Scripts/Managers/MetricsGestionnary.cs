@@ -8,12 +8,12 @@ using UnityEngine;
 public class MetricsGestionnary : MonoBehaviour
 {
     [SerializeField]
-    TitlesData dataTitles;
+    public TitlesData dataTitles;
 
     public static MetricsGestionnary Instance { get; private set; }
 
-    int countOfCameras = 0;
-    int countOfCollectibles = 0;
+    public int countOfCameras = 0;
+    public int countOfCollectibles = 0;
     float timeAtLaunch;
 
     [SerializeField]
@@ -144,7 +144,8 @@ public class MetricsGestionnary : MonoBehaviour
     public void EndMetrics()
     {
         currentMetrics.timeOfGame = Time.time - timeAtLaunch;
-        if (currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100 > dataTitles.aimRequiredForTitle)
+        currentMetrics.aim = currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100;
+        if (currentMetrics.aim > dataTitles.aimRequiredForTitle)
         {
             TitlesManager.Instance.ChangeTitleState(3, true); //Sniper
         }
@@ -185,6 +186,11 @@ public class MetricsGestionnary : MonoBehaviour
         }
     }
 
+    public Metrics GetMetrics()
+    {
+        return currentMetrics;
+    }
+
     public enum MetricsEventType
     {
         DamageTaken,
@@ -209,6 +215,7 @@ public class Metrics
 {
     //Metrics
     public int camerasHit = 0;
+    public float aim = 0;
     public int collectiblesHit = 0;
     public int numberOfEnvKills = 0;
     public float numberOfShots = 0;

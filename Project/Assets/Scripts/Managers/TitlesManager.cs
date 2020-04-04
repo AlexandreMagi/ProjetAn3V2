@@ -75,11 +75,40 @@ public class TitlesManager : MonoBehaviour
 
     public void CalculateScores()
     {
+        MetricsGestionnary mI = MetricsGestionnary.Instance;
+
         foreach(Title title in dbTitles.titlesRegistered)
         {
-            switch (title.titleName)
+            switch (title.titleID)
             {
-                
+                case 0: case 1: case 2: case 8: case 9: case 10: case 11: case 12: case 14: case 15:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(1, 1, "nope", title.bonusScore, title.titleName, title.titleDesc);
+                    break;
+                case 3:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().aim, 60, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "%");
+                    break;
+                case 4:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().timeOfGame, 240000, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "ms");
+                    break;
+                case 5:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().camerasHit, mI.countOfCameras, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                    break;
+                case 7:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit, mI.countOfCollectibles, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                    break;
+                case 6:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit + mI.GetMetrics().camerasHit, mI.countOfCollectibles + mI.countOfCameras, "nope", title.bonusScore, title.titleName, title.titleDesc, null, "");
+                    break;
+                case 13:
+                    if (title.isUnlocked)
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().totalDamageTaken, mI.dataTitles.damageTakenRequired, "nope", title.bonusScore, title.titleName, title.titleDesc);
+                    break;
             }
         }
     }
