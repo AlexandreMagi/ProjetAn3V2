@@ -39,7 +39,7 @@ public class BonusHandler : MonoBehaviour
     float customTime = 0;
     bool firstLoop = true;
 
-    float currScoreDisplayed = 0;
+    [HideInInspector] public float currScoreDisplayed = 0;
     [SerializeField] float scoreLerpSpeed = 8;
 
     [HideInInspector] public bool allowToNext = false;
@@ -130,6 +130,15 @@ public class BonusHandler : MonoBehaviour
     [SerializeField] UIParticuleSystemDispersion[] allParticlsToActivate = null;
     [SerializeField] UIParticuleSystemDispersion looseParticle = null;
 
+    [Header("Pop")]
+    [SerializeField] DataSimpleAnim animXpop = null;
+    [SerializeField] DataSimpleAnim animYpop = null;
+    [SerializeField] Transform[] objectsToAnimPop = null;
+    bool doPopAnim = false;
+    float currPurcentagePopAnim = 1;
+
+    [SerializeField] Transform newParentForScoreWhenNexted = null;
+
     private void Start()
     {
         cvsGroupAlpha = 0;
@@ -138,11 +147,36 @@ public class BonusHandler : MonoBehaviour
         currScoreDisplayed = UILeaderboard.Instance.Score;
         scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
         stockedScoreInitialLocalPos = scoreText.transform.localPosition;
-        InitLeaderboard();
+        //InitLeaderboard();
         explosionImage.enabled = false;
+        foreach (var obj in objectsToAnimPop)
+        {
+                obj.transform.localScale = Vector3.zero;
+        }
     }
 
-    void InitLeaderboard()
+    public void goAway()
+    {
+        goingAway = true;
+        allowToNext = false;
+        for (int i = 0; i < Main.Instance.AllEndGameBonus.Count; i++)
+        {
+            UILeaderboard.Instance.addScore(Main.Instance.AllEndGameBonus[i].addedScore);
+        }
+        //currScoreDisplayed = UILeaderboard.Instance.Score;
+        Debug.Log("Fluidifier changement score");
+        //scoreText.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
+        scoreText.transform.SetParent(newParentForScoreWhenNexted, true);
+        this.enabled = false;
+    }
+
+    public void InitPopAnim()
+    {
+        doPopAnim = true;
+        currPurcentagePopAnim = 0;
+    }
+
+    public void InitLeaderboard()
     {
         leaderboardDatas = LeaderboardManager.Instance.GetLeaderboard();
         nbScoreKept = LeaderboardManager.Instance.maxKeptScores + 1;
@@ -214,6 +248,20 @@ public class BonusHandler : MonoBehaviour
             currAddedScaleToTitle = Mathf.Lerp(currAddedScaleToTitle, 0, dt);
 
 
+        // Anim de pop
+        if (doPopAnim)
+        {
+            doPopAnim = !animXpop.AddPurcentage(currPurcentagePopAnim, dt, out currPurcentagePopAnim);
+            foreach (var obj in objectsToAnimPop)
+            {
+                if (doPopAnim)
+                    obj.transform.localScale = new Vector3(animXpop.ValueAt(currPurcentagePopAnim), animYpop.ValueAt(currPurcentagePopAnim), 1);
+                else
+                    obj.transform.localScale = Vector3.one;
+            }
+        }
+
+
         // --- IDLE
 
         idlePurcentage = Mathf.MoveTowards(idlePurcentage, minValueIdle, (1- minValueIdle)* dt / idlePurcentageTimeCancel);
@@ -224,7 +272,7 @@ public class BonusHandler : MonoBehaviour
         Vector3 posChange = (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude * currScoreDisplayed / refForMaxSizeAndShake));
         scoreText.transform.localPosition = Vector3.Lerp(stockedScoreInitialLocalPos, stockedScoreInitialLocalPos + posChange, idlePurcentage);
 
-        if (!goingAway)
+        if (!goingAway && basePos != null)
         {
             for (int i = 0; i < basePos.Length; i++)
             {
@@ -300,7 +348,7 @@ public class BonusHandler : MonoBehaviour
             case stateProgress.anim:
                 if (upPurcentage(timeAnim))
                 {
-                    if (Main.Instance.AllEndGameBonus[0].currValue >= Main.Instance.AllEndGameBonus[0].maxValue)
+                    if (Main.Instance.AllEndGameBonus[0].currValue >= Main.Instance.AllEndGameBonus[0].maxValue && allowToNext)
                     {
                         SpawnNewBonusInstance("+ " + Main.Instance.AllEndGameBonus[0].addedScore.ToString("N0"), Main.Instance.AllEndGameBonus[0].title, Main.Instance.AllEndGameBonus[0].description);
                         UILeaderboard.Instance.addScore(Main.Instance.AllEndGameBonus[0].addedScore);

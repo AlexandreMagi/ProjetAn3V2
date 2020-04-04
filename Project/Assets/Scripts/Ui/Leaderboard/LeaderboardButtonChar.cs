@@ -10,12 +10,12 @@ public class LeaderboardButtonChar : MonoBehaviour
     DataLeaderboardUI dataLeaderboard = null;
 
     RectTransform rect = null;
-    Image img = null;
+    [SerializeField] Image img = null;
 
     void Start()
     {
         rect = GetComponent<RectTransform>();
-        img = GetComponent<Image>();
+        //img = GetComponent<Image>();
         dataLeaderboard = UILeaderboard.Instance.dataLeaderboard;
         img.color = dataLeaderboard.baseColorButtons;
     }
@@ -42,8 +42,16 @@ public class LeaderboardButtonChar : MonoBehaviour
 
     void Update()
     {
-        if (CheckIfMouseOver()) img.color = dataLeaderboard.highlightedColorButtons;
-        else img.color = dataLeaderboard.baseColorButtons;
+        if (CheckIfMouseOver())
+        {
+            img.color = dataLeaderboard.highlightedColorButtons;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * dataLeaderboard.scaleWhenMouseOvered, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+        }
+        else
+        {
+            img.color = dataLeaderboard.baseColorButtons;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * dataLeaderboard.scaleNormal, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+        }
     }
 
     public void PlayerClicked() { if (CheckIfMouseOver()) ClickedButton(); }

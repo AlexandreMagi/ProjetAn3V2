@@ -8,7 +8,10 @@ public class UILeaderboard : MonoBehaviour
 
     // Accesseur
     public static UILeaderboard Instance { get; private set; }
-    void Awake() { Instance = this; }
+    void Awake() 
+    { 
+        Instance = this;
+    }
 
     // Canvas qui va se placer devant tout
     [SerializeField] GameObject cvs = null;
@@ -44,7 +47,22 @@ public class UILeaderboard : MonoBehaviour
 
     public int Score { get { return playerData.score; } }
 
-    public void InitLeaderboard(int score)
+    bool canChangeScene = false;
+
+    public void InitLeaderboard(int score) { StartCoroutine(InitLeaderboardCoroutine(score)); }
+
+    [SerializeField] float timeBeforePopUI = 0.7f;
+    [SerializeField] float timeBeforePopFirstScreenLeaderboard = 1.5f;
+
+    Transform objectToMove = null;
+    [SerializeField] float speedScreenGoLeftWhenSwitched = 100f;
+    [SerializeField] float timeBetweenScreens = 0.5f;
+
+    [SerializeField] float scoreTextLerpSpeedTransition = 8;
+    float transitionFontSize = 0;
+    float currScoreDisplayed = 0;
+
+    IEnumerator InitLeaderboardCoroutine (int score)
     {
         // --- Desactivation des canvas existants
         Canvas[] existingsCanvas = FindObjectsOfType<Canvas>();
@@ -54,9 +72,6 @@ public class UILeaderboard : MonoBehaviour
         cvs = Instantiate(cvs);
         // Pop
         cvsVars = cvs.GetComponent<LeaderboardCanvasAccesseur>();
-        cvsVars.root_FirstLeaderboard.gameObject.SetActive(true);
-        cvsVars.root_NameAndTitleChoice.gameObject.SetActive(false);
-        cvsVars.root_FinalLeaderboard.gameObject.SetActive(false);
         charSelectors = cvsVars.charSelectors;
         cvsVars.crossHairHandler.SetAsInstance();
 
@@ -67,13 +82,29 @@ public class UILeaderboard : MonoBehaviour
         playerData = new LeaderboardData();
         playerData.score = score;
 
+        yield return new WaitForSecondsRealtime(timeBeforePopUI);
+
+        // Pop des trucs
+        cvsVars.root_FirstLeaderboard.gameObject.SetActive(true);
+        cvsVars.root_NameAndTitleChoice.gameObject.SetActive(false);
+        cvsVars.root_FinalLeaderboard.gameObject.SetActive(false);
+        cvsVars.bonusHandler.InitPopAnim();
+
         // Init au dernier nom marqué
         for (int i = 0; i < cvsVars.charSelectors.Length; i++)
         {
             cvsVars.charSelectors[i].charText.text = LeaderboardManager.lastName[i].ToString();
         }
         timeRemainingBeforeProgress = timerBeforeActivateProgressBars;
+
+        yield return new WaitForSecondsRealtime(timeBeforePopFirstScreenLeaderboard);
+
+        cvsVars.bonusHandler.InitLeaderboard();
+
+        canChangeScene = true;
+        yield break;
     }
+
     private void Update()
     {
         if (timeRemainingBeforeProgress > 0)
@@ -85,6 +116,29 @@ public class UILeaderboard : MonoBehaviour
                 cvsVars.bonusHandler.allowToNext = true;
             }
         }
+
+        if (objectToMove != null)
+        {
+            objectToMove.Translate(Vector3.left * speedScreenGoLeftWhenSwitched * Time.unscaledDeltaTime * deltaTimeMultiplier);
+            if (canChangeScene) objectToMove = null;
+        }
+
+        if (playerData != null && cvsVars.scoreAtCharSelect != null && (currentScreen == leaderboardScreens.nameAndTitleChoice || !canChangeScene) && currScoreDisplayed != 0) 
+        {
+            currScoreDisplayed = Mathf.Lerp(currScoreDisplayed, playerData.score, Time.unscaledDeltaTime * deltaTimeMultiplier * scoreTextLerpSpeedTransition);
+            cvsVars.scoreAtCharSelect.text = Mathf.RoundToInt(currScoreDisplayed).ToString("N0");
+        }
+
+        if (currentScreen == leaderboardScreens.nameAndTitleChoice)
+        {
+            cvsVars.scoreAtCharSelect.transform.position = Vector3.Lerp(cvsVars.scoreAtCharSelect.transform.position, cvsVars.scoreCharGoTo.transform.position, Time.unscaledDeltaTime * deltaTimeMultiplier * scoreTextLerpSpeedTransition);
+            cvsVars.scoreAtCharSelect.transform.localScale = Vector3.Lerp(cvsVars.scoreAtCharSelect.transform.localScale, cvsVars.scoreCharGoTo.transform.localScale, Time.unscaledDeltaTime * deltaTimeMultiplier * scoreTextLerpSpeedTransition);
+            transitionFontSize = Mathf.Lerp(transitionFontSize, cvsVars.scoreCharGoTo.fontSize, Time.unscaledDeltaTime * deltaTimeMultiplier * scoreTextLerpSpeedTransition);
+            cvsVars.scoreAtCharSelect.fontSize = Mathf.RoundToInt(transitionFontSize);
+
+            if (Vector3.Distance(cvsVars.scoreAtCharSelect.transform.position, cvsVars.scoreCharGoTo.transform.position) < 0.01f)
+                cvsVars.scoreAtCharSelect.transform.SetParent(cvsVars.parentForScoreAfterTransition);
+        }
     }
 
     public void addScore (int score) { playerData.score += score; }
@@ -93,19 +147,32 @@ public class UILeaderboard : MonoBehaviour
 
     public void NextScreen()
     {
-        switch (currentScreen)
+        if (canChangeScene)
         {
-            case leaderboardScreens.startLeaderboard:
-                InitChoiceNameAndTitle();
-                break;
-            case leaderboardScreens.nameAndTitleChoice:
-                InitFinalLeaderboard();
-                break;
-            case leaderboardScreens.finalLeaderboard:
-                Main.Instance.EndGame (playerData);
-                break;
+            switch (currentScreen)
+            {
+                case leaderboardScreens.startLeaderboard:
+                    canChangeScene = false;
+                    objectToMove = cvsVars.root_FirstLeaderboard;
+                    cvsVars.bonusHandler.goAway();
+                    transitionFontSize = cvsVars.scoreAtCharSelect.fontSize;
+                    Invoke("InitChoiceNameAndTitle", timeBetweenScreens);
+                    //InitChoiceNameAndTitle();
+                    break;
+                case leaderboardScreens.nameAndTitleChoice:
+                    canChangeScene = false;
+                    objectToMove = cvsVars.root_NameAndTitleChoice;
+                    Invoke("InitFinalLeaderboard", timeBetweenScreens);
+                    //InitFinalLeaderboard();
+                    break;
+                case leaderboardScreens.finalLeaderboard:
+                    canChangeScene = false;
+                    Main.Instance.EndGame(playerData);
+                    break;
+            }
         }
     }
+
 
     void InitChoiceNameAndTitle()
     {
@@ -114,7 +181,11 @@ public class UILeaderboard : MonoBehaviour
         cvsVars.root_NameAndTitleChoice.gameObject.SetActive(true);
         cvsVars.root_FinalLeaderboard.gameObject.SetActive(false);
         currentScreen = leaderboardScreens.nameAndTitleChoice;
-        cvsVars.scoreAtCharSelect.text = "SCORE : " + playerData.score.ToString("N0");
+        currScoreDisplayed = cvsVars.bonusHandler.currScoreDisplayed;
+
+
+        cvsVars.scoreAtCharSelect.text = /*"SCORE : " + */playerData.score.ToString("N0");
+        canChangeScene = true;
     }
 
     void InitFinalLeaderboard()
@@ -154,6 +225,7 @@ public class UILeaderboard : MonoBehaviour
 
         DisplayScores(leaderboardDatas, indexPlayer);
 
+        canChangeScene = true;
     }
 
     // Trie le tableau de rang dans l'ordre croissant (le premier rang sera donc au début)
