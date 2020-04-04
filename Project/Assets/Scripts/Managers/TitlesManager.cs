@@ -16,6 +16,7 @@ public class TitlesManager : MonoBehaviour
         public string titleDesc;
         public bool isUnlocked;
         public int bonusScore;
+        public uint titleID;
     }
 
     // Start is called before the first frame update
@@ -72,6 +73,17 @@ public class TitlesManager : MonoBehaviour
 
     }
 
+    public void CalculateScores()
+    {
+        foreach(Title title in dbTitles.titlesRegistered)
+        {
+            switch (title.titleName)
+            {
+                
+            }
+        }
+    }
+
     public void ChangeTitleState(string titleName, bool unlocked)
     {
         Title titleToChange;
@@ -87,6 +99,26 @@ public class TitlesManager : MonoBehaviour
         }
 
         if(changeDoable)
+        {
+            titleToChange.isUnlocked = unlocked;
+        }
+    }
+
+    public void ChangeTitleState(uint titleID, bool unlocked)
+    {
+        Title titleToChange;
+        bool changeDoable = false;
+        foreach (Title titleInTab in dbTitles.titlesRegistered)
+        {
+            if (titleID == titleInTab.titleID)
+            {
+                titleToChange = titleInTab;
+                changeDoable = true;
+                break;
+            }
+        }
+
+        if (changeDoable)
         {
             titleToChange.isUnlocked = unlocked;
         }

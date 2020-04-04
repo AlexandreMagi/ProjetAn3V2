@@ -56,15 +56,15 @@ public class MetricsGestionnary : MonoBehaviour
             switch (eventType)
             {
                 case MetricsEventType.DamageTaken:
-                    TitlesManager.Instance.ChangeTitleState("Immaculate", false);
+                    TitlesManager.Instance.ChangeTitleState(1, false); //"Immaculate"
                     currentMetrics.totalDamageTaken += additionnalData;
 
-                    if (currentMetrics.totalDamageTaken > dataTitles.damageTakenRequired) TitlesManager.Instance.ChangeTitleState("Unshakable", true);
+                    if (currentMetrics.totalDamageTaken > dataTitles.damageTakenRequired) TitlesManager.Instance.ChangeTitleState(13, true); //Unshakable
 
                     break;
 
                 case MetricsEventType.DamageTakenOnHealth:
-                    TitlesManager.Instance.ChangeTitleState("Well protected", false);
+                    TitlesManager.Instance.ChangeTitleState(2, false); //"Well protected"
 
                     break;
 
@@ -85,7 +85,7 @@ public class MetricsGestionnary : MonoBehaviour
                     break;
 
                 case MetricsEventType.Death:
-                    TitlesManager.Instance.ChangeTitleState("Unkillable", false);
+                    TitlesManager.Instance.ChangeTitleState(0, false); //"Unkillable"
                     break;
 
                 case MetricsEventType.Resurrection:
@@ -94,24 +94,24 @@ public class MetricsGestionnary : MonoBehaviour
 
                 case MetricsEventType.CameraDestroyed:
                     currentMetrics.camerasHit++;
-                    if (currentMetrics.camerasHit == countOfCameras) TitlesManager.Instance.ChangeTitleState("Not today, Big Brother", true);
+                    if (currentMetrics.camerasHit == countOfCameras) TitlesManager.Instance.ChangeTitleState(5, true); //"Not today, Big Brother"
 
                     break;
 
                 case MetricsEventType.ArmorPadDestroyed:
                     currentMetrics.collectiblesHit++;
-                    if (currentMetrics.collectiblesHit == countOfCollectibles) TitlesManager.Instance.ChangeTitleState("Living armor", true);
+                    if (currentMetrics.collectiblesHit == countOfCollectibles) TitlesManager.Instance.ChangeTitleState(7, true); //"Living armor"
 
                     break;
 
                 case MetricsEventType.RevivedByCrowd:
-                    TitlesManager.Instance.ChangeTitleState("Chouchou", true);
+                    TitlesManager.Instance.ChangeTitleState(9, true); //"Chouchou"
                     currentMetrics.playerHasBeenRaised = true;
 
                     break;
 
                 case MetricsEventType.UsedCheatCode:
-                    TitlesManager.Instance.ChangeTitleState("Tech Wizard", true);
+                    TitlesManager.Instance.ChangeTitleState(10, true); //"Tech Wizard"
 
                     break;
 
@@ -119,7 +119,7 @@ public class MetricsGestionnary : MonoBehaviour
                     if (!currentMetrics.shotgunUsed)
                     {
                         currentMetrics.shotgunUsed = true;
-                        TitlesManager.Instance.ChangeTitleState("Who needs a shotgun", false);
+                        TitlesManager.Instance.ChangeTitleState(11, false); //"Who needs a shotgun"
                     }
                     break;
 
@@ -127,12 +127,12 @@ public class MetricsGestionnary : MonoBehaviour
                     if (!currentMetrics.gravityUsed)
                     {
                         currentMetrics.gravityUsed = true;
-                        TitlesManager.Instance.ChangeTitleState("Gravity is for the weaks", false);
+                        TitlesManager.Instance.ChangeTitleState(12, false); //"Gravity is for the weaks"
                     }
                     break;
 
                 case MetricsEventType.EnvironmentalKill:
-                    TitlesManager.Instance.ChangeTitleState("Environmentalist", true);
+                    TitlesManager.Instance.ChangeTitleState(14, true); //"Environmentalist"
                     currentMetrics.numberOfEnvKills++;
 
                     break;
@@ -141,23 +141,28 @@ public class MetricsGestionnary : MonoBehaviour
         
     }
 
-    public void SaveMetrics()
+    public void EndMetrics()
     {
         currentMetrics.timeOfGame = Time.time - timeAtLaunch;
-        if(currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100 > dataTitles.aimRequiredForTitle)
+        if (currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100 > dataTitles.aimRequiredForTitle)
         {
-            TitlesManager.Instance.ChangeTitleState("Sniper", true);
+            TitlesManager.Instance.ChangeTitleState(3, true); //Sniper
         }
 
-        if(currentMetrics.camerasHit == countOfCameras && currentMetrics.collectiblesHit == countOfCollectibles)
+        if (currentMetrics.camerasHit == countOfCameras && currentMetrics.collectiblesHit == countOfCollectibles)
         {
-            TitlesManager.Instance.ChangeTitleState("All bonuses", true);
+            TitlesManager.Instance.ChangeTitleState(6, true); //"All bonuses"
 
-            if(currentMetrics.totalDamageTaken == 0)
+            if (currentMetrics.totalDamageTaken == 0)
             {
-                TitlesManager.Instance.ChangeTitleState("Gladiator", true);
+                TitlesManager.Instance.ChangeTitleState(15, true); //"Gladiator"
             }
         }
+    }
+
+    public void SaveMetrics()
+    {
+        
 
         //Date du metrics
         string fileName = DateTime.Now + "";
