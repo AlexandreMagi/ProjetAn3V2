@@ -41,8 +41,16 @@ public class TitleSelecButton : MonoBehaviour
 
     void Update()
     {
-        if (CheckIfMouseOver()) img.color = dataLeaderboard.highlightedColorButtons;
-        else img.color = dataLeaderboard.baseColorButtons;
+        if (CheckIfMouseOver())
+        {
+            img.color = dataLeaderboard.highlightedColorButtons;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * dataLeaderboard.scaleWhenMouseOvered, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+        }
+        else
+        {
+            img.color = dataLeaderboard.baseColorButtons;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * dataLeaderboard.scaleNormal, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+        }
     }
 
     public void PlayerClicked() { if (CheckIfMouseOver()) ClickedButton(); }

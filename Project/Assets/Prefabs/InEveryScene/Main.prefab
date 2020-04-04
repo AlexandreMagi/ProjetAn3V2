@@ -1174,6 +1174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataTitles: {fileID: 11400000, guid: 966adb09203507240beccfe3abb2d018, type: 2}
+  countOfCameras: 0
+  countOfCollectibles: 0
   recordMetrics: 1
 --- !u!114 &3023239482166228730
 MonoBehaviour:
@@ -1194,8 +1196,11 @@ MonoBehaviour:
   bonusHandler: {fileID: 0}
   dataLeaderboard: {fileID: 11400000, guid: e40ca6dd74225a441952cd8504b17788, type: 2}
   deltaTimeMultiplier: 2
-  timeBeforePopUI: 0.7
+  timeBeforePopUI: 0.1
   timeBeforePopFirstScreenLeaderboard: 1
+  speedScreenGoLeftWhenSwitched: 2500
+  timeBetweenScreens: 0.5
+  scoreTextLerpSpeedTransition: 4
 --- !u!114 &8821384797642050267
 MonoBehaviour:
   m_ObjectHideFlags: 0
