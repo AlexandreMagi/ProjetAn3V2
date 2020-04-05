@@ -15,8 +15,8 @@ public class TitlesManager : MonoBehaviour
         public string titleName;
         public string titleDesc;
         public bool isUnlocked;
+        public int titleID;
         public int bonusScore;
-        public uint titleID;
     }
 
     // Start is called before the first frame update
@@ -67,10 +67,10 @@ public class TitlesManager : MonoBehaviour
         {
             //Si le fichier est pas trouvé en gros, en créer un nouveau
             Debug.LogWarning($"Aucune donnée de titres n'a été détectée.");
-
+            Debug.LogWarning(e);
         }
 
-
+        Debug.Log(dbTitles.titlesRegistered.Count);
     }
 
     public void CalculateScores()
