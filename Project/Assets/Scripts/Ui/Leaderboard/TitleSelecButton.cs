@@ -12,6 +12,13 @@ public class TitleSelecButton : MonoBehaviour
 
     RectTransform rect = null;
 
+
+    [Header("Anim")]
+    [SerializeField] DataSimpleAnim animClick = null;
+    bool doAnimClicked = false;
+    float animClickedPurcentage = 1;
+    float currentBaseScale = 1;
+
     void Start()
     {
         rect = GetComponent<RectTransform>();
@@ -44,15 +51,30 @@ public class TitleSelecButton : MonoBehaviour
         if (CheckIfMouseOver())
         {
             img.color = dataLeaderboard.highlightedColorButtons;
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * dataLeaderboard.scaleWhenMouseOvered, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+            currentBaseScale = Mathf.Lerp(currentBaseScale, dataLeaderboard.scaleWhenMouseOvered, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
         }
         else
         {
             img.color = dataLeaderboard.baseColorButtons;
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * dataLeaderboard.scaleNormal, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+            currentBaseScale = Mathf.Lerp(currentBaseScale, dataLeaderboard.scaleNormal, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
+        }
+
+        transform.localScale = Vector3.one * currentBaseScale;
+        if (doAnimClicked)
+        {
+            doAnimClicked = !animClick.AddPurcentage(animClickedPurcentage, Time.unscaledDeltaTime, out animClickedPurcentage);
+            transform.localScale = Vector3.one * currentBaseScale + Vector3.one * animClick.ValueAt(animClickedPurcentage);
         }
     }
 
-    public void PlayerClicked() { if (CheckIfMouseOver()) ClickedButton(); }
+    public void PlayerClicked() 
+    {
+        if (CheckIfMouseOver())
+        {
+            ClickedButton();
+            doAnimClicked = true;
+            animClickedPurcentage = 0;
+        }
+    }
     void ClickedButton() { manager.changeTitle(changeOnTitle); }
 }

@@ -62,6 +62,11 @@ public class UILeaderboard : MonoBehaviour
     float transitionFontSize = 0;
     float currScoreDisplayed = 0;
 
+    float timeRemainingBeforeSceneChange = 0;
+
+    [SerializeField] float timeBeforeAnimateCharSelect = 0.5f;
+    float timeRemainingBeforeAnimateCharSelect = 0;
+
     IEnumerator InitLeaderboardCoroutine (int score)
     {
         // --- Desactivation des canvas existants
@@ -139,6 +144,39 @@ public class UILeaderboard : MonoBehaviour
             if (Vector3.Distance(cvsVars.scoreAtCharSelect.transform.position, cvsVars.scoreCharGoTo.transform.position) < 0.01f)
                 cvsVars.scoreAtCharSelect.transform.SetParent(cvsVars.parentForScoreAfterTransition);
         }
+
+        if (timeRemainingBeforeSceneChange > 0)
+        {
+            timeRemainingBeforeSceneChange -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeSceneChange < 0)
+            {
+                timeRemainingBeforeSceneChange = 0;
+
+                switch (currentScreen)
+                {
+                    case leaderboardScreens.startLeaderboard:
+                        InitChoiceNameAndTitle();
+                        timeRemainingBeforeAnimateCharSelect = timeBeforeAnimateCharSelect;
+                        break;
+                    case leaderboardScreens.nameAndTitleChoice:
+                        InitFinalLeaderboard();
+                        break;
+                    case leaderboardScreens.finalLeaderboard:
+                        break;
+                }
+            }
+        }
+
+        if (timeRemainingBeforeAnimateCharSelect > 0)
+        {
+            timeRemainingBeforeAnimateCharSelect -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeAnimateCharSelect < 0)
+            {
+                cvsVars.idleAnimatorInCharSelect.ChangeWeightSettings(1, 2);
+                cvsVars.charSelectAnimator.enabled = false;
+            }
+        }
+
     }
 
     public void addScore (int score) { playerData.score += score; }
@@ -156,13 +194,15 @@ public class UILeaderboard : MonoBehaviour
                     objectToMove = cvsVars.root_FirstLeaderboard;
                     cvsVars.bonusHandler.goAway();
                     transitionFontSize = cvsVars.scoreAtCharSelect.fontSize;
-                    Invoke("InitChoiceNameAndTitle", timeBetweenScreens);
+                    timeRemainingBeforeSceneChange = timeBetweenScreens;
+                    //Invoke("InitChoiceNameAndTitle", timeBetweenScreens);
                     //InitChoiceNameAndTitle();
                     break;
                 case leaderboardScreens.nameAndTitleChoice:
                     canChangeScene = false;
                     objectToMove = cvsVars.root_NameAndTitleChoice;
-                    Invoke("InitFinalLeaderboard", timeBetweenScreens);
+                    timeRemainingBeforeSceneChange = timeBetweenScreens;
+                    //Invoke("InitFinalLeaderboard", timeBetweenScreens);
                     //InitFinalLeaderboard();
                     break;
                 case leaderboardScreens.finalLeaderboard:
