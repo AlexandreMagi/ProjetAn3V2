@@ -93,7 +93,7 @@ public class TitlesManager : MonoBehaviour
                     break;
                 case 3:
                     //if (title.isUnlocked)
-                    Main.Instance.AddEndGameBonus(float.IsNaN(mI.GetMetrics().aim) ? 0 : mI.GetMetrics().aim, 60, title.titleType, title.bonusScore, title.titleName, title.titleDesc, null, "%");
+                    Main.Instance.AddEndGameBonus(float.IsNaN(mI.GetMetrics().aim) ? 0 : Mathf.RoundToInt(mI.GetMetrics().aim), 60, title.titleType, title.bonusScore, title.titleName, title.titleDesc, null, "%");
                     break;
                 case 4:
                     //if (title.isUnlocked)
