@@ -79,7 +79,6 @@ public class TitlesManager : MonoBehaviour
 
         foreach(Title title in dbTitles.titlesRegistered)
         {
-            Debug.Log(title.titleName);
             switch (title.titleID)
             {
                 case 0: case 1: case 2: case 8: case 9: case 10: case 11: case 12: case 14: case 15:
