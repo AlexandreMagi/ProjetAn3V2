@@ -350,7 +350,7 @@ public class BonusHandler : MonoBehaviour
                 {
                     if (Main.Instance.AllEndGameBonus[0].currValue >= Main.Instance.AllEndGameBonus[0].maxValue && allowToNext)
                     {
-                        SpawnNewBonusInstance("+ " + Main.Instance.AllEndGameBonus[0].addedScore.ToString("N0"), Main.Instance.AllEndGameBonus[0].title, Main.Instance.AllEndGameBonus[0].description);
+                        SpawnNewBonusInstance("+" + Main.Instance.AllEndGameBonus[0].addedScore.ToString("N0"), Main.Instance.AllEndGameBonus[0].title, Main.Instance.AllEndGameBonus[0].description);
                         UILeaderboard.Instance.addScore(Main.Instance.AllEndGameBonus[0].addedScore);
                         explosionCurrentMultiplier = 1 + UILeaderboard.Instance.Score * (explosionForceMultiplierByScore -1)/ refForMaxSizeAndShake;
                     }
