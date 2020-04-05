@@ -461,6 +461,8 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        MetricsGestionnary.Instance.EndMetrics();
+        TitlesManager.Instance.CalculateScores();
         //TimeScaleManager.Instance.AddStopTime(5000);
         //Debug.Log("Ici on met le vrai score");
         //UILeaderboard.Instance.InitLeaderboard(Random.Range(0,200000));
@@ -473,7 +475,6 @@ public class Main : MonoBehaviour
 
     public void EndGame(LeaderboardData playerData)
     {
-        MetricsGestionnary.Instance.EndMetrics();
 
         LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
 
