@@ -158,6 +158,22 @@ public class MetricsGestionnary : MonoBehaviour
                 TitlesManager.Instance.ChangeTitleState(15, true); //"Gladiator"
             }
         }
+
+
+        UILeaderboard.Instance.AddMetricToDisplay("Cameras destroyed", currentMetrics.camerasHit == 0? "100%" : Mathf.FloorToInt(currentMetrics.camerasHit/ countOfCameras*100).ToString()+"%", "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Armor pads destroyed", currentMetrics.collectiblesHit == 0? "100%" : Mathf.FloorToInt(currentMetrics.collectiblesHit / countOfCollectibles * 100).ToString()+"%", "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Precision", currentMetrics.aim > 0? Mathf.FloorToInt(currentMetrics.aim).ToString()+"%" : "None", "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Damage Taken", Mathf.FloorToInt(currentMetrics.totalDamageTaken).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Environmental Kills", Mathf.FloorToInt(currentMetrics.numberOfEnvKills).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Reloads", Mathf.FloorToInt(currentMetrics.numberOfReloads).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Perfect Reloads", Mathf.FloorToInt(currentMetrics.numberOfPerfectReloads).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Player Revived", (currentMetrics.playerHasBeenRaised ? "Yes":"No"), "", true);
+
+        TimeSpan t = TimeSpan.FromSeconds(currentMetrics.timeOfGame);
+        string timeStringed = string.Format("{0:D2}m:{1:D2}s", t.Minutes, t.Seconds);
+        UILeaderboard.Instance.AddMetricToDisplay("Time Elapsed", timeStringed, "", true);
+        //UILeaderboard.Instance.AddMetricToDisplay("Health Damage Taken", Mathf.FloorToInt(currentMetrics.DamageTakenOnHealth).ToString("N0"), "", true);
+        Debug.Log("AddTotalScoreGained");
     }
 
     public void SaveMetrics()

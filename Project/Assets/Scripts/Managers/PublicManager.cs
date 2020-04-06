@@ -25,7 +25,7 @@ public class PublicManager : MonoBehaviour
     List<ActionType> stallBuffer;
 
     // Multiplicateur de score
-    public const float scoreMultiplier = 183.492761f;
+    public const float scoreMultiplier = 183.492761f * 1.5f;
 
     void Awake()
     {
@@ -45,8 +45,9 @@ public class PublicManager : MonoBehaviour
                 multiKillCounter = 0;
             } 
         }
+        if (nbViewers < 0) nbViewers = 0;
 
-        
+
     }
 
     public static PublicManager Instance { get; private set; }
