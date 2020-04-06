@@ -22,6 +22,11 @@ public class UILeaderboard : MonoBehaviour
     LeaderboardSingleScoreAccesseur[] singleScoreAcces = new LeaderboardSingleScoreAccesseur[0];
     int nbSingleScoreDisplayed = 0;
 
+    // Variables de single Metrics
+    [SerializeField] GameObject singleMetricPrefab = null;
+    List<LeaderboardSingleMetricAccesseur> singleMetricsAcces = new List<LeaderboardSingleMetricAccesseur>();
+    List<DisplayedMetric> displayedMetrics = new List<DisplayedMetric>();
+
     // Timer
     [SerializeField] float timerBeforeActivateProgressBars = 2;
     float timeRemainingBeforeProgress = 0;
@@ -66,6 +71,9 @@ public class UILeaderboard : MonoBehaviour
 
     [SerializeField] float timeBeforeAnimateCharSelect = 0.5f;
     float timeRemainingBeforeAnimateCharSelect = 0;
+
+    [SerializeField] float timeBeforeDesactivateLastScreenAnimator = 0.5f;
+    float timerBeforeDesactivateLastScreenAnimator = 0;
 
     IEnumerator InitLeaderboardCoroutine (int score)
     {
@@ -177,6 +185,15 @@ public class UILeaderboard : MonoBehaviour
             }
         }
 
+        if (timerBeforeDesactivateLastScreenAnimator > 0)
+        {
+            timerBeforeDesactivateLastScreenAnimator -= Time.unscaledDeltaTime;
+            if (timerBeforeDesactivateLastScreenAnimator < 0)
+            {
+                cvsVars.root_FinalLeaderboard.GetComponent<Animator>().enabled = false;
+            }
+        }
+
     }
 
     public void addScore (int score) { playerData.score += score; }
@@ -254,7 +271,20 @@ public class UILeaderboard : MonoBehaviour
         for (int i = 0; i < nbSingleScoreDisplayed; i++)
         {
             GameObject instantiatedSingleScore = Instantiate(singleScorePrefab, cvsVars.root_SingleScores);
-            singleScoreAcces[i] = instantiatedSingleScore.GetComponent<LeaderboardSingleScoreAccesseur>();
+            LeaderboardSingleScoreAccesseur scoreAcces = instantiatedSingleScore.GetComponent<LeaderboardSingleScoreAccesseur>();
+            scoreAcces.Init(i * dataLeaderboard.soloScoreIdleDelay, dataLeaderboard.soloScoreIdleAmplitude, dataLeaderboard.soloScoreIdleSpeed, i * dataLeaderboard.soloScoreDelayPopLocal + dataLeaderboard.soloScoreDelayPopGlobal, dataLeaderboard.soloScorePopSpeed);
+            singleScoreAcces[i] = scoreAcces;
+        }
+
+        // --- Instance des single metric
+        for (int i = 0; i < displayedMetrics.Count; i++)
+        {
+            GameObject instantiatedSingleScore = Instantiate(singleMetricPrefab, cvsVars.root_SingleMetrics);
+            LeaderboardSingleMetricAccesseur metricAcces = instantiatedSingleScore.GetComponent<LeaderboardSingleMetricAccesseur>();
+            metricAcces.SetupTexts(displayedMetrics[i].type, displayedMetrics[i].currValue, displayedMetrics[i].maxValue);
+            metricAcces.Init(i * dataLeaderboard.soloMetricIdleDelay, dataLeaderboard.soloMetricIdleAmplitude, dataLeaderboard.soloMetricIdleSpeed, i * dataLeaderboard.soloMetricDelayPopLocal + dataLeaderboard.soloMetricDelayPopGlobal, dataLeaderboard.soloMetricPopSpeed);
+            //metricAcces.SetTextColor(displayedMetrics[i].success ? dataLeaderboard.metricSucceedColor : dataLeaderboard.metricFailedColor);
+            singleMetricsAcces.Add(metricAcces);
         }
 
         int indexPlayer = 0;
@@ -264,6 +294,8 @@ public class UILeaderboard : MonoBehaviour
         LeaderboardManager.lastTitle = playerData.title;
 
         DisplayScores(leaderboardDatas, indexPlayer);
+
+        timerBeforeDesactivateLastScreenAnimator = timeBeforeDesactivateLastScreenAnimator;
 
         canChangeScene = true;
     }
@@ -311,10 +343,33 @@ public class UILeaderboard : MonoBehaviour
 
             if (i == playerIndex) singleScoreAcces[i].background.color = dataLeaderboard.playerColorInLeaderboard;
             if (i == dataSend.Length-1) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.lastScoreOutlineColor;
+            if (i == 0) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.firstScoreOutlineColor;
 
             if (i == dataSend.Length-1) singleScoreAcces[i].rankText.text = "X";
             else singleScoreAcces[i].rankText.text = (i + 1).ToString();
         }
+    }
+
+    public void AddMetricToDisplay(string type, string currValue, string maxValue, bool success)
+    {
+        displayedMetrics.Add(new DisplayedMetric(type, currValue, maxValue, success));
+    }
+
+}
+
+public class DisplayedMetric
+{
+    public string type;
+    public string currValue;
+    public string maxValue;
+    public bool success;
+
+    public DisplayedMetric(string _type, string _currValue, string _maxValue, bool _success)
+    {
+        type = _type;
+        currValue = _currValue;
+        maxValue = _maxValue;
+        success = _success; 
     }
 
 }
