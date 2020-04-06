@@ -547,11 +547,11 @@ public class Main : MonoBehaviour
 
     List<EndGameBonus> allEndGameBonus = new List<EndGameBonus>();
     public List<EndGameBonus> AllEndGameBonus { get { return allEndGameBonus; } }
-    public void AddEndGameBonus(EndGameBonus endGameBonus) { allEndGameBonus.Add(endGameBonus); }
     public void AddEndGameBonus(float currValue, float maxValue, string type, int addedScore, string title, string description, Sprite sprite = null, string addedCharacter = "")
     {
         EndGameBonus newInstance = new EndGameBonus(currValue, maxValue, type, addedScore, title, description, sprite, addedCharacter);
         allEndGameBonus.Add(newInstance);
+        //UILeaderboard.Instance.AddMetricToDisplay(type, currValue.ToString() + addedCharacter, maxValue.ToString() + addedCharacter, currValue >= maxValue);
     }
 
 

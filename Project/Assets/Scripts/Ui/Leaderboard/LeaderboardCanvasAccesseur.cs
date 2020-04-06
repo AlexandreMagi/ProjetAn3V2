@@ -17,4 +17,5 @@ public class LeaderboardCanvasAccesseur : MonoBehaviour
     public Transform parentForScoreAfterTransition = null;
     public Animator charSelectAnimator = null;
     public LeaerboardMultiIdle idleAnimatorInCharSelect = null;
+    public Transform root_SingleMetrics = null;
 }
