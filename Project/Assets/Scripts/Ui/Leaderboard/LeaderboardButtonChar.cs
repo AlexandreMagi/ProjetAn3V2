@@ -12,6 +12,9 @@ public class LeaderboardButtonChar : MonoBehaviour
     RectTransform rect = null;
     [SerializeField] Image img = null;
 
+    [SerializeField] float localAlphaMultiplier = 1;
+    [SerializeField] float localAlphaMultiplierHighlight = 1;
+
     [Header("Anim")]
     [SerializeField] DataSimpleAnim animClick = null;
     bool doAnimClicked = false;
@@ -50,12 +53,12 @@ public class LeaderboardButtonChar : MonoBehaviour
     {
         if (CheckIfMouseOver())
         {
-            img.color = dataLeaderboard.highlightedColorButtons;
+            img.color = new Color(dataLeaderboard.highlightedColorButtons.r, dataLeaderboard.highlightedColorButtons.g, dataLeaderboard.highlightedColorButtons.b, dataLeaderboard.highlightedColorButtons.a * localAlphaMultiplierHighlight);
             currentBaseScale = Mathf.Lerp(currentBaseScale, dataLeaderboard.scaleWhenMouseOvered, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
         }
         else
         {
-            img.color = dataLeaderboard.baseColorButtons;
+            img.color = new Color(dataLeaderboard.baseColorButtons.r, dataLeaderboard.baseColorButtons.g, dataLeaderboard.baseColorButtons.b, dataLeaderboard.baseColorButtons.a * localAlphaMultiplier);
             currentBaseScale = Mathf.Lerp(currentBaseScale, dataLeaderboard.scaleNormal, Time.unscaledDeltaTime * dataLeaderboard.scaleLerp);
         }
 

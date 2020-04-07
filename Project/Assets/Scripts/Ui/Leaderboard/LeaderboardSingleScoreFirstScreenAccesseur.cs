@@ -46,7 +46,11 @@ public class LeaderboardSingleScoreFirstScreenAccesseur : MonoBehaviour
         scoreText.text = data.score.ToString("N0");
 
         if (rank == 1) backgroundOutline.effectColor = UILeaderboard.Instance.dataLeaderboard.firstScoreOutlineColor;
-        else if (rank == nbPlayer) backgroundOutline.effectColor = UILeaderboard.Instance.dataLeaderboard.lastScoreOutlineColor;
+        else if (rank == nbPlayer)
+        {
+            backgroundOutline.effectColor = UILeaderboard.Instance.dataLeaderboard.lastScoreOutlineColor;
+            rankText.text = "X";
+        }
         else backgroundOutline.effectColor = UILeaderboard.Instance.dataLeaderboard.normalScoreOutlineColor;
 
         if (timeBeforeAnimPop > 0)

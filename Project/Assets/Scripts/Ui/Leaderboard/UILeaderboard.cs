@@ -15,7 +15,7 @@ public class UILeaderboard : MonoBehaviour
 
     // Canvas qui va se placer devant tout
     [SerializeField] GameObject cvs = null;
-    LeaderboardCanvasAccesseur cvsVars = null;
+    public LeaderboardCanvasAccesseur cvsVars = null;
 
     // Variables de single scores
     [SerializeField] GameObject singleScorePrefab = null;
@@ -198,7 +198,16 @@ public class UILeaderboard : MonoBehaviour
 
     public void addScore (int score) { playerData.score += score; }
 
-    public void PlayerClicked() { if (inLeaderboard && UILeaderboard.Instance.CurrentScreen == UILeaderboard.leaderboardScreens.nameAndTitleChoice) { foreach (var charSelect in charSelectors) { charSelect.PlayerClicked(); } cvsVars.titleHandler.PlayerClicked(); } }
+    public void PlayerClicked() 
+    {
+        if (inLeaderboard && UILeaderboard.Instance.CurrentScreen == UILeaderboard.leaderboardScreens.nameAndTitleChoice) 
+        { 
+            foreach (var charSelect in charSelectors) { charSelect.PlayerClicked(); } 
+            cvsVars.titleHandler.PlayerClicked(); 
+        } 
+        if (inLeaderboard)
+            cvsVars.nextButton.PlayerClicked();
+    }
 
     public void NextScreen()
     {
@@ -212,6 +221,7 @@ public class UILeaderboard : MonoBehaviour
                     cvsVars.bonusHandler.goAway();
                     transitionFontSize = cvsVars.scoreAtCharSelect.fontSize;
                     timeRemainingBeforeSceneChange = timeBetweenScreens;
+                    cvsVars.fadeHandler.ChangeOfScreen(4);
                     //Invoke("InitChoiceNameAndTitle", timeBetweenScreens);
                     //InitChoiceNameAndTitle();
                     break;
@@ -219,6 +229,7 @@ public class UILeaderboard : MonoBehaviour
                     canChangeScene = false;
                     objectToMove = cvsVars.root_NameAndTitleChoice;
                     timeRemainingBeforeSceneChange = timeBetweenScreens;
+                    cvsVars.fadeHandler.ChangeOfScreen(10);
                     //Invoke("InitFinalLeaderboard", timeBetweenScreens);
                     //InitFinalLeaderboard();
                     break;

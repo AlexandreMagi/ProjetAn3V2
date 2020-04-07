@@ -18,4 +18,7 @@ public class LeaderboardCanvasAccesseur : MonoBehaviour
     public Animator charSelectAnimator = null;
     public LeaerboardMultiIdle idleAnimatorInCharSelect = null;
     public Transform root_SingleMetrics = null;
+    public LeaderboardButtonNext nextButton = null;
+    public LeaderboardRightFade fadeHandler = null;
+    public UIParticuleSystemContinuous fadeParticle = null;
 }

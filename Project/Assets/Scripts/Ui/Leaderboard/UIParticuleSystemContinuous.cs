@@ -42,6 +42,9 @@ public class UIParticuleSystemContinuous : MonoBehaviour
         }
     }
 
+    public void Resume() { timerBeforeNextParticle = 1 / rateOfParticle; }
+    public void Pause() { timerBeforeNextParticle = 0; }
+
     void Update()
     {
         if (timerBeforeNextParticle > 0)
