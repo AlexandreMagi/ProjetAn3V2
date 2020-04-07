@@ -22,6 +22,8 @@ public class BonusHandler : MonoBehaviour
     [SerializeField] float timeStayDepop = 0.5f;
 
     [SerializeField] CanvasGroup cvsGroupProgress = null;
+    [SerializeField] Image progressLogo = null;
+    [SerializeField] DataProgressSprite progressLogoSprites = null;
     [SerializeField] Image maskProgress = null;
     [SerializeField] Outline outlineBar = null;
     [SerializeField] Text scoreText = null;
@@ -49,6 +51,7 @@ public class BonusHandler : MonoBehaviour
     [Header("ProgressAnim")]
     [SerializeField] Image colorToChangeProgress = null;
     [SerializeField] Color colorProgressNormal = Color.white;
+    [SerializeField] Color colorProgressFailedCompletly = Color.red;
 
     [SerializeField] Color colorProgressSucces = Color.white;
     [SerializeField] Transform transformToScaleInSuccesAnim = null;
@@ -59,6 +62,8 @@ public class BonusHandler : MonoBehaviour
     [SerializeField] DataSimpleAnim progressFailureAnim = null;
     bool playAnimFailureSucces = false;
     float progressAnimPurcentage = 1;
+
+    bool completlyFailed = false;
 
     [Header("Score Anim")]
     [SerializeField] float scoreAnimMaxSize = .3f;
@@ -332,10 +337,17 @@ public class BonusHandler : MonoBehaviour
                     else
                     {
                         playAnimFailureSucces = true;
-                        looseParticle.Play(refProjection.position);
+                        if (Main.Instance.AllEndGameBonus[0].currValue > 0)
+                            looseParticle.Play(refProjection.position);
                     }
                     progressAnimPurcentage = 0;
                     progressState = stateProgress.anim;
+                    if (Main.Instance.AllEndGameBonus[0].currValue == 0 && Main.Instance.AllEndGameBonus[0].maxValue != 0)
+                    {
+                        completlyFailed = true;
+                        maskProgress.fillAmount = 1;
+                        colorToChangeProgress.color = colorProgressFailedCompletly;
+                    }
                 }
                 else
                 {
@@ -413,7 +425,11 @@ public class BonusHandler : MonoBehaviour
                         typeText.text = Main.Instance.AllEndGameBonus[0].type;
                         numberText.text = "0" + Main.Instance.AllEndGameBonus[0].addedCharacter;
                         numberMaxText.text = "/" + Main.Instance.AllEndGameBonus[0].maxValue + Main.Instance.AllEndGameBonus[0].addedCharacter;
+                        Sprite actualSprite = progressLogoSprites.getSprite(Main.Instance.AllEndGameBonus[0].spriteType);
+                        if (actualSprite != null)
+                            progressLogo.sprite = actualSprite;
                         colorToChangeProgress.color = colorProgressNormal;
+                        completlyFailed = false;
                     }
                 }
                 break;
@@ -481,7 +497,10 @@ public class BonusHandler : MonoBehaviour
         {
             playAnimFailureSucces = !progressFailureAnim.AddPurcentage(progressAnimPurcentage, dt, out progressAnimPurcentage);
             transformToScaleInFailureAnim.localScale = Vector3.one + Vector3.one * progressFailureAnim.ValueAt(progressAnimPurcentage);
-            colorToChangeProgress.color = colorProgressFailure;
+            if (completlyFailed)
+                colorToChangeProgress.color = colorProgressFailedCompletly;
+            else
+                colorToChangeProgress.color = colorProgressFailure;
         }
     }
 
@@ -518,10 +537,10 @@ public class EndGameBonus
     public int addedScore;
     public string title;
     public string description;
-    public Sprite sprite;
+    public int spriteType;
     public string addedCharacter;
 
-    public EndGameBonus(float _currValue, float _maxValue, string _type, int _addedScore, string _title, string _description, Sprite _sprite, string _addedCharacter)
+    public EndGameBonus(float _currValue, float _maxValue, string _type, int _addedScore, string _title, string _description, int _spriteType, string _addedCharacter)
     {
         currValue = _currValue;
         maxValue = _maxValue;
@@ -529,7 +548,7 @@ public class EndGameBonus
         addedScore = _addedScore;
         title = _title;
         description = _description;
-        sprite = _sprite;
+        spriteType = _spriteType;
         addedCharacter = _addedCharacter;
     }
 

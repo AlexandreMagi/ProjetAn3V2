@@ -195,11 +195,11 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            AddEndGameBonus(50, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", null, "%");
+            AddEndGameBonus(50, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", (int)DataProgressSprite.SpriteNeeded.TechWizard, "%");
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            AddEndGameBonus(100, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", null, "%");
+            AddEndGameBonus(100, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", (int)DataProgressSprite.SpriteNeeded.TechWizard, "%");
         }
 
         if (Input.GetKeyDown(KeyCode.U))
@@ -547,9 +547,9 @@ public class Main : MonoBehaviour
 
     List<EndGameBonus> allEndGameBonus = new List<EndGameBonus>();
     public List<EndGameBonus> AllEndGameBonus { get { return allEndGameBonus; } }
-    public void AddEndGameBonus(float currValue, float maxValue, string type, int addedScore, string title, string description, Sprite sprite = null, string addedCharacter = "")
+    public void AddEndGameBonus(float currValue, float maxValue, string type, int addedScore, string title, string description, int spriteType = (int)DataProgressSprite.SpriteNeeded.Gladiator, string addedCharacter = "")
     {
-        EndGameBonus newInstance = new EndGameBonus(currValue, maxValue, type, addedScore, title, description, sprite, addedCharacter);
+        EndGameBonus newInstance = new EndGameBonus(currValue, maxValue, type, addedScore, title, description, spriteType, addedCharacter);
         allEndGameBonus.Add(newInstance);
         //UILeaderboard.Instance.AddMetricToDisplay(type, currValue.ToString() + addedCharacter, maxValue.ToString() + addedCharacter, currValue >= maxValue);
     }
