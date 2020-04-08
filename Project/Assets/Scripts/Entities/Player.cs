@@ -77,7 +77,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public override void TakeDamage(float value)
     {
-        if (health > 0)
+        if (health > 0 && (UILeaderboard.Instance == null || !UILeaderboard.Instance.InLeaderboard))
         {
             //Metrics
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTaken, value);

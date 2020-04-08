@@ -43,6 +43,7 @@ public class UILeaderboard : MonoBehaviour
     // Var
     LeaderboardData[] leaderboardDatas = new LeaderboardData[0];
     bool inLeaderboard = false; // Indique que l'on est en état leaderboard
+    public bool InLeaderboard { get { return inLeaderboard; } }
     LeaderboardData playerData = null;
     public enum leaderboardScreens { startLeaderboard, nameAndTitleChoice, finalLeaderboard }
     leaderboardScreens currentScreen = leaderboardScreens.startLeaderboard;
@@ -224,6 +225,12 @@ public class UILeaderboard : MonoBehaviour
                     cvsVars.bonusHandler.goAway();
                     transitionFontSize = cvsVars.scoreAtCharSelect.fontSize;
                     timeRemainingBeforeSceneChange = timeBetweenScreens;
+
+                    foreach (var title in dataLeaderboard.titleAvailable)
+                    {
+                        Main.Instance.TitlesUnlocked.Add(title);
+                    }
+
                     cvsVars.fadeHandler.ChangeOfScreen(4);
                     //Invoke("InitChoiceNameAndTitle", timeBetweenScreens);
                     //InitChoiceNameAndTitle();

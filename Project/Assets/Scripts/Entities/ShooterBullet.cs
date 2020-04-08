@@ -38,6 +38,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     GameObject circlePrefab;
     float meshRotationRandom = 0;
 
+    Vector3 scaleGoTo = Vector3.zero;
+
     protected override void Start()
     {
         amplitudeShake = 0;
@@ -79,6 +81,11 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         circlePrefab.transform.localScale = Vector3.one * entityData.circleScale.Evaluate(0) * entityData.circleScaleMultiplier;
         circlePrefab.GetComponent<Image>().color = Color.Lerp(Color.yellow, Color.red, 0);
 
+        scaleGoTo = bulletMesh.transform.localScale;
+        bulletMesh.transform.localScale = Vector3.one;
+        transform.position = dummyIndicator.transform.position;
+        transform.rotation = dummyIndicator.transform.rotation;
+
     }
 
     // Update is called once per frame
@@ -103,6 +110,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
             dummyIndicator.transform.Rotate(0, 0, Time.deltaTime * entityData.bulletRotation.Evaluate(Curr / MaxDistance) * entityData.rotationSpeed);
             transform.rotation = dummyIndicator.transform.rotation;
             transform.position = dummyIndicator.transform.position;
+
+            bulletMesh.transform.localScale = Vector3.Lerp(bulletMesh.transform.localScale, scaleGoTo, Time.deltaTime * 5);
             bulletMesh.transform.position = Vector3.Lerp(bulletMesh.transform.position, dummyIndicator.transform.position + new Vector3(Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake), Random.Range(-amplitudeShake, amplitudeShake)), Time.deltaTime* shakeSpeedLerp);
             bulletMesh.transform.Rotate(Vector3.forward * Time.deltaTime * meshRotationRandom);
 

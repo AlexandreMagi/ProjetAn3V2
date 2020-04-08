@@ -70,6 +70,8 @@ public class Main : MonoBehaviour
 
     public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
 
+    [HideInInspector] public List<string> TitlesUnlocked = new List<string>();
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -549,6 +551,7 @@ public class Main : MonoBehaviour
     public List<EndGameBonus> AllEndGameBonus { get { return allEndGameBonus; } }
     public void AddEndGameBonus(float currValue, float maxValue, string type, int addedScore, string title, string description, int spriteType = (int)DataProgressSprite.SpriteNeeded.Gladiator, string addedCharacter = "")
     {
+        if (currValue >= maxValue) Main.Instance.TitlesUnlocked.Add(title);
         EndGameBonus newInstance = new EndGameBonus(currValue, maxValue, type, addedScore, title, description, spriteType, addedCharacter);
         allEndGameBonus.Add(newInstance);
         //UILeaderboard.Instance.AddMetricToDisplay(type, currValue.ToString() + addedCharacter, maxValue.ToString() + addedCharacter, currValue >= maxValue);
