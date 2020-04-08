@@ -8,9 +8,9 @@ public class TitlesManager : MonoBehaviour
 {
     public static TitlesManager Instance { get; private set; }
 
-    TitlesDatabase dbTitles;
+    public TitlesDatabase dbTitles;
 
-    public struct Title
+    public class Title
     {
         public string titleName;
         public string titleDesc;
@@ -150,46 +150,57 @@ public class TitlesManager : MonoBehaviour
 
     public void ChangeTitleState(string titleName, bool unlocked)
     {
-        Title titleToChange;
         bool changeDoable = false;
+        int index = 0;
         foreach(Title titleInTab in dbTitles.titlesRegistered)
         {
+            
             if(titleName == titleInTab.titleName)
             {
-                titleToChange = titleInTab;
                 changeDoable = true;
                 break;
             }
+            index++;
         }
 
         if(changeDoable)
         {
-            Debug.Log(titleName + " changed to " + unlocked);
-            titleToChange.isUnlocked = unlocked;
+            dbTitles.titlesRegistered[index].isUnlocked = unlocked;
+
+
+            Debug.Log(dbTitles.titlesRegistered[index].isUnlocked);
         }
         else
         {
             Debug.Log(titleName + " title does not exist");
         }
+
     }
 
     public void ChangeTitleState(uint titleID, bool unlocked)
     {
-        Title titleToChange;
         bool changeDoable = false;
+        int index = 0;
         foreach (Title titleInTab in dbTitles.titlesRegistered)
         {
             if (titleID == titleInTab.titleID)
             {
-                titleToChange = titleInTab;
                 changeDoable = true;
                 break;
             }
+
+            index++;
         }
 
         if (changeDoable)
         {
-            titleToChange.isUnlocked = unlocked;
+            dbTitles.titlesRegistered[index].isUnlocked = unlocked;
+
+            Debug.Log(dbTitles.titlesRegistered[index].isUnlocked);
+        }
+        else
+        {
+            Debug.Log($"Title with ID {titleID} does not exist");
         }
     }
 
