@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LeaderboardRightFade : MonoBehaviour
 {
+    [SerializeField] float timeBeforeArrowAppears = 5;
+    float timeRemainingBeforeArrowAppears = 0;
     [SerializeField] float timeToAppear = 3;
     [SerializeField] float timeToDisappear = 0.2f;
     [SerializeField] float idleScaleMagnitude = 0.1f;
@@ -26,6 +28,13 @@ public class LeaderboardRightFade : MonoBehaviour
 
     void Update()
     {
+        if (canAppear && !UILeaderboard.Instance.cvsVars.nextButton.GetIfMouseOverForced())
+        {
+            timeRemainingBeforeArrowAppears -= Time.unscaledDeltaTime;
+            if (timeRemainingBeforeArrowAppears < 0) UILeaderboard.Instance.cvsVars.nextButton.ForceAppeareance();
+        }
+        else timeRemainingBeforeArrowAppears = timeBeforeArrowAppears;
+
         if (timeBeforeCanAppear > 0)
         {
             timeBeforeCanAppear -= Time.unscaledDeltaTime;
@@ -47,6 +56,12 @@ public class LeaderboardRightFade : MonoBehaviour
         }
         img.transform.localScale = new Vector3(currScale + Mathf.Lerp(0, Mathf.Sin(Time.time * idleScaleSpeed + randomSeedToTimeIdle) * idleScaleMagnitude, Mathf.Clamp01(currScale)), 1, 1);
     }
+
+    public void playerClicked()
+    {
+        timeRemainingBeforeArrowAppears = timeBeforeArrowAppears;
+    }
+
     public void ChangeOfScreen(float timer)
     {
         timeBeforeCanAppear = timer;

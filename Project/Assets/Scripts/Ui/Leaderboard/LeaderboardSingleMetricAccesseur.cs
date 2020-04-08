@@ -50,7 +50,11 @@ public class LeaderboardSingleMetricAccesseur : MonoBehaviour
         if (timeBeforePop > 0)
         {
             timeBeforePop -= Time.unscaledDeltaTime;
-            if (timeBeforePop < 0) timeBeforePop = 0;
+            if (timeBeforePop < 0)
+            {
+                timeBeforePop = 0;
+                CustomSoundManager.Instance.PlaySound("Se_ProgressTick", "UI", null, .5f, false, 1);
+            }
         }
         if (timeBeforePop == 0)
         {

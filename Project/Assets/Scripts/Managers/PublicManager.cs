@@ -167,6 +167,9 @@ public class PublicManager : MonoBehaviour
             case ActionType.KillShooter:
                 AddViewers(1, false, ActionType.KillShooter, "Kill Shooter", _position);
                 break;
+            case ActionType.Cheat:
+                AddViewers(100, false, ActionType.KillShooter, "Kill Shooter", _position);
+                break;
             default:
                 break;
         }
@@ -336,6 +339,7 @@ public class PublicManager : MonoBehaviour
         DamageOnEnemy = 18,
         DamageFixedCam = 19,
         KillSwarmer = 20,
-        KillShooter = 21
+        KillShooter = 21,
+        Cheat = 22
     }
 }

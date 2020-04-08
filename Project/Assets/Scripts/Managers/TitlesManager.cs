@@ -112,7 +112,8 @@ public class TitlesManager : MonoBehaviour
                 //    break;
                 #endregion
                 case 0: case 1: case 2: case 8: case 9: case 11: case 12: case 14: case 15:
-                        Main.Instance.AddEndGameBonus(title.isUnlocked? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
+                    Debug.Log(title.titleType + " = " + title.isUnlocked);
+                    Main.Instance.AddEndGameBonus(title.isUnlocked? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
                     break;
                 case 10:
                     Debug.Log(title.titleType + " = " + title.isUnlocked);
@@ -163,7 +164,12 @@ public class TitlesManager : MonoBehaviour
 
         if(changeDoable)
         {
+            Debug.Log(titleName + " changed to " + unlocked);
             titleToChange.isUnlocked = unlocked;
+        }
+        else
+        {
+            Debug.Log(titleName + " title does not exist");
         }
     }
 

@@ -144,6 +144,11 @@ public class BonusHandler : MonoBehaviour
 
     [SerializeField] Transform newParentForScoreWhenNexted = null;
 
+    [Header("Sound")]
+    [SerializeField] int nbTickPlayedInACompletedProgress = 10;
+    [SerializeField] float pitchDif = 1;
+    int nbTickInThisProgress = 0;
+
     private void Start()
     {
         cvsGroupAlpha = 0;
@@ -333,12 +338,14 @@ public class BonusHandler : MonoBehaviour
                         idlePurcentage = 1;
                         animExplosionPurcentage = 0;
                         doAnimExplosion = true;
+                        CustomSoundManager.Instance.PlaySound("Se_ProgressSuccess", "UI", 0.9f);
                     }
                     else
                     {
                         playAnimFailureSucces = true;
                         if (Main.Instance.AllEndGameBonus[0].currValue > 0)
                             looseParticle.Play(refProjection.position);
+                        CustomSoundManager.Instance.PlaySound("Se_ProgressFailedTwo", "UI", 0.9f);
                     }
                     progressAnimPurcentage = 0;
                     progressState = stateProgress.anim;
@@ -352,7 +359,14 @@ public class BonusHandler : MonoBehaviour
                 else
                 {
                     numberText.text = Mathf.Ceil(Main.Instance.AllEndGameBonus[0].currValue * purcentageInState).ToString() + Main.Instance.AllEndGameBonus[0].addedCharacter;
-                    maskProgress.fillAmount = purcentageInState * (Main.Instance.AllEndGameBonus[0].currValue / Main.Instance.AllEndGameBonus[0].maxValue);
+                    float completion = purcentageInState * (Main.Instance.AllEndGameBonus[0].currValue / Main.Instance.AllEndGameBonus[0].maxValue);
+                    maskProgress.fillAmount = completion;
+
+                    if (completion > (1 / (float)nbTickPlayedInACompletedProgress) * (float)nbTickInThisProgress)
+                    {
+                        CustomSoundManager.Instance.PlaySound("Se_ProgressTick", "UI",null, .5f,false, pitchDif/2 + maskProgress.fillAmount* pitchDif);
+                        nbTickInThisProgress++;
+                    }
                 }
                 break;
 
@@ -430,6 +444,7 @@ public class BonusHandler : MonoBehaviour
                             progressLogo.sprite = actualSprite;
                         colorToChangeProgress.color = colorProgressNormal;
                         completlyFailed = false;
+                        nbTickInThisProgress = 0;
                     }
                 }
                 break;
