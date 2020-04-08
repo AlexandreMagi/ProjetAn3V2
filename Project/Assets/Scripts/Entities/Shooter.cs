@@ -65,6 +65,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     //[SerializeField] float distTravel = 1.2f;
 
     [SerializeField] Animator anmt = null;
+    [SerializeField] Transform FxmuzzleFlashPoint = null;
 
     //[SerializeField] Transform[] missilesScalable = null;
     //[SerializeField] float scaleMultiplierOnMissile = 2;
@@ -343,8 +344,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     {
         if (canShoot)
         {
-            anmt.SetTrigger("Shoot");
-            FxManager.Instance.PlayFx(entityData.muzzleFlashFx, canonPlacement.transform.position, canonPlacement.transform.rotation);
+            FxManager.Instance.PlayFx(entityData.muzzleFlashFx, FxmuzzleFlashPoint.position, Quaternion.identity);
             CameraHandler.Instance.AddShake(0.5f, transform.position);
             for (int i = 0; i < entityData.nbBulletPerShoot; i++)
             {
@@ -353,6 +353,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 float bulletRotation = (bulletShot - 1) < overrideBulletRotation.Length ? overrideBulletRotation[(bulletShot - 1)] : (bulletShot - 1) < entityData.specifyBulletRotation.Length ? entityData.specifyBulletRotation[(bulletShot - 1)] : Random.Range(0, 360);
                 CurrBullet.GetComponent<ShooterBullet>().OnCreation(target.gameObject, canonPlacement.transform.position, entityData.amplitudeMultiplier, currentDataBullet, 2, this.gameObject, bulletRotation, entityData.amplitudeCap);
             }
+            anmt.SetTrigger("Shoot" + (bulletShot - 1).ToString());
 
         }
         
