@@ -7,6 +7,7 @@ public class LeaderboardButtonNext : MonoBehaviour
 
     RectTransform rect = null;
     [SerializeField] Image img = null;
+    [SerializeField] Image[] imgFades = null;
     [SerializeField] Outline outline = null;
 
     [Header("Anim")]
@@ -20,6 +21,8 @@ public class LeaderboardButtonNext : MonoBehaviour
     [SerializeField] Color highlightedColorButtons = Color.white;
     [SerializeField] Color baseColorOutline = Color.white;
     [SerializeField] Color highlightedColorOutline = Color.white;
+    [SerializeField] Color baseColorFade = Color.white;
+    [SerializeField] Color highlightedColorFade = Color.white;
     [SerializeField] float scaleLerp = 8;
     [SerializeField] float scaleNormal = 0.8f;
     [SerializeField] float scaleWhenMouseOvered = 1.2f;
@@ -32,10 +35,15 @@ public class LeaderboardButtonNext : MonoBehaviour
     float idlePurcentageApplied = 1f;
     float customTimeIdle = 0;
 
+    bool OverrideMouseOver = false;
+    bool wasInMouseOver = false;
+
     void Start()
     {
         rect = GetComponent<RectTransform>();
         img.color = baseColorButton;
+        foreach (var imgFade in imgFades) { imgFade.color = baseColorFade; }
+        outline.effectColor = baseColorOutline;
     }
 
     bool CheckIfMouseOver()
@@ -60,19 +68,31 @@ public class LeaderboardButtonNext : MonoBehaviour
 
     void Update()
     {
-        if (CheckIfMouseOver())
+
+        bool MouseOver = CheckIfMouseOver();
+        if (MouseOver || OverrideMouseOver)
         {
             img.color = Color.Lerp(img.color, highlightedColorButtons, Time.unscaledDeltaTime * scaleLerp);
+            foreach (var imgFade in imgFades) {  imgFade.color = Color.Lerp(imgFade.color, highlightedColorFade, Time.unscaledDeltaTime * scaleLerp); }
             outline.effectColor = Color.Lerp(outline.effectColor, highlightedColorOutline, Time.unscaledDeltaTime * scaleLerp);
             currentBaseScale = Mathf.Lerp(currentBaseScale, scaleWhenMouseOvered, Time.unscaledDeltaTime * scaleLerp);
             customTimeIdle += Time.unscaledDeltaTime * idleSpeedMouseOvered;
+            if (MouseOver && OverrideMouseOver)
+                wasInMouseOver = true;
         }
         else
         {
             img.color = Color.Lerp(img.color, baseColorButton, Time.unscaledDeltaTime * scaleLerp);
+            foreach (var imgFade in imgFades) { imgFade.color = Color.Lerp(imgFade.color, baseColorFade, Time.unscaledDeltaTime * scaleLerp); }
             outline.effectColor = Color.Lerp(outline.effectColor, baseColorOutline, Time.unscaledDeltaTime * scaleLerp);
             currentBaseScale = Mathf.Lerp(currentBaseScale, scaleNormal, Time.unscaledDeltaTime * scaleLerp);
             customTimeIdle += Time.unscaledDeltaTime * idleSpeed;
+        }
+
+        if (!MouseOver && wasInMouseOver)
+        {
+            wasInMouseOver = false;
+            OverrideMouseOver = false;
         }
 
         float currScale = currentBaseScale;
@@ -84,14 +104,18 @@ public class LeaderboardButtonNext : MonoBehaviour
         img.transform.localScale = Vector3.one * (currScale + Mathf.Lerp(0, Mathf.Sin(customTimeIdle) * idleMagnitude, idlePurcentageApplied));
     }
 
+    public void ForceAppeareance() { OverrideMouseOver = true; }
+    public bool GetIfMouseOverForced() { return OverrideMouseOver; }
+
     public void PlayerClicked()
     {
-        Debug.Log(CheckIfMouseOver());
+        OverrideMouseOver = false;
         if (CheckIfMouseOver())
         {
             ClickedButton();
             doAnimClicked = true;
             animClickedPurcentage = 0;
+            CustomSoundManager.Instance.PlaySound("SE_ValidatePlay", "UI", .5f);
         }
     }
 

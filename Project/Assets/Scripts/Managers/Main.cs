@@ -232,13 +232,13 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, 50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, 50);
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, -50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, -50);
         }
 
         if (Input.GetKeyDown(KeyCode.S))

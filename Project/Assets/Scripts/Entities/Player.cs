@@ -92,6 +92,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 {
                     if (armor > 0)
                     {
+
+                        CustomSoundManager.Instance.PlaySound("Se_HeartBeat", "UI", 1);
                         UiDamageHandler.Instance.ShieldBreak();
                         CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
                         GameObject renderingCam = CameraHandler.Instance.renderingCam.gameObject;

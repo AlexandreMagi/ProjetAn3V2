@@ -174,31 +174,35 @@ public class CustomSoundManager : MonoBehaviour
 
     AudioSource ActuallyPlaySound(AudioClip clip, AudioMixerGroup mixerGroup = null, bool loop = false, float pitch = 1, float volume = 1, Transform parent = null, bool canBePlayedMultipleTime = true)
     {
-        AudioSource currentSource = FindAudioSource();
-        currentSource.spatialBlend = 1;
-        if (parent == null)
+        if (clip != null)
         {
-            if (defaultParent != null) parent = defaultParent;
-            else
+            AudioSource currentSource = FindAudioSource();
+            currentSource.spatialBlend = 1;
+            if (parent == null)
             {
-                Debug.Log("No parent found for sound '" + clip.name + "', request ignored");
-                return null;
+                if (defaultParent != null) parent = defaultParent;
+                else
+                {
+                    Debug.Log("No parent found for sound '" + clip.name + "', request ignored");
+                    return null;
+                }
+                currentSource.spatialBlend = 0;
             }
-            currentSource.spatialBlend = 0;
+            if (!canBePlayedMultipleTime && checkIfSoundAlreadyPlayed(clip.name)) return null;
+
+            currentSource.gameObject.name = clip.name + "SoundSource";
+            currentSource.clip = clip;
+            if (mixerGroup != null) currentSource.outputAudioMixerGroup = mixerGroup;
+            currentSource.volume = volume * GlobalMultiplierForVolumes;
+            currentSource.loop = loop;
+            currentSource.pitch = pitch;
+            currentSource.transform.parent = parent;
+            currentSource.transform.position = parent.position;
+            currentSource.Play();
+
+            return currentSource;
         }
-        if (!canBePlayedMultipleTime && checkIfSoundAlreadyPlayed(clip.name)) return null;
-
-        currentSource.gameObject.name = clip.name + "SoundSource";
-        currentSource.clip = clip;
-        if (mixerGroup != null) currentSource.outputAudioMixerGroup = mixerGroup;
-        currentSource.volume = volume * GlobalMultiplierForVolumes;
-        currentSource.loop = loop;
-        currentSource.pitch = pitch;
-        currentSource.transform.parent = parent;
-        currentSource.transform.position = parent.position;
-        currentSource.Play();
-
-        return currentSource;
+        return null;
     }
 
 }

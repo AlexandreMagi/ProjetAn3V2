@@ -198,7 +198,7 @@ public class UILeaderboard : MonoBehaviour
 
     public void addScore (int score) { playerData.score += score; }
 
-    public void PlayerClicked() 
+    public void PlayerClicked()
     {
         if (inLeaderboard && UILeaderboard.Instance.CurrentScreen == UILeaderboard.leaderboardScreens.nameAndTitleChoice) 
         { 
@@ -206,7 +206,10 @@ public class UILeaderboard : MonoBehaviour
             cvsVars.titleHandler.PlayerClicked(); 
         } 
         if (inLeaderboard)
+        {
             cvsVars.nextButton.PlayerClicked();
+            UILeaderboard.Instance.cvsVars.fadeHandler.playerClicked();
+        }
     }
 
     public void NextScreen()

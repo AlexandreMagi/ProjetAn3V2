@@ -77,7 +77,13 @@ public class LeaderboardButtonChar : MonoBehaviour
             ClickedButton();
             doAnimClicked = true;
             animClickedPurcentage = 0;
+            Invoke("PlaySound", 0.1f);
         }
+    }
+
+    void PlaySound()
+    {
+        CustomSoundManager.Instance.PlaySound("Se_CharButton", "UI", 1);
     }
 
     void ClickedButton() { manager.changeChar(changeOnChar); }
