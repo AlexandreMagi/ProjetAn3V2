@@ -50,7 +50,7 @@ public class LeaderboardButtonNext : MonoBehaviour
     {
         Vector2 mousePosition = Main.Instance.GetCursorPos();
 
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf && rect != null)
         {
             float distX = rect.sizeDelta.x / 2 * transform.localScale.x;
             float distY = rect.sizeDelta.y / 2 * transform.localScale.y;
