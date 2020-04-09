@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Sirenix.OdinInspector;
+using UnityEngine.Video;
+
 public class TriggerSender : MonoBehaviour
 {
     [SerializeField]
@@ -67,6 +69,13 @@ public class TriggerSender : MonoBehaviour
 
     [ShowIf("typeTrigger", TriggerType.PlaneShake), ShowIf("typeTrigger", TriggerType.OutlineShader), ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
     bool activateIt = false;
+
+    [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
+    List<VideoPlayer> players = null;
+    [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
+    bool isPlay;
+    [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
+    bool isLoop;
 
 
     [SerializeField]
@@ -164,6 +173,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.WhiteScreenEffect:
                 TriggerUtil.TriggerWhiteScreenEffect(timeBeforeStart);
                 break;
+            case TriggerType.VideoTrigger:
+                TriggerUtil.TriggerVideo(timeBeforeStart, players, isPlay, isLoop);
+                break;
             default:
                 break;
         }
@@ -197,7 +209,8 @@ public class TriggerSender : MonoBehaviour
         PlaneShake = 11,
         OutlineShader = 12,
         RevealLight = 13,
-        WhiteScreenEffect = 14
+        WhiteScreenEffect = 14,
+        VideoTrigger = 15
     }
 
     public enum Activable

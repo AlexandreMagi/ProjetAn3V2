@@ -168,11 +168,11 @@ public class TitlesManager : MonoBehaviour
             dbTitles.titlesRegistered[index].isUnlocked = unlocked;
 
 
-            Debug.Log(dbTitles.titlesRegistered[index].isUnlocked);
+            //Debug.Log(dbTitles.titlesRegistered[index].isUnlocked);
         }
         else
         {
-            Debug.Log(titleName + " title does not exist");
+            //Debug.Log(titleName + " title does not exist");
         }
 
     }
@@ -196,11 +196,11 @@ public class TitlesManager : MonoBehaviour
         {
             dbTitles.titlesRegistered[index].isUnlocked = unlocked;
 
-            Debug.Log(dbTitles.titlesRegistered[index].isUnlocked);
+            //Debug.Log(dbTitles.titlesRegistered[index].isUnlocked);
         }
         else
         {
-            Debug.Log($"Title with ID {titleID} does not exist");
+            //Debug.Log($"Title with ID {titleID} does not exist");
         }
     }
 
