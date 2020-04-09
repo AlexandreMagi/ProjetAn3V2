@@ -111,7 +111,7 @@ public class UiCrossHair : MonoBehaviour
                 !Weapon.Instance.GetIfReloading());*/
         }
 
-        if (hitMarkerAnimPurcentage < 1)
+        if (hitMarkerAnimPurcentage < 1 && UiHitMarker != null)
         {
             UiHitMarker.sizeDelta = Vector2.one * hitMarkerPop.Evaluate(hitMarkerAnimPurcentage) * hitMarkerMultiplierAnim;
             hitMarkerAnimPurcentage += Time.unscaledDeltaTime / hitMarkerTimeAnim;
