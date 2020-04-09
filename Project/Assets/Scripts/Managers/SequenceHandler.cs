@@ -470,7 +470,6 @@ public class SequenceHandler : MonoBehaviour
             blenderSettings.m_CustomBlends = new CinemachineBlenderSettings.CustomBlend[1];
         }
 
-
         blenderSettings.m_CustomBlends[0] = blend;
 
         cameraBrain.m_CustomBlends = blenderSettings;
