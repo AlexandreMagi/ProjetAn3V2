@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine.Video;
 
 public static class TriggerUtil
 {
@@ -290,5 +291,26 @@ public static class TriggerUtil
         yield break;
     }
 
+    //Video players
+    public static void TriggerVideo(float timeBeforeStart, List<VideoPlayer> players, bool playMode, bool loopMode)
+    {
+        Main.Instance.StartCoroutine(TriggervideoCoroutine(timeBeforeStart, players, playMode, loopMode));
+    }
+
+    static IEnumerator TriggervideoCoroutine(float timeBeforeStart, List<VideoPlayer> players, bool playMode, bool loopMode)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        foreach(VideoPlayer videoPl in players)
+        {
+            if (playMode)
+                videoPl.Play();
+            else
+                videoPl.Stop();
+
+            videoPl.isLooping = loopMode;
+        }
+        yield break;
+    }
 }
 
