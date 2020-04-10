@@ -884,11 +884,12 @@ MonoBehaviour:
   autoReloadOnNoAmmo: 1
   GameEnded: 0
   lockSceneChange: 0
-  isArduinoMode: 1
+  isArduinoMode: 0
   aiWalls: []
   timeBeforeChoice: 1
   timeAfterChoice: 1
   timerBeforeGameOver: 20
+  TitlesUnlocked: []
   checkInputEvery: 0.5
   distanceCheckIfInput: 0.03
   timeBeforeGoBackToStart: 5
@@ -1604,6 +1605,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211647413142285170, guid: 01bb7bbe576bc494ebfffb055e48f36d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01bb7bbe576bc494ebfffb055e48f36d, type: 3}
