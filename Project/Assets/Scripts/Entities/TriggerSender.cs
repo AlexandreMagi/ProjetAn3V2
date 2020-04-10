@@ -67,8 +67,13 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
     bool VFXState = false;
 
-    [ShowIf("typeTrigger", TriggerType.PlaneShake), ShowIf("typeTrigger", TriggerType.OutlineShader), ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
-    bool activateIt = false;
+    //, ShowIf("typeTrigger", TriggerType.OutlineShader), ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
+    [ShowIf("typeTrigger", TriggerType.PlaneShake), SerializeField]
+    bool activatePlaneShake = false;
+    [ShowIf("typeTrigger", TriggerType.OutlineShader), SerializeField]
+    bool activateOutlineShader = false;
+    [ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
+    bool activateRevealLight = false;
 
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
     List<VideoPlayer> players = null;
@@ -162,13 +167,13 @@ public class TriggerSender : MonoBehaviour
                 TriggerUtil.TriggerVFX(timeBeforeStart, VFXToAffect, VFXState);
                 break;
             case TriggerType.PlaneShake:
-                TriggerUtil.TriggerPlaneShake(activateIt, timeBeforeStart);
+                TriggerUtil.TriggerPlaneShake(activatePlaneShake, timeBeforeStart);
                 break;
             case TriggerType.OutlineShader:
-                TriggerUtil.TriggerOutline(activateIt, timeBeforeStart);
+                TriggerUtil.TriggerOutline(activateOutlineShader, timeBeforeStart);
                 break;
             case TriggerType.RevealLight:
-                TriggerUtil.TriggerRevealLight(activateIt, timeBeforeStart);
+                TriggerUtil.TriggerRevealLight(activateRevealLight, timeBeforeStart);
                 break;
             case TriggerType.WhiteScreenEffect:
                 TriggerUtil.TriggerWhiteScreenEffect(timeBeforeStart);
