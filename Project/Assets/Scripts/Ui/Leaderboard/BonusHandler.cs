@@ -239,7 +239,8 @@ public class BonusHandler : MonoBehaviour
             }
         }
         if (currPlayerIndex < 0) currPlayerIndex = 0;
-        playerSoloScore.SetSiblingIndex(currPlayerIndex);
+        if (playerSoloScore != null && playerSoloScore.parent != null)
+            playerSoloScore.SetSiblingIndex(currPlayerIndex);
         playerData.score = Mathf.RoundToInt(currScoreDisplayed);
         playerAccesseur.rank = currPlayerIndex + 1;
     }

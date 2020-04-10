@@ -1145,7 +1145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &294609446
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1167,7 +1167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294609445}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 2.45, z: -13.968594}
+  m_LocalPosition: {x: 6, y: 2.45, z: 2.28}
   m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1205,7 +1205,12 @@ MonoBehaviour:
   lightsState: 0
   VFXToAffect: []
   VFXState: 0
-  activateIt: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
   timeBeforeStart: 0
 --- !u!1001 &324083106
 PrefabInstance:
@@ -3091,7 +3096,12 @@ MonoBehaviour:
   lightsState: 0
   VFXToAffect: []
   VFXState: 0
-  activateIt: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
   timeBeforeStart: 0
 --- !u!65 &920584314
 BoxCollider:
@@ -3888,7 +3898,12 @@ MonoBehaviour:
   lightsState: 0
   VFXToAffect: []
   VFXState: 0
-  activateIt: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
   timeBeforeStart: 0
 --- !u!65 &1092557557
 BoxCollider:
@@ -4419,7 +4434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1255215067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5719,7 +5734,7 @@ PrefabInstance:
     - target: {fileID: 2686990369805659944, guid: c88404accc7e7994a887d49576bc4a32,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2686990369805659945, guid: c88404accc7e7994a887d49576bc4a32,
         type: 3}
@@ -6352,7 +6367,12 @@ MonoBehaviour:
   lightsState: 0
   VFXToAffect: []
   VFXState: 0
-  activateIt: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
   timeBeforeStart: 0.5
 --- !u!65 &1906640430
 BoxCollider:
