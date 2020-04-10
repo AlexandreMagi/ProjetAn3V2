@@ -39,7 +39,7 @@ public class MenuMain : MonoBehaviour
     [SerializeField] GameObject rootMainMenu = null;
 
     IRCameraParser arduinoTransmettor;
-    bool isArduinoMode = true;
+    [SerializeField] bool isArduinoMode = true;
 
     [Header ("Bullet Holes")]
     // --- BUllet Holes
