@@ -56,18 +56,20 @@ public static class TriggerUtil
     }
 
     //ANIMATIONS
-    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators)
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, bool loopTimer)
     {
-        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators));
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, loopTimer));
     }
 
-    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators)
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, bool loopTimer)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
         foreach (Animator anim in animators)
         {
             anim.SetTrigger("MakeAction");
+            if (loopTimer)
+                yield return new WaitForSeconds(timeBeforeStart);
         }
 
         yield break;

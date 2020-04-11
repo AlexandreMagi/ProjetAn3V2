@@ -120,6 +120,7 @@ public class MetricsGestionnary : MonoBehaviour
                         currentMetrics.shotgunUsed = true;
                         TitlesManager.Instance.ChangeTitleState(11, false); //"Who needs a shotgun"
                     }
+                    currentMetrics.shotgunUsedTimes++;
                     break;
 
                 case MetricsEventType.UsedGravity:
@@ -128,11 +129,32 @@ public class MetricsGestionnary : MonoBehaviour
                         currentMetrics.gravityUsed = true;
                         TitlesManager.Instance.ChangeTitleState(12, false); //"Gravity is for the weaks"
                     }
+                    currentMetrics.orbUsedTimes++;
                     break;
 
                 case MetricsEventType.EnvironmentalKill:
                     TitlesManager.Instance.ChangeTitleState(14, true); //"Environmentalist"
                     currentMetrics.numberOfEnvKills++;
+
+                    break;
+
+                case MetricsEventType.InExtremisKill:
+                    currentMetrics.numberOfInExtremisSwarmerKills++;
+
+                    break;
+
+                case MetricsEventType.SwarmerKill:
+                    currentMetrics.swarmerKills++;
+
+                    break;
+
+                case MetricsEventType.ShooterKill:
+                    currentMetrics.shooterKills++;
+
+                    break;
+
+                case MetricsEventType.MissileKill:
+                    currentMetrics.numberOfMissilesDestroyed++;
 
                     break;
             }
@@ -147,6 +169,12 @@ public class MetricsGestionnary : MonoBehaviour
         if (currentMetrics.aim > dataTitles.aimRequiredForTitle)
         {
             TitlesManager.Instance.ChangeTitleState(3, true); //Sniper
+        }
+
+        currentMetrics.aimReload = currentMetrics.numberOfReloads / currentMetrics.numberOfPerfectReloads * 100;
+        if(currentMetrics.aimReload > dataTitles.percentPerfectReloadForTitle)
+        {
+            TitlesManager.Instance.ChangeTitleState(16, true); //Perfect reloads
         }
 
         if (currentMetrics.camerasHit == countOfCameras && currentMetrics.collectiblesHit == countOfCollectibles)
@@ -222,7 +250,11 @@ public class MetricsGestionnary : MonoBehaviour
         UsedCheatCode,
         UsedShotgun,
         UsedGravity,
-        EnvironmentalKill
+        EnvironmentalKill,
+        InExtremisKill,
+        SwarmerKill,
+        ShooterKill,
+        MissileKill
     }
 }
 
@@ -231,16 +263,23 @@ public class Metrics
     //Metrics
     public int camerasHit = 0;
     public float aim = 0;
+    public float aimReload = 0;
     public int collectiblesHit = 0;
     public int numberOfEnvKills = 0;
     public float numberOfShots = 0;
     public float numberOfHits = 0;
+    public float numberOfMissilesDestroyed = 0;
+    public float numberOfInExtremisSwarmerKills = 0;
     public int numberOfPerfectReloads = 0;
     public int numberOfReloads = 0;
     public float totalDamageTaken = 0;
     public bool playerHasBeenRaised = false;
     public bool shotgunUsed = false;
     public bool gravityUsed = false;
+    public int orbUsedTimes = 0;
+    public int shotgunUsedTimes = 0;
     public float timeOfGame = 0;
+    public int swarmerKills = 0;
+    public int shooterKills = 0;
 
 }

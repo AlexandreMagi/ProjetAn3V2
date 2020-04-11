@@ -163,9 +163,11 @@ public class PublicManager : MonoBehaviour
                 break;
             case ActionType.KillSwarmer:
                 AddViewers(0.4f, false, ActionType.KillSwarmer, "Kill Swarmer", _position);
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.SwarmerKill);
                 break;
             case ActionType.KillShooter:
                 AddViewers(1, false, ActionType.KillShooter, "Kill Shooter", _position);
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShooterKill);
                 break;
             case ActionType.Cheat:
                 AddViewers(100, false, ActionType.KillShooter, "Kill Shooter", _position);
