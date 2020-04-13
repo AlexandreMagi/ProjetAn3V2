@@ -30,6 +30,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     [SerializeField] Transform[] headTrueBone = null;
     [SerializeField] Transform[] headBoneRefs = null;
     [SerializeField] Transform lookAt = null;
+    [SerializeField] bool searchForPlayerIfLookatNull = true;
     [SerializeField] float headMaxTurnAngle = 60;
     [SerializeField] float headTrackingSpeed = 3;
 
@@ -72,7 +73,8 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             teethSpeeds[i] = Random.Range(0, 360);
             if (i % 2 == 0) teethSpeeds[i] *= -1;
         }
-        lookAt = CameraHandler.Instance.renderingCam.transform;
+        if (lookAt == null && searchForPlayerIfLookatNull)
+            lookAt = CameraHandler.Instance.renderingCam.transform;
 
         currentRotAnimPurcentage = Random.Range(0f, 1f);
         currentRotAnimTime = animMachoireRotTime + Random.Range(-animMachoireRotTimeAddedRandom, animMachoireRotTimeAddedRandom);
@@ -84,7 +86,8 @@ public class SwarmerProceduralAnimation : MonoBehaviour
 
         if (activeProcedu)
         {
-            HeadRotation();
+            if (lookAt != null)
+                HeadRotation();
 
             distanceReplace = Mathf.Clamp(distanceReplace, 0, distanceDetectReplace);
 
