@@ -31,6 +31,8 @@ public class BonusHandler : MonoBehaviour
     [SerializeField] Text numberText = null;
     [SerializeField] Text numberMaxText = null;
 
+    [SerializeField] Image redBarProgress = null;
+
     enum stateProgress { pop,fill,anim,depop,staydepop,paused };
     stateProgress progressState = stateProgress.paused;
 
@@ -446,6 +448,7 @@ public class BonusHandler : MonoBehaviour
                         colorToChangeProgress.color = colorProgressNormal;
                         completlyFailed = false;
                         nbTickInThisProgress = 0;
+                        redBarProgress.fillAmount = 0;
                     }
                 }
                 break;
@@ -513,6 +516,7 @@ public class BonusHandler : MonoBehaviour
         {
             playAnimFailureSucces = !progressFailureAnim.AddPurcentage(progressAnimPurcentage, dt, out progressAnimPurcentage);
             transformToScaleInFailureAnim.localScale = Vector3.one + Vector3.one * progressFailureAnim.ValueAt(progressAnimPurcentage);
+            redBarProgress.fillAmount = progressAnimPurcentage;
             if (completlyFailed)
                 colorToChangeProgress.color = colorProgressFailedCompletly;
             else

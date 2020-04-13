@@ -280,16 +280,16 @@ public static class TriggerUtil
     }
 
     // White Screen Effect
-    public static void TriggerWhiteScreenEffect(float timeBeforeStart)
+    public static void TriggerWhiteScreenEffect(float timeBeforeStart, float _scaleMin = 0, float _scaleMax = 6, float _timeToScaleMax = 3, float _timeStayAtMax = 1, float _timeFadeAlpha = 2, bool _independentFromTimeScale = false)
     {
-        Main.Instance.StartCoroutine(TriggerWhiteScreenEffectCoroutine(timeBeforeStart));
+        Main.Instance.StartCoroutine(TriggerWhiteScreenEffectCoroutine(timeBeforeStart, _scaleMin, _scaleMax, _timeToScaleMax, _timeStayAtMax, _timeFadeAlpha, _independentFromTimeScale));
     }
 
-    static IEnumerator TriggerWhiteScreenEffectCoroutine(float timeBeforeStart)
+    static IEnumerator TriggerWhiteScreenEffectCoroutine(float timeBeforeStart, float _scaleMin = 0, float _scaleMax = 6, float _timeToScaleMax = 3, float _timeStayAtMax = 1, float _timeFadeAlpha = 2, bool _independentFromTimeScale = false)
     {
         yield return new WaitForSeconds(timeBeforeStart);
         if (WhiteScreenEffect.Instance != null)
-            WhiteScreenEffect.Instance.StartWhiteScreenEffect();
+            WhiteScreenEffect.Instance.StartWhiteScreenEffect(_scaleMin, _scaleMax, _timeToScaleMax, _timeStayAtMax, _timeFadeAlpha, _independentFromTimeScale);
         yield break;
     }
 
