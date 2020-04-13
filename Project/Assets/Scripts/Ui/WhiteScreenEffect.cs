@@ -10,17 +10,24 @@ public class WhiteScreenEffect : MonoBehaviour
     void Awake() { Instance = this; }
 
     [SerializeField] Image screenEffect = null;
-    [SerializeField] float scaleMin = 0;
-    [SerializeField] float scaleMax = 6;
-    [SerializeField] float timeToScaleMax = 3;
-    [SerializeField] float timeStayAtMax = 1;
-    [SerializeField] float timeFadeAlpha = 2;
-    [SerializeField] bool independentFromTimeScale = false;
+    float scaleMin = 0;
+    float scaleMax = 6;
+    float timeToScaleMax = 3;
+    float timeStayAtMax = 1;
+    float timeFadeAlpha = 2;
+    bool independentFromTimeScale = false;
     float purcentageAnim = 1;
 
-    public void StartWhiteScreenEffect()
+    public void StartWhiteScreenEffect(float _scaleMin = 0, float _scaleMax = 6, float _timeToScaleMax = 3, float _timeStayAtMax = 1, float _timeFadeAlpha = 2, bool _independentFromTimeScale = false)
     {
         purcentageAnim = 0;
+        scaleMin = _scaleMin;
+        scaleMax = _scaleMax;
+        timeToScaleMax = _timeToScaleMax;
+        timeStayAtMax = _timeStayAtMax;
+        timeFadeAlpha = _timeFadeAlpha;
+        independentFromTimeScale = _independentFromTimeScale;
+
         screenEffect.transform.localScale = Vector3.one * scaleMin;
     }
 

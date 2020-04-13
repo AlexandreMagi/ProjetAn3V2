@@ -82,6 +82,19 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
     bool isLoop;
 
+    [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
+    float scaleMin = 0;
+    [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
+    float scaleMax = 6;
+    [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
+    float timeToScaleMax = 3;
+    [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
+    float timeStayAtMax = 1;
+    [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
+    float timeFadeAlpha = 2;
+    [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
+    bool independentFromTimeScale = false;
+
 
     [SerializeField]
     float timeBeforeStart = 0;
@@ -176,7 +189,7 @@ public class TriggerSender : MonoBehaviour
                 TriggerUtil.TriggerRevealLight(activateRevealLight, timeBeforeStart);
                 break;
             case TriggerType.WhiteScreenEffect:
-                TriggerUtil.TriggerWhiteScreenEffect(timeBeforeStart);
+                TriggerUtil.TriggerWhiteScreenEffect(timeBeforeStart, scaleMin, scaleMax, timeToScaleMax, timeStayAtMax, timeFadeAlpha, independentFromTimeScale);
                 break;
             case TriggerType.VideoTrigger:
                 TriggerUtil.TriggerVideo(timeBeforeStart, players, isPlay, isLoop);
