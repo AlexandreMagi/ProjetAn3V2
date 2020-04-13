@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 1740721118879009003}
   - component: {fileID: 4710330220906946825}
   - component: {fileID: 5190949701531659899}
-  m_Layer: 0
+  - component: {fileID: 2120111328376781122}
+  m_Layer: 17
   m_Name: Object002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &2120111328376781122
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3294677661749385017}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.05942625, y: 0.08757042, z: 0.15676932}
+  m_Center: {x: 0, y: 0.023818946, z: 0.08228866}
 --- !u!1 &6477410457066989594
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +104,8 @@ GameObject:
   - component: {fileID: 3130162167265887709}
   - component: {fileID: 6424219030478566261}
   - component: {fileID: 2364966821502524910}
-  m_Layer: 0
+  - component: {fileID: 952647555730065969}
+  m_Layer: 17
   m_Name: Object001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +173,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &952647555730065969
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6477410457066989594}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2241589, y: 0.24412984, z: 0.59184647}
+  m_Center: {x: 0, y: 0.025010472, z: 0.1761157}
 --- !u!1 &8513486880171414199
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4647331012387676324}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: CameraFixe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +230,8 @@ GameObject:
   - component: {fileID: 4973333616935199731}
   - component: {fileID: 2875279842185958590}
   - component: {fileID: 7087252196245525973}
-  m_Layer: 0
+  - component: {fileID: 7173490819768704073}
+  m_Layer: 17
   m_Name: Cam Support
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,3 +299,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &7173490819768704073
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9096805830955539025}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.22259374, y: 0.2598669, z: 0.22259384}
+  m_Center: {x: 0, y: 0.12954926, z: 0}
