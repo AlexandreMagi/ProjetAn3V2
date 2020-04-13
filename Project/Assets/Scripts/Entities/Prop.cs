@@ -23,6 +23,16 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
         entityData = entityData as DataProp;
     }
 
+    protected override void Die()
+    {
+        if (canDieVFX)
+        {
+            canDieVFX = false;
+            InstantiateExplosion();
+        }
+        base.Die();
+    }
+
     #region Gravity
     public void OnGravityDirectHit()
     {
@@ -41,15 +51,6 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
         isAffectedByGravity = true;
     }
 
-    protected override void Die()
-    {
-        if (canDieVFX)
-        {
-            canDieVFX = false;
-            InstantiateExplosion();
-        }
-        base.Die();
-    }
 
     void InstantiateExplosion()
     {
@@ -85,6 +86,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
     {
+        //Die();
         ReactGravity<DataProp>.DoPull(rb, Vector3.up.normalized + this.transform.position, fGForce, false);
 
         ReactGravity<DataProp>.DoFloat(rb, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);

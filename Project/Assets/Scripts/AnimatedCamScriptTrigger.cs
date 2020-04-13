@@ -9,6 +9,9 @@ public class AnimatedCamScriptTrigger : MonoBehaviour
     Animator[] anim = null;
 
     [SerializeField]
+    bool loopTimer = false;
+
+    [SerializeField]
     float slowMoPower = 10;
 
     [SerializeField]
@@ -22,6 +25,6 @@ public class AnimatedCamScriptTrigger : MonoBehaviour
 
     public void TriggerAnim()
     {
-        TriggerUtil.TriggerAnimators(0, anim);
+        TriggerUtil.TriggerAnimators(0, anim,loopTimer);
     }
 }

@@ -171,7 +171,7 @@ public class MetricsGestionnary : MonoBehaviour
             TitlesManager.Instance.ChangeTitleState(3, true); //Sniper
         }
 
-        currentMetrics.aimReload = currentMetrics.numberOfReloads / currentMetrics.numberOfPerfectReloads * 100;
+        currentMetrics.aimReload = (currentMetrics.numberOfPerfectReloads != 0) ? currentMetrics.numberOfReloads / currentMetrics.numberOfPerfectReloads * 100 : 0;
         if(currentMetrics.aimReload > dataTitles.percentPerfectReloadForTitle)
         {
             TitlesManager.Instance.ChangeTitleState(16, true); //Perfect reloads
