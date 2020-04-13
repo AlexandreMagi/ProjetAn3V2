@@ -23,7 +23,7 @@ public class LeaderboardRightFade : MonoBehaviour
     void Start()
     {
         randomSeedToTimeIdle = Random.Range(0, 8000);
-        ChangeOfScreen(18);
+        ChangeOfScreen(20);
     }
 
     void Update()

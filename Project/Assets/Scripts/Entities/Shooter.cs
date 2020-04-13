@@ -60,15 +60,10 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     DataShooterBullet currentDataBullet = null;
 
-    //[SerializeField] Transform[] canonRoot = new Transform[0];
-    //[SerializeField] Vector3[] canonRootBasePos = new Vector3[0];
-    //[SerializeField] float distTravel = 1.2f;
 
     [SerializeField] Animator anmt = null;
     [SerializeField] Transform FxmuzzleFlashPoint = null;
 
-    //[SerializeField] Transform[] missilesScalable = null;
-    //[SerializeField] float scaleMultiplierOnMissile = 2;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -79,11 +74,6 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
         //On crée un clone, en cas de modifications à la volée
         currentDataBullet = Instantiate(entityData.bulletData);
-        //canonRootBasePos = new Vector3[canonRoot.Length];
-        //for (int i = 0; i < canonRoot.Length; i++)
-        //{
-        //    canonRootBasePos[i] = canonRoot[i].localPosition;
-        //}
     }
 
     public override void OnDistanceDetect(Transform possibleTarget, float distance)
@@ -140,18 +130,6 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                     {
                         EndLoading(true);
                     }
-                    else
-                    {
-                        //for (int i = 0; i < canonRoot.Length; i++)
-                        //{
-                        //    canonRoot[i].transform.localPosition = new Vector3(canonRootBasePos[i].x, canonRootBasePos[i].y, (1- timerLoading / entityData.timeWaitBeforeShoot) * distTravel);
-                        //}
-                        //for (int i = 0; i < missilesScalable.Length; i++)
-                        //{
-                        //    missilesScalable[i].localScale = Vector3.one * ((timerLoading / entityData.timeWaitBeforeShoot) * scaleMultiplierOnMissile);
-                        //}
-                    }
-                    //StartLoading();
                 }
                 else if (timerLoading > 0)
                 {
@@ -176,13 +154,6 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 {
                     timerbeforeNextAttack -= entityData.timeBetweenBullet;
 
-                    //if (bulletShot < canonRoot.Length)
-                    //    canonRoot[bulletShot].transform.localPosition = new Vector3(canonRootBasePos[bulletShot].x, canonRootBasePos[bulletShot].y, distTravel);
-                    //if (bulletShot < missilesScalable.Length)
-                    //{
-                    //    FxManager.Instance.PlayFx("VFX_BasicShooterMuzzleFlash", missilesScalable[bulletShot].transform.position, missilesScalable[bulletShot].transform.rotation);
-                    //    missilesScalable[bulletShot].transform.localScale = Vector3.zero;
-                    //}
 
                     bulletShot++;
                     if(canShoot)
