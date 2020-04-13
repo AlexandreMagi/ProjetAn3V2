@@ -10252,8 +10252,6 @@ MonoBehaviour:
   maskOfWall:
     serializedVersion: 2
     m_Bits: 1081857
-  deadBody: {fileID: 7328945747328693308, guid: d63c0faba4957944f98474b5cb1ebbb2,
-    type: 3}
   animatorCustom: {fileID: 8964763316852850928}
 --- !u!135 &4476334576403535502
 SphereCollider:
@@ -10708,6 +10706,11 @@ PrefabInstance:
       propertyPath: meshAnimator
       value: 
       objectReference: {fileID: 2891384120372087377}
+    - target: {fileID: 6465257038968453700, guid: f98bb9aed3af8e147b6f4ab7cffea73b,
+        type: 3}
+      propertyPath: searchForPlayerIfLookatNull
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6465257038968453701, guid: f98bb9aed3af8e147b6f4ab7cffea73b,
         type: 3}
       propertyPath: m_LocalPosition.x
