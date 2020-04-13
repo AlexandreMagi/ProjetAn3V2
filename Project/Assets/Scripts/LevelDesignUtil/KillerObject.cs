@@ -42,6 +42,8 @@ public class KillerObject : MonoBehaviour
             {
                 otherEnemy.TakeDamage(999999);
                 timeBeforeEndOfMulti = 0.3f;
+
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
             }
             else
             {

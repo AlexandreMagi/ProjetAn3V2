@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AnimatedCamScriptTrigger : MonoBehaviour
 {
+
     [SerializeField]
     Animator[] anim = null;
 

@@ -299,6 +299,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
     public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         isShot = true;
+        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.MissileKill);
         TakeDamage(100);
         //HitBullet();
         //KillBullet();
