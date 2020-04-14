@@ -96,6 +96,12 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
     bool independentFromTimeScale = false;
 
+    [Header("Swarmer activation")]
+    [SerializeField]
+    bool activatesAllAnimatingSwarmersOnTrigger = false;
+
+    [SerializeField]
+    List<Swarmer> swarmersToAlert = null;
 
     [SerializeField]
     float timeBeforeStart = 0;
@@ -199,6 +205,15 @@ public class TriggerSender : MonoBehaviour
                 break;
         }
 
+        if (activatesAllAnimatingSwarmersOnTrigger)
+        {
+            //Swarmer[] activeSwarmers = FindObjectsOfType<Swarmer>();
+
+            foreach (Swarmer swarm in swarmersToAlert)
+            {
+                swarm.OnManualActivation();
+            }
+        }
     }
 
     void OnDrawGizmosSelected()
