@@ -52,7 +52,7 @@ public class TutorialCheckpoint : MonoBehaviour
             }
         }
 
-        if (checkpointData.CheckpointForceTo == DataTutorialCheckpoint.actionToDo.nothing)
+        if (checkpointData == null || checkpointData.CheckpointForceTo == DataTutorialCheckpoint.actionToDo.nothing)
         {
             mustForceAction = false;
             timerBeforeNextForcedAction = 0;
