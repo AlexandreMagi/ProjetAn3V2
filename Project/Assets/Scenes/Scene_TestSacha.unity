@@ -1791,7 +1791,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451278900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.89, y: 4.21, z: 23.22}
+  m_LocalPosition: {x: 5.89, y: 4.21, z: 20.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3399,7 +3399,62 @@ MonoBehaviour:
   camTargetName: CM vcam4
   animationStyle: 6
   animationTime: 2
+  isAffectedByBooleanSequence: 0
+  booleanSequenceName: 
+  booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
+  sequenceType: 2
+  enemiesToKillInSequence: 0
+  acceptsBufferKill: 0
+  timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 0
+  hasEventOnEnd: 0
+  seqEvent: 0
+  timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  angleBalancing: 0
+  balancingFrequency: 1
+  minSpeedRot: 0
+  timeGoToNewRot: 0
+  returnLerpSpeedFromBalance: 5
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
+  enableCamFeedback: 1
+  enableCamTransition: 0
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 0
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 0
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 0.1
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
   isShortStep: 0
   shortStepCurve:
     serializedVersion: 2
@@ -3443,63 +3498,8 @@ MonoBehaviour:
   cutLookAtOnEndOfSequence: 0
   weightLookAt: 1
   weightRemoveRotLookAt: 1
-  isAffectedByBooleanSequence: 0
-  booleanSequenceName: 
-  booleanSequenceStateRequired: 0
-  sequenceType: 2
-  enemiesToKillInSequence: 0
-  acceptsBufferKill: 0
-  timeBeforeNextSequenceOnKills: 0
-  activatesSpawnersDuringSequence: 0
-  numberOfKillsRequiredToPop: 0
-  spawnersToTrigger: []
-  delayOnTrigger: 0
-  timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
-  timeBeforeEvent: 0
-  slowMoPower: 0
-  slowMoDuration: 0
-  isActivation: 0
-  affected: 0
-  tagsAnimated: []
-  soundPlayed: 
-  volume: 1
-  distanceToAnchor: 5
-  initImpulseBalancing: 30
-  dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
-  minSpeedRot: 0
-  timeGoToNewRot: 0
-  returnLerpSpeedFromBalance: 5
   changeWaitScreen: 0
   activateWaitScreen: 0
-  enableCamFeedback: 1
-  enableCamTransition: 0
-  transitionTime: 2
-  stepFadeAtStart: 0
-  distFadeStart: 2
-  stepFadeAtEnd: 0
-  distFadeEnd: 1
-  breathingEnabled: 0
-  timeFadeBreathing: 1
-  changeNoiseSettings: 0
-  noisePurcentageAimed: 0
-  timeTransitionNoise: 1
-  noiseAmplitudePos: 0.1
-  noiseAmplitudeRot: 0.5
-  noiseFrequency: 3
-  skipsToBranchOnEnd: 0
-  affectedByBooleanSequenceBranch: 0
-  branchLinkedId: 0
-  booleanLinks: []
-  affectedObject: {fileID: 0}
-  actionType: 0
-  delayOnAction: 0
-  _active: 1
-  positionMoveTo: {x: 0, y: 0, z: 0}
-  checkpointToUse: {fileID: 0}
 --- !u!1001 &1003324118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4061,7 +4061,62 @@ MonoBehaviour:
   camTargetName: CM vcam1
   animationStyle: 3
   animationTime: 0.1
+  isAffectedByBooleanSequence: 0
+  booleanSequenceName: 
+  booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
+  sequenceType: 2
+  enemiesToKillInSequence: 0
+  acceptsBufferKill: 0
+  timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 0
+  hasEventOnEnd: 0
+  seqEvent: 4
+  timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  angleBalancing: 0
+  balancingFrequency: 1
+  minSpeedRot: 0.001
+  timeGoToNewRot: 0.001
+  returnLerpSpeedFromBalance: 5
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
+  enableCamFeedback: 1
+  enableCamTransition: 0
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 0
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 1
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 0.1
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
   isShortStep: 0
   shortStepCurve:
     serializedVersion: 2
@@ -4105,63 +4160,8 @@ MonoBehaviour:
   cutLookAtOnEndOfSequence: 0
   weightLookAt: 1
   weightRemoveRotLookAt: 1
-  isAffectedByBooleanSequence: 0
-  booleanSequenceName: 
-  booleanSequenceStateRequired: 0
-  sequenceType: 2
-  enemiesToKillInSequence: 0
-  acceptsBufferKill: 0
-  timeBeforeNextSequenceOnKills: 0
-  activatesSpawnersDuringSequence: 0
-  numberOfKillsRequiredToPop: 0
-  spawnersToTrigger: []
-  delayOnTrigger: 0
-  timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
-  timeBeforeEvent: 0
-  slowMoPower: 0
-  slowMoDuration: 0
-  isActivation: 0
-  affected: 0
-  tagsAnimated: []
-  soundPlayed: 
-  volume: 1
-  distanceToAnchor: 5
-  initImpulseBalancing: 30
-  dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
-  minSpeedRot: 0
-  timeGoToNewRot: 0
-  returnLerpSpeedFromBalance: 5
   changeWaitScreen: 0
   activateWaitScreen: 0
-  enableCamFeedback: 1
-  enableCamTransition: 0
-  transitionTime: 2
-  stepFadeAtStart: 0
-  distFadeStart: 2
-  stepFadeAtEnd: 0
-  distFadeEnd: 1
-  breathingEnabled: 0
-  timeFadeBreathing: 1
-  changeNoiseSettings: 0
-  noisePurcentageAimed: 1
-  timeTransitionNoise: 1
-  noiseAmplitudePos: 0.1
-  noiseAmplitudeRot: 0.5
-  noiseFrequency: 3
-  skipsToBranchOnEnd: 0
-  affectedByBooleanSequenceBranch: 0
-  branchLinkedId: 0
-  booleanLinks: []
-  affectedObject: {fileID: 0}
-  actionType: 0
-  delayOnAction: 0
-  _active: 1
-  positionMoveTo: {x: 0, y: 0, z: 0}
-  checkpointToUse: {fileID: 0}
 --- !u!1 &1200735727
 GameObject:
   m_ObjectHideFlags: 0
@@ -4524,53 +4524,10 @@ MonoBehaviour:
   camTargetName: CM vcam3
   animationStyle: 6
   animationTime: 1
-  cutsSlowMoOnEnd: 0
-  isShortStep: 0
-  shortStepCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  shortStepAmplitude: -1
-  modifySteps: 0
-  modifierFrequenceCamStep: 1
-  modifyStepsCurve: 0
-  modifiedStepCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animToPlay: {fileID: 0}
-  lookAtObject: {fileID: 0}
-  transitionToTime: 1
-  transitionBackTime: 1
-  lookAtTime: 1
-  cutLookAtOnEndOfSequence: 0
-  weightLookAt: 1
-  weightRemoveRotLookAt: 1
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
+  cutsSlowMoOnEnd: 0
   sequenceType: 2
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
@@ -4583,13 +4540,6 @@ MonoBehaviour:
   hasEventOnEnd: 0
   seqEvent: 0
   timeBeforeEvent: 0
-  slowMoPower: 0
-  slowMoDuration: 0
-  isActivation: 0
-  affected: 0
-  tagsAnimated: []
-  soundPlayed: 
-  volume: 1
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
@@ -4598,8 +4548,23 @@ MonoBehaviour:
   minSpeedRot: 0
   timeGoToNewRot: 0
   returnLerpSpeedFromBalance: 5
-  changeWaitScreen: 0
-  activateWaitScreen: 0
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 11400000, guid: f210fb4fbaa80694c8db67f5598773f7, type: 2}
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
@@ -4615,32 +4580,6 @@ MonoBehaviour:
   noiseAmplitudePos: 0.1
   noiseAmplitudeRot: 0.5
   noiseFrequency: 3
-  skipsToBranchOnEnd: 0
-  affectedByBooleanSequenceBranch: 0
-  branchLinkedId: 0
-  booleanLinks: []
-  affectedObject: {fileID: 0}
-  actionType: 0
-  delayOnAction: 0
-  _active: 1
-  positionMoveTo: {x: 0, y: 0, z: 0}
-  checkpointToUse: {fileID: 11400000, guid: f210fb4fbaa80694c8db67f5598773f7, type: 2}
---- !u!114 &1338462768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
-  m_Name: DS1
-  m_EditorClassIdentifier: 
-  camTargetName: CM vcam1
-  animationStyle: 0
-  animationTime: 0
-  cutsSlowMoOnEnd: 0
   isShortStep: 0
   shortStepCurve:
     serializedVersion: 2
@@ -4684,9 +4623,27 @@ MonoBehaviour:
   cutLookAtOnEndOfSequence: 0
   weightLookAt: 1
   weightRemoveRotLookAt: 1
+  changeWaitScreen: 0
+  activateWaitScreen: 0
+--- !u!114 &1338462768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
+  m_Name: DS1
+  m_EditorClassIdentifier: 
+  camTargetName: CM vcam1
+  animationStyle: 0
+  animationTime: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
+  cutsSlowMoOnEnd: 0
   sequenceType: 1
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
@@ -4699,13 +4656,6 @@ MonoBehaviour:
   hasEventOnEnd: 0
   seqEvent: 0
   timeBeforeEvent: 0
-  slowMoPower: 0
-  slowMoDuration: 0
-  isActivation: 0
-  affected: 0
-  tagsAnimated: []
-  soundPlayed: 
-  volume: 1
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
@@ -4714,8 +4664,23 @@ MonoBehaviour:
   minSpeedRot: 0
   timeGoToNewRot: 0
   returnLerpSpeedFromBalance: 5
-  changeWaitScreen: 0
-  activateWaitScreen: 0
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
   enableCamFeedback: 0
   enableCamTransition: 0
   transitionTime: 2
@@ -4731,16 +4696,51 @@ MonoBehaviour:
   noiseAmplitudePos: 50
   noiseAmplitudeRot: 0.5
   noiseFrequency: 3
-  skipsToBranchOnEnd: 0
-  affectedByBooleanSequenceBranch: 0
-  branchLinkedId: 0
-  booleanLinks: []
-  affectedObject: {fileID: 0}
-  actionType: 0
-  delayOnAction: 0
-  _active: 1
-  positionMoveTo: {x: 0, y: 0, z: 0}
-  checkpointToUse: {fileID: 0}
+  isShortStep: 0
+  shortStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shortStepAmplitude: -1
+  modifySteps: 0
+  modifierFrequenceCamStep: 1
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
+  weightLookAt: 1
+  weightRemoveRotLookAt: 1
+  changeWaitScreen: 0
+  activateWaitScreen: 0
 --- !u!1 &1340428240
 GameObject:
   m_ObjectHideFlags: 0
@@ -5844,7 +5844,62 @@ MonoBehaviour:
   camTargetName: CM vcam3
   animationStyle: 6
   animationTime: 2
+  isAffectedByBooleanSequence: 0
+  booleanSequenceName: 
+  booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
+  sequenceType: 1
+  enemiesToKillInSequence: 0
+  acceptsBufferKill: 0
+  timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 0
+  hasEventOnEnd: 0
+  seqEvent: 0
+  timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  angleBalancing: 0
+  balancingFrequency: 1
+  minSpeedRot: 0
+  timeGoToNewRot: 0
+  returnLerpSpeedFromBalance: 5
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 11400000, guid: f210fb4fbaa80694c8db67f5598773f7, type: 2}
+  enableCamFeedback: 1
+  enableCamTransition: 0
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 0
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 1
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 50
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
   isShortStep: 0
   shortStepCurve:
     serializedVersion: 2
@@ -5888,63 +5943,8 @@ MonoBehaviour:
   cutLookAtOnEndOfSequence: 0
   weightLookAt: 1
   weightRemoveRotLookAt: 1
-  isAffectedByBooleanSequence: 0
-  booleanSequenceName: 
-  booleanSequenceStateRequired: 0
-  sequenceType: 1
-  enemiesToKillInSequence: 0
-  acceptsBufferKill: 0
-  timeBeforeNextSequenceOnKills: 0
-  activatesSpawnersDuringSequence: 0
-  numberOfKillsRequiredToPop: 0
-  spawnersToTrigger: []
-  delayOnTrigger: 0
-  timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
-  timeBeforeEvent: 0
-  slowMoPower: 0
-  slowMoDuration: 0
-  isActivation: 0
-  affected: 0
-  tagsAnimated: []
-  soundPlayed: 
-  volume: 1
-  distanceToAnchor: 5
-  initImpulseBalancing: 30
-  dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
-  minSpeedRot: 0
-  timeGoToNewRot: 0
-  returnLerpSpeedFromBalance: 5
   changeWaitScreen: 0
   activateWaitScreen: 0
-  enableCamFeedback: 1
-  enableCamTransition: 0
-  transitionTime: 2
-  stepFadeAtStart: 0
-  distFadeStart: 2
-  stepFadeAtEnd: 0
-  distFadeEnd: 1
-  breathingEnabled: 0
-  timeFadeBreathing: 1
-  changeNoiseSettings: 0
-  noisePurcentageAimed: 1
-  timeTransitionNoise: 1
-  noiseAmplitudePos: 50
-  noiseAmplitudeRot: 0.5
-  noiseFrequency: 3
-  skipsToBranchOnEnd: 0
-  affectedByBooleanSequenceBranch: 0
-  branchLinkedId: 0
-  booleanLinks: []
-  affectedObject: {fileID: 0}
-  actionType: 0
-  delayOnAction: 0
-  _active: 1
-  positionMoveTo: {x: 0, y: 0, z: 0}
-  checkpointToUse: {fileID: 11400000, guid: f210fb4fbaa80694c8db67f5598773f7, type: 2}
 --- !u!1 &1641104450
 GameObject:
   m_ObjectHideFlags: 0
