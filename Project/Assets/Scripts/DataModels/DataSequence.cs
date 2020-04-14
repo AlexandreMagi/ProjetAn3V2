@@ -10,49 +10,51 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Sequences/DataSequence")]
 public class DataSequence : ScriptableObject
 {
+
+    // ############################################################################################## TRANSITIONS
+
     [Header("Transition vers la séquence")]
+
+    [Tooltip("Nom de la virtual Camera sur laquel la séquence va finir")]
     public string camTargetName;
-
+    [Tooltip("Courbe d'animation pour gerer la vitesse du blend en fonction du temps")]
     public CinemachineBlendDefinition.Style animationStyle;
-
+    [Tooltip("Temps pour arriver à la caméra ciblée")]
     public float animationTime;
 
-    public bool cutsSlowMoOnEnd;
 
-    [Header("Steps")]
 
-    public bool isShortStep = false;
-    [ShowIf("isShortStep")]
-    public AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
-    [ShowIf("isShortStep")]
-    public float shortStepAmplitude = -1;
-
-    [HideIf("isShortStep")]
-    public bool modifySteps = false;
-    [ShowIf("modifySteps")]
-    public float modifierFrequenceCamStep = 1;
-    [ShowIf("modifySteps")]
-    public bool modifyStepsCurve = false;
-    [ShowIf("modifySteps"), ShowIf("modifyStepsCurve")]
-    public AnimationCurve modifiedStepCurve = null;
+    // ############################################################################################## ANIMATIONS CUSTOMS
 
     [Header("Animated Cam")]
+
+    [Tooltip("Si anim dans cette variable, la caméra va jouer l'anim au lieu de faire une transition via cinémachine")]
     public AnimationClip animToPlay = null;
 
+
+
+    // ############################################################################################## LOOK AT
+
     [Header("Look At")]
+
+    [Tooltip("Objet que la caméra va lookat")]
     public Transform lookAtObject = null;
-    [ShowIf("lookAtObject", null)]
+    [ShowIf("lookAtObject", null), Tooltip("Temps de transition vers le lookt at")]
     public float transitionToTime = 1;
-    [ShowIf("lookAtObject", null)]
+    [ShowIf("lookAtObject", null), Tooltip("Temps de transition vers la rotation normale apres le lookat")]
     public float transitionBackTime = 1;
-    [ShowIf("lookAtObject", null)]
+    [ShowIf("lookAtObject", null), Tooltip("Temps durant lequel la caméra reste en lookat")]
     public float lookAtTime = 1;
-    [ShowIf("lookAtObject", null)]
+    [ShowIf("lookAtObject", null), Tooltip("Dis si le lookat doit être cut à la fin de la séquence")]
     public bool cutLookAtOnEndOfSequence = false;
-    [ShowIf("lookAtObject", null), PropertyRange(0f,1f)]
+    [ShowIf("lookAtObject", null), PropertyRange(0f,1f), Tooltip("Pourcentage d'application du lookat sur la caméra")]
     public float weightLookAt = 1;
-    [ShowIf("lookAtObject", null), PropertyRange(0f,1f)]
+    [ShowIf("lookAtObject", null), PropertyRange(0f,1f), Tooltip("Pourcentage de rotation que le lookat empeche")]
     public float weightRemoveRotLookAt = 1;
+
+
+
+    // ############################################################################################## BOOLEAN SEQUENCES
 
     //BOOLEAN SEQUENCES
     [Header("Boolean sequence")]
@@ -64,6 +66,7 @@ public class DataSequence : ScriptableObject
     [ShowIf("isAffectedByBooleanSequence")]
     public bool booleanSequenceStateRequired;
 
+    public bool cutsSlowMoOnEnd;
 
     //TYPES
     [Header("Séquence paramètres")]
@@ -134,6 +137,10 @@ public class DataSequence : ScriptableObject
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Sound), ShowIf("hasEventOnEnd")]
     public float volume = 1;
 
+
+
+    // ############################################################################################## BALANCING
+
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Distance en up de la ou la corde est attachée")]
     public float distanceToAnchor = 5;
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse à l'init de balancement")]
@@ -151,13 +158,20 @@ public class DataSequence : ScriptableObject
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse Lerp de retour sur la caméra")]
     public float returnLerpSpeedFromBalance = 5;
 
+
+
+    // ############################################################################################## WAIT SCREEN
+
     [Header("WaitScreen")]
+
+    [Tooltip("Change l'état de wait screen")]
     public bool changeWaitScreen = false;
-    [ShowIf("changeWaitScreen")]
+    [ShowIf("changeWaitScreen"), Tooltip("État visé par le wait screen")]
     public bool activateWaitScreen = false;
 
-    // ##############################################################################################################################
 
+
+    // ############################################################################################## CAMERA
 
     [Header("Camera")]
     public bool enableCamFeedback = true;
@@ -191,6 +205,30 @@ public class DataSequence : ScriptableObject
     public float noiseAmplitudeRot = 0.5f;
     [Tooltip("Frequence du noise"), ShowIf("changeNoiseSettings")]
     public float noiseFrequency = 3;
+
+
+
+    // ############################################################################################## STEPS
+
+    [Header("Steps")]
+
+    // --- Short Step
+    [Tooltip("Dis si la transition est un Short Step, permet d'avoir sa propre courbe de pas")]
+    public bool isShortStep = false;
+    [ShowIf("isShortStep"), Tooltip("Courbe de pas custom")]
+    public AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    [ShowIf("isShortStep"), Tooltip("Multiplicateur d'amplitude pour la courbe")]
+    public float shortStepAmplitude = -1;
+
+    // --- Normal Step
+    [HideIf("isShortStep"), Tooltip("Permet de changer les parametres des steps par défault")]
+    public bool modifySteps = false;
+    [ShowIf("modifySteps"), Tooltip("Setup la fréquence des pas en override")]
+    public float modifierFrequenceCamStep = 1;
+    [ShowIf("modifySteps"), Tooltip("Permet de gerer l'intensité de la fréquence des pas sur le temps de la séquence")]
+    public bool modifyStepsCurve = false;
+    [ShowIf("modifySteps"), ShowIf("modifyStepsCurve"), Tooltip("Courbe d'intensité de frequence sur le temps de la séquence")]
+    public AnimationCurve modifiedStepCurve = null;
 
 
 
