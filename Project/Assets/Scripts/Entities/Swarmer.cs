@@ -15,12 +15,20 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Attacking,
         DodgingObstacle,
         CalculatingExit,
-        GravityControlled
+        GravityControlled,
+        PlayingAnimation
     }
     //Basics
     Rigidbody rbBody = null;
     [ShowInInspector]
     SwarmerState currentState = SwarmerState.FollowPath;
+
+    //Animation
+    [SerializeField]
+    bool playsAnimationOnStartUp = false;
+
+    [SerializeField]
+    SwarmerProceduralAnimation.AnimSwarmer animationToPlay;
 
     //Securities
     float timeBeingStuck = 0;
@@ -156,6 +164,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
+    public void OnManualActivation()
+    {
+        if(currentState == SwarmerState.PlayingAnimation)
+        currentState = SwarmerState.LookingForTarget;
+    }
+
     protected override void Die()
     {
         if (!isDying)
@@ -233,6 +247,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         this.health = entityData.startHealth;
         rbBody = GetComponent<Rigidbody>();
 
+        if (playsAnimationOnStartUp)
+        {
+            currentState = SwarmerState.PlayingAnimation;
+
+            animatorCustom.PlayAnim(animationToPlay);
+        }
+
         lastKnownPosition = transform.position;
         Invoke("MaybeGrunt", 1f);
     }
@@ -243,7 +264,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         #region Securities
         //Kill security
-        if (this.transform.position.y <= -5)
+        if (this.transform.position.y <= -40)
         {
             this.Die();
         }
@@ -251,48 +272,53 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Rotation security
         this.transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
 
-        //Blocking security
-        #region BlockGestion
-        timeBeingStuck += Time.deltaTime;
-
-        if (timeBeingStuck >= entityData.initialTimeToConsiderCheck)
+        if (currentState != SwarmerState.PlayingAnimation)
         {
-            if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
+            //Blocking security
+            #region BlockGestion
+            timeBeingStuck += Time.deltaTime;
+
+            if (timeBeingStuck >= entityData.initialTimeToConsiderCheck)
             {
-
-                if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && currentState == SwarmerState.DodgingObstacle)
+                if (Vector3.Distance(transform.position, lastKnownPosition) <= entityData.considerStuckThreshhold)
                 {
-                    currentState = SwarmerState.FollowPath;
+
+                    if (timeBeingStuck >= entityData.maxBlockedRetryPathTime && currentState == SwarmerState.DodgingObstacle)
+                    {
+                        currentState = SwarmerState.FollowPath;
+                    }
+
+                    if (timeBeingStuck >= entityData.maxBlockedSuicideTime && currentState != SwarmerState.GravityControlled)
+                    {
+                        this.Die();
+                    }
                 }
-
-                if (timeBeingStuck >= entityData.maxBlockedSuicideTime && currentState != SwarmerState.GravityControlled)
+                else
                 {
-                    this.Die();
+                    timeBeingStuck = 0;
+                    lastKnownPosition = transform.position;
                 }
             }
-            else
+            #endregion
+            #endregion
+
+            //Distance to attack check
+            if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
             {
-                timeBeingStuck = 0;
-                lastKnownPosition = transform.position;
+                if (currentState != SwarmerState.WaitingForAttack)
+                    animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.prepare);
+                currentState = SwarmerState.WaitingForAttack;
+                rbBody.velocity = Vector3.zero;
+            }
+
+            if (jumpElapsedTime > 0)
+            {
+                jumpElapsedTime -= Time.deltaTime;
+                if (jumpElapsedTime < 0) jumpElapsedTime = 0;
             }
         }
-        #endregion
-        #endregion
 
-        //Distance to attack check
-        if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
-        {
-            if (currentState != SwarmerState.WaitingForAttack)
-                animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.prepare);
-            currentState = SwarmerState.WaitingForAttack;
-            rbBody.velocity = Vector3.zero;
-        }
-
-        if(jumpElapsedTime > 0)
-        {
-            jumpElapsedTime -= Time.deltaTime;
-            if (jumpElapsedTime < 0) jumpElapsedTime = 0;
-        }
+        
     }
 
     // Update is called once per frame
@@ -570,6 +596,14 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 {
                     ReactGravity<DataSwarmer>.DoSpin(rbBody);
                 }
+                break;
+            #endregion
+
+            #region PlayingAnimation
+            case SwarmerState.PlayingAnimation:
+                
+                //Well.. Plays animation..
+
                 break;
             #endregion
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwarmerProceduralAnimation : MonoBehaviour
 {
     public bool activeProcedu = true;
-    [SerializeField] Animator meshAnimator = null;
+    [SerializeField]public Animator meshAnimator = null;
 
     [Header("Torso")]
     [SerializeField] Transform pelvisAnim = null;
@@ -163,13 +163,14 @@ public class SwarmerProceduralAnimation : MonoBehaviour
         }
     }
 
-    public enum AnimSwarmer { reset, prepare, jump, attack }
+    public enum AnimSwarmer { reset, prepare, jump, attack, rugissement }
     int[] triggers = new int[]
     { 
         Animator.StringToHash("reset"),
         Animator.StringToHash("prepareAttack"),
         Animator.StringToHash("jump"),
-        Animator.StringToHash("attack")
+        Animator.StringToHash("attack"),
+        Animator.StringToHash("rugissement")
     };
 
     public void PlayAnim(AnimSwarmer animType)
