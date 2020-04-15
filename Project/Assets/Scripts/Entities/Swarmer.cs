@@ -15,12 +15,20 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Attacking,
         DodgingObstacle,
         CalculatingExit,
-        GravityControlled
+        GravityControlled,
+        PlayingAnimation
     }
     //Basics
     Rigidbody rbBody = null;
     [ShowInInspector]
     SwarmerState currentState = SwarmerState.FollowPath;
+
+    //Animation
+    [SerializeField]
+    bool playsAnimationOnStartUp = false;
+
+    [ShowIf("playsAnimationOnStartUp"), SerializeField]
+    Animation animationToLoop;
 
     //Securities
     float timeBeingStuck = 0;
@@ -156,6 +164,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
+    public void OnManualActivation()
+    {
+        if(currentState == SwarmerState.PlayingAnimation)
+        currentState = SwarmerState.LookingForTarget;
+    }
+
     protected override void Die()
     {
         if (!isDying)
@@ -232,6 +246,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         this.health = entityData.startHealth;
         rbBody = GetComponent<Rigidbody>();
+
+        if (playsAnimationOnStartUp)
+        {
+            currentState = SwarmerState.PlayingAnimation;
+
+            animationToLoop.Play(PlayMode.StopAll);
+        }
 
         lastKnownPosition = transform.position;
         Invoke("MaybeGrunt", 1f);
@@ -570,6 +591,14 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 {
                     ReactGravity<DataSwarmer>.DoSpin(rbBody);
                 }
+                break;
+            #endregion
+
+            #region PlayingAnimation
+            case SwarmerState.PlayingAnimation:
+                
+                //Well.. Plays animation..
+
                 break;
             #endregion
 
