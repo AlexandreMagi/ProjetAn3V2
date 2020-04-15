@@ -17,8 +17,6 @@ public class SceneHandler : MonoBehaviour
     }
 
     [SerializeField]
-    Slider loadingBar = null;
-    [SerializeField]
     Canvas backgroundLoading = null;
 
     float timeAnim = .5f;
@@ -145,7 +143,7 @@ public class SceneHandler : MonoBehaviour
             }
 
             Canvas canvasInstance = Instantiate(backgroundLoading);
-            Slider loadingBarCreated = Instantiate(loadingBar, canvasInstance.transform);
+            Image loadingBarCreated = canvasInstance.GetComponent<LoadingScreenAccesseur>().loadingBar;
 
 
             loadingBarCreated.gameObject.SetActive(true);
@@ -156,10 +154,10 @@ public class SceneHandler : MonoBehaviour
 
             while (async.isDone == false)
             {
-                loadingBarCreated.value = async.progress;
+                loadingBarCreated.fillAmount = async.progress;
                 if (async.progress == 0.9f)
                 {
-                    loadingBarCreated.value = 1f;
+                    loadingBarCreated.fillAmount = 1f;
                     async.allowSceneActivation = true;
                     alreadyChanging = false;
                 }
