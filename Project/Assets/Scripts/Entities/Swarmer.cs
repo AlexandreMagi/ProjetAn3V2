@@ -27,6 +27,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     bool playsAnimationOnStartUp = false;
 
+    [SerializeField]
+    SwarmerProceduralAnimation.AnimSwarmer animationToPlay;
+
     //Securities
     float timeBeingStuck = 0;
 
@@ -243,13 +246,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         this.health = entityData.startHealth;
         rbBody = GetComponent<Rigidbody>();
-        Animation animComponent = GetComponent<Animation>();
 
-        if (playsAnimationOnStartUp && animComponent)
+        if (playsAnimationOnStartUp)
         {
             currentState = SwarmerState.PlayingAnimation;
 
-            animComponent.Play("Rugissement");
+            animatorCustom.PlayAnim(animationToPlay);
         }
 
         lastKnownPosition = transform.position;
