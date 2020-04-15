@@ -84,8 +84,8 @@ public class UiViewer : MonoBehaviour
             ViewerText.text = $"{Mathf.RoundToInt(currentViewerFluid).ToString("N0")}";
             if (Mathf.RoundToInt(currentViewerFluid) == 0)
             {
-                ViewerText.fontSize = 25    ;
-                ViewerText.text = "1 (Your mom)";
+                //ViewerText.fontSize = 25    ;
+                ViewerText.text = "1 (MOM)";
             }
 
 
