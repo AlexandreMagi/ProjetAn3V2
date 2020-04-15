@@ -27,9 +27,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     bool playsAnimationOnStartUp = false;
 
-    [ShowIf("playsAnimationOnStartUp"), SerializeField]
-    Animation animationToLoop;
-
     //Securities
     float timeBeingStuck = 0;
 
@@ -246,12 +243,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         this.health = entityData.startHealth;
         rbBody = GetComponent<Rigidbody>();
+        Animation animComponent = GetComponent<Animation>();
 
         if (playsAnimationOnStartUp)
         {
             currentState = SwarmerState.PlayingAnimation;
 
-            animationToLoop.Play(PlayMode.StopAll);
+            animComponent.Play();
         }
 
         lastKnownPosition = transform.position;
