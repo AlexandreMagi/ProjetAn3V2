@@ -249,7 +249,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentState = SwarmerState.PlayingAnimation;
 
-            animComponent.Play();
+            animComponent.Play("Rugissement");
         }
 
         lastKnownPosition = transform.position;
@@ -262,7 +262,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         #region Securities
         //Kill security
-        if (this.transform.position.y <= -5)
+        if (this.transform.position.y <= -40)
         {
             this.Die();
         }

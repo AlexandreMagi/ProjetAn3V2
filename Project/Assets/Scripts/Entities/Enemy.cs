@@ -133,8 +133,6 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     protected virtual void Update()
     {
-
-
         if (timeRemainingInMatFeedback >= 0) timeRemainingInMatFeedback -= Time.unscaledDeltaTime;
         timeRemainingInMatFeedback = Mathf.Clamp(timeRemainingInMatFeedback, 0, 1);
         //ChangeColor(timeRemainingInMatFeedback > 0);
