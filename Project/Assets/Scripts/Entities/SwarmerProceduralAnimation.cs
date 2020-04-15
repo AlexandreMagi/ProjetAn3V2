@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwarmerProceduralAnimation : MonoBehaviour
 {
     public bool activeProcedu = true;
-    [SerializeField] Animator meshAnimator = null;
+    [SerializeField]public Animator meshAnimator = null;
 
     [Header("Torso")]
     [SerializeField] Transform pelvisAnim = null;
