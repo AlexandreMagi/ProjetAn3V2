@@ -69,6 +69,7 @@ public class MenuMain : MonoBehaviour
         CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "UI",null, .4f, true);
         CustomSoundManager.Instance.PlaySound("Crowd_Idle", "UI",null, .2f, true);
 
+        idleBornVideo.SetActive(true);
         for (int i = 0; i < basePullBulleltHole; i++)
         {
             BulletHoleInstance instance = CreateBulletHoleDecal();

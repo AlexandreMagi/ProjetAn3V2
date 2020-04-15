@@ -14,19 +14,22 @@ public class UiFade : MonoBehaviour
     [SerializeField] Image fonduNoir = null;
     [SerializeField] float currentAlpha = 1;
 
+    Color baseColor = Color.black;
+
     float alphaAimed = 0;
     float alphaTimeTo = 2;
 
     private void Start()
     {
         fonduNoir.gameObject.SetActive(true);
+        baseColor = fonduNoir.color;
     }
 
     // Update is called once per frame
     void Update()
     {
         currentAlpha = Mathf.MoveTowards(currentAlpha, alphaAimed, Time.unscaledDeltaTime / alphaTimeTo);
-        fonduNoir.color = new Color(Color.black.r, Color.black.g, Color.black.b, currentAlpha);
+        fonduNoir.color = new Color(baseColor.r, baseColor.g, baseColor.b, currentAlpha);
     }
 
     public void ChangeAlpha (float alphaGoTo, float alphaTime)

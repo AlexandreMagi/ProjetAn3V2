@@ -132,7 +132,7 @@ public class Main : MonoBehaviour
 
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
-            Weapon.Instance.InputUp(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
+            Weapon.Instance.InputUp(GetCursorPos());
         }
         if (!playerCanShoot) Weapon.Instance.CanNotShoot();
 
@@ -140,7 +140,7 @@ public class Main : MonoBehaviour
         if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) UILeaderboard.Instance.PlayerClicked();
 
         //CAM
-        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        Vector3 posCursor = GetCursorPos();
         if ( (posCursor.x < IRCameraParser.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < IRCameraParser.Instance.iResolutionY && posCursor.y > 0)
             || (posCursor.x < Screen.width && posCursor.x > 0 && posCursor.y < Screen.height && posCursor.y > 0))
             CameraHandler.Instance.DecalCamWithCursor(posCursor);
@@ -151,7 +151,7 @@ public class Main : MonoBehaviour
         if (UiCrossHair.Instance != null)
         {
 
-            UiCrossHair.Instance.UpdateCrossHair(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
+            UiCrossHair.Instance.UpdateCrossHair(GetCursorPos());
         }
 
         if (Input.GetKey(KeyCode.Escape))
@@ -358,7 +358,7 @@ public class Main : MonoBehaviour
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
-            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition);
+            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(GetCursorPos());
             RaycastHit hit;
             Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
             
@@ -566,7 +566,7 @@ public class Main : MonoBehaviour
     private Vector3 saveLastCursorPos = Vector3.zero;
     void CheckIfGoBackToMenu()
     {
-        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        Vector3 posCursor = GetCursorPos();
         timerCheckInput -= Time.unscaledDeltaTime;
         if (timerCheckInput < 0)
         {
@@ -761,7 +761,9 @@ public class Main : MonoBehaviour
 
     public Vector3 GetCursorPos()
     {
-        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        Vector2 returnedValue = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        returnedValue = new Vector2(Mathf.Clamp(returnedValue.x, 0, Screen.width), Mathf.Clamp(returnedValue.y, 0, Screen.height));
+        return returnedValue;
     }
 
     public float GetCurrentChacesOfSurvival()
