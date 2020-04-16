@@ -36,6 +36,8 @@ public class TriggerSender : MonoBehaviour
     Animator[] animated = null;
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
     bool usesTimerBetweenAllAnims = false;
+    [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
+    float animationWaitTimer = 0;
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     float ShakeValue = 0;
@@ -154,7 +156,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Animator:
-                TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims);
+                TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer);
                 this.gameObject.SetActive(false);
                 break;
 
