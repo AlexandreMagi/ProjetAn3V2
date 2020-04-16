@@ -44,7 +44,7 @@ public class DataTutorialCheckpoint : ScriptableObject
     [Tooltip("Actions que le joueur ne peut pas faire pendant le tuto")] public List<playerActions> actionsPlayerCantDo = new List<playerActions>();
     [Tooltip("Actions que le joueur peut faire pendant le tuto")] public List<playerActions> actionsPlayerCanDoWhile = new List<playerActions>();
     [Tooltip("Actions que le joueur peut faire après le tuto")] public List<playerActions> actionsPlayerCanDoAfter = new List<playerActions>();
-    public enum playerActions { shoot, orb, reload, autoReload, perfectReload, shotgun }
+    public enum playerActions { shoot, orb, reload, autoReload, perfectReload, shotgun, zeroG }
 
 
 

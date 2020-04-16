@@ -55,6 +55,9 @@ public class TutorialCheckpoint : MonoBehaviour
                 case DataTutorialCheckpoint.playerActions.shotgun:
                     Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, false);
                     break;
+                case DataTutorialCheckpoint.playerActions.zeroG:
+                    Main.Instance.SetControlState(TriggerSender.Activable.ZeroG, false);
+                    break;
             }
         }
         foreach (DataTutorialCheckpoint.playerActions activations in checkpointData.actionsPlayerCanDoWhile)
@@ -78,6 +81,9 @@ public class TutorialCheckpoint : MonoBehaviour
                     break;
                 case DataTutorialCheckpoint.playerActions.shotgun:
                     Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.zeroG:
+                    Main.Instance.SetControlState(TriggerSender.Activable.ZeroG, true);
                     break;
             }
         }
@@ -122,6 +128,9 @@ public class TutorialCheckpoint : MonoBehaviour
                     break;
                 case DataTutorialCheckpoint.playerActions.shotgun:
                     Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.zeroG:
+                    Main.Instance.SetControlState(TriggerSender.Activable.ZeroG, true);
                     break;
             }
         }
