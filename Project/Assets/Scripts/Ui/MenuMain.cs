@@ -95,7 +95,7 @@ public class MenuMain : MonoBehaviour
         if (timeRemainingBeforeChargeScene > 0 && Time.unscaledDeltaTime < 0.5f)
         {
             timeRemainingBeforeChargeScene -= Time.unscaledDeltaTime;
-            if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene("LD_03"); }
+            if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene(sceneNameGoTo); }
         }
 
 

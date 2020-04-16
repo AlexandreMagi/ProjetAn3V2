@@ -14,10 +14,11 @@ public class DataTutorialCheckpoint : ScriptableObject
     [Header("Action forcée")]
 
     [Tooltip("L'action que le checkpoint va forcer sur le joueur")] public actionToDo CheckpointForceTo = actionToDo.nothing;
-    public enum actionToDo { nothing, reload }
+    public enum actionToDo { nothing, reload, changeNbBullet }
     [HideIf("CheckpointForceTo", actionToDo.nothing), Tooltip("Dis si l'action se fait en boucle")] public bool forcedActionLoops = false;
     [HideIf("CheckpointForceTo", actionToDo.nothing), Tooltip("Temps avant la première action")] public float timeBeforeFirstAction = 3;
     [HideIf("CheckpointForceTo", actionToDo.nothing), ShowIf("forcedActionLoops"), Tooltip("Temps entre chaque action")] public float timeBetweenActions = 3;
+    [ShowIf("CheckpointForceTo", actionToDo.changeNbBullet), Tooltip("Nombre de balle fixé")] public int nbBullet = 0;
 
 
 
@@ -64,7 +65,5 @@ public class DataTutorialCheckpoint : ScriptableObject
     [Header("Autres")]
 
     public bool independentFromTimeScale = false;
-    public bool changeNbBullet = false;
-    [ShowIf("changeNbBullet")] public int nbBullet = 0;
 
 }

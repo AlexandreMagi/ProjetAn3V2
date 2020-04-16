@@ -93,7 +93,6 @@ public class TutorialCheckpoint : MonoBehaviour
             mustForceAction = (checkpointData.timeBeforeFirstAction == 0);
         }
 
-        if (checkpointData.changeNbBullet) Weapon.Instance.SetBulletAmmount(checkpointData.nbBullet);
     }
 
     /// <summary>
@@ -156,9 +155,9 @@ public class TutorialCheckpoint : MonoBehaviour
         }
 
         // --- Execution de l'action forcée
-        if (mustForceAction)
+        if (mustForceAction && purcentageAccomplission < 1)
         {
-            Debug.Log("Action forced");
+            //Debug.Log("Action forced");
             mustForceAction = false;
             // --- Action forcée
             switch (checkpointData.CheckpointForceTo)
@@ -167,6 +166,9 @@ public class TutorialCheckpoint : MonoBehaviour
                     break;
                 case DataTutorialCheckpoint.actionToDo.reload:
                     Weapon.Instance.ReloadingInput();
+                    break;
+                case DataTutorialCheckpoint.actionToDo.changeNbBullet:
+                    Weapon.Instance.SetBulletAmmount(checkpointData.nbBullet, false);
                     break;
             }
             // --- Dit si l'action doit être rejouée
