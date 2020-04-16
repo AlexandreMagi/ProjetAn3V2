@@ -46,14 +46,17 @@ public class CrosshairInstance
         GetChargeFeedbackValue(chargeValue, dt);
 
         Vector2Int bulletAmount =Weapon.Instance != null? Weapon.Instance.GetBulletAmmount() : Vector2Int.one * 15;
-        if (bulletAmount.x == 0) purcentageReductionNoBullet += dt / data.noBulletAnimTime;
+        bool triggerNoBullet = (bulletAmount.x == 0 || !Main.Instance.PlayerCanShoot);
+        if (triggerNoBullet) purcentageReductionNoBullet += dt / data.noBulletAnimTime;
+
+
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
 
-        float sizeIdle                      = Mathf.Sin((time + data.offsetIdle) * (bulletAmount.x == 0 ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)));
-        float sizeIdleMultiplier            = (bulletAmount.x == 0 ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue));
-        float sizeAffectedByBulletNumber    = bulletAmount.x == 0 ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : 0;
-        float sizeAffectedByCurrentCharge   = bulletAmount.x == 0 ? 0 : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue);
+        float sizeIdle                      = Mathf.Sin((time + data.offsetIdle) * (triggerNoBullet ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)));
+        float sizeIdleMultiplier            = (triggerNoBullet ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue));
+        float sizeAffectedByBulletNumber    = triggerNoBullet ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : 0;
+        float sizeAffectedByCurrentCharge   = triggerNoBullet ? 0 : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue);
         float sizeAffectedByAnim            = data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier;
         float sizeAffectedByRecoil          = (reculValue / data.reculMax) * data.reculSizeMultiplier;
         float sizeAffectedByHit             = (hitValue / data.hitMax) * data.hitSizeMultiplier;
@@ -67,8 +70,8 @@ public class CrosshairInstance
                 + sizeAffectedByHit;            // Taille ajouté par les Hit
 
 
-        color = bulletAmount.x == 0 ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
-        outlineColor = bulletAmount.x == 0 ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
+        color = triggerNoBullet ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
+        outlineColor = triggerNoBullet ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
 
         currentRotation += data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue));
         if (Mathf.Abs(currentRotation) > 360) currentRotation += 360 * Mathf.Sign(currentRotation);

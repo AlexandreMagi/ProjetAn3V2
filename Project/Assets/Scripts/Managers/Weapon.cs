@@ -270,7 +270,7 @@ public class Weapon : MonoBehaviour
 
     public bool ReloadValidate()
     {
-        if (reloading && !haveTriedPerfet)
+        if (reloading && !haveTriedPerfet && Main.Instance.PlayerCanPerfectReload)
         {
             haveTriedPerfet = true;
             if (reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange))
