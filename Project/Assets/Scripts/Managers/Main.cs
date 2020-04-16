@@ -8,13 +8,22 @@ public class Main : MonoBehaviour
 {
     [SerializeField]
     private bool playerCanOrb = true;
+    [SerializeField]
     private bool playerCanReload = true;
+    [SerializeField]
+    private bool playerCanPerfectReload = true;
+    [SerializeField]
     private bool playerCanShoot = true;
+    [SerializeField]
+    private bool playerCanShotgun = true;
+
     private bool playerUsedToHaveOrb = false;
 
     [HideInInspector] public bool playerInLeaderboard = false;
 
+    public bool PlayerCanShoot { get { return playerCanShoot; } }
     public bool PlayerCanOrb {get { return playerCanOrb; } }
+    public bool PlayerCanPerfectReload { get { return playerCanPerfectReload; } }
 
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
@@ -50,7 +59,7 @@ public class Main : MonoBehaviour
 
     AudioSource hSoundHandlerMainMusic = null;
 
-    bool saveIfPlayerCouldShoot = true;
+    bool saveIfPlayerCouldReload = true;
 
 
     // --- Variables choix final
@@ -125,7 +134,7 @@ public class Main : MonoBehaviour
             Weapon.Instance.displayOrb = false;
 
 
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot)
+        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot && playerCanShotgun)
         {
             Weapon.Instance.InputHold();
         }
@@ -350,11 +359,11 @@ public class Main : MonoBehaviour
 
         if (Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)Weapon.Instance.ReloadingInput();
 
-        if (!saveIfPlayerCouldShoot && playerCanShoot)
+        if (saveIfPlayerCouldReload && !playerCanReload)
         {
             Weapon.Instance.EndReload(true, false);
         }
-        saveIfPlayerCouldShoot = playerCanShoot;
+        saveIfPlayerCouldReload = playerCanReload;
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
@@ -614,6 +623,10 @@ public class Main : MonoBehaviour
         }
 
         if (control == TriggerSender.Activable.AutoReload) autoReloadOnNoAmmo = state;
+
+        if (control == TriggerSender.Activable.PerfectReload) playerCanPerfectReload = state;
+
+        if (control == TriggerSender.Activable.Shotgun) playerCanShotgun = state;
 
         if (control == TriggerSender.Activable.Reload) playerCanReload = state;
 

@@ -49,6 +49,36 @@ public class TutorialCheckpoint : MonoBehaviour
                 case DataTutorialCheckpoint.playerActions.autoReload:
                     Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, false);
                     break;
+                case DataTutorialCheckpoint.playerActions.perfectReload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.PerfectReload, false);
+                    break;
+                case DataTutorialCheckpoint.playerActions.shotgun:
+                    Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, false);
+                    break;
+            }
+        }
+        foreach (DataTutorialCheckpoint.playerActions activations in checkpointData.actionsPlayerCanDoWhile)
+        {
+            switch (activations)
+            {
+                case DataTutorialCheckpoint.playerActions.shoot:
+                    Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.reload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.Reload, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.orb:
+                    Main.Instance.SetControlState(TriggerSender.Activable.Orb, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.autoReload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.perfectReload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.PerfectReload, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.shotgun:
+                    Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, true);
+                    break;
             }
         }
 
@@ -87,6 +117,12 @@ public class TutorialCheckpoint : MonoBehaviour
                     break;
                 case DataTutorialCheckpoint.playerActions.autoReload:
                     Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.perfectReload:
+                    Main.Instance.SetControlState(TriggerSender.Activable.PerfectReload, true);
+                    break;
+                case DataTutorialCheckpoint.playerActions.shotgun:
+                    Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, true);
                     break;
             }
         }

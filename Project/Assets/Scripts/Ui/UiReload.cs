@@ -25,6 +25,8 @@ public class UiReload : MonoBehaviour
 
     #endregion
 
+    [SerializeField] GameObject Root_BulletDisplay = null;
+
     [SerializeField] RectTransform RootLifeBarReducing = null;
     [SerializeField] CanvasGroup CvsGroupLifeBar = null;
     [SerializeField] float timeUnusedToReduce = 5;
@@ -125,6 +127,9 @@ public class UiReload : MonoBehaviour
 
     void Update()
     {
+
+        Root_BulletDisplay.SetActive(Main.Instance.PlayerCanShoot);
+
         UpdateScaleIfUsed();
 
         // ######################################################################################################################## //
@@ -234,6 +239,9 @@ public class UiReload : MonoBehaviour
         ChangeScale(reloadingText, totalScaleValue, baseScale);
         ChangeScale(perfectSpot, totalScaleValue, baseScale + reloadData.scaleAnimOnPerfectIndicator.Evaluate(perfectAnimPurcentage) * reloadData.perfectAnimScaleMultiplier);
         #endregion
+
+        if (!Main.Instance.PlayerCanPerfectReload)
+            perfectSpot.SetActive(false);
 
     }
     void UpdateScaleIfUsed()
