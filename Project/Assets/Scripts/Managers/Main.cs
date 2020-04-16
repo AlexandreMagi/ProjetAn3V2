@@ -21,6 +21,7 @@ public class Main : MonoBehaviour
 
     [HideInInspector] public bool playerInLeaderboard = false;
 
+    public bool PlayerCanShoot { get { return playerCanShoot; } }
     public bool PlayerCanOrb {get { return playerCanOrb; } }
     public bool PlayerCanPerfectReload { get { return playerCanPerfectReload; } }
 
