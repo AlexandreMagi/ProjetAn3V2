@@ -22,12 +22,18 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     [SerializeField]
     float soundVolume = 1;
 
+    [SerializeField]
+    GameObject mesh = null;
+
     Collider thisCollider = null;
+    MeshRenderer renderer = null;
 
     protected override void Start()
     {
         parentManager = this.transform.GetComponentInParent<ShootTriggerManager>();
+
         thisCollider = GetComponent<Collider>();
+        renderer = mesh.GetComponent<MeshRenderer>();
     }
 
 
@@ -45,7 +51,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             if (parentManager != null)
                 parentManager.OnEventSent();
 
-            GetComponent<MeshRenderer>().enabled = false;
+            renderer.enabled = false;
             thisCollider.enabled = false;
 
             
@@ -56,7 +62,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             else
             {
                 FxManager.Instance.PlayFx("VFX_CollectiblesShoot", this.transform.position, Quaternion.identity);
-                GetComponentInChildren<ParticleSystem>().Stop();
+                //GetComponentInChildren<ParticleSystem>().Stop();
                 //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
                 CustomSoundManager.Instance.PlaySound(soundPlayed, "Effect", soundVolume);
             }

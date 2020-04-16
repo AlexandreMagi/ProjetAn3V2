@@ -7,25 +7,18 @@ public class CollectiblesSpritesAutoChange : MonoBehaviour
     [SerializeField]
     Texture[] collectiblesSprites;
 
-    MeshRenderer meshRenderer1;
-    MeshRenderer meshRenderer2;
+    MeshRenderer meshRenderer;
 
-    Material instancedMaterial1;
-    Material instancedMaterial2;
+    Material instancedMaterial;
 
     [SerializeField]
-    GameObject collectibleMesh1;
-    
-    [SerializeField]
-    GameObject collectibleMesh2;
+    GameObject collectibleMesh;
 
     void Start()
     {
-        meshRenderer1 = collectibleMesh1.gameObject.GetComponent<MeshRenderer>();
-        meshRenderer2 = collectibleMesh2.gameObject.GetComponent<MeshRenderer>();
+        meshRenderer = collectibleMesh.gameObject.GetComponent<MeshRenderer>();
 
-        instancedMaterial1 = meshRenderer1.material;
-        instancedMaterial2 = meshRenderer2.material;
+        instancedMaterial = meshRenderer.material;
 
         if (collectiblesSprites != null)
         {
@@ -33,8 +26,7 @@ public class CollectiblesSpritesAutoChange : MonoBehaviour
 
             text = collectiblesSprites[Random.Range(0, collectiblesSprites.Length)];
 
-            instancedMaterial1.SetTexture("_CollectibleTexture", text);
-            instancedMaterial2.SetTexture("_CollectibleTexture", text);
+            instancedMaterial.SetTexture("_CollectibleTexture", text);
         }
     }
 
