@@ -147,7 +147,7 @@ public class GravityOrb : MonoBehaviour
                 parentGravityAffect.OnRelease();
         }
 
-        if (orbData.isExplosive)
+        if (orbData.isExplosive && (Main.Instance == null || Main.Instance.PlayerCanZeroG))
         {
             if (ps != null && ps.isEmitting)
                 ps.Stop();
@@ -183,7 +183,7 @@ public class GravityOrb : MonoBehaviour
                     }
 
                 }
-                
+
             }
             if (!bActivedViaScene)
                 FxManager.Instance.PlayFx(orbData.fxExplosionName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
@@ -193,7 +193,21 @@ public class GravityOrb : MonoBehaviour
 
             if(SequenceHandler.Instance != null && !SequenceHandler.Instance.isWaitingTimer)
                 TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
-            
+
+        }
+        else
+        {
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
+            foreach (Collider hVictim in tHits)
+            {
+                IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
+                if (gAffect != null && hVictim.gameObject != parentIfSticky)
+                {
+                    gAffect.OnRelease();
+
+                }
+
+            }
         }
     }
 

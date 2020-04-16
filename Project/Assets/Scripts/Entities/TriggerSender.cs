@@ -258,6 +258,7 @@ public class TriggerSender : MonoBehaviour
         AutoReload = 4,
         PerfectReload = 5,
         Shotgun = 6,
+        ZeroG = 7,
         Other = 9
     }
 }
