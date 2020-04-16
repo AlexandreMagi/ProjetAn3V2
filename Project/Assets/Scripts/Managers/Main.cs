@@ -607,7 +607,6 @@ public class Main : MonoBehaviour
     }
     public void SetControlState(TriggerSender.Activable control, bool state)
     {
-
         if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
         {
 
