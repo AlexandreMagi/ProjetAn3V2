@@ -235,6 +235,9 @@ public class UiReload : MonoBehaviour
         ChangeScale(perfectSpot, totalScaleValue, baseScale + reloadData.scaleAnimOnPerfectIndicator.Evaluate(perfectAnimPurcentage) * reloadData.perfectAnimScaleMultiplier);
         #endregion
 
+        if (!Main.Instance.PlayerCanPerfectReload)
+            perfectSpot.SetActive(false);
+
     }
     void UpdateScaleIfUsed()
     {
