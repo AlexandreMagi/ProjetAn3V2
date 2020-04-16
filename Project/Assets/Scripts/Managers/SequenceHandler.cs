@@ -326,6 +326,8 @@ public class SequenceHandler : MonoBehaviour
 
                     sequenceIndex = indexLeft;
                     branchIndex = subBranchID;
+                    Debug.Log($"Sequence index : {indexLeft} -- Branch index : {branchIndex}");
+                    break;
                 }
             }
 
