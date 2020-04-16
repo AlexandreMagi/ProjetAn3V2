@@ -11,6 +11,8 @@ public class Main : MonoBehaviour
     [SerializeField]
     private bool playerCanReload = true;
     [SerializeField]
+    private bool playerCanZeroG = true;
+    [SerializeField]
     private bool playerCanPerfectReload = true;
     [SerializeField]
     private bool playerCanShoot = true;
@@ -24,6 +26,7 @@ public class Main : MonoBehaviour
     public bool PlayerCanShoot { get { return playerCanShoot; } }
     public bool PlayerCanOrb {get { return playerCanOrb; } }
     public bool PlayerCanPerfectReload { get { return playerCanPerfectReload; } }
+    public bool PlayerCanZeroG { get { return playerCanZeroG; } }
 
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
@@ -608,19 +611,7 @@ public class Main : MonoBehaviour
     public void SetControlState(TriggerSender.Activable control, bool state)
     {
 
-        if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
-        {
-
-            playerCanShoot = state;
-            //FindObjectOfType<C_Ui>().CannotShoot(state);
-            
-            /*
-            if (state)
-            {
-                wMod.InputUp(GetControllerPos());
-            }
-            */
-        }
+        if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both) { playerCanShoot = state; }
 
         if (control == TriggerSender.Activable.AutoReload) autoReloadOnNoAmmo = state;
 
@@ -629,6 +620,8 @@ public class Main : MonoBehaviour
         if (control == TriggerSender.Activable.Shotgun) playerCanShotgun = state;
 
         if (control == TriggerSender.Activable.Reload) playerCanReload = state;
+
+        if (control == TriggerSender.Activable.ZeroG) playerCanZeroG = state;
 
         if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)
         {
