@@ -24,7 +24,7 @@ public class Main : MonoBehaviour
     [HideInInspector] public bool playerInLeaderboard = false;
 
     public bool PlayerCanShoot { get { return playerCanShoot; } }
-    public bool PlayerCanOrb {get { return playerCanOrb; } }
+    public bool PlayerCanOrb { get { return playerCanOrb; } }
     public bool PlayerCanPerfectReload { get { return playerCanPerfectReload; } }
     public bool PlayerCanZeroG { get { return playerCanZeroG; } }
 
@@ -80,7 +80,7 @@ public class Main : MonoBehaviour
     float timeBeforeChoiceDone = 0;
     int choiceMade = -1;
 
-    public float TimeRemainingBeforeGameOver {  get { return timeRemainingBeforeGameOver; } }
+    public float TimeRemainingBeforeGameOver { get { return timeRemainingBeforeGameOver; } }
 
     [HideInInspector] public List<string> TitlesUnlocked = new List<string>();
 
@@ -90,7 +90,7 @@ public class Main : MonoBehaviour
         Instance = this;
     }
 
-    void Start ()
+    void Start()
     {
         Debug.Log("Remettre la musique");
         //hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "Music",null, 0.5f, true);
@@ -99,7 +99,7 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(arduinoTransmettor == null)
+        if (arduinoTransmettor == null)
         {
             arduinoTransmettor = IRCameraParser.Instance;
         }
@@ -120,7 +120,7 @@ public class Main : MonoBehaviour
         //    }
         //    else UIOrb.Instance.cantOrb();
         //}
-        
+
         //SHOOT
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
         {
@@ -153,10 +153,10 @@ public class Main : MonoBehaviour
 
         //CAM
         Vector3 posCursor = GetCursorPos();
-        if ( (posCursor.x < IRCameraParser.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < IRCameraParser.Instance.iResolutionY && posCursor.y > 0)
+        if ((posCursor.x < IRCameraParser.Instance.iResolutionX && posCursor.x > 0 && posCursor.y < IRCameraParser.Instance.iResolutionY && posCursor.y > 0)
             || (posCursor.x < Screen.width && posCursor.x > 0 && posCursor.y < Screen.height && posCursor.y > 0))
             CameraHandler.Instance.DecalCamWithCursor(posCursor);
-        
+
 
 
         //UI
@@ -183,6 +183,16 @@ public class Main : MonoBehaviour
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            playerCanOrb = true;
+            playerCanReload = true;
+            playerCanZeroG = true;
+            playerCanPerfectReload = true;
+            playerCanShoot = true;
+            playerCanShotgun = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log($"Current sequence index :{SequenceHandler.Instance.GetCurrentSequenceIndex()}");
@@ -205,15 +215,6 @@ public class Main : MonoBehaviour
         {
             SceneHandler.Instance.RestartScene(.3f, true);
            CustomSoundManager.Instance.PlaySound("RestartSound", "UI",1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            AddEndGameBonus(50, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", (int)DataProgressSprite.SpriteNeeded.TechWizard, "%");
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            AddEndGameBonus(100, 100, "Cheat Value", 50000, "Cheater", "Has used the cheat button", (int)DataProgressSprite.SpriteNeeded.TechWizard, "%");
         }
 
         if (Input.GetKeyDown(KeyCode.U))
