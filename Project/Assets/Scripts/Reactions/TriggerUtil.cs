@@ -332,5 +332,20 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //Dégats sur joueur
+    public static void TriggerDamage(float timeBeforeStart, float damages)
+    {
+        Main.Instance.StartCoroutine(TriggerDamageCoroutine(timeBeforeStart, damages));
+    }
+
+    static IEnumerator TriggerDamageCoroutine(float timeBeforeStart, float damages)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        Player.Instance.TakeDamage(damages);
+
+        yield break;
+    }
 }
 

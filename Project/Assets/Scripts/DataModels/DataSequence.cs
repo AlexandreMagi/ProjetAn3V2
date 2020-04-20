@@ -95,16 +95,20 @@ public class DataSequence : ScriptableObject
     public float initImpulseBalancing = 30;
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Damping en pourcentage")]
     public float dampingOnBalancing = 0.3f;
-    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Offset de direction sur le balancing")]
-    public float angleBalancing = 0;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), PropertyRange(0.001f, 360f), Tooltip("Vitesse minimal capée de rotation")]
+    public float minSpeedRot = 0.1f;
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Frequence de balancement")]
     public float balancingFrequency = 1;
-    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), PropertyRange(0.001f, 360f), Tooltip("Vitesse minimal de rotation")]
-    public float minSpeedRot = 0.1f;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Offset de direction sur le balancing")]
+    public float angleBalancing = 0;
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), PropertyRange(0.001f, 50f), Tooltip("Temps de transition vers la nouvelle direction")]
     public float timeGoToNewRot = 0.1f;
     [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse Lerp de retour sur la caméra")]
     public float returnLerpSpeedFromBalance = 5;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Rotation locale du joueur apres le premier balancement")]
+    public float additionalRotAfterFirstBalancing = 0;
+    [SerializeField, ShowIf("seqEvent", SequenceEndEventType.Balancing), ShowIf("hasEventOnEnd"), Tooltip("Vitesse de rotation du joueur apres le premier balancement")]
+    public float additionalRotLerpGoTo = 5;
 
     [ShowIf("seqEvent", SequenceEndEventType.SlowMo), ShowIf("hasEventOnEnd")]
     public float slowMoPower = 0;

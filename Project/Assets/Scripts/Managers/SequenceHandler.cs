@@ -407,7 +407,9 @@ public class SequenceHandler : MonoBehaviour
 
                 case DataSequence.SequenceEndEventType.Balancing:
 
-                    CameraHandler.Instance.SetupBalancing(currentSequence.distanceToAnchor, currentSequence.initImpulseBalancing, currentSequence.dampingOnBalancing, currentSequence.angleBalancing, currentSequence.minSpeedRot, currentSequence.returnLerpSpeedFromBalance,currentSequence.minSpeedRot, currentSequence.balancingFrequency, currentSequence.timeGoToNewRot);
+                    CameraHandler.Instance.SetupBalancing(currentSequence.distanceToAnchor, currentSequence.initImpulseBalancing, currentSequence.dampingOnBalancing, currentSequence.angleBalancing, 
+                        currentSequence.minSpeedRot, currentSequence.returnLerpSpeedFromBalance,currentSequence.minSpeedRot, currentSequence.balancingFrequency, currentSequence.timeGoToNewRot,
+                        currentSequence.additionalRotAfterFirstBalancing,currentSequence.additionalRotLerpGoTo);
 
                     break;
 
@@ -517,6 +519,7 @@ public class SequenceHandler : MonoBehaviour
             if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
             else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
         }
+        if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
         if (currentSequence.checkpointToUse != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
 
         if (currentSequence.changeWaitScreen)
@@ -524,6 +527,7 @@ public class SequenceHandler : MonoBehaviour
             if (!currentSequence.activateWaitScreen) UiCrossHair.Instance.StopWaitFunction();
             else UiCrossHair.Instance.WaitFunction();
         }
+
 
         //DECLENCHEMENT DU FEEDBACK DE CAM
         if (CameraHandler.Instance != null)
