@@ -413,7 +413,7 @@ public class SequenceHandler : MonoBehaviour
 
                 case DataSequence.SequenceEndEventType.ArmorProgressiveGain:
 
-                    Player.Instance.GainArmorOverTime(currentSequence.armorToGainOverTime,currentSequence.armorGainRate);
+                    Player.Instance.GainArmorOverTime(currentSequence.timeBeforeEvent, currentSequence.armorToGainOverTime,currentSequence.armorGainRate);
 
                     break;
 
