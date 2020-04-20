@@ -72,7 +72,7 @@ public class PlaneShakeManager : MonoBehaviour
 
     void ShakeProps(float force)
     {
-        if (activated)
+        if (activated && allAffectedProps != null)
         {
             foreach (var propRb in allAffectedProps)
             {

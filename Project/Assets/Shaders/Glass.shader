@@ -191,7 +191,7 @@ Shader "Glass"
 }
 /*ASEBEGIN
 Version=17700
-1920;0;1920;1019;1589.576;690.5326;1.3;True;False
+1920;0;1920;1019;1589.576;686.6326;1.3;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;2;-388.9097,274.25;Inherit;False;Property;_Opacity;Opacity;10;0;Create;True;0;0;False;0;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;3;-537.91,54.25;Inherit;True;Property;_Smoothness;Smoothness;8;0;Create;True;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;5;-579.91,-329.75;Inherit;True;Property;_Normal;Normal;7;0;Create;True;0;0;False;0;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -203,4 +203,4 @@ WireConnection;0;4;3;0
 WireConnection;0;7;2;0
 WireConnection;0;9;2;0
 ASEEND*/
-//CHKSM=37FC6C420A5767E86A59BFDA86E5B28F8E7F3B98
+//CHKSM=50F814C0C6D21E0245750DCF571A1AE11C1C8042
