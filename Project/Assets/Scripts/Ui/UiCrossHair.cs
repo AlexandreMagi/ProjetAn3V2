@@ -83,6 +83,7 @@ public class UiCrossHair : MonoBehaviour
             UiCrosshairs[i] = Instantiate(baseForCrosshair, rootCrosshair.transform);
             UiCrosshairs[i].GetComponent<Image>().sprite = crosshairs[i];
             dataHandlerCrosshairs[i] = new CrosshairInstance(dataCrosshairs[i], UiCrosshairs[i].GetComponent<RectTransform>(), UiCrosshairs[i].GetComponent<Image>(), UiCrosshairs[i].GetComponent<Outline>());
+            if (dataCrosshairs[i].crosshairPopsWhen == DataCrossHair.activatedIf.start) dataHandlerCrosshairs[i].unlocked = true;
         }
         animCharge = Animator.StringToHash(animTriggerCharge);
         animRelease = Animator.StringToHash(animTriggerRelease);
@@ -91,6 +92,8 @@ public class UiCrossHair : MonoBehaviour
         UiHitMarker = Instantiate(baseForCrosshair, rootCrosshair.transform).GetComponent<RectTransform>();
         UiHitMarker.GetComponent<Image>().sprite = hitMarkerSprite;
         UiHitMarker.sizeDelta = Vector2.zero;
+
+        Invoke("UpdateCursorUnlocks", 0.2f);
 
     }
 
@@ -132,6 +135,40 @@ public class UiCrossHair : MonoBehaviour
             crossHairVignetage.color = Color.Lerp(singleShotColor, chargedShotColor, Weapon.Instance.GetChargeValue());
         }
 
+    }
+
+    public void UpdateCursorUnlocks()
+    {
+        if (Main.Instance != null)
+        {
+            for (int i = 0; i < dataCrosshairs.Length; i++)
+            {
+                switch (dataCrosshairs[i].crosshairPopsWhen)
+                {
+                    case DataCrossHair.activatedIf.start:
+                        dataHandlerCrosshairs[i].unlocked = true;
+                        break;
+                    case DataCrossHair.activatedIf.reload:
+                        if (Main.Instance.PlayerCanReload) dataHandlerCrosshairs[i].unlocked = true;
+                        break;
+                    case DataCrossHair.activatedIf.reloadPerfect:
+                        if (Main.Instance.PlayerCanPerfectReload) dataHandlerCrosshairs[i].unlocked = true;
+                        break;
+                    case DataCrossHair.activatedIf.shotgun:
+                        if (Main.Instance.PlayerCanShotgun) dataHandlerCrosshairs[i].unlocked = true;
+                        break;
+                    case DataCrossHair.activatedIf.orb:
+                        if (Main.Instance.PlayerCanOrb) dataHandlerCrosshairs[i].unlocked = true;
+                        break;
+                    case DataCrossHair.activatedIf.zeroG:
+                        if (Main.Instance.PlayerCanZeroG) dataHandlerCrosshairs[i].unlocked = true;
+                        break;
+                }
+            }
+
+        }
+        else
+            for (int i = 0; i < dataHandlerCrosshairs.Length; i++) { dataHandlerCrosshairs[i].unlocked = true; }
     }
 
     public void WaitFunction()

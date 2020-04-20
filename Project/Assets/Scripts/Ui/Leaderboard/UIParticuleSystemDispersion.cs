@@ -104,31 +104,3 @@ public class UIParticuleSystemDispersion : MonoBehaviour
     }
 
 }
-
-public class CustomParticle
-{
-    public float lifeTimeTotal = 0;
-    public float lifeTimeRemaining = 0;
-    public Transform actualParticle;
-    public Image particleImage;
-    public Vector2 dirGoTo = Vector2.zero;
-    public float speed = 0;
-    public AnimationCurve speedOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
-    public AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
-    public float size = 1;
-    public Gradient colorOverLifeTime = null;
-
-    public void UpdateValues()
-    {
-        float lifeTimePurcentage = (lifeTimeTotal - lifeTimeRemaining) / lifeTimeTotal;
-        actualParticle.localScale = Vector3.one * sizeOverLifeTime.Evaluate(lifeTimePurcentage) * size;
-        actualParticle.Translate(dirGoTo * speedOverLifeTime.Evaluate(lifeTimePurcentage) * speed, Space.World);
-        particleImage.color = colorOverLifeTime.Evaluate(lifeTimePurcentage);
-    }
-
-    public CustomParticle (Transform _actualParticle)
-    {
-        actualParticle = _actualParticle;
-        particleImage = actualParticle.GetComponent<Image>();
-    }
-}

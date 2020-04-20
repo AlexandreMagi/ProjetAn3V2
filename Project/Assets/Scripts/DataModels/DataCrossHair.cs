@@ -76,6 +76,11 @@ public class DataCrossHair : ScriptableObject
     public AnimationCurve sizeAnim = AnimationCurve.Linear(0, 0, 1, 0);
     public float sizeMultiplier = 1;
 
+    [Header("Pop")]
+    public activatedIf crosshairPopsWhen = activatedIf.start;
+    public enum activatedIf { start, reload, reloadPerfect, shotgun, orb, zeroG }
+
+    public float popTime = 1f;
 }
 
 
