@@ -106,36 +106,39 @@ public class TutorialCheckpoint : MonoBehaviour
     /// </summary>
     public void EndTutorialCheckpoint()
     {
-        Debug.Log("End Checkpoint");
-        foreach (DataTutorialCheckpoint.playerActions activation in checkpointData.actionsPlayerCanDoAfter)
+        if (checkpointData != null)
         {
-            switch (activation)
+            Debug.Log("End Checkpoint");
+            foreach (DataTutorialCheckpoint.playerActions activation in checkpointData.actionsPlayerCanDoAfter)
             {
-                case DataTutorialCheckpoint.playerActions.shoot:
-                    Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, true);
-                    break;
-                case DataTutorialCheckpoint.playerActions.reload:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Reload, true);
-                    break;
-                case DataTutorialCheckpoint.playerActions.orb:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Orb, true);
-                    break;
-                case DataTutorialCheckpoint.playerActions.autoReload:
-                    Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, true);
-                    break;
-                case DataTutorialCheckpoint.playerActions.perfectReload:
-                    Main.Instance.SetControlState(TriggerSender.Activable.PerfectReload, true);
-                    break;
-                case DataTutorialCheckpoint.playerActions.shotgun:
-                    Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, true);
-                    break;
-                case DataTutorialCheckpoint.playerActions.zeroG:
-                    Main.Instance.SetControlState(TriggerSender.Activable.ZeroG, true);
-                    break;
+                switch (activation)
+                {
+                    case DataTutorialCheckpoint.playerActions.shoot:
+                        Main.Instance.SetControlState(TriggerSender.Activable.BaseWeapon, true);
+                        break;
+                    case DataTutorialCheckpoint.playerActions.reload:
+                        Main.Instance.SetControlState(TriggerSender.Activable.Reload, true);
+                        break;
+                    case DataTutorialCheckpoint.playerActions.orb:
+                        Main.Instance.SetControlState(TriggerSender.Activable.Orb, true);
+                        break;
+                    case DataTutorialCheckpoint.playerActions.autoReload:
+                        Main.Instance.SetControlState(TriggerSender.Activable.AutoReload, true);
+                        break;
+                    case DataTutorialCheckpoint.playerActions.perfectReload:
+                        Main.Instance.SetControlState(TriggerSender.Activable.PerfectReload, true);
+                        break;
+                    case DataTutorialCheckpoint.playerActions.shotgun:
+                        Main.Instance.SetControlState(TriggerSender.Activable.Shotgun, true);
+                        break;
+                    case DataTutorialCheckpoint.playerActions.zeroG:
+                        Main.Instance.SetControlState(TriggerSender.Activable.ZeroG, true);
+                        break;
+                }
             }
+            checkpointData = null;
+            SequenceHandler.Instance.NextSequence();
         }
-        checkpointData = null;
-        SequenceHandler.Instance.NextSequence();
     }
 
     #endregion

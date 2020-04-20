@@ -104,6 +104,9 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.GameObjectActivation), SerializeField]
     List<GameObject> objectsToChange = null;
 
+    [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
+    int damages = 0;
+
     [Header("Swarmer activation")]
     [SerializeField]
     bool activatesAllAnimatingSwarmersOnTrigger = false;
@@ -212,6 +215,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.GameObjectActivation:
                 TriggerUtil.TriggerGameObjectActivation(timeBeforeStart, objectsToChange, isActivationGameObject);
                 break;
+            case TriggerType.Damage:
+                TriggerUtil.TriggerDamage(timeBeforeStart, damages);
+                break;
             default:
                 break;
         }
@@ -256,7 +262,8 @@ public class TriggerSender : MonoBehaviour
         RevealLight = 13,
         WhiteScreenEffect = 14,
         VideoTrigger = 15,
-        GameObjectActivation = 16
+        GameObjectActivation = 16,
+        Damage = 17
     }
 
     public enum Activable

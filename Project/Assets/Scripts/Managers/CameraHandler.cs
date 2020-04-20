@@ -122,6 +122,12 @@ public class CameraHandler : MonoBehaviour
     float minSpeedValue = 0;
     float balancingFrequency = 0;
 
+    float additionalRotAfterFirstBalancing = 0;
+    float additionalRotLerpGoTo = 5;
+    float currAdditionalRot = 0;
+    bool doAdditionalRot = false;
+    float lastMathfSinValue = 0;
+
     Quaternion goBackFromBalancingRotSaved = Quaternion.identity;
     Vector3 goBackFromBalancePosSaved = Vector3.zero;
     float purcentageLerpGoBack = 1;
@@ -296,7 +302,12 @@ public class CameraHandler : MonoBehaviour
         if (purcentageLerpGoBack < 1)
         {
             purcentageLerpGoBack = Mathf.Lerp(purcentageLerpGoBack, 1, Time.deltaTime * returnLerpSpeedFromBalance);
-            if (purcentageLerpGoBack > 1 - 0.005f) purcentageLerpGoBack = 1;
+            if (purcentageLerpGoBack > 1 - 0.005f)
+            {
+                purcentageLerpGoBack = 1;
+                currAdditionalRot = 0;
+                doAdditionalRot = false;
+            }
             camRef.transform.rotation = Quaternion.Lerp(goBackFromBalancingRotSaved, camRef.transform.rotation, purcentageLerpGoBack);
             camRef.transform.position = Vector3.Lerp(goBackFromBalancePosSaved, camRef.transform.position, purcentageLerpGoBack);
         }
@@ -357,13 +368,18 @@ public class CameraHandler : MonoBehaviour
     {
         if (speedBalancing > 0)
         {
+            if (lastMathfSinValue > Mathf.Sin(personalTimeForMathfSin) || Mathf.Sin(personalTimeForMathfSin) > 0.8f) doAdditionalRot = true;
+            lastMathfSinValue = Mathf.Sin(personalTimeForMathfSin);
+            if (doAdditionalRot) { currAdditionalRot = Mathf.Lerp(currAdditionalRot, additionalRotAfterFirstBalancing, Time.deltaTime * additionalRotLerpGoTo); }
+
             personalTimeForMathfSin += Time.deltaTime * balancingFrequency;
             camRef.transform.position = refPointBalance.position;
             camRef.transform.rotation = Quaternion.Lerp(refPointBalance.rotation, savedRotGoTo, currentPurcentageGoToNewRot);
-
+            Vector3 dirBalancing = camRef.transform.right * -1;
+            camRef.transform.Rotate(camRef.transform.up * currAdditionalRot);
             speedBalancing = Mathf.MoveTowards(speedBalancing, minSpeedRot, speedBalancing * dampingBalancing * Time.deltaTime);
 
-            camRef.transform.RotateAround(rotateBalancePivot, camRef.transform.right*-1, speedBalancing * Mathf.Sin(personalTimeForMathfSin));
+            camRef.transform.RotateAround(rotateBalancePivot, dirBalancing, speedBalancing * Mathf.Sin(personalTimeForMathfSin));
 
 
             currentPurcentageGoToNewRot = Mathf.MoveTowards(currentPurcentageGoToNewRot, 1, Time.deltaTime / timeToGoToRot);
@@ -735,7 +751,8 @@ public class CameraHandler : MonoBehaviour
         animatedCam.GetComponent<Animator>().SetTrigger("trigger");
         timerOnAnimatedCam = animDuration;
     }
-    public void SetupBalancing (float _distanceUpBalancingAnchor, float initSpeedBalancing, float _dampingBalancing, float initialRot, float _minSpeedValue, float _returnLerpSpeedFromBalance,float _minSpeedRot,float _balancingFrequency, float _timeToGoToRot = 0.001f)
+    public void SetupBalancing (float _distanceUpBalancingAnchor, float initSpeedBalancing, float _dampingBalancing, float initialRot, float _minSpeedValue, float _returnLerpSpeedFromBalance,
+        float _minSpeedRot,float _balancingFrequency, float _timeToGoToRot = 0.001f, float _additionalRotAfterFirstBalancing = 0, float _additionalRotLerpGoTo = 5)
     {
         rotateBalancePivot = cinemachineCam.transform.position + Vector3.up * _distanceUpBalancingAnchor;
         refPointBalance.position = cinemachineCam.transform.position;
@@ -750,6 +767,8 @@ public class CameraHandler : MonoBehaviour
         returnLerpSpeedFromBalance = _returnLerpSpeedFromBalance;
         minSpeedRot = _minSpeedRot;
         balancingFrequency = _balancingFrequency;
+        additionalRotAfterFirstBalancing = _additionalRotAfterFirstBalancing;
+        additionalRotLerpGoTo = _additionalRotLerpGoTo;
         if (timeToGoToRot < 0.001f) timeToGoToRot = 0.001f;
     }
     public void PlaneShake(float random)

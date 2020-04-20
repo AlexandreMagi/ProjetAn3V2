@@ -19,6 +19,13 @@ public class Main : MonoBehaviour
     [SerializeField]
     private bool playerCanShotgun = true;
 
+    bool playerCouldShoot = false;
+    bool playerCouldShotgun = false;
+    bool playerCouldReload = false;
+    bool playerCouldPerfectReload = false;
+    bool playerCouldOrb = false;
+    bool playerCouldZeroG = false;
+
     private bool playerUsedToHaveOrb = false;
 
     [HideInInspector] public bool playerInLeaderboard = false;
@@ -614,22 +621,61 @@ public class Main : MonoBehaviour
     public void SetControlState(TriggerSender.Activable control, bool state)
     {
 
-        if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both) { playerCanShoot = state; }
+        if (control == TriggerSender.Activable.BaseWeapon || control == TriggerSender.Activable.Both)
+        {
+            playerCanShoot = state;
+            if (!playerCouldShoot && state)
+            {
+                playerCouldShoot = true;
+                if (UIUpgrade.Instance != null) UIUpgrade.Instance.PlayerGetAnUpgrade();
+            }
+        }
 
         if (control == TriggerSender.Activable.AutoReload) autoReloadOnNoAmmo = state;
 
-        if (control == TriggerSender.Activable.PerfectReload) playerCanPerfectReload = state;
+        if (control == TriggerSender.Activable.PerfectReload)
+        {
+            playerCanPerfectReload = state;
+            if (!playerCouldPerfectReload && state)
+            {
+                playerCouldPerfectReload = true;
+                if (UIUpgrade.Instance != null) UIUpgrade.Instance.PlayerGetAnUpgrade();
+            }
+        }
 
-        if (control == TriggerSender.Activable.Shotgun) playerCanShotgun = state;
+        if (control == TriggerSender.Activable.Shotgun)
+        {
+            playerCanShotgun = state;
+            if (!playerCouldShotgun && state)
+            {
+                playerCouldShotgun = true;
+                if (UIUpgrade.Instance != null) UIUpgrade.Instance.PlayerGetAnUpgrade();
+            }
+        }
 
         if (control == TriggerSender.Activable.Reload) playerCanReload = state;
 
-        if (control == TriggerSender.Activable.ZeroG) playerCanZeroG = state;
+        if (control == TriggerSender.Activable.ZeroG)
+        {
+            playerCanZeroG = state;
+            if (!playerCouldZeroG && state)
+            {
+                playerCouldZeroG = true;
+                if (UIUpgrade.Instance != null) UIUpgrade.Instance.PlayerGetAnUpgrade();
+            }
+        }
 
         if (control == TriggerSender.Activable.Orb || control == TriggerSender.Activable.Both)
         {
             if (!playerCanOrb && state) UIOrb.Instance.ActivateOrb();
                 playerCanOrb = state;
+
+            if (!playerCouldOrb && state)
+            {
+                playerCouldOrb = true;
+                if (UIUpgrade.Instance != null) UIUpgrade.Instance.PlayerGetAnUpgrade();
+            }
+
             //FindObjectOfType<C_Ui>().CannotShoot(state);
         }
         if (state) UiCrossHair.Instance.UpdateCursorUnlocks();
