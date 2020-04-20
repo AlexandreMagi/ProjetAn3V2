@@ -500,8 +500,8 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            CameraHandler.Instance.AddShake(weapon.shakeIfNoBullet);
-            CameraHandler.Instance.AddRecoil(false, weapon.recoilIfNoBullet);
+            //CameraHandler.Instance.AddShake(weapon.shakeIfNoBullet,0.1f);
+            //CameraHandler.Instance.AddRecoil(false, weapon.recoilIfNoBullet);
         }
     }
 

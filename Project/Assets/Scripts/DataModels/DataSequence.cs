@@ -130,6 +130,12 @@ public class DataSequence : ScriptableObject
     public float volume = 1;
 
 
+    [ShowIf("seqEvent", SequenceEndEventType.ArmorProgressiveGain), ShowIf("hasEventOnEnd"), Tooltip("Valeur d'armure que le joueur va gagner")]
+    public float armorToGainOverTime;
+    [ShowIf("seqEvent", SequenceEndEventType.ArmorProgressiveGain), ShowIf("hasEventOnEnd"), Tooltip("Vitesse de gain d'armure (en secondes)")]
+    public float armorGainRate;
+
+
 
     // ##############################################################################################################################
 
@@ -180,6 +186,7 @@ public class DataSequence : ScriptableObject
         Animation = 2,
         Sound = 3,
         Balancing = 4,
+        ArmorProgressiveGain = 5,
         Other = 9
     }
 
