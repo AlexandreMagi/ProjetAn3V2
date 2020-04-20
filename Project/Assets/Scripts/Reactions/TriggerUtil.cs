@@ -314,5 +314,23 @@ public static class TriggerUtil
         }
         yield break;
     }
+
+    //GO activation
+    public static void TriggerGameObjectActivation(float timeBeforeStart, List<GameObject> GOList, bool activation)
+    {
+        Main.Instance.StartCoroutine(TriggerGameObjectActivationCoroutine(timeBeforeStart, GOList, activation));
+    }
+
+    static IEnumerator TriggerGameObjectActivationCoroutine(float timeBeforeStart, List<GameObject> GOList, bool activation)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        foreach(GameObject GO in GOList)
+        {
+            GO.SetActive(activation);
+        }
+
+        yield break;
+    }
 }
 
