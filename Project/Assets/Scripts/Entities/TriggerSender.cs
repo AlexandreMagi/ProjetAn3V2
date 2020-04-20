@@ -212,6 +212,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.VideoTrigger:
                 TriggerUtil.TriggerVideo(timeBeforeStart, players, isPlay, isLoop);
                 break;
+            case TriggerType.GameObjectActivation:
+                TriggerUtil.TriggerGameObjectActivation(timeBeforeStart, objectsToChange, isActivationGameObject);
+                break;
             case TriggerType.Damage:
                 TriggerUtil.TriggerDamage(timeBeforeStart, damages);
                 break;
