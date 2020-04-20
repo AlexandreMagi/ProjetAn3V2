@@ -6,6 +6,7 @@ using UnityEngine;
 public class DataPlayer : DataEntity
 {
     public float armor;
+    public float maxArmor;
     public float damageShakeMultiplier = 40;
     public float shakeAtArmorDestruction = 3;
     public string shakeAtArmorFx = "VFX_ShieldBreak";
