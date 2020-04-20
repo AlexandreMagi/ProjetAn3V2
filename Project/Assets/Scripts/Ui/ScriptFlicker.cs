@@ -37,7 +37,9 @@ public class ScriptFlicker : MonoBehaviour
             {
                 float valueLerp = dt / timeLeftPos; // "poids" du changement en fonction du dt, on divise par le temps restant pour que le deplacement soit fluide
                 currentPos = Vector3.Lerp(currentPos, targetPos, valueLerp); // lerp de la valeur actuelle vers la valeur visée
-                transform.localPosition = currentPos;
+
+                if (!float.IsNaN(currentPos.x) && !float.IsNaN(currentPos.y) && !float.IsNaN(currentPos.z)) 
+                    transform.localPosition = currentPos;
                 timeLeftPos -= dt;
             }
 

@@ -6,6 +6,9 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 {
     bool godMode = false;
     float armor = 0;
+
+    float armorToGain = 0;
+    float rateOfArmorGained = 10;
   //  private DataPlayer playerData;
 
     public static Player Instance{get; private set;}
@@ -63,6 +66,16 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     protected virtual void Update()
     {
+        if (armorToGain > 0)
+        {
+            float armorGained = Time.unscaledDeltaTime * rateOfArmorGained;
+            if (armorGained > armorToGain) armorGained = armorToGain;
+            armor += armorGained;
+            armorToGain -= armorGained;
+            if (armorToGain < 0) armorToGain = 0;
+            if (armor > entityData.maxArmor) armor = entityData.maxArmor;
+            UiLifeBar.Instance.UpdateArmor(armor);
+        }
     }
 
     public override void OnAttack(DataUiTemporarySprite dataSpriteShield, DataUiTemporarySprite dataSpriteLife)
@@ -193,6 +206,12 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         UiLifeBar.Instance.UpdateArmor(armor);
 
 
+    }
+
+    public void GainArmorOverTime(float value, float rate)
+    {
+        armorToGain = value;
+        rateOfArmorGained = rate;
     }
 
     public void Revive()
