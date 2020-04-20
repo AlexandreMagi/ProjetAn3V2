@@ -103,7 +103,7 @@ public class Spawner : MonoBehaviour
 
                 SpawnEnemy();
 
-                if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable)
+                if (enemiesSpawned >= spawnerType.iNbEnemiesSpawnable )
                 {
                     spawnEnabled = false;
                 }
@@ -208,8 +208,12 @@ public class Spawner : MonoBehaviour
 
     public void ChildDied()
     {
-        if(!isLimited)
+        if (!isLimited)
+        {
             enemiesSpawned--;
+            spawnEnabled = true;
+        }
+           
     }
 
 }

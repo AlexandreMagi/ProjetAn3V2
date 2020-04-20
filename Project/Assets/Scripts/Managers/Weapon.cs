@@ -30,6 +30,7 @@ public class Weapon : MonoBehaviour
     bool haveTriedPerfet = false;
     bool reloading = false;
     float reloadingPurcentage = 0;
+    float savedReloadingPurcentage = 0;
 
     bool shotGunHasHit = false;
     float reloadCoolDown = 0;
@@ -106,6 +107,7 @@ public class Weapon : MonoBehaviour
 
         if (reloading)
         {
+            savedReloadingPurcentage = reloadingPurcentage;
             reloadingPurcentage += Time.unscaledDeltaTime / weapon.reloadingTime;
             if (reloadingPurcentage > 1)
             {
@@ -276,7 +278,7 @@ public class Weapon : MonoBehaviour
         if (reloading && !haveTriedPerfet && Main.Instance.PlayerCanPerfectReload)
         {
             haveTriedPerfet = true;
-            if (reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange))
+            if ((reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)) || (savedReloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && savedReloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)))
             {
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.PerfectReload);
                 EndReload(true);

@@ -208,10 +208,17 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     }
 
-    public void GainArmorOverTime(float value, float rate)
+    public void GainArmorOverTime(float delay, float value, float rate)
     {
+        StartCoroutine(GainArmorOverTimeCoroutine(delay, value, rate));
+    }
+
+    IEnumerator GainArmorOverTimeCoroutine(float delay, float value, float rate)
+    {
+        if (delay != 0) yield return new WaitForSeconds(delay);
         armorToGain = value;
         rateOfArmorGained = rate;
+        yield break;
     }
 
     public void Revive()

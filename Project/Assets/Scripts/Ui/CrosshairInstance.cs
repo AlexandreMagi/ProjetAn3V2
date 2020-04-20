@@ -28,6 +28,9 @@ public class CrosshairInstance
     public Image img = null;
     public Outline outline = null;
 
+    public bool unlocked = false;
+    public float unlockedPurcentage = 0;
+
     public CrosshairInstance (DataCrossHair _data, RectTransform _rect, Image _img, Outline _outline)
     {
         data = _data;
@@ -97,6 +100,16 @@ public class CrosshairInstance
             size += Mathf.Lerp(0, data.orbBonusSize, orbModifierPurcentage) + Mathf.Sin(time * (data.orbIdleSpeed * orbModifierPurcentage)) * data.orbIdleAmplitude;
             color = Color.Lerp(color, data.orbChargedColor, orbModifierPurcentage);
             outlineColor = Color.Lerp(outlineColor, data.outlineOrbChargedColor, orbModifierPurcentage);
+        }
+
+        if (!unlocked || unlockedPurcentage < 1)
+        {
+            if (unlocked) unlockedPurcentage += Time.unscaledDeltaTime / data.popTime;
+            size = Mathf.Lerp(0, size, unlockedPurcentage);
+            color = Color.Lerp(new Color (color.r, color.g, color.b, 0), color, unlockedPurcentage);
+            outlineColor = Color.Lerp(new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0), outlineColor, unlockedPurcentage);
+            rotation = Mathf.Lerp(0, rotation, unlockedPurcentage);
+            offset = Vector2.Lerp(Vector2.zero, offset, unlockedPurcentage);
         }
 
     }

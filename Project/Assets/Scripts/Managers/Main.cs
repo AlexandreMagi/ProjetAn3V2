@@ -24,7 +24,9 @@ public class Main : MonoBehaviour
     [HideInInspector] public bool playerInLeaderboard = false;
 
     public bool PlayerCanShoot { get { return playerCanShoot; } }
+    public bool PlayerCanShotgun { get { return playerCanShotgun; } }
     public bool PlayerCanOrb { get { return playerCanOrb; } }
+    public bool PlayerCanReload { get { return playerCanReload; } }
     public bool PlayerCanPerfectReload { get { return playerCanPerfectReload; } }
     public bool PlayerCanZeroG { get { return playerCanZeroG; } }
 
@@ -630,6 +632,7 @@ public class Main : MonoBehaviour
                 playerCanOrb = state;
             //FindObjectOfType<C_Ui>().CannotShoot(state);
         }
+        if (state) UiCrossHair.Instance.UpdateCursorUnlocks();
     }
 
     public void CutMusic()
