@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b386195ab34ef3b4f9ef0caa98f541a2, type: 3}
-  m_Name: DataProp_Camera
+  m_Name: DataProp_Barrel
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  startHealth: 50
+  maxHealth: 150
+  startHealth: 150
   team: 2
   shakeOnDie: 0
   shakeOnDieTime: 0
+  fracturedProp: {fileID: 1908888337780523838, guid: 6355dfd6a13425146949d876d82d11a3,
+    type: 3}
+  fracturedForceOnDie: 3000
   spriteToDisplayShield: {fileID: 0}
   spriteToDisplayLife: {fileID: 0}
-  fxPlayedOnDestroy: VFX_CameraExplosion
+  fxPlayedOnDestroy: VFX_BoxExplosion

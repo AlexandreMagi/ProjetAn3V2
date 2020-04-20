@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b386195ab34ef3b4f9ef0caa98f541a2, type: 3}
-  m_Name: DataProp_DeadSwarmer
+  m_Script: {fileID: 11500000, guid: b3a03a4561af9e145a5a80d00e2a5bdb, type: 3}
+  m_Name: DataSpawner_Swarmer 6_100
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  startHealth: 50
-  team: 2
-  shakeOnDie: 0
-  shakeOnDieTime: 0
-  spriteToDisplayShield: {fileID: 0}
-  spriteToDisplayLife: {fileID: 0}
-  fxPlayedOnDestroy: VFX_Death
+  fEnnemiPerSecond: 2
+  EnnemiPrefab: {fileID: 64856714219788780, guid: 500e7ad274460a642a93f7effaf6378a,
+    type: 3}
+  iNbEnemiesSpawnable: 10

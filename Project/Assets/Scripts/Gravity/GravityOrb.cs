@@ -166,6 +166,7 @@ public class GravityOrb : MonoBehaviour
 
 
                 if (hVictim.GetComponent<Prop>()) hVictim.GetComponent<Prop>().SetTimerToRelease(orbData.floatTime);
+
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
                     gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
