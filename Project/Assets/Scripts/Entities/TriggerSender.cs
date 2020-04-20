@@ -98,6 +98,12 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
     bool independentFromTimeScale = false;
 
+
+    [ShowIf("typeTrigger", TriggerType.GameObjectActivation), SerializeField]
+    bool isActivationGameObject = false;
+    [ShowIf("typeTrigger", TriggerType.GameObjectActivation), SerializeField]
+    List<GameObject> objectsToChange = null;
+
     [Header("Swarmer activation")]
     [SerializeField]
     bool activatesAllAnimatingSwarmersOnTrigger = false;
@@ -246,7 +252,8 @@ public class TriggerSender : MonoBehaviour
         OutlineShader = 12,
         RevealLight = 13,
         WhiteScreenEffect = 14,
-        VideoTrigger = 15
+        VideoTrigger = 15,
+        GameObjectActivation = 16
     }
 
     public enum Activable
