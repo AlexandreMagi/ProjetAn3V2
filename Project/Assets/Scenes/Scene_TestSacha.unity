@@ -1195,6 +1195,7 @@ MonoBehaviour:
   volume: 1
   animated: []
   usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
   ShakeValue: 0
   ShakeDuration: 0
   booleanName: 
@@ -1218,6 +1219,8 @@ MonoBehaviour:
   timeStayAtMax: 1
   timeFadeAlpha: 2
   independentFromTimeScale: 0
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
   timeBeforeStart: 0
 --- !u!1001 &324083106
 PrefabInstance:
@@ -1791,7 +1794,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451278900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.82, y: 4.21, z: 20.93}
+  m_LocalPosition: {x: 5.89, y: 4.21, z: 23.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3093,6 +3096,7 @@ MonoBehaviour:
   volume: 1
   animated: []
   usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
   ShakeValue: 0
   ShakeDuration: 0
   booleanName: 
@@ -3116,6 +3120,8 @@ MonoBehaviour:
   timeStayAtMax: 1
   timeFadeAlpha: 2
   independentFromTimeScale: 0
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
   timeBeforeStart: 0
 --- !u!65 &920584314
 BoxCollider:
@@ -3430,6 +3436,8 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
   skipsToBranchOnEnd: 0
   affectedByBooleanSequenceBranch: 0
   branchLinkedId: 0
@@ -3902,6 +3910,7 @@ MonoBehaviour:
   volume: 1
   animated: []
   usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
   ShakeValue: 0
   ShakeDuration: 0
   booleanName: 
@@ -3925,6 +3934,8 @@ MonoBehaviour:
   timeStayAtMax: 1
   timeFadeAlpha: 2
   independentFromTimeScale: 0
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
   timeBeforeStart: 0
 --- !u!65 &1092557557
 BoxCollider:
@@ -4074,8 +4085,8 @@ MonoBehaviour:
   spawnersToTrigger: []
   delayOnTrigger: 0
   timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 4
+  hasEventOnEnd: 1
+  seqEvent: 5
   timeBeforeEvent: 0
   distanceToAnchor: 5
   initImpulseBalancing: 30
@@ -4092,6 +4103,8 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
+  armorToGainOverTime: 100
+  armorGainRate: 50
   skipsToBranchOnEnd: 0
   affectedByBooleanSequenceBranch: 0
   branchLinkedId: 0
@@ -4555,6 +4568,8 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
   skipsToBranchOnEnd: 0
   affectedByBooleanSequenceBranch: 0
   branchLinkedId: 0
@@ -4671,6 +4686,8 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
   skipsToBranchOnEnd: 0
   affectedByBooleanSequenceBranch: 0
   branchLinkedId: 0
@@ -5875,6 +5892,8 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
   skipsToBranchOnEnd: 0
   affectedByBooleanSequenceBranch: 0
   branchLinkedId: 0
@@ -6378,6 +6397,7 @@ MonoBehaviour:
   animated:
   - {fileID: 0}
   usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
   ShakeValue: 0
   ShakeDuration: 0
   booleanName: 
@@ -6401,6 +6421,8 @@ MonoBehaviour:
   timeStayAtMax: 1
   timeFadeAlpha: 2
   independentFromTimeScale: 0
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
   timeBeforeStart: 0.5
 --- !u!65 &1906640430
 BoxCollider:

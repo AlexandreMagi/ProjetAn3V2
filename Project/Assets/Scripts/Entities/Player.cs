@@ -31,7 +31,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public Vector2 GetBaseValues()
     {
-        return new Vector2(entityData.armor, entityData.maxHealth);
+        return new Vector2(entityData.maxArmor, entityData.maxHealth);
     }
 
     void Awake()
@@ -70,11 +70,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         {
             float armorGained = Time.unscaledDeltaTime * rateOfArmorGained;
             if (armorGained > armorToGain) armorGained = armorToGain;
-            armor += armorGained;
+            GainArmor(armorGained);
             armorToGain -= armorGained;
             if (armorToGain < 0) armorToGain = 0;
-            if (armor > entityData.maxArmor) armor = entityData.maxArmor;
             UiLifeBar.Instance.UpdateArmor(armor);
+            Debug.Log("armorGained = " + armorGained + " / " + armor);
         }
     }
 
@@ -197,9 +197,9 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         //UiLifeBar.Instance.AddArmor(value);
         //UiLifeBar.Instance.UpdateArmor(armor);
 
-        if(armor > entityData.armor)
+        if(armor > entityData.maxArmor)
         {
-            armor = entityData.armor;
+            armor = entityData.maxArmor;
         }
         if (armor < 0)
             armor = 0;

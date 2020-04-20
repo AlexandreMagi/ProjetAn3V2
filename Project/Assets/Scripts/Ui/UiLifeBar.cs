@@ -64,8 +64,8 @@ public class UiLifeBar : MonoBehaviour
 
     private void Start()
     {
-        stockArmor = Player.Instance.GetBaseValues().x;
-        stockMaxArmor = stockArmor;
+        stockArmor = Player.Instance.getArmor();
+        stockMaxArmor = Player.Instance.GetBaseValues().x;
         stockLife = Player.Instance.GetBaseValues().y;
         stockMaxLife = stockLife;
 
