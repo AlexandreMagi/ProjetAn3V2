@@ -326,10 +326,15 @@ public class SequenceHandler : MonoBehaviour
 
                     sequenceIndex = indexLeft;
                     branchIndex = subBranchID;
+                    break;
                 }
             }
 
-            currentVirtualCamera = GameObject.Find(sequenceBranches[branchIndex].GetDataSequenceAt(sequenceIndex - 1).camTargetName).GetComponent<CinemachineVirtualCamera>();
+            Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+
+            currentBranch = sequenceBranches[branchIndex];
+            currentSequence = sequenceBranches[branchIndex].GetDataSequenceAt(sequenceIndex - 1);
+            //currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
 
             //CHANGEMENT DE CAM -- Pour pas casser les timers
             currentVirtualCamera.Priority = 10;
@@ -340,6 +345,7 @@ public class SequenceHandler : MonoBehaviour
 
             NextSequence();
         }
+
         else
         {
             Debug.Log($"No sequence with id {sequenceNumber}");
@@ -354,6 +360,8 @@ public class SequenceHandler : MonoBehaviour
     /// </summary>
     public void NextSequence(bool isForced = false)
     {
+        Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+
         Main.Instance.setAIWalls(false);
 
         isSequenceTrigger = false;
