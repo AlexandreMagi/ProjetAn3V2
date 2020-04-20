@@ -90,7 +90,7 @@ public class UIParticuleSystem : MonoBehaviour
 
     void HandleConstantEmmission()
     {
-        if (timerBeforeNextParticle > 0)
+        if (timerBeforeNextParticle > 0 && remainingDuration > 0)
         {
             timerBeforeNextParticle -= Time.unscaledDeltaTime;
             if (timerBeforeNextParticle < 0)
