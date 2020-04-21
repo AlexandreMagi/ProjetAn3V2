@@ -8,7 +8,7 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect
     bool mustBeKilledInZeroG = false;
 
     bool isFloating = false;
-    bool isAffectedByGravity = false;
+    [HideInInspector] public bool isAffectedByGravity = false;
 
     float floatTimeLeft = 0;
 

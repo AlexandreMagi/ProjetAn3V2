@@ -5,14 +5,14 @@ using UnityEngine;
 public class CollectiblesSpritesAutoChange : MonoBehaviour
 {
     [SerializeField]
-    Texture[] collectiblesSprites;
+    Texture[] collectiblesSprites = null;
 
     MeshRenderer meshRenderer;
 
     Material instancedMaterial;
 
     [SerializeField]
-    GameObject collectibleMesh;
+    GameObject collectibleMesh = null;
 
     void Start()
     {

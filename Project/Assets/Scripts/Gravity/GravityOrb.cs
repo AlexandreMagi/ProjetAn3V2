@@ -10,7 +10,7 @@ public class GravityOrb : MonoBehaviour
 
     float fTimeHeld = 0f;
     bool hasSticked = false;
-    bool hasHitSomething = false;
+    //bool hasHitSomething = false;
 
     [SerializeField]
     public bool bActivedViaScene = false;
@@ -36,7 +36,7 @@ public class GravityOrb : MonoBehaviour
 
     public bool OnSpawning(Vector2 mousePosition)
     {
-        hasHitSomething = false;
+        //hasHitSomething = false;
         MainCam = CameraHandler.Instance.renderingCam;
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
@@ -109,7 +109,7 @@ public class GravityOrb : MonoBehaviour
 
             if (gAffect != null && hVictim.gameObject != parentIfSticky)
             {
-                hasHitSomething = true;
+                //hasHitSomething = true;
                 gAffect.OnPull(this.transform.position, orbData.pullForce);
             }
         }
@@ -237,7 +237,7 @@ public class GravityOrb : MonoBehaviour
                 {
                     gAffect.OnPull(this.transform.position, orbData.pullForce);
                     gAffect.OnHold();
-                    hasHitSomething = true;
+                    //hasHitSomething = true;
                 }
                     
 

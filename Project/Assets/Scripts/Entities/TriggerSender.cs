@@ -81,9 +81,9 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
     List<VideoPlayer> players = null;
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
-    bool isPlay;
+    bool isPlay = false;
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
-    bool isLoop;
+    bool isLoop = false;
 
     [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
     float scaleMin = 0;

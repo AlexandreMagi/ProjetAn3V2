@@ -26,14 +26,14 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     GameObject mesh = null;
 
     Collider thisCollider = null;
-    MeshRenderer renderer = null;
+    MeshRenderer mshrenderer = null;
 
     protected override void Start()
     {
         parentManager = this.transform.GetComponentInParent<ShootTriggerManager>();
 
         thisCollider = GetComponent<Collider>();
-        renderer = mesh.GetComponent<MeshRenderer>();
+        mshrenderer = mesh.GetComponent<MeshRenderer>();
     }
 
 
@@ -51,7 +51,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             if (parentManager != null)
                 parentManager.OnEventSent();
 
-            renderer.enabled = false;
+            mshrenderer.enabled = false;
             thisCollider.enabled = false;
 
             

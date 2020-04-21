@@ -74,7 +74,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             armorToGain -= armorGained;
             if (armorToGain < 0) armorToGain = 0;
             UiLifeBar.Instance.UpdateArmor(armor);
-            Debug.Log("armorGained = " + armorGained + " / " + armor);
+            //Debug.Log("armorGained = " + armorGained + " / " + armor);
         }
     }
 
