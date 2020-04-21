@@ -55,6 +55,7 @@ namespace ch.sycoforge.Decal.Demo
             lineRenderer = GetComponent<LineRenderer>();
         }
 
+        [System.Obsolete]
         private void Update()
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -79,6 +80,7 @@ namespace ch.sycoforge.Decal.Demo
             }
         }
 
+        [System.Obsolete]
         private void CreatePath(Ray mouseRay)
         {
             RaycastHit hit;

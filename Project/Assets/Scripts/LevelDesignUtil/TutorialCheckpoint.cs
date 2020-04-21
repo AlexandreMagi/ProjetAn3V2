@@ -27,8 +27,8 @@ public class TutorialCheckpoint : MonoBehaviour
     /// </summary>
     /// <param name="_checkpointData"></param>
     public void InitTutorialCheckpoint (DataTutorialCheckpoint _checkpointData)
-    {
-        Debug.Log("Init Checkpoint");
+    { 
+        //Debug.Log("Init Checkpoint");
         checkpointData = _checkpointData;
         purcentageAccomplission = 0;
         endCheckpointTimer = checkpointData.timerBetweenSuccesAndNextSequence;
@@ -108,7 +108,7 @@ public class TutorialCheckpoint : MonoBehaviour
     {
         if (checkpointData != null)
         {
-            Debug.Log("End Checkpoint");
+            //Debug.Log("End Checkpoint");
             foreach (DataTutorialCheckpoint.playerActions activation in checkpointData.actionsPlayerCanDoAfter)
             {
                 switch (activation)
@@ -212,43 +212,43 @@ public class TutorialCheckpoint : MonoBehaviour
     {
         if (checkpointData != null)
         {
-            Debug.Log("Player reload / " + perfectReload + " /  Needed is " + checkpointData.endSequenceBy);
+            //Debug.Log("Player reload / " + perfectReload + " /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.reload || checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.perfectReload && perfectReload)
                 purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
         }
-        Debug.Log(purcentageAccomplission);
+        //Debug.Log(purcentageAccomplission);
     }
 
     public void PlayerUsedOrb()
     {
         if (checkpointData != null)
         {
-            Debug.Log("Player used orb /  Needed is " + checkpointData.endSequenceBy);
+            //Debug.Log("Player used orb /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.orbLaunched)
                 purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
         }
-        Debug.Log(purcentageAccomplission);
+        //Debug.Log(purcentageAccomplission);
     }
 
     public void PlayerUsedZeroG()
     {
         if (checkpointData != null)
         {
-            Debug.Log("Player used zero g /  Needed is " + checkpointData.endSequenceBy);
+            //Debug.Log("Player used zero g /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.orbReactivated)
                 purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
         }
-        Debug.Log(purcentageAccomplission);
+        //Debug.Log(purcentageAccomplission);
     }
 
     public void PlayerUsedShotGun()
     {
         if (checkpointData != null)
         {
-            Debug.Log("Player used shotgun /  Needed is " + checkpointData.endSequenceBy);
+            //Debug.Log("Player used shotgun /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.shotgun)
                 purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
         }
-        Debug.Log(purcentageAccomplission);
+        //Debug.Log(purcentageAccomplission);
     }
 }

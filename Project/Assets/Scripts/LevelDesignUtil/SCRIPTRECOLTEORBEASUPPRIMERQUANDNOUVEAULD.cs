@@ -5,9 +5,9 @@ using UnityEngine;
 public class SCRIPTRECOLTEORBEASUPPRIMERQUANDNOUVEAULD : MonoBehaviour, IBulletAffect
 {
     bool bPlayerCanDammage = true;
-    [SerializeField] float fCurrentScale = 1;
-    [SerializeField] float fScaleBoostBeforeExplosion = .5f;
-
+    //[SerializeField] float fCurrentScale = 1;
+    //[SerializeField] float fScaleBoostBeforeExplosion = .5f;
+     
     float DammageDone = 0;
     float DammageDoneSaved = 0;
     [SerializeField] float DammageBeforeExplosion = 8;

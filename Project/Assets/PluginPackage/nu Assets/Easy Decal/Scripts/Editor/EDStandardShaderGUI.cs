@@ -8,6 +8,7 @@ namespace UnityEditor
         //------------------------------------
         // Fields
         //------------------------------------
+        [Obsolete]
         private ColorPickerHDRConfig m_ColorPickerHDRConfig = new ColorPickerHDRConfig(0.0f, 99f, 1.0f / 99.0f, 3f);
         private bool m_FirstTimeApply = true;
         private MaterialProperty blendMode;
@@ -83,6 +84,7 @@ namespace UnityEditor
             this.m_FirstTimeApply = false;
         }
 
+        [Obsolete]
         public void ShaderPropertiesGUI(Material material)
         {
             EditorGUIUtility.labelWidth = 0.0f;
@@ -173,6 +175,7 @@ namespace UnityEditor
             this.m_MaterialEditor.ShaderProperty(this.grungeFactor, EDStandardShaderGUI.Styles.alphaCutoffText.text, 3);
         }
 
+        [Obsolete]
         private void DoEmissionArea(Material material)
         {
             float maxColorComponent = this.emissionColorForRendering.colorValue.maxColorComponent;

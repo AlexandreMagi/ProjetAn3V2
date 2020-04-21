@@ -6,16 +6,16 @@ public class MainArduinoTest : MonoBehaviour
 {
 
     [SerializeField]
-    RectTransform hImageData;
+    RectTransform hImageData = null;
     [SerializeField]
-    RectTransform hImageMir;
+    RectTransform hImageMir = null;
 
     [SerializeField]
-    IRCameraParser ScriptRef;
+    IRCameraParser ScriptRef = null;
 
 
-    float fTimeIncrementation = 0;
-    float fTimeMax = 1.5f;
+    //float fTimeIncrementation = 0;
+    //float fTimeMax = 1.5f;
 
     Vector3 V3LastData;
 

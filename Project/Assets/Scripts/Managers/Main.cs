@@ -581,7 +581,7 @@ public class Main : MonoBehaviour
 
 
     [SerializeField] private float checkInputEvery = 0.5f;
-    [SerializeField] private float distanceCheckIfInput = 0.03f;
+    //[SerializeField] private float distanceCheckIfInput = 0.03f;
     float timerCheckInput = 0;
     [SerializeField] private float timeBeforeGoBackToStart = 10;
     private float timerGoBack = 5;
@@ -653,7 +653,15 @@ public class Main : MonoBehaviour
             }
         }
 
-        if (control == TriggerSender.Activable.Reload) playerCanReload = state;
+        if (control == TriggerSender.Activable.Reload)
+        {
+            playerCanReload = state;
+            if (!playerCouldReload && state)
+            {
+                playerCouldReload = true;
+                if (UIUpgrade.Instance != null) UIUpgrade.Instance.PlayerGetAnUpgrade();
+            }
+        }
 
         if (control == TriggerSender.Activable.ZeroG)
         {
