@@ -471,7 +471,8 @@ public class CameraHandler : MonoBehaviour
         UpdateRecoilsValue();
 
         // Rotation en fonciton du dummy
-        camRef.transform.rotation = Quaternion.LookRotation((camData.followRotDummy? camDelayRotDummy.transform.position : camDelayPosDummy.transform.position) - currentCamRef.transform.position, Vector3.up); // Regard de la cam
+        if (currentCamIsCine)
+            camRef.transform.rotation = Quaternion.LookRotation((camData.followRotDummy? camDelayRotDummy.transform.position : camDelayPosDummy.transform.position) - currentCamRef.transform.position, Vector3.up); // Regard de la cam
 
         float[] stepValues = GetStepValues();
 
