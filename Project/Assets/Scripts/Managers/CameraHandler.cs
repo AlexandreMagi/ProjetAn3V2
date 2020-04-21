@@ -152,6 +152,10 @@ public class CameraHandler : MonoBehaviour
     float magnitudeShakePlane = 1;
     float animShakePlanePurcentage = 1;
 
+    // Anti clac
+    float antiClacRotPurcentage = 1;
+
+
     #endregion
 
     // Stock
@@ -261,6 +265,11 @@ public class CameraHandler : MonoBehaviour
 
         // Fait le switch entre la caméra cinemachine et la caméra animée
         currentCamRef = !currentCamIsCine && animatedCam.transform.position != Vector3.zero && animatedCam != null ? animatedCam : cinemachineCam;
+
+        if (currentCamIsCine)
+            antiClacRotPurcentage = Mathf.MoveTowards(antiClacRotPurcentage, 1, Time.unscaledDeltaTime / camData.antiClacRotAnimatedCam);
+        else
+            antiClacRotPurcentage = Mathf.MoveTowards(antiClacRotPurcentage, 0, Time.unscaledDeltaTime / camData.antiClacRotAnimatedCam);
 
         // Init
         camRef.transform.position = currentCamRef.transform.position;
@@ -471,8 +480,7 @@ public class CameraHandler : MonoBehaviour
         UpdateRecoilsValue();
 
         // Rotation en fonciton du dummy
-        if (currentCamIsCine)
-            camRef.transform.rotation = Quaternion.LookRotation((camData.followRotDummy? camDelayRotDummy.transform.position : camDelayPosDummy.transform.position) - currentCamRef.transform.position, Vector3.up); // Regard de la cam
+        camRef.transform.rotation = Quaternion.Lerp(camRef.transform.rotation, Quaternion.LookRotation((camData.followRotDummy? camDelayRotDummy.transform.position : camDelayPosDummy.transform.position) - currentCamRef.transform.position, Vector3.up), antiClacRotPurcentage); // Regard de la cam
 
         float[] stepValues = GetStepValues();
 
