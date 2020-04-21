@@ -13,7 +13,7 @@ public class MannequinManager : MonoBehaviour
     bool animOnMansDead = false;
 
     [SerializeField, ShowIf("animOnManDead")]
-    Animator[] anims;
+    Animator[] anims = null;
 
     [SerializeField]
     bool nextSequenceOnMansDead = true;

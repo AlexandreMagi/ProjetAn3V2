@@ -5,15 +5,15 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class PostProcessEffects : MonoBehaviour
 {
-    PostProcessVolume Volume;
+    PostProcessVolume Volume = null;
 
     ChromaticAberration chromaticAberrationEffect;
     Vignette vignetteEffect;
     MotionBlur motionBlurEffect;
-
+     
     bool isChroma = false;
 
-    bool isVignetteFalling = true;
+    //bool isVignetteFalling = true;
 
     [SerializeField]
     float maxChromaAberration = 1f;

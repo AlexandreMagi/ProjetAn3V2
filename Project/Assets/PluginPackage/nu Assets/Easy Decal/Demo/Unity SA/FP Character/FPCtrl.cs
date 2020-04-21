@@ -10,34 +10,34 @@ namespace UnitySA.Characters.FirstPerson
     public class FPCtrl : MonoBehaviour
     {
         [SerializeField]
-        private bool m_IsWalking;
+        private bool m_IsWalking = false;
         [SerializeField]
-        private float m_WalkSpeed;
+        private float m_WalkSpeed = 0;
         [SerializeField]
-        private float m_RunSpeed;
+        private float m_RunSpeed = 0;
         [SerializeField]
         [Range(0f, 1f)]
-        private float m_RunstepLenghten;
+        private float m_RunstepLenghten = 0;
         [SerializeField]
-        private float m_JumpSpeed;
+        private float m_JumpSpeed = 0;
         [SerializeField]
-        private float m_StickToGroundForce;
+        private float m_StickToGroundForce = 0;
         [SerializeField]
-        private float m_GravityMultiplier;
+        private float m_GravityMultiplier = 0;
         [SerializeField]
-        private MLook m_MouseLook;
+        private MLook m_MouseLook = null;
         [SerializeField]
-        private bool m_UseFovKick;
+        private bool m_UseFovKick = false;
         [SerializeField]
         private FOVZoom m_FovKick = new FOVZoom();
         [SerializeField]
-        private bool m_UseHeadBob;
+        private bool m_UseHeadBob = false;
         [SerializeField]
         private CurveCtrlBob m_HeadBob = new CurveCtrlBob();
         [SerializeField]
         private LerpCtrlBob m_JumpBob = new LerpCtrlBob();
         [SerializeField]
-        private float m_StepInterval;
+        private float m_StepInterval = 0;
 
 
         private Camera m_Camera;

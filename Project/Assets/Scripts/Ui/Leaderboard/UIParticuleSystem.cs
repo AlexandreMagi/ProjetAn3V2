@@ -7,52 +7,51 @@ using Sirenix.OdinInspector;
 public class UIParticuleSystem : MonoBehaviour
 {
     [Title("Base Parameters")] // --------------------------------------------------
-    [SerializeField, PropertyRange(0.001f,10)] float duration = 1;
-    [SerializeField] bool looping = false;
-    [SerializeField] bool playOnStart = false;
-    [SerializeField] Vector2 lifeTime = new Vector2(0.5f, 1f);
-    [SerializeField] Vector2 speed = new Vector2(20, 40);
-    [SerializeField] Vector2 size = new Vector2(0.5f, 1.5f);
-    [SerializeField] Vector2 rotation = new Vector2(0, 360);
-    float remainingDuration = 0;
+    [SerializeField, PropertyRange(0.001f,10), Tooltip("Durée d'émission constante du particle system")] float duration = 1;
+    [SerializeField, Tooltip("Dit si le particle system se relance tout seul lorsqu'il a fini")] bool looping = false;
+    [SerializeField, Tooltip("Dit si le particle system se lance au start")] bool playOnStart = false;
+    [SerializeField, Tooltip("Valeurs min et max de durée de vie d'une particule à l'init")] Vector2 lifeTime = new Vector2(0.5f, 1f);
+    [SerializeField, Tooltip("Valeurs min et max de vitesse d'une particule à l'init")] Vector2 speed = new Vector2(20, 40);
+    [SerializeField, Tooltip("Valeurs min et max de taille d'une particule à l'init")] Vector2 size = new Vector2(0.5f, 1.5f);
+    [SerializeField, Tooltip("Valeurs min et max de rotation d'une particule à l'init")] Vector2 rotation = new Vector2(0, 360);
+    float remainingDuration = 0; // Temps restant d'émission du particle system
 
 
     [Title("Pop Mode")] // --------------------------------------------------
-    float nbParticule = 1;
     enum PopMode { circle, squareEdge, line }
-    [SerializeField] PopMode popMode = PopMode.circle;
-    [ShowIf("popMode", PopMode.circle), SerializeField] float rangePop = 0;
-    [ShowIf("popMode", PopMode.line), SerializeField] bool horizontal = true;
+    [SerializeField, Tooltip("Façon de positioner les particules à l'init")] PopMode popMode = PopMode.circle;
+    [ShowIf("popMode", PopMode.circle), SerializeField, PropertyRange(0.001f,50f), Tooltip("Range de portée de pop (random entre zero et valeur)")] float rangePop = 0;
+    [ShowIf("popMode", PopMode.line), SerializeField, Tooltip("Dit si la ligne est horizontale ou verticale")] bool horizontal = true;
 
 
     [Title("Pop Parameters")] // --------------------------------------------------
-    [SerializeField] int maxParticle = 30;
-    [SerializeField] float rateOfParticle = 5;
-    [SerializeField] int burstParticle = 0;
-    float timerBeforeNextParticle = 0.1f;
+    [SerializeField, Tooltip("Taille du pull de particule")] int maxParticle = 30;
+    [SerializeField, Tooltip("Vitesse d'émission de particles")] float rateOfParticle = 5;
+    [SerializeField, Tooltip("Nombre de particules émises en burst à chaque play")] int burstParticle = 0;
+    float timerBeforeNextParticle = 0.1f; // Valeur de temps avant le prochain pop de particle en émission continue
 
 
     [Title("Dir Parameters")] // --------------------------------------------------
-    [SerializeField] DirMode dirMod = DirMode.goFrom;
     enum DirMode { goFrom, constant }
-    [SerializeField, ShowIf("dirMod", DirMode.constant)] Vector2 constantDir = new Vector2 (0f, 1f);
-    [SerializeField, ShowIf("dirMod", DirMode.goFrom)] Transform goFromPos = null;
+    [SerializeField, Tooltip("Direction appliquée aux particules à l'init")] DirMode dirMod = DirMode.goFrom;
+    [SerializeField, ShowIf("dirMod", DirMode.constant), Tooltip("Direction précise donnée aux particules (normalisé derriere)")] Vector2 constantDir = new Vector2 (0f, 1f);
+    [SerializeField, ShowIf("dirMod", DirMode.goFrom), Tooltip("Position de laquelle les particules s'écartent")] Transform goFromPos = null;
 
 
     [Title("Other Parameters")] // --------------------------------------------------
-    [SerializeField] GameObject particlePrefab = null;
-    [SerializeField] Transform overrideParent = null;
-    [SerializeField] Sprite sprite = null;
+    [SerializeField, Tooltip("Prefab de particule")] GameObject particlePrefab = null;
+    [SerializeField, Tooltip("Si remplis, sera le parent des particules")] Transform overrideParent = null;
+    [SerializeField, Tooltip("Si remplis, remplace le sprite des particules")] Sprite sprite = null;
 
 
     [Title("Lifetime Parameters")] // --------------------------------------------------
-    [SerializeField] AnimationCurve speedOverLifeTime = AnimationCurve.Linear(0,0,1,1);
-    [SerializeField] AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0,0,1,1);
-    [SerializeField] Gradient colorOverLifeTime = null;
+    [SerializeField, Tooltip("Vitesse de la particule sur sa vie (multiplié par la vitesse à l'init)")] AnimationCurve speedOverLifeTime = AnimationCurve.Linear(0,0,1,1);
+    [SerializeField, Tooltip("Taille de la particule sur sa vie (multiplié par la taille à l'init)")] AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0,0,1,1);
+    [SerializeField, Tooltip("Couleur de la particule sur sa vie")] Gradient colorOverLifeTime = null;
 
 
-    List<CustomParticle> allParticles = new List<CustomParticle>();
-    RectTransform rect = null;
+    List<CustomParticle> allParticles = new List<CustomParticle>(); // Stock toute les particules du pull
+    RectTransform rect = null; // Stock le transform de l'émitter
     
     void Start()
     {
@@ -74,9 +73,6 @@ public class UIParticuleSystem : MonoBehaviour
         remainingDuration = Mathf.Clamp(remainingDuration, 0, duration);
         for (int i = 0; i < burstParticle; i++) {  NewParticle(); }
         Resume();
-
-        //UIParticuleSystem[] childsPs = GetComponentsInChildren<UIParticuleSystem>();
-        //for (int i = 0; i < childsPs.Length; i++) { childsPs[i].Play(); }
     }
 
     public void Resume() { timerBeforeNextParticle = 1 / rateOfParticle; }
@@ -145,7 +141,6 @@ public class UIParticuleSystem : MonoBehaviour
 
     public void NewParticle()
     {
-        int usedParticle = 0;
         for (int i = 0; i < maxParticle; i++)
         {
             if (allParticles[i].lifeTimeRemaining == 0 && allParticles[i].actualParticle != null) 
@@ -164,10 +159,8 @@ public class UIParticuleSystem : MonoBehaviour
                 allParticles[i].speedOverLifeTime = speedOverLifeTime;
                 allParticles[i].sizeOverLifeTime = sizeOverLifeTime;
                 allParticles[i].colorOverLifeTime = colorOverLifeTime;
-
-                usedParticle++;
+                break;
             }
-            if (usedParticle == nbParticule) break;
         }
     }
 

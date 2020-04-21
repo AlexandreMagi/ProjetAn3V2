@@ -51,7 +51,7 @@ public class MenuMain : MonoBehaviour
     [SerializeField] float timeBulletHoleRemain = 3;
     [SerializeField] float timeBulletHoleFade = 1;
     [SerializeField] float bulletSize = 50;
-    [SerializeField] int shotGunNbBullet = 12;
+    //[SerializeField] int shotGunNbBullet = 12;
     [SerializeField] float shotGunAddedSpread = 1200;
 
 

@@ -27,7 +27,7 @@ public class PostprocessManager : MonoBehaviour
 
     // --- DepthOfField
     DepthOfField dofEffect;
-    float dofEffectDamageRecoverSpeed = 500;
+    //float dofEffectDamageRecoverSpeed = 500;
     float recoverTimerDof = 0;
 
     // --- Lens Distortion
