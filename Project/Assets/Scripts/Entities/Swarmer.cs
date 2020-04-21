@@ -205,7 +205,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             {
                 this.transform.GetComponentInParent<Spawner>().ChildDied();
             }
-
+            
 
             //Means it has been killed in some way and has not just attacked
             if (health <= 0)
