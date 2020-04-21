@@ -194,6 +194,7 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
+            UiCrossHair.Instance.StopWaitFunction();
             playerCanOrb = true;
             playerCanReload = true;
             playerCanZeroG = true;
