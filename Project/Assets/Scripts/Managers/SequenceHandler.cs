@@ -277,7 +277,7 @@ public class SequenceHandler : MonoBehaviour
                         isWaitingTimer = true;
                     }
 
-                    if(currentSequence.activatesSpawnersDuringSequence && (!isSequenceTrigger) && enemiesKilled >= currentSequence.enemiesToKillInSequence)
+                    if(currentSequence.activatesSpawnersDuringSequence && (!isSequenceTrigger) && enemiesKilled >= currentSequence.numberOfKillsRequiredToPop)
                     {
                         TriggerUtil.TriggerSpawners(currentSequence.delayOnTrigger, currentSequence.spawnersToTrigger);
                         isSequenceTrigger = true;
