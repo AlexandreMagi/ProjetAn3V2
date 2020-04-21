@@ -330,7 +330,7 @@ public class SequenceHandler : MonoBehaviour
                 }
             }
 
-            Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+            //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
 
             currentBranch = sequenceBranches[branchIndex];
             currentSequence = sequenceBranches[branchIndex].GetDataSequenceAt(sequenceIndex - 1);
@@ -360,7 +360,7 @@ public class SequenceHandler : MonoBehaviour
     /// </summary>
     public void NextSequence(bool isForced = false)
     {
-        Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+        //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
 
         Main.Instance.setAIWalls(false);
 
@@ -424,6 +424,8 @@ public class SequenceHandler : MonoBehaviour
             }
         }
 
+        bool branchSkipValidated = false;
+
         if (currentSequence.skipsToBranchOnEnd)
         {
             if (currentSequence.affectedByBooleanSequenceBranch)
@@ -434,8 +436,10 @@ public class SequenceHandler : MonoBehaviour
                     {
                         currentBranch = sequenceBranches[link.indexOfBranchLinked];
                         branchIndex = link.indexOfBranchLinked;
+                        branchSkipValidated = true;
+
+                        Debug.Log("Link detected and validated");
                         break;
-                            
                     }
                 }
             }
@@ -445,9 +449,13 @@ public class SequenceHandler : MonoBehaviour
                 branchIndex = currentSequence.branchLinkedId;
             }
 
-            sequenceIndex = 0;
+            if(branchSkipValidated || !currentSequence.affectedByBooleanSequenceBranch)
+                sequenceIndex = 0;
+
+            //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
         }
-        else
+
+        if(!currentSequence.skipsToBranchOnEnd || !branchSkipValidated)
         {
             if(sequenceIndex >= currentBranch.GetNumberOfSequences() - 1)
             {
