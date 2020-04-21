@@ -27,8 +27,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     bool playsAnimationOnStartUp = false;
 
-    [SerializeField]
+    [SerializeField, ShowIf("playsAnimationOnStartUp")]
     SwarmerProceduralAnimation.AnimSwarmer animationToPlay;
+
+    [SerializeField, ShowIf("playsAnimationOnStartUp")]
+    bool ignoresBufferOnceKilled = false;
 
     //Securities
     float timeBeingStuck = 0;
@@ -220,7 +223,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 }
             }
 
-            if (SequenceHandler.Instance != null)
+            if (SequenceHandler.Instance != null && !ignoresBufferOnceKilled)
                 SequenceHandler.Instance.OnEnemyKill();
 
             if(entityData.spawnsPartsOnDeath)
