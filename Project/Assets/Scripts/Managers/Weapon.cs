@@ -114,7 +114,7 @@ public class Weapon : MonoBehaviour
                 EndReload(false);
             }
         }
-        if (reloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
+        if (savedReloadingPurcentage > (newPerfectPlacement + weapon.perfectRange)) ReloadValidate();
 
 
         // --- Gestion de la lumière sur le gun

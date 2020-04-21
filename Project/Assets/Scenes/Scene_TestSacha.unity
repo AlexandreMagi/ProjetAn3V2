@@ -1221,6 +1221,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  damages: 0
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -1597,6 +1598,103 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &420307824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 420307827}
+  - component: {fileID: 420307826}
+  - component: {fileID: 420307825}
+  m_Layer: 0
+  m_Name: TriggerDamage (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &420307825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420307824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 17
+  spawners: []
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  volume: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  damages: 50
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
+--- !u!65 &420307826
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420307824}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.580035, y: 8.198387, z: 2.2727885}
+  m_Center: {x: 0, y: 3.5991945, z: 0.6363949}
+--- !u!4 &420307827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420307824}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 2.45, z: 22.56}
+  m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 31
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &425166658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,7 +1894,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451278900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.82, y: 4.21, z: 20.93}
+  m_LocalPosition: {x: 3.82, y: 4.21, z: -4.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2477,6 +2575,126 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &798168863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
+  m_Name: AutoSequence6
+  m_EditorClassIdentifier: 
+  camTargetName: CM vcam5
+  animationStyle: 6
+  animationTime: 2
+  isAffectedByBooleanSequence: 0
+  booleanSequenceName: 
+  booleanSequenceStateRequired: 0
+  cutsSlowMoOnEnd: 0
+  sequenceType: 2
+  enemiesToKillInSequence: 0
+  acceptsBufferKill: 0
+  timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 0
+  hasEventOnEnd: 1
+  seqEvent: 4
+  timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  minSpeedRot: 23
+  balancingFrequency: 1
+  angleBalancing: 0
+  timeGoToNewRot: 0.001
+  returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
+  enableCamFeedback: 1
+  enableCamTransition: 0
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 0
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 0
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 0.1
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
+  isShortStep: 0
+  shortStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shortStepAmplitude: -1
+  modifySteps: 0
+  modifierFrequenceCamStep: 1
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animToPlay: {fileID: 0}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
+  weightLookAt: 1
+  weightRemoveRotLookAt: 1
+  changeWaitScreen: 0
+  activateWaitScreen: 0
 --- !u!1001 &805782077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3124,6 +3342,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  damages: 0
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -3153,6 +3372,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 738182337}
   m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &920870850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920870853}
+  - component: {fileID: 920870852}
+  - component: {fileID: 920870851}
+  m_Layer: 0
+  m_Name: TriggerDamage (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &920870851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920870850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 17
+  spawners: []
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  volume: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  damages: 50
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
+--- !u!65 &920870852
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920870850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.580035, y: 8.198387, z: 2.2727885}
+  m_Center: {x: 0, y: 3.5991945, z: 0.6363949}
+--- !u!4 &920870853
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920870850}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 2.45, z: 14.58}
+  m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &924164483
 GameObject:
@@ -3279,7 +3595,7 @@ MonoBehaviour:
   sequenceBranches:
   - {fileID: 1965249783}
   isWaitingTimer: 0
-  originalName: AutoSequence5
+  originalName: AutoSequence6
   newName: Turn
   originalBranchName: New branch1
   newBranchName: 
@@ -3422,17 +3738,19 @@ MonoBehaviour:
   spawnersToTrigger: []
   delayOnTrigger: 0
   timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
+  hasEventOnEnd: 1
+  seqEvent: 4
   timeBeforeEvent: 0
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
-  angleBalancing: 0
+  minSpeedRot: 23
   balancingFrequency: 1
-  minSpeedRot: 0
-  timeGoToNewRot: 0
+  angleBalancing: 0
+  timeGoToNewRot: 0.001
   returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 180
+  additionalRotLerpGoTo: 5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
@@ -3940,6 +4258,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  damages: 0
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -3968,7 +4287,7 @@ Transform:
   m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1112079774
 GameObject:
@@ -4097,11 +4416,13 @@ MonoBehaviour:
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
   minSpeedRot: 0.001
+  balancingFrequency: 1
+  angleBalancing: 0
   timeGoToNewRot: 0.001
   returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
@@ -4526,7 +4847,7 @@ Transform:
   - {fileID: 913346822}
   - {fileID: 200350503}
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1290836750
 MonoBehaviour:
@@ -4555,18 +4876,20 @@ MonoBehaviour:
   numberOfKillsRequiredToPop: 0
   spawnersToTrigger: []
   delayOnTrigger: 0
-  timeSequenceDuration: 0
+  timeSequenceDuration: 0.2
   hasEventOnEnd: 0
   seqEvent: 0
   timeBeforeEvent: 0
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
   minSpeedRot: 0
+  balancingFrequency: 1
+  angleBalancing: 0
   timeGoToNewRot: 0
   returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
@@ -4680,11 +5003,13 @@ MonoBehaviour:
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
   minSpeedRot: 0
+  balancingFrequency: 1
+  angleBalancing: 0
   timeGoToNewRot: 0
   returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
@@ -5720,6 +6045,103 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539721520}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1578340524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1578340527}
+  - component: {fileID: 1578340526}
+  - component: {fileID: 1578340525}
+  m_Layer: 0
+  m_Name: TriggerDamage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1578340525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578340524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 17
+  spawners: []
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  volume: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  damages: 50
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
+--- !u!65 &1578340526
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578340524}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.580035, y: 8.198387, z: 2.2727885}
+  m_Center: {x: 0, y: 3.5991945, z: 0.6363949}
+--- !u!4 &1578340527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578340524}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 2.45, z: 2.28}
+  m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 29
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1602948250
 GameObject:
   m_ObjectHideFlags: 3
@@ -5871,7 +6293,7 @@ MonoBehaviour:
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
-  sequenceType: 1
+  sequenceType: 2
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
@@ -5886,11 +6308,13 @@ MonoBehaviour:
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
-  angleBalancing: 0
-  balancingFrequency: 1
   minSpeedRot: 0
+  balancingFrequency: 1
+  angleBalancing: 0
   timeGoToNewRot: 0
   returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
@@ -6429,6 +6853,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  damages: 0
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0.5
@@ -11516,6 +11941,7 @@ MonoBehaviour:
   - {fileID: 1635996669}
   - {fileID: 1290836750}
   - {fileID: 973090773}
+  - {fileID: 798168863}
 --- !u!1001 &1978821316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12924,7 +13350,7 @@ PrefabInstance:
     - target: {fileID: 8555983354819240980, guid: c5f2107e488ef1c42aaf1b3d0612c4fc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 30
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 8555983354819240980, guid: c5f2107e488ef1c42aaf1b3d0612c4fc,
         type: 3}

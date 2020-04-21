@@ -71,7 +71,12 @@ public class UIParticuleSystem : MonoBehaviour
     public void Play()
     {
         remainingDuration += duration;
+        remainingDuration = Mathf.Clamp(remainingDuration, 0, duration);
         for (int i = 0; i < burstParticle; i++) {  NewParticle(); }
+        Resume();
+
+        //UIParticuleSystem[] childsPs = GetComponentsInChildren<UIParticuleSystem>();
+        //for (int i = 0; i < childsPs.Length; i++) { childsPs[i].Play(); }
     }
 
     public void Resume() { timerBeforeNextParticle = 1 / rateOfParticle; }
