@@ -29,7 +29,7 @@ public class UiLifeBar : MonoBehaviour
     float timeRemainingReducing = 0;
 
     [SerializeField] RectTransform rectRootArmor = null;
-    [SerializeField] Transform rootVerticalShield = null;
+    //[SerializeField] Transform rootVerticalShield = null;
     [SerializeField] Transform rootMiddleShield = null;
     float baseHeightMask = 0;
 

@@ -28,7 +28,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     bool playsAnimationOnStartUp = false;
 
     [SerializeField, ShowIf("playsAnimationOnStartUp")]
-    SwarmerProceduralAnimation.AnimSwarmer animationToPlay;
+    SwarmerProceduralAnimation.AnimSwarmer animationToPlay = SwarmerProceduralAnimation.AnimSwarmer.reset;
 
     [SerializeField, ShowIf("playsAnimationOnStartUp")]
     bool ignoresBufferOnceKilled = false;

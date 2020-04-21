@@ -449,7 +449,7 @@ public class Weapon : MonoBehaviour
                     if (TrailManager.Instance != null ) TrailManager.Instance.RequestBulletTrail(rayBullet.origin, hit.point);
                     else Debug.Log("No Trail Manager");
 
-                    Debug.Log("Hit Someting " + hit.transform.gameObject.name);
+                    //Debug.Log("Hit Someting " + hit.transform.gameObject.name);
 
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
