@@ -22,10 +22,6 @@ public class DataCameraBasic : ScriptableObject
     public float camTransitionSpeedAnimatedCine = 3;
     public float camSafeDistanceTransition = 1;
 
-
-
-
-
     // Variables
 
     [Header("Cam Dummy Parameters")]
@@ -77,6 +73,7 @@ public class DataCameraBasic : ScriptableObject
 
     [Header("Others")]
     public bool independentFromTimeScale = true;
+    public float antiClacRotAnimatedCam = 1;
 
     [Header("Idle")]
     public AnimationCurve idleCurve = AnimationCurve.Linear(0, 0, 1, 1);
