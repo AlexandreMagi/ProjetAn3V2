@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////////
 
 
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,15 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     float forceApplied = 200;
     [SerializeField]
     float timerBeforeNextSequence = 0.5f;
+
+    [SerializeField]
+    bool triggersBooleanSequence = false;
+
+    [SerializeField, ShowIf("triggersBooleanSequence")]
+    string booleanSequenceName = "";
+
+    [SerializeField, ShowIf("triggersBooleanSequence")]
+    bool booleanSequenceStateSet = true;
 
 
     int nbShootBeforeFirstHint = 1;
@@ -67,6 +77,11 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
         rb.AddForce(new Vector3(forceApplied, 0, 0));
         HintScript.Instance.Depop();
+
+        if (triggersBooleanSequence)
+        {
+            BooleanSequenceManager.Instance.SetStateOfBoolSequence(booleanSequenceName, booleanSequenceStateSet);
+        }
 
         if (!IsSoundPlayed)
         {
