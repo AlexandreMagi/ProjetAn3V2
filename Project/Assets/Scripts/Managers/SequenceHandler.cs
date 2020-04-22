@@ -529,7 +529,8 @@ public class SequenceHandler : MonoBehaviour
             if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
             else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
         }
-        if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
+        Debug.Log("Reactiver l'appel auto");
+        //if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
         if (currentSequence.checkpointToUse != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
 
         if (currentSequence.changeWaitScreen)
