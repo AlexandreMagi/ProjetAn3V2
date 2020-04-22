@@ -136,8 +136,9 @@ public class TutorialCheckpoint : MonoBehaviour
                         break;
                 }
             }
+            if (checkpointData.nextSequenceOnEnd)
+                SequenceHandler.Instance.NextSequence();
             checkpointData = null;
-            SequenceHandler.Instance.NextSequence();
         }
     }
 
