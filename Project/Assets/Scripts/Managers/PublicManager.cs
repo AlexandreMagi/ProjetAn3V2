@@ -170,7 +170,7 @@ public class PublicManager : MonoBehaviour
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShooterKill);
                 break;
             case ActionType.Cheat:
-                AddViewers(100, false, ActionType.KillShooter, "Kill Shooter", _position);
+                AddViewers(10, false, ActionType.KillShooter, "Kill Shooter", _position);
                 break;
             default:
                 break;

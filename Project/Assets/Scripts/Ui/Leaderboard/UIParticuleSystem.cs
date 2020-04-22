@@ -7,47 +7,47 @@ using Sirenix.OdinInspector;
 public class UIParticuleSystem : MonoBehaviour
 {
     [Title("Base Parameters")] // --------------------------------------------------
-    [SerializeField, PropertyRange(0.001f,10), Tooltip("Durée d'émission constante du particle system")] float duration = 1;
-    [SerializeField, Tooltip("Dit si le particle system se relance tout seul lorsqu'il a fini")] bool looping = false;
-    [SerializeField, Tooltip("Dit si le particle system se lance au start")] bool playOnStart = false;
-    [SerializeField, Tooltip("Valeurs min et max de durée de vie d'une particule à l'init")] Vector2 lifeTime = new Vector2(0.5f, 1f);
-    [SerializeField, Tooltip("Valeurs min et max de vitesse d'une particule à l'init")] Vector2 speed = new Vector2(20, 40);
-    [SerializeField, Tooltip("Valeurs min et max de taille d'une particule à l'init")] Vector2 size = new Vector2(0.5f, 1.5f);
-    [SerializeField, Tooltip("Valeurs min et max de rotation d'une particule à l'init")] Vector2 rotation = new Vector2(0, 360);
+    [PropertyRange(0.001f,10), Tooltip("Durée d'émission constante du particle system")] public float duration = 1;
+    [Tooltip("Dit si le particle system se relance tout seul lorsqu'il a fini")] public bool looping = false;
+    [Tooltip("Dit si le particle system se lance au start")] public bool playOnStart = false;
+    [Tooltip("Valeurs min et max de durée de vie d'une particule à l'init")] public Vector2 lifeTime = new Vector2(0.5f, 1f);
+    [Tooltip("Valeurs min et max de vitesse d'une particule à l'init")] public Vector2 speed = new Vector2(20, 40);
+    [Tooltip("Valeurs min et max de taille d'une particule à l'init")] public Vector2 size = new Vector2(0.5f, 1.5f);
+    [Tooltip("Valeurs min et max de rotation d'une particule à l'init")] public Vector2 rotation = new Vector2(0, 360);
     float remainingDuration = 0; // Temps restant d'émission du particle system
 
 
     [Title("Pop Mode")] // --------------------------------------------------
-    enum PopMode { circle, squareEdge, line }
-    [SerializeField, Tooltip("Façon de positioner les particules à l'init")] PopMode popMode = PopMode.circle;
-    [ShowIf("popMode", PopMode.circle), SerializeField, PropertyRange(0.001f,50f), Tooltip("Range de portée de pop (random entre zero et valeur)")] float rangePop = 0;
-    [ShowIf("popMode", PopMode.line), SerializeField, Tooltip("Dit si la ligne est horizontale ou verticale")] bool horizontal = true;
+    public enum PopMode { circle, squareEdge, square, line }
+    [Tooltip("Façon de positioner les particules à l'init")] public PopMode popMode = PopMode.circle;
+    [ShowIf("popMode", PopMode.circle), PropertyRange(0.001f,50f), Tooltip("Range de portée de pop (random entre zero et valeur)")] public float rangePop = 0;
+    [ShowIf("popMode", PopMode.line), Tooltip("Dit si la ligne est horizontale ou verticale")] public bool horizontal = true;
 
 
     [Title("Pop Parameters")] // --------------------------------------------------
-    [SerializeField, Tooltip("Taille du pull de particule")] int maxParticle = 30;
-    [SerializeField, Tooltip("Vitesse d'émission de particles")] float rateOfParticle = 5;
-    [SerializeField, Tooltip("Nombre de particules émises en burst à chaque play")] int burstParticle = 0;
+    [Tooltip("Taille du pull de particule")] public int maxParticle = 30;
+    [Tooltip("Vitesse d'émission de particles")] public float rateOfParticle = 5;
+    [Tooltip("Nombre de particules émises en burst à chaque play")] public int burstParticle = 0;
     float timerBeforeNextParticle = 0.1f; // Valeur de temps avant le prochain pop de particle en émission continue
 
 
     [Title("Dir Parameters")] // --------------------------------------------------
-    enum DirMode { goFrom, constant }
-    [SerializeField, Tooltip("Direction appliquée aux particules à l'init")] DirMode dirMod = DirMode.goFrom;
-    [SerializeField, ShowIf("dirMod", DirMode.constant), Tooltip("Direction précise donnée aux particules (normalisé derriere)")] Vector2 constantDir = new Vector2 (0f, 1f);
-    [SerializeField, ShowIf("dirMod", DirMode.goFrom), Tooltip("Position de laquelle les particules s'écartent")] Transform goFromPos = null;
+    public enum DirMode { goFrom, constant }
+    [Tooltip("Direction appliquée aux particules à l'init")] public DirMode dirMod = DirMode.goFrom;
+    [ShowIf("dirMod", DirMode.constant), Tooltip("Direction précise donnée aux particules (normalisé derriere)")] public Vector2 constantDir = new Vector2 (0f, 1f);
+    [ShowIf("dirMod", DirMode.goFrom), Tooltip("Position de laquelle les particules s'écartent")] public Transform goFromPos = null;
 
 
     [Title("Other Parameters")] // --------------------------------------------------
-    [SerializeField, Tooltip("Prefab de particule")] GameObject particlePrefab = null;
-    [SerializeField, Tooltip("Si remplis, sera le parent des particules")] Transform overrideParent = null;
-    [SerializeField, Tooltip("Si remplis, remplace le sprite des particules")] Sprite sprite = null;
+    [Tooltip("Prefab de particule")] public GameObject particlePrefab = null;
+    [Tooltip("Si remplis, sera le parent des particules")] public Transform overrideParent = null;
+    [Tooltip("Si remplis, remplace le sprite des particules")] public Sprite sprite = null;
 
 
     [Title("Lifetime Parameters")] // --------------------------------------------------
-    [SerializeField, Tooltip("Vitesse de la particule sur sa vie (multiplié par la vitesse à l'init)")] AnimationCurve speedOverLifeTime = AnimationCurve.Linear(0,0,1,1);
-    [SerializeField, Tooltip("Taille de la particule sur sa vie (multiplié par la taille à l'init)")] AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0,0,1,1);
-    [SerializeField, Tooltip("Couleur de la particule sur sa vie")] Gradient colorOverLifeTime = null;
+    [Tooltip("Vitesse de la particule sur sa vie (multiplié par la vitesse à l'init)")] public AnimationCurve speedOverLifeTime = AnimationCurve.Linear(0,0,1,1);
+    [Tooltip("Taille de la particule sur sa vie (multiplié par la taille à l'init)")] public AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0,0,1,1);
+    [Tooltip("Couleur de la particule sur sa vie")] public Gradient colorOverLifeTime = null;
 
 
     List<CustomParticle> allParticles = new List<CustomParticle>(); // Stock toute les particules du pull
@@ -169,6 +169,7 @@ public class UIParticuleSystem : MonoBehaviour
         Vector3[] corners = new Vector3[4];
         rect.GetWorldCorners(corners);
         Vector2 newRectSize = (corners[2] - corners[0]);
+        Vector2 randomBasePos, adaptedSize;
         switch (popMode)
         {
             // ---
@@ -179,7 +180,7 @@ public class UIParticuleSystem : MonoBehaviour
 
             // ---
             case PopMode.squareEdge:
-                Vector2 randomBasePos = Random.insideUnitCircle;
+                randomBasePos = Random.insideUnitCircle;
                 if (Mathf.Abs(randomBasePos.y) > Mathf.Abs(randomBasePos.x))
                 {
                     randomBasePos.y = 1 * Mathf.Sign(randomBasePos.y);
@@ -190,18 +191,28 @@ public class UIParticuleSystem : MonoBehaviour
                     randomBasePos.x = 1 * Mathf.Sign(randomBasePos.x);
                     randomBasePos.y = Random.Range(0f, 1f) * Mathf.Sign(Random.Range(-1f, 1f));
                 }
-                Vector2 adaptedSize = randomBasePos * newRectSize / 2 * rect.lossyScale;
+                adaptedSize = randomBasePos * newRectSize / 2 * rect.lossyScale;
+                particle.actualParticle.position = transform.position + new Vector3(adaptedSize.x, adaptedSize.y);
+                break;
+
+            // ---
+            case PopMode.square:
+                randomBasePos = Vector2.zero;
+                randomBasePos.x = Random.Range(0f, 1f) * Mathf.Sign(Random.Range(-1f, 1f));
+                randomBasePos.y = Random.Range(0f, 1f) * Mathf.Sign(Random.Range(-1f, 1f));
+                
+                adaptedSize = randomBasePos * newRectSize / 2 * rect.lossyScale;
                 particle.actualParticle.position = transform.position + new Vector3(adaptedSize.x, adaptedSize.y);
                 break;
 
             // ---
             case PopMode.line:
-                Vector2 randomPos = Vector2.zero;
+                randomBasePos = Vector2.zero;
                 float randomValue = Random.Range(0f, 1f) * Mathf.Sign(Random.Range(-1f, 1f));
-                if (horizontal) randomPos.x = randomValue;
-                else randomPos.y = randomValue;
-                Vector2 adaptedToRectSize = randomPos * newRectSize / 2 * rect.lossyScale;
-                particle.actualParticle.position = transform.position + new Vector3(adaptedToRectSize.x, adaptedToRectSize.y);
+                if (horizontal) randomBasePos.x = randomValue;
+                else randomBasePos.y = randomValue;
+                adaptedSize = randomBasePos * newRectSize / 2 * rect.lossyScale;
+                particle.actualParticle.position = transform.position + new Vector3(adaptedSize.x, adaptedSize.y);
                 break;
         }
     }

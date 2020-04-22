@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 public class UiViewer : MonoBehaviour
 {
@@ -36,6 +37,26 @@ public class UiViewer : MonoBehaviour
     [SerializeField] float speedRecover = 1;
     [SerializeField] float speedIdle = 15;
     [SerializeField] float amplitudeIdle = 0.08f;
+
+    [Title("New Vote")]
+    [SerializeField] GameObject root_Vote = null;
+    [SerializeField] Image blueBarFill = null;
+    [SerializeField, PropertyRange(0.01f,0.499f)] float safeValueFromMiddle = 0.1f;
+    [SerializeField, PropertyRange(0.01f,1f)] float graphicPropotionOfVoteFirst = 0.5f;
+    [SerializeField, PropertyRange(0.01f,1f)] float graphicPropotionOfVoteLast = 0.5f;
+    [SerializeField] UIParticuleSystem positivePs = null;
+    [SerializeField] UIParticuleSystem negativePs = null;
+    [SerializeField] float globalParticleEmission = 50;
+
+    [SerializeField] float timerGoToFirstValue = 1;
+    [SerializeField] float timerGoToLastValue = 2;
+    [SerializeField] float timerWaitAtLastValue = 1;
+    [SerializeField] float timerWaitDepopFinal = 1.3f;
+
+    [SerializeField] float randomFillAddedSpeed = 8;
+    [SerializeField, PropertyRange(0.01f, 1f)] float randomFillAddedAmplitude = 0.5f;
+    float customTimeForAddedFill = 0;
+
 
     private void Start()
     {
@@ -93,9 +114,75 @@ public class UiViewer : MonoBehaviour
         else ViewerText.text = "NO MANAGER";
     }
 
-    public void PlayerJustDied (bool willRevive, float result, float bonusFromRez)
+    public void PlayerJustDied (bool willRevive, float result, float bonusFromRez, float chanceOfSurvival)
     {
-        StartCoroutine(DeathCoroutine(willRevive, result, bonusFromRez));
+        //StartCoroutine(DeathCoroutine(willRevive, result, bonusFromRez));
+        StartCoroutine(NewVoteCoroutine(willRevive, result, bonusFromRez, chanceOfSurvival));
+    }
+
+    IEnumerator NewVoteCoroutine(bool revive, float result, float bonusFromRez, float chanceOfSurvival)
+    {
+        TimeScaleManager.Instance.AddStopTime(60);
+        root_Vote.SetActive(true);
+
+        Debug.Log("Chance = " + chanceOfSurvival + " / Result = " + result);
+
+        chanceOfSurvival /= 100;
+        result /= 100;
+        float firstSpot = (0.5f - graphicPropotionOfVoteFirst/2) + graphicPropotionOfVoteFirst * chanceOfSurvival;
+        float lastSpot;
+        if (revive)
+            lastSpot = 0.5f + safeValueFromMiddle + (graphicPropotionOfVoteLast * (0.5f - safeValueFromMiddle)) * (1 - result / chanceOfSurvival);
+        else 
+            lastSpot = 0.5f - safeValueFromMiddle - (graphicPropotionOfVoteLast * (0.5f - safeValueFromMiddle)) * ((result - chanceOfSurvival) / (1 - chanceOfSurvival));
+
+
+        // --- SETUP EMITTER
+        positivePs.duration = timerGoToFirstValue + timerGoToLastValue;
+        positivePs.Play();
+        negativePs.duration = timerGoToFirstValue + timerGoToLastValue;
+        negativePs.Play();
+
+
+        // --- FIRST SPOT
+        float timer = timerGoToFirstValue;
+        while (timer > 0)
+        {
+            customTimeForAddedFill += Time.unscaledDeltaTime * randomFillAddedSpeed;
+            timer -= Time.unscaledDeltaTime;
+            float currFill = Mathf.Lerp(.5f, Mathf.Clamp01(firstSpot), 1 - timer / timerGoToFirstValue);
+            blueBarFill.fillAmount = currFill + (Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude;
+            positivePs.rateOfParticle = globalParticleEmission * Mathf.Clamp01(firstSpot);
+            negativePs.rateOfParticle = globalParticleEmission * (1- Mathf.Clamp01(firstSpot));
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        // --- LAST SPOT
+        timer = timerGoToLastValue;
+        while (timer > 0)
+        {
+            customTimeForAddedFill += Time.unscaledDeltaTime * randomFillAddedSpeed;
+            timer -= Time.unscaledDeltaTime;
+            float currFill = Mathf.Lerp(Mathf.Clamp01(firstSpot), Mathf.Clamp01(lastSpot), 1 - timer / timerGoToLastValue);
+            blueBarFill.fillAmount = currFill + Mathf.Lerp((Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude, 0, 1 - timer / timerGoToLastValue);
+            positivePs.rateOfParticle = globalParticleEmission * Mathf.Clamp01(lastSpot);
+            negativePs.rateOfParticle = globalParticleEmission * (1- Mathf.Clamp01(lastSpot));
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        // --- FONCTIONS RETOUR
+        yield return new WaitForSecondsRealtime(timerWaitAtLastValue);
+        EndGameChoice.Instance.EndChoiceAnim(revive);
+        yield return new WaitForSecondsRealtime(timerWaitDepopFinal);
+        if (revive) MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.RevivedByCrowd);
+        root_Vote.SetActive(false);
+        EndGameChoice.Instance.EndChoice();
+        TimeScaleManager.Instance.Stop();
+        Main.Instance.EndReviveSituation(revive, bonusFromRez);
+
+        yield break;
     }
 
     IEnumerator DeathCoroutine(bool revive, float result, float bonusFromRez)

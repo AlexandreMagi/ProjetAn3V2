@@ -32,6 +32,11 @@ public class EndGameChoice : MonoBehaviour
 
     [SerializeField] Animator anmtrDisplay = null;
 
+    bool inChoice = true;
+
+    [SerializeField] GameObject positiveTextVote = null;
+    [SerializeField] GameObject negativeTextVote = null;
+
     public void SetupChoice(int publicMalus, int purcentageChance)
     {
         rootGameEnd.SetActive(true);
@@ -47,10 +52,20 @@ public class EndGameChoice : MonoBehaviour
         anmtrDisplay.enabled = false;
     }
 
-    public void AnimateEndOfChoice()
+    public void AnimateEndOfChoice(bool voteChoice)
     {
         anmtrDisplay.enabled = true;
-        anmtrDisplay.SetTrigger("Depop");
+        if (voteChoice)
+            anmtrDisplay.SetTrigger("PublicVote");
+        else
+            anmtrDisplay.SetTrigger("Depop");
+    }
+
+    public void EndChoiceAnim(bool life)
+    {
+        positiveTextVote.SetActive(life);
+        negativeTextVote.SetActive(!life);
+        anmtrDisplay.SetTrigger("EndChoiceAnim");
     }
 
     public void EndChoice()
@@ -61,30 +76,33 @@ public class EndGameChoice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        countdown.text = Mathf.CeilToInt(Main.Instance.TimeRemainingBeforeGameOver).ToString();
-        if (countdown.text != lastText)
-            bumpAnimPurcentage = 0;
-        lastText = countdown.text;
+        if (inChoice)
+        {
+            countdown.text = Mathf.CeilToInt(Main.Instance.TimeRemainingBeforeGameOver).ToString();
+            if (countdown.text != lastText)
+                bumpAnimPurcentage = 0;
+            lastText = countdown.text;
 
-        if (Mathf.CeilToInt(Main.Instance.TimeRemainingBeforeGameOver) <= remainingSecondDanger)
-        {
-            countdown.color = Color.Lerp(countdown.color, colorDanger, Time.unscaledDeltaTime * dangerTransitionLerpSpeed);
-            baseScaleCoutdown = Mathf.Lerp(baseScaleCoutdown, dangerScale, Time.unscaledDeltaTime * dangerTransitionLerpSpeed);
-        }
-        else
-        {
-            countdown.color = colorBase;
-            baseScaleCoutdown = 1;
-        }
-
-        if (bumpAnimPurcentage < 1)
-        {
-            countdown.transform.localScale = Vector3.one * baseScaleCoutdown + Vector3.one * bumpAnimCurve.Evaluate(bumpAnimPurcentage) * bumpAnimAmplitude;
-            bumpAnimPurcentage += Time.unscaledDeltaTime / bumpAnimTime;
-            if (bumpAnimPurcentage > 1)
+            if (Mathf.CeilToInt(Main.Instance.TimeRemainingBeforeGameOver) <= remainingSecondDanger)
             {
-                bumpAnimPurcentage = 1;
-                countdown.transform.localScale = Vector3.one * baseScaleCoutdown;
+                countdown.color = Color.Lerp(countdown.color, colorDanger, Time.unscaledDeltaTime * dangerTransitionLerpSpeed);
+                baseScaleCoutdown = Mathf.Lerp(baseScaleCoutdown, dangerScale, Time.unscaledDeltaTime * dangerTransitionLerpSpeed);
+            }
+            else
+            {
+                countdown.color = colorBase;
+                baseScaleCoutdown = 1;
+            }
+
+            if (bumpAnimPurcentage < 1)
+            {
+                countdown.transform.localScale = Vector3.one * baseScaleCoutdown + Vector3.one * bumpAnimCurve.Evaluate(bumpAnimPurcentage) * bumpAnimAmplitude;
+                bumpAnimPurcentage += Time.unscaledDeltaTime / bumpAnimTime;
+                if (bumpAnimPurcentage > 1)
+                {
+                    bumpAnimPurcentage = 1;
+                    countdown.transform.localScale = Vector3.one * baseScaleCoutdown;
+                }
             }
         }
     }
