@@ -455,7 +455,7 @@ public class SequenceHandler : MonoBehaviour
             //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
         }
 
-        if(!currentSequence.skipsToBranchOnEnd || (currentSequence.skipsToBranchOnEnd && !branchSkipValidated))
+        if(!currentSequence.skipsToBranchOnEnd || (currentSequence.affectedByBooleanSequenceBranch && !branchSkipValidated))
         {
             if(sequenceIndex >= currentBranch.GetNumberOfSequences() - 1)
             {
@@ -467,6 +467,8 @@ public class SequenceHandler : MonoBehaviour
             }
            
         }
+
+        Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
 
         isWaitingTimer = false;
 
