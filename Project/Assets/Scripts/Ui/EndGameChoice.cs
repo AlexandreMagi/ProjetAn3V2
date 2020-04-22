@@ -34,6 +34,9 @@ public class EndGameChoice : MonoBehaviour
 
     bool inChoice = true;
 
+    [SerializeField] GameObject positiveTextVote = null;
+    [SerializeField] GameObject negativeTextVote = null;
+
     public void SetupChoice(int publicMalus, int purcentageChance)
     {
         rootGameEnd.SetActive(true);
@@ -49,10 +52,20 @@ public class EndGameChoice : MonoBehaviour
         anmtrDisplay.enabled = false;
     }
 
-    public void AnimateEndOfChoice()
+    public void AnimateEndOfChoice(bool voteChoice)
     {
         anmtrDisplay.enabled = true;
-        anmtrDisplay.SetTrigger("Depop");
+        if (voteChoice)
+            anmtrDisplay.SetTrigger("PublicVote");
+        else
+            anmtrDisplay.SetTrigger("Depop");
+    }
+
+    public void EndChoiceAnim(bool life)
+    {
+        positiveTextVote.SetActive(life);
+        negativeTextVote.SetActive(!life);
+        anmtrDisplay.SetTrigger("EndChoiceAnim");
     }
 
     public void EndChoice()

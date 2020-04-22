@@ -26,6 +26,8 @@ public class Main : MonoBehaviour
     bool playerCouldOrb = false;
     bool playerCouldZeroG = false;
 
+    [HideInInspector] public bool overrideUiCrosshairInterdictionGraph = false;
+
     private bool playerUsedToHaveOrb = false;
 
     [HideInInspector] public bool playerInLeaderboard = false;
@@ -521,7 +523,7 @@ public class Main : MonoBehaviour
                     //button.DoAnim(choiceMade);
                 }
             }
-            EndGameChoice.Instance.AnimateEndOfChoice();
+            EndGameChoice.Instance.AnimateEndOfChoice(choice == 1);
         }
     }
 
@@ -566,7 +568,7 @@ public class Main : MonoBehaviour
     {
         TriggerGameOverSequence();
         lastChoiceForPlayer = false;
-        EndGameChoice.Instance.EndChoice();
+        //EndGameChoice.Instance.EndChoice();
     }
 
     List<EndGameBonus> allEndGameBonus = new List<EndGameBonus>();
@@ -702,6 +704,7 @@ public class Main : MonoBehaviour
             playerUsedToHaveOrb = true;
         }
 
+        overrideUiCrosshairInterdictionGraph = true;
         playerCanShoot = false;
         playerCanReload = false;
         playerCanOrb = false;
@@ -757,7 +760,7 @@ public class Main : MonoBehaviour
 
             int publicChoice = Random.Range(0, 101);
 
-            UiViewer.Instance.PlayerJustDied(publicChoice < trueChance, publicChoice, bonusFromRez);
+            UiViewer.Instance.PlayerJustDied(publicChoice < trueChance, publicChoice, bonusFromRez, trueChance);
 
             //Debug.Log($"Required : {trueChance} -- Chance : {publicChoice}");
         }
@@ -803,7 +806,7 @@ public class Main : MonoBehaviour
 
     private void DoResurrection(float bonus)
     {
-
+        overrideUiCrosshairInterdictionGraph = false;
         playerCanShoot = true;
         playerCanReload = true;
         if(playerUsedToHaveOrb) playerCanOrb = true;
