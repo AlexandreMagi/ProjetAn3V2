@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2305096825044289001}
   - component: {fileID: 7108474504965947359}
   - component: {fileID: 3574405156149756710}
-  m_Layer: 0
-  m_Name: MeTableDeControle
+  - component: {fileID: 5535014631720624789}
+  m_Layer: 9
+  m_Name: TableDeControle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3001086758326876154}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -273.712, y: -35.507, z: -6.67}
   m_LocalScale: {x: 1, y: 0.94625, z: 8.0464}
   m_Children: []
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3297912226980038121, guid: 9eeb73009ad6d354a8b799e22081096a, type: 3}
+  - {fileID: 2100000, guid: 785265b07a82c8746b52db8b777afdf2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &5535014631720624789
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3001086758326876154}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7444694666574744604, guid: 9eeb73009ad6d354a8b799e22081096a, type: 3}
