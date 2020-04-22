@@ -20,8 +20,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     [SerializeField]
     float forceApplied = 200;
-    [SerializeField]
-    float timerBeforeNextSequence = 0.5f;
 
     [SerializeField]
     bool triggersBooleanSequence = false;
@@ -31,6 +29,12 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     [SerializeField, ShowIf("triggersBooleanSequence")]
     bool booleanSequenceStateSet = true;
+
+    [SerializeField]
+    bool canTriggerNextSequence = true;
+
+    [SerializeField, ShowIf("canTriggerNextSequence")]
+    float timerBeforeNextSequence = 0.5f;
 
 
     int nbShootBeforeFirstHint = 1;
@@ -89,7 +93,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             Invoke("PlaySound", delay);
         }
 
-        if (!callNextSequence)
+        if (!callNextSequence && canTriggerNextSequence)
         {
             TriggerUtil.TriggerSequence(timerBeforeNextSequence);
             Invoke("resetNextSequence", 2f);
