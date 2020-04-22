@@ -12,7 +12,7 @@ public class MannequinManager : MonoBehaviour
     [SerializeField]
     bool animOnMansDead = false;
 
-    [SerializeField, ShowIf("animOnManDead")]
+    [SerializeField, ShowIf("animOnMansDead")]
     Animator[] anims = null;
 
     [SerializeField]
