@@ -33,6 +33,7 @@ public class DataTutorialCheckpoint : ScriptableObject
     [Tooltip("Temps apres l'action pour changer de séquence")] public float timerBetweenSuccesAndNextSequence = 0;
 
     [ShowIf("endSequenceBy", howToEnd.timer), Tooltip("Temps pour une action Timer")] public float timerToEndSequence = 5;
+    [Tooltip("Indique si le checkpoint fait passer à la prochaine séquence si accomplis")] public bool nextSequenceOnEnd = true;
 
 
 
