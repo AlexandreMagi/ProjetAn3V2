@@ -105,6 +105,14 @@ public class Main : MonoBehaviour
     {
         Debug.Log("Remettre la musique");
         //hSoundHandlerMainMusic = CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "Music",null, 0.5f, true);
+
+        playerCouldShoot = playerCanShoot;
+        playerCouldShotgun = playerCanShotgun;
+        playerCouldReload = playerCanReload;
+        playerCouldPerfectReload = playerCanPerfectReload;
+        playerCouldOrb = playerCanOrb;
+        playerCouldZeroG = playerCanZeroG;
+
     }
 
     // Update is called once per frame
