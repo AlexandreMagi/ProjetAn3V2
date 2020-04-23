@@ -76,6 +76,13 @@ public class DataCrossHair : ScriptableObject
     public AnimationCurve sizeAnim = AnimationCurve.Linear(0, 0, 1, 0);
     public float sizeMultiplier = 1;
 
+    [Header("Changement quand overlap bullet affect")]
+    public bool reactAtOverlap = false;
+    [ShowIf("reactAtOverlap")] public float sizeMultiplierByOverlap = 1;
+    [ShowIf("reactAtOverlap")] public Color colorAtOverlap = Color.red;
+    [ShowIf("reactAtOverlap")] public Color outlineColorAtOverlap = Color.red;
+    [ShowIf("reactAtOverlap")] public float overlapLerpSpeed = 12;
+
     [Header("Pop")]
     public activatedIf crosshairPopsWhen = activatedIf.start;
     public enum activatedIf { start, reload, reloadPerfect, shotgun, orb, zeroG }
