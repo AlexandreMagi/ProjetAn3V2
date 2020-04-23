@@ -58,6 +58,7 @@ public class FixedCameraScript : MonoBehaviour
             {
                 if (rb != null)
                 {
+                    rb.gameObject.transform.parent = null;
                     rb.isKinematic = false;
                     rb.AddExplosionForce(500f, transform.position, 1f);
                 }
