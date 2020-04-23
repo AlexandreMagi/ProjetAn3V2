@@ -57,6 +57,9 @@ public class Weapon : MonoBehaviour
 
     float rangeMultipler = 1;
     float intensityMultiplier = 1;
+    float lastLightDistance = 15;
+    int lastFrameLightRayCast = 0;
+    int shootLightRayCastEvery = 5;
 
     Main mainContainer = null;
 
@@ -77,6 +80,9 @@ public class Weapon : MonoBehaviour
     private float timeToMinSize = 0.2f;
     private float timerOrb = 0;
 
+    [SerializeField] public bool crosshairOnEnemy = false;
+    int lastFrameCrosshairRayCast = 0;
+    int shootCrosshairRayCastEvery = 5;
 
     void Awake ()
     {
@@ -130,20 +136,33 @@ public class Weapon : MonoBehaviour
 
         Ray rayFromMouse = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
 
-        //Shoot raycast
-        RaycastHit hitLight;
-        if (Physics.Raycast(rayFromMouse, out hitLight, Mathf.Infinity, weapon.maskCheckDistanceForLight))
+        if (lastFrameLightRayCast < Time.frameCount - shootLightRayCastEvery)
         {
-            float distance = Mathf.Clamp(hitLight.distance, 0, weapon.distanceMax);
-            intensityMultiplier = Mathf.Lerp(intensityMultiplier, distance * weapon.distanceIntensityMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
-            rangeMultipler = Mathf.Lerp(rangeMultipler, distance * weapon.distanceRangeMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
+            RaycastHit hitLight;
+            if (Physics.Raycast(rayFromMouse, out hitLight, Mathf.Infinity, weapon.maskCheckDistanceForLight))
+            {
+                lastLightDistance = Mathf.Clamp(hitLight.distance, 0, weapon.distanceMax);
+            }
+            lastFrameLightRayCast = Time.frameCount;
+        }
+        if (lastFrameCrosshairRayCast < Time.frameCount - shootCrosshairRayCastEvery)
+        {
+            RaycastHit hitCrosshair;
+            if (Physics.Raycast(rayFromMouse, out hitCrosshair, Mathf.Infinity, weapon.layerMaskHit))
+            {
+                IBulletAffect bAffect = hitCrosshair.transform.GetComponent<IBulletAffect>();
+                crosshairOnEnemy = bAffect != null;
+            }
+            else 
+                crosshairOnEnemy = false;
+            lastFrameCrosshairRayCast = Time.frameCount;
         }
 
+        // --- Changement de la light en fonction de la distance
+        intensityMultiplier = Mathf.Lerp(intensityMultiplier, lastLightDistance * weapon.distanceIntensityMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
+        rangeMultipler = Mathf.Lerp(rangeMultipler, lastLightDistance * weapon.distanceRangeMultiplier, Time.unscaledDeltaTime * weapon.distanceMultiplierLerpSpeed);
         weaponLight.spotAngle = Mathf.Lerp(weapon.baseAngle, weapon.chargedAngle, currentChargePurcentage);
         weaponLight.range = Mathf.Lerp(weapon.baseRange, weapon.chargedRange, currentChargePurcentage); // Calcul de la range en fonction de la charge actuelle
-
-        float stock = weaponLight.range;
-
         weaponLight.range = weaponLight.range * (1 - weapon.distanceImpactPurcentageOnValueRange) + weaponLight.range * weapon.distanceImpactPurcentageOnValueRange * rangeMultipler; // Calcul de la range en prenant compte la distance avec l'endroit visé
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage); // Calcul de l'intensité en fonction de la charge actuelle
         weaponLight.intensity = weaponLight.intensity * (1 - weapon.distanceImpactPurcentageOnValueIntensity) + weaponLight.intensity * weapon.distanceImpactPurcentageOnValueIntensity * intensityMultiplier; // Calcul de l'intensité en prenant compte la distance avec l'endroit visé

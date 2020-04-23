@@ -31,6 +31,8 @@ public class CrosshairInstance
     public bool unlocked = false;
     public float unlockedPurcentage = 0;
 
+    public float crossHairOnEnemyPurcentage = 0;
+
     public CrosshairInstance (DataCrossHair _data, RectTransform _rect, Image _img, Outline _outline)
     {
         data = _data;
@@ -51,30 +53,36 @@ public class CrosshairInstance
         Vector2Int bulletAmount =Weapon.Instance != null? Weapon.Instance.GetBulletAmmount() : Vector2Int.one * 15;
         bool triggerNoBullet = (bulletAmount.x == 0 || (Main.Instance != null ? !Main.Instance.PlayerCanShoot : false)) && (Main.Instance == null || !Main.Instance.overrideUiCrosshairInterdictionGraph);
         if (triggerNoBullet) purcentageReductionNoBullet += dt / data.noBulletAnimTime;
-
-
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
 
+        if (Weapon.Instance.crosshairOnEnemy)
+            crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 1, dt * data.overlapLerpSpeed);
+        else
+            crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 0, dt * data.overlapLerpSpeed);
+
         float sizeIdle                      = Mathf.Sin((time + data.offsetIdle) * (triggerNoBullet ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)));
         float sizeIdleMultiplier            = (triggerNoBullet ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue));
+        float sizeMultiplierByOverlap       = Mathf.Lerp(1, data.reactAtOverlap ? data.sizeMultiplierByOverlap : 1, crossHairOnEnemyPurcentage);
         float sizeAffectedByBulletNumber    = triggerNoBullet ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : 0;
         float sizeAffectedByCurrentCharge   = triggerNoBullet ? 0 : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue);
         float sizeAffectedByAnim            = data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier;
         float sizeAffectedByRecoil          = (reculValue / data.reculMax) * data.reculSizeMultiplier;
         float sizeAffectedByHit             = (hitValue / data.hitMax) * data.hitSizeMultiplier;
 
-        size =  sizeIdle                        // Mathf sin pour l'idle
+        size =  (sizeIdle                       // Mathf sin pour l'idle
                 * sizeIdleMultiplier            // Multiplier du mathf sin
                 + sizeAffectedByBulletNumber    // Taille ajouté par le nombre de balle restant
                 + sizeAffectedByCurrentCharge   // Taille ajouté par la charge d'arme actuelle
                 + sizeAffectedByAnim            // Taille ajouté pra l'anim de charge
                 + sizeAffectedByRecoil          // Taille ajouté par recul
-                + sizeAffectedByHit;            // Taille ajouté par les Hit
+                + sizeAffectedByHit)            // Taille ajouté par les Hit
+                * sizeMultiplierByOverlap;      // Multiplier de l'overlap
 
 
         color = triggerNoBullet ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
         outlineColor = triggerNoBullet ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
+        
 
         currentRotation += data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue));
         if (Mathf.Abs(currentRotation) > 360) currentRotation += 360 * Mathf.Sign(currentRotation);
@@ -110,6 +118,12 @@ public class CrosshairInstance
             outlineColor = Color.Lerp(new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0), outlineColor, unlockedPurcentage);
             rotation = Mathf.Lerp(0, rotation, unlockedPurcentage);
             offset = Vector2.Lerp(Vector2.zero, offset, unlockedPurcentage);
+        }
+
+        if (data.reactAtOverlap)
+        {
+            color = Color.Lerp(color, data.colorAtOverlap, crossHairOnEnemyPurcentage);
+            outlineColor = Color.Lerp(outlineColor, data.outlineColorAtOverlap, crossHairOnEnemyPurcentage);
         }
 
     }
