@@ -38,8 +38,14 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect
 
     protected override void Die()
     {
-        GetComponentInParent<MannequinManager>().ChildDied();
-        base.Die();
+        MannequinManager parentManger = GetComponentInParent<MannequinManager>();
+
+        if (parentManger)
+        {
+            GetComponentInParent<MannequinManager>().ChildDied();
+            base.Die();
+        }
+       
     }
 
     #region Gravity
