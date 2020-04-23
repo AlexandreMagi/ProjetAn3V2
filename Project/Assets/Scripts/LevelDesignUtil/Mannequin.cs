@@ -98,7 +98,11 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
     public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray shotRay)
     {
         if (mustBeKilledInZeroG && isFloating)
+        {
             rb.AddExplosionForce(250, position, 1);
+            TakeDamage(mod.bullet.damage);
+        }
+           
     }
 
     public void OnHitShotGun(DataWeaponMod mod)

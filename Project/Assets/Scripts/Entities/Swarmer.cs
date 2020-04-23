@@ -170,7 +170,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void OnManualActivation()
     {
         if(currentState == SwarmerState.PlayingAnimation)
-        currentState = SwarmerState.LookingForTarget;
+        {
+            currentState = SwarmerState.LookingForTarget;
+            Invoke("MaybeGrunt", .5f);
+
+            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+        }
+       
     }
 
     protected override void Die()
@@ -258,7 +264,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
 
         lastKnownPosition = transform.position;
-        Invoke("MaybeGrunt", 1f);
+
+        if(!playsAnimationOnStartUp)
+            Invoke("MaybeGrunt", 1f);
     }
 
     protected override void Update()
