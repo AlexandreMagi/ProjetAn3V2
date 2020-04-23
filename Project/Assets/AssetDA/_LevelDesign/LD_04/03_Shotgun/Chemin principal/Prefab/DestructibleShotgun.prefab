@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3090742290625232062}
   - component: {fileID: 823280646}
   - component: {fileID: 823280645}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DestructibleShotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,8 @@ MonoBehaviour:
   soundVolume: 1
   delay: 0
   forceApplied: 100
-  timerBeforeNextSequence: 0.5
   triggersBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateSet: 1
+  canTriggerNextSequence: 1
+  timerBeforeNextSequence: 0.5
