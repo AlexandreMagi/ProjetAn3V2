@@ -204,6 +204,14 @@ public class DataSequence : ScriptableObject
 
 
 
+    // ############################################################################################## OTHERS
+
+    [Header("Others")]
+    [Tooltip("Lock de la weapon light")]
+    public bool lockWeaponLight = false;
+
+
+
 
     [Space(50f)]
 
