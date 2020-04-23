@@ -114,8 +114,7 @@ public static class TriggerUtil
     //SHAKE TRIGGER
     public static void TriggerShake(float timeBeforeStart, float shakeForce, float shakeDuration, bool isStopShake)
     {
-        if(!isStopShake)
-            Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, Vector3.one * 666, isStopShake)); // 666 value safe
+        Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, Vector3.one * 666, isStopShake)); // 666 value safe
     }
 
     static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce,float shakeDuration, Vector3 pos, bool isStopShake)
