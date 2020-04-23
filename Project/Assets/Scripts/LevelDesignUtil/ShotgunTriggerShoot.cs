@@ -20,8 +20,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     [SerializeField]
     float forceApplied = 200;
-    [SerializeField]
-    float timerBeforeNextSequence = 0.5f;
 
     [SerializeField]
     bool triggersBooleanSequence = false;
@@ -31,6 +29,18 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     [SerializeField, ShowIf("triggersBooleanSequence")]
     bool booleanSequenceStateSet = true;
+
+    [SerializeField]
+    bool canTriggerNextSequence = true;
+
+    [SerializeField, ShowIf("canTriggerNextSequence")]
+    float timerBeforeNextSequence = 0.5f;
+
+    [SerializeField]
+    GameObject fracturedProp;
+
+    [SerializeField]
+    float fracturedForceOnDie = 500;
 
 
     int nbShootBeforeFirstHint = 1;
@@ -47,6 +57,15 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     bool callNextSequence = false;
 
     bool canDisplayHint = true;
+
+    MeshRenderer renderer;
+    Collider collider;
+
+    void Start()
+    {
+        renderer = GetComponent<MeshRenderer>();
+        collider = GetComponent<Collider>();
+    }
 
     void PlaySound()
     {
@@ -69,13 +88,13 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     public void OnHitShotGun(DataWeaponMod mod)
     {
-        Destroy(GetComponent<Animator>());
+    //    Destroy(GetComponent<Animator>());
 
-        Rigidbody rb = GetComponent<Rigidbody>();
+    //    Rigidbody rb = GetComponent<Rigidbody>();
 
-        rb.isKinematic = false;
+    //    rb.isKinematic = false;
 
-        rb.AddForce(new Vector3(forceApplied, 0, 0));
+    //    rb.AddForce(new Vector3(forceApplied, 0, 0));
         HintScript.Instance.Depop();
 
         if (triggersBooleanSequence)
@@ -89,7 +108,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             Invoke("PlaySound", delay);
         }
 
-        if (!callNextSequence)
+        if (!callNextSequence && canTriggerNextSequence)
         {
             TriggerUtil.TriggerSequence(timerBeforeNextSequence);
             Invoke("resetNextSequence", 2f);
@@ -99,6 +118,26 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         canDisplayHint = false;
 
         Weapon.Instance.OnShotGunHitTarget();
+
+        renderer.enabled = false;
+        collider.enabled = false;
+
+        InstantiateExplosion();
+    }
+    void InstantiateExplosion()
+    {
+        if (fracturedProp != null)
+        {
+            GameObject fract;
+            fract = Instantiate(fracturedProp, transform);
+            fract.transform.parent = null;
+
+            Rigidbody[] rb = fract.GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rbs in rb)
+            {
+                rbs.AddExplosionForce(fracturedForceOnDie * 10, rbs.transform.position, 10);
+            }
+        }
     }
 
     void Update()
@@ -121,9 +160,9 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
-        Animator anim = GetComponent<Animator>();
-        if (anim != null)
-            anim.SetTrigger("MakeAction");
+        //Animator anim = GetComponent<Animator>();
+        //if (anim != null)
+        //    anim.SetTrigger("MakeAction");
         nbShoot++;
         if (nbShoot == 1)
         {

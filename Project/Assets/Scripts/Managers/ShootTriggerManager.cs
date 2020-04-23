@@ -166,7 +166,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (startsShakeAfterAllTriggers)
         {
-            TriggerUtil.TriggerShake(timeBeforeShake, shakeForce, shakeDuration);
+            TriggerUtil.TriggerShake(timeBeforeShake, shakeForce, shakeDuration, true);
         }
 
         if (isPlayingSound)

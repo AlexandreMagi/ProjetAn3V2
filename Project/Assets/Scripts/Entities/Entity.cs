@@ -17,7 +17,7 @@ public class Entity<T> : MonoBehaviour, IEntity where T : DataEntity
         TeamsManager.Instance.RegistertoTeam(this.transform, this.entityData.team);
     }
 
-    public void ForceKill()
+    public virtual void ForceKill()
     {
         this.Die();
     }

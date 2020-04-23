@@ -28,10 +28,24 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect
         }
     }
 
+    public override void ForceKill()
+    {
+        if ((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG)
+        {
+            Die();
+        }
+    }
+
     protected override void Die()
     {
-        GetComponentInParent<MannequinManager>().ChildDied();
-        base.Die();
+        MannequinManager parentManger = GetComponentInParent<MannequinManager>();
+
+        if (parentManger)
+        {
+            GetComponentInParent<MannequinManager>().ChildDied();
+            base.Die();
+        }
+       
     }
 
     #region Gravity
