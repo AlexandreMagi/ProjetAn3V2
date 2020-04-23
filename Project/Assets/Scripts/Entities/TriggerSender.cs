@@ -40,9 +40,12 @@ public class TriggerSender : MonoBehaviour
     float animationWaitTimer = 0;
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
+    bool isStopShake = false;
+    [ShowIf("typeTrigger", TriggerType.Shake), HideIf("isStopShake"), SerializeField]
     float ShakeValue = 0;
-    [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
+    [ShowIf("typeTrigger", TriggerType.Shake), HideIf("isStopShake"), SerializeField]
     float ShakeDuration = 0;
+
 
 
     [ShowIf("typeTrigger", TriggerType.Boolean), SerializeField]
@@ -170,7 +173,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Shake:
-                TriggerUtil.TriggerShake(timeBeforeStart, ShakeValue, ShakeDuration);
+                TriggerUtil.TriggerShake(timeBeforeStart, ShakeValue, ShakeDuration, isStopShake);
                 this.gameObject.SetActive(false);
                 break;
 

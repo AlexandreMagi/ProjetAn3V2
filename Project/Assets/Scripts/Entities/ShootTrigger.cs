@@ -28,12 +28,16 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     Collider thisCollider = null;
     MeshRenderer mshrenderer = null;
 
+    float currentHp = 0;
+
     protected override void Start()
     {
         parentManager = this.transform.GetComponentInParent<ShootTriggerManager>();
 
         thisCollider = GetComponent<Collider>();
         mshrenderer = mesh.GetComponent<MeshRenderer>();
+
+        currentHp = entityData.startHealth;
     }
 
 
@@ -41,7 +45,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     #region StimulusBullet
     public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
-        if (!isTriggered)
+        currentHp -= mod.bullet.damage;
+
+        if (!isTriggered && currentHp <= 0)
         {
             //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
 

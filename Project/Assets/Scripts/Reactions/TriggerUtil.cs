@@ -107,22 +107,31 @@ public static class TriggerUtil
     }
 
     //SHAKE TRIGGER
-    public static void TriggerShake(float timeBeforeStart, float shakeForce, float shakeDuration, Vector3 pos)
+    public static void TriggerShake(float timeBeforeStart, float shakeForce, float shakeDuration, Vector3 pos, bool isStopShake)
     {
-        Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, pos));
+        Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, pos, isStopShake));
     }
     //SHAKE TRIGGER
-    public static void TriggerShake(float timeBeforeStart, float shakeForce, float shakeDuration)
+    public static void TriggerShake(float timeBeforeStart, float shakeForce, float shakeDuration, bool isStopShake)
     {
-        Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, Vector3.one * 666)); // 666 value safe
+        if(!isStopShake)
+            Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, Vector3.one * 666, isStopShake)); // 666 value safe
     }
 
-    static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce,float shakeDuration, Vector3 pos)
+    static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce,float shakeDuration, Vector3 pos, bool isStopShake)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos, shakeDuration);
-        else CameraHandler.Instance.AddShake(shakeForce, shakeDuration);
+        if (!isStopShake)
+        {
+            if (pos != Vector3.one * 666) CameraHandler.Instance.AddShake(shakeForce, pos, shakeDuration);
+            else CameraHandler.Instance.AddShake(shakeForce, shakeDuration);
+        }
+        else
+        {
+            CameraHandler.Instance.RemoveShake();
+        }
+       
 
         yield break;
     }
