@@ -173,6 +173,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentState = SwarmerState.LookingForTarget;
             Invoke("MaybeGrunt", .5f);
+
+            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         }
        
     }
