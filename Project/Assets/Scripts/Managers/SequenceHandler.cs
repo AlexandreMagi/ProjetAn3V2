@@ -540,10 +540,11 @@ public class SequenceHandler : MonoBehaviour
             if (!currentSequence.activateWaitScreen) UiCrossHair.Instance.StopWaitFunction();
             else UiCrossHair.Instance.WaitFunction();
         }
+        Weapon.Instance.rotateLocked = currentSequence.lockWeaponLight;
 
 
         //DECLENCHEMENT DU FEEDBACK DE CAM
-        if (CameraHandler.Instance != null)
+            if (CameraHandler.Instance != null)
         {
             if (currentSequence.changeNoiseSettings)
             {
