@@ -28,7 +28,7 @@ public class UINewWait : MonoBehaviour
             obj.SetActive(false);
         }
         waitRoot.SetActive(true);
-        if (waitRoot.activeSelf)
+        if (waitAnmatr != null && waitRoot.activeSelf)
             waitAnmatr.SetTrigger("pop");
         //Weapon.Instance.rotateLocked = true;
         
@@ -36,7 +36,7 @@ public class UINewWait : MonoBehaviour
 
     public void RemoveWait()
     {
-        if (waitRoot.activeSelf)
+        if (waitAnmatr != null && waitRoot.activeSelf)
             waitAnmatr.SetTrigger("depop");
         Invoke("RemoveWaitTrue", 0.39f);
         //Weapon.Instance.rotateLocked = false;
