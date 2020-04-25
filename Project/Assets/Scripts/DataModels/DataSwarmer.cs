@@ -26,6 +26,7 @@ public class DataSwarmer : DataEnemy
 
     public float waitDuration = 0.3f;
     public float distanceBeforeAttack = 6f;
+    public float distanceApproximation = 1f;
     public float jumpForce = 80f;
     public float speedMultiplierWhenAttacking = 4;
 
