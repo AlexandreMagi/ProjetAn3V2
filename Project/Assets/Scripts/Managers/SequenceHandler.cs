@@ -531,9 +531,9 @@ public class SequenceHandler : MonoBehaviour
         }
 
         Debug.Log("Reactiver l'appel auto");
-        //if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
+        if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
 
-        if (currentSequence.checkpointToUse != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
+        if (currentSequence.checkpointToUse != null && TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
 
         if (currentSequence.changeWaitScreen)
         {

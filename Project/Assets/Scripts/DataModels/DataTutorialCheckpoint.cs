@@ -56,7 +56,11 @@ public class DataTutorialCheckpoint : ScriptableObject
 
     public bool popHintAfterTimer = false;
     [ShowIf("popHintAfterTimer")]
-    public string LolCestPasFait = "Cheh";
+    public float timeBeforePopHint = 5;
+    [ShowIf("popHintAfterTimer")]
+    public bool hintTimerTimeScaled = false;
+    [ShowIf("popHintAfterTimer")]
+    public string hintText = "Enter Hint Text";
 
 
 
