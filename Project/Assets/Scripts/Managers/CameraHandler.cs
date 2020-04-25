@@ -413,6 +413,8 @@ public class CameraHandler : MonoBehaviour
         }
     }
 
+    public void ForceCinemachineCam () { currentCamIsCine = true;  }
+
     public Vector3 pointDelayOnRotation()
     {
         return cinemachineCam.WorldToScreenPoint(currentCamIsCine ? (camData.followRotDummy ? camDelayRotDummy.transform.position : camDelayPosDummy.transform.position) : new Vector3(Screen.width, Screen.height, 0) / 2);
