@@ -2558,8 +2558,8 @@ MonoBehaviour:
   spawnersToTrigger: []
   delayOnTrigger: 0
   timeSequenceDuration: 0
-  hasEventOnEnd: 0
-  seqEvent: 0
+  hasEventOnEnd: 1
+  seqEvent: 5
   timeBeforeEvent: 0
   distanceToAnchor: 5
   initImpulseBalancing: 30
@@ -2578,8 +2578,8 @@ MonoBehaviour:
   tagsAnimated: []
   soundPlayed: 
   volume: 1
-  armorToGainOverTime: 0
-  armorGainRate: 0
+  armorToGainOverTime: 100
+  armorGainRate: 300
   skipsToBranchOnEnd: 0
   affectedByBooleanSequenceBranch: 0
   branchLinkedId: 0
@@ -4131,7 +4131,7 @@ MonoBehaviour:
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
-  sequenceType: 2
+  sequenceType: 1
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
@@ -4171,7 +4171,7 @@ MonoBehaviour:
   delayOnAction: 0
   _active: 1
   positionMoveTo: {x: 0, y: 0, z: 0}
-  checkpointToUse: {fileID: 11400000, guid: f210fb4fbaa80694c8db67f5598773f7, type: 2}
+  checkpointToUse: {fileID: 0}
   lockWeaponLight: 0
   enableCamFeedback: 0
   enableCamTransition: 0

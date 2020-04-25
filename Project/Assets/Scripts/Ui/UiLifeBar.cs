@@ -62,6 +62,11 @@ public class UiLifeBar : MonoBehaviour
     [SerializeField] Image matShaderShield = null;
     Material matShaderShieldInstance = null;
 
+    [SerializeField] Image fullScreenShield = null;
+    [SerializeField] float timeShieldRemainVisible = 1;
+    [SerializeField] float timeShieldFade = 0.2f;
+    float timeShieldRemaining = 0;
+
     private void Start()
     {
         stockArmor = Player.Instance.getArmor();
@@ -107,6 +112,22 @@ public class UiLifeBar : MonoBehaviour
         {
             fonduNoirGameOver.color = new Color(0, 0, 0, Mathf.MoveTowards(fonduNoirGameOver.color.a, 1, Time.unscaledDeltaTime * speedAlphaFonduGameOver));
         }
+
+        if (timeShieldRemaining > 0)
+        {
+            timeShieldRemaining -= Time.unscaledDeltaTime;
+
+            if (timeShieldRemaining < timeShieldFade)
+                fullScreenShield.color = new Color(fullScreenShield.color.r, fullScreenShield.color.g, fullScreenShield.color.b, timeShieldRemaining / timeShieldFade);
+            else if (timeShieldRemaining > timeShieldRemainVisible - timeShieldFade)
+                fullScreenShield.color = new Color(fullScreenShield.color.r, fullScreenShield.color.g, fullScreenShield.color.b, 1 - ((timeShieldRemaining - (timeShieldRemainVisible - timeShieldFade)) / timeShieldFade));
+            else
+                fullScreenShield.color = new Color(fullScreenShield.color.r, fullScreenShield.color.g, fullScreenShield.color.b, 1);
+            if (timeShieldRemaining < 0)
+                fullScreenShield.color = new Color(fullScreenShield.color.r, fullScreenShield.color.g, fullScreenShield.color.b, 0);
+        }
+
+
     }
 
     void UpdateScaleIfUsed()
@@ -179,7 +200,11 @@ public class UiLifeBar : MonoBehaviour
     {
         //rootVerticalShield.transform.localScale = new Vector3(1, armor / stockMaxArmor, 1);
         if (stockArmor <= armor)
+        {
             lastArmor = armor;
+            timeShieldRemaining = timeShieldRemainVisible;
+        }
+
         stockArmor = armor;
         currentRecoverPurcentage = 0;
         timeRemainingReducing = timeUnusedToReduce + timeToReduce;
