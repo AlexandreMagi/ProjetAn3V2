@@ -406,7 +406,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if (timerWait > entityData.waitDuration)
                 {
                     timerWait = 0;
-                    if (target != null && CheckDistance())
+                    if (target != null && CheckDistanceWithApproximation())
                     {
                         currentState = SwarmerState.Attacking;
 
@@ -551,6 +551,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             #region DodgingObstacle
             case SwarmerState.DodgingObstacle:
                 MoveTowardsTarget(obstacleDodgePoint);
+
+                if(CheckObjectiveDistance() && CheckObjectiveAngle())
+                {
+                    currentState = SwarmerState.FollowPath;
+                    break;
+                }
 
                 bool moveRight = false;
 
@@ -713,7 +719,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     bool CheckDistance()
     {
-        if (Vector3.Distance(transform.position, target.position) < entityData.distanceBeforeAttack)
+        if (Vector3.Distance(transform.position, target.position) <= entityData.distanceBeforeAttack)
+            return true;
+        else
+            return false;
+    }
+
+    bool CheckDistanceWithApproximation()
+    {
+        if (Vector3.Distance(transform.position, target.position) <= entityData.distanceBeforeAttack + entityData.distanceApproximation)
             return true;
         else
             return false;
