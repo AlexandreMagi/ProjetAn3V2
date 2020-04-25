@@ -109,7 +109,6 @@ public class TutorialCheckpoint : MonoBehaviour
     /// </summary>
     public void EndTutorialCheckpoint()
     {
-        if (ActivateDebugs) Debug.Log("End of Checkpoint");
         if (checkpointData != null)
         {
             foreach (DataTutorialCheckpoint.playerActions activation in checkpointData.actionsPlayerCanDoAfter)
@@ -146,7 +145,6 @@ public class TutorialCheckpoint : MonoBehaviour
             }
             checkpointData = null;
             timeRemainingBeforeHint = 0;
-            HintScript.Instance.Depop();
         }
     }
 
@@ -218,6 +216,22 @@ public class TutorialCheckpoint : MonoBehaviour
         }
     }
 
+    void ConditionFilled ()
+    {
+        if (purcentageAccomplission < 1)
+        {
+            purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
+            if (purcentageAccomplission >= 1)
+            {
+                purcentageAccomplission = 1;
+                HintScript.Instance.Depop();
+                if (ActivateDebugs) Debug.Log("End of Checkpoint in " + Mathf.RoundToInt(endCheckpointTimer) + "s");
+            }
+            if (ActivateDebugs) Debug.Log(purcentageAccomplission * 100 + "% Accomplished");
+        }
+
+    }
+
     void HandleHint()
     {
         if (checkpointData.popHintAfterTimer)
@@ -225,7 +239,7 @@ public class TutorialCheckpoint : MonoBehaviour
             if (timeRemainingBeforeHint > 0)
             {
                 timeRemainingBeforeHint -= checkpointData.hintTimerTimeScaled ? Time.deltaTime : Time.unscaledDeltaTime;
-                if (timeRemainingBeforeHint < 0)
+                if (timeRemainingBeforeHint < 0 && purcentageAccomplission < 1)
                 {
                     HintScript.Instance.PopHint(checkpointData.hintText);
                 }
@@ -237,8 +251,9 @@ public class TutorialCheckpoint : MonoBehaviour
     {
         if (checkpointData != null)
         {
+            if (ActivateDebugs) Debug.Log("Player reloaded /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.reload || checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.perfectReload && perfectReload)
-                purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
+                ConditionFilled();
         }
     }
 
@@ -248,9 +263,8 @@ public class TutorialCheckpoint : MonoBehaviour
         {
             if (ActivateDebugs) Debug.Log("Player used orb /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.orbLaunched)
-                purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
+                ConditionFilled();
         }
-        if (ActivateDebugs) Debug.Log(purcentageAccomplission * 100 + "% Accomplished");
     }
 
     public void PlayerUsedZeroG()
@@ -259,9 +273,8 @@ public class TutorialCheckpoint : MonoBehaviour
         {
             if (ActivateDebugs) Debug.Log("Player used zero g /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.orbReactivated)
-                purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
+                ConditionFilled();
         }
-        if (ActivateDebugs) Debug.Log(purcentageAccomplission * 100 + "% Accomplished");
     }
 
     public void PlayerUsedShotGun()
@@ -270,8 +283,7 @@ public class TutorialCheckpoint : MonoBehaviour
         {
             if (ActivateDebugs) Debug.Log("Player used shotgun /  Needed is " + checkpointData.endSequenceBy);
             if (checkpointData.endSequenceBy == DataTutorialCheckpoint.howToEnd.shotgun)
-                purcentageAccomplission += 1 / (float)checkpointData.nbActionsNecessary;
+                ConditionFilled();
         }
-        if (ActivateDebugs) Debug.Log(purcentageAccomplission * 100 + "% Accomplished");
     }
 }
