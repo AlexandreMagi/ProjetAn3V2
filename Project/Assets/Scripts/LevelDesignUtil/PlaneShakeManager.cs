@@ -76,8 +76,11 @@ public class PlaneShakeManager : MonoBehaviour
         {
             foreach (var propRb in allAffectedProps)
             {
-                Vector3 dirVector = (Vector3.up + new Vector3(Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps))).normalized;
-                propRb.AddForce(dirVector * (force + force * Random.Range(0, randomPurcentageOnEachObject) * Mathf.Sign(Random.Range(-1f, 1f))), ForceMode.Impulse);
+                if (propRb != null)
+                {
+                    Vector3 dirVector = (Vector3.up + new Vector3(Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps), Random.Range(-randomDirOnJumps, randomDirOnJumps))).normalized;
+                    propRb.AddForce(dirVector * (force + force * Random.Range(0, randomPurcentageOnEachObject) * Mathf.Sign(Random.Range(-1f, 1f))), ForceMode.Impulse);
+                }
             }
         }
     }
