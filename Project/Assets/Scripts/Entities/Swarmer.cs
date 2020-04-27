@@ -269,7 +269,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentState = SwarmerState.PlayingAnimation;
 
-            Invoke("PlayAnimDelayed", Random.Range(.01f, maxRandomTime));
+            float timeDecal = hasRandomStartUpTimeAnimation ? Random.Range(.01f, maxRandomTime) : 0;
+
+            Invoke("PlayAnimDelayed", timeDecal);
         }
 
         lastKnownPosition = transform.position;
