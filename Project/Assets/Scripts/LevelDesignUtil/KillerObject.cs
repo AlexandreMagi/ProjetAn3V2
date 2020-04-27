@@ -12,6 +12,10 @@ public class KillerObject : MonoBehaviour
     [SerializeField]
     bool countsAsPlayerKill = true;
 
+    [SerializeField]
+    float shakeForceAtVictim = 0;
+    [SerializeField]
+    float shakeDurationAtVictim = 0;
 
     public void Update()
     {
@@ -42,7 +46,7 @@ public class KillerObject : MonoBehaviour
             {
                 otherEnemy.TakeDamage(999999);
                 timeBeforeEndOfMulti = 0.3f;
-
+                if (CameraHandler.Instance != null && shakeForceAtVictim > 0 && shakeDurationAtVictim > 0) CameraHandler.Instance.AddShake(shakeForceAtVictim, shakeDurationAtVictim);
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
             }
             else

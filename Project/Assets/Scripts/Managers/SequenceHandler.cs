@@ -539,8 +539,16 @@ public class SequenceHandler : MonoBehaviour
 
         if (currentSequence.changeWaitScreen)
         {
-            if (!currentSequence.activateWaitScreen) UiCrossHair.Instance.StopWaitFunction();
-            else UiCrossHair.Instance.WaitFunction();
+            if (!currentSequence.activateWaitScreen)
+            {
+                UiCrossHair.Instance.StopWaitFunction();
+                Main.Instance.SetupWaitScreenOff();
+            }
+            else
+            {
+                UiCrossHair.Instance.WaitFunction();
+                Main.Instance.SetupWaitScreenOn();
+            }
         }
         Weapon.Instance.rotateLocked = currentSequence.lockWeaponLight;
 

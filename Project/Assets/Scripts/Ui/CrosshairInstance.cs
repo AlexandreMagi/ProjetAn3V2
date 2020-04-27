@@ -51,7 +51,7 @@ public class CrosshairInstance
         GetChargeFeedbackValue(chargeValue, dt);
 
         Vector2Int bulletAmount =Weapon.Instance != null? Weapon.Instance.GetBulletAmmount() : Vector2Int.one * 15;
-        bool triggerNoBullet = (bulletAmount.x == 0 || (Main.Instance != null ? !Main.Instance.PlayerCanShoot : false)) && (Main.Instance == null || !Main.Instance.overrideUiCrosshairInterdictionGraph);
+        bool triggerNoBullet = (bulletAmount.x == 0 || (Main.Instance != null ? !Main.Instance.playerCanShoot : false)) && (Main.Instance == null || !Main.Instance.overrideUiCrosshairInterdictionGraph);
         if (triggerNoBullet) purcentageReductionNoBullet += dt / data.noBulletAnimTime;
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);

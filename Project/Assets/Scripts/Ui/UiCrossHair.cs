@@ -149,19 +149,19 @@ public class UiCrossHair : MonoBehaviour
                         dataHandlerCrosshairs[i].unlocked = true;
                         break;
                     case DataCrossHair.activatedIf.reload:
-                        if (Main.Instance.PlayerCanReload) dataHandlerCrosshairs[i].unlocked = true;
+                        if (Main.Instance.playerCanReload) dataHandlerCrosshairs[i].unlocked = true;
                         break;
                     case DataCrossHair.activatedIf.reloadPerfect:
-                        if (Main.Instance.PlayerCanPerfectReload) dataHandlerCrosshairs[i].unlocked = true;
+                        if (Main.Instance.playerCanPerfectReload) dataHandlerCrosshairs[i].unlocked = true;
                         break;
                     case DataCrossHair.activatedIf.shotgun:
-                        if (Main.Instance.PlayerCanShotgun) dataHandlerCrosshairs[i].unlocked = true;
+                        if (Main.Instance.playerCanShotgun) dataHandlerCrosshairs[i].unlocked = true;
                         break;
                     case DataCrossHair.activatedIf.orb:
-                        if (Main.Instance.PlayerCanOrb) dataHandlerCrosshairs[i].unlocked = true;
+                        if (Main.Instance.playerCanOrb) dataHandlerCrosshairs[i].unlocked = true;
                         break;
                     case DataCrossHair.activatedIf.zeroG:
-                        if (Main.Instance.PlayerCanZeroG) dataHandlerCrosshairs[i].unlocked = true;
+                        if (Main.Instance.playerCanZeroG) dataHandlerCrosshairs[i].unlocked = true;
                         break;
                 }
             }
