@@ -742,6 +742,13 @@ public class Main : MonoBehaviour
         playerCanShootWaitScreenSave = playerCanShoot;
         playerCanShotgunWaitScreenSave = playerCanShotgun;
 
+        playerCanOrb = false;
+        playerCanReload = false;
+        playerCanZeroG = false;
+        playerCanPerfectReload = false;
+        playerCanShoot = false;
+        playerCanShotgun = false;
+
     }
     public void SetupWaitScreenOff()
     {
