@@ -336,6 +336,8 @@ public class SequenceHandler : MonoBehaviour
             currentSequence = sequenceBranches[branchIndex].GetDataSequenceAt(sequenceIndex - 1);
             //currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
 
+            CameraHandler.Instance.ForceCinemachineCam();
+
             //CHANGEMENT DE CAM -- Pour pas casser les timers
             currentVirtualCamera.Priority = 10;
             pastCamPos = currentVirtualCamera.transform.position;
@@ -356,7 +358,7 @@ public class SequenceHandler : MonoBehaviour
 
     
     /// <summary>
-    /// Passes to the next sequence. Does nothing is no sequence is left
+    /// Passes to the next sequence. Does nothing if no sequence is left
     /// </summary>
     public void NextSequence(bool isForced = false)
     {
