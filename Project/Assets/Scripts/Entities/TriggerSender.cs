@@ -228,11 +228,7 @@ public class TriggerSender : MonoBehaviour
         if (activatesAllAnimatingSwarmersOnTrigger)
         {
             //Swarmer[] activeSwarmers = FindObjectsOfType<Swarmer>();
-
-            foreach (Swarmer swarm in swarmersToAlert)
-            {
-                swarm.OnManualActivation();
-            }
+            TriggerUtil.TriggerSwarmers(timeBeforeStart, swarmersToAlert);
         }
     }
 
