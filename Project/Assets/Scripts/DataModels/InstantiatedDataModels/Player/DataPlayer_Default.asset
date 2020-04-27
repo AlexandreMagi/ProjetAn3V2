@@ -23,8 +23,8 @@ MonoBehaviour:
   spriteToDisplayLife: {fileID: 0}
   armor: 0
   maxArmor: 100
-  damageShakeMultiplier: 40
-  shakeAtArmorDestruction: 5
+  damageShakeMultiplier: 5
+  shakeAtArmorDestruction: 10
   shakeAtArmorFx: VFX_ShieldBreak
   stopTimeAtShieldBreak: 0.2
   stopTimeAtDammage: 0.05
@@ -37,3 +37,5 @@ MonoBehaviour:
   respawnExplosionStunDuration: 1
   respawnExplosionLiftValue: 1
   respawnExplosionFx: VFX_ExplosionShooterBullet
+  slowmoForceOnDamage: 0.8
+  slowmoDurationOnDamage: 1
