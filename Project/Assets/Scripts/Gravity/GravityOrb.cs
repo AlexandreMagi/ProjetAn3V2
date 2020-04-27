@@ -147,7 +147,7 @@ public class GravityOrb : MonoBehaviour
                 parentGravityAffect.OnRelease();
         }
 
-        if (orbData.isExplosive && (Main.Instance == null || Main.Instance.PlayerCanZeroG))
+        if (orbData.isExplosive && (Main.Instance == null || Main.Instance.playerCanZeroG))
         {
             if (ps != null && ps.isEmitting)
                 ps.Stop();

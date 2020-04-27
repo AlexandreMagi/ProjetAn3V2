@@ -108,7 +108,7 @@ public class Weapon : MonoBehaviour
 
         timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
 
-        UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0 && mainContainer.PlayerCanOrb);
+        UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0 && mainContainer.playerCanOrb);
         UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), newPerfectPlacement, weapon.perfectRange, haveTriedPerfet);
 
         if (reloading)
@@ -243,7 +243,7 @@ public class Weapon : MonoBehaviour
     }
     public float GetOrbValue()
     {
-        return mainContainer.PlayerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
+        return mainContainer.playerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
     }
 
     public void SetBulletAmmount(int nbBullet, bool doIfReloading)
@@ -294,7 +294,7 @@ public class Weapon : MonoBehaviour
 
     public bool ReloadValidate()
     {
-        if (reloading && !haveTriedPerfet && Main.Instance.PlayerCanPerfectReload)
+        if (reloading && !haveTriedPerfet && Main.Instance.playerCanPerfectReload)
         {
             haveTriedPerfet = true;
             if ((reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)) || (savedReloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && savedReloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)))

@@ -128,7 +128,7 @@ public class UiReload : MonoBehaviour
     void Update()
     {
 
-        Root_BulletDisplay.SetActive(Main.Instance.PlayerCanShoot);
+        Root_BulletDisplay.SetActive(Main.Instance.playerCanShoot);
 
         UpdateScaleIfUsed();
 
@@ -240,7 +240,7 @@ public class UiReload : MonoBehaviour
         ChangeScale(perfectSpot, totalScaleValue, baseScale + reloadData.scaleAnimOnPerfectIndicator.Evaluate(perfectAnimPurcentage) * reloadData.perfectAnimScaleMultiplier);
         #endregion
 
-        if (!Main.Instance.PlayerCanPerfectReload)
+        if (!Main.Instance.playerCanPerfectReload)
             perfectSpot.SetActive(false);
 
     }

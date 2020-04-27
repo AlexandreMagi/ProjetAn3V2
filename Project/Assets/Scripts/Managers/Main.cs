@@ -6,18 +6,20 @@ using Sirenix.OdinInspector;
 
 public class Main : MonoBehaviour
 {
-    [SerializeField]
-    private bool playerCanOrb = true;
-    [SerializeField]
-    private bool playerCanReload = true;
-    [SerializeField]
-    private bool playerCanZeroG = true;
-    [SerializeField]
-    private bool playerCanPerfectReload = true;
-    [SerializeField]
-    private bool playerCanShoot = true;
-    [SerializeField]
-    private bool playerCanShotgun = true;
+    public bool playerCanOrb = true;
+    public bool playerCanReload = true;
+    public bool playerCanZeroG = true;
+    public bool playerCanPerfectReload = true;
+    public bool playerCanShoot = true;
+    public bool playerCanShotgun = true;
+
+    // C'est la faute de max ces variable
+    bool playerCanOrbWaitScreenSave = false;
+    bool playerCanReloadWaitScreenSave = false;
+    bool playerCanZeroGWaitScreenSave = false;
+    bool playerCanPerfectReloadWaitScreenSave = false;
+    bool playerCanShootWaitScreenSave = false;
+    bool playerCanShotgunWaitScreenSave = false;
 
     bool playerCouldShoot = false;
     bool playerCouldShotgun = false;
@@ -31,13 +33,6 @@ public class Main : MonoBehaviour
     private bool playerUsedToHaveOrb = false;
 
     [HideInInspector] public bool playerInLeaderboard = false;
-
-    public bool PlayerCanShoot { get { return playerCanShoot; } }
-    public bool PlayerCanShotgun { get { return playerCanShotgun; } }
-    public bool PlayerCanOrb { get { return playerCanOrb; } }
-    public bool PlayerCanReload { get { return playerCanReload; } }
-    public bool PlayerCanPerfectReload { get { return playerCanPerfectReload; } }
-    public bool PlayerCanZeroG { get { return playerCanZeroG; } }
 
     private string sequenceCheat = "";
     private bool sequenceSkipMode = false;
@@ -736,6 +731,33 @@ public class Main : MonoBehaviour
         }
 
 
+    }
+
+    public void SetupWaitScreenOn ()
+    {
+        playerCanOrbWaitScreenSave = playerCanOrb;
+        playerCanReloadWaitScreenSave = playerCanReload;
+        playerCanZeroGWaitScreenSave = playerCanZeroG;
+        playerCanPerfectReloadWaitScreenSave = playerCanPerfectReload;
+        playerCanShootWaitScreenSave = playerCanShoot;
+        playerCanShotgunWaitScreenSave = playerCanShotgun;
+
+        playerCanOrb = false;
+        playerCanReload = false;
+        playerCanZeroG = false;
+        playerCanPerfectReload = false;
+        playerCanShoot = false;
+        playerCanShotgun = false;
+
+    }
+    public void SetupWaitScreenOff()
+    {
+        playerCanOrb = playerCanOrbWaitScreenSave;
+        playerCanReload = playerCanReloadWaitScreenSave;
+        playerCanZeroG = playerCanZeroGWaitScreenSave;
+        playerCanPerfectReload = playerCanPerfectReloadWaitScreenSave;
+        playerCanShoot = playerCanShootWaitScreenSave;
+        playerCanShotgun = playerCanShotgunWaitScreenSave;
     }
 
     void CanDoLastChoice()

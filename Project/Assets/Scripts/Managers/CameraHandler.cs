@@ -413,7 +413,7 @@ public class CameraHandler : MonoBehaviour
         }
     }
 
-    public void ForceCinemachineCam () { currentCamIsCine = true;  }
+    public void ForceCinemachineCam () { currentCamIsCine = true; timerOnAnimatedCam = 0; }
 
     public Vector3 pointDelayOnRotation()
     {

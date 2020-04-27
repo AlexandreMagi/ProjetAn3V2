@@ -18,8 +18,8 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     [SerializeField]
     float delay = 0;
 
-    [SerializeField]
-    float forceApplied = 200;
+    //[SerializeField]
+    //float forceApplied = 200;
 
     [SerializeField]
     bool triggersBooleanSequence = false;
@@ -37,7 +37,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     float timerBeforeNextSequence = 0.5f;
 
     [SerializeField]
-    GameObject fracturedProp;
+    GameObject fracturedProp = null;
 
     [SerializeField]
     float fracturedForceOnDie = 500;
@@ -58,13 +58,13 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     bool canDisplayHint = true;
 
-    MeshRenderer renderer;
-    Collider collider;
+    MeshRenderer _renderer;
+    Collider _collider;
 
     void Start()
     {
-        renderer = GetComponent<MeshRenderer>();
-        collider = GetComponent<Collider>();
+        _renderer = GetComponent<MeshRenderer>();
+        _collider = GetComponent<Collider>();
     }
 
     void PlaySound()
@@ -119,8 +119,8 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
         Weapon.Instance.OnShotGunHitTarget();
 
-        renderer.enabled = false;
-        collider.enabled = false;
+        _renderer.enabled = false;
+        _collider.enabled = false;
 
         InstantiateExplosion();
     }
