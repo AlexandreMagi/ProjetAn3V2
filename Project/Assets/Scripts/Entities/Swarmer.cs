@@ -280,7 +280,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Invoke("MaybeGrunt", 1f);
     }
 
-    void PlayAnimDeplayed()
+    void PlayAnimDelayed()
     {
         animatorCustom.PlayAnim(animationToPlay);
     }
