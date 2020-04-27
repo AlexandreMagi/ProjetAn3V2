@@ -33,6 +33,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField, ShowIf("playsAnimationOnStartUp")]
     bool ignoresBufferOnceKilled = false;
 
+    [SerializeField, ShowIf("playsAnimationOnStartUp")]
+    bool hasRandomStartUpTimeAnimation = false;
+
+    [SerializeField, ShowIf("playsAnimationOnStartUp"), ShowIf("hasRandomStartUpTimeAnimation")]
+    float maxRandomTime = .5f;
+
     //Securities
     float timeBeingStuck = 0;
 
@@ -260,13 +266,18 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentState = SwarmerState.PlayingAnimation;
 
-            animatorCustom.PlayAnim(animationToPlay);
+            Invoke("PlayAnimDelayed", Random.Range(.01f, maxRandomTime));
         }
 
         lastKnownPosition = transform.position;
 
         if(!playsAnimationOnStartUp)
             Invoke("MaybeGrunt", 1f);
+    }
+
+    void PlayAnimDeplayed()
+    {
+        animatorCustom.PlayAnim(animationToPlay);
     }
 
     protected override void Update()
