@@ -36,6 +36,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField, ShowIf("playsAnimationOnStartUp")]
     bool hasRandomStartUpTimeAnimation = false;
 
+    [SerializeField, ShowIf("playsAnimationOnStartUp")]
+    bool ignorePointsGivenOnSuicide = false;
+
     [SerializeField, ShowIf("playsAnimationOnStartUp"), ShowIf("hasRandomStartUpTimeAnimation")]
     float maxRandomTime = .5f;
 
@@ -223,7 +226,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             
 
             //Means it has been killed in some way and has not just attacked
-            if (health <= 0)
+            if (health <= 0 && (!ignorePointsGivenOnSuicide || health >= -500 /*en gros, il s'est pas suicidé sur un killer*/))
             {
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this.transform.position, this);
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Kill, this.transform.position, this);
@@ -266,7 +269,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         {
             currentState = SwarmerState.PlayingAnimation;
 
-            Invoke("PlayAnimDelayed", Random.Range(.01f, maxRandomTime));
+            float timeDecal = hasRandomStartUpTimeAnimation ? Random.Range(.01f, maxRandomTime) : 0;
+
+            Invoke("PlayAnimDelayed", timeDecal);
         }
 
         lastKnownPosition = transform.position;
