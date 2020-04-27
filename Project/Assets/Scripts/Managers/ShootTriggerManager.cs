@@ -25,6 +25,8 @@ public class ShootTriggerManager : MonoBehaviour
     [SerializeField, ShowIf("startsNextSequenceOnTrigger")]
     float timeBeforeNextSequence = 0;
 
+    bool stopsAnyCameraAnimationUponTrigger = false;
+
     // SHAKE ///////////////////////////////
     [SerializeField, Header("Shake")]
     bool startsShakeAfterAllTriggers = false;
@@ -157,6 +159,11 @@ public class ShootTriggerManager : MonoBehaviour
         {
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
             CustomSoundManager.Instance.PlaySound(soundPlayed, "Effect", soundVolume);
+        }
+
+        if (stopsAnyCameraAnimationUponTrigger)
+        {
+            CameraHandler.Instance.ForceCinemachineCam();
         }
 
         if (startsNextSequenceOnTrigger)

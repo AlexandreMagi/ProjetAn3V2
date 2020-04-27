@@ -355,5 +355,23 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //Swarmer trigger
+    public static void TriggerSwarmers(float timeBeforeStart, List<Swarmer> swarmers)
+    {
+        Main.Instance.StartCoroutine(TriggerSwarmersCoroutine(timeBeforeStart, swarmers));
+    }
+
+    static IEnumerator TriggerSwarmersCoroutine(float timeBeforeStart, List<Swarmer> swarmers)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        foreach (Swarmer swarm in swarmers)
+        {
+            swarm.OnManualActivation();
+        }
+
+        yield break;
+    }
 }
 
