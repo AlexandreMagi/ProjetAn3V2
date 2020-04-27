@@ -23,4 +23,7 @@ public class DataPlayer : DataEntity
     public float respawnExplosionStunDuration = 1;
     public float respawnExplosionLiftValue = 1;
     public string respawnExplosionFx = "VFX_ExplosionShooterBullet";
+
+    public float slowmoForceOnDamage = 0.8f;
+    public float slowmoDurationOnDamage = 1f;
 }

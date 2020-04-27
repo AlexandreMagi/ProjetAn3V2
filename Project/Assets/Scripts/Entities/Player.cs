@@ -95,9 +95,11 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             //Metrics
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTaken, value);
 
+
             CustomSoundManager.Instance.PlaySound("PlayerDamage", "PlayerUnpitched",null, 1,false,1,0.2f);
             CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
             TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
+            TimeScaleManager.Instance.AddSlowMo(entityData.slowmoForceOnDamage,entityData.slowmoDurationOnDamage);
             bool armorJustBroke = false;
             if (value >= armor)
             {
