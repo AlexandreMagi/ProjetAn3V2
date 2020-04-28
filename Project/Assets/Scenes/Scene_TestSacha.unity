@@ -262,7 +262,7 @@ PrefabInstance:
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.48
+      value: 3.91
       objectReference: {fileID: 0}
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
@@ -272,7 +272,7 @@ PrefabInstance:
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.58
+      value: -12.29
       objectReference: {fileID: 0}
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
@@ -322,10 +322,16 @@ PrefabInstance:
     - target: {fileID: 8724956490323836483, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6da892da0007434e85be1ddaebd7cdd, type: 3}
+--- !u!23 &12834845 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7206306488680753576, guid: e6da892da0007434e85be1ddaebd7cdd,
+    type: 3}
+  m_PrefabInstance: {fileID: 12834844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &55454852
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1350,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -1788,6 +1798,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 50
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -3468,6 +3482,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -3566,6 +3584,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 50
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -4508,6 +4530,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -4908,6 +4934,110 @@ Transform:
   m_Father: {fileID: 96890531}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1244955163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1244955166}
+  - component: {fileID: 1244955165}
+  - component: {fileID: 1244955164}
+  m_Layer: 12
+  m_Name: TriggerValue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1244955164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244955163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 18
+  spawners: []
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  volume: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isStopShake: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  damages: 0
+  valueStart: 0
+  valueEnd: 1
+  valueTransitionDuration: 3
+  swarmersAffecteds:
+  - {fileID: 1736172015}
+  - {fileID: 12834845}
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
+--- !u!65 &1244955165
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244955163}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.580035, y: 8.198387, z: 2.2727885}
+  m_Center: {x: 0, y: 3.5991945, z: 0.6363949}
+--- !u!4 &1244955166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244955163}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 2.45, z: -13.968594}
+  m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 33
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255215066
 GameObject:
   m_ObjectHideFlags: 0
@@ -4976,7 +5106,7 @@ Transform:
   - {fileID: 913346822}
   - {fileID: 200350503}
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1338462768
 MonoBehaviour:
@@ -6123,6 +6253,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 50
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -6359,7 +6493,7 @@ PrefabInstance:
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.862355
+      value: 5.43
       objectReference: {fileID: 0}
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
@@ -6369,7 +6503,7 @@ PrefabInstance:
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.269608
+      value: -12.11
       objectReference: {fileID: 0}
     - target: {fileID: 8724956490323836482, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
@@ -6419,10 +6553,16 @@ PrefabInstance:
     - target: {fileID: 8724956490323836483, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6da892da0007434e85be1ddaebd7cdd, type: 3}
+--- !u!23 &1736172015 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7206306488680753576, guid: e6da892da0007434e85be1ddaebd7cdd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1736172014}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1750019988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1864541049839414522, guid: 76ad8b46336784549ae9aaca10a265c4,
@@ -6746,6 +6886,10 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  swarmersAffecteds: []
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0.5
@@ -13271,7 +13415,7 @@ PrefabInstance:
     - target: {fileID: 8555983354819240980, guid: c5f2107e488ef1c42aaf1b3d0612c4fc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 33
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 8555983354819240980, guid: c5f2107e488ef1c42aaf1b3d0612c4fc,
         type: 3}
