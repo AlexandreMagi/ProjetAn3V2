@@ -111,13 +111,13 @@ public class TriggerSender : MonoBehaviour
     int damages = 0;
 
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
-    int valueStart = 0;
+    float valueStart = 0;
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
-    int valueEnd = 0;
+    float valueEnd = 0;
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
-    int valueTransitionDuration = 0;
+    float valueTransitionDuration = 0;
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
-    List<MeshRenderer> swarmersAffecteds = null;
+    List<Renderer> swarmersAffecteds = null;
 
     [Header("Swarmer activation")]
     [SerializeField]
@@ -140,7 +140,7 @@ public class TriggerSender : MonoBehaviour
         }
         StartTrigger();
     }
-        
+
     void StartTrigger()
     { 
         if (!timerStarted)
