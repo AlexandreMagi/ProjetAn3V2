@@ -163,13 +163,14 @@ public class SwarmerProceduralAnimation : MonoBehaviour
         }
     }
 
-    public enum AnimSwarmer { reset, prepare, jump, attack, rugissement }
+    public enum AnimSwarmer { reset, prepare, jump, attack, attackJump, rugissement }
     int[] triggers = new int[]
     { 
         Animator.StringToHash("reset"),
         Animator.StringToHash("prepareAttack"),
         Animator.StringToHash("jump"),
         Animator.StringToHash("attack"),
+        Animator.StringToHash("attackJump"),
         Animator.StringToHash("rugissement")
     };
 
