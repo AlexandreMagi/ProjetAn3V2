@@ -39,13 +39,13 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
     float animationWaitTimer = 0;
 
+
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     bool isStopShake = false;
     [ShowIf("typeTrigger", TriggerType.Shake), HideIf("isStopShake"), SerializeField]
     float ShakeValue = 0;
     [ShowIf("typeTrigger", TriggerType.Shake), HideIf("isStopShake"), SerializeField]
     float ShakeDuration = 0;
-
 
 
     [ShowIf("typeTrigger", TriggerType.Boolean), SerializeField]
@@ -73,6 +73,7 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
     bool VFXState = false;
 
+
     //, ShowIf("typeTrigger", TriggerType.OutlineShader), ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
     [ShowIf("typeTrigger", TriggerType.PlaneShake), SerializeField]
     bool activatePlaneShake = false;
@@ -81,12 +82,14 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.RevealLight), SerializeField]
     bool activateRevealLight = false;
 
+
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
     List<VideoPlayer> players = null;
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
     bool isPlay = false;
     [ShowIf("typeTrigger", TriggerType.VideoTrigger), SerializeField]
     bool isLoop = false;
+
 
     [ShowIf("typeTrigger", TriggerType.WhiteScreenEffect), SerializeField]
     float scaleMin = 0;
@@ -107,8 +110,16 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.GameObjectActivation), SerializeField]
     List<GameObject> objectsToChange = null;
 
+
     [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
     int damages = 0;
+
+
+    [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
+    SwarmerProceduralAnimation.AnimSwarmer animationToCall;
+
+    [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
+    List<Swarmer> swarmersToAnimate;
 
     [Header("Swarmer activation")]
     [SerializeField]
@@ -221,6 +232,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Damage:
                 TriggerUtil.TriggerDamage(timeBeforeStart, damages);
                 break;
+            case TriggerType.SwarmerAnimation:
+                TriggerUtil.TriggerAnimationOnSwarmers(timeBeforeStart, animationToCall, swarmersToAnimate);
+                break;
             default:
                 break;
         }
@@ -262,7 +276,8 @@ public class TriggerSender : MonoBehaviour
         WhiteScreenEffect = 14,
         VideoTrigger = 15,
         GameObjectActivation = 16,
-        Damage = 17
+        Damage = 17,
+        SwarmerAnimation = 18,
     }
 
     public enum Activable

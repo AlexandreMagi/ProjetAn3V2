@@ -373,5 +373,23 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //Animation swarmer trigger
+    public static void TriggerAnimationOnSwarmers(float timeBeforeStart, SwarmerProceduralAnimation.AnimSwarmer animation, List<Swarmer> swarmers)
+    {
+        Main.Instance.StartCoroutine(TriggerAnimationOnSwarmersCoroutine(timeBeforeStart, animation, swarmers));
+    }
+
+    static IEnumerator TriggerAnimationOnSwarmersCoroutine(float timeBeforeStart, SwarmerProceduralAnimation.AnimSwarmer animation, List<Swarmer> swarmers)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        foreach (Swarmer swarm in swarmers)
+        {
+            swarm.ForcePlayAnimation(animation);
+        }
+
+        yield break;
+    }
 }
 

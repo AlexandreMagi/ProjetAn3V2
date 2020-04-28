@@ -188,6 +188,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
        
     }
 
+    public void ForcePlayAnimation(SwarmerProceduralAnimation.AnimSwarmer anim)
+    {
+        animatorCustom.PlayAnim(anim);
+    }
+
+
     protected override void Die()
     {
         if (!isDying)
