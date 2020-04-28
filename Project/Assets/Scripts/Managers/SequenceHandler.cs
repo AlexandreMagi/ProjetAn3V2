@@ -532,11 +532,6 @@ public class SequenceHandler : MonoBehaviour
             else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
         }
 
-        Debug.Log("Reactiver l'appel auto");
-        if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
-
-        if (currentSequence.checkpointToUse != null && TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
-
         if (currentSequence.changeWaitScreen)
         {
             if (!currentSequence.activateWaitScreen)
@@ -552,9 +547,12 @@ public class SequenceHandler : MonoBehaviour
         }
         Weapon.Instance.rotateLocked = currentSequence.lockWeaponLight;
 
+        if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
+
+        if (currentSequence.checkpointToUse != null && TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.InitTutorialCheckpoint(currentSequence.checkpointToUse);
 
         //DECLENCHEMENT DU FEEDBACK DE CAM
-            if (CameraHandler.Instance != null)
+        if (CameraHandler.Instance != null)
         {
             if (currentSequence.changeNoiseSettings)
             {
