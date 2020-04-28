@@ -421,6 +421,13 @@ public class SequenceHandler : MonoBehaviour
 
                     break;
 
+
+                case DataSequence.SequenceEndEventType.SpawnEnemies:
+
+                    TriggerUtil.TriggerSpawners(currentSequence.timeBeforeEvent, currentSequence.spawnersToActivate);
+
+                    break;
+
                 default:
                     break;
             }

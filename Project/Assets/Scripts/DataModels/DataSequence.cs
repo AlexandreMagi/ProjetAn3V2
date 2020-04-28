@@ -140,6 +140,8 @@ public class DataSequence : ScriptableObject
     public float armorGainRate;
 
 
+    [ShowIf("seqEvent", SequenceEndEventType.SpawnEnemies)]
+    public Spawner[] spawnersToActivate;
 
     // ##############################################################################################################################
 
@@ -191,6 +193,7 @@ public class DataSequence : ScriptableObject
         Sound = 3,
         Balancing = 4,
         ArmorProgressiveGain = 5,
+        SpawnEnemies = 6,
         Other = 9
     }
 
