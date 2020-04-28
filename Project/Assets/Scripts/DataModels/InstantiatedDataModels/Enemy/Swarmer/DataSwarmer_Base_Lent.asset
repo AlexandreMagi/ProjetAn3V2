@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59aa3f4ee2e01424c8058c7073148766, type: 3}
+  m_Name: DataSwarmer_Base_Lent
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  startHealth: 20
+  team: 1
+  shakeOnDie: 6.31
+  shakeOnDieTime: 0.1
+  fracturedProp: {fileID: 0}
+  fracturedForceOnDie: 100
+  spriteToDisplayShield: {fileID: 11400000, guid: 3d09d1dd34335dd41b41256ec06b6728,
+    type: 2}
+  spriteToDisplayLife: {fileID: 11400000, guid: 28bf384d08372f046bd245b21896581e,
+    type: 2}
+  stunResistanceJauge: 1
+  stayLockedOnTarget: 0
+  timeBeforeCheckForAnotherTarget: 1
+  fxWhenDie: VFX_Death
+  fxWhenDieDecals: VFX_OilSplater
+  fxWhenStun: VFX_Stun
+  fxWhenTakeDamage: VFX_BloodProjected
+  matWhenTakeDammage: {fileID: 2100000, guid: ce1f720d7a27ef6469cd9bd7418362ba, type: 2}
+  matChangeTime: 0.1
+  shakeWhenTakeDamageForce: 0
+  shakeWhenTakeDamageDuration: 0
+  varianceInPath: 10
+  timeBeforeNextPath: 0.05
+  distanceBeforeNextPath: 0.4
+  angleToIgnorePath: 110
+  speed: 100
+  maximumSpeed: 250
+  damage: 10
+  upScale: 10
+  distanceToTargetEnemy: 50
+  distanceMelee: 1
+  waitDuration: 0.3
+  distanceBeforeAttack: 3.2
+  distanceApproximation: 1
+  jumpForce: 50
+  speedMultiplierWhenAttacking: 10
+  spawnsPartsOnDeath: 1
+  deadBody: {fileID: 7328945747328693308, guid: d63c0faba4957944f98474b5cb1ebbb2,
+    type: 3}
+  targetsPlayerAtEndOfPath: 1
+  hasDodgeIntelligence: 1
+  frontalDetectionSight: 2
+  jumpHeight: 3.5
+  jumpDodgeForce: 2800
+  jumpCooldownInitial: 0.5
+  numberOfSideTries: 4
+  tryStep: 1
+  distanceDodgeStep: 0.7
+  extraLengthByStep: 0.2
+  sideDetectionSight: 1
+  dodgeSlideForce: 350
+  timeForUpwardsTransition: 0.2
+  maxBlockedRetryPathTime: 2
+  maxBlockedSuicideTime: 4
+  considerStuckThreshhold: 0.5
+  initialTimeToConsiderCheck: 0.5
+  maxHeightToChaseWaypoint: 10
+  rayCastRangeToConsiderAirbone: 0.7
+  pushForce: 150
+  upwardsPushForce: 50
+  mat: {fileID: 2100000, guid: 6c40e2d248447434ca0ae2f32e805353, type: 2}
+  vfxToPlayWhenPulledByGrav: VFXOrbPull
+  vfxToPlayWhenHoldByGrav: VFXOrbHold
+  vfxToPlayWhenReleaseByGrav: VFXOrbRelease
+  distanceMinWithCamToPlayVFX: 5
+  timeToChangeColorWhileAttacking: 0.5
