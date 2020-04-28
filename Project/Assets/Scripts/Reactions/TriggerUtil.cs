@@ -373,5 +373,31 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //Valeur allant de X à Y en Z temps
+    public static void TriggerValue(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<MeshRenderer> swarmersAffecteds)
+    {
+        Main.Instance.StartCoroutine(TriggerValueCoroutine(timeBeforeStart, valueStart, valueStop, valueTransitionDuration, swarmersAffecteds));
+    }
+
+    static IEnumerator TriggerValueCoroutine(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<MeshRenderer> swarmersAffecteds)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        float purcentageTransition = 0;
+        while (purcentageTransition < 1)
+        {
+            purcentageTransition += Time.deltaTime / valueTransitionDuration;
+            Mathf.Lerp(valueStart, valueStop, purcentageTransition);
+
+            foreach (var swarmer in swarmersAffecteds)
+            {
+
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield break;
+    }
 }
 
