@@ -114,12 +114,22 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
     int damages = 0;
 
-
     [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
     SwarmerProceduralAnimation.AnimSwarmer animationToCall;
 
     [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
     List<Swarmer> swarmersToAnimate;
+
+
+    [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
+    int valueStart = 0;
+    [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
+    int valueEnd = 0;
+    [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
+    int valueTransitionDuration = 0;
+    [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
+    List<MeshRenderer> swarmersAffecteds = null;
+
 
     [Header("Swarmer activation")]
     [SerializeField]
@@ -234,6 +244,9 @@ public class TriggerSender : MonoBehaviour
                 break;
             case TriggerType.SwarmerAnimation:
                 TriggerUtil.TriggerAnimationOnSwarmers(timeBeforeStart, animationToCall, swarmersToAnimate);
+				break;
+            case TriggerType.Value:
+                TriggerUtil.TriggerValue(timeBeforeStart, valueStart, valueEnd, valueTransitionDuration, swarmersAffecteds);
                 break;
             default:
                 break;
@@ -278,6 +291,7 @@ public class TriggerSender : MonoBehaviour
         GameObjectActivation = 16,
         Damage = 17,
         SwarmerAnimation = 18,
+        Value = 19
     }
 
     public enum Activable
