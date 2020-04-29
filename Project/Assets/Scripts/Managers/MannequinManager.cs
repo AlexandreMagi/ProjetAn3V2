@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MannequinManager : MonoBehaviour
 {
@@ -21,18 +22,24 @@ public class MannequinManager : MonoBehaviour
     [SerializeField]
     float timeBeforeStart = 0;
 
+    [SerializeField]
+    TextMeshPro display = null;
+
     // Start is called before the first frame update
     void Start()
     {
         mans = new List<Mannequin>(GetComponentsInChildren<Mannequin>());
+        UpdateText();
+
     }
 
 
     public void ChildDied()
     {
         numberOfMannequinsDied++;
+        UpdateText();
 
-        if(numberOfMannequinsDied == mans.Count)
+        if (numberOfMannequinsDied == mans.Count)
         {
             if (nextSequenceOnMansDead)
                 TriggerUtil.TriggerSequence(timeBeforeStart);
@@ -42,4 +49,11 @@ public class MannequinManager : MonoBehaviour
                 TriggerUtil.TriggerAnimators(timeBeforeStart, anims, false);
         }
     }
+
+    void UpdateText()
+    {
+        if (display != null)
+            display.text = numberOfMannequinsDied.ToString() + "/" + mans.Count.ToString();
+    }
+
 }
