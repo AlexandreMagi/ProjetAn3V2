@@ -474,10 +474,13 @@ public class SequenceHandler : MonoBehaviour
             {
                 sequenceIndex++;
             }
-           
+
         }
 
         Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+
+        if (currentSequence.waitScreenAtEndOfSequence)
+            WaitScreenFunction();
 
         isWaitingTimer = false;
 
@@ -538,20 +541,8 @@ public class SequenceHandler : MonoBehaviour
             if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
             else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
         }
-
-        if (currentSequence.changeWaitScreen)
-        {
-            if (!currentSequence.activateWaitScreen)
-            {
-                UiCrossHair.Instance.StopWaitFunction();
-                Main.Instance.SetupWaitScreenOff();
-            }
-            else
-            {
-                UiCrossHair.Instance.WaitFunction();
-                Main.Instance.SetupWaitScreenOn();
-            }
-        }
+        if (!currentSequence.waitScreenAtEndOfSequence)
+            WaitScreenFunction();
         Weapon.Instance.rotateLocked = currentSequence.lockWeaponLight;
 
         if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
@@ -641,4 +632,22 @@ public class SequenceHandler : MonoBehaviour
 
         return number;
     }
+
+    void WaitScreenFunction()
+    {
+        if (currentSequence.changeWaitScreen)
+        {
+            if (!currentSequence.activateWaitScreen)
+            {
+                UiCrossHair.Instance.StopWaitFunction();
+                Main.Instance.SetupWaitScreenOff();
+            }
+            else
+            {
+                UiCrossHair.Instance.WaitFunction();
+                Main.Instance.SetupWaitScreenOn();
+            }
+        }
+    }
+
 }
