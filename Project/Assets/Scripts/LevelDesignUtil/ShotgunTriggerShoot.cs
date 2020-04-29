@@ -42,6 +42,8 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     [SerializeField]
     float fracturedForceOnDie = 500;
 
+    [SerializeField]
+    bool canBeKilledByProps = false;
 
     int nbShootBeforeFirstHint = 1;
     int nbShootBeforeSecondHint = 5;
@@ -79,6 +81,23 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     void resetNextSequence()
     {
         callNextSequence = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 20 && canBeKilledByProps)
+        {
+            if (!IsSoundPlayed)
+            {
+                IsSoundPlayed = true;
+                Invoke("PlaySound", delay);
+            }
+
+            _renderer.enabled = false;
+            _collider.enabled = false;
+
+            InstantiateExplosion();
+        }
     }
 
     public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
@@ -142,20 +161,20 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     void Update()
     {
-        if (timerStarted && canDisplayHint)
-        {
-            if (timerBeforeSecondHint > 0)
-               timerBeforeSecondHint -= Time.unscaledDeltaTime;
-            if (timerBeforeSecondHint < 0)
-            {
-                timerBeforeSecondHint = 0;
-                if (!secondHintPlayed)
-                {
-                    secondHintPlayed = true;
-                    DisplaySecondHint();
-                }
-            } 
-        }
+        //if (timerStarted && canDisplayHint)
+        //{
+        //    if (timerBeforeSecondHint > 0)
+        //       timerBeforeSecondHint -= Time.unscaledDeltaTime;
+        //    if (timerBeforeSecondHint < 0)
+        //    {
+        //        timerBeforeSecondHint = 0;
+        //        if (!secondHintPlayed)
+        //        {
+        //            secondHintPlayed = true;
+        //            DisplaySecondHint();
+        //        }
+        //    } 
+        //}
     }
 
     public void OnHitSingleShot(DataWeaponMod mod)
