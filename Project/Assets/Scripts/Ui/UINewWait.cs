@@ -38,7 +38,7 @@ public class UINewWait : MonoBehaviour
     {
         if (waitAnmatr != null && waitRoot.activeSelf)
             waitAnmatr.SetTrigger("depop");
-        Invoke("RemoveWaitTrue", 0.39f);
+        Invoke("RemoveWaitTrue", 1f);
         //Weapon.Instance.rotateLocked = false;
     }
 
