@@ -30,4 +30,9 @@ public class CollectiblesSpritesAutoChange : MonoBehaviour
         }
     }
 
+    public void HideMesh()
+    {
+        collectibleMesh.gameObject.SetActive(false);
+    }
+
 }

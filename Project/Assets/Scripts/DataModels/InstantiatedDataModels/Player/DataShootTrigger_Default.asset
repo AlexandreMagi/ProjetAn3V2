@@ -15,6 +15,27 @@ MonoBehaviour:
   maxHealth: 1
   startHealth: 1
   team: 0
-  spriteToDisplay: {fileID: 0}
+  shakeOnDie: 0
+  shakeOnDieTime: 0
+  fracturedProp: {fileID: 0}
+  fracturedForceOnDie: 100
+  spriteToDisplayShield: {fileID: 0}
+  spriteToDisplayLife: {fileID: 0}
   armor: 0
+  maxArmor: 0
   damageShakeMultiplier: 40
+  shakeAtArmorDestruction: 3
+  shakeAtArmorFx: VFX_ShieldBreak
+  stopTimeAtShieldBreak: 0.2
+  stopTimeAtDammage: 0.05
+  damageScaleShieldMultiplier: 1
+  damageScaleLifeMultiplier: 1.2
+  respawnExplosionRadius: 20
+  respawnExplosionForce: 15000
+  respawnExplosionDamage: 100
+  respawnExplosionStun: 500
+  respawnExplosionStunDuration: 1
+  respawnExplosionLiftValue: 1
+  respawnExplosionFx: VFX_ExplosionShooterBullet
+  slowmoForceOnDamage: 0.8
+  slowmoDurationOnDamage: 1
