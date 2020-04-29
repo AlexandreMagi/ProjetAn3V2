@@ -85,8 +85,6 @@ public class DeathBodyPart : MonoBehaviour
 
     void Update()
     {
-
-
         if (gameObject != null && isActiveAndVisible)
         {
             if (phosphoValue >= 0 && isPhophoAffected)
