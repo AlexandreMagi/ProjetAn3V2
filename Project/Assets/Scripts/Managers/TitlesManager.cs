@@ -72,7 +72,7 @@ public class TitlesManager : MonoBehaviour
             Debug.LogWarning(e);
         }
 
-        Debug.Log(dbTitles.titlesRegistered.Count);
+        //Debug.Log(dbTitles.titlesRegistered.Count);
     }
 
     public void CalculateScores()

@@ -373,12 +373,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45098efd75bd8a84aa6fc6f3c5c6a520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityData: {fileID: 11400000, guid: df394c7f1e2c4284fb683e527fd64603, type: 2}
+  entityData: {fileID: 11400000, guid: 8464d964261965846974cfce18b09c98, type: 2}
   isCollectible: 1
   armorGiven: 5
   soundPlayed: SE_Bonus
   soundVolume: 0.7
-  mesh: {fileID: 2894270053707704487}
+  lightToDisable: {fileID: 470444612865107702}
+  useFracturedProp: 1
+  fracturedProp: {fileID: 191910359727438488, guid: f7bfe5c7badb4e44780ec09665bd7350,
+    type: 3}
+  pivotFracturedExplosion: {fileID: 546637283445898041}
+  fracturedForceOnDie: 1000
 --- !u!1001 &6560458580347269550
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -399,7 +404,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 929f73a5b04433446917778c47bef20d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.265
+      value: 0.26500046
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 929f73a5b04433446917778c47bef20d,
         type: 3}
@@ -440,6 +445,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 929f73a5b04433446917778c47bef20d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.10000002
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 929f73a5b04433446917778c47bef20d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.10000002
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 929f73a5b04433446917778c47bef20d,
         type: 3}
