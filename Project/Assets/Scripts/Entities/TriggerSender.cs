@@ -128,7 +128,11 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
     float valueTransitionDuration = 0;
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
-    List<Renderer> swarmersAffecteds = null;
+    List<Renderer> meshAffecteds = null;
+    [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
+    string shaderValueName = "";
+    [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
+    bool isSwarmer = false;
 
 
     [Header("Swarmer activation")]
@@ -246,7 +250,7 @@ public class TriggerSender : MonoBehaviour
                 TriggerUtil.TriggerAnimationOnSwarmers(timeBeforeStart, animationToCall, swarmersToAnimate);
 				break;
             case TriggerType.Value:
-                TriggerUtil.TriggerValue(timeBeforeStart, valueStart, valueEnd, valueTransitionDuration, swarmersAffecteds);
+                TriggerUtil.TriggerValue(timeBeforeStart, valueStart, valueEnd, valueTransitionDuration, meshAffecteds, shaderValueName, isSwarmer);
                 break;
             default:
                 break;

@@ -131,6 +131,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnPull(Vector3 position, float force)
     {
+        if(currentState != SwarmerState.GravityControlled)
+        {
+            rbBody.velocity = Vector3.zero;
+        }
+
         bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
         currentState = SwarmerState.GravityControlled;
@@ -199,6 +204,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (!isDying)
         {
             isDying = true;
+            rbBody.velocity = Vector3.zero;
+            ReleaseFromFloat();
+            StopAllCoroutines();
             if (currentParticleOrb) currentParticleOrb.Stop();
             if (currentOrbExplosion) currentOrbExplosion.Stop();
             if (currentPullParticles) currentPullParticles.Stop();
@@ -357,6 +365,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     // Update is called once per frame
     protected void FixedUpdate()
     {
+
+        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking)
+        {
+            //Gravity security
+            if (rbBody.velocity.y >= 1.5f)
+            {
+                rbBody.AddForce(Vector3.down * 500);
+            }
+
+        }
+
         //Base vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
         Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
@@ -656,6 +675,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void ResetSwarmer(DataEntity _entityData)
     {
+        rbBody = GetComponent<Rigidbody>();
+        rbBody.velocity = Vector3.down * 50;
         ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem fx in releaseFx)
         {
@@ -675,8 +696,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         target = null;
         currentState = SwarmerState.FollowPath;
         timerWait = 0;
-        rbBody = GetComponent<Rigidbody>();
-        rbBody.velocity = Vector3.zero;
         if (currentParticleOrb) currentParticleOrb.Stop();
         hasPlayedFxOnPull = false;
 
@@ -707,12 +726,14 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     void MoveTowardsTarget(Vector3 p_target, float speedMultiplier = 1f)
     {
-        //Direction
+        if(currentState != SwarmerState.GravityControlled)
+        {
+                    //Direction
         Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
 
-        bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+        bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        rbBody.AddForce(direction * entityData.speed + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? .2f : 1) * speedMultiplier);
+        rbBody.AddForce(direction * entityData.speed * (isInTheAir ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
         //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
 
 
@@ -724,6 +745,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Quaternion lookDirection = Quaternion.LookRotation(new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
+        }
+
     }
 
     bool CheckObjectiveDistance()

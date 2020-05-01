@@ -477,7 +477,7 @@ public class SequenceHandler : MonoBehaviour
 
         }
 
-        Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+        //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
 
         if (currentSequence.waitScreenAtEndOfSequence)
             WaitScreenFunction();

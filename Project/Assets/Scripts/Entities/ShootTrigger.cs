@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
+
 public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 {
     ShootTriggerManager parentManager = null;
@@ -23,10 +25,25 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     float soundVolume = 1;
 
     [SerializeField]
-    GameObject mesh = null;
+    Light lightToDisable = null;
+
+    [SerializeField]
+    bool useFracturedProp = false;
+
+    [SerializeField, ShowIf("useFracturedProp")]
+    GameObject fracturedProp = null;
+
+    [SerializeField, ShowIf("useFracturedProp")]
+    GameObject pivotFracturedExplosion = null;
+
+    [SerializeField, ShowIf("useFracturedProp")]
+    float fracturedForceOnDie = 100;
+
 
     Collider thisCollider = null;
-    MeshRenderer mshrenderer = null;
+    MeshRenderer[] mshrenderer = null;
+
+    CollectiblesSpritesAutoChange col;
 
     float currentHp = 0;
 
@@ -35,9 +52,30 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
         parentManager = this.transform.GetComponentInParent<ShootTriggerManager>();
 
         thisCollider = GetComponent<Collider>();
-        mshrenderer = mesh.GetComponent<MeshRenderer>();
+
+        foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+        {
+            mshrenderer = rend.GetComponents<MeshRenderer>();
+        }
+
+        col = GetComponent<CollectiblesSpritesAutoChange>();
 
         currentHp = entityData.startHealth;
+    }
+    void InstantiateExplosion()
+    {
+        if (fracturedProp != null)
+        {
+            GameObject fract;
+            fract = Instantiate(fracturedProp, pivotFracturedExplosion.transform);
+            fract.transform.parent = null;
+
+            Rigidbody[] rb = fract.GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rbs in rb)
+            {
+                rbs.AddExplosionForce(fracturedForceOnDie * 10, rbs.transform.position, 10);
+            }
+        }
     }
 
 
@@ -57,10 +95,22 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             if (parentManager != null)
                 parentManager.OnEventSent();
 
-            mshrenderer.enabled = false;
+            for (int i = 0; i < mshrenderer.Length; i++)
+            {
+                mshrenderer[i].enabled = false;
+            }
+
+            if (lightToDisable != null)
+                lightToDisable.gameObject.SetActive(false);
+
             thisCollider.enabled = false;
 
-            
+            if(isCollectible)
+                col.HideMesh();
+
+            if (useFracturedProp)
+                InstantiateExplosion();
+
             if (gameObject.transform.tag == "EnvironnementTrigger")
             {
                 FxManager.Instance.PlayFx("VFX_EnvironnementTrigger", this.transform.position, Quaternion.identity);
