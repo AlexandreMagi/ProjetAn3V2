@@ -392,12 +392,12 @@ public static class TriggerUtil
 	}
 
     //Valeur allant de X à Y en Z temps
-    public static void TriggerValue(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<Renderer> swarmersAffecteds)
+    public static void TriggerValue(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<Renderer> meshAffecteds, string shaderValueName, bool isSwarmer)
     {
-        Main.Instance.StartCoroutine(TriggerValueCoroutine(timeBeforeStart, valueStart, valueStop, valueTransitionDuration, swarmersAffecteds));
+        Main.Instance.StartCoroutine(TriggerValueCoroutine(timeBeforeStart, valueStart, valueStop, valueTransitionDuration, meshAffecteds, shaderValueName, isSwarmer));
     }
 
-    static IEnumerator TriggerValueCoroutine(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<Renderer> swarmersAffecteds)
+    static IEnumerator TriggerValueCoroutine(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<Renderer> meshAffecteds, string shaderValueName, bool isSwarmer)
     {
         yield return new WaitForSeconds(timeBeforeStart);
         float purcentageTransition = 0;
@@ -406,9 +406,12 @@ public static class TriggerUtil
             purcentageTransition += Time.deltaTime / valueTransitionDuration;
             float value = Mathf.Lerp(valueStart, valueStop, purcentageTransition);
 
-            foreach (var swarmer in swarmersAffecteds)
+            foreach (var me in meshAffecteds)
             {
-                swarmer.materials[1].SetFloat("_SelfEmittingValue", value);
+                if (isSwarmer)
+                    me.materials[1].SetFloat(shaderValueName, value);
+                else
+                    me.material.SetFloat(shaderValueName, value);
             }
 
             yield return new WaitForEndOfFrame();
