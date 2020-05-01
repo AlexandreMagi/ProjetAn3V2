@@ -41,11 +41,12 @@ MonoBehaviour:
   speed: 200
   maximumSpeed: 350
   damage: 10
-  upScale: 10
+  upScale: 2
   distanceToTargetEnemy: 50
   distanceMelee: 4
   waitDuration: 0.3
   distanceBeforeAttack: 8
+  distanceApproximation: 1
   jumpForce: 65
   speedMultiplierWhenAttacking: 10
   spawnsPartsOnDeath: 1
@@ -77,3 +78,4 @@ MonoBehaviour:
   vfxToPlayWhenHoldByGrav: VFXOrbHold
   vfxToPlayWhenReleaseByGrav: VFXOrbRelease
   distanceMinWithCamToPlayVFX: 5
+  timeToChangeColorWhileAttacking: 0.5

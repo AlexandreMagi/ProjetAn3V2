@@ -153,7 +153,7 @@ public class GravityOrb : MonoBehaviour
                 ps.Stop();
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
             CustomSoundManager.Instance.PlaySound("Sounf_Orb_NoGrav_Boosted", "Effect", .3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*3);
 
             if (tHits.Length > 0)
             {
@@ -169,20 +169,24 @@ public class GravityOrb : MonoBehaviour
 
                 if (gAffect != null && hVictim.gameObject != parentIfSticky)
                 {
-                    gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
                     gAffect.OnRelease();
 
-                    if (orbData.isFloatExplosion)
+                    if (Vector3.Distance(this.transform.position, hVictim.transform.position) <= orbData.gravityBullet_AttractionRange)
                     {
-                        gAffect.OnFloatingActivation(orbData.upwardsForceOnFloat, orbData.timeBeforeFloatActivate, orbData.isSlowedDownOnFloat, orbData.floatTime, orbData.zeroGIndependantTimeScale);
-                        /*
-                        if (hVictim.GetComponent<C_Enemy>() != null)
-                        {
-                            nbEnemiesHitByFloatExplo++;
-                        }
-                        */
-                    }
+                        gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
 
+                        if (orbData.isFloatExplosion)
+                        {
+                            gAffect.OnFloatingActivation(orbData.upwardsForceOnFloat, orbData.timeBeforeFloatActivate, orbData.isSlowedDownOnFloat, orbData.floatTime, orbData.zeroGIndependantTimeScale);
+                            /*
+                            if (hVictim.GetComponent<C_Enemy>() != null)
+                            {
+                                nbEnemiesHitByFloatExplo++;
+                            }
+                            */
+                        }
+                    }
+                   
                 }
 
             }

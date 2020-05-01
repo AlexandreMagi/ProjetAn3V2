@@ -41,7 +41,7 @@ MonoBehaviour:
   speed: 150
   maximumSpeed: 300
   damage: 10
-  upScale: 10
+  upScale: 2
   distanceToTargetEnemy: 50
   distanceMelee: 1
   waitDuration: 0.3
@@ -56,7 +56,7 @@ MonoBehaviour:
   hasDodgeIntelligence: 1
   frontalDetectionSight: 2
   jumpHeight: 3.5
-  jumpDodgeForce: 2800
+  jumpDodgeForce: 500
   jumpCooldownInitial: 0.5
   numberOfSideTries: 4
   tryStep: 1
@@ -70,7 +70,7 @@ MonoBehaviour:
   considerStuckThreshhold: 0.5
   initialTimeToConsiderCheck: 0.5
   maxHeightToChaseWaypoint: 10
-  rayCastRangeToConsiderAirbone: 0.7
+  rayCastRangeToConsiderAirbone: 1
   pushForce: 150
   upwardsPushForce: 50
   mat: {fileID: 2100000, guid: 6c40e2d248447434ca0ae2f32e805353, type: 2}
