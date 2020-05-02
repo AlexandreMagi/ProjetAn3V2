@@ -377,9 +377,6 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         }
 
-        if(!playsAnimationOnStartUp)
-        Debug.Log(rbBody.velocity);
-
         //Base vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
         Vector3 left = transform.TransformDirection(Vector3.left).normalized * entityData.sideDetectionSight;
