@@ -369,12 +369,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking)
         {
             //Gravity security
-            if (rbBody.velocity.y >= 1.5f)
+            if (rbBody.velocity.y >= 5f)
             {
+                Debug.Log("stratos security");
                 rbBody.AddForce(Vector3.down * 500);
             }
 
         }
+
+        if(!playsAnimationOnStartUp)
+        Debug.Log(rbBody.velocity);
 
         //Base vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
@@ -393,7 +397,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 if(pathToFollow != null && currentFollowPoint != Vector3.zero)
                 {
                     //Displacement
-                    MoveTowardsTarget(currentFollowPoint);
+                    MoveTowardsTarget(currentFollowPoint, forward);
 
                     //Path verifications
                     if (CheckObjectiveDistance() && CheckObjectiveAngle())
@@ -481,7 +485,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             case SwarmerState.Attacking:
                 if (target != null)
                 {
-                    MoveTowardsTarget(target.position, entityData.speedMultiplierWhenAttacking);
+                    MoveTowardsTarget(target.position, forward, entityData.speedMultiplierWhenAttacking);
 
                     if (!CheckDistance())
                     {
@@ -505,7 +509,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             case SwarmerState.HuntTarget:
                 if(target != null)
                 {
-                    MoveTowardsTarget(target.position);
+                    MoveTowardsTarget(target.position, forward);
 
                     if (entityData.hasDodgeIntelligence && CheckForObstacles())
                     {
@@ -591,7 +595,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             #region DodgingObstacle
             case SwarmerState.DodgingObstacle:
-                MoveTowardsTarget(obstacleDodgePoint);
+                MoveTowardsTarget(obstacleDodgePoint, forward);
 
                 if(CheckObjectiveDistance() && CheckObjectiveAngle())
                 {
@@ -675,8 +679,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void ResetSwarmer(DataEntity _entityData)
     {
+        //Debug.Log("Reset called");
         rbBody = GetComponent<Rigidbody>();
-        rbBody.velocity = Vector3.down * 50;
+        rbBody.velocity = Vector3.zero;
         ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem fx in releaseFx)
         {
@@ -724,16 +729,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
-    void MoveTowardsTarget(Vector3 p_target, float speedMultiplier = 1f)
+    void MoveTowardsTarget(Vector3 p_target, Vector3 forward,float speedMultiplier = 1f)
     {
         if(currentState != SwarmerState.GravityControlled)
         {
                     //Direction
         Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
 
-        bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+        bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        rbBody.AddForce(direction * entityData.speed * (isInTheAir ? .1f : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
+        rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
         //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
 
 
