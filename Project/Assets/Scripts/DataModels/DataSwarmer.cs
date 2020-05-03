@@ -15,6 +15,8 @@ public class DataSwarmer : DataEnemy
 
     public float speed;
     public float maximumSpeed = 350;
+    [Range(0f, 1f), Tooltip("Le pourcentage de la vitesse de base du swarmer quand il est dans les airs. Plus il est haut, plus la vitesse de base sera conservée.")]
+    public float percentSpeedInTheAir = .7f;
 
     public float damage;
 
