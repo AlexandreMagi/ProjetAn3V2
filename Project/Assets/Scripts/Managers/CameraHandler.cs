@@ -277,22 +277,7 @@ public class CameraHandler : MonoBehaviour
         UpdateCamValues(onShortStep);
         if (feedbackTransition)
         {
-            if (feedbackActivated)
-            {
-                if (transitionPurcentage < 1)
-                {
-                    transitionPurcentage += Time.unscaledDeltaTime / transitionTime;
-                    if (transitionPurcentage > 1) transitionPurcentage = 1;
-                }
-            }
-            else
-            {
-                if (transitionPurcentage > 0)
-                {
-                    transitionPurcentage -= Time.unscaledDeltaTime / transitionTime;
-                    if (transitionPurcentage < 0) transitionPurcentage = 0;
-                }
-            }
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
         }
         else
         {
