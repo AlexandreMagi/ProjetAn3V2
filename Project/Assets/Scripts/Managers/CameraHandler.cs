@@ -277,22 +277,7 @@ public class CameraHandler : MonoBehaviour
         UpdateCamValues(onShortStep);
         if (feedbackTransition)
         {
-            if (feedbackActivated)
-            {
-                if (transitionPurcentage < 1)
-                {
-                    transitionPurcentage += Time.unscaledDeltaTime / transitionTime;
-                    if (transitionPurcentage > 1) transitionPurcentage = 1;
-                }
-            }
-            else
-            {
-                if (transitionPurcentage > 0)
-                {
-                    transitionPurcentage -= Time.unscaledDeltaTime / transitionTime;
-                    if (transitionPurcentage < 0) transitionPurcentage = 0;
-                }
-            }
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
         }
         else
         {
@@ -529,7 +514,7 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Rotate(0, cursorRotateValue.y, 0, Space.World); // Rotation de la cam selon le placement du curseur (en Y)
         camRef.transform.Rotate(cursorRotateValue.x, 0, 0, Space.Self); // Rotation de la cam selon le placement du curseur (en X)
 
-        fovModifViaSpeed = Mathf.Lerp(fovModifViaSpeed, currentFrequency * camData.fovMultiplier, dt * camData.fovSpeed);
+        fovModifViaSpeed = Mathf.Lerp (0, Mathf.Lerp(fovModifViaSpeed, currentFrequency * camData.fovMultiplier, dt * camData.fovSpeed), transitionPurcentage);
         float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camData.timeScaleFovImpact - Time.timeScale * camData.timeScaleFovImpact, Time.unscaledDeltaTime * camData.timeScaleFovSpeed);
         camRef.fieldOfView = camData.BaseFov + camData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + fovModifViaSpeed + fovAddedByTimeScale + recoilFovValue;

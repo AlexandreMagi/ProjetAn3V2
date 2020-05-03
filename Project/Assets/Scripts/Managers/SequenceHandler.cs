@@ -375,7 +375,6 @@ public class SequenceHandler : MonoBehaviour
         {
             CameraHandler.Instance.StopBalancing();
             if (isForced) CameraHandler.Instance.ResyncCamera(true);
-            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.transitionTime);
             if (currentSequence.cutLookAtOnEndOfSequence) CameraHandler.Instance.ReleaselookAt();
         }
         
@@ -552,6 +551,7 @@ public class SequenceHandler : MonoBehaviour
         //DECLENCHEMENT DU FEEDBACK DE CAM
         if (CameraHandler.Instance != null)
         {
+            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.transitionTime);
             if (currentSequence.changeNoiseSettings)
             {
                 CameraHandler.Instance.ChangeNoiseSettings(currentSequence.noisePurcentageAimed, currentSequence.timeTransitionNoise, currentSequence.noiseAmplitudePos, currentSequence.noiseAmplitudeRot, currentSequence.noiseFrequency);
