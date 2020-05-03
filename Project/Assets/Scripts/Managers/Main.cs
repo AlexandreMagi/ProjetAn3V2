@@ -354,6 +354,14 @@ public class Main : MonoBehaviour
 
                     sequenceCheat = "";
                     SequenceHandler.Instance.SkipToSequence(sequenceToGo);
+                    SetupWaitScreenOff();
+                    UiCrossHair.Instance.StopWaitFunction();
+                    playerCanOrb = true;
+                    playerCanReload = true;
+                    playerCanZeroG = true;
+                    playerCanPerfectReload = true;
+                    playerCanShoot = true;
+                    playerCanShotgun = true;
                 }
                 
             }

@@ -62,13 +62,13 @@ public class CrosshairInstance
             crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 0, dt * data.overlapLerpSpeed);
 
         float sizeIdle                      = Mathf.Sin((time + data.offsetIdle) * (triggerNoBullet ? Mathf.Lerp(data.speedIdle, data.noBulletIdleSpeed, purcentageReductionNoBullet) : Mathf.Lerp(data.speedIdle, data.chargingSpeed, chargeValue)));
-        float sizeIdleMultiplier            = (triggerNoBullet ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue));
-        float sizeMultiplierByOverlap       = Mathf.Lerp(1, data.reactAtOverlap ? data.sizeMultiplierByOverlap : 1, crossHairOnEnemyPurcentage);
+        float sizeIdleMultiplier            = triggerNoBullet ? Mathf.Lerp(data.amplitudeIdle, data.noBulletAmplitudeIdle, purcentageReductionNoBullet) : Mathf.Lerp(data.amplitudeIdle, data.chargingAmplitudeIdle, chargeValue);
         float sizeAffectedByBulletNumber    = triggerNoBullet ? Mathf.Lerp(data.baseSize, data.noBulletSize, purcentageReductionNoBullet) : 0;
         float sizeAffectedByCurrentCharge   = triggerNoBullet ? 0 : Mathf.Lerp(data.baseSize, data.chargingSize, chargeValue);
         float sizeAffectedByAnim            = data.sizeAnim.Evaluate(chargedFbValue) * data.sizeMultiplier;
         float sizeAffectedByRecoil          = (reculValue / data.reculMax) * data.reculSizeMultiplier;
         float sizeAffectedByHit             = (hitValue / data.hitMax) * data.hitSizeMultiplier;
+        float sizeMultiplierByOverlap       = triggerNoBullet? 1 : Mathf.Lerp(1, data.reactAtOverlap ? data.sizeMultiplierByOverlap : 1, crossHairOnEnemyPurcentage);
 
         size =  (sizeIdle                       // Mathf sin pour l'idle
                 * sizeIdleMultiplier            // Multiplier du mathf sin
@@ -120,7 +120,7 @@ public class CrosshairInstance
             offset = Vector2.Lerp(Vector2.zero, offset, unlockedPurcentage);
         }
 
-        if (data.reactAtOverlap)
+        if (data.reactAtOverlap && !triggerNoBullet)
         {
             color = Color.Lerp(color, data.colorAtOverlap, crossHairOnEnemyPurcentage);
             outlineColor = Color.Lerp(outlineColor, data.outlineColorAtOverlap, crossHairOnEnemyPurcentage);
