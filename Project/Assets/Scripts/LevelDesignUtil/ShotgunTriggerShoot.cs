@@ -48,17 +48,17 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     int nbShootBeforeFirstHint = 1;
     int nbShootBeforeSecondHint = 5;
     int nbShoot = 0;
-    float timeBeforeSecondHint = 5;
-    bool timerStarted = false;
+    //float timeBeforeSecondHint = 5;
+    //bool timerStarted = false;
     bool secondHintPlayed = false;
-    float timerBeforeSecondHint = 0;
+    //float timerBeforeSecondHint = 0;
 
 
     bool IsSoundPlayed = false;
 
     bool callNextSequence = false;
 
-    bool canDisplayHint = true;
+    //bool canDisplayHint = true;
 
     MeshRenderer _renderer;
     Collider _collider;
@@ -134,7 +134,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             callNextSequence = true;
         }
 
-        canDisplayHint = false;
+        //canDisplayHint = false;
 
         Weapon.Instance.OnShotGunHitTarget();
 
@@ -175,7 +175,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         //        }
         //    } 
         //}
-    }
+    } 
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
@@ -185,8 +185,8 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         nbShoot++;
         if (nbShoot == 1)
         {
-            timerBeforeSecondHint = timeBeforeSecondHint;
-            timerStarted = true;
+            //timerBeforeSecondHint = timeBeforeSecondHint;
+            //timerStarted = true;
         }
 
         if (nbShoot == nbShootBeforeFirstHint)
@@ -200,7 +200,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
 
     void DisplayFirstHint()
     {
-        HintScript.Instance.PopHint("Ça n'a pas l'air de marcher.", 4);
+        //HintScript.Instance.PopHint("Ça n'a pas l'air de marcher.", 4);
     }
     
     void DisplaySecondHint()
@@ -211,7 +211,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     void TrueDisplay()
     {
         //HintScript.Instance.ChangeFontSize(23);
-        HintScript.Instance.PopHint("Maintiens la gachette appuyée pour charger ton tir !");
+        //HintScript.Instance.PopHint("Maintiens la gachette appuyée pour charger ton tir !");
     }
 
     public void OnBulletClose()

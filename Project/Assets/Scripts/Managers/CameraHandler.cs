@@ -377,6 +377,7 @@ public class CameraHandler : MonoBehaviour
     {
         if (speedBalancing > 0)
         {
+            Debug.Log("Balancing " + speedBalancing);
             if (lastMathfSinValue > Mathf.Sin(personalTimeForMathfSin) || Mathf.Sin(personalTimeForMathfSin) > 0.8f) doAdditionalRot = true;
             lastMathfSinValue = Mathf.Sin(personalTimeForMathfSin);
             if (doAdditionalRot) { currAdditionalRot = Mathf.Lerp(currAdditionalRot, additionalRotAfterFirstBalancing, Time.deltaTime * additionalRotLerpGoTo); }
@@ -765,6 +766,7 @@ public class CameraHandler : MonoBehaviour
     public void SetupBalancing (float _distanceUpBalancingAnchor, float initSpeedBalancing, float _dampingBalancing, float initialRot, float _minSpeedValue, float _returnLerpSpeedFromBalance,
         float _minSpeedRot,float _balancingFrequency, float _timeToGoToRot = 0.001f, float _additionalRotAfterFirstBalancing = 0, float _additionalRotLerpGoTo = 5)
     {
+        Debug.Log("BalancingSetup");
         rotateBalancePivot = cinemachineCam.transform.position + Vector3.up * _distanceUpBalancingAnchor;
         refPointBalance.position = cinemachineCam.transform.position;
         refPointBalance.rotation = cinemachineCam.transform.rotation;
