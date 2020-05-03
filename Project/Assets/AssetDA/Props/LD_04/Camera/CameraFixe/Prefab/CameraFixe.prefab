@@ -365,6 +365,7 @@ MonoBehaviour:
   camSpeed: 5
   camShake: {x: 0.3, y: 0.4}
   fxName: VFX_CameraExplosion
+  blinkParticleToStopOnDeath: {fileID: 3571098602952793706}
 --- !u!1 &9096805830955539025
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +572,12 @@ PrefabInstance:
 --- !u!4 &8119428868942598176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2749266710718061034, guid: fb3f1d25065a92c48b2b7cd40e8ce47c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6235614151579273674}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3571098602952793706 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7423706016990959520, guid: fb3f1d25065a92c48b2b7cd40e8ce47c,
     type: 3}
   m_PrefabInstance: {fileID: 6235614151579273674}
   m_PrefabAsset: {fileID: 0}

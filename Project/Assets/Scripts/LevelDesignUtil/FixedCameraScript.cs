@@ -17,7 +17,8 @@ public class FixedCameraScript : MonoBehaviour
     Vector2 camShake = new Vector2(0.3f, 0.4f);
     [SerializeField]
     string fxName = "VFX_CameraExplosion";
-
+    [SerializeField]
+    ParticleSystem blinkParticleToStopOnDeath = null;
 
     bool hitByBulletBool = false;
 
@@ -52,6 +53,8 @@ public class FixedCameraScript : MonoBehaviour
             //    }
 
             //}
+
+            blinkParticleToStopOnDeath.Stop();
 
             Rigidbody[] rbList = GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rb in rbList)
