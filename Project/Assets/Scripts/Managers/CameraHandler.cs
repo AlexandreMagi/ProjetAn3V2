@@ -356,6 +356,9 @@ public class CameraHandler : MonoBehaviour
         noisePurcentage = Mathf.MoveTowards(noisePurcentage, noisePurcentageAimed, Time.deltaTime / timeTransitionNoise);
         renderingCam.transform.position += noiseValue * noiseAmplitudePos * noisePurcentage;
         renderingCam.transform.Rotate (noiseValue * noiseAmplitudeRot * noisePurcentage);
+        //renderingCam.transform.position = cinemachineCam.transform.position;
+        //renderingCam.transform.rotation = cinemachineCam.transform.rotation;
+        //renderingCam.fieldOfView = cinemachineCam.fieldOfView;
     }
 
     private void BalancingCamUpdate()
