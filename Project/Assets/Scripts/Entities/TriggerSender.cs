@@ -38,7 +38,12 @@ public class TriggerSender : MonoBehaviour
     bool usesTimerBetweenAllAnims = false;
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
     float animationWaitTimer = 0;
-
+    [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
+    bool isMeshReplacer = false;
+    [ShowIf("typeTrigger", TriggerType.Animator), ShowIf("isMeshReplacer"), SerializeField]
+    Mesh meshForTheCollider = null;
+    [ShowIf("typeTrigger", TriggerType.Animator), ShowIf("isMeshReplacer"), SerializeField]
+    MeshCollider colliderToReplace = null;
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     bool isStopShake = false;
@@ -194,6 +199,11 @@ public class TriggerSender : MonoBehaviour
 
             case TriggerType.Animator:
                 TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer);
+                if (isMeshReplacer && colliderToReplace != null && meshForTheCollider != null)
+                {
+                    colliderToReplace.sharedMesh = meshForTheCollider;
+                }
+
                 this.gameObject.SetActive(false);
                 break;
 
