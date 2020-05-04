@@ -29,7 +29,7 @@ public static class ReactGravity<T> where T : DataEntity
             Vector3 v3DirectionToGo = (pullOrigin - rb.gameObject.transform.position).normalized;
             float deltaY = Mathf.Abs(rb.transform.position.y - pullOrigin.y);
 
-            Vector3 v3UpperAngle = deltaY <= .1f ? Vector3.zero : isAirbone ? new Vector3(0, -.1f, 0) : new Vector3(0, .1f, 0);
+            Vector3 v3UpperAngle = deltaY <= .1f ? Vector3.zero : isAirbone ? new Vector3(0, -.3f, 0) : new Vector3(0, .3f, 0);
 
             float fDistance = Vector3.Distance(pullOrigin, rb.gameObject.transform.position);
 

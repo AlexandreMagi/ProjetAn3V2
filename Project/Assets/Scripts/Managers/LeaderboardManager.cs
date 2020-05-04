@@ -90,7 +90,7 @@ public class LeaderboardManager : MonoBehaviour
         catch(Exception e)
         {
             //Si le fichier est pas trouvé en gros, en créer un nouveau
-            Debug.LogWarning($"Erreur lors de la lecture ! Création de sauvegarde par défaut...");
+            Debug.LogWarning($"{e} -- Erreur lors de la lecture ! Création de sauvegarde par défaut...");
 
 
             RefabricXMLDataDefault();

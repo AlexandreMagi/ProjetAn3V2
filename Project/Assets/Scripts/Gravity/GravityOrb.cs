@@ -238,7 +238,7 @@ public class GravityOrb : MonoBehaviour
             {
                 IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
-                if (gAffect != null && hVictim.gameObject != parentIfSticky)
+                if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
                 {
                     gAffect.OnPull(this.transform.position, orbData.pullForce);
                     gAffect.OnHold();
