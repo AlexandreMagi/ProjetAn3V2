@@ -24,11 +24,10 @@ public class WindSoundHandler : MonoBehaviour
     [SerializeField] float maxPitchGoTo = 1;
     [SerializeField] float startPitch = 0.5f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        wind = CustomSoundManager.Instance.PlaySound("SE_Wind", "Ambiant", 0.5f);
 
+    void StartSound()
+    {
+        wind = CustomSoundManager.Instance.PlaySound("SE_Wind", "Ambiant", 0.8f);
         if (wind != null) wind.pitch = startPitch;
     }
 
@@ -41,11 +40,12 @@ public class WindSoundHandler : MonoBehaviour
             {
                 purcentage += Time.deltaTime / timeToMaxPitch;
                 wind.pitch = Mathf.Lerp(startPitch, maxPitchGoTo, purcentage);
-            }
-            if (purcentage > 1)
-            {
-                purcentage = 1;
-                wind.pitch = maxPitchGoTo;
+                if (purcentage > 1)
+                {
+                    purcentage = 1;
+                    wind.pitch = maxPitchGoTo;
+                    Cut();
+                }
             }
         }
     }
@@ -53,5 +53,10 @@ public class WindSoundHandler : MonoBehaviour
     public void Cut()
     {
         if (wind != null) wind.Stop();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        StartSound();
     }
 }
