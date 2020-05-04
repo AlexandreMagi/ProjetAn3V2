@@ -301,7 +301,7 @@ public class CameraHandler : MonoBehaviour
 
         if (feedbackTransition)
         {
-            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, (feedbackActivated ? 1 : 0), Time.unscaledDeltaTime / transitionTime);
         }
         else
         {
