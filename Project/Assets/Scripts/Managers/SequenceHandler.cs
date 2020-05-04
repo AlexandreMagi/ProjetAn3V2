@@ -558,6 +558,7 @@ public class SequenceHandler : MonoBehaviour
             }
             float frequencyValue = Vector3.Distance(pastCamPos, newCamPos) / 2 / (delayOnBlendSequence != 0 ? delayOnBlendSequence : 0.1f);
             CameraHandler.Instance.UpdatePos(pastCamPos,newCamPos, currentSequence.stepFadeAtStart, currentSequence.stepFadeAtEnd, currentSequence.distFadeStart, currentSequence.distFadeEnd);
+            CameraHandler.Instance.StepSound(!currentSequence.removeStepSound);
             CameraHandler.Instance.UpdateBreathing(currentSequence.breathingEnabled, currentSequence.timeFadeBreathing);
             if (currentSequence.isShortStep)
             {

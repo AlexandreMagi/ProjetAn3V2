@@ -155,6 +155,9 @@ public class CameraHandler : MonoBehaviour
     // Anti clac
     float antiClacRotPurcentage = 1;
 
+    // Son
+    bool canPlayStepSound = true; // Dit si le son de pas peut jouer
+
 
     #endregion
 
@@ -301,7 +304,7 @@ public class CameraHandler : MonoBehaviour
 
         if (feedbackTransition)
         {
-            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, (feedbackActivated ? 1 : 0), Time.unscaledDeltaTime / transitionTime);
         }
         else
         {
@@ -428,7 +431,7 @@ public class CameraHandler : MonoBehaviour
             stepSoundPlayed = true;
             //Debug.Log("Joue son de pas");
             //if (feedbackActivated) CustomSoundManager.Instance.PlaySound(renderingCam.gameObject, "Step_0" + UnityEngine.Random.Range(1, 5), false, 1f);
-            if (feedbackActivated) CustomSoundManager.Instance.PlaySound("Step_0" + UnityEngine.Random.Range(1, 5), "Player", 1);
+            if (feedbackActivated && canPlayStepSound) CustomSoundManager.Instance.PlaySound("Step_0" + UnityEngine.Random.Range(1, 5), "Player", 1);
         }
         for (int i = 0; i < curveValues.Length; i++)
         {
@@ -711,6 +714,10 @@ public class CameraHandler : MonoBehaviour
         fadeStepsAtEndOfSequence = stopAtEnd;
         distanceFadeStepsAtStart = fadeDistanceStart;
         distanceFadeStepsAtEnd = fadeDistanceEnd;
+    }
+    public void StepSound(bool activated)
+    {
+        canPlayStepSound = activated;
     }
     public void UpdateBreathing(bool _breathingEnabled, float _timeFadeBreathing)
     {
