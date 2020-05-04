@@ -290,6 +290,8 @@ public class DataSequence : ScriptableObject
     [ShowIf("modifySteps"), ShowIf("modifyStepsCurve"), Tooltip("Courbe d'intensité de frequence sur le temps de la séquence")]
     public AnimationCurve modifiedStepCurve = null;
 
+    // --- Son des Step
+    public bool removeStepSound = false;
 
 
     // ############################################################################################## ANIMATIONS CUSTOMS
