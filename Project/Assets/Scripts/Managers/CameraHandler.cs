@@ -275,21 +275,6 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.position = currentCamRef.transform.position;
         camRef.transform.rotation = currentCamRef.transform.rotation;
         UpdateCamValues(onShortStep);
-        if (feedbackTransition)
-        {
-            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
-        }
-        else
-        {
-            if (feedbackActivated) transitionPurcentage = 1;
-            else transitionPurcentage = 0;
-        }
-        
-
-
-        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, transitionPurcentage);
-        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
-        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
 
         BalancingCamUpdate(); // Ovveride les feedbacks et la position si en balancement
 
@@ -313,6 +298,20 @@ public class CameraHandler : MonoBehaviour
             camRef.transform.Translate(dirShakePlane * magnitudeShakePlane * camData.animShakePlane.Evaluate(animShakePlanePurcentage));
             if (animShakePlanePurcentage > 1) animShakePlanePurcentage = 1;
         }
+
+        if (feedbackTransition)
+        {
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
+        }
+        else
+        {
+            if (feedbackActivated) transitionPurcentage = 1;
+            else transitionPurcentage = 0;
+        }
+
+        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, transitionPurcentage);
+        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
+        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
 
         renderingCam.transform.position = camRef.transform.position;
         renderingCam.transform.rotation = camRef.transform.rotation;
