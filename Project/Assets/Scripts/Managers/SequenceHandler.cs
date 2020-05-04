@@ -636,18 +636,26 @@ public class SequenceHandler : MonoBehaviour
     void WaitScreenFunction()
     {
         if (currentSequence.changeWaitScreen)
+            StartCoroutine(WaitScreenCoroutine(currentSequence.activateWaitScreen));
+    }
+
+    IEnumerator WaitScreenCoroutine(bool activate)
+    {
+        if (currentSequence.waitScreenDelay > 0)
+            yield return new WaitForSeconds(currentSequence.waitScreenDelay);
+
+        if (activate)
         {
-            if (!currentSequence.activateWaitScreen)
-            {
-                UiCrossHair.Instance.StopWaitFunction();
-                Main.Instance.SetupWaitScreenOff();
-            }
-            else
-            {
-                UiCrossHair.Instance.WaitFunction();
-                Main.Instance.SetupWaitScreenOn();
-            }
+            UiCrossHair.Instance.WaitFunction();
+            Main.Instance.SetupWaitScreenOn();
         }
+        else
+        {
+            UiCrossHair.Instance.StopWaitFunction();
+            Main.Instance.SetupWaitScreenOff();
+        }
+
+        yield break;
     }
 
 }
