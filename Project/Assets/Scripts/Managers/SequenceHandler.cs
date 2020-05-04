@@ -375,7 +375,6 @@ public class SequenceHandler : MonoBehaviour
         {
             CameraHandler.Instance.StopBalancing();
             if (isForced) CameraHandler.Instance.ResyncCamera(true);
-            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.transitionTime);
             if (currentSequence.cutLookAtOnEndOfSequence) CameraHandler.Instance.ReleaselookAt();
         }
         
@@ -474,10 +473,13 @@ public class SequenceHandler : MonoBehaviour
             {
                 sequenceIndex++;
             }
-           
+
         }
 
         //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
+
+        if (currentSequence.waitScreenAtEndOfSequence)
+            WaitScreenFunction();
 
         isWaitingTimer = false;
 
@@ -538,20 +540,8 @@ public class SequenceHandler : MonoBehaviour
             if (currentSequence.actionType == DataSequence.gameObjectActionType.Activate) currentSequence.affectedObject.SetActive(currentSequence._active);
             else if (currentSequence.actionType == DataSequence.gameObjectActionType.MoveTo) currentSequence.affectedObject.transform.position = currentSequence.positionMoveTo;
         }
-
-        if (currentSequence.changeWaitScreen)
-        {
-            if (!currentSequence.activateWaitScreen)
-            {
-                UiCrossHair.Instance.StopWaitFunction();
-                Main.Instance.SetupWaitScreenOff();
-            }
-            else
-            {
-                UiCrossHair.Instance.WaitFunction();
-                Main.Instance.SetupWaitScreenOn();
-            }
-        }
+        if (!currentSequence.waitScreenAtEndOfSequence)
+            WaitScreenFunction();
         Weapon.Instance.rotateLocked = currentSequence.lockWeaponLight;
 
         if (TutorialCheckpoint.Instance != null) TutorialCheckpoint.Instance.EndTutorialCheckpoint();
@@ -561,6 +551,7 @@ public class SequenceHandler : MonoBehaviour
         //DECLENCHEMENT DU FEEDBACK DE CAM
         if (CameraHandler.Instance != null)
         {
+            CameraHandler.Instance.FeedbackTransition(currentSequence.enableCamFeedback, currentSequence.enableCamTransition, currentSequence.transitionTime);
             if (currentSequence.changeNoiseSettings)
             {
                 CameraHandler.Instance.ChangeNoiseSettings(currentSequence.noisePurcentageAimed, currentSequence.timeTransitionNoise, currentSequence.noiseAmplitudePos, currentSequence.noiseAmplitudeRot, currentSequence.noiseFrequency);
@@ -641,4 +632,22 @@ public class SequenceHandler : MonoBehaviour
 
         return number;
     }
+
+    void WaitScreenFunction()
+    {
+        if (currentSequence.changeWaitScreen)
+        {
+            if (!currentSequence.activateWaitScreen)
+            {
+                UiCrossHair.Instance.StopWaitFunction();
+                Main.Instance.SetupWaitScreenOff();
+            }
+            else
+            {
+                UiCrossHair.Instance.WaitFunction();
+                Main.Instance.SetupWaitScreenOn();
+            }
+        }
+    }
+
 }

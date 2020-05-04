@@ -277,22 +277,7 @@ public class CameraHandler : MonoBehaviour
         UpdateCamValues(onShortStep);
         if (feedbackTransition)
         {
-            if (feedbackActivated)
-            {
-                if (transitionPurcentage < 1)
-                {
-                    transitionPurcentage += Time.unscaledDeltaTime / transitionTime;
-                    if (transitionPurcentage > 1) transitionPurcentage = 1;
-                }
-            }
-            else
-            {
-                if (transitionPurcentage > 0)
-                {
-                    transitionPurcentage -= Time.unscaledDeltaTime / transitionTime;
-                    if (transitionPurcentage < 0) transitionPurcentage = 0;
-                }
-            }
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, feedbackActivated ? 1 : 0, Time.unscaledDeltaTime / transitionTime);
         }
         else
         {
@@ -371,12 +356,16 @@ public class CameraHandler : MonoBehaviour
         noisePurcentage = Mathf.MoveTowards(noisePurcentage, noisePurcentageAimed, Time.deltaTime / timeTransitionNoise);
         renderingCam.transform.position += noiseValue * noiseAmplitudePos * noisePurcentage;
         renderingCam.transform.Rotate (noiseValue * noiseAmplitudeRot * noisePurcentage);
+        //renderingCam.transform.position = cinemachineCam.transform.position;
+        //renderingCam.transform.rotation = cinemachineCam.transform.rotation;
+        //renderingCam.fieldOfView = cinemachineCam.fieldOfView;
     }
 
     private void BalancingCamUpdate()
     {
         if (speedBalancing > 0)
         {
+            Debug.Log("Balancing " + speedBalancing);
             if (lastMathfSinValue > Mathf.Sin(personalTimeForMathfSin) || Mathf.Sin(personalTimeForMathfSin) > 0.8f) doAdditionalRot = true;
             lastMathfSinValue = Mathf.Sin(personalTimeForMathfSin);
             if (doAdditionalRot) { currAdditionalRot = Mathf.Lerp(currAdditionalRot, additionalRotAfterFirstBalancing, Time.deltaTime * additionalRotLerpGoTo); }
@@ -528,7 +517,7 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Rotate(0, cursorRotateValue.y, 0, Space.World); // Rotation de la cam selon le placement du curseur (en Y)
         camRef.transform.Rotate(cursorRotateValue.x, 0, 0, Space.Self); // Rotation de la cam selon le placement du curseur (en X)
 
-        fovModifViaSpeed = Mathf.Lerp(fovModifViaSpeed, currentFrequency * camData.fovMultiplier, dt * camData.fovSpeed);
+        fovModifViaSpeed = Mathf.Lerp (0, Mathf.Lerp(fovModifViaSpeed, currentFrequency * camData.fovMultiplier, dt * camData.fovSpeed), transitionPurcentage);
         float fovAddedByChargeFeedback = weaponData != null ? feedbackChargedStarted ? weaponData.AnimValue.Evaluate(currentPurcentageFBCharged) * weaponData.fovModifier : 0 : 0;
         fovAddedByTimeScale = Mathf.Lerp(fovAddedByTimeScale, camData.timeScaleFovImpact - Time.timeScale * camData.timeScaleFovImpact, Time.unscaledDeltaTime * camData.timeScaleFovSpeed);
         camRef.fieldOfView = camData.BaseFov + camData.maxFovDecal * chargevalue + fovAddedByChargeFeedback + fovModifViaSpeed + fovAddedByTimeScale + recoilFovValue;
@@ -765,6 +754,7 @@ public class CameraHandler : MonoBehaviour
     public void SetupBalancing (float _distanceUpBalancingAnchor, float initSpeedBalancing, float _dampingBalancing, float initialRot, float _minSpeedValue, float _returnLerpSpeedFromBalance,
         float _minSpeedRot,float _balancingFrequency, float _timeToGoToRot = 0.001f, float _additionalRotAfterFirstBalancing = 0, float _additionalRotLerpGoTo = 5)
     {
+        Debug.Log("BalancingSetup");
         rotateBalancePivot = cinemachineCam.transform.position + Vector3.up * _distanceUpBalancingAnchor;
         refPointBalance.position = cinemachineCam.transform.position;
         refPointBalance.rotation = cinemachineCam.transform.rotation;

@@ -115,10 +115,10 @@ public class TriggerSender : MonoBehaviour
     int damages = 0;
 
     [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
-    SwarmerProceduralAnimation.AnimSwarmer animationToCall;
+    SwarmerProceduralAnimation.AnimSwarmer animationToCall = SwarmerProceduralAnimation.AnimSwarmer.reset;
 
     [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
-    List<Swarmer> swarmersToAnimate;
+    List<Swarmer> swarmersToAnimate = null;
 
 
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]

@@ -330,4 +330,6 @@ public class DataSequence : ScriptableObject
     public bool changeWaitScreen = false;
     [ShowIf("changeWaitScreen"), Tooltip("État visé par le wait screen")]
     public bool activateWaitScreen = false;
+    [ShowIf("changeWaitScreen"), Tooltip("Permet de faite l'action à la fin d'une séquence")]
+    public bool waitScreenAtEndOfSequence = false;
 }
