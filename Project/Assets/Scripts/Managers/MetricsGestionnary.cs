@@ -188,8 +188,8 @@ public class MetricsGestionnary : MonoBehaviour
         }
 
 
-        UILeaderboard.Instance.AddMetricToDisplay("Cameras destroyed", currentMetrics.camerasHit == 0? "100%" : Mathf.FloorToInt(currentMetrics.camerasHit/ countOfCameras*100).ToString()+"%", "", true);
-        UILeaderboard.Instance.AddMetricToDisplay("Armor pads destroyed", currentMetrics.collectiblesHit == 0? "100%" : Mathf.FloorToInt(currentMetrics.collectiblesHit / countOfCollectibles * 100).ToString()+"%", "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Cameras destroyed", currentMetrics.camerasHit.ToString() + "/" + countOfCameras.ToString(), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Armor pads destroyed", currentMetrics.collectiblesHit +"/"+ countOfCollectibles, "", true);
         UILeaderboard.Instance.AddMetricToDisplay("Precision", currentMetrics.aim > 0? Mathf.FloorToInt(currentMetrics.aim).ToString()+"%" : "None", "", true);
         UILeaderboard.Instance.AddMetricToDisplay("Damage Taken", Mathf.FloorToInt(currentMetrics.totalDamageTaken).ToString("N0"), "", true);
         UILeaderboard.Instance.AddMetricToDisplay("Environmental Kills", Mathf.FloorToInt(currentMetrics.numberOfEnvKills).ToString("N0"), "", true);
