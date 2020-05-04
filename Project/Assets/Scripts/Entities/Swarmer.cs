@@ -679,6 +679,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Debug.Log("Reset called");
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
+        jumpElapsedTime = entityData.jumpCooldownInitial;
         ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem fx in releaseFx)
         {
