@@ -23,6 +23,9 @@ public class SequenceHandler : MonoBehaviour
 
     CinemachineBrain cameraBrain = null;
 
+    [SerializeField]
+    Collider cameraCollider;
+
     float elapsedTime = 0;
     float delayOnBlendSequence = 0;
     int sequenceIndex = 0;
@@ -233,6 +236,12 @@ public class SequenceHandler : MonoBehaviour
             if (delayOnBlendSequence > 0)
             {
                 delayOnBlendSequence -= Time.deltaTime;
+
+                if(delayOnBlendSequence <= 0)
+                {
+                    delayOnBlendSequence = 0;
+                    cameraCollider.enabled = true;
+                }
             }
             else
             {
@@ -304,6 +313,7 @@ public class SequenceHandler : MonoBehaviour
     {
         if(sequenceNumber < GetLargeSequenceNumber())
         {
+            cameraCollider.enabled = false;
             int indexLeft = sequenceNumber;
             int subBranchID = 0;
             foreach(SequenceBranch branch in sequenceBranches)

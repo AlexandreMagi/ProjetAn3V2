@@ -6,4 +6,6 @@ using UnityEngine;
 public class DataProp : DataEntity
 {
     public string fxPlayedOnDestroy = "propFx";
+
+    public bool canBeAffectedByGravity = true;
 }
