@@ -369,7 +369,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     protected void FixedUpdate()
     {
 
-        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking)
+        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
         {
             //Gravity security
             if (rbBody.velocity.y >= 5f)
