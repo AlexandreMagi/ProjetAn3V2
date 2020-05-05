@@ -98,21 +98,30 @@ public class GravityOrb : MonoBehaviour
         //Debug.Log("Attraction");
         Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
 
+        //List<GameObject> GOHitsTab = new List<GameObject>();
+
         foreach (Collider hVictim in tHits)
         {
             /*
             if (hVictim.GetComponent<C_ShooterBullet>())
                 hVictim.GetComponent<C_ShooterBullet>().OnGravityPull();
             */
-
-            IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
-
-            if (gAffect != null && hVictim.gameObject != parentIfSticky)
+            if (!hVictim.isTrigger)
             {
-                //hasHitSomething = true;
-                gAffect.OnPull(this.transform.position, orbData.pullForce);
+                IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
+
+                if (gAffect != null && hVictim.gameObject != parentIfSticky)
+                {
+                    Debug.Log($"pull initial -- {hVictim.gameObject.name}");
+                    //hasHitSomething = true;
+
+                    gAffect.OnPull(this.transform.position, orbData.pullForce);
+                }
+
             }
+            
         }
+
     }
 
     public DataGravityOrb getOrbData () { return orbData; }

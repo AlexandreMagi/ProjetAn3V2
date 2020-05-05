@@ -167,7 +167,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.transform == target)
+        if (other.transform == target && currentState != SwarmerState.GravityControlled)
         {
             IEntity targetEntity = target.GetComponent<IEntity>();
             if (other.GetComponent<Player>() != null)
@@ -369,7 +369,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     protected void FixedUpdate()
     {
 
-        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking)
+        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
         {
             //Gravity security
             if (rbBody.velocity.y >= 5f)

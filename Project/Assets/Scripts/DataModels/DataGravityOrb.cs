@@ -12,7 +12,7 @@ public class DataGravityOrb : ScriptableObject
     [PropertyRange(0f, 50f)]
     public float gravityBullet_AttractionRange = 0f;
 
-    [PropertyRange(0f, 1000f)]
+    [PropertyRange(0f, 100f)]
     public float pullForce = 0f;
 
     [PropertyRange(0f, 1f)]
@@ -28,7 +28,7 @@ public class DataGravityOrb : ScriptableObject
     [PropertyRange(0f, 50f)]
     public float holdRange = 0f;
 
-    [PropertyRange(0f, 1000f)]
+    [PropertyRange(0f, 100f)]
     public float holdForce = 0f;
 
     [Header("Variance settings")]
