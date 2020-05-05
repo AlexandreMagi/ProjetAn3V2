@@ -167,7 +167,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.transform == target)
+        if (other.transform == target && currentState != SwarmerState.GravityControlled)
         {
             IEntity targetEntity = target.GetComponent<IEntity>();
             if (other.GetComponent<Player>() != null)
