@@ -27,17 +27,17 @@ public static class ReactGravity<T> where T : DataEntity
         if(rb != null)
         {
             Vector3 v3DirectionToGo = (pullOrigin - rb.gameObject.transform.position).normalized;
-            float deltaY = Mathf.Abs(rb.transform.position.y - pullOrigin.y);
-
-            Vector3 v3UpperAngle = deltaY <= .1f ? Vector3.zero : isAirbone ? new Vector3(0, -.3f, 0) : new Vector3(0, .3f, 0);
+            //float deltaY = Mathf.Abs(rb.transform.position.y - pullOrigin.y);
 
             float fDistance = Vector3.Distance(pullOrigin, rb.gameObject.transform.position);
+
+            Debug.DrawRay(rb.transform.position, new Vector3(v3DirectionToGo.x, v3DirectionToGo.y, v3DirectionToGo.z), Color.green);
 
             //(v3DirectionToGo.y / 2) * .15f
 
             //Ça marche, c'est moche, mais on aime
             //En gros, ça attire en fonction de la distance par rapport au sol. Si la distance est inférieure à un seuil, on applique ce seuil au lieu de la distance. Pareil pour la distance max
-            rb.AddForce(new Vector3(v3DirectionToGo.x, v3UpperAngle.y, v3DirectionToGo.z) * pullForce * (fDistance < .2f ? Mathf.Pow(1.1f, 1.9f) : fDistance > 8 ? Mathf.Pow(3, 1.9f) : Mathf.Pow(2.5f, 1.9f)));
+            rb.AddForce(new Vector3(v3DirectionToGo.x, v3DirectionToGo.y, v3DirectionToGo.z) * pullForce * (fDistance > 8 ? Mathf.Pow(3, 1.9f) : Mathf.Pow(2.5f, 1.9f)));
         }
 
     }
