@@ -82,6 +82,8 @@ public class CameraHandler : MonoBehaviour
     bool fadeStepsAtStartOfSequence = false;
     float distanceFadeStepsAtEnd = 1;
     float distanceFadeStepsAtStart = 2;
+    float removeFeedbackFromEndAndStartLerpSpeed = 2;
+    float removeFeedbackFromEndAndStartLerped = 1;
 
     // Short step
     bool onShortStep = false;
@@ -267,7 +269,8 @@ public class CameraHandler : MonoBehaviour
             currentFrequency = Mathf.Lerp(0, currentFrequency, distanceWithStart / distanceFadeStepsAtStart);
             removeFeedbackFromEndAndStart *= (distanceWithStart / distanceFadeStepsAtStart);
         }
-        
+        removeFeedbackFromEndAndStartLerped = Mathf.Lerp(removeFeedbackFromEndAndStartLerped, removeFeedbackFromEndAndStart, Time.deltaTime * removeFeedbackFromEndAndStartLerpSpeed);
+
 
         // Fait le switch entre la caméra cinemachine et la caméra animée
         currentCamRef = !currentCamIsCine && animatedCam.transform.position != Vector3.zero && animatedCam != null ? animatedCam : cinemachineCam;
@@ -283,9 +286,9 @@ public class CameraHandler : MonoBehaviour
         UpdateCamValues(onShortStep);
 
 
-        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, removeFeedbackFromEndAndStart);
-        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, removeFeedbackFromEndAndStart);
-        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, removeFeedbackFromEndAndStart);
+        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, removeFeedbackFromEndAndStartLerped);
+        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, removeFeedbackFromEndAndStartLerped);
+        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, removeFeedbackFromEndAndStartLerped);
 
         BalancingCamUpdate(); // Ovveride les feedbacks et la position si en balancement
 
