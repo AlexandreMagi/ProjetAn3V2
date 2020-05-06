@@ -245,6 +245,7 @@ public class SequenceHandler : MonoBehaviour
             }
             else
             {
+                cameraCollider.enabled = true;
                 /*//DECLENCHEMENT DU FEEDBACK DE CAM
                 if (CameraHandler.Instance != null)
                     CameraHandler.Instance.UpdateCamSteps(0, 100);*/
@@ -313,7 +314,7 @@ public class SequenceHandler : MonoBehaviour
     {
         if(sequenceNumber < GetLargeSequenceNumber())
         {
-            cameraCollider.enabled = false;
+            //cameraCollider.enabled = false;
             int indexLeft = sequenceNumber;
             int subBranchID = 0;
             foreach(SequenceBranch branch in sequenceBranches)

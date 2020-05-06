@@ -8,8 +8,14 @@ public class GravityOrb : MonoBehaviour
     private DataGravityOrb orbData = null;
     public DataGravityOrb OrbData { get { return orbData;  } }
 
+    List<Collider> collidersToAttract = null;
+
     float fTimeHeld = 0f;
+    float stepTimeHold = 0f;
     bool hasSticked = false;
+    bool hasAttractionStarted = false;
+
+    bool hasDoneFirstImpulsion = false;
     //bool hasHitSomething = false;
 
     [SerializeField]
@@ -28,14 +34,19 @@ public class GravityOrb : MonoBehaviour
 
     private void Start()
     {
-
         if (bActivedViaScene)
            Invoke("SpawnViaScene", 1);
 
+        //Debug.Log("start");
     }
 
     public bool OnSpawning(Vector2 mousePosition)
     {
+        collidersToAttract = new List<Collider>();
+        hasAttractionStarted = false;
+        hasDoneFirstImpulsion = false;
+        stepTimeHold = 0f;
+
         //hasHitSomething = false;
         MainCam = CameraHandler.Instance.renderingCam;
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
@@ -63,14 +74,11 @@ public class GravityOrb : MonoBehaviour
                 hasSticked = true;
             }
 
-
-
-            this.OnAttractionStart();
-
             //FxManager.Instance.PlayFx(orbData.fxName, hit.point, Quaternion.identity);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
             ps = FxManager.Instance.PlayFx(orbData.fxName, hit.point, hit, true);//, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
-            StartCoroutine("OnHoldAttraction");
+
+            hasAttractionStarted = true;
 
             CustomSoundManager.Instance.PlaySound("Sound_Orb_Boosted", "Effect", .5f);
             return true;
@@ -88,40 +96,8 @@ public class GravityOrb : MonoBehaviour
 
         //FxManager.Instance.PlayFx(orbData.fxName, transform.position, Quaternion.identity, orbData.gravityBullet_AttractionRange, orbData.fxSizeMultiplier);
 
-        this.OnAttractionStart();
-        StartCoroutine("OnHoldAttraction");
+        hasAttractionStarted = true;
         CustomSoundManager.Instance.PlaySound("Sound_Orb_Boosted", "Effect", .3f);
-    }
-
-    void OnAttractionStart()
-    {
-        //Debug.Log("Attraction");
-        Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
-
-        //List<GameObject> GOHitsTab = new List<GameObject>();
-
-        foreach (Collider hVictim in tHits)
-        {
-            /*
-            if (hVictim.GetComponent<C_ShooterBullet>())
-                hVictim.GetComponent<C_ShooterBullet>().OnGravityPull();
-            */
-            if (!hVictim.isTrigger)
-            {
-                IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
-
-                if (gAffect != null && hVictim.gameObject != parentIfSticky)
-                {
-                    Debug.Log($"pull initial -- {hVictim.gameObject.name}");
-                    //hasHitSomething = true;
-
-                    gAffect.OnPull(this.transform.position, orbData.pullForce);
-                }
-
-            }
-            
-        }
-
     }
 
     public DataGravityOrb getOrbData () { return orbData; }
@@ -129,6 +105,7 @@ public class GravityOrb : MonoBehaviour
     public void StopHolding(bool loosePointIfMissed = true)
     {
         hasExploded = true;
+        hasAttractionStarted = false;
         int nbEnemiesHitByFloatExplo = 0;
 
         if (PostprocessManager.Instance != null)
@@ -137,7 +114,7 @@ public class GravityOrb : MonoBehaviour
             PostprocessManager.Instance.doDistortion(transform);
         }
 
-        StopCoroutine("OnHoldAttraction");
+        //StopCoroutine("OnHoldAttraction");
 
 
         //if (!hasHitSomething && loosePointIfMissed)
@@ -232,45 +209,64 @@ public class GravityOrb : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    IEnumerator OnHoldAttraction()
+    void Attract(float force)
     {
-        new WaitForSecondsRealtime(orbData.timeBeforeHold);
-
-        fTimeHeld = 0;
-
-        while (true)
+        foreach (Collider hVictim in collidersToAttract)
         {
-            //Debug.Log("Attraction");
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.holdRange);
+            IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
-            foreach (Collider hVictim in tHits)
+            if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
             {
-                IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
-
-                if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
-                {
-                    gAffect.OnPull(this.transform.position, orbData.pullForce);
-                    gAffect.OnHold();
-                    //hasHitSomething = true;
-                }
-                    
-
+                //Debug.Log("pull");
+                gAffect.OnPull(this.transform.position, force);
+                gAffect.OnHold();
+                //hasHitSomething = true;
             }
-
-            if (!bActivedViaScene)
-            {
-                fTimeHeld += orbData.waitingTimeBetweenAttractions;
-
-                if (fTimeHeld >= orbData.lockTime)
-                {
-                    StopHolding();
-                }
-            }
-
-
-            yield return new WaitForSecondsRealtime(orbData.waitingTimeBetweenAttractions);
         }
-        
+    }
+
+    public void FixedUpdate()
+    {
+        //Debug.Break();
+       // Debug.Log("Truc");
+
+        //yield return new WaitForSecondsRealtime(orbData.timeBeforeHold);
+        if (hasAttractionStarted)
+        {
+
+            if (!hasDoneFirstImpulsion)
+            {
+                fTimeHeld = 0;
+                hasDoneFirstImpulsion = true;
+
+                Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.holdRange);
+                collidersToAttract.AddRange(tHits);
+
+                Attract(orbData.pullForce);
+            }
+            else
+            {
+                if (!bActivedViaScene)
+                {
+                    fTimeHeld += Time.fixedDeltaTime;
+                    stepTimeHold += Time.fixedDeltaTime;
+
+                    if (fTimeHeld >= orbData.lockTime)
+                    {
+                        StopHolding();
+                    }
+
+                    if(stepTimeHold >= orbData.waitingTimeBetweenAttractions)
+                    {
+                        stepTimeHold -= orbData.waitingTimeBetweenAttractions;
+
+                        Attract(orbData.holdForce);
+                    }
+                }
+
+            }
+
+        }
 
     }
     
