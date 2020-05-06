@@ -419,5 +419,32 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //LIGHTS
+    public static void TriggerLights(float timeBeforeStart, Light[] lightsToAffect, bool lightsState, bool lightChangesColor, Color colorOfLight)
+    {
+        Main.Instance.StartCoroutine(TriggerLightsCoroutine(timeBeforeStart, lightsToAffect, lightsState, lightChangesColor, colorOfLight));
+    }
+
+    static IEnumerator TriggerLightsCoroutine(float timeBeforeStart, Light[] lightsToAffect, bool lightsState, bool lightChangesColor, Color colorOfLight)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        foreach (Light l in lightsToAffect)
+        {
+            l.enabled = lightsState;
+            if (lightChangesColor)
+            {
+                l.color = colorOfLight;
+            }
+            LightHandler lh = l.GetComponent<LightHandler>();
+            if (lh)
+            {
+                lh.enabled = lightsState;
+            }
+        }
+
+        yield break;
+    }
 }
 
