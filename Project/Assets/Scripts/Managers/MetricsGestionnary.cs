@@ -198,7 +198,8 @@ public class MetricsGestionnary : MonoBehaviour
         UILeaderboard.Instance.AddMetricToDisplay("Player Revived", (currentMetrics.playerHasBeenRaised ? "Yes":"No"), "", true);
 
         TimeSpan t = TimeSpan.FromSeconds(currentMetrics.timeOfGame);
-        string timeStringed = string.Format("{0:D2}m:{1:D2}s", t.Minutes, t.Seconds);
+        string timeStringed = string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
+        //string timeStringed = string.Format("{0:D2}m:{1:D2}s", t.Minutes, t.Seconds);
         UILeaderboard.Instance.AddMetricToDisplay("Time Elapsed", timeStringed, "", true);
         //UILeaderboard.Instance.AddMetricToDisplay("Health Damage Taken", Mathf.FloorToInt(currentMetrics.DamageTakenOnHealth).ToString("N0"), "", true);
         Debug.Log("AddTotalScoreGained");
