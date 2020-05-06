@@ -136,7 +136,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             rbBody.velocity = Vector3.zero;
         }
 
-        bool isInTheAir = Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+        bool isInTheAir = !Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
         currentState = SwarmerState.GravityControlled;
 
@@ -369,16 +369,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     protected void FixedUpdate()
     {
 
-        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
-        {
-            //Gravity security
-            if (rbBody.velocity.y >= 5f)
-            {
-                Debug.Log("stratos security");
-                rbBody.AddForce(Vector3.down * 500);
-            }
+        //if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
+        //{
+        //    //Gravity security
+        //    //if (rbBody.velocity.y >= 5f)
+        //    //{
+        //    //    //Debug.Log("stratos security");
+        //    //    rbBody.AddForce(Vector3.down * 500);
+        //    //}
 
-        }
+        //}
 
         //Base vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
@@ -538,10 +538,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                    )
                 {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
+                    //rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
 
                     currentState = SwarmerState.FollowPath;
-                    //Debug.Log("jump");
+                    Debug.Log("jump");
                 }
                 //Si saut impossible, lancement de la manoeuvre d'évitement d'obstacle
                 else
