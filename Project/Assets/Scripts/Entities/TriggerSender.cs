@@ -225,19 +225,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Light:
-                foreach(Light l in lightsToAffect)
-                {
-                    l.enabled = lightsState;
-                    if (lightChangesColor)
-                    {
-                        l.color = colorOfLight;
-                    }
-                    LightHandler lh = l.GetComponent<LightHandler>();
-                    if (lh)
-                    {
-                        lh.enabled = lightsState;
-                    }
-                }
+                TriggerUtil.TriggerLights(timeBeforeStart, lightsToAffect, lightsState, lightChangesColor, colorOfLight);              
                 break;
             case TriggerType.VFX:
                 TriggerUtil.TriggerVFX(timeBeforeStart, VFXToAffect, VFXState);
