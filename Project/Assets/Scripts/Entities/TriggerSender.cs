@@ -227,7 +227,7 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Light:
                 foreach(Light l in lightsToAffect)
                 {
-                    l.enabled = false;
+                    l.enabled = lightsState;
                     if (lightChangesColor)
                     {
                         l.color = colorOfLight;
