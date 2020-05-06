@@ -71,7 +71,10 @@ public class TriggerSender : MonoBehaviour
     Light[] lightsToAffect = null;
     [ShowIf("typeTrigger", TriggerType.Light), SerializeField]
     bool lightsState = false;
-
+    [ShowIf("typeTrigger", TriggerType.Light), SerializeField]
+    bool lightChangesColor = false;
+    [ShowIf("typeTrigger", TriggerType.Light), ShowIf("lightChangesColor"), SerializeField]
+    Color colorOfLight = Color.white;
 
     [ShowIf("typeTrigger", TriggerType.VFX), SerializeField]
     ParticleSystem[] VFXToAffect = null;
@@ -222,15 +225,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Light:
-                foreach(Light l in lightsToAffect)
-                {
-                    l.enabled = false;
-                    LightHandler lh = l.GetComponent<LightHandler>();
-                    if (lh)
-                    {
-                        lh.enabled = lightsState;
-                    }
-                }
+                TriggerUtil.TriggerLights(timeBeforeStart, lightsToAffect, lightsState, lightChangesColor, colorOfLight);              
                 break;
             case TriggerType.VFX:
                 TriggerUtil.TriggerVFX(timeBeforeStart, VFXToAffect, VFXState);
