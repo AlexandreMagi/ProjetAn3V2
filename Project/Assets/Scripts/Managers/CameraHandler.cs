@@ -252,17 +252,20 @@ public class CameraHandler : MonoBehaviour
                 currentFrequency = frequency * currentCinemachineCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal));
         }
 
+        float removeFeedbackFromEndAndStart = 1;
         //Permet de ralentir les pas à la fin d'un déplacement
         float distanceWithEnd = Vector3.Distance(currentCamRef.transform.position, posCurrentSequenceEnd);
         if (distanceWithEnd < distanceFadeStepsAtEnd && fadeStepsAtEndOfSequence)
         {
             currentFrequency = Mathf.Lerp(currentFrequency, 0, distanceWithEnd / distanceFadeStepsAtEnd);
+            removeFeedbackFromEndAndStart *= (distanceWithEnd / distanceFadeStepsAtEnd);
         }
         //Permet de faire un fade des steps au lancement d'une séquence
         float distanceWithStart = Vector3.Distance(currentCamRef.transform.position, posCurrentSequenceStart);
         if (distanceWithStart < distanceFadeStepsAtStart && fadeStepsAtStartOfSequence)
         {
             currentFrequency = Mathf.Lerp(0, currentFrequency, distanceWithStart / distanceFadeStepsAtStart);
+            removeFeedbackFromEndAndStart *= (distanceWithStart / distanceFadeStepsAtStart);
         }
         
 
@@ -278,6 +281,11 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.position = currentCamRef.transform.position;
         camRef.transform.rotation = currentCamRef.transform.rotation;
         UpdateCamValues(onShortStep);
+
+
+        camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, removeFeedbackFromEndAndStart);
+        camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, removeFeedbackFromEndAndStart);
+        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, removeFeedbackFromEndAndStart);
 
         BalancingCamUpdate(); // Ovveride les feedbacks et la position si en balancement
 
