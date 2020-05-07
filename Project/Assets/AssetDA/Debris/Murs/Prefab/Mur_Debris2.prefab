@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5406103298672744621}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mur_Debris2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5406103298672744621
 Transform:
@@ -31,6 +31,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7268018551993672754
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080471476451996510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4730851034798151350, guid: 2e89b6d67049e9a4c9584906676f68f9, type: 3}
 --- !u!1001 &8674042165745571982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,11 +117,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeMur_Debris2
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2e89b6d67049e9a4c9584906676f68f9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2e89b6d67049e9a4c9584906676f68f9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 460550056164633552, guid: 2e89b6d67049e9a4c9584906676f68f9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 460550056164633552, guid: 2e89b6d67049e9a4c9584906676f68f9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e89b6d67049e9a4c9584906676f68f9, type: 3}
 --- !u!4 &4403068711013970836 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 2e89b6d67049e9a4c9584906676f68f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8674042165745571982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9080471476451996510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 460550056164633552, guid: 2e89b6d67049e9a4c9584906676f68f9,
     type: 3}
   m_PrefabInstance: {fileID: 8674042165745571982}
   m_PrefabAsset: {fileID: 0}
