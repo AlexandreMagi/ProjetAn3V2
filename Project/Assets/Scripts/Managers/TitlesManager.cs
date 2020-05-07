@@ -57,13 +57,21 @@ public class TitlesManager : MonoBehaviour
 
         try
         {
-            FileStream stream = new FileStream(Application.dataPath + "/Leaderboard/titles.xml", FileMode.Open);
+            TextAsset mytxtData = (TextAsset)Resources.Load("titles");
+            string txt = mytxtData.text;
+
+            using (TextReader sr = new StringReader(txt))
+            {
+                dbTitles = serializer.Deserialize(sr) as TitlesDatabase;
+            }
+
+            //FileStream stream = new FileStream(Application.dataPath + "/Leaderboard/titles.xml", FileMode.Open);
 
             //Lecture
-            dbTitles = serializer.Deserialize(stream) as TitlesDatabase;
+            
 
             //Fermeture du stream
-            stream.Close();
+            //stream.Close();
         }
         catch (System.Exception e)
         {
