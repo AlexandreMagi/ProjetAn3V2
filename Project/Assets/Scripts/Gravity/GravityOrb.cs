@@ -215,6 +215,12 @@ public class GravityOrb : MonoBehaviour
         {
             IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
 
+            if(hVictim == null)
+            {
+                collidersToAttract.Remove(hVictim);
+                break;
+            }
+
             if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
             {
                 //Debug.Log("pull");
