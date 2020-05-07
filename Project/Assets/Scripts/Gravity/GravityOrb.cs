@@ -139,7 +139,7 @@ public class GravityOrb : MonoBehaviour
                 ps.Stop();
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
             CustomSoundManager.Instance.PlaySound("Sounf_Orb_NoGrav_Boosted", "Effect", .3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*3);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*2);
 
             if (tHits.Length > 0)
             {
@@ -213,21 +213,22 @@ public class GravityOrb : MonoBehaviour
     {
         foreach (Collider hVictim in collidersToAttract)
         {
-            IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
-
-            if(hVictim == null)
+            if (hVictim == null)
             {
                 collidersToAttract.Remove(hVictim);
                 break;
             }
-
-            if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
+            else
             {
-                //Debug.Log("pull");
-                gAffect.OnPull(this.transform.position, force);
-                gAffect.OnHold();
-                //hasHitSomething = true;
-            }
+                IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
+                if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
+                {
+                    //Debug.Log("pull");
+                    gAffect.OnPull(this.transform.position, force);
+                    gAffect.OnHold();
+                    //hasHitSomething = true;
+                }
+            } 
         }
     }
 

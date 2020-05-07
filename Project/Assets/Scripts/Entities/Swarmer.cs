@@ -104,7 +104,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
     {
-        ReactGravity<DataSwarmer>.DoPull(rbBody, Vector3.up.normalized + this.transform.position, fGForce, false);
+        //ReactGravity<DataSwarmer>.DoPull(rbBody, this.transform.position, fGForce, false);
 
         ReactGravity<DataSwarmer>.DoFloat(rbBody, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
 
@@ -540,10 +540,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                    )
                 {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    //rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
+                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
 
                     currentState = SwarmerState.FollowPath;
-                    Debug.Log("jump");
+                    //Debug.Log("jump");
                 }
                 //Si saut impossible, lancement de la manoeuvre d'évitement d'obstacle
                 else
