@@ -216,7 +216,7 @@ public class MetricsGestionnary : MonoBehaviour
         //Sauvegarde try
         try
         {
-            FileStream stream = new FileStream(Application.dataPath + "/Metrics/"+fileName+".xml", FileMode.Create);
+            FileStream stream = new FileStream(Application.persistentDataPath + "/Metrics/"+fileName+".xml", FileMode.Create);
             serializer.Serialize(stream, currentMetrics);
 
             //Fermeture du stream
