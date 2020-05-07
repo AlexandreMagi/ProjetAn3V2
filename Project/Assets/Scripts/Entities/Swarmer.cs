@@ -237,11 +237,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             {
                 this.transform.GetComponentInParent<Spawner>().ChildDied();
             }
-            
+
+            Debug.Log($"Health : {health} -- IgnoresSuicide : {ignorePointsGivenOnSuicide}");
 
             //Means it has been killed in some way and has not just attacked
             if (health <= 0 && (!ignorePointsGivenOnSuicide || health >= -500 /*en gros, il s'est pas suicidé sur un killer*/))
             {
+                Debug.Log("count kill");
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Vendetta, this.transform.position, this);
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Kill, this.transform.position, this);
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.KillSwarmer, this.transform.position);
@@ -682,6 +684,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         //Debug.Log("Reset called");
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
+        ignoresBufferOnceKilled = false;
         jumpElapsedTime = entityData.jumpCooldownInitial;
         ParticleSystem[] releaseFx = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem fx in releaseFx)

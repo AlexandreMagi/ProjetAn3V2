@@ -92,7 +92,7 @@ public class PublicManager : MonoBehaviour
                 multiKillCounter++;
                 if (timeLeftForMultiKill > 0)
                 {
-                    if (multiKillCounter >= 3)
+                    if (multiKillCounter >= 3 && multiKillCounter <= 10)
                     {
                         //AddViewers(3, false, ActionType.Kill, "Mu-mu-multi kill", _position);
                         AddViewers(1, false, ActionType.Kill, "Multi-élimination", _position);
