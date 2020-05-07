@@ -41,6 +41,10 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
 
     Collider thisCollider = null;
+
+    [SerializeField]
+    bool useMeshCollider = true;
+
     MeshRenderer[] mshrenderer = null;
 
     CollectiblesSpritesAutoChange col;
@@ -95,9 +99,12 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             if (parentManager != null)
                 parentManager.OnEventSent();
 
-            for (int i = 0; i < mshrenderer.Length; i++)
+            if (useMeshCollider)
             {
-                mshrenderer[i].enabled = false;
+                for (int i = 0; i < mshrenderer.Length; i++)
+                {
+                    mshrenderer[i].enabled = false;
+                }
             }
 
             if (lightToDisable != null)
