@@ -74,7 +74,9 @@ namespace AmplifyShaderEditor
 		RELATIVE_WORLD_POS,
 		INSTANCE_ID,
 		OTHER,
-		VFACE
+		VFACE,
+		SHADOWCOORDS,
+		VERTEXID
 	}
 
 	public enum TemplateShaderPropertiesIdx
@@ -528,6 +530,7 @@ namespace AmplifyShaderEditor
 			{WirePortDataType.FLOAT4x4,0 },
 			{WirePortDataType.COLOR,4 },
 			{WirePortDataType.INT,1 },
+			{WirePortDataType.UINT,1 },
 			{WirePortDataType.SAMPLER1D,0 },
 			{WirePortDataType.SAMPLER2D,0 },
 			{WirePortDataType.SAMPLER3D,0 },
@@ -587,7 +590,8 @@ namespace AmplifyShaderEditor
 		{
 			{"p"    ,TemplateInfoOnSematics.POSITION },
 			{"sp"   ,TemplateInfoOnSematics.CLIP_POS },
-			{"spn"   ,TemplateInfoOnSematics.SCREEN_POSITION_NORMALIZED },
+			{"spu"  ,TemplateInfoOnSematics.SCREEN_POSITION },
+			{"spn"  ,TemplateInfoOnSematics.SCREEN_POSITION_NORMALIZED },
 			{"c"    ,TemplateInfoOnSematics.COLOR },
 			{"uv0"  ,TemplateInfoOnSematics.TEXTURE_COORDINATES0 },
 			{"uv1"  ,TemplateInfoOnSematics.TEXTURE_COORDINATES1 },
@@ -605,13 +609,15 @@ namespace AmplifyShaderEditor
 			{"wvd"  ,TemplateInfoOnSematics.WORLD_VIEW_DIR},
 			{"wp"   ,TemplateInfoOnSematics.WORLD_POSITION},
 			{"rwp"  ,TemplateInfoOnSematics.RELATIVE_WORLD_POS},
-			{"vf"   ,TemplateInfoOnSematics.VFACE}
+			{"vf"   ,TemplateInfoOnSematics.VFACE},
+			{"sc"   ,TemplateInfoOnSematics.SHADOWCOORDS}
 		};
 
 		public static readonly Dictionary<TemplateInfoOnSematics, string> InfoToDefineFrag = new Dictionary<TemplateInfoOnSematics, string>
 		{
 			{TemplateInfoOnSematics.POSITION ,"ASE_NEEDS_FRAG_POSITION"},
 			{TemplateInfoOnSematics.CLIP_POS ,"ASE_NEEDS_FRAG_CLIP_POS"},
+			{TemplateInfoOnSematics.SCREEN_POSITION,"ASE_NEEDS_FRAG_SCREEN_POSITION" },
 			{TemplateInfoOnSematics.SCREEN_POSITION_NORMALIZED,"ASE_NEEDS_FRAG_SCREEN_POSITION_NORMALIZED" },
 			{TemplateInfoOnSematics.COLOR, "ASE_NEEDS_FRAG_COLOR"},
 			{TemplateInfoOnSematics.TEXTURE_COORDINATES0,"ASE_NEEDS_FRAG_TEXTURE_COORDINATES0" },
@@ -630,13 +636,15 @@ namespace AmplifyShaderEditor
 			{TemplateInfoOnSematics.WORLD_VIEW_DIR,"ASE_NEEDS_FRAG_WORLD_VIEW_DIR"},
 			{TemplateInfoOnSematics.WORLD_POSITION,"ASE_NEEDS_FRAG_WORLD_POSITION"},
 			{TemplateInfoOnSematics.RELATIVE_WORLD_POS,"ASE_NEEDS_FRAG_RELATIVE_WORLD_POS"},
-			{TemplateInfoOnSematics.VFACE,"ASE_NEEDS_FRAG_VFACE"}
+			{TemplateInfoOnSematics.VFACE,"ASE_NEEDS_FRAG_VFACE"},
+			{TemplateInfoOnSematics.SHADOWCOORDS,"ASE_NEEDS_FRAG_SHADOWCOORDS"}
 		};
 
 		public static readonly Dictionary<TemplateInfoOnSematics, string> InfoToDefineVertex = new Dictionary<TemplateInfoOnSematics, string>
 		{
 			{TemplateInfoOnSematics.POSITION ,"ASE_NEEDS_VERT_POSITION"},
 			{TemplateInfoOnSematics.CLIP_POS ,"ASE_NEEDS_VERT_CLIP_POS"},
+			{TemplateInfoOnSematics.SCREEN_POSITION,"ASE_NEEDS_VERT_SCREEN_POSITION" },
 			{TemplateInfoOnSematics.SCREEN_POSITION_NORMALIZED,"ASE_NEEDS_VERT_SCREEN_POSITION_NORMALIZED" },
 			{TemplateInfoOnSematics.COLOR, "ASE_NEEDS_VERT_COLOR"},
 			{TemplateInfoOnSematics.TEXTURE_COORDINATES0,"ASE_NEEDS_VERT_TEXTURE_COORDINATES0" },
@@ -655,7 +663,8 @@ namespace AmplifyShaderEditor
 			{TemplateInfoOnSematics.WORLD_VIEW_DIR,"ASE_NEEDS_VERT_WORLD_VIEW_DIR"},
 			{TemplateInfoOnSematics.WORLD_POSITION,"ASE_NEEDS_VERT_WORLD_POSITION"},
 			{TemplateInfoOnSematics.RELATIVE_WORLD_POS,"ASE_NEEDS_VERT_RELATIVE_WORLD_POS"},
-			{TemplateInfoOnSematics.VFACE,"ASE_NEEDS_VERT_VFACE"}
+			{TemplateInfoOnSematics.VFACE,"ASE_NEEDS_VERT_VFACE"},
+			{TemplateInfoOnSematics.SHADOWCOORDS,"ASE_NEEDS_VERT_SHADOWCOORDS"}
 		};
 
 		public static readonly Dictionary<TemplateInfoOnSematics, string> InfoToLocalVar = new Dictionary<TemplateInfoOnSematics, string>
@@ -677,7 +686,8 @@ namespace AmplifyShaderEditor
 			{TemplateInfoOnSematics.WORLD_VIEW_DIR, GeneratorUtils.WorldViewDirectionStr},
 			{TemplateInfoOnSematics.WORLD_POSITION, GeneratorUtils.WorldPositionStr},
 			{TemplateInfoOnSematics.RELATIVE_WORLD_POS, GeneratorUtils.RelativeWorldPositionStr},
-			{TemplateInfoOnSematics.VFACE, GeneratorUtils.VFaceStr}
+			{TemplateInfoOnSematics.VFACE, GeneratorUtils.VFaceStr},
+			{TemplateInfoOnSematics.SHADOWCOORDS, GeneratorUtils.ShadowCoordsStr}
 		};
 
 
@@ -701,6 +711,7 @@ namespace AmplifyShaderEditor
 			{TemplateInfoOnSematics.WORLD_POSITION, WirePortDataType.FLOAT3},
 			{TemplateInfoOnSematics.RELATIVE_WORLD_POS, WirePortDataType.FLOAT3},
 			{TemplateInfoOnSematics.VFACE, WirePortDataType.FLOAT},
+			{TemplateInfoOnSematics.SHADOWCOORDS, WirePortDataType.FLOAT4},
 		};
 		public static readonly Dictionary<int, TemplateInfoOnSematics> IntToUVChannelInfo = new Dictionary<int, TemplateInfoOnSematics>
 		{
@@ -2118,11 +2129,15 @@ namespace AmplifyShaderEditor
 
 		public static bool CheckIfTemplate( string assetPath )
 		{
-			Shader shader = AssetDatabase.LoadAssetAtPath<Shader>( assetPath );
-			if( shader != null )
+			Type type = AssetDatabase.GetMainAssetTypeAtPath( assetPath );
+			if( type == typeof( Shader ) )
 			{
-				string body = IOUtils.LoadTextFileFromDisk( assetPath );
-				return ( body.IndexOf( TemplatesManager.TemplateShaderNameBeginTag ) > -1 );
+				Shader shader = AssetDatabase.LoadAssetAtPath<Shader>( assetPath );
+				if( shader != null )
+				{
+					string body = IOUtils.LoadTextFileFromDisk( assetPath );
+					return ( body.IndexOf( TemplatesManager.TemplateShaderNameBeginTag ) > -1 );
+				}
 			}
 			return false;
 		}
