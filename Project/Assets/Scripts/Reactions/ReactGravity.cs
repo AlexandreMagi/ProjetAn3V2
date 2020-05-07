@@ -41,7 +41,7 @@ public static class ReactGravity<T> where T : DataEntity
 
             //Ça marche, c'est moche, mais on aime
             //En gros, ça attire en fonction de la distance par rapport au sol.
-            rb.velocity = (v3DirectionToGo * pullForce * (fDistance > 8 ? Mathf.Pow(3, 1.9f) : Mathf.Pow(2.5f, 1.9f))) / rb.mass;
+            rb.velocity = (v3DirectionToGo * pullForce * (fDistance > 8 ? Mathf.Pow(3, 1.9f) : fDistance <= .5f ? Mathf.Pow(1.2f, 1.9f) : Mathf.Pow(2.5f, 1.9f))) / rb.mass;
         }
 
     }

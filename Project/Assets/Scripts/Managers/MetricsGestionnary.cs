@@ -207,10 +207,8 @@ public class MetricsGestionnary : MonoBehaviour
 
     public void SaveMetrics()
     {
-        
-
         //Date du metrics
-        string fileName = DateTime.Now + "";
+        string fileName = (DateTime.Now + "").Split(' ')[0] + "_" + (DateTime.Now + "").Split(' ')[1];
 
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(Metrics));
@@ -218,7 +216,7 @@ public class MetricsGestionnary : MonoBehaviour
         //Sauvegarde try
         try
         {
-            FileStream stream = new FileStream(Application.dataPath + "/Pangoblin/Metrics/"+fileName+".xml", FileMode.Create);
+            FileStream stream = new FileStream(Application.dataPath + "/Metrics/"+fileName+".xml", FileMode.Create);
             serializer.Serialize(stream, currentMetrics);
 
             //Fermeture du stream

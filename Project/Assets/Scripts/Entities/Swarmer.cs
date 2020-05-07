@@ -288,7 +288,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Invoke("PlayAnimDelayed", timeDecal);
         }
 
-        if(animatorCustom != null)
+        if(animatorCustom != null && !playsAnimationOnStartUp)
         animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
 
         lastKnownPosition = transform.position;
