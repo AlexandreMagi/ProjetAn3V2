@@ -88,7 +88,7 @@ public class FixedCameraScript : MonoBehaviour
             if (activatedCam) cameraDummy.LookAt(lookAtTarget, Vector3.up);
             else cameraDummy.LookAt(cameraDummy.position + Vector3.down, Vector3.up);
             newRot = cameraDummy.rotation;
-            cameraDummy.rotation = Quaternion.Lerp(currentRot, newRot, Time.deltaTime * camSpeed);
+            cameraDummy.rotation = Quaternion.Slerp(currentRot, newRot, Time.deltaTime * camSpeed);
         }
     }
 }
