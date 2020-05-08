@@ -81,7 +81,7 @@ public class MeshCombineWizard : ScriptableWizard {
 
             Unwrapping.GenerateSecondaryUVSet(combinedMesh);
 
-            AssetDatabase.CreateAsset(combinedMesh, meshPath + materialName + ".obj");
+            AssetDatabase.CreateAsset(combinedMesh, meshPath + materialName + ".asset");
 
             string goName = (materialToMeshFilterList.Count > 1)? "CombinedMeshes_" + materialName : parentOfObjectsToCombine.name;
             GameObject combinedObject = new GameObject(goName);
