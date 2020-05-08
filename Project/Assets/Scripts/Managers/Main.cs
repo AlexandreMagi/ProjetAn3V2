@@ -153,7 +153,7 @@ public class Main : MonoBehaviour
 
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot && playerCanShotgun)
         {
-            Weapon.Instance.InputHold();
+            Weapon.Instance.InputHold(GetCursorPos());
         }
 
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
