@@ -229,10 +229,13 @@ namespace AmplifyShaderEditor
 
 		public override void ReleaseResources()
 		{
+			// Internal template resources ( for inline properties) are released by first node on the list
+			// As it's also registered that way
+			if( IsLODMainFirstPass )
+				m_containerGraph.ClearInternalTemplateNodes();
+
 			if( !IsLODMainMasterNode )
 				return;
-
-			m_containerGraph.ClearInternalTemplateNodes();
 			TemplateMultiPass template = ( m_templateMultiPass == null ) ? m_containerGraph.ParentWindow.TemplatesManagerInstance.GetTemplate( m_templateGUID ) as TemplateMultiPass : m_templateMultiPass;
 			//Maintained the logic of being the main master node to unregister since this method is being called
 			//over the main master node in multiple places
@@ -2079,7 +2082,7 @@ namespace AmplifyShaderEditor
 
 #if UNITY_2019_2_OR_NEWER
 			// Temporary hack
-			if( m_templateMultiPass.SRPtype == TemplateSRPType.HD && ASEPackageManagerHelper.CurrentHDVersion > ASESRPVersions.ASE_SRP_6_9_0 )
+			if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn && ASEPackageManagerHelper.CurrentHDVersion > ASESRPVersions.ASE_SRP_6_9_0 )
 			{
 				if( m_templateMultiPass.AvailableShaderProperties.Find( x => x.PropertyName.Equals( "_AlphaCutoff" ) ) == null )
 				{
@@ -2881,6 +2884,10 @@ namespace AmplifyShaderEditor
 				return;
 
 			base.RefreshExternalReferences();
+			if( IsLODMainMasterNode )
+			{
+				SetMasterNodeCategoryFromGUID( m_templateGUID );
+			}
 
 			CheckTemplateChanges();
 			if( m_templateMultiPass != null && m_templateMultiPass.SubShaders[ m_subShaderIdx ].Passes[ m_passIdx ].Modules.SRPIsPBRHD && UIUtils.CurrentShaderVersion() < 15410 )
