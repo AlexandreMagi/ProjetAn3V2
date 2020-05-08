@@ -84,6 +84,16 @@ public class Weapon : MonoBehaviour
     int lastFrameCrosshairRayCast = 0;
     int shootCrosshairRayCastEvery = 5;
 
+
+    // --- Minigun
+    bool isMinigun = false;
+    [SerializeField] float minigunRateOfFire = 12;
+    public bool IsMinigun { get { return isMinigun; } }
+
+    [SerializeField] DataWeaponMod minigunMod = null;
+
+    float minigunCooldownTime = 0;
+
     void Awake ()
     {
         _instance = this;
@@ -219,6 +229,9 @@ public class Weapon : MonoBehaviour
 
         }
 
+        if (isMinigun && minigunCooldownTime > 0)
+            minigunCooldownTime -= Time.unscaledDeltaTime;
+
     }
 
     public void SetupOrbRangeDisplay (Transform orbVisu)
@@ -273,7 +286,7 @@ public class Weapon : MonoBehaviour
 
     public void ReloadingInput()
     {
-        if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0)
+        if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0 && !isMinigun)
         {
             //Metrics
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Reload);
@@ -315,10 +328,10 @@ public class Weapon : MonoBehaviour
         return true;
     }
 
-    public void EndReload(bool perfect, bool canGainScore = true)
+    public void EndReload(bool perfect, bool unforced = true)
     {
 
-        if (canGainScore) TutorialCheckpoint.Instance.PlayerReloaded(perfect);
+        if (unforced) TutorialCheckpoint.Instance.PlayerReloaded(perfect);
 
         reloading = false;
         UiReload.Instance.HideGraphics(perfect, bulletRemaining);
@@ -334,14 +347,17 @@ public class Weapon : MonoBehaviour
                 CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil, true);
             }
             
-            if (canGainScore) PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
+            if (unforced)
+            {
+                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
+                CustomSoundManager.Instance.PlaySound("Reload_FinishPerfect", "PlayerUnpitched", 1f);
+            }
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
-            CustomSoundManager.Instance.PlaySound("Reload_FinishPerfect", "PlayerUnpitched", 1f);
         }
         else
         {
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_Finish", false, 1f);
-            CustomSoundManager.Instance.PlaySound("Reload_Finish", "PlayerUnpitched", 1f);
+            if (unforced) CustomSoundManager.Instance.PlaySound("Reload_Finish", "PlayerUnpitched", 1f);
         }
     }
 
@@ -374,9 +390,9 @@ public class Weapon : MonoBehaviour
         return false;
     }
 
-    public void InputHold()
+    public void InputHold(Vector2 mousePosition)
     {
-        if (!reloading && bulletRemaining >= (ignoreBulletLimitForCharge ? 1 : weapon.chargedShot.bulletCost))
+        if (!reloading && bulletRemaining >= (ignoreBulletLimitForCharge ? 1 : weapon.chargedShot.bulletCost) && !isMinigun)
         {
             if (currentChargePurcentage < 1)
             {
@@ -390,11 +406,23 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
+        if (isMinigun)
+        {
+            if (minigunCooldownTime <= 0)
+            {
+                float currMinigunCooldown = minigunCooldownTime;
+                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / minigunRateOfFire)
+                {
+                    OnShoot(mousePosition, minigunMod);
+                }
+                minigunCooldownTime = currMinigunCooldown;
+            }
+        }
     }
 
     public void InputUp(Vector2 mousePosition)
     {
-        if (!reloading)
+        if (!reloading && !isMinigun)
         {
             DataWeaponMod currentWeaponMod = null;
             if (currentChargePurcentage == 1)
@@ -474,7 +502,7 @@ public class Weapon : MonoBehaviour
                     if (bAffect != null)
                     {
                         bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage, rayBullet);
-                        if (weaponMod == weapon.baseShot)
+                        if (weaponMod == weapon.baseShot || weaponMod == minigunMod)
                             bAffect.OnHitSingleShot(weaponMod);
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun(weaponMod);
@@ -514,9 +542,16 @@ public class Weapon : MonoBehaviour
             CameraHandler.Instance.AddShake(weaponMod.shakePerShot, weaponMod.shakeTimePerShot);
             timerMuzzleFlash += timeMuzzleAdded;
             bulletRemaining -= Main.Instance.playerInLeaderboard ? 0 : weaponMod.bulletCost;
+
+            if (bulletRemaining <= 1 && isMinigun)
+                EndReload(true, false);
+
             if (bulletRemaining < 0) bulletRemaining = 0;
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
-            CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player",null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f,false,1, .2f);
+            if (weaponMod == minigunMod)
+                CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.4f, false, 1, .2f);
+            else
+                CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player", null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f, false, 1, .2f);
 
         }
         else
@@ -555,6 +590,16 @@ public class Weapon : MonoBehaviour
         else
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
+        }
+    }
+
+    public void SetMinigun (bool enabled)
+    {
+        isMinigun = enabled;
+        if (enabled)
+        {
+            EndReload(true, false);
+            currentChargePurcentage = 0;
         }
     }
 

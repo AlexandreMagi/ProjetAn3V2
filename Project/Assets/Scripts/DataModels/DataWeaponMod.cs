@@ -23,7 +23,7 @@ public class DataWeaponMod : ScriptableObject
     [Header("Bullet properties")]
     [RangeAttribute(1, 100)]
     public int bulletPerShoot = 1;
-    [RangeAttribute(1, 100)]
+    [RangeAttribute(0, 100)]
     public int bulletCost = 1;
     [RangeAttribute(0f, 0.5f)]
     public float bulletImprecision;

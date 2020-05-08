@@ -246,6 +246,15 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
+  Hey: 1
+  HeyToiLa: 1
+  TuVeuxDuSang: 1
+  TuVeuxDuSpectacle: 1
+  TUVEUXDELAVIOLENCE: 1
+  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 1
+  ok: 1
+  ChangeMinigunState: 1
+  EnableMinigun: 1
 --- !u!1001 &12834844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1334,6 +1343,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -1789,6 +1800,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -2575,7 +2588,7 @@ MonoBehaviour:
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
-  sequenceType: 1
+  sequenceType: 2
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
@@ -2681,6 +2694,15 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
+  Hey: 1
+  HeyToiLa: 1
+  TuVeuxDuSang: 1
+  TuVeuxDuSpectacle: 1
+  TUVEUXDELAVIOLENCE: 1
+  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 1
+  ok: 1
+  ChangeMinigunState: 1
+  EnableMinigun: 1
 --- !u!1 &738182336
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,9 +2746,17 @@ Transform:
   - {fileID: 574669473}
   - {fileID: 920584315}
   - {fileID: 1906640428}
+  - {fileID: 1026396460}
+  - {fileID: 867173962}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &744877902 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 530845881250199243, guid: b2eaf840aec546e4c90ab469ed34be5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7584541180600198618}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &749514019
 GameObject:
   m_ObjectHideFlags: 0
@@ -3318,6 +3348,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e1686767c1de4498ce05128868bcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &867173961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 867173962}
+  - component: {fileID: 867173965}
+  - component: {fileID: 867173964}
+  - component: {fileID: 867173963}
+  m_Layer: 9
+  m_Name: Cube (15)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &867173962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867173961}
+  m_LocalRotation: {x: -0.7071071, y: -0, z: -0, w: 0.70710653}
+  m_LocalPosition: {x: -5.27, y: 1.06, z: -8.51}
+  m_LocalScale: {x: 15.149075, y: 0.724, z: 97.64353}
+  m_Children: []
+  m_Father: {fileID: 738182337}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+--- !u!65 &867173963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867173961}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &867173964
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867173961}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 20d873b7ed232f94b9ec0c7e157d8314, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &867173965
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867173961}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &913346817
 GameObject:
   m_ObjectHideFlags: 0
@@ -3484,6 +3607,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -3593,6 +3718,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -3772,6 +3899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceBranches:
   - {fileID: 1965249783}
+  cameraCollider: {fileID: 744877902}
   isWaitingTimer: 0
   originalName: AutoSequence5
   newName: Turn
@@ -3993,6 +4121,99 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe7e0b49b41b204aba065e11583941e, type: 3}
+--- !u!1 &1026396459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026396460}
+  - component: {fileID: 1026396463}
+  - component: {fileID: 1026396462}
+  - component: {fileID: 1026396461}
+  m_Layer: 9
+  m_Name: Cube (14)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1026396460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026396459}
+  m_LocalRotation: {x: -0.7071071, y: -0, z: -0, w: 0.70710653}
+  m_LocalPosition: {x: 12.27, y: 1.06, z: -8.51}
+  m_LocalScale: {x: 15.149075, y: 0.724, z: 97.64353}
+  m_Children: []
+  m_Father: {fileID: 738182337}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+--- !u!65 &1026396461
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026396459}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1026396462
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026396459}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 20d873b7ed232f94b9ec0c7e157d8314, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1026396463
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026396459}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1035144846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4289,6 +4510,15 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
+  Hey: 0
+  HeyToiLa: 0
+  TuVeuxDuSang: 0
+  TuVeuxDuSpectacle: 0
+  TUVEUXDELAVIOLENCE: 0
+  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 0
+  ok: 0
+  ChangeMinigunState: 0
+  EnableMinigun: 0
 --- !u!1001 &1081938547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4500,6 +4730,15 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
+  Hey: 0
+  HeyToiLa: 0
+  TuVeuxDuSang: 0
+  TuVeuxDuSpectacle: 0
+  TUVEUXDELAVIOLENCE: 0
+  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 0
+  ok: 0
+  ChangeMinigunState: 0
+  EnableMinigun: 0
 --- !u!1 &1092557555
 GameObject:
   m_ObjectHideFlags: 0
@@ -4554,6 +4793,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -5033,6 +5274,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -5283,6 +5526,15 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
+  Hey: 1
+  HeyToiLa: 1
+  TuVeuxDuSang: 1
+  TuVeuxDuSpectacle: 1
+  TUVEUXDELAVIOLENCE: 1
+  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 1
+  ok: 1
+  ChangeMinigunState: 1
+  EnableMinigun: 1
 --- !u!1 &1340428240
 GameObject:
   m_ObjectHideFlags: 0
@@ -6293,6 +6545,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -6927,6 +7181,8 @@ MonoBehaviour:
   followDuration: 0
   lightsToAffect: []
   lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
   VFXToAffect: []
   VFXState: 0
   activatePlaneShake: 0
@@ -12455,17 +12711,17 @@ PrefabInstance:
     - target: {fileID: 4647331012387676324, guid: 2d7863eef0ef63645bc573582c79583d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.41
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4647331012387676324, guid: 2d7863eef0ef63645bc573582c79583d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.38
+      value: 7.63
       objectReference: {fileID: 0}
     - target: {fileID: 4647331012387676324, guid: 2d7863eef0ef63645bc573582c79583d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.11
+      value: -9.05
       objectReference: {fileID: 0}
     - target: {fileID: 4647331012387676324, guid: 2d7863eef0ef63645bc573582c79583d,
         type: 3}

@@ -336,4 +336,23 @@ public class DataSequence : ScriptableObject
     public bool waitScreenAtEndOfSequence = false;
     [ShowIf("changeWaitScreen"), Tooltip("Delay sur le changement de state de waitscreen")]
     public float waitScreenDelay = 0;
+
+
+
+    // ############################################################################################## WAIT SCREEN
+
+
+        [Space(10000)]
+    public bool Hey = false;
+
+    [ShowIf("Hey")] public bool HeyToiLa = false;
+    [ShowIf("HeyToiLa")] public bool TuVeuxDuSang = false;
+    [ShowIf("TuVeuxDuSang")] public bool TuVeuxDuSpectacle = false;
+    [ShowIf("TuVeuxDuSpectacle")] public bool TUVEUXDELAVIOLENCE = false;
+    [ShowIf("TUVEUXDELAVIOLENCE")] public bool PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI = false;
+    [ShowIf("PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI")] public bool ok = false;
+    [ShowIf("ok")] public bool ChangeMinigunState = false;
+    [ShowIf("ok"), ShowIf("ChangeMinigunState")] public bool EnableMinigun = false;
+
+
 }

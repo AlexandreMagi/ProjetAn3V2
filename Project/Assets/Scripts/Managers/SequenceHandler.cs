@@ -543,6 +543,11 @@ public class SequenceHandler : MonoBehaviour
         }
         */
 
+        if (currentSequence.ChangeMinigunState)
+        {
+            if (Weapon.Instance != null) Weapon.Instance.SetMinigun(currentSequence.EnableMinigun);
+        }
+
         delayOnBlendSequence = currentSequence.animationTime + (currentSequence.sequenceType == DataSequence.SequenceType.Timer ? currentSequence.timeSequenceDuration : 0);
         enemiesKilled = 0;
 

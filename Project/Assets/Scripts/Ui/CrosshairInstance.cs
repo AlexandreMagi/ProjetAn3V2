@@ -112,7 +112,7 @@ public class CrosshairInstance
 
         if (!unlocked || unlockedPurcentage < 1)
         {
-            if (unlocked) unlockedPurcentage += Time.unscaledDeltaTime / data.popTime;
+            if (unlocked) unlockedPurcentage = Mathf.MoveTowards(unlockedPurcentage, 1, Time.unscaledDeltaTime / data.popTime);
             size = Mathf.Lerp(0, size, unlockedPurcentage);
             color = Color.Lerp(new Color (color.r, color.g, color.b, 0), color, unlockedPurcentage);
             outlineColor = Color.Lerp(new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0), outlineColor, unlockedPurcentage);
