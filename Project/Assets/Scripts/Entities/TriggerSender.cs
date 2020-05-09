@@ -274,7 +274,8 @@ public class TriggerSender : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (Spawner spawner in spawners)
         {
-            Gizmos.DrawLine(this.transform.position, spawner.transform.position);
+            if (spawner!=null)
+                Gizmos.DrawLine(this.transform.position, spawner.transform.position);
         }
 
     }

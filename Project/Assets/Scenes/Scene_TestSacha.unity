@@ -223,6 +223,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: -1
   modifySteps: 0
   modifierFrequenceCamStep: 1
@@ -2631,7 +2632,7 @@ MonoBehaviour:
   positionMoveTo: {x: 0, y: 0, z: 0}
   checkpointToUse: {fileID: 0}
   lockWeaponLight: 0
-  enableCamFeedback: 0
+  enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
   stepFadeAtStart: 0
@@ -2646,7 +2647,7 @@ MonoBehaviour:
   noiseAmplitudePos: 50
   noiseAmplitudeRot: 0.5
   noiseFrequency: 3
-  isShortStep: 0
+  isShortStep: 1
   shortStepCurve:
     serializedVersion: 2
     m_Curve:
@@ -2654,16 +2655,25 @@ MonoBehaviour:
       time: 0
       value: 0
       inSlope: 0
-      outSlope: 1
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.5018165
+      value: 0.99944353
+      inSlope: 0.0018979089
+      outSlope: 0.0018979089
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1196497
+    - serializedVersion: 3
       time: 1
-      value: 1
+      value: 0.0023536682
       inSlope: 1
-      outSlope: 0
+      outSlope: 1
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -2671,7 +2681,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shortStepAmplitude: -1
+  stepSoundPurcentageOnShortStep: 0.5
+  shortStepAmplitude: 5
   modifySteps: 0
   modifierFrequenceCamStep: 1
   modifyStepsCurve: 0
@@ -4487,6 +4498,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: -1
   modifySteps: 0
   modifierFrequenceCamStep: 1
@@ -4707,6 +4719,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: -1
   modifySteps: 0
   modifierFrequenceCamStep: 1
@@ -5503,6 +5516,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: -1
   modifySteps: 0
   modifierFrequenceCamStep: 1

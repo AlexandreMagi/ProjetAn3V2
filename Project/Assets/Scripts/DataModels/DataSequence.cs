@@ -277,6 +277,8 @@ public class DataSequence : ScriptableObject
     public bool isShortStep = false;
     [ShowIf("isShortStep"), Tooltip("Courbe de pas custom")]
     public AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    [ShowIf("isShortStep"), Tooltip("Pourcentage de courbe où l'on joue le son de pas"), PropertyRange(0f,0.9f)]
+    public float stepSoundPurcentageOnShortStep = .5f;
     [ShowIf("isShortStep"), Tooltip("Multiplicateur d'amplitude pour la courbe")]
     public float shortStepAmplitude = -1;
 

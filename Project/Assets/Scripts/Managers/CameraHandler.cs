@@ -89,6 +89,8 @@ public class CameraHandler : MonoBehaviour
     bool onShortStep = false;
     AnimationCurve shortStepCurve = AnimationCurve.Linear(0, 0, 1, 1);
     float shortStepAmplitude = -1;
+    float stepSoundPurcentageOnShortStep = 0;
+    bool shortStepSoundPlayed = false;
 
     float timerRemainingOnThisSequence = 0;
     float timerSequenceTotal = 0;
@@ -496,6 +498,12 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.Translate(Vector3.back * recoilTranslationValue, Space.Self);
         if (shortStep)
         {
+            if (!shortStepSoundPlayed && (1 - (timerRemainingOnThisSequence / timerSequenceTotal)) > stepSoundPurcentageOnShortStep)
+            {
+                shortStepSoundPlayed = true;
+                if (feedbackActivated && canPlayStepSound) CustomSoundManager.Instance.PlaySound("Step_0" + UnityEngine.Random.Range(1, 5), "Player", 1);
+            }
+
             // tanslate en fonction du pas actuel
             camRef.transform.Translate(Vector3.up * shortStepCurve.Evaluate(1 - (timerRemainingOnThisSequence / timerSequenceTotal)) * shortStepAmplitude, Space.World);
             // rotate en fonction de la vitesse horizontale et du pas actuel
@@ -735,13 +743,15 @@ public class CameraHandler : MonoBehaviour
         breathingEnabled = _breathingEnabled;
         timeFadeBreathing = _timeFadeBreathing;
     }
-    public void ShortStep (AnimationCurve curve, float amplitude, float time)
+    public void ShortStep (AnimationCurve curve, float amplitude, float time, float _stepSoundPurcentageOnShortStep)
     {
         onShortStep = true;
         shortStepCurve = curve;
         shortStepAmplitude = amplitude;
         timerRemainingOnThisSequence = time;
         timerSequenceTotal = time;
+        stepSoundPurcentageOnShortStep = _stepSoundPurcentageOnShortStep;
+        shortStepSoundPlayed = false;
     }
     public void ChangeNoiseSettings(float _noisePurcentageAimed, float _timeTransitionNoise, float _noiseAmplitudePos = 0.5f, float _noiseAmplitudeRot = 5f, float _noiseFrequency = 0.01f)
     {

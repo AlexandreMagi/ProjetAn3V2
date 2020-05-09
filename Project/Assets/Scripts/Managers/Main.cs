@@ -85,6 +85,8 @@ public class Main : MonoBehaviour
     float buttonOtherMouseOverScale = 0.8f;
     float timeBeforeChoiceDone = 0;
     int choiceMade = -1;
+    [SerializeField] float timeBeforeChoiceSecurity = 2;
+    float timeRemainingBeforeChoiceSecurity = 2;
 
     public float TimeRemainingBeforeGameOver { get { return timeRemainingBeforeGameOver; } }
 
@@ -475,7 +477,10 @@ public class Main : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftArrow)) ReviveChoice();
             if (Input.GetKeyDown(KeyCode.RightArrow)) VoteChoice();
 
-            if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0))
+            if (timeRemainingBeforeChoiceSecurity > 0)
+                timeRemainingBeforeChoiceSecurity -= Time.unscaledDeltaTime;
+
+            if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyDown(KeyCode.Mouse0) && timeRemainingBeforeChoiceSecurity < 0)
             {
                 foreach (var button in lastChanceButton.allButtons)
                 {
@@ -726,6 +731,7 @@ public class Main : MonoBehaviour
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
             timeRemainingBeforeChoice = timeBeforeChoice;
+            timeRemainingBeforeChoiceSecurity = timeBeforeChoiceSecurity;
             timeRemainingBeforeGameOver = timerBeforeGameOver;
             TimeScaleManager.Instance.AddStopTime(5000);
 
