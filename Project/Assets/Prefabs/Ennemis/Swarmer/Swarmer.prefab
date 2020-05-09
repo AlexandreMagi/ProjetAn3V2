@@ -4795,11 +4795,11 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
+  m_UseCustomVertexStreams: 1
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
-  m_VertexStreams: 00010304
+  m_VertexStreams: 000304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -11144,6 +11144,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5615358794704856502}
     m_Modifications:
+    - target: {fileID: 2044052136242543128, guid: 0031081f7571a36418ff0f18908643de,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044052136242543128, guid: 0031081f7571a36418ff0f18908643de,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044052136242543128, guid: 0031081f7571a36418ff0f18908643de,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044052136242543128, guid: 0031081f7571a36418ff0f18908643de,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3209529842928964903, guid: 0031081f7571a36418ff0f18908643de,
         type: 3}
       propertyPath: m_Layer
