@@ -256,7 +256,7 @@ public class CustomParticle
     {
         float lifeTimePurcentage = (lifeTimeTotal - lifeTimeRemaining) / lifeTimeTotal;
         actualParticle.localScale = Vector3.one * sizeOverLifeTime.Evaluate(lifeTimePurcentage) * size;
-        actualParticle.Translate(dirGoTo * speedOverLifeTime.Evaluate(lifeTimePurcentage) * speed, Space.World);
+        actualParticle.Translate(dirGoTo * speedOverLifeTime.Evaluate(lifeTimePurcentage) * speed * Time.unscaledDeltaTime, Space.World);
         particleImage.color = colorOverLifeTime.Evaluate(lifeTimePurcentage);
     }
 
