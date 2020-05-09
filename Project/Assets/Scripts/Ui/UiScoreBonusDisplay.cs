@@ -29,6 +29,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
     [SerializeField]
     Transform rootScoreBonus = null;
 
+
+    [SerializeField] UIParticuleSystem thumbsUpVFX = null;
+    [SerializeField] UIParticuleSystem thumbsDownVFX = null;
+
     private void Update()
     {
 
@@ -44,6 +48,14 @@ public class UiScoreBonusDisplay : MonoBehaviour
         }
     }
 
+    public void BonusAcquired()
+    {
+        thumbsUpVFX.Play();
+    }
+    public void MalusAcquired()
+    {
+        thumbsDownVFX.Play();
+    }
 
 
     public void AddScoreBonus (string textSend, bool good)
