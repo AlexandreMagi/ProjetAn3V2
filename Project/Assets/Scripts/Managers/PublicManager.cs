@@ -230,7 +230,7 @@ public class PublicManager : MonoBehaviour
 
         RecalculateMultiplier();
 
-        UiScoreBonusDisplay.Instance.BonusAcquired();
+        if (difViewer != 0) UiScoreBonusDisplay.Instance.BonusAcquired();
     }
     private void AddRawViewers(int number, bool isAffectedByBuffer, ActionType action)
     {
@@ -266,13 +266,13 @@ public class PublicManager : MonoBehaviour
         }
 
         RecalculateMultiplier();
-        UiScoreBonusDisplay.Instance.BonusAcquired();
+        if (number != 0) UiScoreBonusDisplay.Instance.BonusAcquired();
     }
 
     public void LoseRawViewer (int number)
     {
         nbViewers -= number;
-        UiScoreBonusDisplay.Instance.MalusAcquired();
+        if (number != 0) UiScoreBonusDisplay.Instance.MalusAcquired();
     }
 
     private void LoseViewers(int viewerLevel, string textToDisplay, Vector3 pos)
@@ -297,11 +297,12 @@ public class PublicManager : MonoBehaviour
         }
         nbViewers -= difViewer;
 
-        if (nbViewers < 0) nbViewers = 0;
+        if (nbViewers < 0) nbViewers = 1;
         //Kill player ?
 
         RecalculateMultiplier();
-        UiScoreBonusDisplay.Instance.MalusAcquired();
+
+        if (difViewer != 0) UiScoreBonusDisplay.Instance.MalusAcquired();
     }
 
     private void AddToBuffer(ActionType action)
