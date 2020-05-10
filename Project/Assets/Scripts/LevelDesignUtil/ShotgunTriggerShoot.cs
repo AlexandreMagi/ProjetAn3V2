@@ -87,6 +87,7 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     {
         if (collision.gameObject.layer == 20 && canBeKilledByProps)
         {
+
             if (!IsSoundPlayed)
             {
                 IsSoundPlayed = true;

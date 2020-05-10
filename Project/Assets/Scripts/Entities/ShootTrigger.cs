@@ -43,9 +43,16 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     Collider thisCollider = null;
 
     [SerializeField]
-    bool useMeshCollider = true;
+    bool useMeshRenderer = true;
 
-    MeshRenderer[] mshrenderer = null;
+    [SerializeField, ShowIf("useMeshRenderer")]
+    Renderer[] mshrenderer = null;
+
+    [SerializeField]
+    bool useParticles = false;
+
+    [SerializeField, ShowIf("useParticles")]
+    ParticleSystem[] particles = null;
 
     CollectiblesSpritesAutoChange col;
 
@@ -56,11 +63,6 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
         parentManager = this.transform.GetComponentInParent<ShootTriggerManager>();
 
         thisCollider = GetComponent<Collider>();
-
-        foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
-        {
-            mshrenderer = rend.GetComponents<MeshRenderer>();
-        }
 
         col = GetComponent<CollectiblesSpritesAutoChange>();
 
@@ -99,11 +101,19 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             if (parentManager != null)
                 parentManager.OnEventSent();
 
-            if (useMeshCollider)
+            if (useMeshRenderer)
             {
                 for (int i = 0; i < mshrenderer.Length; i++)
                 {
                     mshrenderer[i].enabled = false;
+                }
+            }
+
+            if (useParticles)
+            {
+                for (int i = 0; i < particles.Length; i++)
+                {
+                    particles[i].gameObject.SetActive(false);
                 }
             }
 
