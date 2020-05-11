@@ -118,7 +118,11 @@ MonoBehaviour:
   fracturedProp: {fileID: 0}
   pivotFracturedExplosion: {fileID: 0}
   fracturedForceOnDie: 100
-  useMeshCollider: 1
+  useMeshRenderer: 1
+  mshrenderer:
+  - {fileID: 6510294458801137478}
+  useParticles: 0
+  particles: []
 --- !u!95 &7439373696435377491
 Animator:
   serializedVersion: 3
@@ -256,7 +260,11 @@ MonoBehaviour:
   fracturedProp: {fileID: 0}
   pivotFracturedExplosion: {fileID: 0}
   fracturedForceOnDie: 100
-  useMeshCollider: 1
+  useMeshRenderer: 1
+  mshrenderer:
+  - {fileID: 1546862771019051466}
+  useParticles: 0
+  particles: []
 --- !u!95 &4719410448754978152
 Animator:
   serializedVersion: 3
@@ -394,7 +402,11 @@ MonoBehaviour:
   fracturedProp: {fileID: 0}
   pivotFracturedExplosion: {fileID: 0}
   fracturedForceOnDie: 100
-  useMeshCollider: 1
+  useMeshRenderer: 1
+  mshrenderer:
+  - {fileID: 2413159133372933885}
+  useParticles: 0
+  particles: []
 --- !u!95 &6037220781715260088
 Animator:
   serializedVersion: 3
@@ -575,6 +587,7 @@ MonoBehaviour:
   flickerPosition: 0
   moveRange: 0.1
   moveFlickDuration: 0.1
+  useOpti: 1
   optimisationTimeCheckVisi: 1
 --- !u!1 &3925888921354878689
 GameObject:
@@ -769,6 +782,7 @@ MonoBehaviour:
   flickerPosition: 0
   moveRange: 0.1
   moveFlickDuration: 0.1
+  useOpti: 1
   optimisationTimeCheckVisi: 1
 --- !u!1 &5128660317636534684
 GameObject:
@@ -994,6 +1008,7 @@ MonoBehaviour:
   flickerPosition: 0
   moveRange: 0.1
   moveFlickDuration: 0.1
+  useOpti: 1
   optimisationTimeCheckVisi: 1
 --- !u!1001 &3014882982318782057
 PrefabInstance:
@@ -1086,7 +1101,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: cfabf91eeb42df14c901b2ce8b39e9ab, type: 2}
+      objectReference: {fileID: 2100000, guid: bdc0d3796a494e247b0815aee8795b23, type: 2}
     - target: {fileID: -927199367670048503, guid: 7ac5cd1622e8b33478fec8aff96c30b5,
         type: 3}
       propertyPath: m_Name

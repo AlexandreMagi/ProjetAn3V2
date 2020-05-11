@@ -62,7 +62,11 @@ public class LightHandler : MonoBehaviour
     Light lightComponent;
 
     float elapsedTimeForCheckVisi = 0;
+
     [SerializeField]
+    bool useOpti = true;
+
+    [SerializeField, ShowIf("useOpti")]
     float optimisationTimeCheckVisi = 1f;
 
     bool isSeen = true;
@@ -84,11 +88,14 @@ public class LightHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        elapsedTimeForCheckVisi += Time.unscaledDeltaTime;
-        if(elapsedTimeForCheckVisi >= optimisationTimeCheckVisi)
+        if (useOpti)
         {
-            elapsedTimeForCheckVisi = 0;
-            isSeen = InSight();
+            elapsedTimeForCheckVisi += Time.unscaledDeltaTime;
+            if (elapsedTimeForCheckVisi >= optimisationTimeCheckVisi)
+            {
+                elapsedTimeForCheckVisi = 0;
+                isSeen = InSight();
+            }
         }
 
         if (isSeen)
