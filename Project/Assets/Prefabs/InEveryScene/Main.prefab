@@ -1062,6 +1062,7 @@ MonoBehaviour:
   orbPrevisuFx: {fileID: 425612142391744086}
   displayOrb: 1
   crosshairOnEnemy: 0
+  minigunRateOfFire: 12
   minigunMod: {fileID: 11400000, guid: 414cbf44105410f46a48a56c7155fb83, type: 2}
 --- !u!114 &7584541180804375021
 MonoBehaviour:
@@ -1236,6 +1237,7 @@ MonoBehaviour:
   sequenceBooleansData:
   - {fileID: 11400000, guid: 4c429b5eb05f8be4cbf31704997f5dc7, type: 2}
   - {fileID: 11400000, guid: 2d44c5ec27d7d494484d23100e1e74e2, type: 2}
+  - {fileID: 11400000, guid: d1eabc118b3cc8d4db3babc70183e8d6, type: 2}
 --- !u!114 &8791258131886555901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,6 +1546,7 @@ MonoBehaviour:
   flickerPosition: 0
   moveRange: 0.1
   moveFlickDuration: 0.1
+  useOpti: 1
   optimisationTimeCheckVisi: 1
 --- !u!1001 &3331416647826228306
 PrefabInstance:
@@ -1725,7 +1728,7 @@ PrefabInstance:
     - target: {fileID: 2211647413142285170, guid: 01bb7bbe576bc494ebfffb055e48f36d,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01bb7bbe576bc494ebfffb055e48f36d, type: 3}
