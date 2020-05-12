@@ -53,6 +53,9 @@ public class UiViewer : MonoBehaviour
     [SerializeField] float timerWaitAtLastValue = 1;
     [SerializeField] float timerWaitDepopFinal = 1.3f;
 
+    [SerializeField] Text lifeText = null;
+    [SerializeField] Text deathText = null;
+
     [SerializeField] float randomFillAddedSpeed = 8;
     [SerializeField, PropertyRange(0.01f, 1f)] float randomFillAddedAmplitude = 0.5f;
     float customTimeForAddedFill = 0;
@@ -155,6 +158,9 @@ public class UiViewer : MonoBehaviour
             positivePs.rateOfParticle = globalParticleEmission * Mathf.Clamp01(firstSpot);
             negativePs.rateOfParticle = globalParticleEmission * (1- Mathf.Clamp01(firstSpot));
 
+            lifeText.text = Mathf.RoundToInt(Mathf.Clamp01(currFill + (Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude) * 100) + "%";
+            deathText.text = Mathf.RoundToInt((1 - Mathf.Clamp01(currFill + (Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude)) * 100) + "%";
+
             yield return new WaitForEndOfFrame();
         }
 
@@ -168,6 +174,9 @@ public class UiViewer : MonoBehaviour
             blueBarFill.fillAmount = currFill + Mathf.Lerp((Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude, 0, 1 - timer / timerGoToLastValue);
             positivePs.rateOfParticle = globalParticleEmission * Mathf.Clamp01(lastSpot);
             negativePs.rateOfParticle = globalParticleEmission * (1- Mathf.Clamp01(lastSpot));
+
+            lifeText.text = Mathf.RoundToInt(Mathf.Clamp01(currFill + Mathf.Lerp((Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude, 0, 1 - timer / timerGoToLastValue)) * 100) + "%";
+            deathText.text = Mathf.RoundToInt((1-Mathf.Clamp01(currFill + Mathf.Lerp((Mathf.PerlinNoise(10, customTimeForAddedFill) * 2 - 1) * randomFillAddedAmplitude, 0, 1 - timer / timerGoToLastValue))) * 100) + "%";
 
             yield return new WaitForEndOfFrame();
         }

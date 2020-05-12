@@ -578,7 +578,7 @@ public class SequenceHandler : MonoBehaviour
             CameraHandler.Instance.UpdateBreathing(currentSequence.breathingEnabled, currentSequence.timeFadeBreathing);
             if (currentSequence.isShortStep)
             {
-                CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime);
+                CameraHandler.Instance.ShortStep(currentSequence.shortStepCurve, currentSequence.shortStepAmplitude, currentSequence.animationTime, currentSequence.stepSoundPurcentageOnShortStep);
             }
             else
             {
