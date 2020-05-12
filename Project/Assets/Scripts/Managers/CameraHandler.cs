@@ -236,7 +236,6 @@ public class CameraHandler : MonoBehaviour
 
     private void Update()
     {
-
         dt = camData.independentFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
 
         if (timerRemainingOnThisSequence > 0) timerRemainingOnThisSequence -= Time.deltaTime;

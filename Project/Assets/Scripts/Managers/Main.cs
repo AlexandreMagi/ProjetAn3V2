@@ -352,6 +352,12 @@ public class Main : MonoBehaviour
             {
                 if(sequenceCheat != "")
                 {
+                    if (PlaneShakeManager.Instance!=null)
+                        PlaneShakeManager.Instance.activated = false;
+
+                    if (CameraHandler.Instance != null)
+                        CameraHandler.Instance.ChangeNoiseSettings(0, .1f);
+
                     int sequenceToGo = int.Parse(sequenceCheat);
 
                     sequenceCheat = "";
