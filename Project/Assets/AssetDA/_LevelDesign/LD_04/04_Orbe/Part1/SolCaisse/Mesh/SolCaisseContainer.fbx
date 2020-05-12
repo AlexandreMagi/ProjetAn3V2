@@ -1,0 +1,2126 @@
+; FBX 7.4.0 project file
+; ----------------------------------------------------
+
+FBXHeaderExtension:  {
+	FBXHeaderVersion: 1003
+	FBXVersion: 7400
+	CreationTimeStamp:  {
+		Version: 1000
+		Year: 2020
+		Month: 5
+		Day: 11
+		Hour: 17
+		Minute: 56
+		Second: 57
+		Millisecond: 512
+	}
+	Creator: "FBX SDK/FBX Plugins version 2020.0"
+	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
+		Type: "UserData"
+		Version: 100
+		MetaData:  {
+			Version: 100
+			Title: "Created by FBX Exporter from Unity Technologies"
+			Subject: ""
+			Author: "Unity Technologies"
+			Keywords: "Nodes Meshes Materials Textures Cameras Lights Skins Animation"
+			Revision: "1.0"
+			Comment: ""
+		}
+		Properties70:  {
+			P: "DocumentUrl", "KString", "Url", "", "C:\Users\wirtz\AppData\Local\Temp\tmp393b639d.tmp"
+			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\wirtz\AppData\Local\Temp\tmp393b639d.tmp"
+			P: "Original", "Compound", "", ""
+			P: "Original|ApplicationVendor", "KString", "", "", ""
+			P: "Original|ApplicationName", "KString", "", "", "Unity FBX Exporter"
+			P: "Original|ApplicationVersion", "KString", "", "", "3.0.1-preview.2"
+			P: "Original|DateTime_GMT", "DateTime", "", "", ""
+			P: "Original|FileName", "KString", "", "", ""
+			P: "LastSaved", "Compound", "", ""
+			P: "LastSaved|ApplicationVendor", "KString", "", "", ""
+			P: "LastSaved|ApplicationName", "KString", "", "", "Unity FBX Exporter"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "3.0.1-preview.2"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", ""
+		}
+	}
+}
+GlobalSettings:  {
+	Version: 1000
+	Properties70:  {
+		P: "UpAxis", "int", "Integer", "",1
+		P: "UpAxisSign", "int", "Integer", "",1
+		P: "FrontAxis", "int", "Integer", "",2
+		P: "FrontAxisSign", "int", "Integer", "",1
+		P: "CoordAxis", "int", "Integer", "",0
+		P: "CoordAxisSign", "int", "Integer", "",1
+		P: "OriginalUpAxis", "int", "Integer", "",-1
+		P: "OriginalUpAxisSign", "int", "Integer", "",1
+		P: "UnitScaleFactor", "double", "Number", "",1
+		P: "OriginalUnitScaleFactor", "double", "Number", "",1
+		P: "AmbientColor", "ColorRGB", "Color", "",0,0,0
+		P: "DefaultCamera", "KString", "", "", "Producer Perspective"
+		P: "TimeMode", "enum", "", "",0
+		P: "TimeProtocol", "enum", "", "",2
+		P: "SnapOnFrameMode", "enum", "", "",0
+		P: "TimeSpanStart", "KTime", "Time", "",0
+		P: "TimeSpanStop", "KTime", "Time", "",46186158000
+		P: "CustomFrameRate", "double", "Number", "",-1
+		P: "TimeMarker", "Compound", "", ""
+		P: "CurrentTimeMarker", "int", "Integer", "",-1
+	}
+}
+
+; Documents Description
+;------------------------------------------------------------------
+
+Documents:  {
+	Count: 1
+	Document: 2002559504368, "Scene", "Scene" {
+		Properties70:  {
+			P: "SourceObject", "object", "", ""
+			P: "ActiveAnimStackName", "KString", "", "", ""
+		}
+		RootNode: 0
+	}
+}
+
+; Document References
+;------------------------------------------------------------------
+
+References:  {
+}
+
+; Object definitions
+;------------------------------------------------------------------
+
+Definitions:  {
+	Version: 100
+	Count: 81
+	ObjectType: "GlobalSettings" {
+		Count: 1
+	}
+	ObjectType: "Model" {
+		Count: 71
+		PropertyTemplate: "FbxNode" {
+			Properties70:  {
+				P: "QuaternionInterpolate", "enum", "", "",0
+				P: "RotationOffset", "Vector3D", "Vector", "",0,0,0
+				P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
+				P: "ScalingOffset", "Vector3D", "Vector", "",0,0,0
+				P: "ScalingPivot", "Vector3D", "Vector", "",0,0,0
+				P: "TranslationActive", "bool", "", "",0
+				P: "TranslationMin", "Vector3D", "Vector", "",0,0,0
+				P: "TranslationMax", "Vector3D", "Vector", "",0,0,0
+				P: "TranslationMinX", "bool", "", "",0
+				P: "TranslationMinY", "bool", "", "",0
+				P: "TranslationMinZ", "bool", "", "",0
+				P: "TranslationMaxX", "bool", "", "",0
+				P: "TranslationMaxY", "bool", "", "",0
+				P: "TranslationMaxZ", "bool", "", "",0
+				P: "RotationOrder", "enum", "", "",0
+				P: "RotationSpaceForLimitOnly", "bool", "", "",0
+				P: "RotationStiffnessX", "double", "Number", "",0
+				P: "RotationStiffnessY", "double", "Number", "",0
+				P: "RotationStiffnessZ", "double", "Number", "",0
+				P: "AxisLen", "double", "Number", "",10
+				P: "PreRotation", "Vector3D", "Vector", "",0,0,0
+				P: "PostRotation", "Vector3D", "Vector", "",0,0,0
+				P: "RotationActive", "bool", "", "",0
+				P: "RotationMin", "Vector3D", "Vector", "",0,0,0
+				P: "RotationMax", "Vector3D", "Vector", "",0,0,0
+				P: "RotationMinX", "bool", "", "",0
+				P: "RotationMinY", "bool", "", "",0
+				P: "RotationMinZ", "bool", "", "",0
+				P: "RotationMaxX", "bool", "", "",0
+				P: "RotationMaxY", "bool", "", "",0
+				P: "RotationMaxZ", "bool", "", "",0
+				P: "InheritType", "enum", "", "",0
+				P: "ScalingActive", "bool", "", "",0
+				P: "ScalingMin", "Vector3D", "Vector", "",0,0,0
+				P: "ScalingMax", "Vector3D", "Vector", "",1,1,1
+				P: "ScalingMinX", "bool", "", "",0
+				P: "ScalingMinY", "bool", "", "",0
+				P: "ScalingMinZ", "bool", "", "",0
+				P: "ScalingMaxX", "bool", "", "",0
+				P: "ScalingMaxY", "bool", "", "",0
+				P: "ScalingMaxZ", "bool", "", "",0
+				P: "GeometricTranslation", "Vector3D", "Vector", "",0,0,0
+				P: "GeometricRotation", "Vector3D", "Vector", "",0,0,0
+				P: "GeometricScaling", "Vector3D", "Vector", "",1,1,1
+				P: "MinDampRangeX", "double", "Number", "",0
+				P: "MinDampRangeY", "double", "Number", "",0
+				P: "MinDampRangeZ", "double", "Number", "",0
+				P: "MaxDampRangeX", "double", "Number", "",0
+				P: "MaxDampRangeY", "double", "Number", "",0
+				P: "MaxDampRangeZ", "double", "Number", "",0
+				P: "MinDampStrengthX", "double", "Number", "",0
+				P: "MinDampStrengthY", "double", "Number", "",0
+				P: "MinDampStrengthZ", "double", "Number", "",0
+				P: "MaxDampStrengthX", "double", "Number", "",0
+				P: "MaxDampStrengthY", "double", "Number", "",0
+				P: "MaxDampStrengthZ", "double", "Number", "",0
+				P: "PreferedAngleX", "double", "Number", "",0
+				P: "PreferedAngleY", "double", "Number", "",0
+				P: "PreferedAngleZ", "double", "Number", "",0
+				P: "LookAtProperty", "object", "", ""
+				P: "UpVectorProperty", "object", "", ""
+				P: "Show", "bool", "", "",1
+				P: "NegativePercentShapeSupport", "bool", "", "",1
+				P: "DefaultAttributeIndex", "int", "Integer", "",-1
+				P: "Freeze", "bool", "", "",0
+				P: "LODBox", "bool", "", "",0
+				P: "Lcl Translation", "Lcl Translation", "", "A",0,0,0
+				P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
+				P: "Lcl Scaling", "Lcl Scaling", "", "A",1,1,1
+				P: "Visibility", "Visibility", "", "A",1
+				P: "Visibility Inheritance", "Visibility Inheritance", "", "",1
+			}
+		}
+	}
+	ObjectType: "Geometry" {
+		Count: 3
+		PropertyTemplate: "FbxMesh" {
+			Properties70:  {
+				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
+				P: "BBoxMin", "Vector3D", "Vector", "",0,0,0
+				P: "BBoxMax", "Vector3D", "Vector", "",0,0,0
+				P: "Primary Visibility", "bool", "", "",1
+				P: "Casts Shadows", "bool", "", "",1
+				P: "Receive Shadows", "bool", "", "",1
+			}
+		}
+	}
+	ObjectType: "Material" {
+		Count: 2
+		PropertyTemplate: "FbxSurfacePhong" {
+			Properties70:  {
+				P: "ShadingModel", "KString", "", "", "Phong"
+				P: "MultiLayer", "bool", "", "",0
+				P: "EmissiveColor", "Color", "", "A",0,0,0
+				P: "EmissiveFactor", "Number", "", "A",1
+				P: "AmbientColor", "Color", "", "A",0.2,0.2,0.2
+				P: "AmbientFactor", "Number", "", "A",1
+				P: "DiffuseColor", "Color", "", "A",0.8,0.8,0.8
+				P: "DiffuseFactor", "Number", "", "A",1
+				P: "Bump", "Vector3D", "Vector", "",0,0,0
+				P: "NormalMap", "Vector3D", "Vector", "",0,0,0
+				P: "BumpFactor", "double", "Number", "",1
+				P: "TransparentColor", "Color", "", "A",0,0,0
+				P: "TransparencyFactor", "Number", "", "A",0
+				P: "DisplacementColor", "ColorRGB", "Color", "",0,0,0
+				P: "DisplacementFactor", "double", "Number", "",1
+				P: "VectorDisplacementColor", "ColorRGB", "Color", "",0,0,0
+				P: "VectorDisplacementFactor", "double", "Number", "",1
+				P: "SpecularColor", "Color", "", "A",0.2,0.2,0.2
+				P: "SpecularFactor", "Number", "", "A",1
+				P: "ShininessExponent", "Number", "", "A",20
+				P: "ReflectionColor", "Color", "", "A",0,0,0
+				P: "ReflectionFactor", "Number", "", "A",1
+			}
+		}
+	}
+	ObjectType: "Texture" {
+		Count: 2
+		PropertyTemplate: "FbxFileTexture" {
+			Properties70:  {
+				P: "TextureTypeUse", "enum", "", "",0
+				P: "Texture alpha", "Number", "", "A",1
+				P: "CurrentMappingType", "enum", "", "",0
+				P: "WrapModeU", "enum", "", "",0
+				P: "WrapModeV", "enum", "", "",0
+				P: "UVSwap", "bool", "", "",0
+				P: "PremultiplyAlpha", "bool", "", "",1
+				P: "Translation", "Vector", "", "A",0,0,0
+				P: "Rotation", "Vector", "", "A",0,0,0
+				P: "Scaling", "Vector", "", "A",1,1,1
+				P: "TextureRotationPivot", "Vector3D", "Vector", "",0,0,0
+				P: "TextureScalingPivot", "Vector3D", "Vector", "",0,0,0
+				P: "CurrentTextureBlendMode", "enum", "", "",1
+				P: "UVSet", "KString", "", "", "default"
+				P: "UseMaterial", "bool", "", "",0
+				P: "UseMipMap", "bool", "", "",0
+			}
+		}
+	}
+	ObjectType: "Video" {
+		Count: 2
+		PropertyTemplate: "FbxVideo" {
+			Properties70:  {
+				P: "Path", "KString", "XRefUrl", "", ""
+				P: "RelPath", "KString", "XRefUrl", "", ""
+				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
+				P: "ClipIn", "KTime", "Time", "",0
+				P: "ClipOut", "KTime", "Time", "",0
+				P: "Offset", "KTime", "Time", "",0
+				P: "PlaySpeed", "double", "Number", "",0
+				P: "FreeRunning", "bool", "", "",0
+				P: "Loop", "bool", "", "",0
+				P: "Mute", "bool", "", "",0
+				P: "AccessMode", "enum", "", "",0
+				P: "ImageSequence", "bool", "", "",0
+				P: "ImageSequenceOffset", "int", "Integer", "",0
+				P: "FrameRate", "double", "Number", "",0
+				P: "LastFrame", "int", "Integer", "",0
+				P: "Width", "int", "Integer", "",0
+				P: "Height", "int", "Integer", "",0
+				P: "StartFrame", "int", "Integer", "",0
+				P: "StopFrame", "int", "Integer", "",0
+				P: "InterlaceMode", "enum", "", "",0
+			}
+		}
+	}
+}
+
+; Object properties
+;------------------------------------------------------------------
+
+Objects:  {
+	Geometry: 2010933270112, "Geometry::Scene", "Mesh" {
+		Vertices: *24 {
+			a: -3.0517577442879e-05,-30.0001889467239,149.999964237213,149.999964237213,-30.0001800060272,149.999964237213,149.999964237213,-29.999977350235,-6.10351548857579e-05,-6.10351548857579e-05,-29.9999892711639,-3.0517577442879e-05,-3.0517577442879e-05,0.99980067461729,150.000011920929,-6.10351548857579e-05,1.00000090897083,3.0517577442879e-05,149.999964237213,1.00001432001591,0,149.999964237213,0.999813061207533,150
+		} 
+		PolygonVertexIndex: *36 {
+			a: 0,2,-2,0,3,-3,4,6,-6,4,7,-7,0,7,-5,0,1,-8,1,6,-8,1,2,-7,2,5,-7,2,3,-6,3,4,-6,3,0,-5
+		} 
+		GeometryVersion: 124
+		LayerElementNormal: 0 {
+			Version: 102
+			Name: "Normals"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Normals: *108 {
+				a: -0,-1,-1.34785966565687e-06,-0,-1,-1.34785966565687e-06,-0,-1,-1.34785966565687e-06,-0,-1,-1.34785966565687e-06,-0,-1,-1.34785966565687e-06,-0,-1,-1.34785966565687e-06,-0,1,1.33832315896143e-06,-0,1,1.33832338633511e-06,-0,1,1.33832315896143e-06,-0,1,1.33832315896143e-06,-0,1,1.33832315896143e-06,-0,1,1.33832338633511e-06,-0,-1.23054769574082e-06,1,-0,-1.23054769574082e-06,1,-0,-1.23054769574082e-06,1,-0,-1.23054769574082e-06,1,-0,-1.23054769574082e-06,1,-0,-1.23054769574082e-06,1,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,-2.03450611024891e-07,1.96887640413479e-06,-1,-2.03450611024891e-07,1.96887640413479e-06,-1,-2.03450611024891e-07,1.96887640413479e-06,-1,-2.03450611024891e-07,1.96887640413479e-06,-1,-2.03450611024891e-07,1.96887640413479e-06,-1,-2.03450611024891e-07,1.96887640413479e-06,-1,-1,0,2.03450539970618e-07,-1,0,2.03450539970618e-07,-1,0,2.03450539970618e-07,-1,0,2.03450539970618e-07,-1,0,2.03450539970618e-07,-1,0,2.03450539970618e-07
+			} 
+			NormalsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+		}
+		LayerElementBinormal: 0 {
+			Version: 102
+			Name: "Binormals"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Binormals: *108 {
+				a: -1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,-1,0,2.03450611024891e-07,-1,0,2.03450611024891e-07,-1,0,2.03450611024891e-07,-1,0,2.03450611024891e-07,-1,0,2.03450611024891e-07,-1,0,2.03450611024891e-07,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0
+			} 
+			BinormalsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+
+		}
+		LayerElementTangent: 0 {
+			Version: 102
+			Name: "Tangents"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Tangents: *108 {
+				a: -0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1
+			} 
+			TangentsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+		}
+		LayerElementUV: 0 {
+			Version: 101
+			Name: "UVSet0"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: *48 {
+				a: 0.35408478975296,0.349819958209991,0.354083627462387,0.0587202608585358,0.062984362244606,0.0587218776345253,0.0629851371049881,0.349820971488953,0.412304490804672,0.34981894493103,0.703403770923615,0.349818736314774,0.703403055667877,0.0587191581726074,0.412303566932678,0.0587194189429283,0.35408478975296,0.349819958209991,0.412304490804672,0.34981894493103,0.412303566932678,0.0587194189429283,0.354083627462387,0.0587202608585358,0.354083627462387,0.0587202608585358,0.354083061218262,0.000500000023748726,0.0629837140440941,0.000502458366099745,0.062984362244606,0.0587218776345253,0.062984362244606,0.0587218776345253,0.004764458630234,0.058722235262394,0.00476523442193866,0.349821448326111,0.0629851371049881,0.349820971488953,0.0629851371049881,0.349820971488953,0.0629855915904045,0.408040940761566,0.354085177183151,0.408039838075638,0.35408478975296,0.349819958209991
+			} 
+			UVIndex: *36 {
+				a: 0,2,1,0,3,2,4,6,5,4,7,6,8,10,9,8,11,10,12,14,13,12,15,14,16,18,17,16,19,18,20,22,21,20,23,22
+			} 
+		}
+		LayerElementUV: 1 {
+			Version: 101
+			Name: "UVSet1"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: *48 {
+				a: 0.647504925727844,0.0713150426745415,0.647504687309265,0.0123025681823492,0.588492333889008,0.0123029528185725,0.588492512702942,0.071315236389637,0.659307360649109,0.071314811706543,0.718319773674011,0.071314811706543,0.718319535255432,0.0123023362830281,0.659307241439819,0.0123024135828018,0.647504925727844,0.0713150426745415,0.659307360649109,0.071314811706543,0.659307241439819,0.0123024135828018,0.647504687309265,0.0123025681823492,0.647504687309265,0.0123025681823492,0.647504508495331,0.000500000023748726,0.588492274284363,0.000500481866765767,0.588492333889008,0.0123029528185725,0.588492333889008,0.0123029528185725,0.576689839363098,0.0123029528185725,0.576690018177032,0.0713153481483459,0.588492512702942,0.071315236389637,0.588492512702942,0.071315236389637,0.588492512702942,0.083117663860321,0.647504985332489,0.0831175073981285,0.647504925727844,0.0713150426745415
+			} 
+			UVIndex: *36 {
+				a: 0,2,1,0,3,2,4,6,5,4,7,6,8,10,9,8,11,10,12,14,13,12,15,14,16,18,17,16,19,18,20,22,21,20,23,22
+			} 
+		}
+		LayerElementMaterial: 0 {
+			Version: 101
+			Name: "Material"
+			MappingInformationType: "AllSame"
+			ReferenceInformationType: "IndexToDirect"
+			Materials: *1 {
+				a: 0
+			} 
+		}
+		Layer: 0 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementNormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementBinormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementTangent"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementMaterial"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 0
+			}
+		}
+		Layer: 1 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 1
+			}
+		}
+	}
+	Geometry: 2010933268032, "Geometry::Scene", "Mesh" {
+		Vertices: *24 {
+			a: 15.0000303983688,1.52587887214395e-05,0.000183105464657274,-14.9999693036079,1.52587887214395e-05,0.000213623047784495,-14.9999380111694,7.62939407650265e-05,150.000178813934,15.0000914931297,7.62939407650265e-05,150.000166893005,15.0000602006912,300,6.10351548857579e-05,15.0001212954521,300.000047683716,150.000047683716,-14.999908208847,300,150.000047683716,-14.9999380111694,300,6.10351548857579e-05
+		} 
+		PolygonVertexIndex: *36 {
+			a: 0,2,-2,0,3,-3,4,6,-6,4,7,-7,0,7,-5,0,1,-8,1,6,-8,1,2,-7,2,5,-7,2,3,-6,3,4,-6,3,0,-5
+		} 
+		GeometryVersion: 124
+		LayerElementNormal: 0 {
+			Version: 102
+			Name: "Normals"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Normals: *108 {
+				a: -0,-1,4.06901079941235e-07,-0,-1,4.06901079941235e-07,-0,-1,4.06901079941235e-07,-0,-1,4.06901079941235e-07,-0,-1,4.06901051519526e-07,-0,-1,4.06901079941235e-07,-1.01725208878634e-06,1,-2.03450241542669e-07,-1.01725220247317e-06,1,-2.03450255753523e-07,-1.01725220247317e-06,1,-2.03450255753523e-07,-1.01725208878634e-06,1,-2.03450241542669e-07,-1.01725208878634e-06,1,-2.03450241542669e-07,-1.01725220247317e-06,1,-2.03450255753523e-07,-5.08626044393168e-07,-4.57763633221475e-07,-1,-5.08626044393168e-07,-4.57763661643185e-07,-1,-5.08626044393168e-07,-4.57763633221475e-07,-1,-5.08626044393168e-07,-4.57763633221475e-07,-1,-5.08626044393168e-07,-4.57763633221475e-07,-1,-5.08626044393168e-07,-4.57763661643185e-07,-1,-1,1.01725362355864e-07,2.03450511548908e-07,-1,1.01725369461292e-07,2.03450525759763e-07,-1,1.01725369461292e-07,2.03450511548908e-07,-1,1.01725362355864e-07,2.03450511548908e-07,-1,1.01725369461292e-07,2.03450511548908e-07,-1,1.01725369461292e-07,2.03450525759763e-07,2.54312652714361e-07,4.3233237079221e-07,1,2.54312652714361e-07,4.3233237079221e-07,1,2.54312652714361e-07,4.3233237079221e-07,1,2.54312652714361e-07,4.3233237079221e-07,1,2.54312652714361e-07,4.3233237079221e-07,1,2.54312652714361e-07,4.3233237079221e-07,1,1,-1.01725433410138e-07,-4.06901023097817e-07,1,-1.01725433410138e-07,-4.06901023097817e-07,1,-1.01725433410138e-07,-4.06901051519526e-07,1,-1.01725433410138e-07,-4.06901023097817e-07,1,-1.01725433410138e-07,-4.06901023097817e-07,1,-1.01725433410138e-07,-4.06901023097817e-07
+			} 
+			NormalsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+		}
+		LayerElementBinormal: 0 {
+			Version: 102
+			Name: "Binormals"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Binormals: *108 {
+				a: -1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,-1,-0,-0,1,1.01725208878634e-06,-0,1,1.01725220247317e-06,-0,1,1.01725220247317e-06,-0,1,1.01725208878634e-06,-0,1,1.01725208878634e-06,-0,1,1.01725220247317e-06,-0,0,1,-4.57763633221475e-07,0,1,-4.57763661643185e-07,0,1,-4.57763633221475e-07,0,1,-4.57763633221475e-07,0,1,-4.57763633221475e-07,0,1,-4.57763661643185e-07,-1.01725362355864e-07,-1,-0,-1.01725369461292e-07,-1,-0,-1.01725369461292e-07,-1,-0,-1.01725362355864e-07,-1,-0,-1.01725369461292e-07,-1,-0,-1.01725369461292e-07,-1,-0,0,-1,4.3233237079221e-07,0,-1,4.3233237079221e-07,0,-1,4.3233237079221e-07,0,-1,4.3233237079221e-07,0,-1,4.3233237079221e-07,0,-1,4.3233237079221e-07,-1.01725433410138e-07,-1,-0,-1.01725433410138e-07,-1,-0,-1.01725433410138e-07,-1,-0,-1.01725433410138e-07,-1,-0,-1.01725433410138e-07,-1,-0,-1.01725433410138e-07,-1,-0
+			} 
+			BinormalsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+
+		}
+		LayerElementTangent: 0 {
+			Version: 102
+			Name: "Tangents"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Tangents: *108 {
+				a: -0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1
+			} 
+			TangentsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+		}
+		LayerElementUV: 0 {
+			Version: 101
+			Name: "UVSet0"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: *48 {
+				a: 0.708400726318359,0.124169394373894,0.708400726318359,0.182389482855797,0.99949985742569,0.182389482855797,0.99949985742569,0.124169394373894,0.708400726318359,0.11415795981884,0.999500036239624,0.11415795981884,0.999500036239624,0.0559380054473877,0.708400726318359,0.0559380054473877,0.597524762153625,0.409888327121735,0.597524762153625,0.992087185382843,0.655744552612305,0.992087185382843,0.655744552612305,0.409888327121735,0.594376385211945,0.992087066173553,0.594376385211945,0.409888297319412,0.303276836872101,0.409888446331024,0.303276777267456,0.992087304592133,0.715446889400482,0.992087185382843,0.715446889400482,0.409888356924057,0.657227158546448,0.409888356924057,0.657227158546448,0.992087185382843,0.291599363088608,0.992087423801422,0.291599482297897,0.409888535737991,0.000500129419378936,0.409888327121735,0.000500000023748726,0.992087185382843
+			} 
+			UVIndex: *36 {
+				a: 0,2,1,0,3,2,4,6,5,4,7,6,8,10,9,8,11,10,12,14,13,12,15,14,16,18,17,16,19,18,20,22,21,20,23,22
+			} 
+		}
+		LayerElementUV: 1 {
+			Version: 101
+			Name: "UVSet1"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: *48 {
+				a: 0.701632380485535,0.981197774410248,0.701632380485535,0.999499976634979,0.793143033981323,0.999499976634979,0.793143033981323,0.981197774410248,0.115876205265522,0.267304748296738,0.20738685131073,0.267304748296738,0.20738685131073,0.24900259077549,0.115876205265522,0.24900259077549,0.679444670677185,0.191314518451691,0.679444670677185,0.374335914850235,0.697746753692627,0.374335914850235,0.697746753692627,0.191314518451691,0.89520663022995,0.747089743614197,0.89520663022995,0.56406843662262,0.803695917129517,0.564068496227264,0.803695917129517,0.747089803218842,0.453681617975235,0.747089803218842,0.453681617975235,0.56406843662262,0.435379505157471,0.56406843662262,0.435379505157471,0.747089803218842,0.691079497337341,0.187959000468254,0.691079497337341,0.00493761291727424,0.599568784236908,0.00493754725903273,0.599568784236908,0.187958925962448
+			} 
+			UVIndex: *36 {
+				a: 0,2,1,0,3,2,4,6,5,4,7,6,8,10,9,8,11,10,12,14,13,12,15,14,16,18,17,16,19,18,20,22,21,20,23,22
+			} 
+		}
+		LayerElementMaterial: 0 {
+			Version: 101
+			Name: "Material"
+			MappingInformationType: "AllSame"
+			ReferenceInformationType: "IndexToDirect"
+			Materials: *1 {
+				a: 0
+			} 
+		}
+		Layer: 0 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementNormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementBinormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementTangent"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementMaterial"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 0
+			}
+		}
+		Layer: 1 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 1
+			}
+		}
+	}
+	Geometry: 2010933265952, "Geometry::Scene", "Mesh" {
+		Vertices: *24 {
+			a: -50,-50,50,50,-50,50,-50,50,50,50,50,50,-50,50,-50,50,50,-50,-50,-50,-50,50,-50,-50
+		} 
+		PolygonVertexIndex: *36 {
+			a: 0,3,-3,0,1,-4,2,5,-5,2,3,-6,4,7,-7,4,5,-8,6,1,-1,6,7,-2,1,5,-4,1,7,-6,6,2,-5,6,0,-3
+		} 
+		GeometryVersion: 124
+		LayerElementNormal: 0 {
+			Version: 102
+			Name: "Normals"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Normals: *108 {
+				a: -0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,-0,-1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0
+			} 
+			NormalsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+		}
+		LayerElementBinormal: 0 {
+			Version: 102
+			Name: "Binormals"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Binormals: *108 {
+				a: 0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,1,0,-0,1,0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0
+			} 
+			BinormalsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+
+		}
+		LayerElementTangent: 0 {
+			Version: 102
+			Name: "Tangents"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "Direct"
+			Tangents: *108 {
+				a: 1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,-1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1,-0,0,1
+			} 
+			TangentsW: *36 {
+				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+			} 
+		}
+		LayerElementUV: 0 {
+			Version: 101
+			Name: "UVSet0"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: *48 {
+				a: 0,0,1,0,0,1,1,1,0,1,1,1,0,1,1,1,0,0,1,0,0,0,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0
+			} 
+			UVIndex: *36 {
+				a: 0,3,2,0,1,3,8,5,4,8,9,5,10,7,6,10,11,7,12,14,13,12,15,14,16,18,17,16,19,18,20,22,21,20,23,22
+			} 
+		}
+		LayerElementUV: 1 {
+			Version: 101
+			Name: "UVSet1"
+			MappingInformationType: "ByPolygonVertex"
+			ReferenceInformationType: "IndexToDirect"
+			UV: *48 {
+				a: 0.690986514091492,0.347164392471313,0.996658086776733,0.347164392471313,0.690986514091492,0.652835845947266,0.996658086776733,0.652835845947266,0.309727311134338,0.347164243459702,0.00405576638877392,0.347164243459702,0.347164243459702,0.652835845947266,0.652835845947266,0.652835845947266,0.309727311134338,0.652835845947266,0.00405576638877392,0.652835845947266,0.347164243459702,0.347164243459702,0.652835845947266,0.347164243459702,0.347164243459702,0.00405576638877392,0.347164243459702,0.309727311134338,0.652835845947266,0.309727311134338,0.652835845947266,0.00405576638877392,0.690272808074951,0.309727311134338,0.995944261550903,0.309727311134338,0.995944261550903,0.00405576638877392,0.690272808074951,0.00405576638877392,0.309727311134338,0.00405576638877392,0.00405576638877392,0.00405576638877392,0.00405576638877392,0.309727311134338,0.309727311134338,0.309727311134338
+			} 
+			UVIndex: *36 {
+				a: 0,3,2,0,1,3,8,5,4,8,9,5,10,7,6,10,11,7,12,14,13,12,15,14,16,18,17,16,19,18,20,22,21,20,23,22
+			} 
+		}
+		LayerElementMaterial: 0 {
+			Version: 101
+			Name: "Material"
+			MappingInformationType: "AllSame"
+			ReferenceInformationType: "IndexToDirect"
+			Materials: *1 {
+				a: 0
+			} 
+		}
+		Layer: 0 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementNormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementBinormal"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementTangent"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementMaterial"
+				TypedIndex: 0
+			}
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 0
+			}
+		}
+		Layer: 1 {
+			Version: 100
+			LayerElement:  {
+				Type: "LayerElementUV"
+				TypedIndex: 1
+			}
+		}
+	}
+	Model: 2010986904704, "Model::SolCaisseContainer", "Null" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+		}
+		Shading: Y
+		Culling: "CullingOff"
+	}
+	Model: 2010986910704, "Model::SolCaisse", "Null" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+		}
+		Shading: Y
+		Culling: "CullingOff"
+	}
+	Model: 2010986914704, "Model::DalleSolPlafond (49)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,0,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986902704, "Model::DalleSolPlafond (51)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,0,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986922704, "Model::DalleSolPlafond (52)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,0,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986912704, "Model::DalleSolPlafond (53)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,0,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986906704, "Model::DalleSolPlafond (54)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,0,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986908704, "Model::DalleSolPlafond (55)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,0,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986916704, "Model::DalleSolPlafond (56)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,0,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2010986918704, "Model::DalleSolPlafond (57)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,0,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2009291072240, "Model::DalleSolPlafond (58)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,0,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2009291074240, "Model::DalleSolPlafond (59)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,0,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2009291062240, "Model::DalleSolPlafond (60)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,0,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2009291076240, "Model::DalleSolPlafond (61)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,0,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2009291066240, "Model::DalleSolPlafond (62)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,0,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2009291052240, "Model::DalleSolPlafond (63)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,0,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2003143355888, "Model::DalleSolPlafond (64)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,0,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2003143343888, "Model::DalleSolPlafond (65)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,0,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2003143347888, "Model::DalleSolPlafond (66)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,0,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2003143349888, "Model::DalleSolPlafond (67)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,0,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2007196705632, "Model::DalleSolPlafond (71)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,0,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2007196677632, "Model::DalleSolPlafond (72)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,0,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2000602029440, "Model::DalleSolPlafond (73)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,0,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2000804336832, "Model::DalleSolPlafond (68)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,0,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516474768, "Model::DalleSolPlafond (69)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,0,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516460768, "Model::DalleSolPlafond (74)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,0,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516452768, "Model::WallStandard", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26400,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516446768, "Model::WallStandard (1)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26400,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516454768, "Model::WallStandard (2)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26400,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516468768, "Model::WallStandard (3)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26400,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516448768, "Model::WallStandard (4)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516456768, "Model::WallStandard (5)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516464768, "Model::WallStandard (6)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516462768, "Model::WallStandard (7)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516472768, "Model::WallStandard (8)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,-300,-3299.99771118164
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,89.9998357911264,-0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516466768, "Model::WallStandard (9)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,-300,-3299.99847412109
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,89.9998357911264,-0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516470768, "Model::WallStandard (10)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,-300,-3300
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,89.9998357911264,-0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516450768, "Model::WallStandard (11)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3299.99847412109
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,89.9998357911264,-0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516444768, "Model::WallStandard (12)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,-300,-3299.99771118164
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,89.9998357911264,-0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516476768, "Model::WallStandard (13)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,-300,-3299.99771118164
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,89.9998357911264,-0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516458768, "Model::WallStandard (14)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,-300,-3900
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",-0,-89.9998357911264,0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516478768, "Model::WallStandard (15)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,-300,-3900
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",-0,-89.9998357911264,0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516488768, "Model::WallStandard (18)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,-300,-3900
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",-0,-89.9998357911264,0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516506768, "Model::WallStandard (19)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26400,-300,-3900
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",-0,-89.9998357911264,0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516480768, "Model::WallStandard (20)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,-300,-3900
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",-0,-89.9998357911264,0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516484768, "Model::WallStandard (21)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,-300,-3900
+			P: "Lcl Rotation", "Lcl Rotation", "", "A",-0,-89.9998357911264,0
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516500768, "Model::DalleSolPlafond (70)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516494768, "Model::DalleSolPlafond (75)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516482768, "Model::DalleSolPlafond (76)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516486768, "Model::DalleSolPlafond (77)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516502768, "Model::DalleSolPlafond (78)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516504768, "Model::DalleSolPlafond (79)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516490768, "Model::DalleSolPlafond (80)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516492768, "Model::DalleSolPlafond (81)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516498768, "Model::DalleSolPlafond (82)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2011516496768, "Model::DalleSolPlafond (83)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641354384, "Model::DalleSolPlafond (84)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641360384, "Model::DalleSolPlafond (85)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641356384, "Model::DalleSolPlafond (86)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641362384, "Model::DalleSolPlafond (87)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,-300,-3600
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641364384, "Model::DalleSolPlafond (88)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641366384, "Model::DalleSolPlafond (89)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,-300,-3750
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641348384, "Model::DalleSolPlafond (90)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641368384, "Model::DalleSolPlafond (91)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,-300,-3900
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641352384, "Model::DalleSolPlafond (92)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25800,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641372384, "Model::DalleSolPlafond (93)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25950,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641370384, "Model::DalleSolPlafond (94)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26100,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641358384, "Model::DalleSolPlafond (95)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",26250,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641374384, "Model::DalleSolPlafond (96)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25500,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641344384, "Model::DalleSolPlafond (97)", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25650,-300,-3450
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Model: 2008641376384, "Model::Cube", "Mesh" {
+		Version: 232
+		Properties70:  {
+			P: "InheritType", "enum", "", "",1
+			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
+			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",25933.4014892578,404.899978637695,-3628.20014953613
+			P: "Lcl Scaling", "Lcl Scaling", "", "A",1.40279996395111,1.40279996395111,1.40279996395111
+		}
+		Shading: W
+		Culling: "CullingOff"
+	}
+	Material: 2009346277984, "Material::Mat_Atlas_MursDalles1", "" {
+		Version: 102
+		ShadingModel: "phong"
+		MultiLayer: 0
+		Properties70:  {
+			P: "AmbientColor", "Color", "", "A",0,0,0
+			P: "DiffuseColor", "Color", "", "A",0.481132090091705,0.481132090091705,0.481132090091705
+			P: "SpecularColor", "Color", "", "A",0.199999928474426,0.199999928474426,0.199999928474426
+			P: "Emissive", "Vector3D", "Vector", "",0,0,0
+			P: "Ambient", "Vector3D", "Vector", "",0,0,0
+			P: "Diffuse", "Vector3D", "Vector", "",0.481132090091705,0.481132090091705,0.481132090091705
+			P: "Specular", "Vector3D", "Vector", "",0.199999928474426,0.199999928474426,0.199999928474426
+			P: "Shininess", "double", "Number", "",20
+			P: "Opacity", "double", "Number", "",1
+			P: "Reflectivity", "double", "Number", "",0
+		}
+	}
+	Material: 2009289115904, "Material::Default-Material", "" {
+		Version: 102
+		ShadingModel: "lambert"
+		MultiLayer: 0
+		Properties70:  {
+			P: "AmbientColor", "Color", "", "A",0,0,0
+			P: "DiffuseColor", "Color", "", "A",1,1,1
+			P: "Emissive", "Vector3D", "Vector", "",0,0,0
+			P: "Ambient", "Vector3D", "Vector", "",0,0,0
+			P: "Diffuse", "Vector3D", "Vector", "",1,1,1
+			P: "Opacity", "double", "Number", "",1
+		}
+	}
+	Video: 2011284323296, "Video::DiffuseColor_Texture", "Clip" {
+		Type: "Clip"
+		Properties70:  {
+			P: "Path", "KString", "XRefUrl", "", "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_diffuse.tga"
+			P: "RelPath", "KString", "XRefUrl", "", "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_diffuse.tga"
+		}
+		UseMipMap: 0
+		Filename: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_diffuse.tga"
+		RelativeFilename: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_diffuse.tga"
+	}
+	Video: 2011284321376, "Video::NormalMap_Texture", "Clip" {
+		Type: "Clip"
+		Properties70:  {
+			P: "Path", "KString", "XRefUrl", "", "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_normal.tga"
+			P: "RelPath", "KString", "XRefUrl", "", "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_normal.tga"
+		}
+		UseMipMap: 0
+		Filename: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_normal.tga"
+		RelativeFilename: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_normal.tga"
+	}
+	Texture: 2011284322336, "Texture::DiffuseColor_Texture", "" {
+		Type: "TextureVideoClip"
+		Version: 202
+		TextureName: "Texture::DiffuseColor_Texture"
+		Media: "Video::DiffuseColor_Texture"
+		FileName: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_diffuse.tga"
+		RelativeFilename: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_diffuse.tga"
+		ModelUVTranslation: 0,0
+		ModelUVScaling: 1,1
+		Texture_Alpha_Source: "None"
+		Cropping: 0,0,0,0
+	}
+	Texture: 2011284322816, "Texture::NormalMap_Texture", "" {
+		Type: "TextureVideoClip"
+		Version: 202
+		TextureName: "Texture::NormalMap_Texture"
+		Media: "Video::NormalMap_Texture"
+		FileName: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_normal.tga"
+		RelativeFilename: "D:\ETPA_GD3\Gravity Blast\ProjetAn3V2\Project\Assets\AssetDA\Structures\LD_04\Murs et dalles\Atlas\Textures\1\Tex_MursDalles_Atlas1_normal.tga"
+		ModelUVTranslation: 0,0
+		ModelUVScaling: 1,1
+		Texture_Alpha_Source: "None"
+		Cropping: 0,0,0,0
+	}
+}
+
+; Object connections
+;------------------------------------------------------------------
+
+Connections:  {
+	
+	;Model::SolCaisseContainer, Model::RootNode
+	C: "OO",2010986904704,0
+	
+	;Model::SolCaisse, Model::SolCaisseContainer
+	C: "OO",2010986910704,2010986904704
+	
+	;Model::Cube, Model::SolCaisseContainer
+	C: "OO",2008641376384,2010986904704
+	
+	;Model::DalleSolPlafond (49), Model::SolCaisse
+	C: "OO",2010986914704,2010986910704
+	
+	;Model::DalleSolPlafond (51), Model::SolCaisse
+	C: "OO",2010986902704,2010986910704
+	
+	;Model::DalleSolPlafond (52), Model::SolCaisse
+	C: "OO",2010986922704,2010986910704
+	
+	;Model::DalleSolPlafond (53), Model::SolCaisse
+	C: "OO",2010986912704,2010986910704
+	
+	;Model::DalleSolPlafond (54), Model::SolCaisse
+	C: "OO",2010986906704,2010986910704
+	
+	;Model::DalleSolPlafond (55), Model::SolCaisse
+	C: "OO",2010986908704,2010986910704
+	
+	;Model::DalleSolPlafond (56), Model::SolCaisse
+	C: "OO",2010986916704,2010986910704
+	
+	;Model::DalleSolPlafond (57), Model::SolCaisse
+	C: "OO",2010986918704,2010986910704
+	
+	;Model::DalleSolPlafond (58), Model::SolCaisse
+	C: "OO",2009291072240,2010986910704
+	
+	;Model::DalleSolPlafond (59), Model::SolCaisse
+	C: "OO",2009291074240,2010986910704
+	
+	;Model::DalleSolPlafond (60), Model::SolCaisse
+	C: "OO",2009291062240,2010986910704
+	
+	;Model::DalleSolPlafond (61), Model::SolCaisse
+	C: "OO",2009291076240,2010986910704
+	
+	;Model::DalleSolPlafond (62), Model::SolCaisse
+	C: "OO",2009291066240,2010986910704
+	
+	;Model::DalleSolPlafond (63), Model::SolCaisse
+	C: "OO",2009291052240,2010986910704
+	
+	;Model::DalleSolPlafond (64), Model::SolCaisse
+	C: "OO",2003143355888,2010986910704
+	
+	;Model::DalleSolPlafond (65), Model::SolCaisse
+	C: "OO",2003143343888,2010986910704
+	
+	;Model::DalleSolPlafond (66), Model::SolCaisse
+	C: "OO",2003143347888,2010986910704
+	
+	;Model::DalleSolPlafond (67), Model::SolCaisse
+	C: "OO",2003143349888,2010986910704
+	
+	;Model::DalleSolPlafond (71), Model::SolCaisse
+	C: "OO",2007196705632,2010986910704
+	
+	;Model::DalleSolPlafond (72), Model::SolCaisse
+	C: "OO",2007196677632,2010986910704
+	
+	;Model::DalleSolPlafond (73), Model::SolCaisse
+	C: "OO",2000602029440,2010986910704
+	
+	;Model::DalleSolPlafond (68), Model::SolCaisse
+	C: "OO",2000804336832,2010986910704
+	
+	;Model::DalleSolPlafond (69), Model::SolCaisse
+	C: "OO",2011516474768,2010986910704
+	
+	;Model::DalleSolPlafond (74), Model::SolCaisse
+	C: "OO",2011516460768,2010986910704
+	
+	;Model::WallStandard, Model::SolCaisse
+	C: "OO",2011516452768,2010986910704
+	
+	;Model::WallStandard (1), Model::SolCaisse
+	C: "OO",2011516446768,2010986910704
+	
+	;Model::WallStandard (2), Model::SolCaisse
+	C: "OO",2011516454768,2010986910704
+	
+	;Model::WallStandard (3), Model::SolCaisse
+	C: "OO",2011516468768,2010986910704
+	
+	;Model::WallStandard (4), Model::SolCaisse
+	C: "OO",2011516448768,2010986910704
+	
+	;Model::WallStandard (5), Model::SolCaisse
+	C: "OO",2011516456768,2010986910704
+	
+	;Model::WallStandard (6), Model::SolCaisse
+	C: "OO",2011516464768,2010986910704
+	
+	;Model::WallStandard (7), Model::SolCaisse
+	C: "OO",2011516462768,2010986910704
+	
+	;Model::WallStandard (8), Model::SolCaisse
+	C: "OO",2011516472768,2010986910704
+	
+	;Model::WallStandard (9), Model::SolCaisse
+	C: "OO",2011516466768,2010986910704
+	
+	;Model::WallStandard (10), Model::SolCaisse
+	C: "OO",2011516470768,2010986910704
+	
+	;Model::WallStandard (11), Model::SolCaisse
+	C: "OO",2011516450768,2010986910704
+	
+	;Model::WallStandard (12), Model::SolCaisse
+	C: "OO",2011516444768,2010986910704
+	
+	;Model::WallStandard (13), Model::SolCaisse
+	C: "OO",2011516476768,2010986910704
+	
+	;Model::WallStandard (14), Model::SolCaisse
+	C: "OO",2011516458768,2010986910704
+	
+	;Model::WallStandard (15), Model::SolCaisse
+	C: "OO",2011516478768,2010986910704
+	
+	;Model::WallStandard (18), Model::SolCaisse
+	C: "OO",2011516488768,2010986910704
+	
+	;Model::WallStandard (19), Model::SolCaisse
+	C: "OO",2011516506768,2010986910704
+	
+	;Model::WallStandard (20), Model::SolCaisse
+	C: "OO",2011516480768,2010986910704
+	
+	;Model::WallStandard (21), Model::SolCaisse
+	C: "OO",2011516484768,2010986910704
+	
+	;Model::DalleSolPlafond (70), Model::SolCaisse
+	C: "OO",2011516500768,2010986910704
+	
+	;Model::DalleSolPlafond (75), Model::SolCaisse
+	C: "OO",2011516494768,2010986910704
+	
+	;Model::DalleSolPlafond (76), Model::SolCaisse
+	C: "OO",2011516482768,2010986910704
+	
+	;Model::DalleSolPlafond (77), Model::SolCaisse
+	C: "OO",2011516486768,2010986910704
+	
+	;Model::DalleSolPlafond (78), Model::SolCaisse
+	C: "OO",2011516502768,2010986910704
+	
+	;Model::DalleSolPlafond (79), Model::SolCaisse
+	C: "OO",2011516504768,2010986910704
+	
+	;Model::DalleSolPlafond (80), Model::SolCaisse
+	C: "OO",2011516490768,2010986910704
+	
+	;Model::DalleSolPlafond (81), Model::SolCaisse
+	C: "OO",2011516492768,2010986910704
+	
+	;Model::DalleSolPlafond (82), Model::SolCaisse
+	C: "OO",2011516498768,2010986910704
+	
+	;Model::DalleSolPlafond (83), Model::SolCaisse
+	C: "OO",2011516496768,2010986910704
+	
+	;Model::DalleSolPlafond (84), Model::SolCaisse
+	C: "OO",2008641354384,2010986910704
+	
+	;Model::DalleSolPlafond (85), Model::SolCaisse
+	C: "OO",2008641360384,2010986910704
+	
+	;Model::DalleSolPlafond (86), Model::SolCaisse
+	C: "OO",2008641356384,2010986910704
+	
+	;Model::DalleSolPlafond (87), Model::SolCaisse
+	C: "OO",2008641362384,2010986910704
+	
+	;Model::DalleSolPlafond (88), Model::SolCaisse
+	C: "OO",2008641364384,2010986910704
+	
+	;Model::DalleSolPlafond (89), Model::SolCaisse
+	C: "OO",2008641366384,2010986910704
+	
+	;Model::DalleSolPlafond (90), Model::SolCaisse
+	C: "OO",2008641348384,2010986910704
+	
+	;Model::DalleSolPlafond (91), Model::SolCaisse
+	C: "OO",2008641368384,2010986910704
+	
+	;Model::DalleSolPlafond (92), Model::SolCaisse
+	C: "OO",2008641352384,2010986910704
+	
+	;Model::DalleSolPlafond (93), Model::SolCaisse
+	C: "OO",2008641372384,2010986910704
+	
+	;Model::DalleSolPlafond (94), Model::SolCaisse
+	C: "OO",2008641370384,2010986910704
+	
+	;Model::DalleSolPlafond (95), Model::SolCaisse
+	C: "OO",2008641358384,2010986910704
+	
+	;Model::DalleSolPlafond (96), Model::SolCaisse
+	C: "OO",2008641374384,2010986910704
+	
+	;Model::DalleSolPlafond (97), Model::SolCaisse
+	C: "OO",2008641344384,2010986910704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (49)
+	C: "OO",2009346277984,2010986914704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (49)
+	C: "OO",2010933270112,2010986914704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (51)
+	C: "OO",2009346277984,2010986902704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (51)
+	C: "OO",2010933270112,2010986902704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (52)
+	C: "OO",2009346277984,2010986922704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (52)
+	C: "OO",2010933270112,2010986922704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (53)
+	C: "OO",2009346277984,2010986912704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (53)
+	C: "OO",2010933270112,2010986912704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (54)
+	C: "OO",2009346277984,2010986906704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (54)
+	C: "OO",2010933270112,2010986906704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (55)
+	C: "OO",2009346277984,2010986908704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (55)
+	C: "OO",2010933270112,2010986908704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (56)
+	C: "OO",2009346277984,2010986916704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (56)
+	C: "OO",2010933270112,2010986916704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (57)
+	C: "OO",2009346277984,2010986918704
+	
+	;Geometry::Scene, Model::DalleSolPlafond (57)
+	C: "OO",2010933270112,2010986918704
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (58)
+	C: "OO",2009346277984,2009291072240
+	
+	;Geometry::Scene, Model::DalleSolPlafond (58)
+	C: "OO",2010933270112,2009291072240
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (59)
+	C: "OO",2009346277984,2009291074240
+	
+	;Geometry::Scene, Model::DalleSolPlafond (59)
+	C: "OO",2010933270112,2009291074240
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (60)
+	C: "OO",2009346277984,2009291062240
+	
+	;Geometry::Scene, Model::DalleSolPlafond (60)
+	C: "OO",2010933270112,2009291062240
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (61)
+	C: "OO",2009346277984,2009291076240
+	
+	;Geometry::Scene, Model::DalleSolPlafond (61)
+	C: "OO",2010933270112,2009291076240
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (62)
+	C: "OO",2009346277984,2009291066240
+	
+	;Geometry::Scene, Model::DalleSolPlafond (62)
+	C: "OO",2010933270112,2009291066240
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (63)
+	C: "OO",2009346277984,2009291052240
+	
+	;Geometry::Scene, Model::DalleSolPlafond (63)
+	C: "OO",2010933270112,2009291052240
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (64)
+	C: "OO",2009346277984,2003143355888
+	
+	;Geometry::Scene, Model::DalleSolPlafond (64)
+	C: "OO",2010933270112,2003143355888
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (65)
+	C: "OO",2009346277984,2003143343888
+	
+	;Geometry::Scene, Model::DalleSolPlafond (65)
+	C: "OO",2010933270112,2003143343888
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (66)
+	C: "OO",2009346277984,2003143347888
+	
+	;Geometry::Scene, Model::DalleSolPlafond (66)
+	C: "OO",2010933270112,2003143347888
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (67)
+	C: "OO",2009346277984,2003143349888
+	
+	;Geometry::Scene, Model::DalleSolPlafond (67)
+	C: "OO",2010933270112,2003143349888
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (71)
+	C: "OO",2009346277984,2007196705632
+	
+	;Geometry::Scene, Model::DalleSolPlafond (71)
+	C: "OO",2010933270112,2007196705632
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (72)
+	C: "OO",2009346277984,2007196677632
+	
+	;Geometry::Scene, Model::DalleSolPlafond (72)
+	C: "OO",2010933270112,2007196677632
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (73)
+	C: "OO",2009346277984,2000602029440
+	
+	;Geometry::Scene, Model::DalleSolPlafond (73)
+	C: "OO",2010933270112,2000602029440
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (68)
+	C: "OO",2009346277984,2000804336832
+	
+	;Geometry::Scene, Model::DalleSolPlafond (68)
+	C: "OO",2010933270112,2000804336832
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (69)
+	C: "OO",2009346277984,2011516474768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (69)
+	C: "OO",2010933270112,2011516474768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (74)
+	C: "OO",2009346277984,2011516460768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (74)
+	C: "OO",2010933270112,2011516460768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard
+	C: "OO",2009346277984,2011516452768
+	
+	;Geometry::Scene, Model::WallStandard
+	C: "OO",2010933268032,2011516452768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (1)
+	C: "OO",2009346277984,2011516446768
+	
+	;Geometry::Scene, Model::WallStandard (1)
+	C: "OO",2010933268032,2011516446768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (2)
+	C: "OO",2009346277984,2011516454768
+	
+	;Geometry::Scene, Model::WallStandard (2)
+	C: "OO",2010933268032,2011516454768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (3)
+	C: "OO",2009346277984,2011516468768
+	
+	;Geometry::Scene, Model::WallStandard (3)
+	C: "OO",2010933268032,2011516468768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (4)
+	C: "OO",2009346277984,2011516448768
+	
+	;Geometry::Scene, Model::WallStandard (4)
+	C: "OO",2010933268032,2011516448768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (5)
+	C: "OO",2009346277984,2011516456768
+	
+	;Geometry::Scene, Model::WallStandard (5)
+	C: "OO",2010933268032,2011516456768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (6)
+	C: "OO",2009346277984,2011516464768
+	
+	;Geometry::Scene, Model::WallStandard (6)
+	C: "OO",2010933268032,2011516464768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (7)
+	C: "OO",2009346277984,2011516462768
+	
+	;Geometry::Scene, Model::WallStandard (7)
+	C: "OO",2010933268032,2011516462768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (8)
+	C: "OO",2009346277984,2011516472768
+	
+	;Geometry::Scene, Model::WallStandard (8)
+	C: "OO",2010933268032,2011516472768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (9)
+	C: "OO",2009346277984,2011516466768
+	
+	;Geometry::Scene, Model::WallStandard (9)
+	C: "OO",2010933268032,2011516466768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (10)
+	C: "OO",2009346277984,2011516470768
+	
+	;Geometry::Scene, Model::WallStandard (10)
+	C: "OO",2010933268032,2011516470768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (11)
+	C: "OO",2009346277984,2011516450768
+	
+	;Geometry::Scene, Model::WallStandard (11)
+	C: "OO",2010933268032,2011516450768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (12)
+	C: "OO",2009346277984,2011516444768
+	
+	;Geometry::Scene, Model::WallStandard (12)
+	C: "OO",2010933268032,2011516444768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (13)
+	C: "OO",2009346277984,2011516476768
+	
+	;Geometry::Scene, Model::WallStandard (13)
+	C: "OO",2010933268032,2011516476768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (14)
+	C: "OO",2009346277984,2011516458768
+	
+	;Geometry::Scene, Model::WallStandard (14)
+	C: "OO",2010933268032,2011516458768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (15)
+	C: "OO",2009346277984,2011516478768
+	
+	;Geometry::Scene, Model::WallStandard (15)
+	C: "OO",2010933268032,2011516478768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (18)
+	C: "OO",2009346277984,2011516488768
+	
+	;Geometry::Scene, Model::WallStandard (18)
+	C: "OO",2010933268032,2011516488768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (19)
+	C: "OO",2009346277984,2011516506768
+	
+	;Geometry::Scene, Model::WallStandard (19)
+	C: "OO",2010933268032,2011516506768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (20)
+	C: "OO",2009346277984,2011516480768
+	
+	;Geometry::Scene, Model::WallStandard (20)
+	C: "OO",2010933268032,2011516480768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::WallStandard (21)
+	C: "OO",2009346277984,2011516484768
+	
+	;Geometry::Scene, Model::WallStandard (21)
+	C: "OO",2010933268032,2011516484768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (70)
+	C: "OO",2009346277984,2011516500768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (70)
+	C: "OO",2010933270112,2011516500768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (75)
+	C: "OO",2009346277984,2011516494768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (75)
+	C: "OO",2010933270112,2011516494768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (76)
+	C: "OO",2009346277984,2011516482768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (76)
+	C: "OO",2010933270112,2011516482768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (77)
+	C: "OO",2009346277984,2011516486768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (77)
+	C: "OO",2010933270112,2011516486768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (78)
+	C: "OO",2009346277984,2011516502768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (78)
+	C: "OO",2010933270112,2011516502768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (79)
+	C: "OO",2009346277984,2011516504768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (79)
+	C: "OO",2010933270112,2011516504768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (80)
+	C: "OO",2009346277984,2011516490768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (80)
+	C: "OO",2010933270112,2011516490768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (81)
+	C: "OO",2009346277984,2011516492768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (81)
+	C: "OO",2010933270112,2011516492768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (82)
+	C: "OO",2009346277984,2011516498768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (82)
+	C: "OO",2010933270112,2011516498768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (83)
+	C: "OO",2009346277984,2011516496768
+	
+	;Geometry::Scene, Model::DalleSolPlafond (83)
+	C: "OO",2010933270112,2011516496768
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (84)
+	C: "OO",2009346277984,2008641354384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (84)
+	C: "OO",2010933270112,2008641354384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (85)
+	C: "OO",2009346277984,2008641360384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (85)
+	C: "OO",2010933270112,2008641360384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (86)
+	C: "OO",2009346277984,2008641356384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (86)
+	C: "OO",2010933270112,2008641356384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (87)
+	C: "OO",2009346277984,2008641362384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (87)
+	C: "OO",2010933270112,2008641362384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (88)
+	C: "OO",2009346277984,2008641364384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (88)
+	C: "OO",2010933270112,2008641364384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (89)
+	C: "OO",2009346277984,2008641366384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (89)
+	C: "OO",2010933270112,2008641366384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (90)
+	C: "OO",2009346277984,2008641348384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (90)
+	C: "OO",2010933270112,2008641348384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (91)
+	C: "OO",2009346277984,2008641368384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (91)
+	C: "OO",2010933270112,2008641368384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (92)
+	C: "OO",2009346277984,2008641352384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (92)
+	C: "OO",2010933270112,2008641352384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (93)
+	C: "OO",2009346277984,2008641372384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (93)
+	C: "OO",2010933270112,2008641372384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (94)
+	C: "OO",2009346277984,2008641370384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (94)
+	C: "OO",2010933270112,2008641370384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (95)
+	C: "OO",2009346277984,2008641358384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (95)
+	C: "OO",2010933270112,2008641358384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (96)
+	C: "OO",2009346277984,2008641374384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (96)
+	C: "OO",2010933270112,2008641374384
+	
+	;Material::Mat_Atlas_MursDalles1, Model::DalleSolPlafond (97)
+	C: "OO",2009346277984,2008641344384
+	
+	;Geometry::Scene, Model::DalleSolPlafond (97)
+	C: "OO",2010933270112,2008641344384
+	
+	;Material::Default-Material, Model::Cube
+	C: "OO",2009289115904,2008641376384
+	
+	;Geometry::Scene, Model::Cube
+	C: "OO",2010933265952,2008641376384
+	
+	;Texture::DiffuseColor_Texture, Material::Mat_Atlas_MursDalles1
+	C: "OO",2011284322336,2009346277984
+	
+	;Texture::NormalMap_Texture, Material::Mat_Atlas_MursDalles1
+	C: "OO",2011284322816,2009346277984
+	
+	;Texture::DiffuseColor_Texture, Material::Mat_Atlas_MursDalles1
+	C: "OP",2011284322336,2009346277984, "DiffuseColor"
+	
+	;Texture::NormalMap_Texture, Material::Mat_Atlas_MursDalles1
+	C: "OP",2011284322816,2009346277984, "NormalMap"
+	
+	;Video::DiffuseColor_Texture, Texture::DiffuseColor_Texture
+	C: "OO",2011284323296,2011284322336
+	
+	;Video::NormalMap_Texture, Texture::NormalMap_Texture
+	C: "OO",2011284321376,2011284322816
+}
+;Takes section
+;----------------------------------------------------
+
+Takes:  {
+	Current: ""
+}

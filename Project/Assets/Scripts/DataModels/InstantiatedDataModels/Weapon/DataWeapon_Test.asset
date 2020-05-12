@@ -16,13 +16,13 @@ MonoBehaviour:
   chargedShot: {fileID: 11400000, guid: fbcf9b81c1af72243b03bbef8f60c3e9, type: 2}
   layerMaskHit:
     serializedVersion: 2
-    m_Bits: 39200513
+    m_Bits: 5646081
   chargeSpeedIndependantFromTimeScale: 1
-  chargeTime: 0.8
+  chargeTime: 0.7
   canReloadAnytime: 1
-  bulletMax: 12
+  bulletMax: 6
   reloadCooldown: 1.5
-  reloadingTime: 1
+  reloadingTime: 0.9
   perfectPlacement: 0.6
   perfectRandom: 0.1
   perfectRange: 0.08
@@ -37,7 +37,7 @@ MonoBehaviour:
   bulletAddedIfPerfect: 3
   recoilIfNoBullet: 0.5
   shakeIfNoBullet: 10
-  gravityOrbCooldown: 6
+  gravityOrbCooldown: 4
   grabityOrbCooldownRelativeToTime: 0
   gravityOrbCanBeReactivated: 1
   AnimValue:
@@ -75,8 +75,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   animTime: 0.4
   fovModifier: 3
-  baseAngle: 45
-  chargedAngle: 80
+  baseAngle: 40
+  chargedAngle: 75
   baseIntensity: 0.7
   chargedIntensity: 0.75
   baseRange: 20
