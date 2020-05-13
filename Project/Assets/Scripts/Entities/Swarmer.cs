@@ -744,14 +744,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if(rbBody.velocity.magnitude >= entityData.maximumVelocity)
         {
-           rbBody.velocity *= .5f;
+           rbBody.velocity *= .9f;
+        }
+        else
+        {
+            rbBody.velocity = new Vector3(
+                 (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
+                 rbBody.velocity.y,
+                 (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
+            );
         }
         
-        rbBody.velocity = new Vector3(
-            (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
-            rbBody.velocity.y,
-            (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
-        );
         //rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
         //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
 
