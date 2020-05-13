@@ -742,6 +742,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
+        if(rbBody.velocity.magnitude >= entityData.maximumVelocity)
+        {
+           rbBody.velocity *= .5f;
+        }
         
         rbBody.velocity = new Vector3(
             (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
