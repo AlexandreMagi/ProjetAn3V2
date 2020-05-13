@@ -371,16 +371,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     protected void FixedUpdate()
     {
 
-        //if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
-        //{
-        //    //Gravity security
-        //    //if (rbBody.velocity.y >= 5f)
-        //    //{
-        //    //    //Debug.Log("stratos security");
-        //    //    rbBody.AddForce(Vector3.down * 500);
-        //    //}
+        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
+        {
+            //Gravity security
+            if (rbBody.velocity.y >= 3f)
+            {
+                //Debug.Log("stratos security");
+                rbBody.velocity = new Vector3(0, -10f, 0);
+            }
 
-        //}
+        }
 
         //Base vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
