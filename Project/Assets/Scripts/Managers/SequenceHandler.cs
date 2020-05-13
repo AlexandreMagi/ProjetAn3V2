@@ -154,7 +154,7 @@ public class SequenceHandler : MonoBehaviour
 
             foreach (DataSequence sequence in sequencesInBranch)
             {
-                if (sequence.name == originalName)
+                if (sequence != null && sequence.name == originalName)
                 {
                     sequence.name = newName;
                     break;
