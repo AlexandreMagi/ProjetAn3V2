@@ -737,36 +737,36 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         if(currentState != SwarmerState.GravityControlled)
         {
-                    //Direction
-        Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
+            //Direction
+            Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
 
-        bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+            bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        if(rbBody.velocity.magnitude >= entityData.maximumVelocity)
-        {
-           rbBody.velocity *= .9f;
-        }
-        else
-        {
-            rbBody.velocity = new Vector3(
-                 (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
-                 rbBody.velocity.y,
-                 (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
-            );
-        }
+            if(rbBody.velocity.magnitude >= entityData.maximumVelocity)
+            {
+               rbBody.velocity *= .9f;
+            }
+            else
+            {
+                rbBody.velocity = new Vector3(
+                     (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
+                     rbBody.velocity.y,
+                     (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
+                );
+            }
+            //Le rouge à lèvres c'est fini, maintenant c'est le GLOSSSSSSSSSSSSSSSSSSSSSSS... Heu.. Le addForce c'est fini, maintenant c'est véloce ?
+            //rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
+            //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
+
         
-        //rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
-        //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
-
-        
-        //Debug
-        Debug.DrawRay(transform.position, direction, Color.red);
+            //Debug
+            Debug.DrawRay(transform.position, direction, Color.red);
 
 
-        //Rotation
-        Quaternion lookDirection = Quaternion.LookRotation(new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position);
+            //Rotation
+            Quaternion lookDirection = Quaternion.LookRotation(new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
         }
 
     }
