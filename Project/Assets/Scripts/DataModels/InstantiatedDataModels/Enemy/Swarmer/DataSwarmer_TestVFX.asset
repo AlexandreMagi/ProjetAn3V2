@@ -40,15 +40,16 @@ MonoBehaviour:
   angleToIgnorePath: 120
   speed: 100
   maximumSpeed: 350
+  percentSpeedInTheAir: 0.85
   damage: 0
-  upScale: 2
+  accelerationConversionRate: 0.2
   distanceToTargetEnemy: 0
   distanceMelee: 0
   waitDuration: 0.3
   distanceBeforeAttack: 0
-  distanceApproximation: 1
+  distanceApproximation: 2.8
   jumpForce: 80
-  speedMultiplierWhenAttacking: 0
+  speedMultiplierWhenAttacking: 1.2
   spawnsPartsOnDeath: 1
   deadBody: {fileID: 7328945747328693308, guid: d63c0faba4957944f98474b5cb1ebbb2,
     type: 3}

@@ -20,7 +20,8 @@ public class DataSwarmer : DataEnemy
 
     public float damage;
 
-    public float upScale;
+    public float accelerationConversionRate = .1f;
+    public float maximumVelocity = 10f;
 
     public float distanceToTargetEnemy;
 

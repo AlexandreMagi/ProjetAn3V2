@@ -733,7 +733,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
-    void MoveTowardsTarget(Vector3 p_target, Vector3 forward,float speedMultiplier = 1f)
+    void MoveTowardsTarget(Vector3 p_target, Vector3 forward, float speedMultiplier = 1f)
     {
         if(currentState != SwarmerState.GravityControlled)
         {
@@ -742,10 +742,20 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
+        if(rbBody.velocity.magnitude >= entityData.maximumVelocity)
+        {
+           rbBody.velocity *= .5f;
+        }
+        
+        rbBody.velocity = new Vector3(
+            (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
+            rbBody.velocity.y,
+            (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
+        );
+        //rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
         //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
 
-
+        
         //Debug
         Debug.DrawRay(transform.position, direction, Color.red);
 
