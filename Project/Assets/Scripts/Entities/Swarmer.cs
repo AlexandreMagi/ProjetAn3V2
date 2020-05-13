@@ -373,7 +373,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
         {
-            Gravity security
+            //Gravity security
             if (rbBody.velocity.y >= 5f)
             {
                 //Debug.Log("stratos security");
