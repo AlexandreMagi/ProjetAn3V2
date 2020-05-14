@@ -336,15 +336,21 @@ public class Weapon : MonoBehaviour
         reloading = false;
         UiReload.Instance.HideGraphics(perfect, bulletRemaining);
         bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
-        CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
+
+        if (!isMinigun)
+            CameraHandler.Instance.AddShake(perfect ? weapon.reloadingPerfectShake : weapon.reloadingShake);
+
         if (perfect)
         {
             //Le slow motion est lourd et redondant si on est pas dans l'action. Il est désactivé si on est pas sur une sequence ennemis
 
             if(SequenceHandler.Instance != null && SequenceHandler.Instance.IsCurrentSequenceOnAction())
             {
-                TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
-                CameraHandler.Instance.AddRecoil(false,weapon.reloadingPerfectRecoil, true);
+                if (!isMinigun)
+                {
+                    TimeScaleManager.Instance.AddSlowMo(weapon.reloadingPerfectSlowmo, weapon.reloadingPerfectSlowmoDur);
+                    CameraHandler.Instance.AddRecoil(false, weapon.reloadingPerfectRecoil, true);
+                }
             }
             
             if (unforced)
