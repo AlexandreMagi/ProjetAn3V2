@@ -87,7 +87,6 @@ public class Weapon : MonoBehaviour
 
     // --- Minigun
     bool isMinigun = false;
-    [SerializeField] float minigunRateOfFire = 12;
     public bool IsMinigun { get { return isMinigun; } }
 
     [SerializeField] DataWeaponMod minigunMod = null;
@@ -417,7 +416,7 @@ public class Weapon : MonoBehaviour
             if (minigunCooldownTime <= 0)
             {
                 float currMinigunCooldown = minigunCooldownTime;
-                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / minigunRateOfFire)
+                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / weapon.minigunRateOfFire)
                 {
                     OnShoot(mousePosition, minigunMod);
                 }
