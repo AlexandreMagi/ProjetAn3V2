@@ -540,7 +540,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                    )
                 {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
+                    //rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
 
                     currentState = SwarmerState.FollowPath;
                     //Debug.Log("jump");
@@ -750,7 +750,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             {
                 rbBody.velocity = new Vector3(
                      (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
-                     rbBody.velocity.y,
+                     rbBody.velocity.y + Physics.gravity.y * Time.fixedDeltaTime * (isInTheAir ? 0 : .2f),
                      (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
                 );
             }
