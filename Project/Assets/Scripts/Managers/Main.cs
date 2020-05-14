@@ -123,7 +123,7 @@ public class Main : MonoBehaviour
         if (!hasJumpedCam && startWithCameraNumber != 0)
         {
             hasJumpedCam = true;
-            SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
+            Invoke("SkipToSequence", .2f);
         }
 
         ////SHOOT
@@ -901,5 +901,10 @@ public class Main : MonoBehaviour
         {
             col.enabled = state;
         }
+    }
+
+    private void SkipToSequence()
+    {
+        SequenceHandler.Instance.SkipToSequence(startWithCameraNumber);
     }
 }

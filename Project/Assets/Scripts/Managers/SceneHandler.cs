@@ -32,11 +32,11 @@ public class SceneHandler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             SceneManager.LoadScene("ArduinoHandlerScene", LoadSceneMode.Additive);
 
-#if UNITY_EDITOR
-            Application.targetFrameRate = 300;
-#else
-            Application.targetFrameRate = 60;
-#endif 
+//#if UNITY_EDITOR
+//            Application.targetFrameRate = 300;
+//#else
+//            Application.targetFrameRate = 60;
+//#endif 
         }
         else
         {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8431928315153316446}
   - component: {fileID: 3856458764168620648}
   - component: {fileID: 3482572168980917387}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +32,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100.000015, z: 100.000015}
   m_Children:
   - {fileID: 8119428868942598176}
+  - {fileID: 2623859509858825371}
   m_Father: {fileID: 6317402733505452190}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -123,7 +124,7 @@ GameObject:
   - component: {fileID: 1212280257887142979}
   - component: {fileID: 8228425218174923534}
   - component: {fileID: 4002799264029291109}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Cam Support
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +204,7 @@ GameObject:
   - component: {fileID: 6317402733505452190}
   - component: {fileID: 8968413377512089310}
   - component: {fileID: 3835242025953563164}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Articulation2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,8 +252,87 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.36931676, y: 0.38027793, z: 0.6992016}
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
   m_Center: {x: 0.05912581, y: 0.04259771, z: 0.21307325}
+--- !u!1 &7622303501110391960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2623859509858825371}
+  - component: {fileID: 6800342958670452419}
+  - component: {fileID: 5255748729493029046}
+  m_Layer: 17
+  m_Name: Mesh_Feddbacks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2623859509858825371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7622303501110391960}
+  m_LocalRotation: {x: -0.000000029802322, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.00001854374, z: -0.0001305761}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
+  m_Children: []
+  m_Father: {fileID: 9126165329397637741}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &6800342958670452419
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7622303501110391960}
+  m_Mesh: {fileID: -3292925553009838691, guid: b5938aeb0c64d2e4384ea080c6e34c22, type: 3}
+--- !u!23 &5255748729493029046
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7622303501110391960}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f66008a1b18983646a76bfa06eafaf41, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &7887401514180922916
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144288104055773137}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Articulation1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,7 +430,7 @@ GameObject:
   - component: {fileID: 2152654289196911051}
   - component: {fileID: 7157834950220619350}
   - component: {fileID: 2786283099640592172}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

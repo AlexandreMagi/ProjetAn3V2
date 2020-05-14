@@ -139,7 +139,7 @@ public class GravityOrb : MonoBehaviour
                 ps.Stop();
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
             CustomSoundManager.Instance.PlaySound("Sounf_Orb_NoGrav_Boosted", "Effect", .3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*2);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*3);
 
             if (tHits.Length > 0)
             {

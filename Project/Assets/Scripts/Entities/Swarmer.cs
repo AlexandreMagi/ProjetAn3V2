@@ -371,16 +371,16 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     protected void FixedUpdate()
     {
 
-        //if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
-        //{
-        //    //Gravity security
-        //    //if (rbBody.velocity.y >= 5f)
-        //    //{
-        //    //    //Debug.Log("stratos security");
-        //    //    rbBody.AddForce(Vector3.down * 500);
-        //    //}
+        if(currentState != SwarmerState.WaitingForAttack && currentState != SwarmerState.Attacking && currentState != SwarmerState.GravityControlled)
+        {
+            //Gravity security
+            if (rbBody.velocity.y >= 3f)
+            {
+                //Debug.Log("stratos security");
+                rbBody.velocity = new Vector3(0, -10f, 0);
+            }
 
-        //}
+        }
 
         //Base vectors
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized * entityData.sideDetectionSight;
@@ -540,7 +540,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                    )
                 {
                     jumpElapsedTime = entityData.jumpCooldownInitial;
-                    rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
+                    //rbBody.AddForce(Vector3.up * entityData.jumpDodgeForce);
 
                     currentState = SwarmerState.FollowPath;
                     //Debug.Log("jump");
@@ -733,27 +733,40 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
-    void MoveTowardsTarget(Vector3 p_target, Vector3 forward,float speedMultiplier = 1f)
+    void MoveTowardsTarget(Vector3 p_target, Vector3 forward, float speedMultiplier = 1f)
     {
         if(currentState != SwarmerState.GravityControlled)
         {
-                    //Direction
-        Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
+            //Direction
+            Vector3 direction = (new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position).normalized;
 
-        bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+            bool isInTheAir = !Physics.Raycast(transform.position + new Vector3(0,.1f,0) - (forward*.435f), Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
 
-        rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
-        //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
+            if(rbBody.velocity.magnitude >= entityData.maximumVelocity)
+            {
+               rbBody.velocity *= .9f;
+            }
+            else
+            {
+                rbBody.velocity = new Vector3(
+                     (direction.x * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.x * entityData.accelerationConversionRate,
+                     rbBody.velocity.y + Physics.gravity.y * Time.fixedDeltaTime * (isInTheAir ? 0 : .2f),
+                     (direction.z * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) * Time.fixedDeltaTime * speedMultiplier) + rbBody.velocity.z * entityData.accelerationConversionRate
+                );
+            }
+            //Le rouge à lèvres c'est fini, maintenant c'est le GLOSSSSSSSSSSSSSSSSSSSSSSS... Heu.. Le addForce c'est fini, maintenant c'est véloce ?
+            //rbBody.AddForce(direction * entityData.speed * (isInTheAir ? entityData.percentSpeedInTheAir : 1) + Vector3.up * Time.fixedDeltaTime * entityData.upScale * (isInTheAir ? 0 : 1) * speedMultiplier);
+            //transform.Translate(direction * entityData.speed * Time.deltaTime * (isInTheAir ? .2f : 1), Space.World);
+
+        
+            //Debug
+            Debug.DrawRay(transform.position, direction, Color.red);
 
 
-        //Debug
-        Debug.DrawRay(transform.position, direction, Color.red);
+            //Rotation
+            Quaternion lookDirection = Quaternion.LookRotation(new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position);
 
-
-        //Rotation
-        Quaternion lookDirection = Quaternion.LookRotation(new Vector3(p_target.x, transform.position.y, p_target.z) - transform.position);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookDirection, 5 * Time.fixedDeltaTime);
         }
 
     }

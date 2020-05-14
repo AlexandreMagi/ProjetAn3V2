@@ -154,7 +154,7 @@ public class SequenceHandler : MonoBehaviour
 
             foreach (DataSequence sequence in sequencesInBranch)
             {
-                if (sequence.name == originalName)
+                if (sequence != null && sequence.name == originalName)
                 {
                     sequence.name = newName;
                     break;
@@ -227,12 +227,12 @@ public class SequenceHandler : MonoBehaviour
             blenderSettings.m_CustomBlends = new CinemachineBlenderSettings.CustomBlend[1];
         }
 
+        if(!cameraCollider.enabled && delayOnBlendSequence <= 0) cameraCollider.enabled = true;
+
 
         //VERIFICATION DES SEQUENCES
         if (readSequences && !isWaitingTimer)
         {
-
-
             if (delayOnBlendSequence > 0)
             {
                 delayOnBlendSequence -= Time.deltaTime;
@@ -240,12 +240,11 @@ public class SequenceHandler : MonoBehaviour
                 if(delayOnBlendSequence <= 0)
                 {
                     delayOnBlendSequence = 0;
-                    cameraCollider.enabled = true;
+                   
                 }
             }
             else
             {
-                cameraCollider.enabled = true;
                 /*//DECLENCHEMENT DU FEEDBACK DE CAM
                 if (CameraHandler.Instance != null)
                     CameraHandler.Instance.UpdateCamSteps(0, 100);*/
@@ -349,12 +348,15 @@ public class SequenceHandler : MonoBehaviour
 
             CameraHandler.Instance.ForceCinemachineCam();
 
+            cameraCollider.enabled = false;
+
             //CHANGEMENT DE CAM -- Pour pas casser les timers
             currentVirtualCamera.Priority = 10;
             pastCamPos = currentVirtualCamera.transform.position;
             currentVirtualCamera = GameObject.Find(currentSequence.camTargetName).GetComponent<CinemachineVirtualCamera>();
             currentVirtualCamera.Priority = 11;
             newCamPos = currentVirtualCamera.transform.position;
+
 
             NextSequence();
         }
