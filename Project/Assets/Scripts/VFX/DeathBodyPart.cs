@@ -11,6 +11,9 @@ public class DeathBodyPart : MonoBehaviour
     float phosphoValue = 1;
 
     [SerializeField]
+    bool forceNoSpawn = false;
+
+    [SerializeField]
     float minTimerBeforeDisapear = 2;
 
     [SerializeField]
@@ -37,40 +40,43 @@ public class DeathBodyPart : MonoBehaviour
 
     void Start()
     {
-        if (isPhophoAffected)
+        if (forceNoSpawn != true)
         {
-            meshRenderer = gameObject.GetComponent<Renderer>();
-            instancedMaterial = meshRenderer.materials[1];
-        }
-
-        timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
-
-        prop = GetComponent<Prop>();
-
-        transform.rotation = Random.rotation;
-
-        if (!isAlwaysSpawning && isEnemyPart)
-        {
-
-            int rand;
-            rand = Random.Range(0, 2);
-
-            if (rand == 0)
+            if (isPhophoAffected)
             {
-                gameObject.SetActive(false);
+                meshRenderer = gameObject.GetComponent<Renderer>();
+                instancedMaterial = meshRenderer.materials[1];
             }
-            else
+
+            timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
+
+            prop = GetComponent<Prop>();
+
+            transform.rotation = Random.rotation;
+
+            if (!isAlwaysSpawning && isEnemyPart)
+            {
+
+                int rand;
+                rand = Random.Range(0, 2);
+
+                if (rand == 0)
+                {
+                    gameObject.SetActive(false);
+                }
+                else
+                {
+                    Rigidbody rb;
+                    rb = GetComponent<Rigidbody>();
+                    StartCoroutine(AddExplosionEffect(rb));
+                }
+            }
+            else if (isAlwaysSpawning && isEnemyPart)
             {
                 Rigidbody rb;
                 rb = GetComponent<Rigidbody>();
                 StartCoroutine(AddExplosionEffect(rb));
             }
-        }
-        else if (isAlwaysSpawning && isEnemyPart)
-        {
-            Rigidbody rb;
-            rb = GetComponent<Rigidbody>();
-            StartCoroutine(AddExplosionEffect(rb));
         }
     }
 
@@ -85,7 +91,7 @@ public class DeathBodyPart : MonoBehaviour
 
     void Update()
     {
-        if (gameObject != null && isActiveAndVisible)
+        if (gameObject != null && isActiveAndVisible && forceNoSpawn != true)
         {
             if (phosphoValue >= 0 && isPhophoAffected)
             {
