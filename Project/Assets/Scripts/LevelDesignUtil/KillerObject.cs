@@ -30,7 +30,7 @@ public class KillerObject : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         IEntity otherEnemy = other.GetComponent<IEntity>();
         if (other.GetComponent<IEntity>() != null && other.GetComponent<Player>() == null && other.GetComponent<Prop>() == null)
