@@ -132,7 +132,10 @@ public class UiCrossHair : MonoBehaviour
         if (crossHairVignetage != null)
         {
             crossHairVignetage.gameObject.transform.position = transform.TransformPoint(pos);
-            crossHairVignetage.color = Color.Lerp(singleShotColor, chargedShotColor, Weapon.Instance.GetChargeValue());
+            if (Main.Instance == null || Main.Instance.TCActivated)
+                crossHairVignetage.color = Color.Lerp(singleShotColor, chargedShotColor, Weapon.Instance.GetChargeValue());
+            else
+                crossHairVignetage.color = new Color(0, 0, 0, 0);
         }
 
     }
@@ -208,7 +211,7 @@ public class UiCrossHair : MonoBehaviour
 
     public void PlayerShot(float value, bool chargedShot)
     {
-        if (chargedShot) animUICrossHair.SetTrigger(animRelease);
+        if (chargedShot && (Main.Instance == null || Main.Instance.TCActivated)) animUICrossHair.SetTrigger(animRelease);
 
         for (int i = 0; i < dataHandlerCrosshairs.Length; i++)
         {
@@ -216,7 +219,7 @@ public class UiCrossHair : MonoBehaviour
         }
     }
 
-    public void JustFinishedCharging() { animUICrossHair.SetTrigger(animCharge); }
+    public void JustFinishedCharging() { if (Main.Instance == null || Main.Instance.TCActivated) animUICrossHair.SetTrigger(animCharge); }
 
 
 }
