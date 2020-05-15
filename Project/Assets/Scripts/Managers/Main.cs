@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 
 public class Main : MonoBehaviour
 {
+    public bool TCActivated = true;
+
     public bool playerCanOrb = true;
     public bool playerCanReload = true;
     public bool playerCanZeroG = true;

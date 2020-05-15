@@ -373,6 +373,13 @@ public class CameraHandler : MonoBehaviour
         //renderingCam.transform.position = cinemachineCam.transform.position;
         //renderingCam.transform.rotation = cinemachineCam.transform.rotation;
         //renderingCam.fieldOfView = cinemachineCam.fieldOfView;
+
+        if (Main.Instance != null && !Main.Instance.TCActivated)
+        {
+            renderingCam.transform.position = currentCamRef.transform.position;
+            renderingCam.transform.rotation = currentCamRef.transform.rotation;
+            renderingCam.fieldOfView = currentCamRef.fieldOfView;
+        }
     }
 
     private void BalancingCamUpdate()
@@ -596,21 +603,28 @@ public class CameraHandler : MonoBehaviour
 
     public void AddRecoil(bool fovType, float value, bool both = false) 
     {
-        if (!fovType || both)
+
+        if (Main.Instance == null || Main.Instance.TCActivated)
         {
-            recoilTranslationRef += value;
-            if (recoilTranslationRef > camData.RecoilMaxValue) recoilTranslationRef = camData.RecoilMaxValue;
-        }
-        if (fovType || both)
-        {
-            recoilFovRef += value;
-            if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
+            if (!fovType || both)
+            {
+                recoilTranslationRef += value;
+                if (recoilTranslationRef > camData.RecoilMaxValue) recoilTranslationRef = camData.RecoilMaxValue;
+            }
+            if (fovType || both)
+            {
+                recoilFovRef += value;
+                if (recoilFovRef > camData.maxFovRecoilValue) recoilFovRef = camData.maxFovRecoilValue;
+            }
         }
     }
     public void AddShake (float value, float duration = 1)
     {
-        ChangeShakeDuration(duration);
-        shakeSource.GenerateImpulse(Vector3.up * value); 
+        if (Main.Instance == null || Main.Instance.TCActivated)
+        {
+            ChangeShakeDuration(duration);
+            shakeSource.GenerateImpulse(Vector3.up * value);
+        }
     }
 
     void ChangeShakeDuration (float duration)
@@ -624,12 +638,15 @@ public class CameraHandler : MonoBehaviour
 
     public void AddShake (float value, Vector3 initPos, float duration = 1)
     {
-
-        ChangeShakeDuration(duration);
-        float distance = Vector3.Distance(initPos, renderingCam.transform.position);
-        value *= 1 - (distance / camData.distanceShakeCancelled);
-        if (value > 0)
-            shakeSource.GenerateImpulse(Vector3.up * value);
+        if (Main.Instance == null || Main.Instance.TCActivated)
+        {
+            Debug.Log("Ca rentre");
+            ChangeShakeDuration(duration);
+            float distance = Vector3.Distance(initPos, renderingCam.transform.position);
+            value *= 1 - (distance / camData.distanceShakeCancelled);
+            if (value > 0)
+                shakeSource.GenerateImpulse(Vector3.up * value);
+        }
     }
     public void RemoveShake()
     {
