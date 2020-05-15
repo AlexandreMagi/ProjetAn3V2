@@ -2963,15 +2963,15 @@ MonoBehaviour:
   delayOnTrigger: 0
   timeSequenceDuration: 0
   hasEventOnEnd: 0
-  seqEvent: 0
+  seqEvent: 4
   timeBeforeEvent: 0
   distanceToAnchor: 5
   initImpulseBalancing: 30
   dampingOnBalancing: 0.3
-  minSpeedRot: 0
+  minSpeedRot: 8
   balancingFrequency: 1
-  angleBalancing: 0
-  timeGoToNewRot: 0
+  angleBalancing: 180
+  timeGoToNewRot: 5
   returnLerpSpeedFromBalance: 5
   additionalRotAfterFirstBalancing: 0
   additionalRotLerpGoTo: 5
@@ -3751,6 +3751,18 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+--- !u!114 &896129960 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2322978120547789754, guid: 5f5e4b7bb6d4f3145b29f8db1a2ffa7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2082127069}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &913346817
 GameObject:
   m_ObjectHideFlags: 0
@@ -4437,6 +4449,78 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &992754522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992754524}
+  - component: {fileID: 992754523}
+  - component: {fileID: 992754525}
+  m_Layer: 12
+  m_Name: TriggerMinigunSequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &992754523
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992754522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.580035, y: 8.198387, z: 2.2727885}
+  m_Center: {x: 0, y: 3.5991945, z: 0.6363949}
+--- !u!4 &992754524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992754522}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 2.45, z: -20.49}
+  m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 37
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &992754525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992754522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02679adf33961534f871fa518a39416c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  display: {fileID: 896129960}
+  timeBeforeCountdownStart: 3
+  timeBeforeEndSequence: 15
+  timeBeforeSequenceSkip: 3
+  explosionRadius: 30
+  explosionForce: 0
+  explosionDamage: 500
+  explosionStun: 0
+  explosionStunDuration: 0
+  explosionLiftValue: 0
+  beforeText: WAITING...
+  firstText: SURVIVE
+  lastText: CONGRATULATION
+  clignotementFrequency: 2
+  clignotementPurcentageDisplay: 0.75
 --- !u!1001 &1003324118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5509,7 +5593,7 @@ Transform:
   - {fileID: 1548992009}
   - {fileID: 803841926}
   m_Father: {fileID: 0}
-  m_RootOrder: 38
+  m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233267748
 GameObject:
@@ -5600,80 +5684,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1244955166}
   - component: {fileID: 1244955165}
-  - component: {fileID: 1244955164}
   m_Layer: 12
   m_Name: TriggerValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1244955164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244955163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  typeTrigger: 18
-  spawners: []
-  slowMoPower: 0
-  slowMoDuration: 0
-  isActivation: 0
-  affected: 0
-  soundPlayed: 
-  volume: 1
-  animated: []
-  usesTimerBetweenAllAnims: 0
-  animationWaitTimer: 0
-  isMeshReplacer: 0
-  meshForTheCollider: {fileID: 0}
-  colliderToReplace: {fileID: 0}
-  isStopShake: 0
-  ShakeValue: 0
-  ShakeDuration: 0
-  booleanName: 
-  boolStateSet: 1
-  timeGoTo: 0.1
-  timeGoBack: 0.1
-  followDuration: 0
-  lightsToAffect: []
-  lightsState: 0
-  lightChangesColor: 0
-  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
-  VFXToAffect: []
-  VFXState: 0
-  activatePlaneShake: 0
-  activateOutlineShader: 0
-  activateRevealLight: 0
-  players: []
-  isPlay: 0
-  isLoop: 0
-  scaleMin: 0
-  scaleMax: 6
-  timeToScaleMax: 3
-  timeStayAtMax: 1
-  timeFadeAlpha: 2
-  independentFromTimeScale: 0
-  isActivationGameObject: 0
-  objectsToChange: []
-  damages: 0
-  animationToCall: 0
-  swarmersToAnimate: []
-  valueStart: 0
-  valueEnd: 1
-  valueTransitionDuration: 3
-  meshAffecteds: []
-  shaderValueName: 
-  isSwarmer: 0
-  activatesAllAnimatingSwarmersOnTrigger: 0
-  swarmersToAlert: []
-  timeBeforeStart: 0
+  m_IsActive: 0
 --- !u!65 &1244955165
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5769,7 +5786,7 @@ Transform:
   - {fileID: 913346822}
   - {fileID: 200350503}
   m_Father: {fileID: 0}
-  m_RootOrder: 37
+  m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1338462768
 MonoBehaviour:
@@ -13191,6 +13208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156655111135097380, guid: 5f5e4b7bb6d4f3145b29f8db1a2ffa7f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f5e4b7bb6d4f3145b29f8db1a2ffa7f, type: 3}
