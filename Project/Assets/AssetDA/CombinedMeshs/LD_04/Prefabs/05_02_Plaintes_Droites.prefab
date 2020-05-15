@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6998478455192423902}
   - component: {fileID: 631389353944778423}
   - component: {fileID: 3597596761678042671}
+  - component: {fileID: 5709688553281118646}
   m_Layer: 9
   m_Name: 05_02_Plaintes_Droites
   m_TagString: Untagged
@@ -60,7 +61,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c202e3d9ce0d44e429c200f7609e41b8, type: 2}
-  - {fileID: 2100000, guid: 403bf731b6a76f54b8a5e0634b1f3d68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,3 +95,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 8c7d3362b2ce9b44fb6d275dadfb13d6, type: 2}
+--- !u!114 &5709688553281118646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328190629774506415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5f732449467aa46883d2cd68685952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealLightMaterial: {fileID: 2100000, guid: 403bf731b6a76f54b8a5e0634b1f3d68, type: 2}
