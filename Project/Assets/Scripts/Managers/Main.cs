@@ -205,6 +205,12 @@ public class Main : MonoBehaviour
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log("EXPLOSION");
+            ExplosionFromPlayer(30, 0, 500, 0, 0, 0);
+        }
+
         if (Input.GetKeyDown(KeyCode.C))
         {
             UiCrossHair.Instance.StopWaitFunction();
@@ -882,6 +888,26 @@ public class Main : MonoBehaviour
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.BonusOnRespawn, Vector3.zero, null, bonus);
         }
         
+    }
+
+    public void ExplosionFromPlayer(float explosionRadius, float explosionForce, float explosionDamage, float explosionStun, float explosionStunDuration, float explosionLiftValue)
+    {
+
+        Collider[] tHits = Physics.OverlapSphere(Player.Instance.transform.position, explosionRadius);
+
+        TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
+
+        foreach (Collider hVictim in tHits)
+        {
+            if (hVictim.gameObject != this.gameObject)
+            {
+                IEntity entityVictim = hVictim.GetComponent<IEntity>();
+                ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
+                if (speAffect != null && hVictim.GetComponent<Player>() == null)
+                    speAffect.OnExplosion(Player.Instance.transform.position, explosionForce, explosionRadius, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
+            }
+        }
+        FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", Player.Instance.transform.position, Player.Instance.transform.rotation, explosionRadius);
     }
 
     public Vector3 GetCursorPos()

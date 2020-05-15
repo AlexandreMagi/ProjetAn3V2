@@ -225,7 +225,7 @@ public class PublicManager : MonoBehaviour
 
         if(nbViewers <= 0)
         {
-            nbViewers = 1;
+            nbViewers = 0;
         }
 
         RecalculateMultiplier();
@@ -262,7 +262,7 @@ public class PublicManager : MonoBehaviour
 
         if (nbViewers <= 0)
         {
-            nbViewers = 1;
+            nbViewers = 0;
         }
 
         RecalculateMultiplier();
@@ -297,7 +297,7 @@ public class PublicManager : MonoBehaviour
         }
         nbViewers -= difViewer;
 
-        if (nbViewers < 0) nbViewers = 1;
+        if (nbViewers < 0) nbViewers = 0;
         //Kill player ?
 
         RecalculateMultiplier();
