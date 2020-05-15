@@ -341,14 +341,14 @@ public class BonusHandler : MonoBehaviour
                         idlePurcentage = 1;
                         animExplosionPurcentage = 0;
                         doAnimExplosion = true;
-                        CustomSoundManager.Instance.PlaySound("Se_ProgressSuccess", "UI", 0.9f);
+                        CustomSoundManager.Instance.PlaySound("Se_ProgressSuccess", "Leaderboard", 0.9f);
                     }
                     else
                     {
                         playAnimFailureSucces = true;
                         if (Main.Instance.AllEndGameBonus[0].currValue > 0)
                             looseParticle.Play(refProjection.position);
-                        CustomSoundManager.Instance.PlaySound("Se_ProgressFailedTwo", "UI", 0.9f);
+                        CustomSoundManager.Instance.PlaySound("Se_ProgressFailedTwo", "Leaderboard", 0.9f);
                     }
                     progressAnimPurcentage = 0;
                     progressState = stateProgress.anim;
@@ -367,7 +367,7 @@ public class BonusHandler : MonoBehaviour
 
                     if (completion > (1 / (float)nbTickPlayedInACompletedProgress) * (float)nbTickInThisProgress)
                     {
-                        CustomSoundManager.Instance.PlaySound("Se_ProgressTick", "UI",null, .5f,false, pitchDif/2 + maskProgress.fillAmount* pitchDif);
+                        CustomSoundManager.Instance.PlaySound("Se_ProgressTick", "Leaderboard", null, .5f,false, pitchDif/2 + maskProgress.fillAmount* pitchDif);
                         nbTickInThisProgress++;
                     }
                 }

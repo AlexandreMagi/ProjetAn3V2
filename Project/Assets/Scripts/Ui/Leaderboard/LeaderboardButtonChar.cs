@@ -83,7 +83,7 @@ public class LeaderboardButtonChar : MonoBehaviour
 
     void PlaySound()
     {
-        CustomSoundManager.Instance.PlaySound("Se_CharButton", "UI", 1);
+        CustomSoundManager.Instance.PlaySound("Se_CharButton", "Leaderboard", 1);
     }
 
     void ClickedButton() { manager.changeChar(changeOnChar); }

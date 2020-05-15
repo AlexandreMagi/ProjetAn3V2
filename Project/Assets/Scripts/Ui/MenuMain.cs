@@ -66,8 +66,8 @@ public class MenuMain : MonoBehaviour
         Time.timeScale = 1;
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
-        CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "UI",null, .4f, true);
-        CustomSoundManager.Instance.PlaySound("Crowd_Idle", "UI",null, .2f, true);
+        CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "MainMenu", null, .4f, true);
+        CustomSoundManager.Instance.PlaySound("Crowd_Idle", "MainMenu", null, .2f, true);
 
         idleBornVideo.SetActive(true);
         for (int i = 0; i < basePullBulleltHole; i++)
@@ -154,7 +154,7 @@ public class MenuMain : MonoBehaviour
                     GetComponent<Animator>().SetTrigger("GoToMainMenu");
                     currentState = menustate.mainmenu;
                     //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "SE_FirstValidate", false, 1);
-                    CustomSoundManager.Instance.PlaySound("SE_FirstValidate", "UI", 1);
+                    CustomSoundManager.Instance.PlaySound("SE_FirstValidate", "MainMenu", 1);
                     foreach (var button in buttonMenuScripts)
                     {
                         button.UpdatePos(false);
@@ -304,7 +304,7 @@ public class MenuMain : MonoBehaviour
             if (currentChargePurcentage > 1)
             {
                 //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Charged_Shotgun", false, 1f, 0.1f);
-                CustomSoundManager.Instance.PlaySound("Charged_Shotgun", "UI", 1);
+                CustomSoundManager.Instance.PlaySound("Charged_Shotgun", "MainMenu", 1);
                 UiCrossHair.Instance.JustFinishedCharging();
                 currentChargePurcentage = 1;
             }
@@ -326,7 +326,7 @@ public class MenuMain : MonoBehaviour
         }
 
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", false, currentChargePurcentage == 1 ? 0.8f : 0.4f, 0.2f);
-        CustomSoundManager.Instance.PlaySound(currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot","UI",null, currentChargePurcentage == 1 ? 0.8f : 0.4f,false, 0.2f);
+        CustomSoundManager.Instance.PlaySound(currentChargePurcentage == 1 ? "ShotgunShot_Better_wav" : "Sound_Shot", "MainMenu", null, currentChargePurcentage == 1 ? 0.8f : 0.4f,false,1,0.2f);
         
         UiCrossHair.Instance.PlayerShot(currentWeaponMod.shootValueUiRecoil, currentChargePurcentage == 1);
         currentChargePurcentage = 0;

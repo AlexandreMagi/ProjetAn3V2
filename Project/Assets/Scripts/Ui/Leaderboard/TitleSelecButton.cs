@@ -79,7 +79,7 @@ public class TitleSelecButton : MonoBehaviour
     }
     void PlaySound()
     {
-        CustomSoundManager.Instance.PlaySound("Se_CharButton", "UI", 1);
+        CustomSoundManager.Instance.PlaySound("Se_CharButton", "Leaderboard", 1);
     }
     void ClickedButton() { manager.changeTitle(changeOnTitle); }
 }

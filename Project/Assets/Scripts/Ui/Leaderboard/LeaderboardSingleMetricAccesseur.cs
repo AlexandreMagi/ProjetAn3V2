@@ -53,7 +53,7 @@ public class LeaderboardSingleMetricAccesseur : MonoBehaviour
             if (timeBeforePop < 0)
             {
                 timeBeforePop = 0;
-                CustomSoundManager.Instance.PlaySound("Se_ProgressTick", "UI", null, .5f, false, 1);
+                CustomSoundManager.Instance.PlaySound("Se_ProgressTick", "Leaderboard", null, .5f, false, 1);
             }
         }
         if (timeBeforePop == 0)
