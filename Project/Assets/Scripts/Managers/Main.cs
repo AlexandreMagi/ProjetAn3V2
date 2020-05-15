@@ -96,6 +96,7 @@ public class Main : MonoBehaviour
 
     [HideInInspector] public List<string> TitlesUnlocked = new List<string>();
 
+    public bool TCActivated = true;
     public static Main Instance { get; private set; }
     void Awake()
     {

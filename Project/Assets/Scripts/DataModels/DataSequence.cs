@@ -343,18 +343,10 @@ public class DataSequence : ScriptableObject
 
     // ############################################################################################## WAIT SCREEN
 
+    [Title("Minigun")]
 
-        [Space(10000)]
-    public bool Hey = false;
-
-    [ShowIf("Hey")] public bool HeyToiLa = false;
-    [ShowIf("HeyToiLa")] public bool TuVeuxDuSang = false;
-    [ShowIf("TuVeuxDuSang")] public bool TuVeuxDuSpectacle = false;
-    [ShowIf("TuVeuxDuSpectacle")] public bool TUVEUXDELAVIOLENCE = false;
-    [ShowIf("TUVEUXDELAVIOLENCE")] public bool PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI = false;
-    [ShowIf("PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI")] public bool ok = false;
-    [ShowIf("ok")] public bool ChangeMinigunState = false;
-    [ShowIf("ok"), ShowIf("ChangeMinigunState")] public bool EnableMinigun = false;
+    public bool ChangeMinigunState = false;
+    [ShowIf("ChangeMinigunState")] public bool EnableMinigun = false;
 
 
 }

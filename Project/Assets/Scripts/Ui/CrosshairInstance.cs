@@ -126,6 +126,15 @@ public class CrosshairInstance
             outlineColor = Color.Lerp(outlineColor, data.outlineColorAtOverlap, crossHairOnEnemyPurcentage);
         }
 
+        if (Main.Instance != null && !Main.Instance.TCActivated)
+        {
+            size = 100;
+            color = Color.white;
+            outlineColor = Color.white;
+            rotation = 0;
+            offset = Vector2.zero;
+        }
+
     }
 
     public void UpdateTransformsAndColors()

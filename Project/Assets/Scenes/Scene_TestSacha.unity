@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Name: AutoSequence5
   m_EditorClassIdentifier: 
   camTargetName: CM vcam5
-  animationStyle: 2
-  animationTime: 2
+  animationStyle: 6
+  animationTime: 0.5
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   positionMoveTo: {x: 0, y: 0, z: 0}
   checkpointToUse: {fileID: 0}
   lockWeaponLight: 0
-  enableCamFeedback: 0
+  enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
   stepFadeAtStart: 0
@@ -198,33 +198,42 @@ MonoBehaviour:
   noiseAmplitudePos: 50
   noiseAmplitudeRot: 0.5
   noiseFrequency: 3
-  isShortStep: 0
+  isShortStep: 1
   shortStepCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 1
+      inSlope: 5.8057146
+      outSlope: 5.8057146
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.15314762
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
+      time: 0.49486497
+      value: 0.99782515
+      inSlope: -0.08528104
+      outSlope: -0.08528104
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.16638516
+    - serializedVersion: 3
+      time: 1.0048828
+      value: 0.0023536682
+      inSlope: -6.7289844
+      outSlope: -6.7289844
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09255692
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  stepSoundPurcentageOnShortStep: 0.5
-  shortStepAmplitude: -1
+  stepSoundPurcentageOnShortStep: 0.408
+  shortStepAmplitude: -0.5
   modifySteps: 0
   modifierFrequenceCamStep: 1
   modifyStepsCurve: 0
@@ -247,15 +256,8 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
-  Hey: 1
-  HeyToiLa: 1
-  TuVeuxDuSang: 1
-  TuVeuxDuSpectacle: 1
-  TUVEUXDELAVIOLENCE: 1
-  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 1
-  ok: 1
-  ChangeMinigunState: 1
-  EnableMinigun: 1
+  ChangeMinigunState: 0
+  EnableMinigun: 0
 --- !u!1001 &12834844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2676,14 +2678,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
   m_Name: AutoSequence2
   m_EditorClassIdentifier: 
-  camTargetName: CM vcam1
+  camTargetName: CM vcam2
   animationStyle: 3
-  animationTime: 2
+  animationTime: 1
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
   cutsSlowMoOnEnd: 0
-  sequenceType: 2
+  sequenceType: 1
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
@@ -2692,7 +2694,7 @@ MonoBehaviour:
   spawnersToTrigger: []
   delayOnTrigger: 0
   timeSequenceDuration: 0
-  hasEventOnEnd: 1
+  hasEventOnEnd: 0
   seqEvent: 5
   timeBeforeEvent: 0
   distanceToAnchor: 5
@@ -2777,8 +2779,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: 5
-  modifySteps: 0
-  modifierFrequenceCamStep: 1
+  modifySteps: 1
+  modifierFrequenceCamStep: 0.5
   modifyStepsCurve: 0
   modifiedStepCurve:
     serializedVersion: 2
@@ -2799,15 +2801,8 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
-  Hey: 1
-  HeyToiLa: 1
-  TuVeuxDuSang: 1
-  TuVeuxDuSpectacle: 1
-  TUVEUXDELAVIOLENCE: 1
-  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 1
-  ok: 1
   ChangeMinigunState: 1
-  EnableMinigun: 1
+  EnableMinigun: 0
 --- !u!1 &738182336
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,8 +2846,6 @@ Transform:
   - {fileID: 574669473}
   - {fileID: 920584315}
   - {fileID: 1906640428}
-  - {fileID: 1026396460}
-  - {fileID: 867173962}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2941,6 +2934,143 @@ Transform:
   m_Father: {fileID: 96890531}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &763457009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
+  m_Name: AutoSequence7
+  m_EditorClassIdentifier: 
+  camTargetName: CM vcam7
+  animationStyle: 6
+  animationTime: 0.5
+  isAffectedByBooleanSequence: 0
+  booleanSequenceName: 
+  booleanSequenceStateRequired: 0
+  cutsSlowMoOnEnd: 0
+  sequenceType: 2
+  enemiesToKillInSequence: 0
+  acceptsBufferKill: 0
+  timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 0
+  hasEventOnEnd: 0
+  seqEvent: 0
+  timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  minSpeedRot: 0
+  balancingFrequency: 1
+  angleBalancing: 0
+  timeGoToNewRot: 0
+  returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
+  spawnersToActivate: []
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
+  lockWeaponLight: 0
+  enableCamFeedback: 1
+  enableCamTransition: 0
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 1
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 1
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 50
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
+  isShortStep: 1
+  shortStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 5.8057146
+      outSlope: 5.8057146
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.15314762
+    - serializedVersion: 3
+      time: 0.49486497
+      value: 0.99782515
+      inSlope: -0.08528104
+      outSlope: -0.08528104
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16638516
+    - serializedVersion: 3
+      time: 1.0048828
+      value: 0.0023536682
+      inSlope: -6.7289844
+      outSlope: -6.7289844
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09255692
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.408
+  shortStepAmplitude: -0.5
+  modifySteps: 0
+  modifierFrequenceCamStep: 1
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  removeStepSound: 0
+  animToPlay: {fileID: 7400000, guid: 0c5d758148850d844aa1c08d78f99855, type: 2}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
+  weightLookAt: 1
+  weightRemoveRotLookAt: 1
+  changeWaitScreen: 0
+  activateWaitScreen: 0
+  waitScreenAtEndOfSequence: 0
+  waitScreenDelay: 0
+  ChangeMinigunState: 0
+  EnableMinigun: 0
 --- !u!1 &782417856
 GameObject:
   m_ObjectHideFlags: 3
@@ -3484,99 +3614,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e1686767c1de4498ce05128868bcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &867173961
-GameObject:
+--- !u!114 &841983040
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 867173962}
-  - component: {fileID: 867173965}
-  - component: {fileID: 867173964}
-  - component: {fileID: 867173963}
-  m_Layer: 9
-  m_Name: Cube (15)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &867173962
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867173961}
-  m_LocalRotation: {x: -0.7071071, y: -0, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: -5.27, y: 1.06, z: -8.51}
-  m_LocalScale: {x: 15.149075, y: 0.724, z: 97.64353}
-  m_Children: []
-  m_Father: {fileID: 738182337}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
---- !u!65 &867173963
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867173961}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &867173964
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867173961}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 20d873b7ed232f94b9ec0c7e157d8314, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &867173965
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867173961}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08bebbb2c3bb22b4aae5b2382bd095d6, type: 3}
+  m_Name: AutoSequence6
+  m_EditorClassIdentifier: 
+  camTargetName: CM vcam6
+  animationStyle: 6
+  animationTime: 0.5
+  isAffectedByBooleanSequence: 0
+  booleanSequenceName: 
+  booleanSequenceStateRequired: 0
+  cutsSlowMoOnEnd: 0
+  sequenceType: 1
+  enemiesToKillInSequence: 0
+  acceptsBufferKill: 0
+  timeBeforeNextSequenceOnKills: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 0
+  hasEventOnEnd: 0
+  seqEvent: 0
+  timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  minSpeedRot: 0
+  balancingFrequency: 1
+  angleBalancing: 0
+  timeGoToNewRot: 0
+  returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  tagsAnimated: []
+  soundPlayed: 
+  volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
+  spawnersToActivate: []
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
+  lockWeaponLight: 0
+  enableCamFeedback: 1
+  enableCamTransition: 0
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 0
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 1
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 50
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
+  isShortStep: 1
+  shortStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 5.8057146
+      outSlope: 5.8057146
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.15314762
+    - serializedVersion: 3
+      time: 0.49486497
+      value: 0.99782515
+      inSlope: -0.08528104
+      outSlope: -0.08528104
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16638516
+    - serializedVersion: 3
+      time: 1.0048828
+      value: 0.0023536682
+      inSlope: -6.7289844
+      outSlope: -6.7289844
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09255692
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.408
+  shortStepAmplitude: -0.5
+  modifySteps: 0
+  modifierFrequenceCamStep: 1
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  removeStepSound: 0
+  animToPlay: {fileID: 7400000, guid: 0c5d758148850d844aa1c08d78f99855, type: 2}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
+  weightLookAt: 1
+  weightRemoveRotLookAt: 1
+  changeWaitScreen: 0
+  activateWaitScreen: 0
+  waitScreenAtEndOfSequence: 0
+  waitScreenDelay: 0
+  ChangeMinigunState: 0
+  EnableMinigun: 0
 --- !u!1 &913346817
 GameObject:
   m_ObjectHideFlags: 0
@@ -4037,7 +4211,7 @@ MonoBehaviour:
   - {fileID: 1965249783}
   cameraCollider: {fileID: 744877902}
   isWaitingTimer: 0
-  originalName: AutoSequence5
+  originalName: AutoSequence8
   newName: Turn
   originalBranchName: New branch1
   newBranchName: 
@@ -4152,6 +4326,117 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e1686767c1de4498ce05128868bcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &968819538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 968819541}
+  - component: {fileID: 968819540}
+  - component: {fileID: 968819539}
+  m_Layer: 12
+  m_Name: TriggerWhiteScreenEffect (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &968819539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968819538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 11
+  spawners: []
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  volume: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 0
+  meshForTheCollider: {fileID: 0}
+  colliderToReplace: {fileID: 0}
+  isStopShake: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  damages: 0
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  meshAffecteds: []
+  shaderValueName: 
+  isSwarmer: 0
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
+--- !u!65 &968819540
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968819538}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 9.580035, y: 8.198387, z: 2.2727885}
+  m_Center: {x: 0, y: 3.5991945, z: 0.6363949}
+--- !u!4 &968819541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968819538}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 2.45, z: -13.968594}
+  m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 33
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1003324118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4257,99 +4542,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe7e0b49b41b204aba065e11583941e, type: 3}
---- !u!1 &1026396459
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1026396460}
-  - component: {fileID: 1026396463}
-  - component: {fileID: 1026396462}
-  - component: {fileID: 1026396461}
-  m_Layer: 9
-  m_Name: Cube (14)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1026396460
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026396459}
-  m_LocalRotation: {x: -0.7071071, y: -0, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 12.27, y: 1.06, z: -8.51}
-  m_LocalScale: {x: 15.149075, y: 0.724, z: 97.64353}
-  m_Children: []
-  m_Father: {fileID: 738182337}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
---- !u!65 &1026396461
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026396459}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1026396462
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026396459}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 20d873b7ed232f94b9ec0c7e157d8314, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1026396463
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026396459}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1035144846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4458,7 +4650,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.13
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4535,7 +4727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camTargetName: CM vcam3
   animationStyle: 6
-  animationTime: 2
+  animationTime: 1
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -4586,9 +4778,9 @@ MonoBehaviour:
   enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
-  stepFadeAtStart: 1
+  stepFadeAtStart: 0
   distFadeStart: 3
-  stepFadeAtEnd: 1
+  stepFadeAtEnd: 0
   distFadeEnd: 3
   breathingEnabled: 0
   timeFadeBreathing: 1
@@ -4625,8 +4817,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: -1
-  modifySteps: 0
-  modifierFrequenceCamStep: 1
+  modifySteps: 1
+  modifierFrequenceCamStep: 0.5
   modifyStepsCurve: 0
   modifiedStepCurve:
     serializedVersion: 2
@@ -4647,13 +4839,6 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
-  Hey: 0
-  HeyToiLa: 0
-  TuVeuxDuSang: 0
-  TuVeuxDuSpectacle: 0
-  TUVEUXDELAVIOLENCE: 0
-  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 0
-  ok: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
 --- !u!1001 &1081938547
@@ -4756,7 +4941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camTargetName: CM vcam4
   animationStyle: 2
-  animationTime: 2
+  animationTime: 1
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
@@ -4804,7 +4989,7 @@ MonoBehaviour:
   positionMoveTo: {x: 0, y: 0, z: 0}
   checkpointToUse: {fileID: 0}
   lockWeaponLight: 0
-  enableCamFeedback: 0
+  enableCamFeedback: 1
   enableCamTransition: 0
   transitionTime: 2
   stepFadeAtStart: 0
@@ -4846,8 +5031,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   stepSoundPurcentageOnShortStep: 0.5
   shortStepAmplitude: -1
-  modifySteps: 0
-  modifierFrequenceCamStep: 1
+  modifySteps: 1
+  modifierFrequenceCamStep: 0.5
   modifyStepsCurve: 0
   modifiedStepCurve:
     serializedVersion: 2
@@ -4868,13 +5053,6 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
-  Hey: 0
-  HeyToiLa: 0
-  TuVeuxDuSang: 0
-  TuVeuxDuSpectacle: 0
-  TUVEUXDELAVIOLENCE: 0
-  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 0
-  ok: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
 --- !u!1 &1092557555
@@ -5331,7 +5509,7 @@ Transform:
   - {fileID: 1548992009}
   - {fileID: 803841926}
   m_Father: {fileID: 0}
-  m_RootOrder: 36
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233267748
 GameObject:
@@ -5521,7 +5699,7 @@ Transform:
   m_LocalScale: {x: 1.5148, y: 1.5148, z: 1.5148}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255215066
 GameObject:
@@ -5547,7 +5725,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255215066}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40483ac2f86042a41ae5f038d609e211, type: 3}
   m_Name: 
@@ -5591,7 +5769,7 @@ Transform:
   - {fileID: 913346822}
   - {fileID: 200350503}
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1338462768
 MonoBehaviour:
@@ -5719,15 +5897,8 @@ MonoBehaviour:
   activateWaitScreen: 0
   waitScreenAtEndOfSequence: 0
   waitScreenDelay: 0
-  Hey: 1
-  HeyToiLa: 1
-  TuVeuxDuSang: 1
-  TuVeuxDuSpectacle: 1
-  TUVEUXDELAVIOLENCE: 1
-  PRENDCEPUTAINDEMINIGUNPOUROBLITERERTOUTLESINSCECTESQUISEDRESSENTFACEATOI: 1
-  ok: 1
-  ChangeMinigunState: 1
-  EnableMinigun: 1
+  ChangeMinigunState: 0
+  EnableMinigun: 0
 --- !u!1 &1340428240
 GameObject:
   m_ObjectHideFlags: 0
@@ -12581,6 +12752,8 @@ MonoBehaviour:
   - {fileID: 1044636701}
   - {fileID: 1082507637}
   - {fileID: 10323386}
+  - {fileID: 841983040}
+  - {fileID: 763457009}
 --- !u!1001 &1978821316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13650,6 +13823,12 @@ PrefabInstance:
       propertyPath: crosshairs.Array.size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7505788413885452073, guid: 02c5f534a62b3d247bcdd1d388b05e19,
+        type: 3}
+      propertyPath: crosshairs.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 00d3d3a98c5aa124c843c7eac66b55be,
+        type: 3}
     - target: {fileID: 7505788414492258965, guid: 02c5f534a62b3d247bcdd1d388b05e19,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -13942,6 +14121,11 @@ PrefabInstance:
       propertyPath: playerCanZeroG
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7584541180804375023, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: TCActivated
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7679686884423550348, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
       propertyPath: m_IsActive
@@ -13956,6 +14140,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7950423414511688772, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7950423414511688772, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.042452827
+      objectReference: {fileID: 0}
+    - target: {fileID: 7950423414511688772, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.09198112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7950423414511688772, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.16981131
       objectReference: {fileID: 0}
     - target: {fileID: 8650589456090871021, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
