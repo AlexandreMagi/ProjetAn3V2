@@ -174,7 +174,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                     if (health <= entityData.startHealth / 20)
                     {
                         this.Die();
-                        CustomSoundManager.Instance.PlaySound("Death_ExportLong", "UI", 1);
+                        CustomSoundManager.Instance.PlaySound("Death_ExportLong", "EndGame", 1);
 
                     }
 

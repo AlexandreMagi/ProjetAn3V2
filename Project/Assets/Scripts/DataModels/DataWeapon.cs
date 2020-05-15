@@ -67,4 +67,8 @@ public class DataWeapon : ScriptableObject
 
     public float distanceMultiplierLerpSpeed = 8;
     public LayerMask maskCheckDistanceForLight = 0;
+
+
+    [Header("Light parameters")]
+    public float minigunRateOfFire = 12;
 }

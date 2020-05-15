@@ -87,7 +87,6 @@ public class Weapon : MonoBehaviour
 
     // --- Minigun
     bool isMinigun = false;
-    [SerializeField] float minigunRateOfFire = 12;
     public bool IsMinigun { get { return isMinigun; } }
 
     [SerializeField] DataWeaponMod minigunMod = null;
@@ -417,7 +416,7 @@ public class Weapon : MonoBehaviour
             if (minigunCooldownTime <= 0)
             {
                 float currMinigunCooldown = minigunCooldownTime;
-                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / minigunRateOfFire)
+                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / weapon.minigunRateOfFire)
                 {
                     OnShoot(mousePosition, minigunMod);
                 }
@@ -468,6 +467,8 @@ public class Weapon : MonoBehaviour
             }
             if (UiDamageHandler.Instance != null)
                 UiDamageHandler.Instance.MuzzleFlashFunc();
+
+            bool hasPlayedHitMarkerSound = false;
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 Camera mainCam = CameraHandler.Instance.renderingCam;
@@ -513,7 +514,9 @@ public class Weapon : MonoBehaviour
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun(weaponMod);
 
-                        Invoke("HitMarkerSoundFunc", 0.05f * Time.timeScale);
+                        if (!hasPlayedHitMarkerSound)
+                            Invoke("HitMarkerSoundFunc", 0.05f * Time.timeScale);
+                        hasPlayedHitMarkerSound = true;
                         TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
 
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);

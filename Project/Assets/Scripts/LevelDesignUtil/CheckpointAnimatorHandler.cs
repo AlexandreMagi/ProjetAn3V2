@@ -8,12 +8,18 @@ public class CheckpointAnimatorHandler : MonoBehaviour
     [SerializeField] Animator animatorThatReceiveTriggers = null;
     [SerializeField] string[] triggersToCall = null;
     [SerializeField] float[] triggersTimers = null;
+    [SerializeField] bool playOnlyOnce = true;
+    bool canPlay = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        for (int i = 0; i < triggersToCall.Length; i++)
+        if (canPlay)
         {
-            StartCoroutine(CallTrigger(Animator.StringToHash(triggersToCall[i]), (i < triggersTimers.Length) ? triggersTimers[i] : 0));
+            if (playOnlyOnce) canPlay = false;
+            for (int i = 0; i < triggersToCall.Length; i++)
+            {
+                StartCoroutine(CallTrigger(Animator.StringToHash(triggersToCall[i]), (i < triggersTimers.Length) ? triggersTimers[i] : 0));
+            }
         }
     }
 

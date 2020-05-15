@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Sirenix.OdinInspector;
+using UnityEngine.Audio;
 
 public class Main : MonoBehaviour
 {
@@ -64,6 +65,9 @@ public class Main : MonoBehaviour
 
     [SerializeField]
     BoxCollider[] aiWalls = null;
+
+    [SerializeField]
+    AudioMixer mainMixer = null;
 
 
     AudioSource hSoundHandlerMainMusic = null;
@@ -231,13 +235,13 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y))
         {
             SceneHandler.Instance.RestartScene(.3f, true);
-           CustomSoundManager.Instance.PlaySound("RestartSound", "UI",1);
+           CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
-            CustomSoundManager.Instance.PlaySound("RestartSound", "UI",1);
+            CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -396,7 +400,7 @@ public class Main : MonoBehaviour
 
         if (saveIfPlayerCouldReload && !playerCanReload)
         {
-            Weapon.Instance.EndReload(true, false);
+            Weapon.Instance.EndReload(playerCanPerfectReload, false);
         }
         saveIfPlayerCouldReload = playerCanReload;
 
@@ -510,6 +514,7 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        mainMixer.SetFloat("GameVolume", -80);
         MetricsGestionnary.Instance.EndMetrics();
         TitlesManager.Instance.CalculateScores();
         //TimeScaleManager.Instance.AddStopTime(5000);
@@ -530,7 +535,7 @@ public class Main : MonoBehaviour
         MetricsGestionnary.Instance.SaveMetrics();
 
         SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
-        CustomSoundManager.Instance.PlaySound("RestartSound", "UI", 1);
+        CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
     }
 
     void ValidateEndGameChoice(int choice)
@@ -829,16 +834,16 @@ public class Main : MonoBehaviour
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Resurrection);
 
-            CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "UI", 0.5f);
-            CustomSoundManager.Instance.PlaySound("Bell_Up", "UI", 1);
+            CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "EndGame", 0.5f);
+            CustomSoundManager.Instance.PlaySound("Bell_Up", "EndGame", 1);
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
             if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(0, 0.5f);
         }
         else
         {
-            CustomSoundManager.Instance.PlaySound("Crowd_Boo", "UI", 0.2f);
-            CustomSoundManager.Instance.PlaySound("Bell_Down", "UI", 1);
+            CustomSoundManager.Instance.PlaySound("Crowd_Boo", "EndGame", 0.2f);
+            CustomSoundManager.Instance.PlaySound("Bell_Down", "EndGame", 1);
             DoGameOver();
         }
     }
@@ -852,7 +857,7 @@ public class Main : MonoBehaviour
         GameEnded = true;
 
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
-        CustomSoundManager.Instance.PlaySound("GameOver_Sound", "UI", 1);
+        CustomSoundManager.Instance.PlaySound("GameOver_Sound", "EndGame", 1);
     }
 
     private void DoResurrection(float bonus)

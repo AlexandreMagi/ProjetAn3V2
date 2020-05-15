@@ -115,7 +115,7 @@ public class LeaderboardButtonNext : MonoBehaviour
             ClickedButton();
             doAnimClicked = true;
             animClickedPurcentage = 0;
-            CustomSoundManager.Instance.PlaySound("SE_ValidatePlay", "UI", .5f);
+            CustomSoundManager.Instance.PlaySound("SE_ValidatePlay", "Leaderboard", .5f);
         }
     }
 
