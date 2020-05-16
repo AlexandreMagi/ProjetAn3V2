@@ -115,7 +115,11 @@ public class Weapon : MonoBehaviour
         timerMuzzleFlash = Mathf.Clamp(timerMuzzleFlash, 0, 1);
         muzzleFlash.SetActive(timerMuzzleFlash > 0);
 
-        timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
+        if (timeRemainingBeforeOrb >= 0)
+        {
+            timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
+            if (timeRemainingBeforeOrb < 0) UIOrb.Instance.OrbCooldownUp();
+        }
 
         UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0 && mainContainer.playerCanOrb);
         UiReload.Instance.UpdateGraphics(Mathf.Clamp(reloadingPurcentage, 0, 1), newPerfectPlacement, weapon.perfectRange, haveTriedPerfet);

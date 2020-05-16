@@ -22,6 +22,7 @@ public class EndGameMinigunManager : MonoBehaviour
     [SerializeField] float explosionLiftValue = 0;
 
     [SerializeField] string beforeText = "WAITING...";
+
     [SerializeField] string firstText = "SURVIVE";
     [SerializeField] string lastText = "CONGRATULATION";
 
@@ -31,6 +32,7 @@ public class EndGameMinigunManager : MonoBehaviour
     void Start()
     {
         if (display != null) display.text = beforeText;
+        timeBeforeEndSequence++;
     }
 
     void Update()
@@ -54,7 +56,11 @@ public class EndGameMinigunManager : MonoBehaviour
             }
             else if (timeRemaining < timeBeforeSequenceSkip + timeBeforeEndSequence)
             {
-                if (display != null) display.text = Mathf.RoundToInt(timeRemaining - timeBeforeSequenceSkip).ToString();
+                if (display != null)
+                {
+                    display.text = Mathf.FloorToInt(timeRemaining - timeBeforeSequenceSkip).ToString();
+                    if (Mathf.FloorToInt(timeRemaining - timeBeforeSequenceSkip) == 0 && Mathf.Repeat(Time.time * clignotementFrequency, 1) > clignotementPurcentageDisplay) display.text = "";
+                }
             }
             else if(display != null)
             {

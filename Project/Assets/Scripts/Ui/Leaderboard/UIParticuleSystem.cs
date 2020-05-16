@@ -49,6 +49,16 @@ public class UIParticuleSystem : MonoBehaviour
     [Tooltip("Taille de la particule sur sa vie (multiplié par la taille à l'init)")] public AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0,0,1,1);
     [Tooltip("Couleur de la particule sur sa vie")] public Gradient colorOverLifeTime = null;
 
+    [Tooltip("Active la rotation orbitale sur les particules")] public bool orbitalRotation = false;
+    [ShowIf("orbitalRotation"), Tooltip("Point de pivot pour une rotation orbitale")] public Transform rotatePivot = null;
+    [ShowIf("orbitalRotation"), Tooltip("Vitesses de rotation orbitale")] public Vector2 rotateSpeed = new Vector2(0f, 360f);
+    [ShowIf("orbitalRotation"), Tooltip("Vitesses de rotation orbitale au cours de la vie d'une particule (multiplicateur)")] public AnimationCurve orbitalSpeedOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
+
+    [Tooltip("Permet d'avoir un outline sur les particules")] public bool enableOutline = false;
+    [ShowIf("enableOutline"), Tooltip("Couleur de l'outline de la particule sur sa vie")] public Gradient outlineColorOverLifeTime = null;
+    [ShowIf("enableOutline"), Tooltip("Taille de l'outline de la particule")] public float outlineSize = 1;
+    [ShowIf("enableOutline"), Tooltip("Taille de l'outline de la particule sur sa vie")] public AnimationCurve outlineSizeOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
+
 
     List<CustomParticle> allParticles = new List<CustomParticle>(); // Stock toute les particules du pull
     RectTransform rect = null; // Stock le transform de l'émitter
@@ -77,6 +87,14 @@ public class UIParticuleSystem : MonoBehaviour
 
     public void Resume() { timerBeforeNextParticle = 1 / rateOfParticle; }
     public void Pause() { timerBeforeNextParticle = 0; }
+    public void Stop()
+    {
+        for (int i = 0; i < allParticles.Count; i++)
+        {
+            allParticles[i].lifeTimeRemaining = 0;
+            allParticles[i].actualParticle.gameObject.SetActive(false);
+        }
+    }
 
     #endregion
 
@@ -151,6 +169,7 @@ public class UIParticuleSystem : MonoBehaviour
                 SetupDir(allParticles[i]);
 
                 if (sprite != null) allParticles[i].particleImage.sprite = sprite;
+                if (dirMod == DirMode.goFrom && goFromPos != null) allParticles[i].goFrom = goFromPos;
                 allParticles[i].actualParticle.rotation = Quaternion.Euler(0, 0, Random.Range(rotation.x, rotation.y));
                 allParticles[i].size = Random.Range(size.x, size.y);
                 allParticles[i].lifeTimeTotal = Random.Range(lifeTime.x, lifeTime.y);
@@ -159,6 +178,15 @@ public class UIParticuleSystem : MonoBehaviour
                 allParticles[i].speedOverLifeTime = speedOverLifeTime;
                 allParticles[i].sizeOverLifeTime = sizeOverLifeTime;
                 allParticles[i].colorOverLifeTime = colorOverLifeTime;
+                allParticles[i].orbitalRotation = orbitalRotation;
+                allParticles[i].rotatePivot = rotatePivot;
+                allParticles[i].rotateSpeed = Random.Range(rotateSpeed.x, rotateSpeed.y); ;
+                allParticles[i].orbitalSpeedOverLifeTime = orbitalSpeedOverLifeTime;
+                allParticles[i].outlineColorOverLifeTime = outlineColorOverLifeTime;
+                allParticles[i].enableOutline = enableOutline;
+                allParticles[i].outlineComponent.enabled = enableOutline;
+                allParticles[i].outlineSize = outlineSize;
+                allParticles[i].outlineSizeOverLifeTime = outlineSizeOverLifeTime;
                 break;
             }
         }
@@ -223,7 +251,7 @@ public class UIParticuleSystem : MonoBehaviour
         {
             // ---
             case DirMode.goFrom:
-                particle.dirGoTo = (particle.actualParticle.transform.position - goFromPos.transform.position).normalized;
+                if (goFromPos != null) particle.dirGoTo = (particle.actualParticle.position - goFromPos.position).normalized;
                 break;
 
             // ---
@@ -251,6 +279,17 @@ public class CustomParticle
     public AnimationCurve sizeOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
     public float size = 1;
     public Gradient colorOverLifeTime = null;
+    public Transform goFrom = null;
+    public bool orbitalRotation = false;
+    public Transform rotatePivot = null;
+    public float rotateSpeed = 90;
+    public AnimationCurve orbitalSpeedOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
+
+    public bool enableOutline = false;
+    public Outline outlineComponent = null;
+    public Gradient outlineColorOverLifeTime = null;
+    public float outlineSize = 1;
+    public AnimationCurve outlineSizeOverLifeTime = AnimationCurve.Linear(0, 0, 1, 1);
 
     public void UpdateValues()
     {
@@ -258,11 +297,24 @@ public class CustomParticle
         actualParticle.localScale = Vector3.one * sizeOverLifeTime.Evaluate(lifeTimePurcentage) * size;
         actualParticle.Translate(dirGoTo * speedOverLifeTime.Evaluate(lifeTimePurcentage) * speed * Time.unscaledDeltaTime, Space.World);
         particleImage.color = colorOverLifeTime.Evaluate(lifeTimePurcentage);
+
+        if (orbitalRotation && rotatePivot != null)
+        {
+            actualParticle.RotateAround(rotatePivot.position, Vector3.forward, rotateSpeed * Time.unscaledDeltaTime * orbitalSpeedOverLifeTime.Evaluate(lifeTimePurcentage));
+            if (goFrom != null) dirGoTo = (actualParticle.position - goFrom.position).normalized;
+        }
+
+        if (outlineComponent != null && enableOutline)
+        {
+            outlineComponent.effectColor = outlineColorOverLifeTime.Evaluate(lifeTimePurcentage);
+            outlineComponent.effectDistance = outlineSize * outlineSizeOverLifeTime.Evaluate(lifeTimePurcentage) * new Vector2 (1,-1);
+        }
     }
 
     public CustomParticle(Transform _actualParticle)
     {
         actualParticle = _actualParticle;
         particleImage = actualParticle.GetComponent<Image>();
+        outlineComponent = actualParticle.GetComponent<Outline>();
     }
 }
