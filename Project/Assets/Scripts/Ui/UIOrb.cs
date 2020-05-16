@@ -38,6 +38,8 @@ public class UIOrb : MonoBehaviour
     [SerializeField] float animTimeCooldown = 0.8f;
     float animCooldown = 1;
 
+    [SerializeField] UIParticuleSystem unlockedFx = null;
+
     // Update is called once per frame
     void Update()
     {
@@ -53,11 +55,12 @@ public class UIOrb : MonoBehaviour
         else
         {
             animPurcentage = 0;
+
         }
         
         if (animObtained < 1)
         {
-            orbObtainedMesh.transform.localScale = animWhenObtained.Evaluate(animObtained) * animMultiplierObtained * Vector3.one;
+            //orbObtainedMesh.transform.localScale = animWhenObtained.Evaluate(animObtained) * animMultiplierObtained * Vector3.one;
             animObtained += Time.unscaledDeltaTime / animTimeObtained;
         }
         if (animObtained > 1)
@@ -82,6 +85,14 @@ public class UIOrb : MonoBehaviour
             orb.refScale = currVal > 1 ? 1 + animWhenFull.Evaluate(animPurcentage) * animMultiplier : currVal;
             orb.scaleIdle = currVal > 1;
         }
+
+        
+
+    }
+
+    public void OrbCooldownUp()
+    {
+        if (unlockedFx != null) unlockedFx.Play();
     }
 
     public void ActivateOrb()
@@ -90,6 +101,7 @@ public class UIOrb : MonoBehaviour
         {
             animObtained = 0;
             firstTime = false;
+            if (unlockedFx != null) unlockedFx.Play();
         }
     }
 

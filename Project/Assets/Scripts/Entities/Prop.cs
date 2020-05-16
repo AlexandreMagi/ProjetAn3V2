@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
+public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEffects
 {
     bool isAirbone = false;
     float timePropel = .5f;
@@ -141,5 +141,11 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect
                 }
             }
         }
+    }
+
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    {
+        ReactSpecial<DataProp, DataSwarmer>.DoProject(rb, explosionOrigin, explosionForce, explosionRadius, liftValue);
+        ReactSpecial<DataProp, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
 }

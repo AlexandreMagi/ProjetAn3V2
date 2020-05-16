@@ -908,6 +908,8 @@ public class Main : MonoBehaviour
             }
         }
         FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", Player.Instance.transform.position, Player.Instance.transform.rotation, explosionRadius);
+        CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "EndGame", 0.5f);
+        CustomSoundManager.Instance.PlaySound("Bell_Up", "EndGame", 1);
     }
 
     public Vector3 GetCursorPos()
