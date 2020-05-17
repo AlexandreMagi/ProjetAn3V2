@@ -42,6 +42,8 @@ public class DeathBodyPart : MonoBehaviour
     {
         if (forceNoSpawn != true)
         {
+            BodyPartsManager.Instance.NotifyApparition(this);
+
             if (isPhophoAffected)
             {
                 meshRenderer = gameObject.GetComponent<Renderer>();
@@ -77,6 +79,8 @@ public class DeathBodyPart : MonoBehaviour
                 rb = GetComponent<Rigidbody>();
                 StartCoroutine(AddExplosionEffect(rb));
             }
+
+
         }
     }
 
