@@ -42,6 +42,7 @@ public class DeathBodyPart : MonoBehaviour
     {
         if (forceNoSpawn != true)
         {
+            if(BodyPartsManager.Instance != null)
             BodyPartsManager.Instance.NotifyApparition(this);
 
             if (isPhophoAffected)
