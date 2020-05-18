@@ -111,7 +111,7 @@ public class DeathBodyPart : MonoBehaviour
                     transform.localScale = new Vector3(transform.localScale.x - Time.deltaTime, transform.localScale.y - Time.deltaTime, transform.localScale.z - Time.deltaTime);
                     prop.enabled = false;
 
-                }else if (!prop.isAffectedByGravity)
+                }else if (prop != null && !prop.isAffectedByGravity)
                 {
                     transform.localScale = new Vector3(0, 0, 0);
                     isActiveAndVisible = false;
