@@ -106,7 +106,7 @@ public class DeathBodyPart : MonoBehaviour
 
             if (timerBeforeDisapearIncrement >= timerBeforeDisapear)
             {
-                if (transform.localScale.x >= 0 && transform.localScale.y >= 0 && transform.localScale.z >= 0 && !prop.isAffectedByGravity)
+                if (transform.localScale.x >= 0 && transform.localScale.y >= 0 && transform.localScale.z >= 0 && prop != null && !prop.isAffectedByGravity)
                 {
                     transform.localScale = new Vector3(transform.localScale.x - Time.deltaTime, transform.localScale.y - Time.deltaTime, transform.localScale.z - Time.deltaTime);
                     prop.enabled = false;
