@@ -70,7 +70,14 @@ public class DataWeapon : ScriptableObject
 
 
     [Header("Minigun parameters")]
-    public float minigunRateOfFire = 12;
+
+
+    public float minigunMinRateOfFire = 12;
+    public float minigunMaxRateOfFire = 12;
+    public float minigunRoFTimeToGoUp = 1;
+    public float minigunRoFTimeToGoDown = 1;
+
+
     public float timeToMaxImprecision = 1;
     public float timeToMinImprecision = 0.5f;
     public float minImprecision = 0;
