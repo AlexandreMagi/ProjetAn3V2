@@ -8,7 +8,7 @@ public class ParticleDecalData
     public Vector3 position;
 
     [HideInInspector]
-    public float size;
+    public Vector3 size;
 
     [HideInInspector]
     public Vector3 rotation;
