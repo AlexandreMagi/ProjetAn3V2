@@ -19,7 +19,8 @@ public class SpriteDisplayedInstance
         baseColor = new Color(
             Random.Range(data.colorRandomOne.r, data.colorRandomTwo.r),
             Random.Range(data.colorRandomOne.g, data.colorRandomTwo.g),
-            Random.Range(data.colorRandomOne.b, data.colorRandomTwo.b));
+            Random.Range(data.colorRandomOne.b, data.colorRandomTwo.b),
+            Random.Range(data.colorRandomOne.a, data.colorRandomTwo.a));
         currentColor = baseColor;
         imageComponent = _imageComponent;
     }
@@ -35,7 +36,7 @@ public class SpriteDisplayedInstance
             if (currentAlpha < 0)
                 UiDamageHandler.Instance.deleteSpot(this);
             else
-                currentColor = new Color(baseColor.r, baseColor.g, baseColor.b, currentAlpha);
+                currentColor = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a * currentAlpha);
         }
     }
 
