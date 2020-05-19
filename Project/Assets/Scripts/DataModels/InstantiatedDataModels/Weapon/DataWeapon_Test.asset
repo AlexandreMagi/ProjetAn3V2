@@ -16,7 +16,7 @@ MonoBehaviour:
   chargedShot: {fileID: 11400000, guid: fbcf9b81c1af72243b03bbef8f60c3e9, type: 2}
   layerMaskHit:
     serializedVersion: 2
-    m_Bits: 5646081
+    m_Bits: 39200513
   chargeSpeedIndependantFromTimeScale: 1
   chargeTime: 0.7
   canReloadAnytime: 1
@@ -90,4 +90,13 @@ MonoBehaviour:
   maskCheckDistanceForLight:
     serializedVersion: 2
     m_Bits: 524800
-  minigunRateOfFire: 6
+  minigunMinRateOfFire: 1
+  minigunMaxRateOfFire: 8
+  minigunRoFTimeToGoUp: 1
+  minigunRoFTimeToGoDown: 0.5
+  timeToMaxImprecision: 1
+  timeToMinImprecision: 0.5
+  minImprecision: 0
+  maxImprecision: 0.03
+  minImprecisionFrequency: 0
+  maxImprecisionFrequency: 1

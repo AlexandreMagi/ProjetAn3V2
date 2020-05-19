@@ -88,10 +88,13 @@ public class Weapon : MonoBehaviour
     // --- Minigun
     bool isMinigun = false;
     public bool IsMinigun { get { return isMinigun; } }
-
     [SerializeField] DataWeaponMod minigunMod = null;
-
     float minigunCooldownTime = 0;
+    Vector2 cursorImprecision = Vector2.zero;
+    public Vector2 CursorImprecision { get { return cursorImprecision; } }
+    float currentCursorImprecisionPurcentage = 0;
+    float customTimeForCursorNoise = 0;
+    float currMinigunRateOfFirePurcentage = 0;
 
     void Awake ()
     {
@@ -234,6 +237,10 @@ public class Weapon : MonoBehaviour
 
         if (isMinigun && minigunCooldownTime > 0)
             minigunCooldownTime -= Time.unscaledDeltaTime;
+
+        customTimeForCursorNoise += Mathf.Lerp(weapon.minImprecisionFrequency, weapon.maxImprecisionFrequency, currentCursorImprecisionPurcentage) * Time.unscaledDeltaTime;
+        Vector3 currImprecision = GetPerlinVectorThree() * Mathf.Lerp(weapon.minImprecision, weapon.maxImprecision, currentCursorImprecisionPurcentage);
+        cursorImprecision = currImprecision * Screen.width;
 
     }
 
@@ -417,16 +424,24 @@ public class Weapon : MonoBehaviour
         }
         if (isMinigun)
         {
+            currentCursorImprecisionPurcentage = Mathf.MoveTowards(currentCursorImprecisionPurcentage, 1, Time.unscaledDeltaTime / weapon.timeToMaxImprecision);
+            currMinigunRateOfFirePurcentage = Mathf.MoveTowards(currMinigunRateOfFirePurcentage, 1, Time.unscaledDeltaTime / weapon.minigunRoFTimeToGoUp);
             if (minigunCooldownTime <= 0)
             {
                 float currMinigunCooldown = minigunCooldownTime;
-                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / weapon.minigunRateOfFire)
+                for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / Mathf.Lerp(weapon.minigunMinRateOfFire, weapon.minigunMaxRateOfFire, currMinigunRateOfFirePurcentage))
                 {
                     OnShoot(mousePosition, minigunMod);
                 }
                 minigunCooldownTime = currMinigunCooldown;
             }
         }
+    }
+
+    public void InputUnHold()
+    {
+        currentCursorImprecisionPurcentage = Mathf.MoveTowards(currentCursorImprecisionPurcentage, 0, Time.unscaledDeltaTime / weapon.timeToMinImprecision);
+        currMinigunRateOfFirePurcentage = Mathf.MoveTowards(currMinigunRateOfFirePurcentage, 0, Time.unscaledDeltaTime / weapon.minigunRoFTimeToGoDown);
     }
 
     public void InputUp(Vector2 mousePosition)
@@ -589,7 +604,7 @@ public class Weapon : MonoBehaviour
             if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
             {
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitBase, raybase);
-                DecalManager.Instance.ProjectDecal(hitBase);
+                DecalManager.Instance.ProjectDecal(hitBase, weaponMod.bullet.bulletFxs.allFxReaction[i].decalName);
             }
         }
     }
@@ -625,6 +640,8 @@ public class Weapon : MonoBehaviour
     {
         weaponLight.gameObject.SetActive(activation);
     }
+    float GetFloat(float seed) { return (Mathf.PerlinNoise(seed, customTimeForCursorNoise) - 0.5f) * 2f; }
+    Vector3 GetPerlinVectorThree() { return new Vector3(GetFloat(16), GetFloat(34), GetFloat(85)); }
 
     IEnumerator BounceBullets(List<Ray> bounces, float bounceLag)
     {
