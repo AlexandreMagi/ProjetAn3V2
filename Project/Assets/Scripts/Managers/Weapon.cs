@@ -96,6 +96,10 @@ public class Weapon : MonoBehaviour
     float customTimeForCursorNoise = 0;
     float currMinigunRateOfFirePurcentage = 0;
 
+    [SerializeField]
+    float maxSpeedMinigunPitch = 0.55f;
+    AudioSource minigunAudioSource = null;
+
     void Awake ()
     {
         _instance = this;
@@ -107,6 +111,7 @@ public class Weapon : MonoBehaviour
     {
         CameraHandler.Instance.SetWeapon(weapon);
         mainContainer = GetComponent<Main>();
+        minigunAudioSource = CustomSoundManager.Instance.PlaySound("Se_Minigun_Engine", "Player", null, 2f, true, 0);
     }
 
     private void Update()
@@ -241,6 +246,7 @@ public class Weapon : MonoBehaviour
         customTimeForCursorNoise += Mathf.Lerp(weapon.minImprecisionFrequency, weapon.maxImprecisionFrequency, currentCursorImprecisionPurcentage) * Time.unscaledDeltaTime;
         Vector3 currImprecision = GetPerlinVectorThree() * Mathf.Lerp(weapon.minImprecision, weapon.maxImprecision, currentCursorImprecisionPurcentage);
         cursorImprecision = currImprecision * Screen.width;
+        minigunAudioSource.pitch = currMinigunRateOfFirePurcentage * maxSpeedMinigunPitch;
 
     }
 
@@ -577,7 +583,7 @@ public class Weapon : MonoBehaviour
             if (bulletRemaining < 0) bulletRemaining = 0;
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
             if (weaponMod == minigunMod)
-                CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.4f, false, 1, .2f);
+                CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.6f, false, 0.8f, .2f);
             else
                 CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player", null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f, false, 1, .2f);
 
