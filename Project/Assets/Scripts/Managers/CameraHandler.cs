@@ -640,7 +640,6 @@ public class CameraHandler : MonoBehaviour
     {
         if (Main.Instance == null || Main.Instance.TCActivated)
         {
-            Debug.Log("Ca rentre");
             ChangeShakeDuration(duration);
             float distance = Vector3.Distance(initPos, renderingCam.transform.position);
             value *= 1 - (distance / camData.distanceShakeCancelled);

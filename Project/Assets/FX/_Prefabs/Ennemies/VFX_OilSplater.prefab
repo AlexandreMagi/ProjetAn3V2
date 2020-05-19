@@ -9593,9 +9593,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc06e32514c74e45bb7a0df5c737503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 100
-  decalSizeMin: 1
-  decalSizeMax: 1.5
+  maxDecals: 25
+  decalSizeMin: 1.5
+  decalSizeMax: 3
 --- !u!1 &3770313071699918927
 GameObject:
   m_ObjectHideFlags: 0
@@ -9622,8 +9622,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3770313071699918927}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5284038486320110006}
@@ -9715,8 +9715,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 1.5
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -9768,8 +9768,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 2
+      scalar: 7
+      minScalar: 13
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10259,7 +10259,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 2
+    type: 4
     angle: 16.94
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -19194,8 +19194,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDecals: 50
-  decalSizeMin: 0.1
-  decalSizeMax: 0.3
+  decalSizeMin: 1
+  decalSizeMax: 2
 --- !u!1 &4428783609674995375
 GameObject:
   m_ObjectHideFlags: 0
