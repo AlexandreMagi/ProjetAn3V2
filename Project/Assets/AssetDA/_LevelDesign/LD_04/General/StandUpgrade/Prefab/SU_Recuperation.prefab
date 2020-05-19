@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &257032881890836001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4334958317306292799}
+  m_Layer: 9
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4334958317306292799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257032881890836001}
+  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8471238336556641827}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &6862828901337558057
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -88,7 +118,7 @@ GameObject:
   - component: {fileID: 465996082556404472}
   - component: {fileID: 1231443380599853285}
   - component: {fileID: 6305929618826205657}
-  m_Layer: 9
+  m_Layer: 25
   m_Name: ScreenMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,6 +350,19 @@ MonoBehaviour:
   moveFlickDuration: 0.1
   useOpti: 1
   optimisationTimeCheckVisi: 1
+--- !u!65 &3777256971182007744
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4887737905788214320}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7976805, y: 0.99314666, z: 0.67796534}
+  m_Center: {x: 0.08051491, y: 0.4900428, z: -0.003425926}
 --- !u!1 &5302107119627410326
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +539,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4361445078622504287}
-  m_Layer: 9
+  - component: {fileID: 8569087120897120703}
+  m_Layer: 25
   m_Name: Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,6 +562,19 @@ Transform:
   m_Father: {fileID: 7351441108682711365}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8569087120897120703
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7524151153817470793}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4484789, y: 0.7449419, z: 0.07577905}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9088156194962504193
 GameObject:
   m_ObjectHideFlags: 0
@@ -5441,15 +5498,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e58040e362d6f1748ad26a812bd1f62a, type: 3}
---- !u!1 &1102872471684488870 stripped
+--- !u!1 &4887737905788214320 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: -4630995609405940833, guid: e58040e362d6f1748ad26a812bd1f62a,
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: e58040e362d6f1748ad26a812bd1f62a,
     type: 3}
   m_PrefabInstance: {fileID: 3527821183937971513}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8471238336556641827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: e58040e362d6f1748ad26a812bd1f62a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3527821183937971513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1102872471684488870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4630995609405940833, guid: e58040e362d6f1748ad26a812bd1f62a,
     type: 3}
   m_PrefabInstance: {fileID: 3527821183937971513}
   m_PrefabAsset: {fileID: 0}
@@ -5724,6 +5787,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 142032045154389454, guid: 6b78fbc50c5a6c7469187e20cd793b9c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b78fbc50c5a6c7469187e20cd793b9c, type: 3}
