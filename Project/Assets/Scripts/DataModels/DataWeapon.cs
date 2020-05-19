@@ -69,6 +69,12 @@ public class DataWeapon : ScriptableObject
     public LayerMask maskCheckDistanceForLight = 0;
 
 
-    [Header("Light parameters")]
+    [Header("Minigun parameters")]
     public float minigunRateOfFire = 12;
+    public float timeToMaxImprecision = 1;
+    public float timeToMinImprecision = 0.5f;
+    public float minImprecision = 0;
+    public float maxImprecision = 0.1f;
+    public float minImprecisionFrequency = 0f;
+    public float maxImprecisionFrequency = 2f;
 }

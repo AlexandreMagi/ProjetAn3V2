@@ -93,6 +93,12 @@ public class Weapon : MonoBehaviour
 
     float minigunCooldownTime = 0;
 
+    // ---
+    Vector2 cursorImprecision = Vector2.zero;
+    public Vector2 CursorImprecision { get { return cursorImprecision; } }
+    float currentCursorImprecisionPurcentage = 0;
+    float customTimeForCursorNoise = 0;
+
     void Awake ()
     {
         _instance = this;
@@ -234,6 +240,10 @@ public class Weapon : MonoBehaviour
 
         if (isMinigun && minigunCooldownTime > 0)
             minigunCooldownTime -= Time.unscaledDeltaTime;
+
+        customTimeForCursorNoise += Mathf.Lerp(weapon.minImprecisionFrequency, weapon.maxImprecisionFrequency, currentCursorImprecisionPurcentage) * Time.unscaledDeltaTime;
+        Vector3 currImprecision = GetPerlinVectorThree() * Mathf.Lerp(weapon.minImprecision, weapon.maxImprecision, currentCursorImprecisionPurcentage);
+        cursorImprecision = currImprecision * Screen.width;
 
     }
 
@@ -419,6 +429,9 @@ public class Weapon : MonoBehaviour
         {
             if (minigunCooldownTime <= 0)
             {
+
+                currentCursorImprecisionPurcentage = Mathf.MoveTowards(currentCursorImprecisionPurcentage, 1, Time.unscaledDeltaTime / weapon.timeToMaxImprecision);
+
                 float currMinigunCooldown = minigunCooldownTime;
                 for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / weapon.minigunRateOfFire)
                 {
@@ -427,6 +440,11 @@ public class Weapon : MonoBehaviour
                 minigunCooldownTime = currMinigunCooldown;
             }
         }
+    }
+
+    public void InputUnHold()
+    {
+        currentCursorImprecisionPurcentage = Mathf.MoveTowards(currentCursorImprecisionPurcentage, 0, Time.unscaledDeltaTime / weapon.timeToMinImprecision);
     }
 
     public void InputUp(Vector2 mousePosition)
@@ -625,6 +643,8 @@ public class Weapon : MonoBehaviour
     {
         weaponLight.gameObject.SetActive(activation);
     }
+    float GetFloat(float seed) { return (Mathf.PerlinNoise(seed, customTimeForCursorNoise) - 0.5f) * 2f; }
+    Vector3 GetPerlinVectorThree() { return new Vector3(GetFloat(16), GetFloat(34), GetFloat(85)); }
 
     IEnumerator BounceBullets(List<Ray> bounces, float bounceLag)
     {
