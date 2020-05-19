@@ -261,6 +261,7 @@ public class Main : MonoBehaviour
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             this.sequenceSkipMode = !this.sequenceSkipMode;
             Debug.Log($"Sequence skip : {sequenceSkipMode}");
+            sequenceCheat = "";
         }
 
         if (Input.GetKeyDown(KeyCode.K))

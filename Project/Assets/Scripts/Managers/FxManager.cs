@@ -75,6 +75,22 @@ public class FxManager : MonoBehaviour
         return clone;
     }
 
+    public ParticleSystem PlayFx(string name, Vector3 hitPoint, Vector3 originalDir, Vector3 normalRef)
+    {
+        ParticleSystem fxInstantiated = FindFx(name);
+        if (fxInstantiated == null)
+            return null;
+
+        ParticleSystem clone = Instantiate(fxInstantiated, hitPoint, Quaternion.identity);
+
+        Vector3 reflectedDir = Vector3.Reflect(originalDir, normalRef);
+
+        clone.transform.rotation = Quaternion.LookRotation(reflectedDir, Vector3.up);
+
+        clone.Play();
+        return clone;
+    }
+
     public ParticleSystem PlayFx (string name, Vector3 pos, Quaternion rot, float size)
     {
         ParticleSystem fxInstantiated = FindFx(name);
