@@ -20,6 +20,9 @@ public class FxManager : MonoBehaviour
     [SerializeField]
     ParticleSystem[] particleTab = null;
 
+    [SerializeField]
+    Transform DebugMesh = null;
+
     public ParticleSystem PlayFx (string name)
     {
         ParticleSystem fxInstantiated = FindFx(name);
@@ -86,6 +89,12 @@ public class FxManager : MonoBehaviour
         Vector3 reflectedDir = Vector3.Reflect(originalDir, normalRef);
 
         clone.transform.rotation = Quaternion.LookRotation(reflectedDir, Vector3.up);
+        
+        if (DebugMesh != null)
+        {
+            DebugMesh.transform.position = clone.transform.position;
+            DebugMesh.transform.rotation = clone.transform.rotation;
+        }
 
         clone.Play();
         return clone;

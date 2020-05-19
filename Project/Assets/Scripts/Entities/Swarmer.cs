@@ -214,7 +214,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if (CameraHandler.Instance.GetDistanceWithCam(transform.position) > entityData.distanceMinWithCamToPlayVFX)
             {
                 //FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
-                FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Player.Instance.transform.position, Vector3.up);
+                FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position + Vector3.up * 0.8f, (transform.position - Player.Instance.transform.position).normalized, Vector3.up);
             }
             FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
 

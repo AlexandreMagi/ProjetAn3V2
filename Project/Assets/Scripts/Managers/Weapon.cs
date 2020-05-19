@@ -111,7 +111,7 @@ public class Weapon : MonoBehaviour
     {
         CameraHandler.Instance.SetWeapon(weapon);
         mainContainer = GetComponent<Main>();
-        minigunAudioSource = CustomSoundManager.Instance.PlaySound("Se_Minigun_Engine", "Player", null, 2f, true, 0);
+        minigunAudioSource = CustomSoundManager.Instance.PlaySound("Se_Minigun_Engine", "Player", CameraHandler.Instance.renderingCam.transform, 2f, true, 0);
     }
 
     private void Update()
@@ -246,7 +246,8 @@ public class Weapon : MonoBehaviour
         customTimeForCursorNoise += Mathf.Lerp(weapon.minImprecisionFrequency, weapon.maxImprecisionFrequency, currentCursorImprecisionPurcentage) * Time.unscaledDeltaTime;
         Vector3 currImprecision = GetPerlinVectorThree() * Mathf.Lerp(weapon.minImprecision, weapon.maxImprecision, currentCursorImprecisionPurcentage);
         cursorImprecision = currImprecision * Screen.width;
-        minigunAudioSource.pitch = currMinigunRateOfFirePurcentage * maxSpeedMinigunPitch;
+        if (minigunAudioSource != null) minigunAudioSource.pitch = currMinigunRateOfFirePurcentage * maxSpeedMinigunPitch;
+        else minigunAudioSource = CustomSoundManager.Instance.PlaySound("Se_Minigun_Engine", "Player", CameraHandler.Instance.renderingCam.transform, 2f, true, 0);
 
     }
 
