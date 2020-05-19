@@ -25,7 +25,7 @@ MonoBehaviour:
     defaultState: 1
   tonemapper:
     overrideState: 1
-    value: 1
+    value: 2
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -58,32 +58,32 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   colorFilter:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    overrideState: 1
+    value: {r: 1, g: 0.78032756, b: 0.7783019, a: 1}
   hueShift:
     overrideState: 0
-    value: 0
+    value: -63
   saturation:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 1
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 1
   contrast:
-    overrideState: 0
-    value: 12.43
+    overrideState: 1
+    value: 20
   mixerRedOutRedIn:
-    overrideState: 0
+    overrideState: 1
     value: 100
   mixerRedOutGreenIn:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 4
   mixerRedOutBlueIn:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 27
   mixerGreenOutRedIn:
     overrideState: 0
     value: 0
@@ -103,14 +103,14 @@ MonoBehaviour:
     overrideState: 0
     value: 100
   lift:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 1, y: 0.9160153, z: 0.82492036, w: 0}
   gamma:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.64386547, y: 0.7298355, z: 1, w: 0}
   gain:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 0.7600424, y: 1, z: 0.9386106, w: 0}
   masterCurve:
     overrideState: 0
     value:
@@ -752,7 +752,25 @@ MonoBehaviour:
     value:
       curve:
         serializedVersion: 2
-        m_Curve: []
+        m_Curve:
+        - serializedVersion: 3
+          time: 0.32537314
+          value: 0.49367088
+          inSlope: -0.6184069
+          outSlope: -0.6184069
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5761194
+          value: 0.4177215
+          inSlope: -0.124720894
+          outSlope: -0.124720894
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -760,134 +778,134 @@ MonoBehaviour:
       m_ZeroValue: 0.5
       m_Range: 1
       cachedData:
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
-      - 0.5
+      - 0.51757216
+      - 0.519826
+      - 0.5220044
+      - 0.5241026
+      - 0.5261158
+      - 0.528039
+      - 0.52986753
+      - 0.5315965
+      - 0.5332211
+      - 0.5347366
+      - 0.53613806
+      - 0.53742075
+      - 0.53857976
+      - 0.5396104
+      - 0.5405077
+      - 0.5412669
+      - 0.5418832
+      - 0.5423518
+      - 0.54266775
+      - 0.5428264
+      - 0.54282284
+      - 0.54265225
+      - 0.5423099
+      - 0.5417908
+      - 0.54109025
+      - 0.5402034
+      - 0.53912544
+      - 0.5378515
+      - 0.53637683
+      - 0.5346966
+      - 0.5328059
+      - 0.5307001
+      - 0.5283742
+      - 0.52582335
+      - 0.5230429
+      - 0.52002794
+      - 0.5167737
+      - 0.51327527
+      - 0.50952786
+      - 0.50552666
+      - 0.5012669
+      - 0.49674365
+      - 0.49198276
+      - 0.48733678
+      - 0.48290285
+      - 0.47867468
+      - 0.47464603
+      - 0.47081062
+      - 0.46716225
+      - 0.4636946
+      - 0.4604015
+      - 0.45727667
+      - 0.4543138
+      - 0.45150676
+      - 0.4488492
+      - 0.44633493
+      - 0.44395766
+      - 0.44171116
+      - 0.43958917
+      - 0.43758544
+      - 0.43569374
+      - 0.4339078
+      - 0.4322214
+      - 0.43062827
+      - 0.42912215
+      - 0.42769676
+      - 0.42634594
+      - 0.42506337
+      - 0.42384282
+      - 0.42267805
+      - 0.4215628
+      - 0.42049083
+      - 0.41945586
+      - 0.41845167
+      - 0.41747764
+      - 0.41664618
+      - 0.41599956
+      - 0.41553304
+      - 0.41524172
+      - 0.41512084
+      - 0.41516554
+      - 0.41537103
+      - 0.41573247
+      - 0.41624507
+      - 0.41690394
+      - 0.41770434
+      - 0.41864142
+      - 0.41971034
+      - 0.42090628
+      - 0.42222443
+      - 0.42365998
+      - 0.42520812
+      - 0.426864
+      - 0.42862278
+      - 0.4304797
+      - 0.4324299
+      - 0.4344686
+      - 0.4365909
+      - 0.43879208
+      - 0.44106722
+      - 0.4434116
+      - 0.4458203
+      - 0.44828856
+      - 0.45081154
+      - 0.45338443
+      - 0.4560024
+      - 0.45866066
+      - 0.46135435
+      - 0.46407863
+      - 0.46682876
+      - 0.46959984
+      - 0.4723871
+      - 0.4751857
+      - 0.4779908
+      - 0.48079762
+      - 0.48360133
+      - 0.4863971
+      - 0.4891801
+      - 0.4919455
+      - 0.4946885
+      - 0.49740428
+      - 0.50008804
+      - 0.5027349
+      - 0.5053401
+      - 0.5078988
+      - 0.5104062
+      - 0.5128574
+      - 0.51524764
   hueVsSatCurve:
     overrideState: 0
     value:
@@ -1329,10 +1347,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.16
+    value: 1
   threshold:
     overrideState: 1
-    value: 0.55
+    value: 1.5
   softKnee:
     overrideState: 0
     value: 0.5
@@ -1358,7 +1376,7 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 0
     value: 0
---- !u!114 &-2624739521905329583
+--- !u!114 &-5308393490889735403
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1367,30 +1385,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f161f1bfe8d69542a86f8d442c273b8, type: 3}
-  m_Name: PostProcessOutline
+  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
+  m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
-  scale:
-    overrideState: 1
-    value: 2
-  color:
-    overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
-  depthThreshold:
-    overrideState: 1
-    value: 7
-  depthNormalThreshold:
-    overrideState: 1
+  mode:
+    overrideState: 0
     value: 0
-  depthNormalThresholdScale:
+  color:
+    overrideState: 0
+    value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    overrideState: 0
+    value: {x: 0.5, y: 0.5}
+  intensity:
     overrideState: 1
-    value: 10
-  normalThreshold:
-    overrideState: 1
+    value: 0.15
+  smoothness:
+    overrideState: 0
+    value: 0.2
+  roundness:
+    overrideState: 0
+    value: 1
+  rounded:
+    overrideState: 0
+    value: 0
+  mask:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  opacity:
+    overrideState: 0
     value: 1
 --- !u!114 &-2437452652646783079
 MonoBehaviour:
@@ -1464,13 +1492,86 @@ MonoBehaviour:
   m_Name: LD_04_Global
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: -2624739521905329583}
   - {fileID: 6437918401222808203}
   - {fileID: -8216164030610714640}
   - {fileID: -9015489977105191654}
   - {fileID: -945033818867485808}
   - {fileID: 7230976405451158539}
   - {fileID: -2437452652646783079}
+  - {fileID: 813050765791044150}
+  - {fileID: 2016968963627978095}
+  - {fileID: -5308393490889735403}
+--- !u!114 &813050765791044150
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a34fa72bd4185749832024e9c8010bf, type: 3}
+  m_Name: ScreenSpaceReflections
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  preset:
+    overrideState: 1
+    value: 7
+  maximumIterationCount:
+    overrideState: 1
+    value: 16
+  resolution:
+    overrideState: 1
+    value: 0
+  thickness:
+    overrideState: 1
+    value: 8
+  maximumMarchDistance:
+    overrideState: 1
+    value: 100
+  distanceFade:
+    overrideState: 1
+    value: 0.5
+  vignette:
+    overrideState: 1
+    value: 0.5
+--- !u!114 &2016968963627978095
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f161f1bfe8d69542a86f8d442c273b8, type: 3}
+  m_Name: PostProcessOutline
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  scale:
+    overrideState: 1
+    value: 1
+  color:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 1}
+  depthThreshold:
+    overrideState: 1
+    value: 7
+  depthNormalThreshold:
+    overrideState: 1
+    value: 0
+  depthNormalThresholdScale:
+    overrideState: 1
+    value: 10
+  normalThreshold:
+    overrideState: 1
+    value: 1
 --- !u!114 &6437918401222808203
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1537,14 +1638,14 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   colored:
-    overrideState: 0
+    overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 0.5
+    value: 0.2
   size:
     overrideState: 0
     value: 1
   lumContrib:
-    overrideState: 0
+    overrideState: 1
     value: 0.8
