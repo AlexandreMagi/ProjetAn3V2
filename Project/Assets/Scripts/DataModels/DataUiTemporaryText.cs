@@ -17,6 +17,11 @@ public class DataUiTemporaryText : ScriptableObject
     public float outlineDistance = 5;
 
     public float randomPos = 0.4f;
+
+    public float minAlphaMutliplier = 0.2f;
+    public float maxAlphaMutliplier = 1f;
+    public float minDistDetectMouse = 0.1f;
+    public float maxDistDetectMouse = 0.5f;
 }
 
 

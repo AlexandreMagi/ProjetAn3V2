@@ -20,7 +20,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
     }
 #endregion
 
-    List<GameObject> textDisplayed = new List<GameObject>();
+    List<Text> textDisplayed = new List<Text>();
     List<ScoreBonusDisplayedInstance> scoresBonusHandler = new List<ScoreBonusDisplayedInstance>();
     [SerializeField] GameObject emptyUiText = null;
 
@@ -38,12 +38,12 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
         for (int i = textDisplayed.Count-1; i > -1; i--)
         {
-            scoresBonusHandler[i].UpdateValues();
+            scoresBonusHandler[i].UpdateValues(Main.Instance.GetCursorPos());
             if (i < textDisplayed.Count && scoresBonusHandler[i] != null)
             {
-                textDisplayed[i].GetComponent<Text>().color = scoresBonusHandler[i].currentColor;
+                textDisplayed[i].color = scoresBonusHandler[i].currentColor;
                 textDisplayed[i].transform.localScale = Vector3.one * scoresBonusHandler[i].scale;
-                if (scoresBonusHandler[i].isPlacedOnWorld) MoveSprite(textDisplayed[i], scoresBonusHandler[i]);
+                if (scoresBonusHandler[i].isPlacedOnWorld) MoveSprite(textDisplayed[i].gameObject, scoresBonusHandler[i]);
             }
         }
     }
@@ -131,10 +131,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
         stockoutline.effectDistance = new Vector2(-1, 1) * dataToSend.outlineDistance;
         stockoutline.effectColor = dataToSend.colorOutline;
 
-        textDisplayed.Add(newText);
+        textDisplayed.Add(textThis);
 
         newOne = new ScoreBonusDisplayedInstance();
-        newOne.OnCreation(dataToSend, textThis.color);
+        newOne.OnCreation(dataToSend, textThis.color, textThis, newText, newText.GetComponent<RectTransform>());
         scoresBonusHandler.Add(newOne);
         return newText;
     }
@@ -151,10 +151,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
         stockoutline.effectDistance = new Vector2(-1, 1) * dataToSend.outlineDistance;
         stockoutline.effectColor = dataToSend.colorOutline;
 
-        textDisplayed.Add(newText);
+        textDisplayed.Add(textThis);
 
         newOne = new ScoreBonusDisplayedInstance();
-        newOne.OnCreation(dataToSend, specificColor);
+        newOne.OnCreation(dataToSend, specificColor, textThis, newText, newText.GetComponent<RectTransform>());
         scoresBonusHandler.Add(newOne);
         return newText;
     }
@@ -166,7 +166,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
             if (scoresBonusHandler[i] == spriteInstance)
             {
                 scoresBonusHandler.RemoveAt(i);
-                GameObject stock = textDisplayed[i];
+                GameObject stock = textDisplayed[i].gameObject;
                 textDisplayed.RemoveAt(i);
                 Destroy(stock);
             }
@@ -174,3 +174,4 @@ public class UiScoreBonusDisplay : MonoBehaviour
     }
 
 }
+
