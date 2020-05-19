@@ -41,7 +41,11 @@ public class DecalManager : MonoBehaviour
     [SerializeField]
     float baseAlpha = 1;
 
-    public Transform ProjectDecal(RaycastHit hitBase, Material overrideMaterial = null)
+
+    [SerializeField]
+    List<Material> allDecalMat = new List<Material>();
+
+    public Transform ProjectDecal(RaycastHit hitBase, string decalName = "")
     {
 
         if (!activeDecal)
@@ -53,6 +57,10 @@ public class DecalManager : MonoBehaviour
         //EasyDecal decalInstance = FindDecal(name);
         if (maxDecal == null)
             return null;
+
+        Material overrideMaterial = null;
+        if (decalName != "") overrideMaterial = FindDecalMat(decalName);
+
 
         GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal*-1));
         planeInstance.transform.localScale = Vector3.one * scalePlane;
@@ -67,6 +75,19 @@ public class DecalManager : MonoBehaviour
         allGo.Add(planeInstance);
 
         return planeInstance.transform;
+    }
+
+    Material FindDecalMat(string decalName = "")
+    {
+        for (int i = 0; i < allDecalMat.Count; i++)
+        {
+            if (allDecalMat[i].name == decalName)
+            {
+                return allDecalMat[i];
+            }
+        }
+        Debug.Log("Decal named '" + decalName + "' doesn't exist in the mat tab in Decal Manager");
+        return null;
     }
 
     private void Update()

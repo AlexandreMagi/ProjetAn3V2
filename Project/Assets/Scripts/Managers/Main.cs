@@ -163,6 +163,10 @@ public class Main : MonoBehaviour
         {
             Weapon.Instance.InputHold(GetCursorPos());
         }
+        else
+        {
+            Weapon.Instance.InputUnHold();
+        }
 
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
         {
@@ -915,6 +919,7 @@ public class Main : MonoBehaviour
     public Vector3 GetCursorPos()
     {
         Vector2 returnedValue = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        if (Weapon.Instance != null) returnedValue += Weapon.Instance.CursorImprecision;
         returnedValue = new Vector2(Mathf.Clamp(returnedValue.x, 0, Screen.width), Mathf.Clamp(returnedValue.y, 0, Screen.height));
         return returnedValue;
     }
