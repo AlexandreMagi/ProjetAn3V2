@@ -26,7 +26,7 @@ public class DecalManager : MonoBehaviour
     bool activeDecal = true;
 
     [SerializeField]
-    float maxDistToDecal = 25;
+    float maxDistToDecal = 12;
 
     [SerializeField]
     float scalePlane = 0.5f;
