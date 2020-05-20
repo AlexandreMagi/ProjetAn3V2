@@ -89,7 +89,7 @@ public class DeathBodyPart : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        rb.AddExplosionForce(explosionForceOnSpawn * explosionForceOnSpawn, transform.position, 3f);
+        rb.AddExplosionForce(explosionForceOnSpawn * explosionForceOnSpawn, transform.position + 0.3f * Vector3.up, 3f);
 
         yield break;
     }

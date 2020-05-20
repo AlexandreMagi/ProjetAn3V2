@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -84,4 +85,6 @@ public class DataWeapon : ScriptableObject
     public float maxImprecision = 0.1f;
     public float minImprecisionFrequency = 0f;
     public float maxImprecisionFrequency = 2f;
+    public float imprecisionCursorLerpSpeed = 8f;
+    [PropertyRange(0f,1f)] public float purcentageNoiseOnImprecision = 0.4f;
 }

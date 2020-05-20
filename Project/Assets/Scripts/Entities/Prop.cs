@@ -29,6 +29,8 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         {
             canDieVFX = false;
             InstantiateExplosion();
+            //if (GetComponent<DeathBodyPart>() != null)
+            //    Weapon.Instance.JustDestroyedBodyPart(transform.position);
         }
         base.Die();
     }

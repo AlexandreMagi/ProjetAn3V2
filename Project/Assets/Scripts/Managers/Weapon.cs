@@ -90,6 +90,8 @@ public class Weapon : MonoBehaviour
     public bool IsMinigun { get { return isMinigun; } }
     [SerializeField] DataWeaponMod minigunMod = null;
     float minigunCooldownTime = 0;
+    Vector3 cursorImprecisionRandomSaved = Vector3.zero;
+    Vector3 cursorImprecisionRandomGoTo = Vector3.zero;
     Vector2 cursorImprecision = Vector2.zero;
     public Vector2 CursorImprecision { get { return cursorImprecision; } }
     float currentCursorImprecisionPurcentage = 0;
@@ -99,6 +101,7 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     float maxSpeedMinigunPitch = 0.55f;
     AudioSource minigunAudioSource = null;
+
 
     void Awake ()
     {
@@ -244,7 +247,9 @@ public class Weapon : MonoBehaviour
             minigunCooldownTime -= Time.unscaledDeltaTime;
 
         customTimeForCursorNoise += Mathf.Lerp(weapon.minImprecisionFrequency, weapon.maxImprecisionFrequency, currentCursorImprecisionPurcentage) * Time.unscaledDeltaTime;
-        Vector3 currImprecision = GetPerlinVectorThree() * Mathf.Lerp(weapon.minImprecision, weapon.maxImprecision, currentCursorImprecisionPurcentage);
+
+        cursorImprecisionRandomSaved = Vector3.Lerp(cursorImprecisionRandomSaved, cursorImprecisionRandomGoTo, Time.unscaledDeltaTime * weapon.imprecisionCursorLerpSpeed);
+        Vector3 currImprecision = cursorImprecisionRandomSaved * Mathf.Lerp(weapon.minImprecision, weapon.maxImprecision, currentCursorImprecisionPurcentage);
         cursorImprecision = currImprecision * Screen.width;
         if (minigunAudioSource != null) minigunAudioSource.pitch = currMinigunRateOfFirePurcentage * maxSpeedMinigunPitch;
         else minigunAudioSource = CustomSoundManager.Instance.PlaySound("Se_Minigun_Engine", "Player", CameraHandler.Instance.renderingCam.transform, 2f, true, 0);
@@ -438,6 +443,10 @@ public class Weapon : MonoBehaviour
                 float currMinigunCooldown = minigunCooldownTime;
                 for (currMinigunCooldown = minigunCooldownTime; currMinigunCooldown <= 0; currMinigunCooldown += 1 / Mathf.Lerp(weapon.minigunMinRateOfFire, weapon.minigunMaxRateOfFire, currMinigunRateOfFirePurcentage))
                 {
+                    //cursorImprecisionRandomGoTo = GetPerlinVectorThree();
+                    //cursorImprecisionRandomGoTo = new Vector3((UnityEngine.Random.Range(0f, 1f) - 0.5f) * 2, (UnityEngine.Random.Range(0f, 1f) - 0.5f) * 2, (UnityEngine.Random.Range(0f, 1f) - 0.5f) * 2);
+
+                    cursorImprecisionRandomGoTo = GetPerlinVectorThree() * weapon.purcentageNoiseOnImprecision + new Vector3((UnityEngine.Random.Range(0f, 1f) - 0.5f) * 2, (UnityEngine.Random.Range(0f, 1f) - 0.5f) * 2, (UnityEngine.Random.Range(0f, 1f) - 0.5f) * 2).normalized * (1 - weapon.purcentageNoiseOnImprecision);
                     OnShoot(mousePosition, minigunMod);
                 }
                 minigunCooldownTime = currMinigunCooldown;
@@ -478,7 +487,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod, bool cantHit = false)
+    private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod, bool cantHit = false, bool canPlaySound = true)
     {
         if (bulletRemaining > 0)
         {
@@ -540,10 +549,9 @@ public class Weapon : MonoBehaviour
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun(weaponMod);
 
-                        if (!hasPlayedHitMarkerSound)
+                        if (!hasPlayedHitMarkerSound && canPlaySound)
                             Invoke("HitMarkerSoundFunc", 0.05f * Time.timeScale);
                         hasPlayedHitMarkerSound = true;
-                        TimeScaleManager.Instance.AddStopTime(weaponMod.stopTimeAtImpact);
 
                         UiCrossHair.Instance.PlayerHitSomething(weaponMod.hitValueUiRecoil);
 
@@ -583,10 +591,13 @@ public class Weapon : MonoBehaviour
 
             if (bulletRemaining < 0) bulletRemaining = 0;
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, false, weaponMod == weapon.chargedShot ?  0.8f : 0.4f, 0.2f);
-            if (weaponMod == minigunMod)
-                CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.6f, false, 0.8f, .2f);
-            else
-                CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player", null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f, false, 1, .2f);
+            if (canPlaySound)
+            {
+                if (weaponMod == minigunMod)
+                    CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.6f, false, 0.8f, .2f);
+                else
+                    CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player", null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f, false, 1, .2f);
+            }
 
         }
         else
@@ -643,6 +654,12 @@ public class Weapon : MonoBehaviour
         shotGunHasHit = true;
     }
 
+    //public void JustDestroyedBodyPart(Vector3 pos)
+    //{
+    //    Debug.Log("ReShoot");
+    //    OnShoot(CameraHandler.Instance.renderingCam.WorldToScreenPoint(pos), weapon.baseShot, false, false);
+    //}
+
     public void EnableDisableRevealLight(bool activation)
     {
         weaponLight.gameObject.SetActive(activation);
@@ -676,7 +693,6 @@ public class Weapon : MonoBehaviour
 
                     bAffect.OnHitShotGun(bounceMod);
 
-                    TimeScaleManager.Instance.AddStopTime(bounceMod.stopTimeAtImpact);
 
                     UiCrossHair.Instance.PlayerHitSomething(bounceMod.hitValueUiRecoil);
 
