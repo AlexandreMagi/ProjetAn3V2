@@ -28,7 +28,8 @@ public class ParticlesCollisonDetection : MonoBehaviour
         for (int i = 0; i < collisionEvents.Count; i++)
         {
             splatDecalPool.ParticleHit(collisionEvents[i]);
-            EmitFromSplatter(collisionEvents[i]);
+            if (particlesSystemSplatter != null)
+                EmitFromSplatter(collisionEvents[i]);
         }
 
     }
