@@ -39,6 +39,7 @@ public class UiDamageHandler : MonoBehaviour
     Image flashPanel = null;
     [SerializeField]
     Image gravityFlash = null;
+    [SerializeField] float maxGravAlpha = 0.5f;
     float timerGravityScreen = 0;
     float stockTimerValue = 0;
     [SerializeField]
@@ -128,12 +129,12 @@ public class UiDamageHandler : MonoBehaviour
             if (timerGravityScreen > stockTimerValue / 2)
             {
                 GravAlpha = 1 - ((timerGravityScreen - stockTimerValue / 2) / (stockTimerValue / 2));
-                gravityFlash.color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
+                gravityFlash.color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha * maxGravAlpha);
             }
             else
             {
                 GravAlpha = timerGravityScreen / (stockTimerValue / 2);
-                gravityFlash.color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha);
+                gravityFlash.color = new Color(gravityColor.r, gravityColor.g, gravityColor.b, GravAlpha * maxGravAlpha);
             }
 
             if (timerGravityScreen < 0)
