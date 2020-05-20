@@ -214,9 +214,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if (CameraHandler.Instance.GetDistanceWithCam(transform.position) > entityData.distanceMinWithCamToPlayVFX)
             {
                 //FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position, Quaternion.identity);
+                
+                Vector3 camPos = CameraHandler.Instance != null ? CameraHandler.Instance.renderingCam.transform.position : Camera.main.transform.position;
+                float distanceToCam = Vector3.Distance(camPos, transform.position);
+                float fxSize = distanceToCam < entityData.distanceWithCamToFadeVFX ? distanceToCam / entityData.distanceWithCamToFadeVFX : 1;
+                FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity, fxSize, 1);
                 FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position + Vector3.up * 0.8f, (transform.position - Player.Instance.transform.position).normalized, Vector3.up);
             }
-            FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity);
 
             CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
             TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);

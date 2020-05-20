@@ -17,7 +17,7 @@ MonoBehaviour:
   amplitudeIdle: 2
   speedIdle: 1
   offsetIdle: 0
-  baseColor: {r: 0.8584906, g: 0, b: 0.6319445, a: 0.3254902}
+  baseColor: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
   outlineBaseColor: {r: 0, g: 0, b: 0, a: 1}
   rotateSpeed: 0
   rotateDir: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
   chargingAmplitudeIdle: 0
   chargingSpeed: 10
   chargingRotation: 360
-  chargingColor: {r: 0.8588236, g: 0, b: 0.6313726, a: 0}
+  chargingColor: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 0}
   outlineChargingColor: {r: 0, g: 0, b: 0, a: 1}
   chargingRotateSpeed: 0
   chargingOffset: {x: 0, y: 0}
@@ -50,11 +50,11 @@ MonoBehaviour:
   noBulletColor: {r: 1, g: 1, b: 1, a: 1}
   noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   noBulletAnimTime: 2
-  chargedColor: {r: 0.8588236, g: 0, b: 0.6313726, a: 0}
+  chargedColor: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 0}
   outlineChargedColor: {r: 0, g: 0, b: 0, a: 1}
   chargedRotateSpeed: 0
   reactToOrb: 1
-  orbChargedColor: {r: 0.8588236, g: 0, b: 0.6313726, a: 1}
+  orbChargedColor: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
   outlineOrbChargedColor: {r: 0, g: 0, b: 0, a: 1}
   orbBonusSize: 200
   orbGrowTime: 0.5
@@ -96,5 +96,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   sizeMultiplier: 100
+  reactAtOverlap: 0
+  sizeMultiplierByOverlap: 1
+  colorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
+  outlineColorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
+  overlapLerpSpeed: 12
   crosshairPopsWhen: 4
   popTime: 1

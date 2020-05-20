@@ -282,6 +282,7 @@ public class SequenceHandler : MonoBehaviour
 
                     if (enemiesKilled >= currentSequence.enemiesToKillInSequence)
                     {
+                        TimeScaleManager.Instance.AddSlowMo(0.9f, .5f);
                         TriggerUtil.TriggerSequence(currentSequence.timeBeforeNextSequenceOnKills);
                         isWaitingTimer = true;
                     }
