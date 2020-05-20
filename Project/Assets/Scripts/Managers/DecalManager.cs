@@ -26,6 +26,9 @@ public class DecalManager : MonoBehaviour
     bool activeDecal = true;
 
     [SerializeField]
+    float maxDistToDecal = 25;
+
+    [SerializeField]
     float scalePlane = 0.5f;
     [SerializeField]
     float safeTranslateValue = 0.1f;
@@ -48,33 +51,41 @@ public class DecalManager : MonoBehaviour
     public Transform ProjectDecal(RaycastHit hitBase, string decalName = "")
     {
 
-        if (!activeDecal)
+        if (CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal)
         {
-            Debug.Log("Decal not activated");
+            if (!activeDecal)
+            {
+                Debug.Log("Decal not activated");
+                return null;
+            }
+
+            //EasyDecal decalInstance = FindDecal(name);
+            if (maxDecal == null)
+                return null;
+
+            Material overrideMaterial = null;
+            if (decalName != "") overrideMaterial = FindDecalMat(decalName);
+
+
+            GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal * -1));
+            planeInstance.transform.localScale = Vector3.one * scalePlane;
+            planeInstance.transform.Rotate(Vector3.forward * Random.Range(0, 360), Space.Self);
+            planeInstance.transform.SetParent(hitBase.collider.transform, true);
+
+            MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
+            planeRenderer.material = overrideMaterial != null ? overrideMaterial : maxDecal;
+
+            allMats.Add(planeRenderer.material);
+            allLifeTimes.Add(timeStayNormal + timeFade);
+            allGo.Add(planeInstance);
+
+            return planeInstance.transform;
+        }
+        else
+        {
             return null;
         }
 
-        //EasyDecal decalInstance = FindDecal(name);
-        if (maxDecal == null)
-            return null;
-
-        Material overrideMaterial = null;
-        if (decalName != "") overrideMaterial = FindDecalMat(decalName);
-
-
-        GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal*-1));
-        planeInstance.transform.localScale = Vector3.one * scalePlane;
-        planeInstance.transform.Rotate(Vector3.forward * Random.Range(0, 360), Space.Self);
-        planeInstance.transform.SetParent(hitBase.collider.transform, true);
-
-        MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
-        planeRenderer.material = overrideMaterial != null ? overrideMaterial : maxDecal;
-
-        allMats.Add(planeRenderer.material);
-        allLifeTimes.Add(timeStayNormal + timeFade);
-        allGo.Add(planeInstance);
-
-        return planeInstance.transform;
     }
 
     Material FindDecalMat(string decalName = "")
@@ -97,7 +108,7 @@ public class DecalManager : MonoBehaviour
             float currAlpha = baseAlpha;
             allLifeTimes[i] -= Time.deltaTime;
 
-            if (allLifeTimes[i] < 0)
+            if (allLifeTimes[i] < 0 || CameraHandler.Instance.GetDistanceWithCam(allGo[i].transform.position) > maxDistToDecal)
             {
                 GameObject planeInstance = allGo[i];
                 allMats.RemoveAt(i);
