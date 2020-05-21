@@ -17,6 +17,8 @@ public class ScoreBonusDisplayedInstance
     public GameObject go = null;
     public RectTransform rt = null;
 
+    float lerpedAlphaMultiplier = 1;
+
     public void OnCreation(DataUiTemporaryText _data, Color _color, Text _text, GameObject _go, RectTransform _rt)
     {
         data = _data;
@@ -44,6 +46,8 @@ public class ScoreBonusDisplayedInstance
         else if (distanceWithCursor < data.maxDistDetectMouse) alphaMultiplier = (distanceWithCursor - data.minDistDetectMouse) / (data.maxDistDetectMouse - data.minDistDetectMouse);
         alphaMultiplier = Mathf.Lerp(data.minAlphaMutliplier, data.maxAlphaMutliplier, alphaMultiplier);
 
+        lerpedAlphaMultiplier = Mathf.Lerp(lerpedAlphaMultiplier, alphaMultiplier, Time.unscaledDeltaTime * data.alphaMultiplierLerpSpeed);
+
         currentTimer += Time.unscaledDeltaTime;
         if (currentTimer > data.timeStayVisible)
         {
@@ -52,12 +56,12 @@ public class ScoreBonusDisplayedInstance
                 UiScoreBonusDisplay.Instance.deleteSpot(this);
             else
             {
-                currentColor = new Color(savedColor.r, savedColor.g, savedColor.b, currentAlpha * alphaMultiplier);
+                currentColor = new Color(savedColor.r, savedColor.g, savedColor.b, currentAlpha * lerpedAlphaMultiplier);
             }
         }
         else
         {
-            currentColor = new Color(savedColor.r, savedColor.g, savedColor.b, currentAlpha * alphaMultiplier);
+            currentColor = new Color(savedColor.r, savedColor.g, savedColor.b, currentAlpha * lerpedAlphaMultiplier);
         }
     }
 

@@ -17,6 +17,8 @@ public class DecalManager : MonoBehaviour
         _instance = this;
     }
 
+    [SerializeField] int maxNbDecal = 30;
+
     [SerializeField]
     Material maxDecal = null;
     [SerializeField]
@@ -50,7 +52,7 @@ public class DecalManager : MonoBehaviour
     public Transform ProjectDecal(RaycastHit hitBase, string decalName = "")
     {
 
-        if (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal) 
+        if ((CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal) && allDecal.Count < maxNbDecal) 
         {
             if (!activeDecal)
             {
@@ -59,12 +61,11 @@ public class DecalManager : MonoBehaviour
             }
 
             //EasyDecal decalInstance = FindDecal(name);
-            if (maxDecal == null)
-                return null;
 
             Material overrideMaterial = null;
             if (decalName != "") overrideMaterial = FindDecalMat(decalName);
-
+            else if (maxDecal == null) return null;
+            if (overrideMaterial == null) return null;
 
             GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal * -1));
             planeInstance.transform.localScale = Vector3.one * scalePlane;
@@ -98,6 +99,15 @@ public class DecalManager : MonoBehaviour
         }
         Debug.Log("Decal named '" + decalName + "' doesn't exist in the mat tab in Decal Manager");
         return null;
+    }
+
+    public void RemoveAllDecal()
+    {
+        for (int i = 0; i < allDecal.Count; i++)
+        {
+            Destroy(allDecal[i].go);
+        }
+        allDecal.Clear();
     }
 
     private void Update()

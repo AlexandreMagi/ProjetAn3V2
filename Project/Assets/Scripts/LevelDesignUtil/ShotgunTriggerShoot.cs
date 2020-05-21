@@ -122,6 +122,8 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             BooleanSequenceManager.Instance.SetStateOfBoolSequence(booleanSequenceName, booleanSequenceStateSet);
         }
 
+        if (DecalManager.Instance != null) DecalManager.Instance.RemoveAllDecal();
+
         if (!IsSoundPlayed)
         {
             IsSoundPlayed = true;
