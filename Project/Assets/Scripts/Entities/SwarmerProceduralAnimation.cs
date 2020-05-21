@@ -145,7 +145,8 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             bonesCustoms[i].LookAt(bonesCustomsCurrTarget[i].transform.position);
 
             bones[i].transform.position = bonesCustoms[i].GetChild(0).position;
-            bones[i].transform.rotation = bonesCustoms[i].GetChild(0).rotation;
+            //bones[i].transform.rotation = bonesCustoms[i].GetChild(0).rotation;
+            bones[i].transform.rotation = Quaternion.Slerp(bones[i].transform.rotation,bonesCustoms[i].GetChild(0).rotation,Time.deltaTime * 20);
         }
     }
     void TeethsRotations()
