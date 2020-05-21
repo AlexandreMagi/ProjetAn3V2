@@ -88,6 +88,11 @@ public class Spawner : MonoBehaviour
         spawnEnabled = true;
     }
 
+    public void StopSpawn()
+    {
+        spawnEnabled = false;
+    }
+
     // Update is called once per frame
     protected virtual void Update()
     {

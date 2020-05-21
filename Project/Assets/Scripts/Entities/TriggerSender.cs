@@ -12,6 +12,8 @@ public class TriggerSender : MonoBehaviour
 
     [ShowIf("typeTrigger", TriggerType.Spawner), SerializeField]
     Spawner[] spawners = null;
+    [ShowIf("typeTrigger", TriggerType.Spawner), SerializeField]
+    bool spawnerState = true;
 
 
     [ShowIf("typeTrigger", TriggerType.SlowMo), SerializeField]
@@ -142,6 +144,10 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Value), SerializeField]
     bool isSwarmer = false;
 
+    [ShowIf("typeTrigger", TriggerType.NearClipChanger), SerializeField]
+    Camera cameraToChange = null;
+    [ShowIf("typeTrigger", TriggerType.NearClipChanger), SerializeField]
+    float newNearClip = 10;
 
     [Header("Swarmer activation")]
     [SerializeField]
@@ -181,7 +187,7 @@ public class TriggerSender : MonoBehaviour
         switch (typeTrigger)
         {
             case TriggerType.Spawner:
-                TriggerUtil.TriggerSpawners(timeBeforeStart, spawners);
+                TriggerUtil.TriggerSpawners(timeBeforeStart, spawners, spawnerState);
                 this.gameObject.SetActive(false);
                 break;
 
@@ -257,6 +263,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Value:
                 TriggerUtil.TriggerValue(timeBeforeStart, valueStart, valueEnd, valueTransitionDuration, meshAffecteds, shaderValueName, isSwarmer);
                 break;
+            case TriggerType.NearClipChanger:
+                TriggerUtil.TriggerNearClipChange(timeBeforeStart, cameraToChange, newNearClip);
+                break;
             default:
                 break;
         }
@@ -301,7 +310,8 @@ public class TriggerSender : MonoBehaviour
         GameObjectActivation = 16,
         Damage = 17,
         SwarmerAnimation = 18,
-        Value = 19
+        Value = 19,
+        NearClipChanger = 20
     }
 
     public enum Activable
