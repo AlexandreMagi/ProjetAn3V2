@@ -78,6 +78,7 @@ public class BonusHandler : MonoBehaviour
     [SerializeField] float maxAddedSizeTitle = 0.2f;
     [SerializeField] float scoreIdleShakeSpeed = 7;
     [SerializeField] float scoreIdleShakeAmplitude = 7;
+    [SerializeField] float clampScoreShake = 800000;
 
     float currAddedScaleToTitle = 0;
     Vector3 stockedScoreInitialLocalPos = Vector3.zero;
@@ -279,10 +280,10 @@ public class BonusHandler : MonoBehaviour
 
         idlePurcentage = Mathf.MoveTowards(idlePurcentage, minValueIdle, (1- minValueIdle)* dt / idlePurcentageTimeCancel);
 
-        Vector3 scaleChange = Vector3.one * Mathf.Sin(customTime * scoreIdleSpeed) * scoreIdleAmplitude + Vector3.one * currAddedScaleToTitle + Vector3.one * (maxAddedSizeTitle * currScoreDisplayed / refForMaxSizeAndShake);
+        Vector3 scaleChange = Vector3.one * Mathf.Sin(customTime * scoreIdleSpeed) * scoreIdleAmplitude + Vector3.one * currAddedScaleToTitle + Vector3.one * (maxAddedSizeTitle * Mathf.Clamp(currScoreDisplayed, 0, clampScoreShake) / refForMaxSizeAndShake);
         scoreText.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one + scaleChange, idlePurcentage);
 
-        Vector3 posChange = (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude * currScoreDisplayed / refForMaxSizeAndShake));
+        Vector3 posChange = (new Vector3(Mathf.PerlinNoise(10, customTime * scoreIdleShakeSpeed) * 2 - 1, Mathf.PerlinNoise(1, customTime * scoreIdleShakeSpeed) * 2 - 1) * (scoreIdleShakeAmplitude * Mathf.Clamp(currScoreDisplayed, 0, clampScoreShake) / refForMaxSizeAndShake));
         scoreText.transform.localPosition = Vector3.Lerp(stockedScoreInitialLocalPos, stockedScoreInitialLocalPos + posChange, idlePurcentage);
 
         if (!goingAway && basePos != null)

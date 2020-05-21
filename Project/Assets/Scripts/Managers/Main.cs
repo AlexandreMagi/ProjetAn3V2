@@ -528,6 +528,7 @@ public class Main : MonoBehaviour
     public void InitLeaderboard()
     {
         mainMixer.SetFloat("GameVolume", -80);
+        CameraHandler.Instance.RemoveShake();
         MetricsGestionnary.Instance.EndMetrics();
         TitlesManager.Instance.CalculateScores();
         //TimeScaleManager.Instance.AddStopTime(5000);
