@@ -1481,7 +1481,6 @@ MonoBehaviour:
   - {fileID: 7230976405451158539}
   - {fileID: -2437452652646783079}
   - {fileID: 813050765791044150}
-  - {fileID: 2016968963627978095}
   - {fileID: -5308393490889735403}
 --- !u!114 &813050765791044150
 MonoBehaviour:
@@ -1504,7 +1503,7 @@ MonoBehaviour:
     value: 7
   maximumIterationCount:
     overrideState: 1
-    value: 16
+    value: 32
   resolution:
     overrideState: 1
     value: 0
@@ -1520,40 +1519,6 @@ MonoBehaviour:
   vignette:
     overrideState: 1
     value: 0.5
---- !u!114 &2016968963627978095
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f161f1bfe8d69542a86f8d442c273b8, type: 3}
-  m_Name: PostProcessOutline
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  scale:
-    overrideState: 1
-    value: 1
-  color:
-    overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
-  depthThreshold:
-    overrideState: 1
-    value: 7
-  depthNormalThreshold:
-    overrideState: 1
-    value: 0
-  depthNormalThresholdScale:
-    overrideState: 1
-    value: 10
-  normalThreshold:
-    overrideState: 1
-    value: 1
 --- !u!114 &6437918401222808203
 MonoBehaviour:
   m_ObjectHideFlags: 3
