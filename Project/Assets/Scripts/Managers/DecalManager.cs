@@ -33,9 +33,8 @@ public class DecalManager : MonoBehaviour
     [SerializeField]
     float safeTranslateValue = 0.1f;
 
-    List<Material> allMats = new List<Material>();
-    List<GameObject> allGo = new List<GameObject>();
-    List<float> allLifeTimes = new List<float>();
+
+    List<DecalInstance> allDecal = new List<DecalInstance>();
 
     [SerializeField]
     float timeStayNormal = 1;
@@ -51,7 +50,7 @@ public class DecalManager : MonoBehaviour
     public Transform ProjectDecal(RaycastHit hitBase, string decalName = "")
     {
 
-        if (CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal)
+        if (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal) 
         {
             if (!activeDecal)
             {
@@ -75,9 +74,9 @@ public class DecalManager : MonoBehaviour
             MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
             planeRenderer.material = overrideMaterial != null ? overrideMaterial : maxDecal;
 
-            allMats.Add(planeRenderer.material);
-            allLifeTimes.Add(timeStayNormal + timeFade);
-            allGo.Add(planeInstance);
+            DecalInstance newDecal = new DecalInstance(planeRenderer.material, planeInstance, timeStayNormal + timeFade);
+
+            allDecal.Add(newDecal);
 
             return planeInstance.transform;
         }
@@ -103,24 +102,22 @@ public class DecalManager : MonoBehaviour
 
     private void Update()
     {
-        for (int i = allLifeTimes.Count-1; i > -1; i--)
+        for (int i = allDecal.Count-1; i > -1; i--)
         {
             float currAlpha = baseAlpha;
-            allLifeTimes[i] -= Time.deltaTime;
+            allDecal[i].lifeTime -= Time.deltaTime;
 
-            if (allLifeTimes[i] < 0 || CameraHandler.Instance.GetDistanceWithCam(allGo[i].transform.position) > maxDistToDecal)
+            if (allDecal[i].lifeTime < 0 || CameraHandler.Instance != null && allDecal[i].go != null && CameraHandler.Instance.GetDistanceWithCam(allDecal[i].go.transform.position) > maxDistToDecal)
             {
-                GameObject planeInstance = allGo[i];
-                allMats.RemoveAt(i);
-                allLifeTimes.RemoveAt(i);
-                allGo.RemoveAt(i);
+                GameObject planeInstance = allDecal[i].go;
+                allDecal.RemoveAt(i);
                 Destroy(planeInstance);                                     
             }
             else
             {
-                if (allLifeTimes[i] < timeFade) currAlpha = allLifeTimes[i] * baseAlpha / timeFade;
-                if (allGo[i] != null)
-                    allGo[i].transform.localScale = Vector3.one * scalePlane * currAlpha;
+                if (allDecal[i].lifeTime < timeFade) currAlpha = allDecal[i].lifeTime * baseAlpha / timeFade;
+                if (allDecal[i].go != null)
+                    allDecal[i].go.transform.localScale = Vector3.one * scalePlane * currAlpha;
                 //SETUP ALPHA ICI
             }
 
@@ -129,4 +126,18 @@ public class DecalManager : MonoBehaviour
     }
 
 
+}
+
+public class DecalInstance
+{
+    public Material mat = null;
+    public GameObject go = null;
+    public float lifeTime = 0;
+
+    public DecalInstance(Material _mat, GameObject _go, float _lifeTime)
+    {
+        mat = _mat;
+        go = _go;
+        lifeTime = _lifeTime;
+    }
 }

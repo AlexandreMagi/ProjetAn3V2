@@ -619,7 +619,7 @@ public class Weapon : MonoBehaviour
     {
         for (int i = 0; i < weaponMod.bullet.bulletFxs.allFxReaction.Length; i++)
         {
-            if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
+            if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)) || hit.tag == weaponMod.bullet.bulletFxs.allFxReaction[i].tag)
             {
                 FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitBase, raybase);
                 DecalManager.Instance.ProjectDecal(hitBase, weaponMod.bullet.bulletFxs.allFxReaction[i].decalName);
