@@ -7,6 +7,7 @@ using UnityEngine;
 public class DataBulletFx : ScriptableObject
 {
     public LayerMask mask;
+    public string tag;
     public string fxName;
     public string decalName = "Bullet Hole";
 }
