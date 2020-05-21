@@ -604,7 +604,7 @@ public class CameraHandler : MonoBehaviour
     public void AddRecoil(bool fovType, float value, bool both = false) 
     {
 
-        if (Main.Instance == null || Main.Instance.TCActivated)
+        if (Main.Instance == null || Main.Instance.TCActivated && !Main.Instance.playerInLeaderboard)
         {
             if (!fovType || both)
             {
@@ -620,7 +620,7 @@ public class CameraHandler : MonoBehaviour
     }
     public void AddShake (float value, float duration = 1)
     {
-        if (Main.Instance == null || Main.Instance.TCActivated)
+        if (Main.Instance == null || Main.Instance.TCActivated && !Main.Instance.playerInLeaderboard)
         {
             ChangeShakeDuration(duration);
             shakeSource.GenerateImpulse(Vector3.up * value);
@@ -638,7 +638,7 @@ public class CameraHandler : MonoBehaviour
 
     public void AddShake (float value, Vector3 initPos, float duration = 1)
     {
-        if (Main.Instance == null || Main.Instance.TCActivated)
+        if (Main.Instance == null || Main.Instance.TCActivated && !Main.Instance.playerInLeaderboard)
         {
             ChangeShakeDuration(duration);
             float distance = Vector3.Distance(initPos, renderingCam.transform.position);

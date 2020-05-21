@@ -159,6 +159,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         currentOrbExplosion = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
     }
 
+    public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
+    {
+        base.OnHit(mod, position, dammage, rayShot);
+        //TakeDamage(dammage);
+    }
+
     public void OnZeroG()
     {
         ReactGravity<DataSwarmer>.DoSpin(rbBody);
@@ -219,7 +225,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 float distanceToCam = Vector3.Distance(camPos, transform.position);
                 float fxSize = distanceToCam < entityData.distanceWithCamToFadeVFX ? distanceToCam / entityData.distanceWithCamToFadeVFX : 1;
                 FxManager.Instance.PlayFx(entityData.fxWhenDie, transform.position, Quaternion.identity, fxSize, 1);
-                FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position + Vector3.up * 0.8f, (transform.position - Player.Instance.transform.position).normalized, Vector3.up);
+                //FxManager.Instance.PlayFx(entityData.fxWhenDieDecals, transform.position + Vector3.up * 0.8f, (transform.position - Player.Instance.transform.position).normalized, Vector3.up);
+                //FxManager.Instance.PlayFx(entityData.fxWhenTakeDamage, position, Quaternion.LookRotation(rayShot.direction, Vector3.up));
             }
 
             CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);

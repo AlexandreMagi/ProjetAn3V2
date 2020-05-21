@@ -289,7 +289,7 @@ public class SequenceHandler : MonoBehaviour
 
                     if(currentSequence.activatesSpawnersDuringSequence && (!isSequenceTrigger) && enemiesKilled >= currentSequence.numberOfKillsRequiredToPop)
                     {
-                        TriggerUtil.TriggerSpawners(currentSequence.delayOnTrigger, currentSequence.spawnersToTrigger);
+                        TriggerUtil.TriggerSpawners(currentSequence.delayOnTrigger, currentSequence.spawnersToTrigger, true);
                         isSequenceTrigger = true;
                     }
                    
@@ -437,7 +437,7 @@ public class SequenceHandler : MonoBehaviour
 
                 case DataSequence.SequenceEndEventType.SpawnEnemies:
 
-                    TriggerUtil.TriggerSpawners(currentSequence.timeBeforeEvent, currentSequence.spawnersToActivate);
+                    TriggerUtil.TriggerSpawners(currentSequence.timeBeforeEvent, currentSequence.spawnersToActivate, true);
 
                     break;
 

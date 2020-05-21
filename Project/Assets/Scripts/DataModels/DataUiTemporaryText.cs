@@ -22,6 +22,8 @@ public class DataUiTemporaryText : ScriptableObject
     public float maxAlphaMutliplier = 1f;
     public float minDistDetectMouse = 0.1f;
     public float maxDistDetectMouse = 0.5f;
+
+    public float alphaMultiplierLerpSpeed = 5;
 }
 
 
