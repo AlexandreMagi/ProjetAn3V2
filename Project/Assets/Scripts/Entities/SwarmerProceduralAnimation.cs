@@ -6,6 +6,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
 {
     public bool activeProcedu = true;
     [SerializeField]public Animator meshAnimator = null;
+    [SerializeField] float distanceRequired = 8;
 
     [Header("Torso")]
     [SerializeField] Transform pelvisAnim = null;
@@ -84,7 +85,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     {
         meshAnimator.enabled = !activeProcedu;
 
-        if (activeProcedu)
+        if (activeProcedu && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < distanceRequired))
         {
             if (lookAt != null)
                 HeadRotation();

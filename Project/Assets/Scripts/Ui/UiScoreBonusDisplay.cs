@@ -18,7 +18,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
     {
         _instance = this;
     }
-#endregion
+    #endregion
 
     List<Text> textDisplayed = new List<Text>();
     List<ScoreBonusDisplayedInstance> scoresBonusHandler = new List<ScoreBonusDisplayedInstance>();
@@ -33,10 +33,12 @@ public class UiScoreBonusDisplay : MonoBehaviour
     [SerializeField] UIParticuleSystem thumbsUpVFX = null;
     [SerializeField] UIParticuleSystem thumbsDownVFX = null;
 
+    [SerializeField] bool desactivateUiBonusDisplay = false;
+
     private void Update()
     {
 
-        for (int i = textDisplayed.Count-1; i > -1; i--)
+        for (int i = textDisplayed.Count - 1; i > -1; i--)
         {
             scoresBonusHandler[i].UpdateValues(Main.Instance.GetCursorPos());
             if (i < textDisplayed.Count && scoresBonusHandler[i] != null)
@@ -50,45 +52,53 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
     public void BonusAcquired()
     {
-        thumbsUpVFX.Play();
+        if (!desactivateUiBonusDisplay)
+            thumbsUpVFX.Play();
     }
     public void MalusAcquired()
     {
-        thumbsDownVFX.Play();
+        if(!desactivateUiBonusDisplay)
+            thumbsDownVFX.Play();
     }
 
 
-    public void AddScoreBonus (string textSend, bool good)
+    public void AddScoreBonus(string textSend, bool good)
     {
-        ScoreBonusDisplayedInstance handler;
-        GameObject newText = createObject(textSend, good, out handler);
-        Vector2 pos;
-        Vector2 posInput = new Vector2(Screen.width * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)), Screen.height * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)));
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posInput, GetComponent<Canvas>().worldCamera, out pos);
-        newText.transform.position = transform.TransformPoint(pos);
-        MaybePlayCheer();
+        if (!desactivateUiBonusDisplay)
+        {
+            ScoreBonusDisplayedInstance handler;
+            GameObject newText = createObject(textSend, good, out handler);
+            Vector2 pos;
+            Vector2 posInput = new Vector2(Screen.width * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)), Screen.height * (0.5f + Random.Range(-dataToSend.randomPos, dataToSend.randomPos)));
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posInput, GetComponent<Canvas>().worldCamera, out pos);
+            newText.transform.position = transform.TransformPoint(pos);
+            MaybePlayCheer();
+        }
     }
 
 
     public void AddScoreBonus(string textSend, bool good, Vector3 posInit, float randomPosAdded = 0)
     {
-        ScoreBonusDisplayedInstance handler;
-        GameObject newText = createObject(textSend, good,out handler);
-        handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
-        MoveSprite(newText, handler);
-        MaybePlayCheer();
+        if (!desactivateUiBonusDisplay)
+        {
+            ScoreBonusDisplayedInstance handler;
+            GameObject newText = createObject(textSend, good, out handler);
+            handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
+            MoveSprite(newText, handler);
+            MaybePlayCheer();
+        }
     }
 
     public void MaybePlayCheer()
     {
-        if (Random.Range(0f,100f)< 30f)
+        if (Random.Range(0f, 100f) < 30f)
         {
             /*if (Random.Range(0f, 100f) < 50)
                 CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer", false, 0.3f, 0.1f);
             else
                 CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer2", false, 0.3f, 0.1f);*/
             if (Random.Range(0f, 100f) < 50)
-                CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "PublicAmbiant", null, 0.3f,false,1, 0.1f);
+                CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "PublicAmbiant", null, 0.3f, false, 1, 0.1f);
             else
                 CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.3f, false, 1, 0.1f);
         }
@@ -97,10 +107,13 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
     public void AddScoreBonus(string textSend, bool good, Vector3 posInit, Color SpecificColor, float randomPosAdded = 0)
     {
-        ScoreBonusDisplayedInstance handler;
-        GameObject newText = createObject(textSend, good, SpecificColor, out handler);
-        handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
-        MoveSprite(newText, handler);
+        if (!desactivateUiBonusDisplay)
+        {
+            ScoreBonusDisplayedInstance handler;
+            GameObject newText = createObject(textSend, good, SpecificColor, out handler);
+            handler.IsPlacedInWorld(true, posInit + new Vector3(Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded), Random.Range(-randomPosAdded, randomPosAdded)));
+            MoveSprite(newText, handler);
+        }
     }
 
     void MoveSprite(GameObject textObject, ScoreBonusDisplayedInstance handler)
@@ -118,12 +131,12 @@ public class UiScoreBonusDisplay : MonoBehaviour
         }
     }
 
-    GameObject createObject(string textSend, bool good,out ScoreBonusDisplayedInstance newOne)
+    GameObject createObject(string textSend, bool good, out ScoreBonusDisplayedInstance newOne)
     {
         GameObject newText = Instantiate(emptyUiText, rootScoreBonus.transform);
         Text textThis = newText.GetComponent<Text>();
         textThis.text = textSend;
-        textThis.color = good? dataToSend.colorGood : dataToSend.colorBad;
+        textThis.color = good ? dataToSend.colorGood : dataToSend.colorBad;
         textThis.fontSize = Mathf.RoundToInt(dataToSend.fontSize);
 
         newText.transform.localScale = Vector3.zero;
@@ -143,7 +156,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
         GameObject newText = Instantiate(emptyUiText, rootScoreBonus.transform);
         Text textThis = newText.GetComponent<Text>();
         textThis.text = textSend;
-        textThis.color = good? dataToSend.colorGood : dataToSend.colorBad;
+        textThis.color = good ? dataToSend.colorGood : dataToSend.colorBad;
         textThis.fontSize = Mathf.RoundToInt(dataToSend.fontSize);
 
         newText.transform.localScale = Vector3.zero;

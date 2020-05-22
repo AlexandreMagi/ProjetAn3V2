@@ -126,13 +126,13 @@ public class DeathBodyPart : MonoBehaviour
     {
         if (gameObject != null && isActiveAndVisible && forceNoSpawn != true)
         {
-            // --- Baisse la phospho jusqu'à zero
-            if (phosphoValue >= 0 && isPhophoAffected)
-            {
-                phosphoValue = phosphoValue - 0.005f - Time.deltaTime;
+            //// --- Baisse la phospho jusqu'à zero
+            //if (phosphoValue >= 0 && isPhophoAffected)
+            //{
+            //    phosphoValue = phosphoValue - 0.005f - Time.deltaTime;
 
-                instancedMaterial.SetFloat("_RevealLightEnabled", phosphoValue);
-            }
+            //    instancedMaterial.SetFloat("_RevealLightEnabled", phosphoValue);
+            //}
 
             // --- Si le timer depasse la valeur d'inactivité
             if (timerBeforeDisapearIncrement >= timerBeforeDisapear)
