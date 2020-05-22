@@ -269,8 +269,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             if (SequenceHandler.Instance != null && !ignoresBufferOnceKilled)
                 SequenceHandler.Instance.OnEnemyKill();
 
-            if(entityData.spawnsPartsOnDeath)
-                InstansiateDeadBody();
+
+            if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position);
+                
 
             CustomSoundManager.Instance.PlaySound("SE_Swarmer_Death", "Effect", null, 0.8f,false,1,0.3f);
 
@@ -281,9 +282,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     }
     void InstansiateDeadBody()
     {
-        GameObject deadBodyClone;
-        deadBodyClone = Instantiate(entityData.deadBody, transform.position, transform.rotation);
-        deadBodyClone.transform.parent = null;
+        
+        //GameObject deadBodyClone;
+        //deadBodyClone = Instantiate(entityData.deadBody, transform.position, transform.rotation);
+        //deadBodyClone.transform.parent = null;
     }
     #endregion
 

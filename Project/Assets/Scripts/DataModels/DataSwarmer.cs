@@ -49,10 +49,10 @@ public class DataSwarmer : DataEnemy
     [Tooltip("Multiplicateur de vitesse lors d'une attaque du Swarmer")]
     public float speedMultiplierWhenAttacking = 4;
 
-    [Tooltip("Fait apparaître des morceaux à la mort")]
-    public bool spawnsPartsOnDeath = true;
+    //[Tooltip("Fait apparaître des morceaux à la mort")]
+    //public bool spawnsPartsOnDeath = true;
 
-    public GameObject deadBody = null;
+    //public GameObject deadBody = null;
 
     public bool targetsPlayerAtEndOfPath = true;
 

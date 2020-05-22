@@ -6,9 +6,9 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Enemies/DataShooter")]
 public class DataShooter : DataEnemy
 {
-    [Header("Feedback")]
-    public bool spawnsPartsOnDeath = true;
-    public GameObject deadBody = null;
+    //[Header("Feedback")]
+    //public bool spawnsPartsOnDeath = true;
+    //public GameObject deadBody = null;
 
     [Header("Rotation")]
     public float rotationSpeed;

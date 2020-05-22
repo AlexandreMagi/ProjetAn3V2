@@ -11,7 +11,9 @@ public abstract class DataEntity : ScriptableObject
 
     public float shakeOnDie;
     public float shakeOnDieTime;
-    public GameObject fracturedProp;
+    //public GameObject fracturedProp;
+    public DeadBodyPartManager.TypeOfFracture fractureType = DeadBodyPartManager.TypeOfFracture.none;
+
     public float fracturedForceOnDie = 100;
 
     public DataUiTemporarySprite spriteToDisplayShield;
