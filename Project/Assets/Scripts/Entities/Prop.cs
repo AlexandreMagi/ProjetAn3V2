@@ -14,6 +14,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     [HideInInspector] public bool isAffectedByGravity = false;
 
+
   //  DataProp propData;
 
     protected override void Start()
@@ -32,7 +33,15 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
             //if (GetComponent<DeathBodyPart>() != null)
             //    Weapon.Instance.JustDestroyedBodyPart(transform.position);
         }
-        base.Die();
+        DeathBodyPart bodyPart = transform.GetComponent<DeathBodyPart>();
+        if (bodyPart == null)
+            base.Die();
+        else
+        {
+            TeamsManager.Instance.RemoveFromTeam(this.transform, this.entityData.team);
+            CameraHandler.Instance.AddShake(entityData.shakeOnDie, entityData.shakeOnDieTime);
+            bodyPart.Depop();
+        }
     }
 
     #region Gravity
