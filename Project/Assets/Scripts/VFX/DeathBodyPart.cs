@@ -38,58 +38,86 @@ public class DeathBodyPart : MonoBehaviour
 
     bool isActiveAndVisible = true;
 
+    float currSize = 1;
+
+
+    [SerializeField]
+    float scaleMultiplier = 1;
+
+    [SerializeField]
+    Collider collid19 = null;
+
+
     void Start()
     {
-        if (forceNoSpawn != true)
+        if (isPhophoAffected)
         {
-            if(BodyPartsManager.Instance != null)
-            BodyPartsManager.Instance.NotifyApparition(this);
+            meshRenderer = gameObject.GetComponent<Renderer>();
+            instancedMaterial = meshRenderer.materials[1];
+        }
+        prop = GetComponent<Prop>();
+        collid19 = GetComponent<Collider>();
+    }
 
-            if (isPhophoAffected)
+    public void CheckIfMustPop(Vector3 pos, Vector3 decalAllPos)
+    {
+        if (!forceNoSpawn)
+        {
+            //if (BodyPartsManager.Instance != null)
+            //    BodyPartsManager.Instance.NotifyApparition(this);
+
+            if (!isAlwaysSpawning)
             {
-                meshRenderer = gameObject.GetComponent<Renderer>();
-                instancedMaterial = meshRenderer.materials[1];
-            }
-
-            timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
-
-            prop = GetComponent<Prop>();
-
-            transform.rotation = Random.rotation;
-
-            if (!isAlwaysSpawning && isEnemyPart)
-            {
-
                 int rand;
                 rand = Random.Range(0, 2);
 
-                if (rand == 0)
-                {
-                    gameObject.SetActive(false);
-                }
-                else
-                {
-                    Rigidbody rb;
-                    rb = GetComponent<Rigidbody>();
-                    StartCoroutine(AddExplosionEffect(rb));
-                }
+                if (rand == 0) gameObject.SetActive(false);
+                else Pop(pos, decalAllPos);
             }
-            else if (isAlwaysSpawning && isEnemyPart)
-            {
-                Rigidbody rb;
-                rb = GetComponent<Rigidbody>();
-                StartCoroutine(AddExplosionEffect(rb));
-            }
-
-
+            else Pop(pos, decalAllPos);
         }
     }
 
-    IEnumerator AddExplosionEffect(Rigidbody rb)
+    void Pop(Vector3 posInit, Vector3 decalAllPos)
+    {
+        gameObject.SetActive(true);
+        timerBeforeDisapear = Random.Range(minTimerBeforeDisapear, maxTimerBeforeDisapear);
+        transform.rotation = Random.rotation;
+        transform.position = posInit + Random.insideUnitSphere + decalAllPos;
+        Rigidbody rb;
+        rb = GetComponent<Rigidbody>();
+        StartCoroutine(AddExplosionEffect(rb, posInit));
+        StartCoroutine(ActivateCollider());
+        transform.localScale = Vector3.one;
+        isActiveAndVisible = true;
+        timerBeforeDisapearIncrement = 0;
+        phosphoValue = 1;
+        if (collid19 != null) collid19.enabled = false;
+    }
+
+    public void Depop()
+    {
+        transform.localScale = new Vector3(0, 0, 0);
+        isActiveAndVisible = false;
+        gameObject.SetActive(false);
+        if (collid19 != null) collid19.enabled = false;
+    }
+
+    IEnumerator ActivateCollider()
+    {
+        yield return new WaitForEndOfFrame();
+        if (collid19 != null) collid19.enabled = true;
+        yield break;
+    }
+
+    IEnumerator AddExplosionEffect(Rigidbody rb, Vector3 posInit)
     {
         yield return new WaitForEndOfFrame();
 
-        rb.AddExplosionForce(explosionForceOnSpawn * explosionForceOnSpawn, transform.position + 0.3f * Vector3.up, 3f);
+        rb.AddTorque(Random.onUnitSphere * 100000);
+        rb.AddForce((transform.position - posInit).normalized * explosionForceOnSpawn);
+
+        //rb.AddExplosionForce(explosionForceOnSpawn, posInit, 10f);
 
         yield break;
     }
@@ -98,6 +126,7 @@ public class DeathBodyPart : MonoBehaviour
     {
         if (gameObject != null && isActiveAndVisible && forceNoSpawn != true)
         {
+            // --- Baisse la phospho jusqu'à zero
             if (phosphoValue >= 0 && isPhophoAffected)
             {
                 phosphoValue = phosphoValue - 0.005f - Time.deltaTime;
@@ -105,23 +134,23 @@ public class DeathBodyPart : MonoBehaviour
                 instancedMaterial.SetFloat("_RevealLightEnabled", phosphoValue);
             }
 
+            // --- Si le timer depasse la valeur d'inactivité
             if (timerBeforeDisapearIncrement >= timerBeforeDisapear)
             {
-                if (transform.localScale.x >= 0 && transform.localScale.y >= 0 && transform.localScale.z >= 0 && prop != null && !prop.isAffectedByGravity)
+                if (currSize > 0 && prop != null && !prop.isAffectedByGravity) // Si il est pas désactivé et qu'il n'est pas affecté par la gravité
                 {
-                    transform.localScale = new Vector3(transform.localScale.x - Time.deltaTime, transform.localScale.y - Time.deltaTime, transform.localScale.z - Time.deltaTime);
-                    prop.enabled = false;
+                    prop.enabled = false; // On desactive son script prop
+                    currSize -= Time.deltaTime;
 
-                }else if (prop != null && !prop.isAffectedByGravity)
-                {
-                    transform.localScale = new Vector3(0, 0, 0);
-                    isActiveAndVisible = false;
-                    gameObject.SetActive(false);
+                    if (currSize < 0) Depop();
+                    else transform.localScale = Vector3.one * currSize * scaleMultiplier;
                 }
 
-            }else
+            }
+            else
             {
                 timerBeforeDisapearIncrement += Time.deltaTime;
+                transform.localScale = Vector3.one * scaleMultiplier;
             }
         }
     }

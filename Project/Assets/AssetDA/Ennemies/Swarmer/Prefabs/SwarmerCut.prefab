@@ -150,10 +150,11 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8
 --- !u!114 &4131949702662134222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,10 +298,11 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8
 --- !u!114 &3267560284991775688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,10 +476,11 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8
 --- !u!1 &4558759283200971784
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,10 +594,11 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8
 --- !u!114 &7202877389556522975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,10 +772,11 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8
 --- !u!1 &7328945747328693308
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6048049024747177519}
+  - component: {fileID: 7815360587639913403}
   m_Layer: 18
   m_Name: SwarmerCut
   m_TagString: Untagged
@@ -803,6 +809,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7815360587639913403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7328945747328693308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25a9e0d5c2b89b4688e0fca3c3c7c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allBodyParts:
+  - {fileID: 9068496288912908986}
+  - {fileID: 4178717551591441629}
+  - {fileID: 1096951375196312977}
+  - {fileID: 6199089604277650687}
+  - {fileID: 8632141177327830799}
+  - {fileID: 572470875542294919}
+  - {fileID: 7093502647852769681}
+  available: 1
+  timeBeforeCanBeActivatedAgain: 10
 --- !u!1 &8132077983338725969
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,10 +974,11 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8
 --- !u!1 &8144306825424557695
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1122,8 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 150
+  explosionForceOnSpawn: 2000
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 0.8

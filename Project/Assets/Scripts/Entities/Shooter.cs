@@ -368,18 +368,18 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
                 SequenceHandler.Instance.OnEnemyKill();
         }
 
-        if (entityData.spawnsPartsOnDeath)
-            InstansiateDeadBody();
+
+        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, Vector3.up);
 
         base.Die();
     }
 
-    void InstansiateDeadBody()
-    {
-        GameObject deadBodyClone;
-        deadBodyClone = Instantiate(entityData.deadBody, transform.position, transform.rotation);
-        deadBodyClone.transform.parent = null;
-    }
+    //void InstansiateDeadBody()
+    //{
+    //    GameObject deadBodyClone;
+    //    deadBodyClone = Instantiate(entityData.deadBody, transform.position, transform.rotation);
+    //    deadBodyClone.transform.parent = null;
+    //}
 
 
     public void OnHitByOwnBullet()

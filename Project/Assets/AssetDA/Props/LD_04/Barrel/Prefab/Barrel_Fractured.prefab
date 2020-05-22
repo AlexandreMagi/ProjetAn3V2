@@ -42,6 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -104,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -133,6 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3593437844035805306}
+  - component: {fileID: 3170588077792223173}
   m_Layer: 20
   m_Name: Barrel_Fractured
   m_TagString: Untagged
@@ -155,6 +158,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3170588077792223173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908888337780523838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25a9e0d5c2b89b4688e0fca3c3c7c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allBodyParts:
+  - {fileID: 6013536006079542686}
+  - {fileID: 1723995662311667894}
+  - {fileID: 5123526374444706287}
+  - {fileID: 8891715089477206801}
+  - {fileID: 7830531436976848625}
+  - {fileID: 5297879594979296966}
+  - {fileID: 2919680969728431752}
+  - {fileID: 1515583429065827656}
+  - {fileID: 4807320716768465840}
+  - {fileID: 7672607118268886567}
+  - {fileID: 2523369732482779493}
 --- !u!54 &1471330089889557239
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -211,6 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -273,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -321,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -397,6 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -459,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -507,6 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -569,6 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -645,6 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
@@ -707,6 +742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 300
