@@ -56,17 +56,15 @@ public class DeadBodyPartManager : MonoBehaviour
         }
     }
 
-    public void RequestPop (TypeOfFracture fractureType, Vector3 pos)
+    public void RequestPop (TypeOfFracture fractureType, Vector3 pos, Vector3 decalAllPos)
     {
-        Debug.Log("Request pop fracture " + fractureType);
-
         FractureManager usedFractureManager = FindFractureManagerToUse(fractureType);
         if (usedFractureManager != null)
         {
             usedFractureManager.DepopAll();
             usedFractureManager.gameObject.SetActive(true);
             usedFractureManager.transform.position = pos;
-            usedFractureManager.SpawnBodyParts(pos);
+            usedFractureManager.SpawnBodyParts(pos, decalAllPos);
         }
     }
 

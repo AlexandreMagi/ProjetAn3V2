@@ -369,7 +369,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
         }
 
 
-        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position);
+        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, Vector3.up);
 
         base.Die();
     }

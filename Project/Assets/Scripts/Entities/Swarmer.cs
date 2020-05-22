@@ -270,7 +270,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 SequenceHandler.Instance.OnEnemyKill();
 
 
-            if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position);
+            if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
                 
 
             CustomSoundManager.Instance.PlaySound("SE_Swarmer_Death", "Effect", null, 0.8f,false,1,0.3f);

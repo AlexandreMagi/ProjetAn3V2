@@ -68,7 +68,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         //        rbs.AddExplosionForce(entityData.fracturedForceOnDie * 10, rbs.transform.position, 10);
         //    }
         //}
-        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position);
+        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
         FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
     }
 

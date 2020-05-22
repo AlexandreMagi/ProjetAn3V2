@@ -11,14 +11,14 @@ public class FractureManager : MonoBehaviour
     [SerializeField] float timeBeforeCanBeActivatedAgain = 10;
     [HideInInspector] public float timeRemainingBeforeActivation = 0;
 
-    public void SpawnBodyParts(Vector3 pos)
+    public void SpawnBodyParts(Vector3 pos, Vector3 decalAllPos)
     {
         available = false;
         timeRemainingBeforeActivation = timeBeforeCanBeActivatedAgain;
         DepopAll();
         for (int i = 0; i < allBodyParts.Count; i++)
         {
-            allBodyParts[i].CheckIfMustPop(pos);
+            allBodyParts[i].CheckIfMustPop(pos, decalAllPos);
         }
     }
 
