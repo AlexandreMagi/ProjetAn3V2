@@ -23,18 +23,21 @@ public static class TriggerUtil
     }
 
     //SPAWNERS
-    public static void TriggerSpawners(float timeBeforeStart, Spawner[] spawners)
+    public static void TriggerSpawners(float timeBeforeStart, Spawner[] spawners, bool state)
     {
-        Main.Instance.StartCoroutine(TriggerSpawnersCoroutine(timeBeforeStart, spawners));
+        Main.Instance.StartCoroutine(TriggerSpawnersCoroutine(timeBeforeStart, spawners, state));
     }
 
-    static IEnumerator TriggerSpawnersCoroutine(float timeBeforeStart, Spawner[] spawners)
+    static IEnumerator TriggerSpawnersCoroutine(float timeBeforeStart, Spawner[] spawners, bool state)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
         foreach (Spawner spawner in spawners)
         {
-            spawner.StartSpawn();
+            if (state)
+                spawner.StartSpawn();
+            else
+                spawner.StopSpawn();
         }
 
         yield break;
@@ -443,6 +446,21 @@ public static class TriggerUtil
                 lh.enabled = lightsState;
             }
         }
+
+        yield break;
+    }
+
+    //Camera near clip
+    public static void TriggerNearClipChange(float timeBeforeStart, Camera cameraToChange, float newNearClip)
+    {
+        Main.Instance.StartCoroutine(TriggerNearClipChangeCoroutine(timeBeforeStart, cameraToChange, newNearClip));
+    }
+
+    static IEnumerator TriggerNearClipChangeCoroutine(float timeBeforeStart, Camera cameraToChange, float newNearClip)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        cameraToChange.nearClipPlane = newNearClip;
 
         yield break;
     }
