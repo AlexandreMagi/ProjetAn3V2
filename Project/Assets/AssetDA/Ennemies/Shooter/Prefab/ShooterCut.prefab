@@ -140,12 +140,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &544009419801034502
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,12 +289,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &1261804489168154756
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,12 +438,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &1428776031843151184
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,12 +587,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &1651720755331912882
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,12 +736,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &2841015876542182205
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,12 +925,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &4878106038091294667
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8496562141607253464}
+  - component: {fileID: 7144174332882016064}
   m_Layer: 18
   m_Name: ShooterCut
   m_TagString: Untagged
@@ -947,6 +966,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7144174332882016064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878106038091294667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25a9e0d5c2b89b4688e0fca3c3c7c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allBodyParts:
+  - {fileID: 8920036852397933658}
+  - {fileID: 6964636816168941131}
+  - {fileID: 1155814868497772912}
+  - {fileID: 2086276008909480962}
+  - {fileID: 4362779734150472925}
+  - {fileID: 2033581895440122948}
+  - {fileID: 4764015654159537005}
+  - {fileID: 8875086168728417564}
+  - {fileID: 958015427236378635}
+  - {fileID: 2584773723870172595}
+  available: 1
+  timeBeforeCanBeActivatedAgain: 10
+  timeRemainingBeforeActivation: 0
 --- !u!1 &5507452736019826552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,12 +1132,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &5685618031098038222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,12 +1281,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &6848442745461731001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,12 +1430,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}
 --- !u!1 &7628226748609308877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,9 +1579,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d184bf01162b043a793336aa50a367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceNoSpawn: 0
   minTimerBeforeDisapear: 3
   maxTimerBeforeDisapear: 5
   explosionForceOnSpawn: 600
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
+  scaleMultiplier: 1
+  collid19: {fileID: 0}

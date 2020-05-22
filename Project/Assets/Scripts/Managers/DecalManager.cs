@@ -18,6 +18,7 @@ public class DecalManager : MonoBehaviour
     }
 
     [SerializeField] int maxNbDecal = 30;
+    [SerializeField] float timeBeforeCreatingPull = 4;
 
     [SerializeField]
     Material maxDecal = null;
@@ -36,7 +37,7 @@ public class DecalManager : MonoBehaviour
     float safeTranslateValue = 0.1f;
 
 
-    List<DecalInstance> allDecal = new List<DecalInstance>();
+    DecalInstance[] allDecal = null;
 
     [SerializeField]
     float timeStayNormal = 1;
@@ -49,10 +50,27 @@ public class DecalManager : MonoBehaviour
     [SerializeField]
     List<Material> allDecalMat = new List<Material>();
 
+    public void Start()
+    {
+        Invoke("CreatePull", timeBeforeCreatingPull);   
+    }
+
+    public void CreatePull()
+    {
+        allDecal = new DecalInstance[maxNbDecal];
+        for (int i = 0; i < maxNbDecal; i++)
+        {
+            GameObject decalGo = Instantiate(planeForDecal);
+            decalGo.SetActive(false);
+            DecalInstance newDecal = new DecalInstance(decalGo.GetComponent<Renderer>(), decalGo, 0);
+            allDecal[i] = newDecal;
+        }
+    }
+
     public Transform ProjectDecal(RaycastHit hitBase, string decalName = "")
     {
 
-        if ((CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal) && allDecal.Count < maxNbDecal) 
+        if ((CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal) && allDecal != null) 
         {
             if (!activeDecal)
             {
@@ -67,19 +85,47 @@ public class DecalManager : MonoBehaviour
             else if (maxDecal == null) return null;
             if (overrideMaterial == null) return null;
 
-            GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal * -1));
-            planeInstance.transform.localScale = Vector3.one * scalePlane;
-            planeInstance.transform.Rotate(Vector3.forward * Random.Range(0, 360), Space.Self);
-            planeInstance.transform.SetParent(hitBase.collider.transform, true);
+            DecalInstance decalUsed = null;
+            for (int i = 0; i < maxNbDecal; i++)
+            {
+                if (allDecal[i] == null || allDecal[i].go == null)
+                {
+                    GameObject decalGo = Instantiate(planeForDecal);
+                    DecalInstance newDecal = new DecalInstance(decalGo.GetComponent<Renderer>(), decalGo, 0);
+                    allDecal[i] = newDecal;
+                }
 
-            MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
-            planeRenderer.material = overrideMaterial != null ? overrideMaterial : maxDecal;
+                if (!allDecal[i].go.activeSelf)
+                {
+                    decalUsed = allDecal[i];
+                    break;
+                }
+            }
+            if (decalUsed == null)
+            {
+                int index = Random.Range(0, allDecal.Length);
+                Debug.Log("Override : " + index);
+                decalUsed = allDecal[index];
+            }
 
-            DecalInstance newDecal = new DecalInstance(planeRenderer.material, planeInstance, timeStayNormal + timeFade);
+            decalUsed.lifeTime = timeStayNormal + timeFade;
+            decalUsed.go.SetActive(true);
+            decalUsed.go.transform.position = hitBase.point + hitBase.normal.normalized * safeTranslateValue;
+            decalUsed.go.transform.rotation = Quaternion.LookRotation(hitBase.normal * -1);
 
-            allDecal.Add(newDecal);
+            //GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal * -1));
+            decalUsed.go.transform.localScale = Vector3.one * scalePlane;
+            decalUsed.go.transform.Rotate(Vector3.forward * Random.Range(0, 360), Space.Self);
+            decalUsed.go.transform.SetParent(hitBase.collider.transform, true);
 
-            return planeInstance.transform;
+            //MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
+            decalUsed.render.material = overrideMaterial != null ? overrideMaterial : maxDecal;
+
+            //DecalInstance newDecal = new DecalInstance(planeRenderer, planeInstance, timeStayNormal + timeFade);
+
+            //allDecal.Add(newDecal);
+
+            return decalUsed.go.transform;
         }
         else
         {
@@ -103,35 +149,36 @@ public class DecalManager : MonoBehaviour
 
     public void RemoveAllDecal()
     {
-        for (int i = 0; i < allDecal.Count; i++)
+        for (int i = 0; i < allDecal.Length; i++)
         {
-            Destroy(allDecal[i].go);
+            allDecal[i].go.SetActive(false);
+            allDecal[i].lifeTime = 0;
         }
-        allDecal.Clear();
     }
 
     private void Update()
     {
-        for (int i = allDecal.Count-1; i > -1; i--)
+        if (allDecal != null)
         {
-            float currAlpha = baseAlpha;
-            allDecal[i].lifeTime -= Time.deltaTime;
-
-            if (allDecal[i].lifeTime < 0 || CameraHandler.Instance != null && allDecal[i].go != null && CameraHandler.Instance.GetDistanceWithCam(allDecal[i].go.transform.position) > maxDistToDecal)
+            for (int i = 0; i < allDecal.Length; i++)
             {
-                GameObject planeInstance = allDecal[i].go;
-                allDecal.RemoveAt(i);
-                Destroy(planeInstance);                                     
+                float currScaleMultiplier = baseAlpha;
+                if (allDecal[i].lifeTime > 0 && allDecal[i].go != null && allDecal[i].go.activeSelf)
+                {
+                    allDecal[i].lifeTime -= Time.deltaTime;
+                    if (allDecal[i].lifeTime < 0 || CameraHandler.Instance != null && allDecal[i].go != null && CameraHandler.Instance.GetDistanceWithCam(allDecal[i].go.transform.position) > maxDistToDecal)
+                    {
+                        allDecal[i].go.SetActive(false);
+                        allDecal[i].lifeTime = 0;
+                    }
+                    else
+                    {
+                        if (allDecal[i].lifeTime < timeFade) currScaleMultiplier = allDecal[i].lifeTime * baseAlpha / timeFade;
+                        if (allDecal[i].go != null)
+                            allDecal[i].go.transform.localScale = Vector3.one * scalePlane * currScaleMultiplier;
+                    }
+                }
             }
-            else
-            {
-                if (allDecal[i].lifeTime < timeFade) currAlpha = allDecal[i].lifeTime * baseAlpha / timeFade;
-                if (allDecal[i].go != null)
-                    allDecal[i].go.transform.localScale = Vector3.one * scalePlane * currAlpha;
-                //SETUP ALPHA ICI
-            }
-
-
         }
     }
 
@@ -140,13 +187,13 @@ public class DecalManager : MonoBehaviour
 
 public class DecalInstance
 {
-    public Material mat = null;
+    public Renderer render = null;
     public GameObject go = null;
     public float lifeTime = 0;
 
-    public DecalInstance(Material _mat, GameObject _go, float _lifeTime)
+    public DecalInstance(Renderer _render, GameObject _go, float _lifeTime)
     {
-        mat = _mat;
+        render = _render;
         go = _go;
         lifeTime = _lifeTime;
     }
