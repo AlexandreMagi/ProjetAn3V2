@@ -30,6 +30,8 @@ public class TriggerSender : MonoBehaviour
 
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
     string soundPlayed = "";
+    [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
+    string soundMixer = "Effect";
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
     float volume = 1;
 
@@ -202,7 +204,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Sound:
-                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed, volume);
+                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed,soundMixer, volume);
                 this.gameObject.SetActive(false);
                 break;
 

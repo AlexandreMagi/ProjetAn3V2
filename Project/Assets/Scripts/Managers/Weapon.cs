@@ -476,6 +476,7 @@ public class Weapon : MonoBehaviour
             currentChargePurcentage = 0;
             OnShoot(mousePosition, currentWeaponMod);
         }
+        else if (reloading && !isMinigun && CustomSoundManager.Instance != null) CustomSoundManager.Instance.PlaySound("SE_NoBullet", "PlayerUnpitched", 2);
     }
 
     public void CanNotShoot()

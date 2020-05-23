@@ -36,7 +36,7 @@ public class MusicHandler : MonoBehaviour
     {
         if (currMusicRequest!= null)
         {
-            Debug.Log("Curr State is = " + currState + " / " + Mathf.RoundToInt(completionState * 100) + "%");
+            //Debug.Log("Curr State is = " + currState + " / " + Mathf.RoundToInt(completionState * 100) + "%");
             switch (currState)
             {
                 // ---
@@ -121,7 +121,7 @@ public class MusicHandler : MonoBehaviour
     {
         if (musicSource != null)
         {
-            Debug.Log("Change Music");
+            //Debug.Log("Change Music");
             switch (musicToPlay)
             {
                 case Musics.none:
