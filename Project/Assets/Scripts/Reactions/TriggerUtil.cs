@@ -94,17 +94,17 @@ public static class TriggerUtil
     }
 
     //SOUND EFFECT
-    public static void TriggerSound(float timeBeforeStart, string soundPlayed, float volume)
+    public static void TriggerSound(float timeBeforeStart, string soundPlayed, string soundMixer, float volume)
     {
-        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, volume));
+        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, soundMixer, volume));
     }
 
-    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, float volume)
+    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, string soundMixer, float volume)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundName, false, volume);
-        CustomSoundManager.Instance.PlaySound(soundName, "Effect", volume);
+        CustomSoundManager.Instance.PlaySound(soundName, soundMixer, volume);
 
         yield break;
     }

@@ -410,7 +410,7 @@ public class SequenceHandler : MonoBehaviour
 
                 case DataSequence.SequenceEndEventType.Sound:
 
-                    TriggerUtil.TriggerSound(currentSequence.timeBeforeEvent, currentSequence.soundPlayed, currentSequence.volume);
+                    TriggerUtil.TriggerSound(currentSequence.timeBeforeEvent, currentSequence.soundPlayed, currentSequence.soundMixer,currentSequence.volume);
 
                     break;
 

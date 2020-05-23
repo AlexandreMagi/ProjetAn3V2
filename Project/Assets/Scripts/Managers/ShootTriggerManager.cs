@@ -50,6 +50,8 @@ public class ShootTriggerManager : MonoBehaviour
     [SerializeField, ShowIf("isPlayingSound")]
     string soundPlayed = "";
     [SerializeField, ShowIf("isPlayingSound")]
+    string soundMixer = "Effect";
+    [SerializeField, ShowIf("isPlayingSound")]
     float soundVolume = 1;
 
     // BOOLEAN SEQUENCE ////////////////////
@@ -178,7 +180,7 @@ public class ShootTriggerManager : MonoBehaviour
 
         if (isPlayingSound)
         {
-            TriggerUtil.TriggerSound(timeBeforeSound, soundPlayed, soundVolume);
+            TriggerUtil.TriggerSound(timeBeforeSound, soundPlayed, soundMixer, soundVolume);
         }
 
         if (triggersBooleanSequence)
