@@ -10,4 +10,5 @@ public class DataBulletFx : ScriptableObject
     public string tag;
     public string fxName;
     public string decalName = "Bullet Hole";
+    public float decalSizeMultiplier = 1;
 }

@@ -17,6 +17,20 @@ public class KillerObject : MonoBehaviour
     [SerializeField]
     float shakeDurationAtVictim = 0;
 
+
+    [SerializeField]
+    string soundToPlayAtStart = "Se_KillerObjectSound";
+    [SerializeField]
+    string soundToPlayAtKill = "Se_KillerObjectKillSound";
+
+    AudioSource ambiantAudioSource = null;
+
+    public void Start()
+    {
+        if (CustomSoundManager.Instance != null && soundToPlayAtStart != "") ambiantAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtStart, "Ambiant", transform, 2f, true);
+        if (ambiantAudioSource != null) ambiantAudioSource.spatialBlend = 1;
+    }
+
     public void Update()
     {
         if(timeBeforeEndOfMulti > 0)
@@ -55,6 +69,20 @@ public class KillerObject : MonoBehaviour
             }
 
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IEntity otherEnemy = other.GetComponent<IEntity>();
+        if (other.GetComponent<IEntity>() != null && other.GetComponent<Player>() == null && other.GetComponent<Prop>() == null)
+        {
+            if (soundToPlayAtKill != "") 
+            {
+                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", transform, 2f);
+                if (killAudioSource!=null) killAudioSource.spatialBlend = 1;
+            }
+        }
+
     }
 
 }

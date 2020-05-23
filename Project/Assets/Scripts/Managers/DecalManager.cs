@@ -67,7 +67,7 @@ public class DecalManager : MonoBehaviour
         }
     }
 
-    public Transform ProjectDecal(RaycastHit hitBase, string decalName = "")
+    public Transform ProjectDecal(RaycastHit hitBase, string decalName = "", float sizeMultiplier = 1)
     {
 
         if ((CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(hitBase.point) < maxDistToDecal) && allDecal != null) 
@@ -114,9 +114,10 @@ public class DecalManager : MonoBehaviour
             decalUsed.go.transform.rotation = Quaternion.LookRotation(hitBase.normal * -1);
 
             //GameObject planeInstance = Instantiate(planeForDecal, hitBase.point + hitBase.normal.normalized * safeTranslateValue, Quaternion.LookRotation(hitBase.normal * -1));
-            decalUsed.go.transform.localScale = Vector3.one * scalePlane;
+            decalUsed.go.transform.localScale = Vector3.one * scalePlane * sizeMultiplier;
             decalUsed.go.transform.Rotate(Vector3.forward * Random.Range(0, 360), Space.Self);
             decalUsed.go.transform.SetParent(hitBase.collider.transform, true);
+            decalUsed.sizeMultiplier = sizeMultiplier;
 
             //MeshRenderer planeRenderer = planeInstance.GetComponent<MeshRenderer>();
             decalUsed.render.material = overrideMaterial != null ? overrideMaterial : maxDecal;
@@ -175,7 +176,7 @@ public class DecalManager : MonoBehaviour
                     {
                         if (allDecal[i].lifeTime < timeFade) currScaleMultiplier = allDecal[i].lifeTime * baseAlpha / timeFade;
                         if (allDecal[i].go != null)
-                            allDecal[i].go.transform.localScale = Vector3.one * scalePlane * currScaleMultiplier;
+                            allDecal[i].go.transform.localScale = Vector3.one * scalePlane * currScaleMultiplier * allDecal[i].sizeMultiplier;
                     }
                 }
             }
@@ -190,6 +191,7 @@ public class DecalInstance
     public Renderer render = null;
     public GameObject go = null;
     public float lifeTime = 0;
+    public float sizeMultiplier = 1;
 
     public DecalInstance(Renderer _render, GameObject _go, float _lifeTime)
     {
