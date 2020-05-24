@@ -4,6 +4,7 @@ using UnityEngine;
 
 using Sirenix.OdinInspector;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
@@ -387,6 +388,12 @@ public class Main : MonoBehaviour
                     playerCanPerfectReload = true;
                     playerCanShoot = true;
                     playerCanShotgun = true;
+
+                    TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
+                    for (int i = 0; i < AllTriggerSender.Length; i++)
+                    {
+                        AllTriggerSender[i].ActivateGOAtSkip();
+                    }
                 }
                 
             }

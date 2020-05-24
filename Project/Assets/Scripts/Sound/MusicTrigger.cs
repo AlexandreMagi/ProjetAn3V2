@@ -4,18 +4,27 @@ using Sirenix.OdinInspector;
 public class MusicTrigger : MonoBehaviour
 {
 
-    [SerializeField] MusicHandler.Musics musicToPlay = MusicHandler.Musics.none;
-    [SerializeField] float timeBeforeDoAnything = 0;
-    [SerializeField] bool doItNow = false;
-    [SerializeField, ShowIf("doItNow")] float fadeOut = 0;
-    [SerializeField] float timeWaitBetween = 0;
-    [SerializeField] float fadeIn = 0;
-    [SerializeField] float volume = 1;
-    [SerializeField] bool loop = false;
+    [SerializeField] bool doOnlyOnce = true;
+    [SerializeField] bool changeMusic = true;
+
+    [SerializeField, ShowIf("changeMusic")] MusicHandler.Musics musicToPlay = MusicHandler.Musics.none;
+    [SerializeField, ShowIf("changeMusic")] float timeBeforeDoAnything = 0;
+    [SerializeField, ShowIf("changeMusic")] bool doItNow = false;
+    [SerializeField, ShowIf("changeMusic"), ShowIf("doItNow")] float fadeOut = 0;
+    [SerializeField, ShowIf("changeMusic")] float timeWaitBetween = 0;
+    [SerializeField, ShowIf("changeMusic")] float fadeIn = 0;
+    [SerializeField, ShowIf("changeMusic")] float volume = 1;
+    [SerializeField, ShowIf("changeMusic")] bool loop = false;
+
+    [SerializeField, HideIf("changeMusic")] float volumeAimed = 1;
+    [SerializeField, HideIf("changeMusic")] float volumeTimeTransition = 1;
 
     void OnTriggerEnter(Collider other)
     {
-        MusicHandler.Instance.PlayMusic(musicToPlay, timeBeforeDoAnything, doItNow ? fadeOut : 0, timeWaitBetween, fadeIn, volume, doItNow, loop);
+        if (changeMusic) MusicHandler.Instance.PlayMusic(musicToPlay, timeBeforeDoAnything, doItNow ? fadeOut : 0, timeWaitBetween, fadeIn, volume, doItNow, loop);
+        else MusicHandler.Instance.ChangeMusicVolume(volumeAimed, volumeTimeTransition);
+
+        if (doOnlyOnce) this.enabled = false;
     }
 
 }

@@ -505,6 +505,7 @@ public class Weapon : MonoBehaviour
                 UiDamageHandler.Instance.MuzzleFlashFunc();
 
             bool hasPlayedHitMarkerSound = false;
+            bool hasPlayedHitSound = false;
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 Camera mainCam = CameraHandler.Instance.renderingCam;
@@ -534,7 +535,8 @@ public class Weapon : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, weapon.layerMaskHit) && !cantHit)
                 {
-                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod, 0.2f, rayBullet, hit);
+                    FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, weaponMod, 0.2f, rayBullet, hit, hasPlayedHitSound);
+                    hasPlayedHitSound = true;
                     CheckIfMustSlowMo(hit.transform.gameObject, weaponMod);
                     if (TrailManager.Instance != null ) TrailManager.Instance.RequestBulletTrail(rayBullet.origin, hit.point);
                     else Debug.Log("No Trail Manager");
@@ -616,16 +618,43 @@ public class Weapon : MonoBehaviour
             TimeScaleManager.Instance.AddStopTime(weaponMod.bullet.timeStopAtImpact, 0, weaponMod.bullet.timeStopProbability);
     }
 
-    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint, DataWeaponMod weaponMod, float castradius, Ray raybase, RaycastHit hitBase)
+    private void FxImpactDependingOnSurface(GameObject hit, Vector3 hitPoint, DataWeaponMod weaponMod, float castradius, Ray raybase, RaycastHit hitBase, bool hasAlreadyPlayedSound)
     {
+        bool found = false;
         for (int i = 0; i < weaponMod.bullet.bulletFxs.allFxReaction.Length; i++)
         {
-            if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)) || hit.tag == weaponMod.bullet.bulletFxs.allFxReaction[i].tag)
+            if (hit.tag == weaponMod.bullet.bulletFxs.allFxReaction[i].tag)
             {
-                FxManager.Instance.PlayFx(weaponMod.bullet.bulletFxs.allFxReaction[i].fxName, hitBase, raybase);
-                DecalManager.Instance.ProjectDecal(hitBase, weaponMod.bullet.bulletFxs.allFxReaction[i].decalName, weaponMod.bullet.bulletFxs.allFxReaction[i].decalSizeMultiplier);
+                PlayFxsDecalsAndSound(weaponMod.bullet.bulletFxs.allFxReaction[i], hitBase, raybase, hasAlreadyPlayedSound);
+                found = true;
+                break;
             }
         }
+        if (!found)
+        {
+            for (int i = 0; i < weaponMod.bullet.bulletFxs.allFxReaction.Length; i++)
+            {
+                if (weaponMod.bullet.bulletFxs.allFxReaction[i].mask == (weaponMod.bullet.bulletFxs.allFxReaction[i].mask | (1 << hit.layer)))
+                {
+                    PlayFxsDecalsAndSound(weaponMod.bullet.bulletFxs.allFxReaction[i], hitBase, raybase, hasAlreadyPlayedSound);
+                    break;
+                }
+            }
+        }
+    }
+
+    void PlayFxsDecalsAndSound(DataBulletFx data, RaycastHit hitBase, Ray raybase, bool hasAlreadyPlayedSound)
+    {
+        FxManager.Instance.PlayFx(data.fxName, hitBase, raybase);
+        DecalManager.Instance.ProjectDecal(hitBase, data.decalName, data.decalSizeMultiplier);
+        if (!hasAlreadyPlayedSound) StartCoroutine(BulletSoundCoroutine(data));
+    }
+
+    IEnumerator BulletSoundCoroutine(DataBulletFx data)
+    {
+        yield return new WaitForSeconds(data.delayBeforeSound);
+        CustomSoundManager.Instance.PlaySound(data.soundPlayed, data.mixerPlayed, CameraHandler.Instance.renderingCam.transform, data.soundVolume, false, 1, data.soundPitchRandom);
+        yield break;
     }
 
     private void CheckIfShotGunHasHit()
@@ -676,13 +705,14 @@ public class Weapon : MonoBehaviour
         DataWeaponMod bounceMod = Instantiate(weapon.chargedShot);
         bounceMod.bullet.damage /= 2;
 
-        foreach(Ray bounceBullet in bounces)
+        bool hasPlayedHitSound = false;
+        foreach (Ray bounceBullet in bounces)
         {
             RaycastHit hit;
             if (Physics.Raycast(bounceBullet, out hit, Mathf.Infinity, weapon.layerMaskHit))
             {
-
-                FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod, 0.2f, bounceBullet, hit);
+                FxImpactDependingOnSurface(hit.transform.gameObject, hit.point, bounceMod, 0.2f, bounceBullet, hit, hasPlayedHitSound);
+                hasPlayedHitSound = true;
                 CheckIfMustSlowMo(hit.transform.gameObject, bounceMod);
                 if (TrailManager.Instance != null) TrailManager.Instance.RequestBulletTrail(bounceBullet.origin, hit.point);
                 else Debug.Log("No Trail Manager");

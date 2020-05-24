@@ -8,10 +8,12 @@ public class MusicHandler : MonoBehaviour
     void Awake() { Instance = this; }
 
     [SerializeField] AudioSource musicSource = null;
-    public enum Musics { none, dropAndMinigun, drone, explo };
+    public enum Musics { none, dropAndMinigun, drone, explo, lastStage, preLastStage };
     [SerializeField] AudioClip dropAndMinigunMusic = null;
     [SerializeField] AudioClip drone = null;
     [SerializeField] AudioClip explo = null;
+    [SerializeField] AudioClip lastStage = null;
+    [SerializeField] AudioClip preLastStage = null;
 
 
     float currMusicVolume = 1;
@@ -22,14 +24,14 @@ public class MusicHandler : MonoBehaviour
     float completionState = 0;
     float savedVolume = 0;
 
-    void Start()
-    {
-         
-    }
+    float aimedVolume = 0;
+    float volumeTimeTransition = 1;
 
     public void PlayMusic(Musics musicToPlay, float delay, float fadeOut, float timeWaitBetween, float fadeIn, float volume, bool doItNow = false, bool loop = false)
-    { 
+    {
+        //Debug.Log("Request Music");
         currMusicRequest = new MusicRequest(musicToPlay, delay, fadeOut, timeWaitBetween, fadeIn, volume, doItNow, loop);
+        volumeTimeTransition = 0;
     }
 
     void Update()
@@ -110,6 +112,9 @@ public class MusicHandler : MonoBehaviour
         {
             currState = TransitionState.none;
             completionState = 0;
+
+            if (volumeTimeTransition != 0) currMusicVolume = Mathf.MoveTowards(currMusicVolume, aimedVolume, Mathf.Abs(aimedVolume - savedVolume) * Time.deltaTime / volumeTimeTransition);
+
         }
         if (musicSource != null)
         {
@@ -136,6 +141,12 @@ public class MusicHandler : MonoBehaviour
                 case Musics.explo:
                     musicSource.clip = explo;
                     break;
+                case Musics.lastStage:
+                    musicSource.clip = lastStage;
+                    break;
+                case Musics.preLastStage:
+                    musicSource.clip = preLastStage;
+                    break;
             }
             musicSource.Stop();
             musicSource.volume = currMusicVolume;
@@ -143,6 +154,13 @@ public class MusicHandler : MonoBehaviour
             musicSource.Play();
         }
 
+    }
+
+    public void ChangeMusicVolume (float volumeAimed, float timeTransition)
+    {
+        aimedVolume = volumeAimed;
+        savedVolume = currMusicVolume;
+        volumeTimeTransition = timeTransition;
     }
 
 }

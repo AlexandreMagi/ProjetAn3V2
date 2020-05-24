@@ -14,6 +14,10 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     [HideInInspector] public bool isAffectedByGravity = false;
 
+    [SerializeField] string soundToPlayOnImpact = "";
+    [SerializeField] float soundVolume = 1;
+    [SerializeField] float soundRandomPitch = 0.2f;
+
 
   //  DataProp propData;
 
@@ -159,4 +163,19 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         ReactSpecial<DataProp, DataSwarmer>.DoProject(rb, explosionOrigin, explosionForce, explosionRadius, liftValue);
         ReactSpecial<DataProp, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "")
+        {
+            AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", transform, soundVolume, false, 0.3f, soundRandomPitch);
+            if (collisionAudioSource != null)
+            {
+                collisionAudioSource.spatialBlend = 1;
+                collisionAudioSource.minDistance = 8;
+            }
+                
+        }
+    }
+
 }

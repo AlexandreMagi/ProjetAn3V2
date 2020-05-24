@@ -21,7 +21,8 @@ public class PublicLoopSoundHandler : MonoBehaviour
 
     void Update()
     {
-        volume = Mathf.MoveTowards(volume, aimedVolume, Mathf.Abs(volume - lastVolume) * Time.deltaTime / timeTransition);
+        volume = Mathf.MoveTowards(volume, aimedVolume, Mathf.Abs(aimedVolume - lastVolume) * Time.deltaTime/ timeTransition);
+        publicAudioSource.volume = volume;
     }
 
     public void ChangePublicVolume (float volumeAimed, float time)

@@ -192,6 +192,11 @@ public class TriggerSender : MonoBehaviour
 
     }
 
+    public void ActivateGOAtSkip()
+    {
+        if (typeTrigger == TriggerType.GameObjectActivation && isActivationGameObject) TriggerUtil.TriggerGameObjectActivation(0, objectsToChange, isActivationGameObject);
+    }
+
     void DoTrigger()
     {
         switch (typeTrigger)
@@ -279,10 +284,10 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Other:
                 break;
             case TriggerType.PublicVolume:
-                break;
-            default:
                 TriggerUtil.TriggerPublicSound(timeBeforeStart, volumeAimed, volumeTimeTransition);
                 this.gameObject.SetActive(false);
+                break;
+            default:
                 break;
         }
 

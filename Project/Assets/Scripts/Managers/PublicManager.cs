@@ -69,7 +69,7 @@ public class PublicManager : MonoBehaviour
 
     public void OnPlayerAction(ActionType action, Vector3 _position, IEntity cause = null, float bonus = 0)
     {
-        Debug.Log("Player did : " + action);
+        //Debug.Log("Player did : " + action);
         switch (action)
         {
             case ActionType.EnvironmentKill:

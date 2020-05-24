@@ -124,7 +124,7 @@ public class CustomSoundManager : MonoBehaviour
     {
         for (int i = 0; i < allSources.Count; i++)
         {
-            if (allSources[i].isPlaying && allSources[i].clip.name == soundName) return true;
+            if (allSources[i] != null && allSources[i].isPlaying && allSources[i].clip.name == soundName) return true;
         }
         return false;
     }
@@ -150,7 +150,7 @@ public class CustomSoundManager : MonoBehaviour
                 return allSounds[i];
             }
         }
-        Debug.Log("Error : Audio Clip named '" + soundName + "' does not exist or isn't in the sound handler script");
+        if (soundName != "") Debug.Log("Error : Audio Clip named '" + soundName + "' does not exist or isn't in the sound handler script");
         return null;
     }
 
@@ -194,10 +194,13 @@ public class CustomSoundManager : MonoBehaviour
             currentSource.clip = clip;
             if (mixerGroup != null) currentSource.outputAudioMixerGroup = mixerGroup;
             currentSource.volume = volume * GlobalMultiplierForVolumes;
+            currentSource.spatialBlend = 0;
+            currentSource.minDistance = 1;
             currentSource.loop = loop;
             currentSource.pitch = pitch;
             currentSource.transform.parent = parent;
             currentSource.transform.position = parent.position;
+            currentSource.enabled = true;
             currentSource.Play();
 
             return currentSource;
