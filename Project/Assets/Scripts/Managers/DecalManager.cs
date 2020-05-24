@@ -104,7 +104,7 @@ public class DecalManager : MonoBehaviour
             if (decalUsed == null)
             {
                 int index = Random.Range(0, allDecal.Length);
-                Debug.Log("Override : " + index);
+                //Debug.Log("Override : " + index);
                 decalUsed = allDecal[index];
             }
 

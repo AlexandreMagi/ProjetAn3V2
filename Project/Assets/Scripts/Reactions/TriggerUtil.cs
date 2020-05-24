@@ -43,6 +43,21 @@ public static class TriggerUtil
         yield break;
     }
 
+    //CHANGEMENT DE VOLUME DE PUBLIC
+    public static void TriggerPublicSound(float timeBeforeStart, float volumeAimed, float volumeTimeTransition)
+    {
+        Main.Instance.StartCoroutine(TriggerPublicSoundCoroutine(timeBeforeStart, volumeAimed, volumeTimeTransition));
+    }
+
+    static IEnumerator TriggerPublicSoundCoroutine(float timeBeforeStart, float volumeAimed, float volumeTimeTransition)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        PublicLoopSoundHandler.Instance.ChangePublicVolume(volumeAimed, volumeTimeTransition);
+
+        yield break;
+    }
+
     //SLOW MOTION
     public static void TriggerSlowMo(float timeBeforeStart, float duration, float force)
     {
@@ -94,17 +109,17 @@ public static class TriggerUtil
     }
 
     //SOUND EFFECT
-    public static void TriggerSound(float timeBeforeStart, string soundPlayed, string soundMixer, float volume)
+    public static void TriggerSound(float timeBeforeStart, string soundPlayed, string soundMixer, float volume, bool loop = false)
     {
-        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, soundMixer, volume));
+        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, soundMixer, volume, loop));
     }
 
-    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, string soundMixer, float volume)
+    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, string soundMixer, float volume, bool loop = false)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundName, false, volume);
-        CustomSoundManager.Instance.PlaySound(soundName, soundMixer, volume);
+        CustomSoundManager.Instance.PlaySound(soundName, soundMixer,null, volume, loop);
 
         yield break;
     }

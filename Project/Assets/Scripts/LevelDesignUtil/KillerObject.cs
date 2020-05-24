@@ -21,14 +21,24 @@ public class KillerObject : MonoBehaviour
     [SerializeField]
     string soundToPlayAtStart = "Se_KillerObjectSound";
     [SerializeField]
+    float soundToPlayAtStartVolume = 2;
+    [SerializeField]
     string soundToPlayAtKill = "Se_KillerObjectKillSound";
+    [SerializeField]
+    float soundToPlayAtKillVolume = 2;
+    [SerializeField]
+    float soundMinDistanceListening = 8;
 
     AudioSource ambiantAudioSource = null;
 
     public void Start()
     {
-        if (CustomSoundManager.Instance != null && soundToPlayAtStart != "") ambiantAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtStart, "Ambiant", transform, 2f, true);
-        if (ambiantAudioSource != null) ambiantAudioSource.spatialBlend = 1;
+        if (CustomSoundManager.Instance != null && soundToPlayAtStart != "") ambiantAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtStart, "Ambiant", transform, soundToPlayAtStartVolume, true);
+        if (ambiantAudioSource != null)
+        {
+            ambiantAudioSource.spatialBlend = 1;
+            ambiantAudioSource.minDistance = soundMinDistanceListening;
+        }
     }
 
     public void Update()
@@ -39,7 +49,7 @@ public class KillerObject : MonoBehaviour
             if(timeBeforeEndOfMulti <= 0)
             {
                 timeBeforeEndOfMulti = 0;
-                PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.EnvironmentKill, Vector3.zero);
+                //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.EnvironmentKill, Vector3.zero);
             }
         }
     }
@@ -78,8 +88,12 @@ public class KillerObject : MonoBehaviour
         {
             if (soundToPlayAtKill != "") 
             {
-                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", transform, 2f);
-                if (killAudioSource!=null) killAudioSource.spatialBlend = 1;
+                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", transform, soundToPlayAtKillVolume,false,1,0.2f);
+                if (killAudioSource!=null)
+                {
+                    killAudioSource.spatialBlend = 1;
+                    killAudioSource.minDistance = soundMinDistanceListening;
+                }
             }
         }
 

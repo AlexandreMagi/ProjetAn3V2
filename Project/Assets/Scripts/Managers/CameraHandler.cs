@@ -816,6 +816,7 @@ public class CameraHandler : MonoBehaviour
     }
     public void PlaneShake(float random)
     {
+        CustomSoundManager.Instance.PlaySound("SE_Turbulence", "Ambiant", CameraHandler.Instance.renderingCam.transform, 0.4f, false, 1, 0.2f,-0.1f);
         dirShakePlane = (Vector3.up + new Vector3(
             UnityEngine.Random.Range(-camData.randomOnPlaneShakeDir, camData.randomOnPlaneShakeDir),
             UnityEngine.Random.Range(-camData.randomOnPlaneShakeDir, camData.randomOnPlaneShakeDir),

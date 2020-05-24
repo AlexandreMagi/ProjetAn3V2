@@ -32,8 +32,16 @@ public class TriggerSender : MonoBehaviour
     string soundPlayed = "";
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
     string soundMixer = "Effect";
+    [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
+    bool soundLoop = false;
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
     float volume = 1;
+
+    
+    [ShowIf("typeTrigger", TriggerType.PublicVolume), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
+    float volumeAimed = 1;
+    [ShowIf("typeTrigger", TriggerType.PublicVolume), SerializeField]
+    float volumeTimeTransition = 1;
 
 
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
@@ -184,6 +192,11 @@ public class TriggerSender : MonoBehaviour
 
     }
 
+    public void ActivateGOAtSkip()
+    {
+        if (typeTrigger == TriggerType.GameObjectActivation && isActivationGameObject) TriggerUtil.TriggerGameObjectActivation(0, objectsToChange, isActivationGameObject);
+    }
+
     void DoTrigger()
     {
         switch (typeTrigger)
@@ -204,7 +217,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Sound:
-                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed,soundMixer, volume);
+                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed, soundMixer, volume, soundLoop);
                 this.gameObject.SetActive(false);
                 break;
 
@@ -233,7 +246,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Light:
-                TriggerUtil.TriggerLights(timeBeforeStart, lightsToAffect, lightsState, lightChangesColor, colorOfLight);              
+                TriggerUtil.TriggerLights(timeBeforeStart, lightsToAffect, lightsState, lightChangesColor, colorOfLight);
                 break;
             case TriggerType.VFX:
                 TriggerUtil.TriggerVFX(timeBeforeStart, VFXToAffect, VFXState);
@@ -261,12 +274,18 @@ public class TriggerSender : MonoBehaviour
                 break;
             case TriggerType.SwarmerAnimation:
                 TriggerUtil.TriggerAnimationOnSwarmers(timeBeforeStart, animationToCall, swarmersToAnimate);
-				break;
+                break;
             case TriggerType.Value:
                 TriggerUtil.TriggerValue(timeBeforeStart, valueStart, valueEnd, valueTransitionDuration, meshAffecteds, shaderValueName, isSwarmer);
                 break;
             case TriggerType.NearClipChanger:
                 TriggerUtil.TriggerNearClipChange(timeBeforeStart, cameraToChange, newNearClip);
+                break;
+            case TriggerType.Other:
+                break;
+            case TriggerType.PublicVolume:
+                TriggerUtil.TriggerPublicSound(timeBeforeStart, volumeAimed, volumeTimeTransition);
+                this.gameObject.SetActive(false);
                 break;
             default:
                 break;
@@ -313,7 +332,8 @@ public class TriggerSender : MonoBehaviour
         Damage = 17,
         SwarmerAnimation = 18,
         Value = 19,
-        NearClipChanger = 20
+        NearClipChanger = 20,
+        PublicVolume = 21
     }
 
     public enum Activable
