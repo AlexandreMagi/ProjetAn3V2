@@ -159,6 +159,11 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.NearClipChanger), SerializeField]
     float newNearClip = 10;
 
+    [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
+    float fogEndValueAimed = 0;
+    [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
+    float fogTimeTransition = 1;
+
     [Header("Swarmer activation")]
     [SerializeField]
     bool activatesAllAnimatingSwarmersOnTrigger = false;
@@ -287,6 +292,9 @@ public class TriggerSender : MonoBehaviour
                 TriggerUtil.TriggerPublicSound(timeBeforeStart, volumeAimed, volumeTimeTransition);
                 this.gameObject.SetActive(false);
                 break;
+            case TriggerType.Fog:
+                TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition);
+                break;
             default:
                 break;
         }
@@ -333,7 +341,8 @@ public class TriggerSender : MonoBehaviour
         SwarmerAnimation = 18,
         Value = 19,
         NearClipChanger = 20,
-        PublicVolume = 21
+        PublicVolume = 21,
+        Fog = 22
     }
 
     public enum Activable

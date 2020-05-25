@@ -58,6 +58,36 @@ public static class TriggerUtil
         yield break;
     }
 
+    //CHANGEMENT DE FOG
+    public static void TriggerFog(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition)
+    {
+        Main.Instance.StartCoroutine(TriggerFogCoroutine(timeBeforeStart, fogEndValueAimed, fogTimeTransition));
+    }
+
+    static IEnumerator TriggerFogCoroutine(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        float pastValue = RenderSettings.fogEndDistance;
+        float completion = 0;
+        if (fogTimeTransition != 0)
+        {
+            while(completion < 1)
+            {
+                Debug.Log(RenderSettings.fogEndDistance);
+                completion += Time.deltaTime / fogTimeTransition;
+                completion = Mathf.Clamp01(completion);
+                RenderSettings.fogEndDistance = Mathf.Lerp(pastValue, fogEndValueAimed, completion);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
+            RenderSettings.fogEndDistance = fogEndValueAimed;
+        }
+
+        yield break;
+    }
+
     //SLOW MOTION
     public static void TriggerSlowMo(float timeBeforeStart, float duration, float force)
     {
