@@ -244,8 +244,8 @@ public class BonusHandler : MonoBehaviour
         if (currPlayerIndex < 0) currPlayerIndex = 0;
         if (playerSoloScore != null && playerSoloScore.parent != null)
             playerSoloScore.SetSiblingIndex(currPlayerIndex);
-        playerData.score = Mathf.RoundToInt(currScoreDisplayed);
-        playerAccesseur.rank = currPlayerIndex + 1;
+        if (playerData != null )playerData.score = Mathf.RoundToInt(currScoreDisplayed);
+        if (playerAccesseur != null) playerAccesseur.rank = currPlayerIndex + 1;
     }
 
     void Update()

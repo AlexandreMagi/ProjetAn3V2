@@ -190,7 +190,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void SpotTarget()
     {
         state = (int)State.Rotating;
-        CustomSoundManager.Instance.PlaySound("SE_Shooter_Spot", "Effect", .6f);
+        if (Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10)
+            CustomSoundManager.Instance.PlaySound("SE_Shooter_Spot", "Effect", .6f);
     }
 
     /// <summary>
@@ -208,7 +209,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     void StartLoading()
     {
         state = (int)State.Loading;
-        CustomSoundManager.Instance.PlaySound("SE_Shooter_Bip_Rockets", "Effect", 1);
+        if (Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10)
+            CustomSoundManager.Instance.PlaySound("SE_Shooter_Bip_Rockets", "Effect", 1);
     }
 
     /// <summary>

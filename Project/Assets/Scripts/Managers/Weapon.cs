@@ -202,7 +202,7 @@ public class Weapon : MonoBehaviour
             Ray rRayGravity = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
             RaycastHit hit;
-            if (Time.frameCount % Mathf.RoundToInt(1 / Time.deltaTime / 15) == 0 || firstRay) 
+            if (Time.frameCount % Mathf.CeilToInt(1 / (Time.deltaTime != 0 ? Time.deltaTime : 0.01f) / 15) == 0 || firstRay) 
             {
                 if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
                 {
