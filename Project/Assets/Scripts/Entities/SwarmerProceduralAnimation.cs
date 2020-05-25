@@ -21,6 +21,8 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     [HideInInspector] public float timeRemainingBeforeCanStepSound = 0;
     [SerializeField] int maxSoundPlayedToEnableStepSound = 8;
 
+    [SerializeField] float minDistanceToPlayStepSound = 10;
+
     [Header("Torso")]
     [SerializeField] Transform pelvisAnim = null;
     [SerializeField] Transform pelvis = null;
@@ -152,6 +154,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
 
     bool CanPlaySound()
     {
+        if (CameraHandler.Instance != null && CameraHandler.Instance.GetDistanceWithCam(transform.position) >= minDistanceToPlayStepSound) return false;
         int currNumberPlaying = 0;
         for (int i = 0; i < allAnimators.Count; i++)
         {
