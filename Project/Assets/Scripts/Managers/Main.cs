@@ -388,6 +388,7 @@ public class Main : MonoBehaviour
                     playerCanPerfectReload = true;
                     playerCanShoot = true;
                     playerCanShotgun = true;
+                    UiCrossHair.Instance.UpdateCursorUnlocks();
 
                     TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
                     for (int i = 0; i < AllTriggerSender.Length; i++)

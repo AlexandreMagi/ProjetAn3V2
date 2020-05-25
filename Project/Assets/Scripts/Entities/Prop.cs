@@ -14,6 +14,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     [HideInInspector] public bool isAffectedByGravity = false;
 
+    public bool ActivateSoundImpact = false;
     [SerializeField] string soundToPlayOnImpact = "";
     [SerializeField] float soundVolume = 1;
     [SerializeField] float soundRandomPitch = 0.2f;
@@ -166,7 +167,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "")
+        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "" && ActivateSoundImpact)
         {
             AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", transform, soundVolume, false, 0.3f, soundRandomPitch);
             if (collisionAudioSource != null)

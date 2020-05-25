@@ -76,6 +76,10 @@ public class DataGravityOrb : ScriptableObject
     public float slowMoProbability;
 
 
+    [Header("Other")]
+    public float zoneMorteDeRayCast = 5;
+
+
     [Header("FX orb")]
     public string fxName = "VFX_Orbe";
     public string fxExplosionName = "VFX_OrbExplosion";
