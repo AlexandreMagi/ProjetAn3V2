@@ -22,6 +22,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
     [SerializeField] float soundVolumeWhenDie = 1;
     [SerializeField] float soundRandomPitchWhenDie = 0.2f;
 
+    float timeRemainginBeforeCanPlayImpactSound = 5;
 
   //  DataProp propData;
 
@@ -170,6 +171,8 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
                 }
             }
         }
+
+        if (timeRemainginBeforeCanPlayImpactSound >= 0) timeRemainginBeforeCanPlayImpactSound -= Time.deltaTime;
     }
 
     public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
@@ -180,7 +183,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "")
+        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "" && timeRemainginBeforeCanPlayImpactSound < 0)
         {
             AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", null, soundVolume, false, 0.3f, soundRandomPitch);
             if (collisionAudioSource != null)
