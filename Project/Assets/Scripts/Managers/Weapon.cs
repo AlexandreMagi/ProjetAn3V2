@@ -102,7 +102,10 @@ public class Weapon : MonoBehaviour
     float maxSpeedMinigunPitch = 0.55f;
     AudioSource minigunAudioSource = null;
 
-
+    Vector3 lastHitOrbPosition = Vector3.zero;
+    Vector3 lastHitOrbNormal = Vector3.zero;
+    bool firstRay = true;
+    bool orbHitSomething = false;
     void Awake ()
     {
         _instance = this;
@@ -191,42 +194,69 @@ public class Weapon : MonoBehaviour
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage); // Calcul de l'intensité en fonction de la charge actuelle
         weaponLight.intensity = weaponLight.intensity * (1 - weapon.distanceImpactPurcentageOnValueIntensity) + weaponLight.intensity * weapon.distanceImpactPurcentageOnValueIntensity * intensityMultiplier; // Calcul de l'intensité en prenant compte la distance avec l'endroit visé
 
+
+        
         // --- Previsu orbe
         if (displayOrb && timeRemainingBeforeOrb < 0 && orbPrevisu != null)
         {
-            Ray rayBullet = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+            Ray rRayGravity = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
             RaycastHit hit;
-            if (Physics.Raycast(rayBullet, out hit, Mathf.Infinity, orbData.layerMask))
+            if (Time.frameCount % Mathf.RoundToInt(1 / Time.deltaTime / 15) == 0 || firstRay) 
             {
-                // Si touche, scale l'orbe pour afficher sa portée et lerp vers la position
-                orbPrevisu.SetActive(true);
-                if (tpOrb)
+                if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
                 {
-                    tpOrb = false;
-                    pauseOrbFx = pauseOrbFxTimer;
-                    orbPrevisu.transform.position = hit.point;
-                    orbPrevisuFx.Play();
+                    GameObject hitObj = hit.collider.gameObject;
+                    IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
+                    if (gAffect != null)
+                        rRayGravity.origin += rRayGravity.direction * orbData.zoneMorteDeRayCast;
                 }
-                else if (pauseOrbFx < 0)
+
+                if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
                 {
-                    pauseOrbFx = 0;
-                    orbPrevisuFx.Pause();
+                    // Si touche, scale l'orbe pour afficher sa portée et lerp vers la position
+                    orbHitSomething = true;
+                    orbPrevisu.SetActive(true);
+                    lastHitOrbPosition = hit.point;
+                    lastHitOrbNormal = hit.normal;
+                    firstRay = false;
                 }
-                orbPrevisu.transform.position = Vector3.Lerp(orbPrevisu.transform.position, hit.point + hit.normal * 1.3f, Time.unscaledDeltaTime * 8);
-                orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, Vector3.one * orbData.gravityBullet_AttractionRange, Time.unscaledDeltaTime * 5);
-                if (pauseOrbFx > 0) pauseOrbFx -= Time.deltaTime;
+                else
+                {
+                    orbHitSomething = false;
+                    firstRay = true;
+                }
             }
+            if (tpOrb)
+            {
+                tpOrb = false;
+                pauseOrbFx = pauseOrbFxTimer;
+                orbPrevisu.transform.position = lastHitOrbPosition;
+                orbPrevisuFx.Play();
+            }
+            else if (pauseOrbFx < 0)
+            {
+                pauseOrbFx = 0;
+                orbPrevisuFx.Pause();
+            }
+            orbPrevisu.transform.position = Vector3.Lerp(orbPrevisu.transform.position, lastHitOrbPosition + lastHitOrbNormal * 1.3f, Time.unscaledDeltaTime * 8);
+            orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, orbHitSomething ? Vector3.one * orbData.gravityBullet_AttractionRange : Vector3.zero, Time.unscaledDeltaTime * 5);
+            if (pauseOrbFx > 0) pauseOrbFx -= Time.deltaTime;
+
+
         }
-        else if(orbPrevisu != null)
+        else if (orbPrevisu != null)
         {
             // Si la touche n'est pas appuyé, fait disparaitre
             orbPrevisu.transform.localScale = Vector3.zero;
             orbPrevisu.SetActive(false);
             orbPrevisuFx.Stop();
             tpOrb = true;
+            firstRay = true;
             pauseOrbFx = 0;
         }
+        //}
+
 
         if (gravityOrbRangeDisplay != null)
         {

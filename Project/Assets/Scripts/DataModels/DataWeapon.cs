@@ -87,4 +87,6 @@ public class DataWeapon : ScriptableObject
     public float maxImprecisionFrequency = 2f;
     public float imprecisionCursorLerpSpeed = 8f;
     [PropertyRange(0f,1f)] public float purcentageNoiseOnImprecision = 0.4f;
+
+
 }

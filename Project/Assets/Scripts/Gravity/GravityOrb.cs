@@ -52,6 +52,15 @@ public class GravityOrb : MonoBehaviour
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 
+        if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
+        {
+            GameObject hitObj = hit.collider.gameObject;
+            IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
+            if (gAffect != null)
+                rRayGravity.origin += rRayGravity.direction * orbData.zoneMorteDeRayCast;
+        }
+
+
         //orbData = weaponIndex == 0 ? orbDataOne : orbDataSecond;
 
         if (Physics.Raycast(rRayGravity, out hit, Mathf.Infinity, orbData.layerMask))
