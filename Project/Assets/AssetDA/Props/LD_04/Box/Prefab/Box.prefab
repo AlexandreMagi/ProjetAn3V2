@@ -112,9 +112,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 7ed588fc65f283347b75e5ad22f342b5, type: 2}
   isAffectedByGravity: 0
+  ActivateSoundImpact: 1
   soundToPlayOnImpact: SE_BarrelAndBoxImpact
   soundVolume: 0.5
   soundRandomPitch: 0.2
+  soundToPlayWhenDie: SE_CaisseBarril_Destruction
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
 --- !u!65 &2785221450831159643
 BoxCollider:
   m_ObjectHideFlags: 0

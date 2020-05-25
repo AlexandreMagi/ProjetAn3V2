@@ -31,6 +31,10 @@ public class KillerObject : MonoBehaviour
 
     AudioSource ambiantAudioSource = null;
 
+
+    float timeFadeVolumeAtStart = 5;
+    float savedVolume = 0;
+
     public void Start()
     {
         if (CustomSoundManager.Instance != null && soundToPlayAtStart != "") ambiantAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtStart, "Ambiant", transform, soundToPlayAtStartVolume, true);
@@ -38,12 +42,21 @@ public class KillerObject : MonoBehaviour
         {
             ambiantAudioSource.spatialBlend = 1;
             ambiantAudioSource.minDistance = soundMinDistanceListening;
+            savedVolume = ambiantAudioSource.volume;
+            ambiantAudioSource.volume = 0;
+            //ambiantAudioSource.transform.position = transform.position;
         }
     }
 
     public void Update()
     {
-        if(timeBeforeEndOfMulti > 0)
+        if (timeFadeVolumeAtStart != 0 && ambiantAudioSource!=null)
+        {
+            timeFadeVolumeAtStart = Mathf.MoveTowards(timeFadeVolumeAtStart, 0, Time.deltaTime);
+            ambiantAudioSource.volume = Mathf.Lerp(0, savedVolume, 1 - timeFadeVolumeAtStart / 5);
+        }
+
+        if (timeBeforeEndOfMulti > 0)
         {
             timeBeforeEndOfMulti -= Time.unscaledDeltaTime;
             if(timeBeforeEndOfMulti <= 0)
@@ -88,11 +101,12 @@ public class KillerObject : MonoBehaviour
         {
             if (soundToPlayAtKill != "") 
             {
-                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", transform, soundToPlayAtKillVolume,false,1,0.2f);
+                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", null, soundToPlayAtKillVolume,false,1,0.2f);
                 if (killAudioSource!=null)
                 {
                     killAudioSource.spatialBlend = 1;
                     killAudioSource.minDistance = soundMinDistanceListening;
+                    killAudioSource.transform.position = other.gameObject.transform.position;
                 }
             }
         }

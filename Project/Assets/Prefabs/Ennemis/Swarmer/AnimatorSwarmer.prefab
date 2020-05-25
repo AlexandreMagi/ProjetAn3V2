@@ -290,6 +290,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0f5f9123b6e874dbf8fc29e8e663a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeProcedu: 1
+  meshAnimator: {fileID: 0}
+  distanceRequired: 8
+  onGround: 0
+  stepSound: SE_Swarmer_WalkSound
+  stepSoundMixer: Effect
+  stepSoundVolume: 0.4
+  stepSoundMinDistanceListening: 8
+  minTimeBetweenStepSound: 0.2
   pelvisAnim: {fileID: 6465257038970192219}
   pelvis: {fileID: 0}
   distanceDetectReplace: 0.5
@@ -315,6 +324,7 @@ MonoBehaviour:
   - {fileID: 2589620131282284563}
   - {fileID: 6465257039291605212}
   lookAt: {fileID: 0}
+  searchForPlayerIfLookatNull: 1
   headMaxTurnAngle: 60
   headTrackingSpeed: 5
   animMachoireRot:
