@@ -84,6 +84,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     // Variable servant à changer la couleur du swarmer lors de l'attaque
     float attackStatePurcentage = 0;
 
+    [HideInInspector] public bool grounded = false;
+
     #region Stimulus
     public override void OnDistanceDetect(Transform p_target, float distance)
     {
@@ -362,8 +364,18 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             #endregion
             #endregion
 
+            if (Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f))
+            {
+                grounded = true;
+            }
+            else
+            {
+                grounded = false;
+            }
+            animatorCustom.onGround = grounded;
+
             //Distance to attack check
-            if (target != null && CheckDistance() && Physics.Raycast(this.transform.position, new Vector3(0, -1, 0), 0.5f) && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
+            if (target != null && CheckDistance() && grounded && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
             {
                 if (currentState != SwarmerState.WaitingForAttack)
                     animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.prepare);

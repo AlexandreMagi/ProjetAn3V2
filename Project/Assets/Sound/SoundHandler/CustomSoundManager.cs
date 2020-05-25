@@ -181,12 +181,7 @@ public class CustomSoundManager : MonoBehaviour
             if (parent == null)
             {
                 if (defaultParent != null) parent = defaultParent;
-                else
-                {
-                    Debug.Log("No parent found for sound '" + clip.name + "', request ignored");
-                    return null;
-                }
-                currentSource.spatialBlend = 0;
+                else Debug.Log("No parent found for sound '" + clip.name + "'");
             }
             if (!canBePlayedMultipleTime && checkIfSoundAlreadyPlayed(clip.name)) return null;
 
@@ -199,7 +194,7 @@ public class CustomSoundManager : MonoBehaviour
             currentSource.loop = loop;
             currentSource.pitch = pitch;
             currentSource.transform.parent = parent;
-            currentSource.transform.position = parent.position;
+            currentSource.transform.position = parent != null ? parent.position : Vector3.zero;
             currentSource.enabled = true;
             currentSource.Play();
 
