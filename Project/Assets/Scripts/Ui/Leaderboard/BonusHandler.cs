@@ -482,9 +482,12 @@ public class BonusHandler : MonoBehaviour
             doAnimExplosion = !explosionAnim.AddPurcentage(animExplosionPurcentage, dt, out animExplosionPurcentage);
             for (int i = 0; i < affectedByExplosion.Length; i++)
             {
-                Vector3 dir = Vector3.Normalize(ildedPos[i] - explosionSource.position);
-                affectedByExplosion[i].transform.position = ildedPos[i];
-                affectedByExplosion[i].transform.Translate(dir * explosionAnim.ValueAt(animExplosionPurcentage) * explosionCurrentMultiplier, Space.World);
+                if (ildedPos[i] != null && explosionSource != null)
+                {
+                    Vector3 dir = Vector3.Normalize(ildedPos[i] - explosionSource.position);
+                    affectedByExplosion[i].transform.position = ildedPos[i];
+                    affectedByExplosion[i].transform.Translate(dir * explosionAnim.ValueAt(animExplosionPurcentage) * explosionCurrentMultiplier, Space.World);
+                }
 
             }
         }
