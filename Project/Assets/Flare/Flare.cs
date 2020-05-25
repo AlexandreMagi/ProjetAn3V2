@@ -10,6 +10,9 @@ namespace Aerobox.Rendering.PostProcessing
     public sealed class Flare : PostProcessEffectSettings
     {
         const int MAX_DOWNSAMPLE = 1;
+        public FloatParameter delta = new FloatParameter { value = 1 };
+        public FloatParameter dirtIntensity = new FloatParameter { value = 1 };
+        public FloatParameter add = new FloatParameter { value = 1 };
         public TextureParameter spectralLut = new TextureParameter();
     }
 
@@ -84,7 +87,7 @@ namespace Aerobox.Rendering.PostProcessing
         public override void Render(PostProcessRenderContext context)
         {
             var sheet = context.propertySheets.Get(Shader.Find("Hidden/Aerobox/Flare"));
-            sheet.properties.SetFloat("_DirtIntensity", Mathf.Pow(MAX_DOWNSAMPLE, 3));
+            sheet.properties.SetFloat("_DirtIntensity", Mathf.Pow(MAX_DOWNSAMPLE, settings.dirtIntensity));
 
             int rtWidth = context.width;
             int rtHeight = context.height;
@@ -92,7 +95,7 @@ namespace Aerobox.Rendering.PostProcessing
             context.command.BlitFullscreenTriangle(context.source, cSource);
             context.command.BlitFullscreenTriangle(cSource, renderTextures[0]);
 
-            sheet.properties.SetFloat("_Delta", 1);
+            sheet.properties.SetFloat("_Delta", settings.delta);
             for (int i = 1; i < MAX_DOWNSAMPLE; i++)
             {
                 context.command.BlitFullscreenTriangle(renderTextures[i - 1], renderTextures1[i - 1], sheet, H_BLUR_PASS);
@@ -104,7 +107,7 @@ namespace Aerobox.Rendering.PostProcessing
             context.command.BlitFullscreenTriangle(downsampled, ghosts, sheet, GHOST_PASS);
 
             sheet.properties.SetTexture("_AddTexture", radialWarped);
-            sheet.properties.SetFloat("_Add", 4.0f);
+            sheet.properties.SetFloat("_Add", settings.add);
             context.command.BlitFullscreenTriangle(ghosts, aberration, sheet, ADD_PASS);
             
             if ((Texture)settings.spectralLut)
@@ -113,7 +116,7 @@ namespace Aerobox.Rendering.PostProcessing
             context.command.BlitFullscreenTriangle(renderTextures[MAX_DOWNSAMPLE - 1], renderTextures1[MAX_DOWNSAMPLE - 1], sheet, H_BLUR_PASS);
             context.command.BlitFullscreenTriangle(renderTextures1[MAX_DOWNSAMPLE - 1], renderTextures[MAX_DOWNSAMPLE - 1], sheet, V_BLUR_PASS);
 
-            sheet.properties.SetFloat("_Delta", 0.5f);
+            sheet.properties.SetFloat("_Delta", settings.delta);
             for (int i = MAX_DOWNSAMPLE - 1; i > 0; i--)
             {
                 context.command.BlitFullscreenTriangle(renderTextures[i], renderTextures[i - 1], sheet, BOX_UP_PASS);
