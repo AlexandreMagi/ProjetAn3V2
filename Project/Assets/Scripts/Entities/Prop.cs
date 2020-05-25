@@ -14,10 +14,13 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     [HideInInspector] public bool isAffectedByGravity = false;
 
-    public bool ActivateSoundImpact = false;
     [SerializeField] string soundToPlayOnImpact = "";
     [SerializeField] float soundVolume = 1;
     [SerializeField] float soundRandomPitch = 0.2f;
+
+    [SerializeField] string soundToPlayWhenDie = "";
+    [SerializeField] float soundVolumeWhenDie = 1;
+    [SerializeField] float soundRandomPitchWhenDie = 0.2f;
 
 
   //  DataProp propData;
@@ -35,6 +38,16 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         {
             canDieVFX = false;
             InstantiateExplosion();
+            if (soundToPlayWhenDie != "")
+            {
+                AudioSource deathAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayWhenDie, "Effect", null, soundVolumeWhenDie, false, 0.3f, soundRandomPitchWhenDie);
+                if (deathAudioSource != null)
+                {
+                    deathAudioSource.spatialBlend = 1;
+                    deathAudioSource.minDistance = 8;
+                    deathAudioSource.transform.position = transform.position;
+                }
+            }
             //if (GetComponent<DeathBodyPart>() != null)
             //    Weapon.Instance.JustDestroyedBodyPart(transform.position);
         }
@@ -167,13 +180,14 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "" && ActivateSoundImpact)
+        if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "")
         {
-            AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", transform, soundVolume, false, 0.3f, soundRandomPitch);
+            AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", null, soundVolume, false, 0.3f, soundRandomPitch);
             if (collisionAudioSource != null)
             {
                 collisionAudioSource.spatialBlend = 1;
                 collisionAudioSource.minDistance = 8;
+                collisionAudioSource.transform.position = transform.position;
             }
                 
         }

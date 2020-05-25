@@ -38,6 +38,7 @@ public class KillerObject : MonoBehaviour
         {
             ambiantAudioSource.spatialBlend = 1;
             ambiantAudioSource.minDistance = soundMinDistanceListening;
+            //ambiantAudioSource.transform.position = transform.position;
         }
     }
 
@@ -88,11 +89,12 @@ public class KillerObject : MonoBehaviour
         {
             if (soundToPlayAtKill != "") 
             {
-                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", transform, soundToPlayAtKillVolume,false,1,0.2f);
+                AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", null, soundToPlayAtKillVolume,false,1,0.2f);
                 if (killAudioSource!=null)
                 {
                     killAudioSource.spatialBlend = 1;
                     killAudioSource.minDistance = soundMinDistanceListening;
+                    killAudioSource.transform.position = other.gameObject.transform.position;
                 }
             }
         }

@@ -8,6 +8,19 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     [SerializeField]public Animator meshAnimator = null;
     [SerializeField] float distanceRequired = 8;
 
+    static List<SwarmerProceduralAnimation> allAnimators = new List<SwarmerProceduralAnimation>();
+
+    [HideInInspector] public bool onGround = false;
+
+    [Header("Sound")]
+    [SerializeField] string stepSound = "SE_Swarmer_WalkSound";
+    [SerializeField] string stepSoundMixer ="Effect";
+    [SerializeField] float stepSoundVolume = 1;
+    [SerializeField] float stepSoundMinDistanceListening = 8;
+    [SerializeField] float minTimeBetweenStepSound = .2f;
+    [HideInInspector] public float timeRemainingBeforeCanStepSound = 0;
+    [SerializeField] int maxSoundPlayedToEnableStepSound = 8;
+
     [Header("Torso")]
     [SerializeField] Transform pelvisAnim = null;
     [SerializeField] Transform pelvis = null;
@@ -54,6 +67,8 @@ public class SwarmerProceduralAnimation : MonoBehaviour
 
     void Start()
     {
+        allAnimators.Add(this);
+
         pelvisRef = pelvisAnim.transform;
         pelvisRef.position = pelvis.position;
 
@@ -135,12 +150,31 @@ public class SwarmerProceduralAnimation : MonoBehaviour
         headTrueBone[0].Rotate(Vector3.forward, animMachoireRot.Evaluate(currentRotAnimPurcentage) * animMachoireRotAmplitude);
     }
 
+    bool CanPlaySound()
+    {
+        int currNumberPlaying = 0;
+        for (int i = 0; i < allAnimators.Count; i++)
+        {
+            if (allAnimators[i] !=null && allAnimators[i].enabled && allAnimators[i].gameObject.activeSelf && allAnimators[i].timeRemainingBeforeCanStepSound > 0 && allAnimators[i] != this) currNumberPlaying++;
+        }
+        return currNumberPlaying <= maxSoundPlayedToEnableStepSound;
+    }
+
     void LegRotation()
     {
+        if (timeRemainingBeforeCanStepSound >= 0) timeRemainingBeforeCanStepSound -= Time.deltaTime;
         for (int i = 0; i < bonesCustoms.Length; i++)
         {
             if (Vector3.Distance(bonesCustomsCurrTarget[i].position, bonesCustomsTarget[i].position) > distanceDetectReplace)
             {
+                if (onGround && timeRemainingBeforeCanStepSound < 0 && CanPlaySound())
+                {
+                    AudioSource legStepSound = CustomSoundManager.Instance.PlaySound(stepSound, stepSoundMixer, null, stepSoundVolume, false, 1, 0.2f);
+                    legStepSound.spatialBlend = 1;
+                    legStepSound.minDistance = stepSoundMinDistanceListening;
+                    legStepSound.transform.position = transform.position;
+                }
+
                 bonesCustomsCurrTarget[i].position = bonesCustomsTarget[i].position + (bonesCustomsTarget[i].position - bonesCustomsCurrTarget[i].position).normalized * distanceReplace;
             }
             bonesCustoms[i].LookAt(bonesCustomsCurrTarget[i].transform.position);

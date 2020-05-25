@@ -682,7 +682,7 @@ public class Weapon : MonoBehaviour
 
     IEnumerator BulletSoundCoroutine(DataBulletFx data)
     {
-        yield return new WaitForSeconds(data.delayBeforeSound);
+        yield return new WaitForSecondsRealtime(data.delayBeforeSound);
         CustomSoundManager.Instance.PlaySound(data.soundPlayed, data.mixerPlayed, CameraHandler.Instance.renderingCam.transform, data.soundVolume, false, 1, data.soundPitchRandom);
         yield break;
     }
