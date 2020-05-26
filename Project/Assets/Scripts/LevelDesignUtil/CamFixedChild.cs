@@ -13,6 +13,8 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
     [SerializeField]
     float soundVolume = 1f;
 
+    [SerializeField] BoxCollider collider = null;
+
     bool destroyed = false;
 
     #region bulletAffect
@@ -39,6 +41,7 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
     {
         if (parentScript != null && !destroyed)
         {
+            collider.enabled = true;
             //CustomSoundManager.Instance.PlaySound(gameObject, sound, false, soundVolume, 0.3f, 0, true);
             CustomSoundManager.Instance.PlaySound(sound, "Effect", null, soundVolume, false, 1, 0.3f);
             parentScript.hitByBullet();
