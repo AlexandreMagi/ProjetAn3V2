@@ -38,6 +38,8 @@ public class lastChanceButton : MonoBehaviour
 
     Animator anmtrButton = null;
 
+    [SerializeField] public bool isMouseOvered = false;
+
     private void Awake()
     {
         if (allButtons == null) allButtons = new List<lastChanceButton>();
@@ -89,10 +91,12 @@ public class lastChanceButton : MonoBehaviour
             float distY = rect.sizeDelta.y / 2 * transform.localScale.y;
             if (mousePosition.x < rect.position.x + distX && mousePosition.x > rect.position.x  - distX && mousePosition.y < rect.position.y + distY && mousePosition.y > rect.position.y - distY)
             {
+                isMouseOvered = true;
                 return true;
             }
             else
             {
+                isMouseOvered = false;
                 return false;
             }
         }
@@ -123,6 +127,7 @@ public class lastChanceButton : MonoBehaviour
     {
         if (CheckIfMouseOver())
         {
+            CustomSoundManager.Instance.PlaySound("SE_EndGameButtonChoice", "UI", null, 2, false, 1, 0, 0, 3);
             return (int)buttonType;
             //switch (buttonType)
             //{

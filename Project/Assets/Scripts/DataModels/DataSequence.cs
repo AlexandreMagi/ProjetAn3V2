@@ -180,6 +180,9 @@ public class DataSequence : ScriptableObject
     [Header("Chekpoint tutoriel")]
     public DataTutorialCheckpoint checkpointToUse = null;
 
+    [Header("Buffer options")]
+    public bool resetsBufferAtEndOfSequence = false;
+
     public enum SequenceType
     {
         KillEnnemies = 0,

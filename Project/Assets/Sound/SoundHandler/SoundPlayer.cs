@@ -26,7 +26,7 @@ public class SoundPlayer : MonoBehaviour
     [ShowIf("changePitch")] public float pitchRandom = 0;
     [ShowIf("changePitch")] public float pitchConstantAdded = 0;
 
-    public bool canBePlayedSeveralInstance = true;
+    public int  maxInstanceThatCanBePlayed = 0;
     [PropertyRange(0f, 1f)] public float spatialBlendOverride = 1;
     public Transform overrideSoundParent = null;
 
@@ -70,8 +70,8 @@ public class SoundPlayer : MonoBehaviour
                 _pitchConstantAdded = 0;
             }
 
-            if (soundClip != null) audioSource = CustomSoundManager.Instance.PlaySound(soundClip, mixerGroup, _parent, volume, loop, _pitch, _pitchRandom, _pitchConstantAdded, canBePlayedSeveralInstance);
-            else audioSource = CustomSoundManager.Instance.PlaySound(sound, mixerGroup, _parent, volume, loop, _pitch, _pitchRandom, _pitchConstantAdded, canBePlayedSeveralInstance);
+            if (soundClip != null) audioSource = CustomSoundManager.Instance.PlaySound(soundClip, mixerGroup, _parent, volume, loop, _pitch, _pitchRandom, _pitchConstantAdded, maxInstanceThatCanBePlayed);
+            else audioSource = CustomSoundManager.Instance.PlaySound(sound, mixerGroup, _parent, volume, loop, _pitch, _pitchRandom, _pitchConstantAdded, maxInstanceThatCanBePlayed);
             currentFadePurcentage = 0;
             audioSource.spatialBlend = spatialBlendOverride;
         }

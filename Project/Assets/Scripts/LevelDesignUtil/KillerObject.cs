@@ -9,8 +9,7 @@ public class KillerObject : MonoBehaviour
     [SerializeField]
     bool killEnemyEqualsDamage = false;
 
-    [SerializeField]
-    bool countsAsPlayerKill = true;
+    public bool countsAsPlayerKill = true;
 
     [SerializeField]
     float shakeForceAtVictim = 0;
