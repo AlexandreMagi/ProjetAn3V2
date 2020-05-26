@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.7557348, y: 0.75381404, z: 1}
-  m_Center: {x: 0, y: 0.27745852, z: 0}
+  m_Size: {x: 0.72045106, y: 0.6793265, z: 0.709891}
+  m_Center: {x: -0.0019602124, y: 0.27157778, z: -0.003920453}
 --- !u!114 &1341594801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +66,8 @@ MonoBehaviour:
   soundToPlayAtKill: Se_KillerObjectKillSound
   soundToPlayAtKillVolume: 2
   soundMinDistanceListening: 8
+  minDistanceToPlayKillSound: 10
+  minTimeBetweenKillSound: 0.5
 --- !u!1 &3461634137614928379
 GameObject:
   m_ObjectHideFlags: 0
