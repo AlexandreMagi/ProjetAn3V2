@@ -24,6 +24,9 @@ public class CustomSoundManager : MonoBehaviour
     [SerializeField] AudioMixerGroup[] mixerGroups = new AudioMixerGroup[0];
     [SerializeField] Transform defaultParent = null;
 
+    [SerializeField] float timeBetweenCheckIfAudioSourceArePlaying = 3;
+    float timeRemainingBeforeAudioSourceCheck = -1;
+
     #endregion
 
     public static CustomSoundManager Instance { get; private set; }
@@ -47,84 +50,38 @@ public class CustomSoundManager : MonoBehaviour
     {
         return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, 1, volume);
     }
-    public AudioSource PlaySound(string soundName, string mixerGroupName, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, bool canBePlayedMultipleTime = true)
+    public AudioSource PlaySound(string soundName, string mixerGroupName, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, int maxSameSoundPlayedAtTheSameTime = 0)
     {
-        return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, canBePlayedMultipleTime);
+        return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, maxSameSoundPlayedAtTheSameTime);
     }
-    public AudioSource PlaySound(AudioClip soundClip, string mixerGroupName, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, bool canBePlayedMultipleTime = true)
+    public AudioSource PlaySound(AudioClip soundClip, string mixerGroupName, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, int maxSameSoundPlayedAtTheSameTime = 0)
     {
-        return ActuallyPlaySound(soundClip, FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, canBePlayedMultipleTime);
+        return ActuallyPlaySound(soundClip, FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, maxSameSoundPlayedAtTheSameTime);
     }
-    public AudioSource PlaySound(string soundName, AudioMixerGroup mixerGroup, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, bool canBePlayedMultipleTime = true)
+    public AudioSource PlaySound(string soundName, AudioMixerGroup mixerGroup, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, int maxSameSoundPlayedAtTheSameTime = 0)
     {
-        return ActuallyPlaySound(FindClip(soundName), mixerGroup, loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, canBePlayedMultipleTime);
+        return ActuallyPlaySound(FindClip(soundName), mixerGroup, loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, maxSameSoundPlayedAtTheSameTime);
     }
-    public AudioSource PlaySound(AudioClip soundClip, AudioMixerGroup mixerGroup, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, bool canBePlayedMultipleTime = true)
+    public AudioSource PlaySound(AudioClip soundClip, AudioMixerGroup mixerGroup, Transform parent = null, float volume = 1, bool loop = false, float pitch = 1, float pitchRandom = 0, float pitchConstantModifier = 0, int maxSameSoundPlayedAtTheSameTime = 0)
     {
-        return ActuallyPlaySound(soundClip, mixerGroup, loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, canBePlayedMultipleTime);
+        return ActuallyPlaySound(soundClip, mixerGroup, loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent, maxSameSoundPlayedAtTheSameTime);
     }
-
-    #region Overkill
-    //public AudioSource PlaySound(string soundName, string mixerGroupName)
-    //{
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName));
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, float volume) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, 1, volume);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, calculatePitch(pitch, pitchRandom, pitchConstantModifier));
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, float volume, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, bool loop) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, bool loop, float volume) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, 1, volume);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, bool loop, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier));
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, bool loop, float volume, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, 1, 1, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, float volume) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, 1, volume, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, calculatePitch(pitch, pitchRandom, pitchConstantModifier), 1, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, float volume, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), false, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, bool loop) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, 1, 1, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, bool loop, float volume) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, 1, volume, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, bool loop, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), 1, parent);
-    //}
-    //public AudioSource PlaySound (string soundName, string mixerGroupName, Transform parent, bool loop, float volume, float pitch, float pitchRandom, float pitchConstantModifier) {
-    //    return ActuallyPlaySound(FindClip(soundName), FindAudioMixerGroup(mixerGroupName), loop, calculatePitch(pitch, pitchRandom, pitchConstantModifier), volume, parent);
-    //}
-    #endregion
 
     #endregion
 
     #region Utilitary Functions
 
-    bool checkIfSoundAlreadyPlayed (string soundName)
+    bool checkIfSoundAlreadyPlayed (string soundName, int nbTimeMax)
     {
+        int nbCurrPlaying = 0;
         for (int i = 0; i < allSources.Count; i++)
         {
-            if (allSources[i] != null && allSources[i].isPlaying && allSources[i].clip.name == soundName) return true;
+            if (allSources[i] != null && allSources[i].isPlaying && allSources[i].clip.name == soundName) nbCurrPlaying++;
+        }
+        if (nbCurrPlaying >= nbTimeMax)
+        {
+            Debug.Log("Error : Too many sound played at the same time. Sound named '" + soundName + "' will not be played");
+            return true;
         }
         return false;
     }
@@ -170,20 +127,31 @@ public class CustomSoundManager : MonoBehaviour
         return newAudioSource;
     }
 
+    void PauseAllNonPlayingAudioSource()
+    {
+        timeRemainingBeforeAudioSourceCheck = timeBetweenCheckIfAudioSourceArePlaying;
+        for (int i = 0; i < allSources.Count; i++)
+        {
+            if (allSources[i] != null && !allSources[i].isPlaying)
+            {
+                allSources[i].Pause();
+            }
+        }
+    }
+
     #endregion
 
-    AudioSource ActuallyPlaySound(AudioClip clip, AudioMixerGroup mixerGroup = null, bool loop = false, float pitch = 1, float volume = 1, Transform parent = null, bool canBePlayedMultipleTime = true)
+    AudioSource ActuallyPlaySound(AudioClip clip, AudioMixerGroup mixerGroup = null, bool loop = false, float pitch = 1, float volume = 1, Transform parent = null, int maxSameSoundPlayedAtTheSameTime = 0)
     {
         if (clip != null)
         {
-            AudioSource currentSource = FindAudioSource();
-            currentSource.spatialBlend = 1;
             if (parent == null)
             {
                 if (defaultParent != null) parent = defaultParent;
                 else Debug.Log("No parent found for sound '" + clip.name + "'");
             }
-            if (!canBePlayedMultipleTime && checkIfSoundAlreadyPlayed(clip.name)) return null;
+            if (maxSameSoundPlayedAtTheSameTime > 0 && checkIfSoundAlreadyPlayed(clip.name, maxSameSoundPlayedAtTheSameTime)) return null;
+            AudioSource currentSource = FindAudioSource();
 
             currentSource.gameObject.name = clip.name + "SoundSource";
             currentSource.clip = clip;
@@ -197,7 +165,8 @@ public class CustomSoundManager : MonoBehaviour
             currentSource.transform.position = parent != null ? parent.position : Vector3.zero;
             currentSource.enabled = true;
             currentSource.Play();
-
+            if (timeRemainingBeforeAudioSourceCheck < 0)
+                PauseAllNonPlayingAudioSource();
             return currentSource;
         }
         return null;
