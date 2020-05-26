@@ -61,6 +61,8 @@ public class MenuMain : MonoBehaviour
 
     float timeRemainingBeforeChargeScene = 1;
 
+    [SerializeField] HighQualityButton qualityButton = null;
+
     private void Start()
     {
         Time.timeScale = 1;
@@ -78,6 +80,8 @@ public class MenuMain : MonoBehaviour
         }
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -88,7 +92,7 @@ public class MenuMain : MonoBehaviour
         {
             arduinoTransmettor = IRCameraParser.Instance;
         }
-        Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        //Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
 
         CheckIfGoBacToMenu();
 
@@ -107,7 +111,11 @@ public class MenuMain : MonoBehaviour
         {
             HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
         }
-
+        
+        if (qualityButton != null && CheckIfShoot())
+        {
+            qualityButton.Click();
+        }
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -167,7 +175,7 @@ public class MenuMain : MonoBehaviour
                     if (button.gameObject.activeSelf)
                     {
                         button.UpdatePos(true);
-                        bool mouseOver = button.CheckIfMouseOver(posCursor);
+                        bool mouseOver = button.CheckIfMouseOver(GetCursorPos());
                         if (mouseOver)
                         {
                             button.transform.localScale = Vector3.Lerp(button.transform.localScale, Vector3.one * scaleOver.y, Time.unscaledDeltaTime * speedOver);
@@ -178,7 +186,7 @@ public class MenuMain : MonoBehaviour
                         }
                     }
                 }
-                if (CheckIfShoot() && canClickOnButton) Click(posCursor);
+                if (CheckIfShoot() && canClickOnButton) Click(GetCursorPos());
                 break;
             default:
                 break;
@@ -352,6 +360,10 @@ public class MenuMain : MonoBehaviour
 
     public void GoToGame ()
     {
+        if (qualityButton != null)
+        {
+            qualityButton.GoToGame();
+        }
         canClickOnButton = false;
         SceneHandler.Instance.AllowChangeToPreloadScene();
         //SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
@@ -364,7 +376,9 @@ public class MenuMain : MonoBehaviour
     }
     public Vector3 GetCursorPos()
     {
-        return isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        Vector2 returnedValue = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+        returnedValue = new Vector2(Mathf.Clamp(returnedValue.x, 0, Screen.width), Mathf.Clamp(returnedValue.y, 0, Screen.height));
+        return returnedValue;
     }
 
     void SkipToHome()
