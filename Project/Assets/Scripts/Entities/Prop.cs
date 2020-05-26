@@ -43,7 +43,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
             InstantiateExplosion();
             if (soundToPlayWhenDie != "" && (CameraHandler.Instance == null ||CameraHandler.Instance.GetDistanceWithCam(transform.position) < minDistanceToPlayStepSound))
             {
-                AudioSource deathAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayWhenDie, "Effect", null, soundVolumeWhenDie, false, 0.3f, soundRandomPitchWhenDie);
+                AudioSource deathAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayWhenDie, "Effect", null, soundVolumeWhenDie, false, 0.3f, soundRandomPitchWhenDie, 0,3);
                 if (deathAudioSource != null)
                 {
                     deathAudioSource.spatialBlend = 1;
@@ -187,7 +187,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
     {
         if (collision.relativeVelocity.magnitude > 2 && soundToPlayOnImpact != "" && timeRemainginBeforeCanPlayImpactSound < 0 && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < minDistanceToPlayStepSound))
         {
-            AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", null, soundVolume, false, 0.3f, soundRandomPitch);
+            AudioSource collisionAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayOnImpact, "Effect", null, soundVolume, false, 0.3f, soundRandomPitch,0,12);
             if (collisionAudioSource != null)
             {
                 collisionAudioSource.spatialBlend = 1;
