@@ -122,7 +122,7 @@ public class Main : MonoBehaviour
         playerCouldOrb = playerCanOrb;
         playerCouldZeroG = playerCanZeroG;
 
-
+        Debug.Log("Quality at Main = " + QualityHandler.Instance.isHighQuality);
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
 
     }
