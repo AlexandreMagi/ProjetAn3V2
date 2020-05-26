@@ -446,6 +446,11 @@ public class SequenceHandler : MonoBehaviour
             }
         }
 
+        if (currentSequence.resetsBufferAtEndOfSequence)
+        {
+            bufferedKills = 0;
+        }
+
         bool branchSkipValidated = false;
 
         if (currentSequence.skipsToBranchOnEnd)
