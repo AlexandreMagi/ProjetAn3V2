@@ -274,8 +274,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
                 
-            if (Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0,100) < 10)
-                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Death", "Effect", null, 0.8f,false,1,0.3f);
+            if ((Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0,100) < 10) && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < entityData.distWithPlayerToPlaySound))
+                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Death", "Effect", null, 0.5f,false,1,0.3f,0,8);
 
             this.gameObject.SetActive(false);
 
@@ -485,8 +485,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
                         //Start attack
                         rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
-                        if (Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10)
-                            CustomSoundManager.Instance.PlaySound("SE_Swarmer_Attack", "Effect", null, 0.4f, false, 1, 0.3f);
+                        if ((Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10) && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < entityData.distWithPlayerToPlaySound))
+                            CustomSoundManager.Instance.PlaySound("SE_Swarmer_Attack", "Effect", null, 0.4f, false, 1, 0.3f,0,4);
                         animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.jump);
                     }
                     else
@@ -737,8 +737,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         if (Random.Range(0, 100) < 30)
         {
-            if (Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10)
-                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Spawn", "Effect", null, .3f, false, 1, .3f);
+            if ((Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10) && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < entityData.distWithPlayerToPlaySound))
+                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Spawn", "Effect", null, .2f, false, 1, .3f,0,4);
         }
         Invoke("MaybeGrunt", 1f);
 
@@ -891,8 +891,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         if (gameObject.activeSelf)
         {
-            if ((Random.Range(0, 100) < 5) && Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10)
-                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Grunt", "Effect", null, .5f, false, 1, .3f);
+            if (((Random.Range(0, 100) < 5) && Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10) && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < entityData.distWithPlayerToPlaySound))
+                CustomSoundManager.Instance.PlaySound("SE_Swarmer_Grunt", "Effect", null, .4f, false, 1, .3f,0,3);
             Invoke("MaybeGrunt", 1f);
         }
     }

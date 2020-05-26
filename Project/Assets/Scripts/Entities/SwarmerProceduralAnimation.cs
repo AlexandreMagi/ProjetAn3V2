@@ -7,6 +7,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     public bool activeProcedu = true;
     [SerializeField]public Animator meshAnimator = null;
     [SerializeField] float distanceRequired = 8;
+    [SerializeField] Renderer myRender = null;
 
     static List<SwarmerProceduralAnimation> allAnimators = new List<SwarmerProceduralAnimation>();
 
@@ -102,7 +103,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     {
         meshAnimator.enabled = !activeProcedu;
 
-        if (activeProcedu && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < distanceRequired))
+        if (activeProcedu && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < distanceRequired) && (myRender == null || myRender.isVisible))
         {
             if (lookAt != null)
                 HeadRotation();

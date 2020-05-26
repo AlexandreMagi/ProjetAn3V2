@@ -345,7 +345,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     public override void TakeDamage(float value)
     {
-        CustomSoundManager.Instance.PlaySound("SE_Shooter_Damage", "Effect", null, 1, false, 1, 0, 0, false);
+        CustomSoundManager.Instance.PlaySound("SE_Shooter_Damage", "Effect", null, 1, false, 1, 0, 0, 1);
         base.TakeDamage(value);
     }
 
