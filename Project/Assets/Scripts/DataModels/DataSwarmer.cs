@@ -98,4 +98,8 @@ public class DataSwarmer : DataEnemy
     public float distanceMinWithCamToPlayVFX = 5;
     public float distanceWithCamToFadeVFX = 8;
     public float timeToChangeColorWhileAttacking = 0.5f;
+
+
+    [Header("Material")]
+    public float distWithPlayerToPlaySound = 12;
 }

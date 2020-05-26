@@ -249,12 +249,14 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
+            mainMixer.SetFloat("GameVolume", 0);
             SceneHandler.Instance.RestartScene(.3f, true);
-           CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
+            CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
         if (Input.GetKeyDown(KeyCode.U))
         {
+            mainMixer.SetFloat("GameVolume", 0);
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
             CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
@@ -472,6 +474,7 @@ public class Main : MonoBehaviour
                 {
                     if (button != null && button.enabled)
                     {
+                        bool saveMouseOver = button.isMouseOvered;
                         if (button.CheckIfMouseOver())
                         {
                             button.baseScale = Mathf.Lerp(button.baseScale, buttonMouseOverScale, Time.unscaledDeltaTime * buttonMouseOverLerpSpeed);
@@ -494,6 +497,8 @@ public class Main : MonoBehaviour
                             }
                             button.unanimateIfNoMouseOver();
                         }
+                        if (saveMouseOver != button.isMouseOvered && CustomSoundManager.Instance != null)
+                            CustomSoundManager.Instance.PlaySound("SE_MouseOverUI", "UI", null, 2, false, 1, 0, 0, 3);
                     }
                 }
                 if (!aButtonIsMouseOvered) buttonMouseOver = null;
