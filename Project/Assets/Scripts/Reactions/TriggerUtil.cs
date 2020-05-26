@@ -73,7 +73,7 @@ public static class TriggerUtil
         {
             while(completion < 1)
             {
-                Debug.Log(RenderSettings.fogEndDistance);
+                //Debug.Log(RenderSettings.fogEndDistance);
                 completion += Time.deltaTime / fogTimeTransition;
                 completion = Mathf.Clamp01(completion);
                 RenderSettings.fogEndDistance = Mathf.Lerp(pastValue, fogEndValueAimed, completion);
