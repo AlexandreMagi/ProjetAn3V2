@@ -102,6 +102,9 @@ public class Main : MonoBehaviour
     [HideInInspector] public List<string> TitlesUnlocked = new List<string>();
 
     public static Main Instance { get; private set; }
+
+    [SerializeField] GameObject[] objectToChangeInLowQuality = null;
+
     void Awake()
     {
         Instance = this;
@@ -119,7 +122,11 @@ public class Main : MonoBehaviour
         playerCouldOrb = playerCanOrb;
         playerCouldZeroG = playerCanZeroG;
 
+
+        if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
+
     }
+
 
     // Update is called once per frame
     void Update()
@@ -232,7 +239,7 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Debug.Log($"Current sequence index :{SequenceHandler.Instance.GetCurrentSequenceIndex()}");
+            if (QualityHandler.Instance != null) ChangeQuality (!QualityHandler.Instance.isHighQuality);
         }
 
         if (Input.GetKeyDown(KeyCode.N))
@@ -536,6 +543,18 @@ public class Main : MonoBehaviour
             {
                 timeBeforeChoiceDone = 0;
                 DoWhatPlayerChoosed(choiceMade);
+            }
+        }
+    }
+
+    public void ChangeQuality (bool high)
+    {
+        if (QualityHandler.Instance != null) QualityHandler.Instance.SetupQuality(high);
+        if (objectToChangeInLowQuality != null)
+        {
+            for (int i = 0; i < objectToChangeInLowQuality.Length; i++)
+            {
+                if (objectToChangeInLowQuality[i] != null) objectToChangeInLowQuality[i].SetActive(!objectToChangeInLowQuality[i].activeSelf);
             }
         }
     }
