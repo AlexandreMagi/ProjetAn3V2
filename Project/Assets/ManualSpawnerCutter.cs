@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ManualSpawnerCutter : MonoBehaviour
 {
-    Spawner[] listOfSpawnersToStop;
+    [SerializeField] Spawner[] listOfSpawnersToStop;
 
-    float timeBeforeStart;
+    [SerializeField] float timeBeforeStart;
 
     public void cutSpawners()
     {

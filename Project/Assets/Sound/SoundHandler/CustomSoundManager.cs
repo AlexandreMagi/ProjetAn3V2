@@ -80,7 +80,7 @@ public class CustomSoundManager : MonoBehaviour
         }
         if (nbCurrPlaying >= nbTimeMax)
         {
-            Debug.Log("Error : Too many sound played at the same time. Sound named '" + soundName + "' will not be played");
+            //Debug.Log("Error : Too many sound played at the same time. Sound named '" + soundName + "' will not be played");
             return true;
         }
         return false;

@@ -10,8 +10,8 @@ public class LightHandler : MonoBehaviour
     [SerializeField] bool timeScaleIndependent = false;
 
     [SerializeField] bool blink = false;
-    [SerializeField, ShowIf("blink")] Vector2 offRandomTime = new Vector2(0, 1);
-    [SerializeField, ShowIf("blink")] Vector2 onRandomTime = new Vector2(0, 1);
+    [ShowIf("blink")] public Vector2 offRandomTime = new Vector2(0, 1);
+    [ShowIf("blink")] public Vector2 onRandomTime = new Vector2(0, 1);
     float blinkTimer = 0;
     float currentTimerToNextState = 0;
     // on pourrait faire un changement de couleur à chaque blink si necessaire
