@@ -37,7 +37,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
     private void Update()
     {
-
+        desactivateUiBonusDisplay = !(Weapon.Instance == null || !Weapon.Instance.IsMinigun);
         for (int i = textDisplayed.Count - 1; i > -1; i--)
         {
             scoresBonusHandler[i].UpdateValues(Main.Instance.GetCursorPos());

@@ -15,19 +15,19 @@ public class PublicLoopSoundHandler : MonoBehaviour
 
     void Start()
     {
-        publicAudioSource = CustomSoundManager.Instance.PlaySound("SE_LoopCrowdCheer", "PublicAmbiant", CameraHandler.Instance.renderingCam.transform, 0.2f, true);
-        publicAudioSource.volume = 0;
+        if (CustomSoundManager.Instance != null && CameraHandler.Instance != null) publicAudioSource = CustomSoundManager.Instance.PlaySound("SE_LoopCrowdCheer", "PublicAmbiant", CameraHandler.Instance.renderingCam.transform, 0.2f, true);
+        if (publicAudioSource != null) publicAudioSource.volume = 0;
     }
 
     void Update()
     {
         volume = Mathf.MoveTowards(volume, aimedVolume, Mathf.Abs(aimedVolume - lastVolume) * Time.deltaTime/ timeTransition);
-        publicAudioSource.volume = volume;
+        if (publicAudioSource != null) publicAudioSource.volume = volume;
     }
 
     public void ChangePublicVolume (float volumeAimed, float time)
     {
-        lastVolume = publicAudioSource.volume;
+        if (publicAudioSource != null) lastVolume = publicAudioSource.volume;
         aimedVolume = volumeAimed;
         timeTransition = time;
     }

@@ -32,6 +32,8 @@ public class Main : MonoBehaviour
     bool playerCouldOrb = false;
     bool playerCouldZeroG = false;
 
+    bool inWaitScreen = true;
+
     [HideInInspector] public bool overrideUiCrosshairInterdictionGraph = false;
 
     private bool playerUsedToHaveOrb = false;
@@ -149,10 +151,10 @@ public class Main : MonoBehaviour
         {
             if (playerCanOrb)
             {
-                if (!Weapon.Instance.GravityOrbInput())
+                if (!Weapon.Instance.GravityOrbInput() && !inWaitScreen)
                     UIOrb.Instance.cantOrb();
             }
-            else UIOrb.Instance.cantOrb();
+            else if (!inWaitScreen)UIOrb.Instance.cantOrb();
         }
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityHeld) : Input.GetKey(KeyCode.Mouse1)) && playerCanOrb)
             Weapon.Instance.displayOrb = true;
@@ -207,17 +209,18 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             isArduinoMode = !isArduinoMode;
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Debug.Log("EXPLOSION");
             ExplosionFromPlayer(30, 0, 500, 0, 0, 0);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             UiCrossHair.Instance.StopWaitFunction();
             playerCanOrb = true;
             playerCanReload = true;
@@ -230,7 +233,6 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log($"Current sequence index :{SequenceHandler.Instance.GetCurrentSequenceIndex()}");
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.N))
@@ -311,11 +313,11 @@ public class Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
         }
         if (Input.GetKeyDown(KeyCode.M))
         {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             if (!playerInLeaderboard)
                 InitLeaderboard();
             else
@@ -552,6 +554,7 @@ public class Main : MonoBehaviour
     public void EndGame(LeaderboardData playerData)
     {
 
+        mainMixer.SetFloat("GameVolume", 0);
         LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
 
         MetricsGestionnary.Instance.SaveMetrics();
@@ -796,6 +799,8 @@ public class Main : MonoBehaviour
         playerCanShoot = false;
         playerCanShotgun = false;
 
+        inWaitScreen = true;
+
     }
     public void SetupWaitScreenOff()
     {
@@ -805,6 +810,8 @@ public class Main : MonoBehaviour
         playerCanPerfectReload = playerCanPerfectReloadWaitScreenSave;
         playerCanShoot = playerCanShootWaitScreenSave;
         playerCanShotgun = playerCanShotgunWaitScreenSave;
+
+        inWaitScreen = false;
     }
 
     void CanDoLastChoice()

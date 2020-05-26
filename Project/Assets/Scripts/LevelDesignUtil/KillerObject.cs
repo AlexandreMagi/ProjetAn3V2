@@ -29,6 +29,10 @@ public class KillerObject : MonoBehaviour
     [SerializeField]
     float soundMinDistanceListening = 8;
 
+    [SerializeField] float minDistanceToPlayKillSound = 10;
+    [SerializeField] float minTimeBetweenKillSound = .5f;
+    float timeRemainingBeforeCanPlayKillSound = 0;
+
     AudioSource ambiantAudioSource = null;
 
 
@@ -50,6 +54,8 @@ public class KillerObject : MonoBehaviour
 
     public void Update()
     {
+        if (timeRemainingBeforeCanPlayKillSound >= 0) timeRemainingBeforeCanPlayKillSound -= Time.deltaTime;
+
         if (timeFadeVolumeAtStart != 0 && ambiantAudioSource!=null)
         {
             timeFadeVolumeAtStart = Mathf.MoveTowards(timeFadeVolumeAtStart, 0, Time.deltaTime);
@@ -99,8 +105,9 @@ public class KillerObject : MonoBehaviour
         IEntity otherEnemy = other.GetComponent<IEntity>();
         if (other.GetComponent<IEntity>() != null && other.GetComponent<Player>() == null && other.GetComponent<Prop>() == null)
         {
-            if (soundToPlayAtKill != "") 
+            if (soundToPlayAtKill != "" && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(other.gameObject.transform.position) < minDistanceToPlayKillSound) && timeRemainingBeforeCanPlayKillSound < 0)
             {
+                timeRemainingBeforeCanPlayKillSound = minTimeBetweenKillSound;
                 AudioSource killAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtKill, "Ambiant", null, soundToPlayAtKillVolume,false,1,0.2f);
                 if (killAudioSource!=null)
                 {
