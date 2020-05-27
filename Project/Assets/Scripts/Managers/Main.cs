@@ -106,6 +106,10 @@ public class Main : MonoBehaviour
     [SerializeField] GameObject[] objectToChangeInLowQuality = null;
 
 
+    [HideInInspector] public bool InDiorama = false;
+    [HideInInspector] public bool GamePaused = false;
+    bool wasInWaitScreen = false;
+
     void Awake()
     {
         Instance = this;
@@ -312,6 +316,43 @@ public class Main : MonoBehaviour
         {
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (GamePaused)
+            {
+                CameraHandler.Instance.EndDiorama();
+                InDiorama = false;
+                SetupWaitScreenOff(true);
+                TimeScaleManager.Instance.RemoveStopTime();
+                GamePaused = false;
+            }
+            else
+            {
+                SetupWaitScreenOn(true);
+                TimeScaleManager.Instance.AddStopTime(5000);
+                GamePaused = true;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (GamePaused)
+            {
+                if (InDiorama)
+                {
+                    CameraHandler.Instance.EndDiorama();
+                    InDiorama = false;
+                }
+                else
+                {
+                    CameraHandler.Instance.TriggerAnimDiorama();
+                    InDiorama = true;
+                }
+            }
+        }
+
+
         if (Input.GetKeyDown(KeyCode.O))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
@@ -804,35 +845,49 @@ public class Main : MonoBehaviour
 
     }
 
-    public void SetupWaitScreenOn ()
+    public void SetupWaitScreenOn (bool requestFromDiorama = false)
     {
-        playerCanOrbWaitScreenSave = playerCanOrb;
-        playerCanReloadWaitScreenSave = playerCanReload;
-        playerCanZeroGWaitScreenSave = playerCanZeroG;
-        playerCanPerfectReloadWaitScreenSave = playerCanPerfectReload;
-        playerCanShootWaitScreenSave = playerCanShoot;
-        playerCanShotgunWaitScreenSave = playerCanShotgun;
+        if (!inWaitScreen)
+        {
+            playerCanOrbWaitScreenSave = playerCanOrb;
+            playerCanReloadWaitScreenSave = playerCanReload;
+            playerCanZeroGWaitScreenSave = playerCanZeroG;
+            playerCanPerfectReloadWaitScreenSave = playerCanPerfectReload;
+            playerCanShootWaitScreenSave = playerCanShoot;
+            playerCanShotgunWaitScreenSave = playerCanShotgun;
 
-        playerCanOrb = false;
-        playerCanReload = false;
-        playerCanZeroG = false;
-        playerCanPerfectReload = false;
-        playerCanShoot = false;
-        playerCanShotgun = false;
+            playerCanOrb = false;
+            playerCanReload = false;
+            playerCanZeroG = false;
+            playerCanPerfectReload = false;
+            playerCanShoot = false;
+            playerCanShotgun = false;
+            UiCrossHair.Instance.WaitFunction();
 
-        inWaitScreen = true;
+            inWaitScreen = true;
+        }
+        else if (requestFromDiorama && inWaitScreen)
+        {
+            wasInWaitScreen = true;
+        }
 
     }
-    public void SetupWaitScreenOff()
+    public void SetupWaitScreenOff(bool requestFromDiorama = false)
     {
-        playerCanOrb = playerCanOrbWaitScreenSave;
-        playerCanReload = playerCanReloadWaitScreenSave;
-        playerCanZeroG = playerCanZeroGWaitScreenSave;
-        playerCanPerfectReload = playerCanPerfectReloadWaitScreenSave;
-        playerCanShoot = playerCanShootWaitScreenSave;
-        playerCanShotgun = playerCanShotgunWaitScreenSave;
+        if (inWaitScreen && !(requestFromDiorama && wasInWaitScreen))
+        {
+            playerCanOrb = playerCanOrbWaitScreenSave;
+            playerCanReload = playerCanReloadWaitScreenSave;
+            playerCanZeroG = playerCanZeroGWaitScreenSave;
+            playerCanPerfectReload = playerCanPerfectReloadWaitScreenSave;
+            playerCanShoot = playerCanShootWaitScreenSave;
+            playerCanShotgun = playerCanShotgunWaitScreenSave;
+            UiCrossHair.Instance.StopWaitFunction();
 
-        inWaitScreen = false;
+            inWaitScreen = false;
+        }
+        wasInWaitScreen = false;
+
     }
 
     void CanDoLastChoice()

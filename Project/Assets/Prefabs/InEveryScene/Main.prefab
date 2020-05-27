@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429c58520b28a3248a3e5f743456a186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingQuality: 1
+  isHighQuality: 1
 --- !u!1 &3069857249444509699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,6 +1187,9 @@ MonoBehaviour:
   timerBeforeGameOver: 20
   timeBeforeChoiceSecurity: 1
   TitlesUnlocked: []
+  objectToChangeInLowQuality: []
+  InDiorama: 0
+  GamePaused: 0
   checkInputEvery: 0.5
   timeBeforeGoBackToStart: 5
 --- !u!114 &1540320443377804339
@@ -1206,6 +1209,7 @@ MonoBehaviour:
   animatorFromAnimatedCam: {fileID: 3183305506983849088}
   renderingCam: {fileID: 7950423414511688772}
   camData: {fileID: 11400000, guid: e9cf6c4ce67cae443b06cc1ed673e767, type: 2}
+  animToPlayInDiorama: {fileID: 7400000, guid: fa22cc8cea61c5c45a91e1e40fb69518, type: 2}
 --- !u!114 &7584541180804375010
 MonoBehaviour:
   m_ObjectHideFlags: 0
