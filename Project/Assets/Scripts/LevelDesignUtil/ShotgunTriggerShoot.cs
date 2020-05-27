@@ -45,6 +45,12 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     [SerializeField]
     bool canBeKilledByProps = false;
 
+    [SerializeField]
+    bool canDisableGoOnactivation = false;
+
+    [SerializeField, ShowIf("canDisableGoOnactivation")]
+    GameObject[] gameobjectsToDisable = null;
+
     int nbShootBeforeFirstHint = 1;
     int nbShootBeforeSecondHint = 5;
     int nbShoot = 0;
@@ -117,6 +123,9 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
     //    rb.AddForce(new Vector3(forceApplied, 0, 0));
         HintScript.Instance.Depop();
 
+        if (canDisableGoOnactivation && gameobjectsToDisable != null)
+            DisableGameobjects();
+
         if (triggersBooleanSequence)
         {
             BooleanSequenceManager.Instance.SetStateOfBoolSequence(booleanSequenceName, booleanSequenceStateSet);
@@ -160,6 +169,16 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
                 rbs.AddExplosionForce(fracturedForceOnDie * 10, rbs.transform.position, 10);
             }
         }
+    }
+
+    void DisableGameobjects()
+    {
+
+        foreach (GameObject go in gameobjectsToDisable)
+        {
+            go.transform.gameObject.SetActive(false);
+        }
+
     }
 
     void Update()
