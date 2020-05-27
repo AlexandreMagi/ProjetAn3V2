@@ -171,6 +171,13 @@ public class CameraHandler : MonoBehaviour
 
     #endregion
 
+    [SerializeField] AnimationClip animToPlayInDiorama = null;
+    float speedTransitionDiorama = 5;
+    bool inDioramaAnim = false;
+    float dioramaTransitionPurcentage = 0;
+    Quaternion lastRotDiorama = Quaternion.identity;
+    Vector3 lastPosDiorama = Vector3.zero;
+    float lastFovDiorama = 0;
 
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
@@ -277,9 +284,9 @@ public class CameraHandler : MonoBehaviour
         currentCamRef = !currentCamIsCine && animatedCam.transform.position != Vector3.zero && animatedCam != null ? animatedCam : cinemachineCam;
 
         if (currentCamIsCine)
-            antiClacRotPurcentage = Mathf.MoveTowards(antiClacRotPurcentage, 1, Time.unscaledDeltaTime / camData.antiClacRotAnimatedCam);
+            antiClacRotPurcentage = Mathf.MoveTowards(antiClacRotPurcentage, 1, Time.deltaTime / camData.antiClacRotAnimatedCam);
         else
-            antiClacRotPurcentage = Mathf.MoveTowards(antiClacRotPurcentage, 0, Time.unscaledDeltaTime / camData.antiClacRotAnimatedCam);
+            antiClacRotPurcentage = Mathf.MoveTowards(antiClacRotPurcentage, 0, Time.deltaTime / camData.antiClacRotAnimatedCam);
 
         // Init
         camRef.transform.position = currentCamRef.transform.position;
@@ -316,7 +323,7 @@ public class CameraHandler : MonoBehaviour
 
         if (feedbackTransition)
         {
-            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, (feedbackActivated ? 1 : 0), Time.unscaledDeltaTime / transitionTime);
+            transitionPurcentage = Mathf.MoveTowards(transitionPurcentage, (feedbackActivated ? 1 : 0), Time.deltaTime / transitionTime);
         }
         else
         {
@@ -380,6 +387,25 @@ public class CameraHandler : MonoBehaviour
             renderingCam.transform.rotation = currentCamRef.transform.rotation;
             renderingCam.fieldOfView = currentCamRef.fieldOfView;
         }
+
+
+        dioramaTransitionPurcentage = Mathf.Lerp(dioramaTransitionPurcentage, inDioramaAnim ? 1 : 0, Time.unscaledDeltaTime * speedTransitionDiorama);
+        if (dioramaTransitionPurcentage != 0)
+        {
+            if (inDioramaAnim)
+            {
+                renderingCam.transform.position = Vector3.Lerp(lastPosDiorama, animatedCam.transform.position, dioramaTransitionPurcentage);
+                renderingCam.transform.rotation = Quaternion.Lerp(lastRotDiorama, animatedCam.transform.rotation, dioramaTransitionPurcentage);
+                renderingCam.fieldOfView = Mathf.Lerp(lastFovDiorama, animatedCam.fieldOfView, dioramaTransitionPurcentage);
+            }
+            else
+            {
+                renderingCam.transform.position = Vector3.Lerp(renderingCam.transform.position, animatedCam.transform.position, dioramaTransitionPurcentage);
+                renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, animatedCam.transform.rotation, dioramaTransitionPurcentage);
+                renderingCam.fieldOfView = Mathf.Lerp(renderingCam.fieldOfView, animatedCam.fieldOfView, dioramaTransitionPurcentage);
+            }
+        }
+
     }
 
     private void BalancingCamUpdate()
@@ -792,6 +818,25 @@ public class CameraHandler : MonoBehaviour
     public float GetDistanceWithCam(Vector3 pos)
     {
         return Vector3.Distance(pos, renderingCam.transform.position);
+    }
+
+    public void TriggerAnimDiorama()
+    {
+        lastRotDiorama = renderingCam.transform.rotation;
+        lastPosDiorama = renderingCam.transform.position;
+        lastFovDiorama = renderingCam.fieldOfView;
+
+        animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
+        animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
+        animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animToPlayInDiorama;
+        animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        inDioramaAnim = true;
+        animatedCam.GetComponent<Animator>().SetTrigger("trigger");
+    }
+    public void EndDiorama()
+    {
+        inDioramaAnim = false;
+        animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.Normal;
     }
 
     public void TriggerAnim (AnimationClip animName, float animDuration)

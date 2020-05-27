@@ -671,12 +671,12 @@ public class SequenceHandler : MonoBehaviour
 
         if (activate)
         {
-            UiCrossHair.Instance.WaitFunction();
+            //UiCrossHair.Instance.WaitFunction();
             Main.Instance.SetupWaitScreenOn();
         }
         else
         {
-            UiCrossHair.Instance.StopWaitFunction();
+            //UiCrossHair.Instance.StopWaitFunction();
             Main.Instance.SetupWaitScreenOff();
         }
 
