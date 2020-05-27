@@ -29,6 +29,12 @@ public class EndGameMinigunManager : MonoBehaviour
     [SerializeField] float clignotementFrequency = 2;
     [SerializeField, PropertyRange(0f,1f)] float clignotementPurcentageDisplay = 0.5f;
 
+    [SerializeField] float fogDelay = 0.1f;
+    [SerializeField] float fogValueAimed = 500;
+    [SerializeField] float fogTimeTransition = .1f;
+
+    [SerializeField] ManualSpawnerCutter spawnerCutter = null;
+
     void Start()
     {
         if (display != null) display.text = beforeText;
@@ -51,6 +57,8 @@ public class EndGameMinigunManager : MonoBehaviour
                 {
                     exploded = true;
                     Main.Instance.ExplosionFromPlayer(explosionRadius, explosionForce, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
+                    TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition);
+                    if (spawnerCutter != null) spawnerCutter.cutSpawners();
                 }
                 if (display != null) display.text = lastText;
             }
