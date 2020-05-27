@@ -40,7 +40,10 @@ public class CustomSoundManager : MonoBehaviour
     void Update()
     {
         currentPitch = Mathf.MoveTowards(currentPitch, (1 - purcentagePitched) + Time.timeScale * purcentagePitched, Time.unscaledDeltaTime * speedPitchChanges);
-        mixer.SetFloat("MainVolume", mainVolume * 100 - 80);
+        if (Main.Instance != null && Main.Instance.GamePaused)
+            mixer.SetFloat("MainVolume", - 80);
+        else
+            mixer.SetFloat("MainVolume", mainVolume * 100 - 80);
         mixer.SetFloat("MainPitch", currentPitch);
     }
 

@@ -71,6 +71,11 @@ public class TimeScaleManager : MonoBehaviour
             Time.timeScale = timeScaleAccel;
     }
 
+    public void RemoveStopTime()
+    {
+        stopTimeRequest = new List<Vector2>();
+    }
+
     private bool UpdateStopTime()
     {
         bool stopTime = false;
