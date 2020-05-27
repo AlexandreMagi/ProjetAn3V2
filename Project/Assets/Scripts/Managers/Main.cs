@@ -105,6 +105,7 @@ public class Main : MonoBehaviour
 
     [SerializeField] GameObject[] objectToChangeInLowQuality = null;
 
+
     void Awake()
     {
         Instance = this;
@@ -311,10 +312,6 @@ public class Main : MonoBehaviour
         {
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
-        /*if (Input.GetKeyDown(KeyCode.F))
-        {
-            HintScript.Instance.PopHint("Merci d'avoir joué à Death Live !", 5);
-        }*/
         if (Input.GetKeyDown(KeyCode.O))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);

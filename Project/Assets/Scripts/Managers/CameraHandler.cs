@@ -647,6 +647,16 @@ public class CameraHandler : MonoBehaviour
                 shakeSource.GenerateImpulse(Vector3.up * value);
         }
     }
+
+    public bool CheckIfCanAddShake(float shakeMax)
+    {
+        Vector3 cinemachineShakeAddedPos = Vector3.zero;
+        Quaternion cinemachineShakeAddedRot = Quaternion.identity;
+        CinemachineImpulseManager.Instance.GetImpulseAt(renderingCam.transform.position, false, 1, out cinemachineShakeAddedPos, out cinemachineShakeAddedRot);
+        return cinemachineShakeAddedPos.magnitude < shakeMax;
+    }
+
+
     public void RemoveShake()
     {
         CinemachineImpulseManager.Instance.Clear();
