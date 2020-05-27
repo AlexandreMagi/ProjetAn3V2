@@ -24,6 +24,8 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     Material[] meshMaterials = new Material[0];
 
+    protected float bufferedDamageTaken = 0;
+
     #region Detection
     public virtual void OnMovementDetect()
     {
@@ -52,7 +54,12 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
     {
         //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
         FxManager.Instance.PlayFx(entityData.fxWhenTakeDamage, position, Quaternion.LookRotation(rayShot.direction, Vector3.up)); //LookRotation(rayShot.direction, Vector3.up)
-        this.TakeDamage(dammage);
+
+        //En fait, on va faire un buffer de dégats sur une frame les enfants
+        //Et deal tout ça d'un coup, à la fin de la frame !
+
+        bufferedDamageTaken += dammage;
+        //this.TakeDamage(dammage);
     }
 
     public virtual void OnHitShotGun(DataWeaponMod mod)
@@ -170,6 +177,15 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
         
        
 
+    }
+
+    protected virtual void LateUpdate()
+    {
+        if(bufferedDamageTaken > 0)
+        {
+            TakeDamage(bufferedDamageTaken);
+            bufferedDamageTaken = 0;
+        }
     }
 
     protected virtual void StopStun()
