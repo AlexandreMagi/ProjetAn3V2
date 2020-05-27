@@ -38,6 +38,8 @@ public class KillerObject : MonoBehaviour
     float timeFadeVolumeAtStart = 5;
     float savedVolume = 0;
 
+    [SerializeField] float shakeCapLimit = .1f;
+
     public void Start()
     {
         if (CustomSoundManager.Instance != null && soundToPlayAtStart != "") ambiantAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtStart, "Ambiant", transform, soundToPlayAtStartVolume, true);
@@ -88,7 +90,7 @@ public class KillerObject : MonoBehaviour
             {
                 otherEnemy.TakeDamage(999999);
                 timeBeforeEndOfMulti = 0.3f;
-                if (CameraHandler.Instance != null && shakeForceAtVictim > 0 && shakeDurationAtVictim > 0) CameraHandler.Instance.AddShake(shakeForceAtVictim, shakeDurationAtVictim);
+                if (CameraHandler.Instance != null && shakeForceAtVictim > 0 && shakeDurationAtVictim > 0 && CameraHandler.Instance.CheckIfCanAddShake(shakeCapLimit)) CameraHandler.Instance.AddShake(shakeForceAtVictim, shakeDurationAtVictim);
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
             }
             else
