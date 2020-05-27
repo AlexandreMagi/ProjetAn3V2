@@ -134,6 +134,9 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
     int damages = 0;
 
+    [ShowIf("typeTrigger", TriggerType.InstantKill), SerializeField]
+    bool preventRevive = true;
+
     [ShowIf("typeTrigger", TriggerType.SwarmerAnimation), SerializeField]
     SwarmerProceduralAnimation.AnimSwarmer animationToCall = SwarmerProceduralAnimation.AnimSwarmer.reset;
 
@@ -295,6 +298,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Fog:
                 TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition);
                 break;
+            case TriggerType.InstantKill:
+                TriggerUtil.TriggerInstantKill(timeBeforeStart, preventRevive);
+                break;
             default:
                 break;
         }
@@ -342,7 +348,8 @@ public class TriggerSender : MonoBehaviour
         Value = 19,
         NearClipChanger = 20,
         PublicVolume = 21,
-        Fog = 22
+        Fog = 22,
+        InstantKill = 23
     }
 
     public enum Activable
