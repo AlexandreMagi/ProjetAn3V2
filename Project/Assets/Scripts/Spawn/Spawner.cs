@@ -91,6 +91,8 @@ public class Spawner : MonoBehaviour
     public void StopSpawn()
     {
         spawnEnabled = false;
+
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
