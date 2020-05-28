@@ -13,6 +13,8 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     public static Player Instance{get; private set;}
 
+    public bool nextAttackDoesntTriggerBreakShield = false;
+
     public void SetGod()
     {
         this.godMode = !this.godMode;
@@ -128,7 +130,6 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             {
                 if (!godMode)
                 {
-                    MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTakenOnHealth);
                     armor -= value;
                     value = 0;
                 }
@@ -149,8 +150,10 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                     {
                         damageToHealth = Mathf.Floor(entityData.startHealth / 5);
                         health -= damageToHealth;
+                        if (damageToHealth > 0)
+                            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTakenOnHealth);
                         //Debug.Log("hp damage");
-                    
+
                     }
 
                     //UiLifeBar.Instance.UpdateArmorDisplay(armor / entityData.armor, armor);
