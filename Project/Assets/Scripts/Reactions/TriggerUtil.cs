@@ -527,5 +527,20 @@ public static class TriggerUtil
 
         yield break;
     }
+
+    //End of game
+    public static void TriggerEndOfGame(float timeBeforeStart)
+    {
+        Main.Instance.StartCoroutine(TriggerEndOfGameCoroutine(timeBeforeStart));
+    }
+
+    static IEnumerator TriggerEndOfGameCoroutine(float timeBeforeStart)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        Main.Instance.InitLeaderboard();
+
+        yield break;
+    }
 }
 
