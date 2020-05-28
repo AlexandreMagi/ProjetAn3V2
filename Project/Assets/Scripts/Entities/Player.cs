@@ -51,6 +51,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     
     public void DieForReal()
     {
+        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Death);
         gameObject.SetActive(false);
         //Destroy(this);
     }
