@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7920476193014058900}
   - component: {fileID: 3620861982374481416}
   - component: {fileID: 4936927130646854714}
-  m_Layer: 0
+  - component: {fileID: 448331576}
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,11 +93,87 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400287537321566650}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &448331576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400287537321566650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 17
+  spawners: []
+  spawnerState: 1
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  soundMixer: 
+  soundLoop: 0
+  volume: 1
+  volumeAimed: 1
+  volumeTimeTransition: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 0
+  meshForTheCollider: {fileID: 0}
+  colliderToReplace: {fileID: 0}
+  isStopShake: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  damages: 50
+  preventRevive: 1
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  meshAffecteds: []
+  shaderValueName: 
+  isSwarmer: 0
+  cameraToChange: {fileID: 0}
+  newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
 --- !u!1 &3157512228305158192
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,6 +279,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -212,6 +290,8 @@ MonoBehaviour:
   isSwarmer: 0
   cameraToChange: {fileID: 0}
   newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -320,6 +400,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -330,6 +411,8 @@ MonoBehaviour:
   isSwarmer: 0
   cameraToChange: {fileID: 0}
   newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -412,7 +495,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8725525266824766521}
   - component: {fileID: 767445031099245729}
-  m_Layer: 0
+  - component: {fileID: 202532296}
+  m_Layer: 12
   m_Name: Boulet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,6 +538,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &202532296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8725525266824766520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1a273de878c924cbc2db23c23d4808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeForce: 30
+  shakeDuration: 0.3
+  soundName: []
+  soundVolume: []
 --- !u!1001 &9043901833741037542
 PrefabInstance:
   m_ObjectHideFlags: 0

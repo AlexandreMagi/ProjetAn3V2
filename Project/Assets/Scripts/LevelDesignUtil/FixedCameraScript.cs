@@ -19,6 +19,12 @@ public class FixedCameraScript : MonoBehaviour
     string fxName = "VFX_CameraExplosion";
     [SerializeField]
     ParticleSystem blinkParticleToStopOnDeath = null;
+    [SerializeField]
+    GameObject vfxMesh = null;
+    [SerializeField]
+    GameObject mainMesh = null;
+
+    Material[] mats = null;
 
     bool hitByBulletBool = false;
 
@@ -28,6 +34,12 @@ public class FixedCameraScript : MonoBehaviour
     {
         if (lookAtTarget == null) lookAtTarget = CameraHandler.Instance.renderingCam.transform;
         cameraDummy.GetComponent<CamFixedChild>().parentScript = this;
+
+        if (mainMesh != null)
+        {
+            mats = mainMesh.GetComponent<Renderer>().materials;
+        }
+
 
     }
 
@@ -67,6 +79,12 @@ public class FixedCameraScript : MonoBehaviour
                 }
 
             }
+
+            if (mats != null)
+                mats[1].SetFloat("_RevealLightEnabled", 0);
+
+            if (vfxMesh != null)
+                vfxMesh.transform.gameObject.SetActive(false);
 
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageFixedCam, gameObject.transform.position);
 
