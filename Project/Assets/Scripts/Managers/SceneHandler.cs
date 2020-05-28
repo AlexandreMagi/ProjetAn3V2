@@ -62,8 +62,8 @@ public class SceneHandler : MonoBehaviour
 
     void CheckIfMustLockFrame (string sName)
     {
-        if (sName == "MenuScene") Application.targetFrameRate = 60;
-        else Application.targetFrameRate = 300;
+        //if (sName == "MenuScene") Application.targetFrameRate = 60;
+        //else Application.targetFrameRate = 300;
     }
 
     public void QuitGame (float delay = 0)

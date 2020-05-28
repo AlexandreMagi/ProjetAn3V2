@@ -178,15 +178,15 @@ public class UiCrossHair : MonoBehaviour
     {
         //waitGameObject.SetActive(true);
         rootCrosshair.gameObject.SetActive(false);
-        if (waitGameObject.activeSelf)
-            waitGameObject.GetComponent<Animator>().SetTrigger("pop");
+        //if (waitGameObject.activeSelf)
+        //    waitGameObject.GetComponent<Animator>().SetTrigger("pop");
         UINewWait.Instance.TriggerWait();
     }
 
     public void StopWaitFunction()
     {
-        if (waitGameObject.activeSelf)
-            waitGameObject.GetComponent<Animator>().SetTrigger("depop");
+        //if (waitGameObject.activeSelf)
+        //    waitGameObject.GetComponent<Animator>().SetTrigger("depop");
         //waitGameObject.SetActive(false);
         rootCrosshair.gameObject.SetActive(true);
         UINewWait.Instance.RemoveWait();
