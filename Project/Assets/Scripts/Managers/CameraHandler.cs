@@ -392,22 +392,22 @@ public class CameraHandler : MonoBehaviour
         }
 
 
-        dioramaTransitionPurcentage = Mathf.Lerp(dioramaTransitionPurcentage, inDioramaAnim ? 1 : 0, Time.unscaledDeltaTime * speedTransitionDiorama);
-        if (dioramaTransitionPurcentage != 0)
-        {
-            if (inDioramaAnim)
-            {
-                renderingCam.transform.position = Vector3.Lerp(lastPosDiorama, animatedCam.transform.position, dioramaTransitionPurcentage);
-                renderingCam.transform.rotation = Quaternion.Lerp(lastRotDiorama, animatedCam.transform.rotation, dioramaTransitionPurcentage);
-                renderingCam.fieldOfView = Mathf.Lerp(lastFovDiorama, animatedCam.fieldOfView, dioramaTransitionPurcentage);
-            }
-            else
-            {
-                renderingCam.transform.position = Vector3.Lerp(renderingCam.transform.position, animatedCam.transform.position, dioramaTransitionPurcentage);
-                renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, animatedCam.transform.rotation, dioramaTransitionPurcentage);
-                renderingCam.fieldOfView = Mathf.Lerp(renderingCam.fieldOfView, animatedCam.fieldOfView, dioramaTransitionPurcentage);
-            }
-        }
+        //dioramaTransitionPurcentage = Mathf.Lerp(dioramaTransitionPurcentage, inDioramaAnim ? 1 : 0, Time.unscaledDeltaTime * speedTransitionDiorama);
+        //if (dioramaTransitionPurcentage != 0)
+        //{
+        //    if (inDioramaAnim)
+        //    {
+        //        renderingCam.transform.position = Vector3.Lerp(lastPosDiorama, animatedCam.transform.position, dioramaTransitionPurcentage);
+        //        renderingCam.transform.rotation = Quaternion.Lerp(lastRotDiorama, animatedCam.transform.rotation, dioramaTransitionPurcentage);
+        //        renderingCam.fieldOfView = Mathf.Lerp(lastFovDiorama, animatedCam.fieldOfView, dioramaTransitionPurcentage);
+        //    }
+        //    else
+        //    {
+        //        renderingCam.transform.position = Vector3.Lerp(renderingCam.transform.position, animatedCam.transform.position, dioramaTransitionPurcentage);
+        //        renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, animatedCam.transform.rotation, dioramaTransitionPurcentage);
+        //        renderingCam.fieldOfView = Mathf.Lerp(renderingCam.fieldOfView, animatedCam.fieldOfView, dioramaTransitionPurcentage);
+        //    }
+        //}
 
     }
 
