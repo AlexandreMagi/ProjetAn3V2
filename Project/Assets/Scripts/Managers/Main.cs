@@ -153,7 +153,7 @@ public class Main : MonoBehaviour
             playerCanShoot = true;
             playerCanShotgun = true;
             UiCrossHair.Instance.UpdateCursorUnlocks();
-            Player.Instance.GainArmorOverTime(0, 1, 100);
+            Player.Instance.GainArmorOverTime(0, 100, 100);
             Invoke("SkipToSequence", .2f);
         }
 
@@ -448,7 +448,8 @@ public class Main : MonoBehaviour
                     playerCanShoot = true;
                     playerCanShotgun = true;
                     UiCrossHair.Instance.UpdateCursorUnlocks();
-                    Player.Instance.GainArmorOverTime(0, 1, 100);
+                    Player.Instance.GainArmorOverTime(0, 100, 100);
+                    TriggerUtil.TriggerPlaneShake(false, 0);
 
                     TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
                     for (int i = 0; i < AllTriggerSender.Length; i++)
