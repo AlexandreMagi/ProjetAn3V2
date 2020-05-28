@@ -240,7 +240,7 @@ public class Weapon : MonoBehaviour
                 orbPrevisuFx.Pause();
             }
             orbPrevisu.transform.position = Vector3.Lerp(orbPrevisu.transform.position, lastHitOrbPosition + lastHitOrbNormal * 1.3f, Time.unscaledDeltaTime * 8);
-            orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, orbHitSomething ? Vector3.one * orbData.gravityBullet_AttractionRange : Vector3.zero, Time.unscaledDeltaTime * 5);
+            orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, orbHitSomething ? Vector3.one * orbData.holdRange : Vector3.zero, Time.unscaledDeltaTime * 5);
             if (pauseOrbFx > 0) pauseOrbFx -= Time.deltaTime;
 
 

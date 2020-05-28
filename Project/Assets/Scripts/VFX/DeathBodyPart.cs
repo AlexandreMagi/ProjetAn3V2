@@ -87,7 +87,7 @@ public class DeathBodyPart : MonoBehaviour
         Rigidbody rb;
         rb = GetComponent<Rigidbody>();
         StartCoroutine(AddExplosionEffect(rb, posInit));
-        StartCoroutine(ActivateCollider());
+        StartCoroutine(ActivateCollider(.3f));
         transform.localScale = Vector3.one;
         isActiveAndVisible = true;
         timerBeforeDisapearIncrement = 0;
@@ -103,8 +103,9 @@ public class DeathBodyPart : MonoBehaviour
         if (collid19 != null) collid19.enabled = false;
     }
 
-    IEnumerator ActivateCollider()
+    IEnumerator ActivateCollider(float timer)
     {
+        yield return new WaitForSecondsRealtime(timer);
         yield return new WaitForEndOfFrame();
         if (collid19 != null) collid19.enabled = true;
         yield break;
