@@ -404,6 +404,24 @@ public static class TriggerUtil
         yield break;
     }
 
+    //Kill du joueur
+    public static void TriggerInstantKill(float timeBeforeStart, bool preventRevive)
+    {
+        Main.Instance.StartCoroutine(TriggerInstantKillCoroutine(timeBeforeStart, preventRevive));
+    }
+
+    static IEnumerator TriggerInstantKillCoroutine(float timeBeforeStart, bool preventRevive)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        if (preventRevive)Main.Instance.PreventPlayerFromRevive();
+        Player.Instance.SetLifeTo(1);
+        Player.Instance.GainArmor(-9999);
+        Player.Instance.TakeDamage(1);
+
+        yield break;
+    }
+
     //Swarmer trigger
     public static void TriggerSwarmers(float timeBeforeStart, List<Swarmer> swarmers)
     {

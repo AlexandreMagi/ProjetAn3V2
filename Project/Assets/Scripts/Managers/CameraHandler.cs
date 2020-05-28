@@ -204,6 +204,9 @@ public class CameraHandler : MonoBehaviour
         {
             renderingCam.enabled = true;
             shakeSource = GetComponent<CinemachineImpulseSource>();
+            renderingCam.transform.position = cinemachineCam.transform.position;
+            renderingCam.transform.rotation = cinemachineCam.transform.rotation;
+            renderingCam.fieldOfView = cinemachineCam.fieldOfView;
         }
         else Debug.LogWarning("BUG : Camera isn't setup in CameraHandler");
 

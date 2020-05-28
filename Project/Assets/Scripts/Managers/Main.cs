@@ -144,6 +144,16 @@ public class Main : MonoBehaviour
         if (!hasJumpedCam && startWithCameraNumber != 0)
         {
             hasJumpedCam = true;
+            SetupWaitScreenOff();
+            UiCrossHair.Instance.StopWaitFunction();
+            playerCanOrb = true;
+            playerCanReload = true;
+            playerCanZeroG = true;
+            playerCanPerfectReload = true;
+            playerCanShoot = true;
+            playerCanShotgun = true;
+            UiCrossHair.Instance.UpdateCursorUnlocks();
+            Player.Instance.GainArmorOverTime(0, 100, 1);
             Invoke("SkipToSequence", .2f);
         }
 
@@ -438,6 +448,7 @@ public class Main : MonoBehaviour
                     playerCanShoot = true;
                     playerCanShotgun = true;
                     UiCrossHair.Instance.UpdateCursorUnlocks();
+                    Player.Instance.GainArmorOverTime(0, 1000, .5f);
 
                     TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
                     for (int i = 0; i < AllTriggerSender.Length; i++)
@@ -810,6 +821,11 @@ public class Main : MonoBehaviour
     {
         if (hSoundHandlerMainMusic != null)
             hSoundHandlerMainMusic.volume = 0;
+    }
+
+    public void PreventPlayerFromRevive()
+    {
+        playerResedAlready = true;
     }
 
     public void FinalChoice()
