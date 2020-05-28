@@ -32,6 +32,75 @@ Transform:
   m_Father: {fileID: 1046608200808571029}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &563530736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563530737}
+  - component: {fileID: 563530739}
+  - component: {fileID: 563530738}
+  m_Layer: 12
+  m_Name: Trigger_Music - IntroHardMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563530737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563530736}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -259.438, y: 1.093, z: -33.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1412285132}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &563530739
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563530736}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.616952, y: 3.0908265, z: 1.9324532}
+  m_Center: {x: 0, y: 0.5266435, z: 0.46622658}
+--- !u!114 &563530738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563530736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  musicToPlay: 6
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 0
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 0.4
+  loop: 0
+  volumeAimed: 1
+  volumeTimeTransition: 1
 --- !u!1 &658567738
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1464091335}
+  - {fileID: 1493912073}
   m_Father: {fileID: 108948085}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -199,6 +269,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -246,6 +317,75 @@ Transform:
   m_Father: {fileID: 1834859355}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1068890830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1068890831}
+  - component: {fileID: 1068890833}
+  - component: {fileID: 1068890832}
+  m_Layer: 12
+  m_Name: Trigger_Music - HardMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1068890831
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068890830}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -259.438, y: 1.093, z: -38.656}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1412285132}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1068890833
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068890830}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1068890832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068890830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  musicToPlay: 5
+  timeBeforeDoAnything: 0
+  doItNow: 0
+  fadeOut: 0
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 0.4
+  loop: 1
+  volumeAimed: 1
+  volumeTimeTransition: 1
 --- !u!1 &1307503814
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,6 +491,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -395,6 +536,8 @@ Transform:
   m_Children:
   - {fileID: 1307503815}
   - {fileID: 735742437}
+  - {fileID: 563530737}
+  - {fileID: 1068890831}
   m_Father: {fileID: 108948085}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -503,6 +646,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -518,6 +662,75 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &1493912072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1493912073}
+  - component: {fileID: 1493912075}
+  - component: {fileID: 1493912074}
+  m_Layer: 12
+  m_Name: Trigger_Music - CutMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1493912073
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493912072}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -270.805, y: -4.19, z: -17.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 687037122}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1493912075
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493912072}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5, z: 5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1493912074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493912072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 4
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 1
+  loop: 0
+  volumeAimed: 1
+  volumeTimeTransition: 1
 --- !u!1 &1667164511
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,6 +836,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -743,6 +957,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0
@@ -895,6 +1110,7 @@ MonoBehaviour:
   isActivationGameObject: 0
   objectsToChange: []
   damages: 0
+  preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
   valueStart: 0

@@ -8,12 +8,13 @@ public class MusicHandler : MonoBehaviour
     void Awake() { Instance = this; }
 
     [SerializeField] AudioSource musicSource = null;
-    public enum Musics { none, dropAndMinigun, drone, explo, lastStage, preLastStage };
+    public enum Musics { none, dropAndMinigun, drone, explo, lastStage, preLastStage, introPreLastStage };
     [SerializeField] AudioClip dropAndMinigunMusic = null;
     [SerializeField] AudioClip drone = null;
     [SerializeField] AudioClip explo = null;
     [SerializeField] AudioClip lastStage = null;
     [SerializeField] AudioClip preLastStage = null;
+    [SerializeField] AudioClip introPreLastStage = null;
 
 
     float currMusicVolume = 1;
@@ -146,6 +147,9 @@ public class MusicHandler : MonoBehaviour
                     break;
                 case Musics.preLastStage:
                     musicSource.clip = preLastStage;
+                    break;
+                case Musics.introPreLastStage:
+                    musicSource.clip = introPreLastStage;
                     break;
             }
             musicSource.Stop();

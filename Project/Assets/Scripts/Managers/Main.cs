@@ -153,7 +153,7 @@ public class Main : MonoBehaviour
             playerCanShoot = true;
             playerCanShotgun = true;
             UiCrossHair.Instance.UpdateCursorUnlocks();
-            Player.Instance.GainArmorOverTime(0, 100, 1);
+            Player.Instance.GainArmorOverTime(0, 100, 100);
             Invoke("SkipToSequence", .2f);
         }
 
@@ -448,7 +448,8 @@ public class Main : MonoBehaviour
                     playerCanShoot = true;
                     playerCanShotgun = true;
                     UiCrossHair.Instance.UpdateCursorUnlocks();
-                    Player.Instance.GainArmorOverTime(0, 1000, .5f);
+                    Player.Instance.GainArmorOverTime(0, 100, 100);
+                    TriggerUtil.TriggerPlaneShake(false, 0);
 
                     TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
                     for (int i = 0; i < AllTriggerSender.Length; i++)
@@ -598,7 +599,7 @@ public class Main : MonoBehaviour
 
     public void ChangeQuality (bool high)
     {
-        RenderSettings.fog = high;
+        //RenderSettings.fog = high;
         if (QualityHandler.Instance != null) QualityHandler.Instance.SetupQuality(high);
         if (objectToChangeInLowQuality != null)
         {
