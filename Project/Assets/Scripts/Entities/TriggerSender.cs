@@ -295,6 +295,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Fog:
                 TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition);
                 break;
+            case TriggerType.GameEnder:
+                TriggerUtil.TriggerEndOfGame(timeBeforeStart);
+                break;
             default:
                 break;
         }
@@ -342,7 +345,8 @@ public class TriggerSender : MonoBehaviour
         Value = 19,
         NearClipChanger = 20,
         PublicVolume = 21,
-        Fog = 22
+        Fog = 22,
+        GameEnder = 23
     }
 
     public enum Activable
