@@ -25,7 +25,7 @@ public class PublicManager : MonoBehaviour
     List<ActionType> stallBuffer;
 
     // Multiplicateur de score
-    public const float scoreMultiplier = 183.492761f * 1.5f;
+    public const float scoreMultiplier = 183.492761f * 1.5f * .3f;
 
     void Awake()
     {

@@ -599,7 +599,7 @@ public class Main : MonoBehaviour
 
     public void ChangeQuality (bool high)
     {
-        RenderSettings.fog = high;
+        //RenderSettings.fog = high;
         if (QualityHandler.Instance != null) QualityHandler.Instance.SetupQuality(high);
         if (objectToChangeInLowQuality != null)
         {
