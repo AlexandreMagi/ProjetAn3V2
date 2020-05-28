@@ -171,13 +171,13 @@ public class CameraHandler : MonoBehaviour
 
     #endregion
 
-    [SerializeField] AnimationClip animToPlayInDiorama = null;
-    float speedTransitionDiorama = 5;
-    bool inDioramaAnim = false;
-    float dioramaTransitionPurcentage = 0;
-    Quaternion lastRotDiorama = Quaternion.identity;
-    Vector3 lastPosDiorama = Vector3.zero;
-    float lastFovDiorama = 0;
+    //[SerializeField] AnimationClip animToPlayInDiorama = null;
+    //float speedTransitionDiorama = 5;
+    //bool inDioramaAnim = false;
+    //float dioramaTransitionPurcentage = 0;
+    //Quaternion lastRotDiorama = Quaternion.identity;
+    //Vector3 lastPosDiorama = Vector3.zero;
+    //float lastFovDiorama = 0;
 
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
@@ -825,21 +825,21 @@ public class CameraHandler : MonoBehaviour
 
     public void TriggerAnimDiorama()
     {
-        lastRotDiorama = renderingCam.transform.rotation;
-        lastPosDiorama = renderingCam.transform.position;
-        lastFovDiorama = renderingCam.fieldOfView;
+        //lastRotDiorama = renderingCam.transform.rotation;
+        //lastPosDiorama = renderingCam.transform.position;
+        //lastFovDiorama = renderingCam.fieldOfView;
 
-        animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
-        animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
-        animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animToPlayInDiorama;
-        animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
-        inDioramaAnim = true;
-        animatedCam.GetComponent<Animator>().SetTrigger("trigger");
+        //animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
+        //animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
+        //animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animToPlayInDiorama;
+        //animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        //inDioramaAnim = true;
+        //animatedCam.GetComponent<Animator>().SetTrigger("trigger");
     }
     public void EndDiorama()
     {
-        inDioramaAnim = false;
-        animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.Normal;
+        //inDioramaAnim = false;
+        //animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.Normal;
     }
 
     public void TriggerAnim (AnimationClip animName, float animDuration)
