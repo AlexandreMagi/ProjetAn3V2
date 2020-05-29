@@ -66,7 +66,11 @@ public class LeaderboardManager : MonoBehaviour
         Directory.CreateDirectory(Application.persistentDataPath + "/Pangoblin/Leaderboard");
 
         scoreData = new LeaderboardDatabase();
-        LeaderboardData temp = new LeaderboardData("AAA", 50, "Nobody");
+        LeaderboardData temp = new LeaderboardData("PAN", 950000, "Living Legend");
+        scoreData.data.Add(temp);
+        temp = new LeaderboardData("GOB", 725000, "Veteran");
+        scoreData.data.Add(temp);
+        temp = new LeaderboardData("LIN", 400000, "Newbie");
         scoreData.data.Add(temp);
 
         SaveScores();

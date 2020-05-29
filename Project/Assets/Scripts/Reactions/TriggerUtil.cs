@@ -76,7 +76,7 @@ public static class TriggerUtil
                 //Debug.Log(RenderSettings.fogEndDistance);
                 completion += Time.deltaTime / fogTimeTransition;
                 completion = Mathf.Clamp01(completion);
-                RenderSettings.fogEndDistance = Mathf.Lerp(pastValue, fogEndValueAimed, completion);
+                RenderSettings.fogEndDistance = Mathf.Lerp(pastValue, fogEndValueAimed, AnimationCurve.EaseInOut(0, 0, 1, 1).Evaluate(completion));
                 yield return new WaitForEndOfFrame();
             }
         }

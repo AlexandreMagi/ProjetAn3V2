@@ -150,10 +150,16 @@ public class DecalManager : MonoBehaviour
 
     public void RemoveAllDecal()
     {
-        for (int i = 0; i < allDecal.Length; i++)
+        if (allDecal != null)
         {
-            allDecal[i].go.SetActive(false);
-            allDecal[i].lifeTime = 0;
+            for (int i = 0; i < allDecal.Length; i++)
+            {
+                if (allDecal[i] != null)
+                {
+                    allDecal[i].go.SetActive(false);
+                    allDecal[i].lifeTime = 0;
+                }
+            }
         }
     }
 

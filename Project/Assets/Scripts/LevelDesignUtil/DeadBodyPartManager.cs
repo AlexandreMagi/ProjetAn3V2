@@ -8,7 +8,7 @@ public class DeadBodyPartManager : MonoBehaviour
     public static DeadBodyPartManager Instance { get; private set; }
     void Awake() { Instance = this; }
 
-    public enum TypeOfFracture { Swarmer,Box,Barrel, Shooter, none};
+    public enum TypeOfFracture { Swarmer,Box,Barrel, Shooter, none, Glass};
 
     [SerializeField] GameObject SwarmerPrefab = null;
     [SerializeField] int nbSwarmerPrefab = 10;
@@ -18,11 +18,14 @@ public class DeadBodyPartManager : MonoBehaviour
     [SerializeField] int nbBarrelPrefab = 10;
     [SerializeField] GameObject ShooterPrefab = null;
     [SerializeField] int nbShooterPrefab = 10;
+    [SerializeField] GameObject GlassPrefab = null;
+    [SerializeField] int nbGlassPrefab = 10;
 
     List<FractureManager> SwarmerManagers = new List<FractureManager>();
     List<FractureManager> BoxManagers = new List<FractureManager>();
     List<FractureManager> BarrelManagers = new List<FractureManager>();
     List<FractureManager> ShooterManagers = new List<FractureManager>();
+    List<FractureManager> GlassManagers = new List<FractureManager>();
 
     void Start()
     {
@@ -30,6 +33,7 @@ public class DeadBodyPartManager : MonoBehaviour
         {
             FractureManager instance = Instantiate(SwarmerPrefab).GetComponent<FractureManager>();
             instance.DepopAll();
+            instance.transform.SetParent(transform);
             instance.gameObject.SetActive(false);
             SwarmerManagers.Add(instance); 
         }
@@ -37,6 +41,7 @@ public class DeadBodyPartManager : MonoBehaviour
         {
             FractureManager instance = Instantiate(BoxPrefab).GetComponent<FractureManager>();
             instance.DepopAll();
+            instance.transform.SetParent(transform);
             instance.gameObject.SetActive(false);
             BoxManagers.Add(instance); 
         }
@@ -44,6 +49,7 @@ public class DeadBodyPartManager : MonoBehaviour
         {
             FractureManager instance = Instantiate(BarrelPrefab).GetComponent<FractureManager>();
             instance.DepopAll();
+            instance.transform.SetParent(transform);
             instance.gameObject.SetActive(false);
             BarrelManagers.Add(instance); 
         }
@@ -51,8 +57,17 @@ public class DeadBodyPartManager : MonoBehaviour
         {
             FractureManager instance = Instantiate(ShooterPrefab).GetComponent<FractureManager>();
             instance.DepopAll();
+            instance.transform.SetParent(transform);
             instance.gameObject.SetActive(false);
             ShooterManagers.Add(instance); 
+        }
+        for (int i = 0; i < nbGlassPrefab; i++)  
+        {
+            FractureManager instance = Instantiate(GlassPrefab).GetComponent<FractureManager>();
+            instance.DepopAll();
+            instance.transform.SetParent(transform);
+            instance.gameObject.SetActive(false);
+            GlassManagers.Add(instance); 
         }
     }
 
@@ -87,6 +102,9 @@ public class DeadBodyPartManager : MonoBehaviour
                 break;
             case TypeOfFracture.none:
                 return null;
+            case TypeOfFracture.Glass:
+                ListUsed = GlassManagers;
+                break;
         }
         for (int i = 0; i < ListUsed.Count; i++) { if (ListUsed[i].available) return ListUsed[i]; }
 

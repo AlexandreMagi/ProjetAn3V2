@@ -129,6 +129,8 @@ public class TriggerSender : MonoBehaviour
     bool isActivationGameObject = false;
     [ShowIf("typeTrigger", TriggerType.GameObjectActivation), SerializeField]
     List<GameObject> objectsToChange = null;
+    [ShowIf("typeTrigger", TriggerType.GameObjectActivation)]
+    public bool isTriggeredBySkip = true;
 
 
     [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
