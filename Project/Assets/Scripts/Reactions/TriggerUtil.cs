@@ -123,6 +123,42 @@ public static class TriggerUtil
         yield break;
     }
 
+    //MULTIPLE ANIMATIONS
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, string[] triggerNames, float[] delays)
+    {
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, triggerNames, delays));
+    }
+
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, string[] triggerNames, float[] delays)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        if(triggerNames.Length - 1 != delays.Length)
+        {
+            Debug.LogError("Mauvais remplissage des conditions d'animation multiples.");
+            yield break;
+        }
+        else
+        {
+            int currentAnimationIndex = 0;
+            do
+            {
+                foreach (Animator anim in animators)
+                {
+                    anim.SetTrigger(triggerNames[0]);   
+                }
+
+                yield return new WaitForSeconds(delays[currentAnimationIndex]);
+
+                currentAnimationIndex++;
+            }
+            while (currentAnimationIndex < triggerNames.Length);
+           
+        }
+
+        yield break;
+    }
+
     //WEAPON ACTIVATIONS
     public static void TriggerActivation(float timeBeforeStart, TriggerSender.Activable affected, bool isActivation)
     {
