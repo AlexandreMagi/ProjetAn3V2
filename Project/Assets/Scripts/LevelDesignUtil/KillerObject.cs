@@ -90,8 +90,7 @@ public class KillerObject : MonoBehaviour
             {
                 otherEnemy.TakeDamage(999999);
                 timeBeforeEndOfMulti = 0.3f;
-                if (CameraHandler.Instance != null && shakeForceAtVictim > 0 && shakeDurationAtVictim > 0 && CameraHandler.Instance.CheckIfCanAddShake(shakeCapLimit)) CameraHandler.Instance.AddShake(shakeForceAtVictim, shakeDurationAtVictim);
-                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
+                if (CameraHandler.Instance != null && shakeForceAtVictim > 0 && shakeDurationAtVictim > 0 && CameraHandler.Instance.CheckIfCanAddShake(shakeCapLimit)) CameraHandler.Instance.AddShake(shakeForceAtVictim, shakeDurationAtVictim);             
             }
             else
             {
