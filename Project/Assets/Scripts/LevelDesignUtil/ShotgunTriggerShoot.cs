@@ -131,7 +131,6 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
             BooleanSequenceManager.Instance.SetStateOfBoolSequence(booleanSequenceName, booleanSequenceStateSet);
         }
 
-        if (DecalManager.Instance != null) DecalManager.Instance.RemoveAllDecal();
 
         if (!IsSoundPlayed)
         {
@@ -153,7 +152,10 @@ public class ShotgunTriggerShoot : MonoBehaviour, IBulletAffect
         _renderer.enabled = false;
         _collider.enabled = false;
 
-        InstantiateExplosion();
+        DeadBodyPartManager.Instance.RequestPop(DeadBodyPartManager.TypeOfFracture.Glass, transform.position, Vector3.zero);
+        if (DecalManager.Instance != null) DecalManager.Instance.RemoveAllDecal();
+
+        //InstantiateExplosion();
     }
     void InstantiateExplosion()
     {

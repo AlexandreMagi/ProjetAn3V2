@@ -43,12 +43,6 @@ public class MetricsGestionnary : MonoBehaviour
         timeAtLaunch = Time.time;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void EventMetrics(MetricsEventType eventType, float additionnalData = 0)
     {
         if (recordMetrics)
