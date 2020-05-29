@@ -76,7 +76,7 @@ public static class TriggerUtil
                 //Debug.Log(RenderSettings.fogEndDistance);
                 completion += Time.deltaTime / fogTimeTransition;
                 completion = Mathf.Clamp01(completion);
-                RenderSettings.fogEndDistance = Mathf.Lerp(pastValue, fogEndValueAimed, completion);
+                RenderSettings.fogEndDistance = Mathf.Lerp(pastValue, fogEndValueAimed, AnimationCurve.EaseInOut(0, 0, 1, 1).Evaluate(completion));
                 yield return new WaitForEndOfFrame();
             }
         }
@@ -118,6 +118,42 @@ public static class TriggerUtil
             anim.SetTrigger("MakeAction");
             if (loopTimer && animationWaitTimer != 0)
                 yield return new WaitForSeconds(animationWaitTimer);
+        }
+
+        yield break;
+    }
+
+    //MULTIPLE ANIMATIONS
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, string[] triggerNames, float[] delays)
+    {
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, triggerNames, delays));
+    }
+
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, string[] triggerNames, float[] delays)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+
+        if(triggerNames.Length - 1 != delays.Length)
+        {
+            Debug.LogError("Mauvais remplissage des conditions d'animation multiples.");
+            yield break;
+        }
+        else
+        {
+            int currentAnimationIndex = 0;
+            do
+            {
+                foreach (Animator anim in animators)
+                {
+                    anim.SetTrigger(triggerNames[0]);   
+                }
+
+                yield return new WaitForSeconds(delays[currentAnimationIndex]);
+
+                currentAnimationIndex++;
+            }
+            while (currentAnimationIndex < triggerNames.Length);
+           
         }
 
         yield break;

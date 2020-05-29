@@ -143,6 +143,11 @@ public class Main : MonoBehaviour
 
         if (!hasJumpedCam && startWithCameraNumber != 0)
         {
+            if (MusicHandler.Instance != null)
+            {
+                MusicHandler.Instance.PlayMusic(MusicHandler.Musics.introPreLastStage, 0, 1, 0, 0, .3f, true, false);
+                MusicHandler.Instance.PlayMusic(MusicHandler.Musics.preLastStage, 0, 0, 0, 0, .3f, false, true);
+            }
             hasJumpedCam = true;
             SetupWaitScreenOff();
             UiCrossHair.Instance.StopWaitFunction();
@@ -437,6 +442,12 @@ public class Main : MonoBehaviour
 
                     int sequenceToGo = int.Parse(sequenceCheat);
 
+                    if (MusicHandler.Instance != null)
+                    {
+                        MusicHandler.Instance.PlayMusic(MusicHandler.Musics.introPreLastStage, 0, 1, 0, 0, .3f, true, false);
+                        MusicHandler.Instance.PlayMusic(MusicHandler.Musics.preLastStage, 0, 0, 0, 0, .3f, false, true);
+                    }
+
                     sequenceCheat = "";
                     SequenceHandler.Instance.SkipToSequence(sequenceToGo);
                     SetupWaitScreenOff();
@@ -454,7 +465,8 @@ public class Main : MonoBehaviour
                     TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
                     for (int i = 0; i < AllTriggerSender.Length; i++)
                     {
-                        AllTriggerSender[i].ActivateGOAtSkip();
+                        if (AllTriggerSender[i].isTriggeredBySkip)
+                            AllTriggerSender[i].ActivateGOAtSkip();
                     }
                 }
                 
@@ -612,6 +624,8 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        SetupWaitScreenOn(true);
+        TimeScaleManager.Instance.AddStopTime(5000);
         mainMixer.SetFloat("GameVolume", -80);
         CameraHandler.Instance.RemoveShake();
         MetricsGestionnary.Instance.EndMetrics();

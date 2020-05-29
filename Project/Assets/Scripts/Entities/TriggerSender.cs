@@ -56,6 +56,13 @@ public class TriggerSender : MonoBehaviour
     Mesh meshForTheCollider = null;
     [ShowIf("typeTrigger", TriggerType.Animator), ShowIf("isMeshReplacer"), SerializeField]
     MeshCollider colliderToReplace = null;
+    [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
+    bool isMultipleAnimationTrigger = false;
+    [ShowIf("typeTrigger", TriggerType.Animator), ShowIf("isMultipleAnimationTrigger"), SerializeField]
+    string[] nameOfTriggersToActivate = null;
+    [ShowIf("typeTrigger", TriggerType.Animator), ShowIf("isMultipleAnimationTrigger"), Tooltip("Le 0e délai est timeBeforeStart. Le 1er délai est entre l'anim 1 et 2"), SerializeField]
+    float[] delaysBetweenTriggers = null;
+
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     bool isStopShake = false;
@@ -129,6 +136,8 @@ public class TriggerSender : MonoBehaviour
     bool isActivationGameObject = false;
     [ShowIf("typeTrigger", TriggerType.GameObjectActivation), SerializeField]
     List<GameObject> objectsToChange = null;
+    [ShowIf("typeTrigger", TriggerType.GameObjectActivation)]
+    public bool isTriggeredBySkip = true;
 
 
     [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
@@ -230,7 +239,8 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Animator:
-                TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer);
+                if (isMultipleAnimationTrigger) TriggerUtil.TriggerAnimators(timeBeforeStart, animated, nameOfTriggersToActivate, delaysBetweenTriggers);
+                else TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer);
                 if (isMeshReplacer && colliderToReplace != null && meshForTheCollider != null)
                 {
                     colliderToReplace.sharedMesh = meshForTheCollider;
