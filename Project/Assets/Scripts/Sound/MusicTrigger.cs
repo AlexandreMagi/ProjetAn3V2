@@ -7,6 +7,7 @@ public class MusicTrigger : MonoBehaviour
     [SerializeField] bool doOnlyOnce = true;
     [SerializeField] bool changeMusic = true;
 
+    [SerializeField, ShowIf("changeMusic")] int channel = 0;
     [SerializeField, ShowIf("changeMusic")] MusicHandler.Musics musicToPlay = MusicHandler.Musics.none;
     [SerializeField, ShowIf("changeMusic")] float timeBeforeDoAnything = 0;
     [SerializeField, ShowIf("changeMusic")] bool doItNow = false;
@@ -21,8 +22,8 @@ public class MusicTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (changeMusic) MusicHandler.Instance.PlayMusic(musicToPlay, timeBeforeDoAnything, doItNow ? fadeOut : 0, timeWaitBetween, fadeIn, volume, doItNow, loop);
-        else MusicHandler.Instance.ChangeMusicVolume(volumeAimed, volumeTimeTransition);
+        if (changeMusic) MusicHandler.Instance.PlayMusic(channel,musicToPlay, timeBeforeDoAnything, doItNow ? fadeOut : 0, timeWaitBetween, fadeIn, volume, doItNow, loop);
+        else MusicHandler.Instance.ChangeMusicVolume(channel,volumeAimed, volumeTimeTransition);
 
         if (doOnlyOnce) this.enabled = false;
     }

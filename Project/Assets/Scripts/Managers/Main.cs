@@ -145,8 +145,8 @@ public class Main : MonoBehaviour
         {
             if (MusicHandler.Instance != null)
             {
-                MusicHandler.Instance.PlayMusic(MusicHandler.Musics.introPreLastStage, 0, 1, 0, 0, .3f, true, false);
-                MusicHandler.Instance.PlayMusic(MusicHandler.Musics.preLastStage, 0, 0, 0, 0, .3f, false, true);
+                MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.introPreLastStage, 0, 1, 0, 0, .3f, true, false);
+                MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.preLastStage, 0, 0, 0, 0, .3f, false, true);
             }
             hasJumpedCam = true;
             SetupWaitScreenOff();
@@ -444,8 +444,8 @@ public class Main : MonoBehaviour
 
                     if (MusicHandler.Instance != null)
                     {
-                        MusicHandler.Instance.PlayMusic(MusicHandler.Musics.introPreLastStage, 0, 1, 0, 0, .3f, true, false);
-                        MusicHandler.Instance.PlayMusic(MusicHandler.Musics.preLastStage, 0, 0, 0, 0, .3f, false, true);
+                        MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.introPreLastStage, 0, 1, 0, 0, .3f, true, false);
+                        MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.preLastStage, 0, 0, 0, 0, .3f, false, true);
                     }
 
                     sequenceCheat = "";
