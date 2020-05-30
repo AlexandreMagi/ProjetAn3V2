@@ -95,7 +95,7 @@ public class TimeScaleManager : MonoBehaviour
             }
         }
         if (stopTime)
-            Time.timeScale = 0;
+            Time.timeScale = 0.00001f;
         return stopTime;
     }
 

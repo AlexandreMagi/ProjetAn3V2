@@ -16,157 +16,195 @@ public class MusicHandler : MonoBehaviour
     [SerializeField] AudioClip preLastStage = null;
     [SerializeField] AudioClip introPreLastStage = null;
 
-
-    float currMusicVolume = 1;
-    MusicRequest currMusicRequest = null;
-
     public enum TransitionState { delay, fadingOut, waiting, fadingIn, none };
-    TransitionState currState = TransitionState.none;
-    float completionState = 0;
-    float savedVolume = 0;
 
-    float aimedVolume = 0;
-    float volumeTimeTransition = 1;
+    [SerializeField] int maxChannel = 3;
+    MusicHandlerInstance[] allChannel = null;
 
-    public void PlayMusic(Musics musicToPlay, float delay, float fadeOut, float timeWaitBetween, float fadeIn, float volume, bool doItNow = false, bool loop = false)
+    void Start()
+    {
+        if (musicSource == null)
+        {
+            Debug.Log("No music source for Music Handler.");
+            Instance = null;
+            Destroy(this);
+        }
+        else
+        {
+            allChannel = new MusicHandlerInstance[maxChannel];
+            for (int i = 0; i < allChannel.Length; i++)
+            {
+                allChannel[i] = new MusicHandlerInstance();
+                allChannel[i].musicSource = Instantiate(musicSource, musicSource.transform.parent);
+            }
+        }
+
+    }
+
+    public void PlayMusic(int channel, Musics musicToPlay, float delay, float fadeOut, float timeWaitBetween, float fadeIn, float volume, bool doItNow = false, bool loop = false)
     {
         //Debug.Log("Request Music");
-        currMusicRequest = new MusicRequest(musicToPlay, delay, fadeOut, timeWaitBetween, fadeIn, volume, doItNow, loop);
-        volumeTimeTransition = 0;
+        if (channel >= 0 && channel < allChannel.Length)
+        {
+            allChannel[channel].currMusicRequest = new MusicRequest(musicToPlay, delay, fadeOut, timeWaitBetween, fadeIn, volume, doItNow, loop);
+            allChannel[channel].volumeTimeTransition = 0;
+        }
     }
 
     void Update()
     {
-        if (currMusicRequest!= null)
+        for (int i = 0; i < allChannel.Length; i++)
         {
-            //Debug.Log("Curr State is = " + currState + " / " + Mathf.RoundToInt(completionState * 100) + "%");
-            switch (currState)
+            if (allChannel[i].currMusicRequest != null && allChannel[i] != null)
             {
-                // ---
-                case TransitionState.delay:
-                    if (currMusicRequest.delay != 0)
-                        completionState += Time.deltaTime / currMusicRequest.delay;
-                    if (completionState > 1 || currMusicRequest.delay == 0)
-                    {
-                        currState = currMusicRequest.doItNow ? TransitionState.fadingOut : TransitionState.waiting;
-                        completionState = 0;
-                    }
-                    break;
+                //Debug.Log("Curr State is = " + currState + " / " + Mathf.RoundToInt(completionState * 100) + "%");
+                switch (allChannel[i].currState)
+                {
+                    // ---
+                    case TransitionState.delay:
+                        if (allChannel[i].currMusicRequest.delay != 0)
+                            allChannel[i].completionState += Time.deltaTime / allChannel[i].currMusicRequest.delay;
+                        if (allChannel[i].completionState > 1 || allChannel[i].currMusicRequest.delay == 0)
+                        {
+                            allChannel[i].currState = allChannel[i].currMusicRequest.doItNow ? TransitionState.fadingOut : TransitionState.waiting;
+                            allChannel[i].completionState = 0;
+                        }
+                        break;
 
 
-                // ---
-                case TransitionState.fadingOut:
-                    if (currMusicRequest.fadeOut != 0)
-                        completionState += Time.deltaTime / currMusicRequest.fadeOut;
-                    if (completionState > 1 || currMusicRequest.fadeOut == 0)
-                    {
-                        currState = TransitionState.waiting;
-                        completionState = 0;
-                        currMusicVolume = 0;
-                    }
-                    else currMusicVolume = Mathf.Lerp(savedVolume, 0, completionState);
-                    break;
+                    // ---
+                    case TransitionState.fadingOut:
+                        if (allChannel[i].currMusicRequest.fadeOut != 0)
+                            allChannel[i].completionState += Time.deltaTime / allChannel[i].currMusicRequest.fadeOut;
+                        if (allChannel[i].completionState > 1 || allChannel[i].currMusicRequest.fadeOut == 0)
+                        {
+                            allChannel[i].currState = TransitionState.waiting;
+                            allChannel[i].completionState = 0;
+                            allChannel[i].currMusicVolume = 0;
+                        }
+                        else allChannel[i].currMusicVolume = Mathf.Lerp(allChannel[i].savedVolume, 0, allChannel[i].completionState);
+                        break;
 
 
-                // ---
-                case TransitionState.waiting:
-                    if (currMusicRequest.timeWaitBetween != 0)
-                        completionState += Time.deltaTime / currMusicRequest.timeWaitBetween;
-                    currMusicVolume = 0;
-                    if (completionState > 1 || currMusicRequest.timeWaitBetween == 0)
-                    {
-                        ChangeMusic(currMusicRequest.musicToPlay, currMusicRequest.loop);
-                        currState = TransitionState.fadingIn;
-                        completionState = 0;
-                    }
-                    break;
+                    // ---
+                    case TransitionState.waiting:
+                        if (allChannel[i].currMusicRequest.timeWaitBetween != 0)
+                            allChannel[i].completionState += Time.deltaTime / allChannel[i].currMusicRequest.timeWaitBetween;
+                        allChannel[i].currMusicVolume = 0;
+                        if (allChannel[i].completionState > 1 || allChannel[i].currMusicRequest.timeWaitBetween == 0)
+                        {
+                            ChangeMusic(i,allChannel[i].currMusicRequest.musicToPlay, allChannel[i].currMusicRequest.loop);
+                            allChannel[i].currState = TransitionState.fadingIn;
+                            allChannel[i].completionState = 0;
+                        }
+                        break;
 
 
-                // ---
-                case TransitionState.fadingIn:
-                    if (currMusicRequest.fadeIn != 0)
-                        completionState += Time.deltaTime / currMusicRequest.fadeIn;
-                    if (completionState > 1 || currMusicRequest.fadeIn == 0)
-                    {
-                        currState = TransitionState.none;
-                        completionState = 0;
-                        currMusicVolume = 1 * currMusicRequest.volume;
-                        currMusicRequest = null;
-                    }
-                    else currMusicVolume = completionState * currMusicRequest.volume;
-                    break;
+                    // ---
+                    case TransitionState.fadingIn:
+                        if (allChannel[i].currMusicRequest.fadeIn != 0)
+                            allChannel[i].completionState += Time.deltaTime / allChannel[i].currMusicRequest.fadeIn;
+                        if (allChannel[i].completionState > 1 || allChannel[i].currMusicRequest.fadeIn == 0)
+                        {
+                            allChannel[i].currState = TransitionState.none;
+                            allChannel[i].completionState = 0;
+                            allChannel[i].currMusicVolume = 1 * allChannel[i].currMusicRequest.volume;
+                            allChannel[i].currMusicRequest = null;
+                        }
+                        else allChannel[i].currMusicVolume = allChannel[i].completionState * allChannel[i].currMusicRequest.volume;
+                        break;
 
 
-                // ---
-                case TransitionState.none:
-                    if (currMusicRequest.doItNow || !musicSource.isPlaying)
-                    {
-                        //currState = currMusicRequest.doItNow ? TransitionState.fadingOut : TransitionState.waiting;
-                        currState = TransitionState.delay;
-                        completionState = 0;
-                        savedVolume = currMusicVolume;
-                    }
-                    break;
+                    // ---
+                    case TransitionState.none:
+                        if (allChannel[i].currMusicRequest.doItNow || !allChannel[i].musicSource.isPlaying)
+                        {
+                            //currState = currMusicRequest.doItNow ? TransitionState.fadingOut : TransitionState.waiting;
+                            allChannel[i].currState = TransitionState.delay;
+                            allChannel[i].completionState = 0;
+                            allChannel[i].savedVolume = allChannel[i].currMusicVolume;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                allChannel[i].currState = TransitionState.none;
+                allChannel[i].completionState = 0;
+
+                if (allChannel[i].volumeTimeTransition != 0) allChannel[i].currMusicVolume = Mathf.MoveTowards(allChannel[i].currMusicVolume, allChannel[i].aimedVolume, Mathf.Abs(allChannel[i].aimedVolume - allChannel[i].savedVolume) * Time.deltaTime / allChannel[i].volumeTimeTransition);
+
+            }
+            if (allChannel[i].musicSource != null)
+            {
+                allChannel[i].musicSource.volume = allChannel[i].currMusicVolume;
             }
         }
-        else
-        {
-            currState = TransitionState.none;
-            completionState = 0;
 
-            if (volumeTimeTransition != 0) currMusicVolume = Mathf.MoveTowards(currMusicVolume, aimedVolume, Mathf.Abs(aimedVolume - savedVolume) * Time.deltaTime / volumeTimeTransition);
-
-        }
-        if (musicSource != null)
-        {
-            musicSource.volume = currMusicVolume;
-        }
     }
 
-    void ChangeMusic(Musics musicToPlay, bool loop)
+    void ChangeMusic(int channel, Musics musicToPlay, bool loop)
     {
-        if (musicSource != null)
+        if (channel >= 0 && channel < allChannel.Length)
         {
-            //Debug.Log("Change Music");
-            switch (musicToPlay)
+            if (allChannel[channel].musicSource != null)
             {
-                case Musics.none:
-                    musicSource.clip = null;
-                    break;
-                case Musics.dropAndMinigun:
-                    musicSource.clip = dropAndMinigunMusic;
-                    break;
-                case Musics.drone:
-                    musicSource.clip = drone;
-                    break;
-                case Musics.explo:
-                    musicSource.clip = explo;
-                    break;
-                case Musics.lastStage:
-                    musicSource.clip = lastStage;
-                    break;
-                case Musics.preLastStage:
-                    musicSource.clip = preLastStage;
-                    break;
-                case Musics.introPreLastStage:
-                    musicSource.clip = introPreLastStage;
-                    break;
+                //Debug.Log("Change Music");
+                switch (musicToPlay)
+                {
+                    case Musics.none:
+                        allChannel[channel].musicSource.clip = null;
+                        break;
+                    case Musics.dropAndMinigun:
+                        allChannel[channel].musicSource.clip = dropAndMinigunMusic;
+                        break;
+                    case Musics.drone:
+                        allChannel[channel].musicSource.clip = drone;
+                        break;
+                    case Musics.explo:
+                        allChannel[channel].musicSource.clip = explo;
+                        break;
+                    case Musics.lastStage:
+                        allChannel[channel].musicSource.clip = lastStage;
+                        break;
+                    case Musics.preLastStage:
+                        allChannel[channel].musicSource.clip = preLastStage;
+                        break;
+                    case Musics.introPreLastStage:
+                        allChannel[channel].musicSource.clip = introPreLastStage;
+                        break;
+                }
+                allChannel[channel].musicSource.Stop();
+                allChannel[channel].musicSource.volume = allChannel[channel].currMusicVolume;
+                allChannel[channel].musicSource.loop = loop;
+                allChannel[channel].musicSource.Play();
             }
-            musicSource.Stop();
-            musicSource.volume = currMusicVolume;
-            musicSource.loop = loop;
-            musicSource.Play();
         }
 
     }
 
-    public void ChangeMusicVolume (float volumeAimed, float timeTransition)
+    public void ChangeMusicVolume (int channel, float volumeAimed, float timeTransition)
     {
-        aimedVolume = volumeAimed;
-        savedVolume = currMusicVolume;
-        volumeTimeTransition = timeTransition;
+        if (channel >= 0 && channel < allChannel.Length)
+        {
+            allChannel[channel].aimedVolume = volumeAimed;
+            allChannel[channel].savedVolume = allChannel[channel].currMusicVolume;
+            allChannel[channel].volumeTimeTransition = timeTransition;
+        }
     }
 
+}
+
+public class MusicHandlerInstance
+{
+    public AudioSource musicSource = null;
+    public MusicRequest currMusicRequest = null;
+    public MusicHandler.TransitionState currState = MusicHandler.TransitionState.none;
+    public float currMusicVolume = 1;
+    public float completionState = 0;
+    public float savedVolume = 0;
+    public float aimedVolume = 0;
+    public float volumeTimeTransition = 1;
 }
 
 public class MusicRequest
