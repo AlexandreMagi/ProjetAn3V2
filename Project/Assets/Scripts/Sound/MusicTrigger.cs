@@ -25,7 +25,7 @@ public class MusicTrigger : MonoBehaviour
         if (changeMusic) MusicHandler.Instance.PlayMusic(channel,musicToPlay, timeBeforeDoAnything, doItNow ? fadeOut : 0, timeWaitBetween, fadeIn, volume, doItNow, loop);
         else MusicHandler.Instance.ChangeMusicVolume(channel,volumeAimed, volumeTimeTransition);
 
-        if (doOnlyOnce) this.enabled = false;
+        if (doOnlyOnce) gameObject.SetActive(false);
     }
 
 }

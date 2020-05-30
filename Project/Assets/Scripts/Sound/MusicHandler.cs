@@ -23,12 +23,22 @@ public class MusicHandler : MonoBehaviour
 
     void Start()
     {
-        allChannel = new MusicHandlerInstance[maxChannel];
-        for (int i = 0; i < allChannel.Length; i++)
+        if (musicSource == null)
         {
-            allChannel[i] = new MusicHandlerInstance();
-            allChannel[i].musicSource = Instantiate(musicSource, musicSource.transform.parent);
+            Debug.Log("No music source for Music Handler.");
+            Instance = null;
+            Destroy(this);
         }
+        else
+        {
+            allChannel = new MusicHandlerInstance[maxChannel];
+            for (int i = 0; i < allChannel.Length; i++)
+            {
+                allChannel[i] = new MusicHandlerInstance();
+                allChannel[i].musicSource = Instantiate(musicSource, musicSource.transform.parent);
+            }
+        }
+
     }
 
     public void PlayMusic(int channel, Musics musicToPlay, float delay, float fadeOut, float timeWaitBetween, float fadeIn, float volume, bool doItNow = false, bool loop = false)
