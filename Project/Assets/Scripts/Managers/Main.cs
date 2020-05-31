@@ -467,7 +467,7 @@ public class Main : MonoBehaviour
                     TriggerSender[] AllTriggerSender = FindObjectsOfType<TriggerSender>();
                     for (int i = 0; i < AllTriggerSender.Length; i++)
                     {
-                        if (AllTriggerSender[i].isTriggeredBySkip)
+                        if (AllTriggerSender[i].triggeredBySkip)
                             AllTriggerSender[i].ActivateGOAtSkip();
                     }
                 }
