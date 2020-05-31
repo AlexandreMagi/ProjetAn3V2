@@ -518,11 +518,15 @@ public class Weapon : MonoBehaviour
         }
     }
 
+
+    public bool CheckIfModIsMinigun(DataWeaponMod weaponMod) { return weaponMod == minigunMod; }
+
     private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod, bool cantHit = false, bool canPlaySound = true)
     {
         if (bulletRemaining > 0)
         {
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Shoot);
+            if (weaponMod != minigunMod)
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Shoot);
 
             List<Ray> bounceCalculations = new List<Ray>();
             if(weaponMod == weapon.chargedShot)
