@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doOnlyOnce: 1
   changeMusic: 1
+  channel: 0
   musicToPlay: 6
   timeBeforeDoAnything: 0
   doItNow: 1
@@ -240,6 +241,9 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  nameOfTriggersToActivate: []
+  delaysBetweenTriggers: []
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -268,6 +272,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  isTriggeredBySkip: 1
   damages: 0
   preventRevive: 1
   animationToCall: 0
@@ -376,6 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doOnlyOnce: 1
   changeMusic: 1
+  channel: 0
   musicToPlay: 5
   timeBeforeDoAnything: 0
   doItNow: 0
@@ -462,6 +468,9 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  nameOfTriggersToActivate: []
+  delaysBetweenTriggers: []
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -490,6 +499,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  isTriggeredBySkip: 1
   damages: 0
   preventRevive: 1
   animationToCall: 0
@@ -617,6 +627,9 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  nameOfTriggersToActivate: []
+  delaysBetweenTriggers: []
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -645,6 +658,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  isTriggeredBySkip: 1
   damages: 0
   preventRevive: 1
   animationToCall: 0
@@ -721,6 +735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doOnlyOnce: 1
   changeMusic: 1
+  channel: 0
   musicToPlay: 0
   timeBeforeDoAnything: 0
   doItNow: 1
@@ -743,7 +758,7 @@ GameObject:
   - component: {fileID: 1667164514}
   - component: {fileID: 1667164513}
   m_Layer: 12
-  m_Name: Trigger_Music -Public Son Up Last Stage
+  m_Name: Trigger_Public -Public Son Up Last Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -807,6 +822,9 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  nameOfTriggersToActivate: []
+  delaysBetweenTriggers: []
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -835,6 +853,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  isTriggeredBySkip: 1
   damages: 0
   preventRevive: 1
   animationToCall: 0
@@ -864,7 +883,7 @@ GameObject:
   - component: {fileID: 1748809285}
   - component: {fileID: 1748809284}
   m_Layer: 12
-  m_Name: Trigger_Music -Public Anticipation
+  m_Name: Trigger_Public -Public Anticipation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -928,6 +947,9 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  nameOfTriggersToActivate: []
+  delaysBetweenTriggers: []
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -956,6 +978,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  isTriggeredBySkip: 1
   damages: 0
   preventRevive: 1
   animationToCall: 0
@@ -1017,7 +1040,7 @@ GameObject:
   - component: {fileID: 1938245385}
   - component: {fileID: 1938245384}
   m_Layer: 12
-  m_Name: Trigger_Music -Public Son Up Last Stage (1)
+  m_Name: Trigger_Public -Public Son Up Last Stage (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1081,6 +1104,9 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  nameOfTriggersToActivate: []
+  delaysBetweenTriggers: []
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -1109,6 +1135,7 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  isTriggeredBySkip: 1
   damages: 0
   preventRevive: 1
   animationToCall: 0

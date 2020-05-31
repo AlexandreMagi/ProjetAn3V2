@@ -26,6 +26,8 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     protected float bufferedDamageTaken = 0;
 
+    [SerializeField] protected Collider[] enemyCollider = null;
+
     #region Detection
     public virtual void OnMovementDetect()
     {
@@ -59,6 +61,13 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
         //Et deal tout ça d'un coup, à la fin de la frame !
 
         bufferedDamageTaken += dammage;
+        if (health < bufferedDamageTaken)
+        {
+            for (int i = 0; i < enemyCollider.Length; i++)
+            {
+                enemyCollider[i].enabled = false;
+            }
+        }
         //this.TakeDamage(dammage);
     }
 
@@ -84,7 +93,6 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
     {
         base.Start();
         entityData = entityData as T;
-
         //InitColor();
     }
 

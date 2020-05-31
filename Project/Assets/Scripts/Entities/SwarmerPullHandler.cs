@@ -28,6 +28,7 @@ public class SwarmerPullHandler : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             GameObject current = Instantiate(swarmerPrefab);
+            current.name = "SwarmerInstance " + i;
             current.SetActive(false);
             allSwarmers.Add(current);
         }
@@ -48,6 +49,7 @@ public class SwarmerPullHandler : MonoBehaviour
         }
         // ---
         GameObject current = Instantiate(swarmerPrefab);
+        current.name = "SwarmerInstance " + allSwarmers.Count;
         allSwarmers.Add(current);
         current.GetComponent<Swarmer>().ResetSwarmer(entDataToGive);
         return current;

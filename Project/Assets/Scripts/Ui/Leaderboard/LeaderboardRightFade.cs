@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LeaderboardRightFade : MonoBehaviour
 {
     [SerializeField] float timeBeforeArrowAppears = 5;
+    [SerializeField] float timeSecurShoot = 1;
     float timeRemainingBeforeArrowAppears = 0;
     [SerializeField] float timeToAppear = 3;
     [SerializeField] float timeToDisappear = 0.2f;
@@ -15,6 +16,7 @@ public class LeaderboardRightFade : MonoBehaviour
     
     float timeBeforeCanAppear = 0;
     float currScale = 0;
+    float timeSecurShootRemaining = 0;
 
     float randomSeedToTimeIdle = 0;
 
@@ -23,17 +25,23 @@ public class LeaderboardRightFade : MonoBehaviour
     void Start()
     {
         randomSeedToTimeIdle = Random.Range(0, 8000);
-        ChangeOfScreen(20);
+        ChangeOfScreen(14);
     }
 
     void Update()
     {
         if (canAppear && !UILeaderboard.Instance.cvsVars.nextButton.GetIfMouseOverForced())
         {
+            timeSecurShootRemaining = timeSecurShoot;
             timeRemainingBeforeArrowAppears -= Time.unscaledDeltaTime;
             if (timeRemainingBeforeArrowAppears < 0) UILeaderboard.Instance.cvsVars.nextButton.ForceAppeareance();
         }
-        else timeRemainingBeforeArrowAppears = timeBeforeArrowAppears;
+        else
+        {
+            timeSecurShootRemaining -= Time.unscaledDeltaTime;
+            timeRemainingBeforeArrowAppears = timeBeforeArrowAppears;
+        }
+        UILeaderboard.Instance.cvsVars.nextButton.securityShoot = timeSecurShootRemaining;
 
         if (timeBeforeCanAppear > 0)
         {
@@ -59,7 +67,8 @@ public class LeaderboardRightFade : MonoBehaviour
 
     public void playerClicked()
     {
-        timeRemainingBeforeArrowAppears = timeBeforeArrowAppears;
+        /*if (canAppear && timeSecurShootRemaining < 0)
+            timeRemainingBeforeArrowAppears = timeBeforeArrowAppears;*/
     }
 
     public void ChangeOfScreen(float timer)

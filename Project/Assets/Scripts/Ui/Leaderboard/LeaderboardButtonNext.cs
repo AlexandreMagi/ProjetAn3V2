@@ -38,6 +38,8 @@ public class LeaderboardButtonNext : MonoBehaviour
     bool OverrideMouseOver = false;
     bool wasInMouseOver = false;
 
+    [HideInInspector] public float securityShoot = 0;
+
     void Start()
     {
         rect = GetComponent<RectTransform>();
@@ -109,7 +111,7 @@ public class LeaderboardButtonNext : MonoBehaviour
 
     public void PlayerClicked()
     {
-        OverrideMouseOver = false;
+        if (securityShoot < 0) OverrideMouseOver = false;
         if (CheckIfMouseOver())
         {
             ClickedButton();
