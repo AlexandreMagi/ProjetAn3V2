@@ -147,11 +147,11 @@ public class TitlesManager : MonoBehaviour
                         //if (title.isUnlocked)
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().camerasHit, mI.countOfCameras, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Unphotogenic, "");
                         break;
-                    case 7:
+                    case 6:
                         //if (title.isUnlocked)
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit, mI.countOfCollectibles, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.LivingArmor, "");
                         break;
-                    case 6:
+                    case 7:
                         //if (title.isUnlocked)
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit + mI.GetMetrics().camerasHit, mI.countOfCollectibles + mI.countOfCameras, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.AllBonus, "");
                         break;

@@ -518,11 +518,15 @@ public class Weapon : MonoBehaviour
         }
     }
 
+
+    public bool CheckIfModIsMinigun(DataWeaponMod weaponMod) { return weaponMod == minigunMod; }
+
     private void OnShoot(Vector2 mousePosition, DataWeaponMod weaponMod, bool cantHit = false, bool canPlaySound = true)
     {
         if (bulletRemaining > 0)
         {
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Shoot);
+            if (weaponMod != minigunMod)
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Shoot);
 
             List<Ray> bounceCalculations = new List<Ray>();
             if(weaponMod == weapon.chargedShot)
@@ -536,6 +540,7 @@ public class Weapon : MonoBehaviour
 
             bool hasPlayedHitMarkerSound = false;
             bool hasPlayedHitSound = false;
+            int nbShotGunTouched = 0;
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
                 Camera mainCam = CameraHandler.Instance.renderingCam;
@@ -573,6 +578,7 @@ public class Weapon : MonoBehaviour
 
                     //Debug.Log("Hit Someting " + hit.transform.gameObject.name);
 
+
                     IBulletAffect bAffect = hit.transform.GetComponent<IBulletAffect>();
                     if (bAffect != null)
                     {
@@ -582,7 +588,12 @@ public class Weapon : MonoBehaviour
                         if (weaponMod == weapon.chargedShot)
                             bAffect.OnHitShotGun(weaponMod);
 
-                        if (!hasPlayedHitMarkerSound && canPlaySound)
+                        if (weaponMod == weapon.chargedShot)
+                        {
+                            nbShotGunTouched++;
+                        }
+
+                            if (!hasPlayedHitMarkerSound && canPlaySound)
                             Invoke("HitMarkerSoundFunc", 0.05f * Time.timeScale);
                         hasPlayedHitMarkerSound = true;
 

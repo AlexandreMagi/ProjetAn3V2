@@ -714,6 +714,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void ResetSwarmer(DataEntity _entityData)
     {
         //Debug.Log("Reset called");
+
+        for (int i = 0; i < enemyCollider.Length; i++)
+        {
+            enemyCollider[i].enabled = true;
+        }
         rbBody = GetComponent<Rigidbody>();
         rbBody.velocity = Vector3.zero;
         ignoresBufferOnceKilled = false;

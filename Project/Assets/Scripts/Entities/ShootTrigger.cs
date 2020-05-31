@@ -166,7 +166,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
-        
+        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
     }
 
     public void OnBulletClose()
