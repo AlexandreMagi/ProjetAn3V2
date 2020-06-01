@@ -7,10 +7,18 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
     [SerializeField]
     bool mustBeKilledInZeroG = false;
 
+    [SerializeField, ColorUsage(true, true)]
+    Color colorWhenZeroG = Color.white;
+
     bool isFloating = false;
     [HideInInspector] public bool isAffectedByGravity = false;
 
     float floatTimeLeft = 0;
+
+    [SerializeField] Renderer[] renderers;
+
+    [ColorUsage(true, true)]
+    Color colorBase;
 
     Rigidbody rb = null;
 
@@ -18,6 +26,7 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
     {
         base.Start();
         rb = GetComponent<Rigidbody>();
+
     }
 
     public override void TakeDamage(float value)
@@ -69,11 +78,23 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
     public void OnRelease()
     {
         ReactGravity<DataProp>.DoUnfreeze(rb);
+
+        Debug.Log(renderers.Length);
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[0]);
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
+        }
+        /*foreach (Renderer _renderer in renderers)
+        {
+            _renderer.materials[0].SetColor("_Reveallightcolor", colorBase);
+        }*/
     }
 
     public void OnZeroG()
     {
-        //ReactGravity.DoSpin(this);
+        ReactGravity<DataProp>.DoSpin(rb);
+
     }
 
     public void SetTimerToRelease(float timeSent) { Invoke("CompleteRelease", timeSent + 2.5f); }
