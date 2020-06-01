@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIOrb : MonoBehaviour
 {
@@ -39,6 +40,10 @@ public class UIOrb : MonoBehaviour
     float animCooldown = 1;
 
     [SerializeField] UIParticuleSystem unlockedFx = null;
+
+    [SerializeField] Image[] shaderimages = null;
+    [SerializeField] Color[] shaderLockColor = null;
+    [SerializeField] Color[] shaderUnlockColor = null;
 
     // Update is called once per frame
     void Update()
@@ -86,7 +91,10 @@ public class UIOrb : MonoBehaviour
             orb.scaleIdle = currVal > 1;
         }
 
-        
+        for (int i = 0; i < shaderimages.Length; i++)
+        {
+            shaderimages[i].material.SetColor("_Color", currVal < 1 ? shaderLockColor[i] : shaderUnlockColor[i]);
+        }
 
     }
 
