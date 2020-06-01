@@ -312,6 +312,8 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
+        if (!Weapon.Instance.CheckIfModIsMinigun(mod))
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
         // Nothing
     }
 

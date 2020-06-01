@@ -35,7 +35,11 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
         Weapon.Instance.OnShotGunHitTarget();
     }
 
-    public void OnHitSingleShot(DataWeaponMod mod) { }
+    public void OnHitSingleShot(DataWeaponMod mod)
+    {
+        //if (!Weapon.Instance.CheckIfModIsMinigun(mod))
+        //    MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
+    }
 
     void Destroyed(DataWeaponMod mod)
     {
