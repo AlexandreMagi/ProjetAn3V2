@@ -21,5 +21,9 @@ public class ConstructionLight_LightBulb : MonoBehaviour,IBulletAffect
 
     public void OnHitShotGun(DataWeaponMod mod) { }
 
-    public void OnHitSingleShot(DataWeaponMod mod) { }
+    public void OnHitSingleShot(DataWeaponMod mod)
+    {
+        if (!Weapon.Instance.CheckIfModIsMinigun(mod))
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
+    }
 }

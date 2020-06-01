@@ -140,7 +140,8 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
-       
+        if (!Weapon.Instance.CheckIfModIsMinigun(mod))
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
     }
 
     public void OnBulletClose()
