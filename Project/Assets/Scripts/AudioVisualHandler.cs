@@ -22,6 +22,14 @@ public class AudioVisualHandler : MonoBehaviour
 
     bool hasBeat = false;
 
+    [SerializeField] float multiplierValue = 20;
+
+    [SerializeField] Renderer[] allRenderers = null;
+
+    [SerializeField] AnimationCurve animCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    [SerializeField] float beatTime = 0.5f;
+    float currPurcentageBeat = 1;
+
     void Start()
     {
         //allBars = new GameObject[puissance];
@@ -36,7 +44,7 @@ public class AudioVisualHandler : MonoBehaviour
 
     void Update()
     {
-        AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+        AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Blackman);
         float currSoundValue = 0;
         //for (int i = 0; i < puissance; i++)
         //{
@@ -45,20 +53,43 @@ public class AudioVisualHandler : MonoBehaviour
 
         //}
         currSoundValue = spectrum[0];
-        currSoundValue *= 100;
-        savedCurrSoundValue = Mathf.Lerp(savedCurrSoundValue, currSoundValue, Time.deltaTime * 16);
+        currSoundValue *= multiplierValue;
+        currSoundValue = Mathf.Clamp01(currSoundValue);
+        savedCurrSoundValue = Mathf.Lerp(savedCurrSoundValue, currSoundValue, Time.deltaTime * 8);
 
         if (savedCurrSoundValue > refValueForBeat && !hasBeat) Beat();
         if (savedCurrSoundValue < refValueForBeat && hasBeat) hasBeat = false;
 
         if (recordOnCurve)
             curveDebug.AddKey(Time.time, savedCurrSoundValue);
+
+        if (currPurcentageBeat < 1)
+        {
+            currPurcentageBeat += Time.deltaTime / beatTime;
+            if (currPurcentageBeat > 1)
+            {
+                currPurcentageBeat = 1;
+            }
+        }
+
+        if (allRenderers!= null)
+        {
+            foreach (var _renderer in allRenderers)
+            {
+                _renderer.material.SetFloat("_RevealLightEnabled", animCurve.Evaluate(currPurcentageBeat));
+            }
+        }
+
     }
 
 
     void Beat()
     {
         hasBeat = true;
+        if (currPurcentageBeat == 1)
+        {
+            currPurcentageBeat = 0;
+        }
         //Debug.Log("Beat");
     }
 }
