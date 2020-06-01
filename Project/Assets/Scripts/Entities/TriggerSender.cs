@@ -63,6 +63,11 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Animator), ShowIf("isMultipleAnimationTrigger"), Tooltip("Le 0e délai est timeBeforeStart. Le 1er délai est entre l'anim 1 et 2"), SerializeField]
     float[] delaysBetweenTriggers = null;
 
+    [ShowIf("typeTrigger", TriggerType.Parenting), SerializeField]
+    Transform _child = null;
+    [ShowIf("typeTrigger", TriggerType.Parenting), SerializeField]
+    Transform _parent = null;
+
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     bool isStopShake = false;
@@ -310,9 +315,12 @@ public class TriggerSender : MonoBehaviour
                 break;
             case TriggerType.GameEnder:
                 TriggerUtil.TriggerEndOfGame(timeBeforeStart);
-				break;
+                break;
             case TriggerType.InstantKill:
                 TriggerUtil.TriggerInstantKill(timeBeforeStart, preventRevive);
+                break;
+            case TriggerType.Parenting:
+                TriggerUtil.TriggerParenting(timeBeforeStart, _child, _parent);
                 break;
             default:
                 break;
@@ -363,7 +371,8 @@ public class TriggerSender : MonoBehaviour
         PublicVolume = 21,
         Fog = 22,
         GameEnder = 23,
-        InstantKill = 24
+        InstantKill = 24,
+        Parenting = 25
     }
 
     public enum Activable

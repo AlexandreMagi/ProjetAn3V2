@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
 
     [SerializeField, ShowIf("isPathedSpawner"), HideIf("isRandomSpawner")]
     bool loops = false;
-
+     
     //ENTITY DATA
     [SerializeField]
     DataEntity entDataToGive = null;

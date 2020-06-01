@@ -27,6 +27,7 @@ public class DataPostEffect : ScriptableObject
     public float animDistortionDuration = 1;
     public float animDistortionMultiplier = 1;
     public float maxDistToFade = 15;
+    public float clampMinPurcentageDistortion = 0.2f;
 
     [Header("Saturation")]
     public float saturationLostViaPlayerLife = -100;
