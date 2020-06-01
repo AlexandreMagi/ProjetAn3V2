@@ -198,7 +198,7 @@ public class GravityOrb : MonoBehaviour
         else
         {
             OnZeroGRelease();
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange);
+            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*2);
             foreach (Collider hVictim in tHits)
             {
                 IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
@@ -257,6 +257,15 @@ public class GravityOrb : MonoBehaviour
 
                 Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.holdRange);
                 collidersToAttract.AddRange(tHits);
+
+                foreach(Collider col in tHits)
+                {
+                    IGravityAffect gAffect = col.GetComponent<IGravityAffect>();
+                    if (gAffect != null)
+                    {
+                        gAffect.OnZeroG();
+                    }
+                }
 
                 Attract(orbData.pullForce);
             }
