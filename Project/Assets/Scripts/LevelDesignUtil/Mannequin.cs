@@ -79,7 +79,7 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
     {
         ReactGravity<DataProp>.DoUnfreeze(rb);
 
-        Debug.Log(renderers.Length);
+        Debug.Log(renderers.Length + " OnRelease");
         foreach (Renderer _renderer in renderers)
         {
             Debug.Log(_renderer.materials[0]);
@@ -93,6 +93,7 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     public void OnZeroG()
     {
+        Debug.Log(renderers.Length + " OnZeroG");
         ReactGravity<DataProp>.DoSpin(rb);
 
     }
