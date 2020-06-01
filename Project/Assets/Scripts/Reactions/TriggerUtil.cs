@@ -564,6 +564,19 @@ public static class TriggerUtil
         yield break;
     }
 
+    // Parenting
+    public static void TriggerParenting(float timeBeforeStart, Transform _child, Transform _parent)
+    {
+        Main.Instance.StartCoroutine(TriggerParentingCoroutine(timeBeforeStart, _child, _parent));
+    }
+
+    static IEnumerator TriggerParentingCoroutine(float timeBeforeStart, Transform _child, Transform _parent)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        _child.SetParent(_parent, true);
+        yield break;
+    }
+
     //End of game
     public static void TriggerEndOfGame(float timeBeforeStart)
     {

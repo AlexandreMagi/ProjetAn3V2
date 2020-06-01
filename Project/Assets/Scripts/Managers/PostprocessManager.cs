@@ -167,7 +167,7 @@ public class PostprocessManager : MonoBehaviour
 
         float distanceBetween = Vector3.Distance(target.position, CameraHandler.Instance.renderingCam.transform.position);
         if (distanceBetween > dataPp.maxDistToFade) multiplierByDistance = 0;
-        else { multiplierByDistance = 1 - (distanceBetween / dataPp.maxDistToFade); }
+        else { multiplierByDistance = 1 - (Mathf.Clamp(distanceBetween, dataPp.maxDistToFade * dataPp.clampMinPurcentageDistortion, dataPp.maxDistToFade, ) / dataPp.maxDistToFade); }
 
         if (posScreen.z > 0)
         {

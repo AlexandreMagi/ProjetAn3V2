@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class CheckpointAnimatorHandler : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class CheckpointAnimatorHandler : MonoBehaviour
     [SerializeField] string[] soundToPlay = null;
     [SerializeField] float[] soundDelay = null;
     [SerializeField] float[] soundVolume = null;
+
+    [SerializeField] VideoPlayer videoTuto = null;
     
 
     private void OnTriggerEnter(Collider other)
@@ -21,6 +24,7 @@ public class CheckpointAnimatorHandler : MonoBehaviour
         if (canPlay)
         {
             if (playOnlyOnce) canPlay = false;
+            if (videoTuto != null && !videoTuto.isPlaying) videoTuto.Play();
             for (int i = 0; i < triggersToCall.Length; i++)
             {
                 StartCoroutine(CallTrigger(Animator.StringToHash(triggersToCall[i]), (i < triggersTimers.Length) ? triggersTimers[i] : 0));
