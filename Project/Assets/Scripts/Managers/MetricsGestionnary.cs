@@ -156,6 +156,11 @@ public class MetricsGestionnary : MonoBehaviour
         
     }
 
+    //private void Update()
+    //{
+    //    Debug.Log("Shot = " + currentMetrics.numberOfShots + " / Hits = " + currentMetrics.numberOfHits + " / Purcentage = " + ((currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100) > 0 ? Mathf.FloorToInt(currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100).ToString() + "%" : "None"));
+    //}
+
     public void EndMetrics()
     {
         currentMetrics.timeOfGame = Time.time - timeAtLaunch;

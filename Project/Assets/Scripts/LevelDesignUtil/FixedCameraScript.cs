@@ -49,7 +49,7 @@ public class FixedCameraScript : MonoBehaviour
         {
             hitByBulletBool = true;
 
-            if (Weapon.Instance.CheckIfModIsMinigun (mod))
+            if (!Weapon.Instance.CheckIfModIsMinigun (mod))
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.CameraDestroyed);
 

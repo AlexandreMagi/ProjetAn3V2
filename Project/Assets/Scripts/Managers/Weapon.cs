@@ -583,10 +583,15 @@ public class Weapon : MonoBehaviour
                     if (bAffect != null)
                     {
                         bAffect.OnHit(weaponMod, hit.point, i==0 ? weaponMod.bullet.damage * weaponMod.firstBulletDamageMultiplier : weaponMod.bullet.damage, rayBullet);
-                        if (weaponMod == weapon.baseShot || weaponMod == minigunMod)
+                        if (weaponMod == weapon.baseShot || weaponMod == minigunMod) 
+                        {
                             bAffect.OnHitSingleShot(weaponMod);
+                        }
                         if (weaponMod == weapon.chargedShot)
-                            bAffect.OnHitShotGun(weaponMod);
+                        {
+                            bAffect.OnHitShotGun(weaponMod); 
+                            shotGunHasHit = true;
+                        }
 
                         if (weaponMod == weapon.chargedShot)
                         {
@@ -722,7 +727,7 @@ public class Weapon : MonoBehaviour
 
     public void OnShotGunHitTarget()
     {
-        shotGunHasHit = true;
+        //shotGunHasHit = true;
     }
 
     //public void JustDestroyedBodyPart(Vector3 pos)

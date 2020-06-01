@@ -78,7 +78,8 @@ public class Enemy<T> : Entity<T>, IDetection, IBulletAffect where T : DataEnemy
 
     public virtual void OnHitSingleShot(DataWeaponMod mods)
     {
-        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
+        if (!Weapon.Instance.CheckIfModIsMinigun(mods))
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
     }
 
     public virtual void OnBulletClose()
