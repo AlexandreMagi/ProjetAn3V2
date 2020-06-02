@@ -408,6 +408,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
     public void OnRelease()
     {
         canShoot = true;
+        ReactGravity<DataShooter>.DoFreeze(this.GetComponent<Rigidbody>());
     }
 
     public void OnHold()

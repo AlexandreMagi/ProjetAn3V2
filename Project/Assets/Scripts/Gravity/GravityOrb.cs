@@ -142,6 +142,14 @@ public class GravityOrb : MonoBehaviour
                 parentGravityAffect.OnRelease();
         }
 
+        foreach(Collider col in collidersToAttract)
+        {
+            if(col.GetComponent<Shooter>() != null)
+            {
+                col.GetComponent<Shooter>().OnRelease();
+            }
+        }
+
         if (orbData.isExplosive && (Main.Instance == null || Main.Instance.playerCanZeroG))
         {
             if (ps != null && ps.isEmitting)
