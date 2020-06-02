@@ -67,9 +67,12 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     LayerMask maskOfWall = default;
 
+
     //Gravity variables
     readonly float timePropel = .5f;
-    float elapsedTime = 0;
+
+    float timeSinceGravityControlled = 0;
+    float maxToleranceToGravityControl = 6f;
     ParticleSystem currentParticleOrb = null;
     ParticleSystem currentOrbExplosion = null;
     ParticleSystem currentPullParticles = null;
@@ -159,6 +162,10 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             currentParticleOrb.Stop();
         }
         currentOrbExplosion = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+
+        timeSinceGravityControlled = 0;
+
+        currentState = SwarmerState.LookingForTarget;
     }
 
     public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
@@ -169,6 +176,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnZeroG()
     {
+        currentState = SwarmerState.GravityControlled;
+
         ReactGravity<DataSwarmer>.DoSpin(rbBody);
         animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
     }
@@ -686,11 +695,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             #region GravityControlled
             case SwarmerState.GravityControlled:
-                elapsedTime += Time.fixedDeltaTime;
+                timeSinceGravityControlled += Time.fixedDeltaTime;
 
-                if (elapsedTime >= timePropel)
+                if (timeSinceGravityControlled >= timePropel)
                 {
                     ReactGravity<DataSwarmer>.DoSpin(rbBody);
+                }
+
+                if(timeSinceGravityControlled > maxToleranceToGravityControl)
+                {
+                    currentState = SwarmerState.LookingForTarget;
+                    timeSinceGravityControlled = 0;
                 }
                 break;
             #endregion

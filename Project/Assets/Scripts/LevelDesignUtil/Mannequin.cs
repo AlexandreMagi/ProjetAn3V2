@@ -15,6 +15,8 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     float floatTimeLeft = 0;
 
+    bool willDie = false;
+
     [SerializeField] Renderer[] renderers;
 
     [ColorUsage(true, true)]
@@ -31,16 +33,19 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     public override void TakeDamage(float value)
     {
-        if((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG)
+        if(((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG ) && !willDie)
         {
+            willDie = true;
             Die();
         }
     }
 
     public override void ForceKill()
     {
-        if ((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG)
+        if (((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG) && !willDie)
         {
+
+            willDie = true;
             Die();
         }
     }
