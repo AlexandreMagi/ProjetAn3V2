@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -231,28 +232,34 @@ public class GravityOrb : MonoBehaviour
 
     void Attract(float force)
     {
-        if (collidersToAttract != null)
+        try
         {
-            foreach (Collider hVictim in collidersToAttract)
+            if (collidersToAttract != null)
             {
-                if (hVictim == null)
+                foreach (Collider hVictim in collidersToAttract)
                 {
-                    collidersToAttract.Remove(hVictim);
-                    break;
-                }
-                else
-                {
-                    IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
-                    if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
+                    if (hVictim == null)
                     {
-                        //Debug.Log("pull");
-                        gAffect.OnPull(this.transform.position, force);
-                        gAffect.OnHold();
-                        //hasHitSomething = true;
+                        collidersToAttract.Remove(hVictim);
+                        break;
+                    }
+                    else
+                    {
+                        IGravityAffect gAffect = hVictim.GetComponent<IGravityAffect>();
+                        if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
+                        {
+                            //Debug.Log("pull");
+                            gAffect.OnPull(this.transform.position, force);
+                            gAffect.OnHold();
+                            //hasHitSomething = true;
+                        }
                     }
                 }
             }
         }
+        catch (Exception e) { };
+
+        
     }
 
     public void FixedUpdate()
