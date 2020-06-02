@@ -426,8 +426,8 @@ public class Weapon : MonoBehaviour
 
     public bool GravityOrbInput()
     {
-        if (!reloading)
-        {
+        //if (!reloading)
+        //{
             if (timeRemainingBeforeOrb < 0)
             {
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedGravity);
@@ -444,7 +444,7 @@ public class Weapon : MonoBehaviour
                 currentOrb.GetComponent<GravityOrb>().StopHolding();
                 return true;
             }
-        }
+        //}
         return false;
     }
 

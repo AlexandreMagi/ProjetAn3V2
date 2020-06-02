@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65228da64313d334287897a79669a36a, type: 3}
+  m_Name: DataCrosshair_CutCircle
+  m_EditorClassIdentifier: 
+  affectedByTimeScale: 0
+  baseSize: 0
+  amplitudeIdle: 0
+  speedIdle: 2
+  offsetIdle: -1.5
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineBaseColor: {r: 0, g: 0, b: 0, a: 1}
+  rotateSpeed: -10
+  rotateDir: 1
+  startRotation: 0
+  randomRotateAtStart: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  resetRotationOnRelease: 1
+  reculRecoverRate: 30
+  reculAddedPerShot: 2
+  reculMax: 5
+  reculSizeMultiplier: 0
+  hitRecoverRate: 0
+  hitAddedPerShot: 0
+  hitMax: 0.01
+  hitSizeMultiplier: 0
+  hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 1}
+  transitionStartAt: 0.4
+  chargingSize: 220
+  chargingAmplitudeIdle: 15
+  chargingSpeed: 40
+  chargingRotation: 180
+  chargingColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineChargingColor: {r: 0, g: 0, b: 0, a: 1}
+  chargingRotateSpeed: 50
+  chargingOffset: {x: 0, y: 0}
+  noBulletSize: 0
+  noBulletAmplitudeIdle: 0
+  noBulletIdleSpeed: 0
+  noBulletColor: {r: 1, g: 1, b: 1, a: 1}
+  noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  noBulletAnimTime: 2
+  chargedColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineChargedColor: {r: 0, g: 0, b: 0, a: 1}
+  chargedRotateSpeed: 50
+  reactToOrb: 1
+  orbChargedColor: {r: 1, g: 0.85461056, b: 0.08018869, a: 1}
+  outlineOrbChargedColor: {r: 0, g: 0, b: 0, a: 1}
+  orbBonusSize: 500
+  orbGrowTime: 0.5
+  orbShrinkTime: 0.1
+  orbIdleSpeed: 1
+  orbIdleAmplitude: 2
+  timeToDoChargedFeedback: 0.4
+  sizeAnim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0053499937
+      inSlope: 2.8711827
+      outSlope: 2.8711827
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.11033408
+    - serializedVersion: 3
+      time: 0.50316405
+      value: 1.0000206
+      inSlope: 0.08095006
+      outSlope: 0.08095006
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.14009401
+    - serializedVersion: 3
+      time: 1
+      value: -0.0053499937
+      inSlope: -2.6128497
+      outSlope: -2.6128497
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11823144
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  sizeMultiplier: 0
+  reactAtOverlap: 0
+  sizeMultiplierByOverlap: 1
+  colorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
+  outlineColorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
+  overlapLerpSpeed: 12
+  crosshairPopsWhen: 0
+  popTime: 1
