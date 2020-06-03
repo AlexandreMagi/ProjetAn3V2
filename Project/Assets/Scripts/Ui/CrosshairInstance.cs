@@ -89,7 +89,7 @@ public class CrosshairInstance
         outlineColor = triggerNoBullet ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
         
 
-        currentRotation += (data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue))) + (((Weapon.Instance.IsMinigun && data.isActivatedAtMinigun) || data.isAlwaysActivated)? data.rotationMultiplier * Weapon.Instance.CurrMinigunRateOfFirePurcentage * dt : 0);
+        currentRotation += (data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue))) + (Weapon.Instance != null && ((Weapon.Instance.IsMinigun && data.isActivatedAtMinigun) || data.isAlwaysActivated)? data.rotationMultiplier * Weapon.Instance.CurrMinigunRateOfFirePurcentage * dt : 0);
         if (Mathf.Abs(currentRotation) > 360) currentRotation += 360 * Mathf.Sign(currentRotation);
         rotation = Mathf.Lerp(data.startRotation, data.chargingRotation, chargeValue) + currentRotation;
 

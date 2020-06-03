@@ -85,4 +85,9 @@ public class DataGravityOrb : ScriptableObject
     public string fxExplosionName = "VFX_OrbExplosion";
     public float fxSizeMultiplier = 0.2f;
     public float flashScreen = 0.2f;
+
+    [Header("Fov")]
+    public float zeroGFovPower = 30;
+    public float zeroGFovTime = 2;
+    public AnimationCurve zeroGFovAnim = AnimationCurve.Linear(0,1,1,0);
 }

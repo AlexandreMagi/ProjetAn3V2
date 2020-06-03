@@ -210,6 +210,8 @@ public class GravityOrb : MonoBehaviour
             if(SequenceHandler.Instance != null && !SequenceHandler.Instance.isWaitingTimer)
                 TimeScaleManager.Instance.AddSlowMo(orbData.slowMoPower, newDuration, orbData.timeBeforeFloatActivate, orbData.slowMoProbability);
 
+            if (CameraHandler.Instance != null) CameraHandler.Instance.AddZeroGFov(orbData.zeroGFovPower, orbData.zeroGFovTime, orbData.zeroGFovAnim);
+
         }
         else
         {
