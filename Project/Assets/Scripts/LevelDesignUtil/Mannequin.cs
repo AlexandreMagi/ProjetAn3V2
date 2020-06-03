@@ -52,14 +52,14 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     protected override void Die()
     {
+        FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
+        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
         MannequinManager parentManger = GetComponentInParent<MannequinManager>();
 
         if (parentManger)
         {
             GetComponentInParent<MannequinManager>().ChildDied();
 
-            FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
-            if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
 
 
 
@@ -105,7 +105,6 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public void OnZeroG()
     {
-        Debug.Log(renderers.Length + " OnZeroG");
         ReactGravity<DataProp>.DoSpin(rb);
 
     }
