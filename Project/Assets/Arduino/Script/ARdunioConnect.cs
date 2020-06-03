@@ -25,11 +25,19 @@ public class ARdunioConnect : MonoBehaviour
 
     private string lastData = null;
 
+    public static ARdunioConnect Instance { get; private set; }
+
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
 
         DontDestroyOnLoad(this.gameObject);
     }
+
+    public bool ArduinoIsConnected { get { return !(portName != "NO CONNECT"); } }
 
     public static string AutodetectArduinoPort(string deviceNameContains = "Arduino", bool debug = false)
     {
