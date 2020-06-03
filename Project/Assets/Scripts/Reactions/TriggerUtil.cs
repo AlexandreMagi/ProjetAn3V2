@@ -147,11 +147,12 @@ public static class TriggerUtil
                 {
                     AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController(animatorCurrent.runtimeAnimatorController);
                     animatorCurrent.runtimeAnimatorController = animatorOverrideController;
-                    animatorOverrideController[animatorCurrent.runtimeAnimatorController.animationClips[1].name] = clips[currentAnimationIndex];
+                    animatorOverrideController[animatorCurrent.runtimeAnimatorController.animationClips[0].name] = clips[currentAnimationIndex];
 
                     animatorCurrent.SetTrigger("MakeAction");
                 }
 
+                if (currentAnimationIndex < delays.Length)
                 yield return new WaitForSeconds(delays[currentAnimationIndex]);
 
                 currentAnimationIndex++;
