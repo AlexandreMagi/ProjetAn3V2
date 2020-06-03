@@ -76,6 +76,11 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
         isAffectedByGravity = true;
     }
 
+    public void OnZeroGRelease()
+    {
+        isFloating = false;
+    }
+
     public void OnHold()
     {
         //Nothing happens on hold
