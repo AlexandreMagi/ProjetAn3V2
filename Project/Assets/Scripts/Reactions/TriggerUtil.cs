@@ -158,7 +158,9 @@ public static class TriggerUtil
                 currentAnimationIndex++;
             }
             while (currentAnimationIndex < clips.Length);
-           
+
+            //yield return new WaitForSeconds(5f);
+
         }
 
         yield break;
