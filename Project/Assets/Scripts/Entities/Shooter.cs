@@ -421,6 +421,11 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
         
     }
 
+    public void OnZeroGRelease()
+    {
+        canShoot = true;
+    }
+
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
     {
         canShoot = true;

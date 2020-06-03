@@ -54,7 +54,7 @@ public class Main : MonoBehaviour
     [SerializeField]
     DataDifficulty difficultyData = null;
 
-    bool playerResedAlready = false;
+    public bool playerResedAlready = false;
 
     [SerializeField]
     bool autoReloadOnNoAmmo = false;

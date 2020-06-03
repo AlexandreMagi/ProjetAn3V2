@@ -256,6 +256,11 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         DesactivateBullet();
     }
 
+    public void OnZeroGRelease()
+    {
+        //Nothing happens on hold
+    }
+
     public void OnPull(Vector3 position, float force)
     {
         DesactivateBullet();
