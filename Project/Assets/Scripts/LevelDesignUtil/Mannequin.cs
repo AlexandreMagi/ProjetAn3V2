@@ -19,8 +19,10 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     [SerializeField,ColorUsage(true, true)]
     Color colorBase = Color.black;
+    [SerializeField] float contrastBase = 10;
     [SerializeField, ColorUsage(true, true)]
     Color colorWhenZeroG = Color.white;
+    [SerializeField] float contrastZeroG = 50;
 
     Rigidbody rb = null;
 
@@ -28,6 +30,16 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     {
         base.Start();
         rb = GetComponent<Rigidbody>();
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[1]);
+
+            Material newMat = Instantiate(_renderer.materials[1]);
+
+            _renderer.materials[1] = newMat;
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
+            _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+        }
 
     }
 
@@ -78,6 +90,12 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public void OnZeroGRelease()
     {
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[1]);
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
+            _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+        }
         isFloating = false;
     }
 
@@ -107,11 +125,6 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     {
         ReactGravity<DataProp>.DoSpin(rb);
 
-        foreach (Renderer _renderer in renderers)
-        {
-            Debug.Log(_renderer.materials[0]);
-            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
-        }
     }
 
     public void SetTimerToRelease(float timeSent) { Invoke("CompleteRelease", timeSent + 2.5f); }
@@ -128,6 +141,12 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
         isFloating = true;
         floatTimeLeft = floatTime;
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[1]);
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
+            _renderer.materials[1].SetFloat("_Contrast", contrastZeroG);
+        }
 
     }
     #endregion
@@ -166,6 +185,12 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
             {
                 floatTimeLeft = 0;
                 isFloating = false;
+                foreach (Renderer _renderer in renderers)
+                {
+                    Debug.Log(_renderer.materials[1]);
+                    _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
+                    _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+                }
             }
         }
     }

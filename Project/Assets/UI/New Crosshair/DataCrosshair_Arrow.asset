@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: DataCrosshair_Arrow
   m_EditorClassIdentifier: 
   affectedByTimeScale: 0
-  baseSize: 400
-  amplitudeIdle: 20
+  baseSize: 200
+  amplitudeIdle: 10
   speedIdle: 2
   offsetIdle: -0.5
   baseColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineBaseColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineBaseColor: {r: 0, g: 0, b: 0, a: 0}
   rotateSpeed: 0
   rotateDir: 1
   startRotation: 0
@@ -28,34 +28,34 @@ MonoBehaviour:
   reculRecoverRate: 30
   reculAddedPerShot: 2
   reculMax: 5
-  reculSizeMultiplier: 400
+  reculSizeMultiplier: 200
   hitRecoverRate: 0
   hitAddedPerShot: 0
   hitMax: 0.01
   hitSizeMultiplier: 0
   hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 0}
   transitionStartAt: 0.4
-  chargingSize: 560
-  chargingAmplitudeIdle: 15
+  chargingSize: 280
+  chargingAmplitudeIdle: 7.5
   chargingSpeed: 40
   chargingRotation: -180
   chargingColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineChargingColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineChargingColor: {r: 0, g: 0, b: 0, a: 0}
   chargingRotateSpeed: 0
   chargingOffset: {x: 0, y: 0}
-  noBulletSize: 1000
+  noBulletSize: 500
   noBulletAmplitudeIdle: 0
   noBulletIdleSpeed: 0
   noBulletColor: {r: 1, g: 1, b: 1, a: 0}
-  noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 0}
   noBulletAnimTime: 0.1
   chargedColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineChargedColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineChargedColor: {r: 0, g: 0, b: 0, a: 0}
   chargedRotateSpeed: 0
   reactToOrb: 0
   orbChargedColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineOrbChargedColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineOrbChargedColor: {r: 0, g: 0, b: 0, a: 0}
   orbBonusSize: 0
   orbGrowTime: 0.01
   orbShrinkTime: 0.01
@@ -95,11 +95,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sizeMultiplier: 1000
-  reactAtOverlap: 0
-  sizeMultiplierByOverlap: 1
+  sizeMultiplier: 500
+  reactAtOverlap: 1
+  sizeMultiplierByOverlap: 0.75
   colorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
-  outlineColorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
+  outlineColorAtOverlap: {r: 1, g: 0, b: 0, a: 0}
   overlapLerpSpeed: 12
   crosshairPopsWhen: 0
   popTime: 1
