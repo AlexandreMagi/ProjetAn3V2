@@ -104,7 +104,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
         //Nothing happens on hold
     }
 
-    public void OnPull(Vector3 origin, float force, bool fleesPlayer = false)
+    public void OnPull(Vector3 origin, float force)
     {
         ReactGravity<DataProp>.DoPull(rb, origin, force, isFloating);
         isAffectedByGravity = true;

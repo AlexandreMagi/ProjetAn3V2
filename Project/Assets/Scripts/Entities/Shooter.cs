@@ -400,7 +400,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
         canShoot = false;
     }
 
-    public void OnPull(Vector3 position, float force, bool fleesPlayer = false)
+    public void OnPull(Vector3 position, float force)
     {
         canShoot = false;
     }

@@ -181,7 +181,7 @@ public class GravityOrb : MonoBehaviour
 
                     if (Vector3.Distance(this.transform.position, hVictim.transform.position) <= orbData.gravityBullet_AttractionRange)
                     {
-                        gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce, true);
+                        gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
 
                         if (orbData.isFloatExplosion)
                         {
@@ -267,7 +267,7 @@ public class GravityOrb : MonoBehaviour
                         if (gAffect != null && hVictim.gameObject != parentIfSticky && hVictim.gameObject.activeSelf)
                         {
                             //Debug.Log("pull");
-                            gAffect.OnPull(this.transform.position, force, false);
+                            gAffect.OnPull(this.transform.position, force);
                             gAffect.OnHold();
                             //hasHitSomething = true;
                         }
@@ -275,8 +275,7 @@ public class GravityOrb : MonoBehaviour
                 }
             }
         }
-        catch (Exception e) { //Debug.LogError(e);
-        }
+        catch (Exception e) { Debug.LogError(e); }
 
         
     }
@@ -320,7 +319,6 @@ public class GravityOrb : MonoBehaviour
                         Attract(orbData.holdForce);
                     }
 
-                    /*
                     if(fTimeHeldThreshold >= fTimeThresholdResetTargets)
                     {
                         fTimeHeldThreshold -= fTimeThresholdResetTargets;
@@ -332,7 +330,6 @@ public class GravityOrb : MonoBehaviour
                             collidersToAttract.AddRange(tHits);
                         }
                     }
-                    */
                 }
 
             }
