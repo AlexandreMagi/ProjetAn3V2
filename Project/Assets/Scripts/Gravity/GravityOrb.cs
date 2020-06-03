@@ -12,6 +12,8 @@ public class GravityOrb : MonoBehaviour
     List<Collider> collidersToAttract = null;
 
     float fTimeHeld = 0f;
+    float fTimeHeldThreshold = 0f;
+    float fTimeThresholdResetTargets = 0.4f;
     float stepTimeHold = 0f;
     bool hasSticked = false;
     bool hasAttractionStarted = false;
@@ -132,7 +134,7 @@ public class GravityOrb : MonoBehaviour
         //    PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.MissGravityOrb, transform.position);
         //}
 
-        if (hasSticked)
+        if (hasSticked && parentIfSticky != null)
             ReactGravity<DataEntity>.DoUnfreeze(parentIfSticky.GetComponent<Rigidbody>());
 
         if (this.parentIfSticky != null)
@@ -302,6 +304,7 @@ public class GravityOrb : MonoBehaviour
                 if (!bActivedViaScene)
                 {
                     fTimeHeld += Time.fixedDeltaTime;
+                    fTimeHeldThreshold += Time.fixedDeltaTime;
                     stepTimeHold += Time.fixedDeltaTime;
 
                     if (fTimeHeld >= orbData.lockTime)
@@ -314,6 +317,18 @@ public class GravityOrb : MonoBehaviour
                         stepTimeHold -= orbData.waitingTimeBetweenAttractions;
 
                         Attract(orbData.holdForce);
+                    }
+
+                    if(fTimeHeldThreshold >= fTimeThresholdResetTargets)
+                    {
+                        fTimeHeldThreshold -= fTimeThresholdResetTargets;
+                        
+                        Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.holdRange);
+                        if (collidersToAttract != null)
+                        {
+                            collidersToAttract.Clear();
+                            collidersToAttract.AddRange(tHits);
+                        }
                     }
                 }
 
