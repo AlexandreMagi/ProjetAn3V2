@@ -78,6 +78,7 @@ public class MenuMain : MonoBehaviour
             instance.go.SetActive(false);
             allBulletHole.Add(instance);
         }
+        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
     }
 
 

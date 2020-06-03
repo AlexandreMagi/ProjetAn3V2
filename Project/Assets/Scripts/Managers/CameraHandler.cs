@@ -162,6 +162,11 @@ public class CameraHandler : MonoBehaviour
     // Son
     bool canPlayStepSound = true; // Dit si le son de pas peut jouer
 
+    // FOV ZeroG
+    float zeroGCurrFovPower = 0;
+    float zeroGCurrFovTime = 0;
+    AnimationCurve zeroGCurrFovAnim = AnimationCurve.Linear(0,1,1,0);
+    float zeroGCurrFovPurcentage = 1;
 
     #endregion
 
@@ -337,6 +342,13 @@ public class CameraHandler : MonoBehaviour
         camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, transitionPurcentage);
         camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
         camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
+
+        if (zeroGCurrFovPurcentage < 1)
+        {
+            zeroGCurrFovPurcentage += Time.deltaTime / zeroGCurrFovTime;
+            if (zeroGCurrFovPurcentage > 1) zeroGCurrFovPurcentage = 1;
+            camRef.fieldOfView += zeroGCurrFovAnim.Evaluate(zeroGCurrFovPurcentage) * zeroGCurrFovPower;
+        }
 
         renderingCam.transform.position = camRef.transform.position;
         renderingCam.transform.rotation = camRef.transform.rotation;
@@ -630,6 +642,13 @@ public class CameraHandler : MonoBehaviour
 
     #region CamEffectsFunctions
 
+    public void AddZeroGFov(float fovPower, float fovTime, AnimationCurve fovAnimCurve)
+    {
+        zeroGCurrFovPower = fovPower;
+        zeroGCurrFovTime = fovTime;
+        zeroGCurrFovAnim = fovAnimCurve;
+        zeroGCurrFovPurcentage = 0;
+    }
     public void AddRecoil(bool fovType, float value, bool both = false) 
     {
 

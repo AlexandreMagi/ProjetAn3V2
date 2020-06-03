@@ -127,11 +127,11 @@ public class TitlesManager : MonoBehaviour
                     case 11:
                     case 12:
                     case 15:
-                        Debug.Log(title.titleType + " = " + title.isUnlocked);
+                        //Debug.Log(title.titleType + " = " + title.isUnlocked);
                         Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
                         break;
                     case 10:
-                        Debug.Log(title.titleType + " = " + title.isUnlocked);
+                        //Debug.Log(title.titleType + " = " + title.isUnlocked);
                         if (title.isUnlocked)
                             Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.TechWizard);
                         break;
