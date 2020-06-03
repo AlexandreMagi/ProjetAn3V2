@@ -275,7 +275,7 @@ public class GravityOrb : MonoBehaviour
                 }
             }
         }
-        catch (Exception e) { Debug.LogError(e) };
+        catch (Exception e) { Debug.LogError(e); }
 
         
     }

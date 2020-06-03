@@ -124,16 +124,16 @@ public static class TriggerUtil
     }
 
     //MULTIPLE ANIMATIONS
-    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, string[] triggerNames, float[] delays)
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, AnimationClip[] clips, float[] delays)
     {
-        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, triggerNames, delays));
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, clips, delays));
     }
 
-    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, string[] triggerNames, float[] delays)
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, AnimationClip[] clips, float[] delays)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        if(triggerNames.Length - 1 != delays.Length)
+        if(clips.Length - 1 != delays.Length)
         {
             Debug.LogError("Mauvais remplissage des conditions d'animation multiples.");
             yield break;
@@ -143,16 +143,20 @@ public static class TriggerUtil
             int currentAnimationIndex = 0;
             do
             {
-                foreach (Animator anim in animators)
+                foreach(Animator animatorCurrent in animators)
                 {
-                    anim.SetTrigger(triggerNames[0]);   
+                    AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController(animatorCurrent.runtimeAnimatorController);
+                    animatorCurrent.runtimeAnimatorController = animatorOverrideController;
+                    animatorOverrideController[animatorCurrent.runtimeAnimatorController.animationClips[1].name] = clips[currentAnimationIndex];
+
+                    animatorCurrent.SetTrigger("MakeAction");
                 }
 
                 yield return new WaitForSeconds(delays[currentAnimationIndex]);
 
                 currentAnimationIndex++;
             }
-            while (currentAnimationIndex < triggerNames.Length);
+            while (currentAnimationIndex < clips.Length);
            
         }
 
