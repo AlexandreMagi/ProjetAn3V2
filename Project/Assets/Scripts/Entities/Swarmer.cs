@@ -181,6 +181,21 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
        
     }
 
+    public void OnZeroGRelease()
+    {
+        if (!ignoresAllGravityAffects)
+        {        
+            if (currentParticleOrb)
+            {
+                currentParticleOrb.Stop();
+            }
+
+            timeSinceGravityControlled = 0;
+
+            currentState = SwarmerState.LookingForTarget;
+        }
+    }
+
     public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
     {
         base.OnHit(mod, position, dammage, rayShot);
@@ -279,7 +294,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             //Debug.Log($"Health : {health} -- IgnoresSuicide : {ignorePointsGivenOnSuicide}");
 
-            if(health <= -500 && !ignorePointsGivenOnSuicide)
+            if(health <= -500 && !ignorePointsGivenOnSuicide && currentState == SwarmerState.GravityControlled)
             {
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
             }

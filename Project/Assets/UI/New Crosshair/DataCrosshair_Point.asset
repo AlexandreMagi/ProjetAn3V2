@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65228da64313d334287897a79669a36a, type: 3}
+  m_Name: DataCrosshair_Point
+  m_EditorClassIdentifier: 
+  affectedByTimeScale: 0
+  baseSize: 100
+  amplitudeIdle: 10
+  speedIdle: 2
+  offsetIdle: 0
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineBaseColor: {r: 0, g: 0, b: 0, a: 0}
+  rotateSpeed: 0
+  rotateDir: 1
+  startRotation: 0
+  randomRotateAtStart: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  resetRotationOnRelease: 1
+  reculRecoverRate: 0
+  reculAddedPerShot: 0
+  reculMax: 0.01
+  reculSizeMultiplier: 0
+  hitRecoverRate: 0
+  hitAddedPerShot: 0
+  hitMax: 0.01
+  hitSizeMultiplier: 0
+  hitMaxColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineHitMaxColor: {r: 0, g: 0, b: 0, a: 0}
+  transitionStartAt: 0.4
+  chargingSize: 0
+  chargingAmplitudeIdle: 7.5
+  chargingSpeed: 40
+  chargingRotation: 0
+  chargingColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineChargingColor: {r: 0, g: 0, b: 0, a: 0}
+  chargingRotateSpeed: 0
+  chargingOffset: {x: 0, y: 0}
+  noBulletSize: 0
+  noBulletAmplitudeIdle: 0
+  noBulletIdleSpeed: 0
+  noBulletColor: {r: 1, g: 1, b: 1, a: 1}
+  noBulletOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  noBulletAnimTime: 2
+  chargedColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineChargedColor: {r: 0, g: 0, b: 0, a: 0}
+  chargedRotateSpeed: 0
+  reactToOrb: 0
+  orbChargedColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineOrbChargedColor: {r: 0, g: 0, b: 0, a: 0}
+  orbBonusSize: 0
+  orbGrowTime: 0.01
+  orbShrinkTime: 0.01
+  orbIdleSpeed: 0
+  orbIdleAmplitude: 0
+  timeToDoChargedFeedback: 1
+  sizeAnim:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  sizeMultiplier: 1
+  reactAtOverlap: 1
+  sizeMultiplierByOverlap: 1
+  colorAtOverlap: {r: 1, g: 0, b: 0, a: 1}
+  outlineColorAtOverlap: {r: 1, g: 0, b: 0, a: 0}
+  overlapLerpSpeed: 12
+  crosshairPopsWhen: 0
+  popTime: 1

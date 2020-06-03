@@ -47,6 +47,11 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
         
     }
 
+    public void OnZeroGRelease()
+    {
+        //Nothing happens on hold
+    }
+
     public void OnGravityDirectHit()
     {
         
