@@ -5165,8 +5165,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.8
-      minScalar: 0.3
+      scalar: 0.3
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5627,7 +5627,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.1
+      value: 0.0001
       mode: 0
       spread: 0
       speed:
@@ -9754,6 +9754,16 @@ PrefabInstance:
         type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522505440077660728, guid: b308b2d2e47941d48bc8b79fc59611a0,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522505440077660728, guid: b308b2d2e47941d48bc8b79fc59611a0,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 4947590350485795578, guid: b308b2d2e47941d48bc8b79fc59611a0,
         type: 3}
