@@ -7,7 +7,7 @@ public interface IGravityAffect
 
     void OnGravityDirectHit();
 
-    void OnPull(Vector3 position, float force);
+    void OnPull(Vector3 position, float force, bool fleesPlayer = false);
 
     void OnRelease();
 

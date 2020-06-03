@@ -21,7 +21,7 @@ public static class ReactGravity<T> where T : DataEntity
 
 
     //Pulling mechanic
-    public static void DoPull(Rigidbody rb, Vector3 pullOrigin, float pullForce, bool isAirbone)
+    public static void DoPull(Rigidbody rb, Vector3 pullOrigin, float pullForce, bool isAirbone, bool tryNotToGoTowardsPlayer = false)
     { 
         //DoUnfreeze(rb);
         if(rb != null)
@@ -38,6 +38,18 @@ public static class ReactGravity<T> where T : DataEntity
             //Debug.Break();
 
             //(v3DirectionToGo.y / 2) * .15f
+
+            if (tryNotToGoTowardsPlayer)
+            {
+                Vector3 playerPosition = CameraHandler.Instance.renderingCam.transform.position;
+                Vector3 initialExplosionPosition = rb.transform.position;
+
+
+                if (Vector2.Angle(new Vector2(playerPosition.x - initialExplosionPosition.x, playerPosition.z - initialExplosionPosition.z), new Vector2(v3DirectionToGo.x, v3DirectionToGo.z)) <= 50)
+                {
+                    v3DirectionToGo = new Vector3(-v3DirectionToGo.x, v3DirectionToGo.y, -v3DirectionToGo.z);
+                }
+            }
 
             //Ça marche, c'est moche, mais on aime
             //En gros, ça attire en fonction de la distance par rapport au sol.
