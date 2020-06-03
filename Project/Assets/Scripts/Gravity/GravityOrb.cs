@@ -230,6 +230,18 @@ public class GravityOrb : MonoBehaviour
 
     void OnZeroGRelease()
     {
+        foreach(Collider col in collidersToAttract)
+        {
+            if (col == null) continue;
+
+            IGravityAffect gAffect = col.GetComponent<IGravityAffect>();
+            if (gAffect != null)
+            {
+                gAffect.OnZeroGRelease();
+
+            }
+        }
+
         if (PostprocessManager.Instance != null) PostprocessManager.Instance.setChroma(false);
         Destroy(this.gameObject);
     }

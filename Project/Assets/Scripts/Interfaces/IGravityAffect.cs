@@ -15,5 +15,7 @@ public interface IGravityAffect
 
     void OnZeroG();
 
+    void OnZeroGRelease();
+
     void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale);
 }

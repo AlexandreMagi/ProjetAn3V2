@@ -51,7 +51,7 @@ public class MetricsGestionnary : MonoBehaviour
             {
                 case MetricsEventType.DamageTaken:
                     TitlesManager.Instance.ChangeTitleState(1, false); //"Immaculate"
-                    currentMetrics.totalDamageTaken += additionnalData;
+                    currentMetrics.totalDamageTaken += (int)additionnalData;
 
                     if (currentMetrics.totalDamageTaken > dataTitles.damageTakenRequired) TitlesManager.Instance.ChangeTitleState(13, true); //Unshakable
 
@@ -80,6 +80,8 @@ public class MetricsGestionnary : MonoBehaviour
 
                 case MetricsEventType.Death:
                     TitlesManager.Instance.ChangeTitleState(0, false); //"Unkillable"
+
+                    TitlesManager.Instance.ChangeTitleState(13, false); //"Unshakable"
                     break;
 
                 case MetricsEventType.Resurrection:
@@ -165,6 +167,12 @@ public class MetricsGestionnary : MonoBehaviour
     {
         currentMetrics.timeOfGame = Time.time - timeAtLaunch;
         currentMetrics.aim = currentMetrics.numberOfHits / currentMetrics.numberOfShots * 100;
+
+        if (Main.Instance.playerResedAlready)
+        {
+            TitlesManager.Instance.ChangeTitleState(13, false); //Unshakable deny si player déjà mort
+        }
+
         if (currentMetrics.aim > dataTitles.aimRequiredForTitle)
         {
             TitlesManager.Instance.ChangeTitleState(3, true); //Sniper
@@ -270,7 +278,7 @@ public class Metrics
     public float numberOfInExtremisSwarmerKills = 0;
     public int numberOfPerfectReloads = 0;
     public int numberOfReloads = 0;
-    public float totalDamageTaken = 0;
+    public int totalDamageTaken = 0;
     public bool playerHasBeenRaised = false;
     public bool shotgunUsed = false;
     public bool gravityUsed = false;

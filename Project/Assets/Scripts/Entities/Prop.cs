@@ -72,6 +72,11 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         isAffectedByGravity = true;
     }
 
+    public void OnZeroGRelease()
+    {
+        //Nothing happens on hold
+    }
+
     public void OnHold()
     {
         //Nothing happens on hold
@@ -198,5 +203,6 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
                 
         }
     }
+
 
 }
