@@ -169,6 +169,8 @@ public class PostprocessManager : MonoBehaviour
         if (distanceBetween > dataPp.maxDistToFade) multiplierByDistance = 0;
         else { multiplierByDistance = 1 - (Mathf.Clamp(distanceBetween, dataPp.maxDistToFade * dataPp.clampMinPurcentageDistortion, dataPp.maxDistToFade) / dataPp.maxDistToFade); }
 
+        //Debug.Log(multiplierByDistance);
+
         if (posScreen.z > 0)
         {
             Vector2 pos = new Vector2(posScreen.x / Screen.width, posScreen.y / Screen.height) * 2 - Vector2.one;

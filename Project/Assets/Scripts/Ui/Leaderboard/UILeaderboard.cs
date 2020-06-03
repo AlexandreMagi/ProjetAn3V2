@@ -107,7 +107,8 @@ public class UILeaderboard : MonoBehaviour
         // Init au dernier nom marqué
         for (int i = 0; i < cvsVars.charSelectors.Length; i++)
         {
-            cvsVars.charSelectors[i].charText.text = LeaderboardManager.lastName[i].ToString();
+            cvsVars.charSelectors[i].SetupChar(LeaderboardManager.lastName[i]);
+            //cvsVars.charSelectors[i].charText.text = LeaderboardManager.lastName[i].ToString();
         }
         timeRemainingBeforeProgress = timerBeforeActivateProgressBars;
 

@@ -97,6 +97,7 @@ public class Weapon : MonoBehaviour
     float currentCursorImprecisionPurcentage = 0;
     float customTimeForCursorNoise = 0;
     float currMinigunRateOfFirePurcentage = 0;
+    public float CurrMinigunRateOfFirePurcentage { get { return currMinigunRateOfFirePurcentage; } }
 
     [SerializeField]
     float maxSpeedMinigunPitch = 0.55f;

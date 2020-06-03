@@ -101,7 +101,6 @@ public class Main : MonoBehaviour
 
     [HideInInspector] public List<string> TitlesUnlocked = new List<string>();
 
-    public static Main Instance { get; private set; }
 
     [SerializeField] GameObject[] objectToChangeInLowQuality = null;
 
@@ -110,6 +109,7 @@ public class Main : MonoBehaviour
     [HideInInspector] public bool GamePaused = false;
     bool wasInWaitScreen = false;
 
+    public static Main Instance { get; private set; }
     void Awake()
     {
         Instance = this;
@@ -129,6 +129,8 @@ public class Main : MonoBehaviour
 
         Debug.Log("Quality at Main = " + QualityHandler.Instance.isHighQuality);
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
+
+        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
 
     }
 

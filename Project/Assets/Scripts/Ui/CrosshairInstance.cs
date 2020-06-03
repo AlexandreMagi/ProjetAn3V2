@@ -33,6 +33,8 @@ public class CrosshairInstance
 
     public float crossHairOnEnemyPurcentage = 0;
 
+    float minigunActivatedPurcentage = 1;
+
     public CrosshairInstance (DataCrossHair _data, RectTransform _rect, Image _img, Outline _outline)
     {
         data = _data;
@@ -41,6 +43,9 @@ public class CrosshairInstance
         rect = _rect;
         img = _img;
         outline = _outline;
+
+        bool mustGrow = Weapon.Instance == null || (data.isActivatedAtMinigun == Weapon.Instance.IsMinigun) || data.isAlwaysActivated;
+        minigunActivatedPurcentage = mustGrow ? 1 : 0;
     }
 
     public void UpdateValues()
@@ -84,7 +89,7 @@ public class CrosshairInstance
         outlineColor = triggerNoBullet ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
         
 
-        currentRotation += data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue));
+        currentRotation += (data.rotateDir * dt * (chargeValue == 1 ? data.chargedRotateSpeed : Mathf.Lerp(data.rotateSpeed, data.chargingRotateSpeed, chargeValue))) + (((Weapon.Instance.IsMinigun && data.isActivatedAtMinigun) || data.isAlwaysActivated)? data.rotationMultiplier * Weapon.Instance.CurrMinigunRateOfFirePurcentage * dt : 0);
         if (Mathf.Abs(currentRotation) > 360) currentRotation += 360 * Mathf.Sign(currentRotation);
         rotation = Mathf.Lerp(data.startRotation, data.chargingRotation, chargeValue) + currentRotation;
 
@@ -125,6 +130,17 @@ public class CrosshairInstance
             color = Color.Lerp(color, data.colorAtOverlap, crossHairOnEnemyPurcentage);
             outlineColor = Color.Lerp(outlineColor, data.outlineColorAtOverlap, crossHairOnEnemyPurcentage);
         }
+
+        // MINIGUN ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        if (Weapon.Instance != null && ((Weapon.Instance.IsMinigun && data.isActivatedAtMinigun) || data.isAlwaysActivated)) size += Weapon.Instance.CurrMinigunRateOfFirePurcentage * data.sizeAddedMultiplier;
+
+        bool mustGrow = Weapon.Instance == null || (data.isActivatedAtMinigun == Weapon.Instance.IsMinigun) || data.isAlwaysActivated;
+        minigunActivatedPurcentage = Mathf.MoveTowards(minigunActivatedPurcentage, mustGrow ? 1 : 0, Time.unscaledDeltaTime / data.minigunTimeTransition);
+        size = Mathf.Lerp(0, size, minigunActivatedPurcentage);
+        color = Color.Lerp(new Color(color.r, color.g, color.b, 0), color, minigunActivatedPurcentage);
+        outlineColor = Color.Lerp(new Color(outlineColor.r, outlineColor.g, outlineColor.b, 0), outlineColor, minigunActivatedPurcentage);
+        rotation = Mathf.Lerp(0, rotation, minigunActivatedPurcentage);
+        offset = Vector2.Lerp(Vector2.zero, offset, minigunActivatedPurcentage);
 
         if (Main.Instance != null && !Main.Instance.TCActivated)
         {
