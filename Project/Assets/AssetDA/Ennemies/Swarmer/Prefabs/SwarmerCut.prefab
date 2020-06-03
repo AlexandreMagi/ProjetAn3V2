@@ -150,11 +150,12 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
 --- !u!114 &4131949702662134222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +170,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!54 &1564493004202948345
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -298,11 +306,12 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
 --- !u!114 &3267560284991775688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +326,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!54 &8185632656320625468
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -461,6 +477,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!114 &1096951375196312977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,11 +499,12 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
 --- !u!1 &4558759283200971784
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,11 +618,12 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
 --- !u!114 &7202877389556522975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,6 +638,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!54 &3439984300982340931
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -757,6 +789,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!114 &9068496288912908986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,11 +811,12 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
 --- !u!1 &7328945747328693308
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +871,7 @@ MonoBehaviour:
   - {fileID: 7093502647852769681}
   available: 1
   timeBeforeCanBeActivatedAgain: 10
+  timeRemainingBeforeActivation: 0
 --- !u!1 &8132077983338725969
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,6 +1000,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!114 &7093502647852769681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,11 +1022,12 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 2
   maxTimerBeforeDisapear: 5
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 1
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
 --- !u!1 &8144306825424557695
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1156,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 912eb27fa07324342b98846663bb42b4, type: 2}
   isAffectedByGravity: 0
+  soundToPlayOnImpact: 
+  soundVolume: 1
+  soundRandomPitch: 0.2
+  soundToPlayWhenDie: 
+  soundVolumeWhenDie: 1
+  soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!114 &4178717551591441629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1122,8 +1178,9 @@ MonoBehaviour:
   forceNoSpawn: 0
   minTimerBeforeDisapear: 1
   maxTimerBeforeDisapear: 2
-  explosionForceOnSpawn: 2000
+  explosionForceOnSpawn: 0
   isAlwaysSpawning: 0
   isPhophoAffected: 1
   isEnemyPart: 1
   scaleMultiplier: 0.8
+  collid19: {fileID: 0}
