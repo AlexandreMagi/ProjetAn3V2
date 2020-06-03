@@ -89,9 +89,12 @@ public class UiCrossHair : MonoBehaviour
         animRelease = Animator.StringToHash(animTriggerRelease);
         animUICrossHair = fxUICrossHair.GetComponent<Animator>();
 
-        UiHitMarker = Instantiate(baseForCrosshair, rootCrosshair.transform).GetComponent<RectTransform>();
-        UiHitMarker.GetComponent<Image>().sprite = hitMarkerSprite;
-        UiHitMarker.sizeDelta = Vector2.zero;
+        if (UiHitMarker != null)
+        {
+            UiHitMarker = Instantiate(baseForCrosshair, rootCrosshair.transform).GetComponent<RectTransform>();
+            UiHitMarker.GetComponent<Image>().sprite = hitMarkerSprite;
+            UiHitMarker.sizeDelta = Vector2.zero;
+        }
 
         Invoke("UpdateCursorUnlocks", 0.2f);
 
@@ -114,17 +117,21 @@ public class UiCrossHair : MonoBehaviour
                 !Weapon.Instance.GetIfReloading());*/
         }
 
-        if (hitMarkerAnimPurcentage < 1 && UiHitMarker != null)
+        if (UiHitMarker != null)
         {
-            UiHitMarker.sizeDelta = Vector2.one * hitMarkerPop.Evaluate(hitMarkerAnimPurcentage) * hitMarkerMultiplierAnim;
-            hitMarkerAnimPurcentage += Time.unscaledDeltaTime / hitMarkerTimeAnim;
-            UiHitMarker.transform.position = transform.TransformPoint(pos);
-            if (hitMarkerAnimPurcentage > 1)
+            if (hitMarkerAnimPurcentage < 1 && UiHitMarker != null)
             {
-                hitMarkerAnimPurcentage = 1;
-                UiHitMarker.sizeDelta = Vector2.zero;
+                UiHitMarker.sizeDelta = Vector2.one * hitMarkerPop.Evaluate(hitMarkerAnimPurcentage) * hitMarkerMultiplierAnim;
+                hitMarkerAnimPurcentage += Time.unscaledDeltaTime / hitMarkerTimeAnim;
+                UiHitMarker.transform.position = transform.TransformPoint(pos);
+                if (hitMarkerAnimPurcentage > 1)
+                {
+                    hitMarkerAnimPurcentage = 1;
+                    UiHitMarker.sizeDelta = Vector2.zero;
+                }
             }
         }
+            
 
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousePosition, cvs.worldCamera, out pos);

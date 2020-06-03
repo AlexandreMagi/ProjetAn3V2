@@ -162,6 +162,10 @@ public class CameraHandler : MonoBehaviour
     // Son
     bool canPlayStepSound = true; // Dit si le son de pas peut jouer
 
+    // FOV ZeroG
+    float zeroGCurrFovPower = 0;
+    float zeroGCurrFovTime = 0;
+    AnimationCurve zeroGCurrFovAnim = AnimationCurve.Linear(0,1,1,0);
 
     #endregion
 
@@ -630,6 +634,10 @@ public class CameraHandler : MonoBehaviour
 
     #region CamEffectsFunctions
 
+    public void AddZeroGFov(float fovPower, float fovTime, AnimationCurve fovAnimCurve) 
+    {
+
+    }
     public void AddRecoil(bool fovType, float value, bool both = false) 
     {
 
