@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
+public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 {
     [SerializeField]
     bool mustBeKilledInZeroG = false;
@@ -52,6 +52,13 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
         if (parentManger)
         {
             GetComponentInParent<MannequinManager>().ChildDied();
+
+            FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
+            if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
+
+
+
+
             base.Die();
         }
        
