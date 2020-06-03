@@ -294,7 +294,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             //Debug.Log($"Health : {health} -- IgnoresSuicide : {ignorePointsGivenOnSuicide}");
 
-            if(health <= -500 && !ignorePointsGivenOnSuicide)
+            if(health <= -500 && !ignorePointsGivenOnSuicide && currentState == SwarmerState.GravityControlled)
             {
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
             }
