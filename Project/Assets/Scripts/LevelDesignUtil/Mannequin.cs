@@ -71,7 +71,7 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     public void OnZeroGRelease()
     {
-        //Nothing happens on hold
+        isFloating = false;
     }
 
     public void OnHold()
