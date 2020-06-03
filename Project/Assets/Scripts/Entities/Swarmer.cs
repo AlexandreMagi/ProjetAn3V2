@@ -67,13 +67,19 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     [SerializeField]
     LayerMask maskOfWall = default;
 
+
     //Gravity variables
     readonly float timePropel = .5f;
-    float elapsedTime = 0;
+
+    float timeSinceGravityControlled = 0;
+    float maxToleranceToGravityControl = 6f;
     ParticleSystem currentParticleOrb = null;
     ParticleSystem currentOrbExplosion = null;
     ParticleSystem currentPullParticles = null;
     bool hasPlayedFxOnPull = false;
+
+    [SerializeField]
+    bool ignoresAllGravityAffects = false;
 
     //Death variables
     bool isDying = false;
@@ -125,40 +131,54 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnHold()
     {
-        if (!currentParticleOrb)
-            currentParticleOrb = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenHoldByGrav, transform);
-        if (currentParticleOrb && !currentParticleOrb.isEmitting)
-            currentParticleOrb.Play();
+        if (!ignoresAllGravityAffects)
+        {
+            if (!currentParticleOrb)
+                currentParticleOrb = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenHoldByGrav, transform);
+            if (currentParticleOrb && !currentParticleOrb.isEmitting)
+                currentParticleOrb.Play();
+        }
     }
 
     public void OnPull(Vector3 position, float force)
     {
-        if(currentState != SwarmerState.GravityControlled)
+        if (!ignoresAllGravityAffects)
         {
-            rbBody.velocity = Vector3.zero;
+            if (currentState != SwarmerState.GravityControlled)
+            {
+                rbBody.velocity = Vector3.zero;
+            }
+
+            bool isInTheAir = !Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
+
+            currentState = SwarmerState.GravityControlled;
+
+            ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir);
+            if (!hasPlayedFxOnPull)
+            {
+                hasPlayedFxOnPull = true;
+                currentPullParticles = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
+            }
+            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         }
-
-        bool isInTheAir = !Physics.Raycast(transform.position, Vector3.down, entityData.rayCastRangeToConsiderAirbone, maskOfWall);
-
-        currentState = SwarmerState.GravityControlled;
-
-        ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir);
-        if (!hasPlayedFxOnPull)
-        {
-            hasPlayedFxOnPull = true;
-            currentPullParticles = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
-        }
-        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
     }
 
     public void OnRelease()
     {
-        ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
-        if (currentParticleOrb)
+        if (!ignoresAllGravityAffects)
         {
-            currentParticleOrb.Stop();
+            ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
+            if (currentParticleOrb)
+            {
+                currentParticleOrb.Stop();
+            }
+            currentOrbExplosion = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+
+            timeSinceGravityControlled = 0;
+
+            currentState = SwarmerState.LookingForTarget;
         }
-        currentOrbExplosion = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenReleaseByGrav, transform);
+       
     }
 
     public override void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
@@ -169,8 +189,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     public void OnZeroG()
     {
-        ReactGravity<DataSwarmer>.DoSpin(rbBody);
-        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+        if (!ignoresAllGravityAffects)
+        {
+            currentState = SwarmerState.GravityControlled;
+
+            ReactGravity<DataSwarmer>.DoSpin(rbBody);
+            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -686,11 +711,17 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             #region GravityControlled
             case SwarmerState.GravityControlled:
-                elapsedTime += Time.fixedDeltaTime;
+                timeSinceGravityControlled += Time.fixedDeltaTime;
 
-                if (elapsedTime >= timePropel)
+                if (timeSinceGravityControlled >= timePropel)
                 {
                     ReactGravity<DataSwarmer>.DoSpin(rbBody);
+                }
+
+                if(timeSinceGravityControlled > maxToleranceToGravityControl)
+                {
+                    currentState = SwarmerState.LookingForTarget;
+                    timeSinceGravityControlled = 0;
                 }
                 break;
             #endregion

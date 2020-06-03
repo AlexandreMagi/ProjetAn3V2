@@ -207,7 +207,7 @@ public class MetricsGestionnary : MonoBehaviour
     public void SaveMetrics()
     {
         //Date du metrics
-        string fileName = ((DateTime.Now + "").Split(' ')[0] + "_" + (DateTime.Now + "").Split(' ')[1]).Replace('/','_').Replace(':','-');
+        string fileName = ((DateTime.Now + "").Split(' ')[0] + "_" + (DateTime.Now + "").Split(' ')[1]).Replace('/','_').Replace(':','_');
 
         //Création du sérializer et du stream de fichier.
         XmlSerializer serializer = new XmlSerializer(typeof(Metrics));
