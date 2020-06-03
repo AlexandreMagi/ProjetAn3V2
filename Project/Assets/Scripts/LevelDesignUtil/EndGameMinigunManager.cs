@@ -59,6 +59,7 @@ public class EndGameMinigunManager : MonoBehaviour
                     Main.Instance.ExplosionFromPlayer(explosionRadius, explosionForce, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
                     TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition);
                     if (spawnerCutter != null) spawnerCutter.cutSpawners();
+                    Main.Instance.SetupWaitScreenOn();
                 }
                 if (display != null) display.text = lastText;
             }

@@ -8,7 +8,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     bool mustBeKilledInZeroG = false;
 
 
-    bool isFloating = false;
+    bool isZeroG = false;
     [HideInInspector] public bool isAffectedByGravity = false;
 
     float floatTimeLeft = 0;
@@ -26,14 +26,14 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     Rigidbody rb = null;
 
+    [SerializeField] Collider[] mannequinCollider = null;
+
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody>();
         foreach (Renderer _renderer in renderers)
         {
-            Debug.Log(_renderer.materials[1]);
-
             Material newMat = Instantiate(_renderer.materials[1]);
 
             _renderer.materials[1] = newMat;
@@ -45,7 +45,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public override void TakeDamage(float value)
     {
-        if(((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG ) && !willDie)
+        if(((mustBeKilledInZeroG && isZeroG) || !mustBeKilledInZeroG ) && !willDie)
         {
             willDie = true;
             Die();
@@ -54,7 +54,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public override void ForceKill()
     {
-        if (((mustBeKilledInZeroG && isFloating) || !mustBeKilledInZeroG) && !willDie)
+        if (((mustBeKilledInZeroG && isZeroG) || !mustBeKilledInZeroG) && !willDie)
         {
 
             willDie = true;
@@ -67,6 +67,13 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
         FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
         if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
         MannequinManager parentManger = GetComponentInParent<MannequinManager>();
+        if (mannequinCollider != null)
+        {
+            for (int i = 0; i < mannequinCollider.Length; i++)
+            {
+                if (mannequinCollider[i] != null) mannequinCollider[i].enabled = false;
+            }
+        }
 
         if (parentManger)
         {
@@ -96,7 +103,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
             _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
             _renderer.materials[1].SetFloat("_Contrast", contrastBase);
         }
-        isFloating = false;
+        isZeroG = false;
     }
 
     public void OnHold()
@@ -106,7 +113,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     public void OnPull(Vector3 origin, float force)
     {
-        ReactGravity<DataProp>.DoPull(rb, origin, force, isFloating);
+        ReactGravity<DataProp>.DoPull(rb, origin, force, isZeroG);
         isAffectedByGravity = true;
     }
 
@@ -114,7 +121,6 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     {
         ReactGravity<DataProp>.DoUnfreeze(rb);
 
-        Debug.Log(renderers.Length + " OnRelease");
         /*foreach (Renderer _renderer in renderers)
         {
             _renderer.materials[0].SetColor("_Reveallightcolor", colorBase);
@@ -124,11 +130,17 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     public void OnZeroG()
     {
         ReactGravity<DataProp>.DoSpin(rb);
+        isZeroG = true;
+        foreach (Renderer _renderer in renderers)
+        {
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
+            _renderer.materials[1].SetFloat("_Contrast", contrastZeroG);
+        }
 
     }
 
     public void SetTimerToRelease(float timeSent) { Invoke("CompleteRelease", timeSent + 2.5f); }
-    void CompleteRelease() { isAffectedByGravity = false; isFloating = false; }
+    void CompleteRelease() { isAffectedByGravity = false; isZeroG = false; }
 
 
     public void OnFloatingActivation(float fGForce, float timeBeforeActivation, bool isSlowedDownOnFloat, float floatTime, bool bIndependantFromTimeScale)
@@ -139,14 +151,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
         ReactGravity<DataProp>.DoFloat(rb, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
 
-        isFloating = true;
         floatTimeLeft = floatTime;
-        foreach (Renderer _renderer in renderers)
-        {
-            Debug.Log(_renderer.materials[1]);
-            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
-            _renderer.materials[1].SetFloat("_Contrast", contrastZeroG);
-        }
 
     }
     #endregion
@@ -154,7 +159,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     #region Bullets
     public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray shotRay)
     {
-        if (mustBeKilledInZeroG && isFloating)
+        if (mustBeKilledInZeroG && isZeroG)
         {
             rb.AddExplosionForce(250, position, 1);
             TakeDamage(mod.bullet.damage);
@@ -184,10 +189,9 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
             if(floatTimeLeft <= 0)
             {
                 floatTimeLeft = 0;
-                isFloating = false;
+                isZeroG = false;
                 foreach (Renderer _renderer in renderers)
                 {
-                    Debug.Log(_renderer.materials[1]);
                     _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
                     _renderer.materials[1].SetFloat("_Contrast", contrastBase);
                 }
