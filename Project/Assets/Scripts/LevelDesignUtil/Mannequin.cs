@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
+public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 {
     [SerializeField]
     bool mustBeKilledInZeroG = false;
 
-    [SerializeField, ColorUsage(true, true)]
-    Color colorWhenZeroG = Color.white;
 
     bool isFloating = false;
     [HideInInspector] public bool isAffectedByGravity = false;
@@ -19,8 +17,12 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     [SerializeField] Renderer[] renderers;
 
-    [ColorUsage(true, true)]
-    Color colorBase;
+    [SerializeField,ColorUsage(true, true)]
+    Color colorBase = Color.black;
+    [SerializeField] float contrastBase = 10;
+    [SerializeField, ColorUsage(true, true)]
+    Color colorWhenZeroG = Color.white;
+    [SerializeField] float contrastZeroG = 50;
 
     Rigidbody rb = null;
 
@@ -28,6 +30,16 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
     {
         base.Start();
         rb = GetComponent<Rigidbody>();
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[1]);
+
+            Material newMat = Instantiate(_renderer.materials[1]);
+
+            _renderer.materials[1] = newMat;
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
+            _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+        }
 
     }
 
@@ -52,11 +64,18 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     protected override void Die()
     {
+        FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
+        if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
         MannequinManager parentManger = GetComponentInParent<MannequinManager>();
 
         if (parentManger)
         {
             GetComponentInParent<MannequinManager>().ChildDied();
+
+
+
+
+
             base.Die();
         }
        
@@ -71,6 +90,12 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     public void OnZeroGRelease()
     {
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[1]);
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
+            _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+        }
         isFloating = false;
     }
 
@@ -90,11 +115,6 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
         ReactGravity<DataProp>.DoUnfreeze(rb);
 
         Debug.Log(renderers.Length + " OnRelease");
-        foreach (Renderer _renderer in renderers)
-        {
-            Debug.Log(_renderer.materials[0]);
-            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
-        }
         /*foreach (Renderer _renderer in renderers)
         {
             _renderer.materials[0].SetColor("_Reveallightcolor", colorBase);
@@ -103,7 +123,6 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
     public void OnZeroG()
     {
-        Debug.Log(renderers.Length + " OnZeroG");
         ReactGravity<DataProp>.DoSpin(rb);
 
     }
@@ -122,6 +141,12 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
 
         isFloating = true;
         floatTimeLeft = floatTime;
+        foreach (Renderer _renderer in renderers)
+        {
+            Debug.Log(_renderer.materials[1]);
+            _renderer.materials[1].SetColor("_Reveallightcolor", colorWhenZeroG);
+            _renderer.materials[1].SetFloat("_Contrast", contrastZeroG);
+        }
 
     }
     #endregion
@@ -160,6 +185,12 @@ public class Mannequin : Entity<DataEntity>, IGravityAffect, IBulletAffect
             {
                 floatTimeLeft = 0;
                 isFloating = false;
+                foreach (Renderer _renderer in renderers)
+                {
+                    Debug.Log(_renderer.materials[1]);
+                    _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
+                    _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+                }
             }
         }
     }
