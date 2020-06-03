@@ -88,6 +88,14 @@ public class DataCrossHair : ScriptableObject
     public enum activatedIf { start, reload, reloadPerfect, shotgun, orb, zeroG }
 
     public float popTime = 1f;
+
+    [Header("Changement minigun")]
+    public bool isAlwaysActivated = false;
+    [HideIf("isAlwaysActivated")] public bool isActivatedAtMinigun = false;
+    public float minigunTimeTransition = 1;
+    [ShowIf("isActivatedAtMinigun")] public float rotationMultiplier = 0;
+    [ShowIf("isActivatedAtMinigun")] public float sizeAddedMultiplier = 0;
+
 }
 
 

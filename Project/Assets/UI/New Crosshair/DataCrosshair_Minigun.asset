@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65228da64313d334287897a79669a36a, type: 3}
-  m_Name: DataCrosshair_Point
+  m_Name: DataCrosshair_Minigun
   m_EditorClassIdentifier: 
   affectedByTimeScale: 0
   baseSize: 100
@@ -24,11 +24,11 @@ MonoBehaviour:
   startRotation: 0
   randomRotateAtStart: {x: 0, y: 0}
   offset: {x: 0, y: 0}
-  resetRotationOnRelease: 1
-  reculRecoverRate: 0
-  reculAddedPerShot: 0
-  reculMax: 0.01
-  reculSizeMultiplier: 0
+  resetRotationOnRelease: 0
+  reculRecoverRate: 30
+  reculAddedPerShot: 2
+  reculMax: 5
+  reculSizeMultiplier: 30
   hitRecoverRate: 0
   hitAddedPerShot: 0
   hitMax: 0.01
@@ -94,8 +94,8 @@ MonoBehaviour:
   overlapLerpSpeed: 12
   crosshairPopsWhen: 0
   popTime: 1
-  isAlwaysActivated: 1
-  isActivatedAtMinigun: 0
-  minigunTimeTransition: 0.5
-  rotationMultiplier: 0
-  sizeAddedMultiplier: 0
+  isAlwaysActivated: 0
+  isActivatedAtMinigun: 1
+  minigunTimeTransition: 1
+  rotationMultiplier: 180
+  sizeAddedMultiplier: 50
