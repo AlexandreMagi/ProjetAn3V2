@@ -433,15 +433,16 @@ public static class TriggerUtil
     }
 
     //Dégats sur joueur
-    public static void TriggerDamage(float timeBeforeStart, float damages)
+    public static void TriggerDamage(float timeBeforeStart, float damages, bool ignoreDamageEvent)
     {
-        Main.Instance.StartCoroutine(TriggerDamageCoroutine(timeBeforeStart, damages));
+        Main.Instance.StartCoroutine(TriggerDamageCoroutine(timeBeforeStart, damages, ignoreDamageEvent));
     }
 
-    static IEnumerator TriggerDamageCoroutine(float timeBeforeStart, float damages)
+    static IEnumerator TriggerDamageCoroutine(float timeBeforeStart, float damages, bool ignoreDamageEvent)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
+        if (ignoreDamageEvent) Player.Instance.IgnoreNextDamageEvent();
         Player.Instance.TakeDamage(damages);
 
         yield break;

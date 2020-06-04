@@ -9,7 +9,9 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
 
     float armorToGain = 0;
     float rateOfArmorGained = 10;
-  //  private DataPlayer playerData;
+    //  private DataPlayer playerData;
+
+    bool ignoreNextDamageEvent = false;
 
     public static Player Instance{get; private set;}
 
@@ -91,12 +93,18 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         return new Vector2(health, entityData.maxHealth);
     }
 
+    public void IgnoreNextDamageEvent()
+    {
+        ignoreNextDamageEvent = true;
+    }
+
     public override void TakeDamage(float value)
     {
         if (health > 0 && (UILeaderboard.Instance == null || !UILeaderboard.Instance.InLeaderboard))
         {
             //Metrics
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTaken, value);
+            if (!ignoreNextDamageEvent) MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTaken, value);
+            ignoreNextDamageEvent = false;
 
 
             CustomSoundManager.Instance.PlaySound("PlayerDamage", "PlayerUnpitched",null, 1,false,1,0.2f);

@@ -28,7 +28,6 @@ public class UINewWait : MonoBehaviour
             obj.SetActive(false);
         }
         waitRoot.SetActive(true);
-        Debug.Log("TriggerWait");
         if (waitAnmatr != null && waitRoot.activeSelf)
             waitAnmatr.SetTrigger("pop");
         //Weapon.Instance.rotateLocked = true;

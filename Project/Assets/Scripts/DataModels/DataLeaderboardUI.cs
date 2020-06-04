@@ -16,6 +16,10 @@ public class DataLeaderboardUI : ScriptableObject
     public Color lastScoreOutlineColor = Color.white;
     public Color normalScoreOutlineColor = Color.white;
     public Color firstScoreOutlineColor = Color.white;
+    public Color secondScoreOutlineColor = Color.white;
+    public Color thirdScoreOutlineColor = Color.white;
+
+    public float firstsScaleInY = 3.7f;
 
     public float scaleWhenMouseOvered = 1.3f;
     public float scaleNormal = 1;

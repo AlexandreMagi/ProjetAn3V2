@@ -147,6 +147,8 @@ public class TriggerSender : MonoBehaviour
 
     [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
     int damages = 0;
+    [ShowIf("typeTrigger", TriggerType.Damage), SerializeField]
+    bool ignoreDamageEvent = false;
 
     [ShowIf("typeTrigger", TriggerType.InstantKill), SerializeField]
     bool preventRevive = true;
@@ -293,7 +295,7 @@ public class TriggerSender : MonoBehaviour
                 TriggerUtil.TriggerGameObjectActivation(timeBeforeStart, objectsToChange, isActivationGameObject);
                 break;
             case TriggerType.Damage:
-                TriggerUtil.TriggerDamage(timeBeforeStart, damages);
+                TriggerUtil.TriggerDamage(timeBeforeStart, damages, ignoreDamageEvent);
                 break;
             case TriggerType.SwarmerAnimation:
                 TriggerUtil.TriggerAnimationOnSwarmers(timeBeforeStart, animationToCall, swarmersToAnimate);
