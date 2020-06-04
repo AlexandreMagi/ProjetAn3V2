@@ -153,9 +153,12 @@ public class MetricsGestionnary : MonoBehaviour
                     currentMetrics.numberOfMissilesDestroyed++;
 
                     break;
+                case MetricsEventType.GameFinished:
+                    TitlesManager.Instance.ChangeTitleState(17, true); //"Game finished"
+                    break;
             }
         }
-        
+
     }
 
     //private void Update()
@@ -260,7 +263,8 @@ public class MetricsGestionnary : MonoBehaviour
         InExtremisKill,
         SwarmerKill,
         ShooterKill,
-        MissileKill
+        MissileKill,
+        GameFinished
     }
 }
 

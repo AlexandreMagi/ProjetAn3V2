@@ -594,6 +594,8 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
+
+        MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.GameFinished);
         Main.Instance.InitLeaderboard();
 
         yield break;

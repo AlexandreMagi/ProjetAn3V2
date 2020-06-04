@@ -21,6 +21,7 @@ public class DataWeapon : ScriptableObject
     [RangeAttribute(1, 50)]
     public int bulletMax;
     public float reloadCooldown = 0.5f;
+    public float reloadSafeCooldownValidate = 0.3f;
     public float reloadingTime = 1;
     public float perfectPlacement = 0.7f;
     public float perfectRandom = 0.3f;

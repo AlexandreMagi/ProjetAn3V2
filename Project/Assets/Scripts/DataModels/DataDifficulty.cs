@@ -24,5 +24,5 @@ public class DataDifficulty : ScriptableObject
 
     public int maxChanceOfSurvival = 90;
 
-    public int malusScoreAtChoosedRevive = 500;
+    [PropertyRange(0f,1f)] public float malusScoreAtChoosedRevive = .3f;
 }

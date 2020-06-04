@@ -130,10 +130,14 @@ public class Main : MonoBehaviour
         Debug.Log("Quality at Main = " + QualityHandler.Instance.isHighQuality);
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
 
-        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+        Invoke("UpdateArduino", 1);
 
     }
 
+    public void UpdateArduino()
+    {
+        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+    }
 
     // Update is called once per frame
     void Update()
@@ -175,6 +179,9 @@ public class Main : MonoBehaviour
         //    }
         //    else UIOrb.Instance.cantOrb();
         //}
+
+        if (isArduinoMode && Input.GetKeyDown(KeyCode.Mouse0)) isArduinoMode = false;
+        if (!isArduinoMode && (arduinoTransmettor && arduinoTransmettor.isShotUp)) isArduinoMode = true;
 
         //SHOOT
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
@@ -268,7 +275,7 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
         {
             SequenceHandler.Instance.NextSequence(true);
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
+            //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -648,7 +655,7 @@ public class Main : MonoBehaviour
     {
 
         mainMixer.SetFloat("GameVolume", 0);
-        LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
+        //LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
 
         MetricsGestionnary.Instance.SaveMetrics();
 
@@ -704,7 +711,7 @@ public class Main : MonoBehaviour
             trueChance = difficultyData.maxChanceOfSurvival;
         }
 
-        PublicManager.Instance.LoseRawViewer(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.scoreMultiplier));
+        PublicManager.Instance.LoseRawViewer(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()));
         Main.Instance.EndReviveSituation(true, bonusFromRez);
         lastChoiceForPlayer = false;
         EndGameChoice.Instance.EndChoice();
@@ -871,7 +878,8 @@ public class Main : MonoBehaviour
 
             float trueChance = GetCurrentChacesOfSurvival();
             if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
-            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.scoreMultiplier), Mathf.RoundToInt(trueChance));
+            Debug.Log(PublicManager.Instance.GetNbViewers() + " / " + difficultyData.malusScoreAtChoosedRevive);
+            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()), Mathf.RoundToInt(trueChance));
         }
         else
         {
