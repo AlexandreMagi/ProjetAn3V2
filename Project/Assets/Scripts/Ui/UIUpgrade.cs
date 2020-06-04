@@ -50,7 +50,7 @@ public class UIUpgrade : MonoBehaviour
         {
             if (text != null) text.gameObject.SetActive(true);
             particleEffectUpgrade.Play();
-            particleEffectUpgradeCursor.Play();
+            //particleEffectUpgradeCursor.Play();
             currPurcentageAnim = 0;
             doAnimText = true;
             canTpFx = true;
