@@ -550,6 +550,7 @@ public class Main : MonoBehaviour
             if (lastChanceButton.allButtons != null && choiceMade == -1)
             {
                 bool aButtonIsMouseOvered = false;
+                bool malusButtonMouseOvered = false;
                 foreach (lastChanceButton button in lastChanceButton.allButtons)
                 {
                     if (button != null && button.enabled)
@@ -562,6 +563,7 @@ public class Main : MonoBehaviour
                             buttonMouseOver = button;
                             aButtonIsMouseOvered = true;
                             button.AnimateIfMouseOver();
+                            if (button.ButtonType == lastChanceButton.typeOfButton.beg) malusButtonMouseOvered = true;
                         }
                         else
                         {
@@ -582,6 +584,8 @@ public class Main : MonoBehaviour
                     }
                 }
                 if (!aButtonIsMouseOvered) buttonMouseOver = null;
+                if (malusButtonMouseOvered) EndGameChoice.Instance.MalusButtonMouseOvered();
+                else EndGameChoice.Instance.MalusButtonNotMouseOvered();
             }
 
             if (timeRemainingBeforeGameOver > 0)
@@ -879,7 +883,7 @@ public class Main : MonoBehaviour
             float trueChance = GetCurrentChacesOfSurvival();
             if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
             Debug.Log(PublicManager.Instance.GetNbViewers() + " / " + difficultyData.malusScoreAtChoosedRevive);
-            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()), Mathf.RoundToInt(trueChance));
+            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()), Mathf.RoundToInt(trueChance), PublicManager.Instance.GetNbViewers());
         }
         else
         {

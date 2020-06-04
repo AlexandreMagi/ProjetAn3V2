@@ -91,6 +91,9 @@ public class MenuMain : MonoBehaviour
     void Update()
     {
 
+        if (isArduinoMode && Input.GetKeyDown(KeyCode.Mouse0)) isArduinoMode = false;
+        if (!isArduinoMode && (arduinoTransmettor && arduinoTransmettor.isShotUp)) isArduinoMode = true;
+
         if (Input.GetKeyDown(KeyCode.A)) isArduinoMode = !isArduinoMode;
 
         if (arduinoTransmettor == null)

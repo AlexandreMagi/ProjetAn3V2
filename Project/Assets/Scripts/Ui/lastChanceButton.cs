@@ -6,7 +6,7 @@ using UnityEngine;
 public class lastChanceButton : MonoBehaviour
 {
     RectTransform rect = null;
-    enum typeOfButton { beg, vote};
+    public enum typeOfButton { beg, vote};
     [SerializeField]
     typeOfButton buttonType = typeOfButton.beg;
 
@@ -80,6 +80,8 @@ public class lastChanceButton : MonoBehaviour
             anmtrButton.SetTrigger("NotValidated");
         }
     }
+
+    public typeOfButton ButtonType { get { return buttonType; } } 
 
     public bool CheckIfMouseOver()
     {
