@@ -84,7 +84,6 @@ public class CrosshairInstance
                 + sizeAffectedByHit)            // Taille ajouté par les Hit
                 * sizeMultiplierByOverlap;      // Multiplier de l'overlap
 
-
         color = triggerNoBullet ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
         outlineColor = triggerNoBullet ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur
         
