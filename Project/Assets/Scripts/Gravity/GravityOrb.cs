@@ -260,7 +260,7 @@ public class GravityOrb : MonoBehaviour
                 {
                     if (hVictim == null)
                     {
-                        collidersToAttract.Remove(hVictim);
+                        //collidersToAttract.Remove(hVictim);
                         continue;
                     }
                     else
