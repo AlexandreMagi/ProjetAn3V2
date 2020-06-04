@@ -78,9 +78,13 @@ public class MenuMain : MonoBehaviour
             instance.go.SetActive(false);
             allBulletHole.Add(instance);
         }
-        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+        Invoke("UpdateArduino", 1);
     }
 
+    public void UpdateArduino()
+    {
+        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+    }
 
 
     // Update is called once per frame

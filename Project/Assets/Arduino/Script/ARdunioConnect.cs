@@ -37,7 +37,7 @@ public class ARdunioConnect : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public bool ArduinoIsConnected { get { return portName != "NO CONNECT"; } }
+    public bool ArduinoIsConnected { get { Debug.Log(portName); return portName != "NO CONNECT"; } }
 
     public static string AutodetectArduinoPort(string deviceNameContains = "Arduino", bool debug = false)
     {

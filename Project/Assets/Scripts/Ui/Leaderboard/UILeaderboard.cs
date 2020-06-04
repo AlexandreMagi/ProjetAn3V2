@@ -287,6 +287,8 @@ public class UILeaderboard : MonoBehaviour
         playerData.name = name;
         playerData.title = title;
 
+
+
         // --- Instance des single scores
         nbSingleScoreDisplayed = LeaderboardManager.Instance.maxKeptScores + 1;
         singleScoreAcces = new LeaderboardSingleScoreAccesseur[nbSingleScoreDisplayed];
@@ -320,6 +322,8 @@ public class UILeaderboard : MonoBehaviour
         timerBeforeDesactivateLastScreenAnimator = timeBeforeDesactivateLastScreenAnimator;
 
         canChangeScene = true;
+
+        LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
     }
 
     // Trie le tableau de rang dans l'ordre croissant (le premier rang sera donc au début)

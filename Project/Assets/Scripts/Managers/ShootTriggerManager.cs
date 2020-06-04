@@ -193,6 +193,7 @@ public class ShootTriggerManager : MonoBehaviour
             //LeaderboardManager.Instance.SubmitScoreToLeaderboard("GAM", PublicManager.Instance.GetNbViewers(), "default title in shoot trigger maanger");
             //MetricsGestionnary.Instance.SaveMetrics();
 
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.GameFinished);
             Main.Instance.InitLeaderboard();
 
             //SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);

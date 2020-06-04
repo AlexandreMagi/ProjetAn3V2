@@ -14,6 +14,11 @@ public class UIUpgrade : MonoBehaviour
     bool doAnimText = false; // Dis si il faut jouer l'animation
     float currPurcentageAnim = 1; // Pourcentage actuel de l'animation
 
+
+    [SerializeField, Tooltip("Effet de particule UI à jouer sur curseur")] UIParticuleSystem particleEffectUpgradeCursor = null;
+    [SerializeField] Canvas cvs = null;
+    bool canTpFx = false;
+
     void Update()
     {
         // --- Animation du texte
@@ -25,6 +30,15 @@ public class UIUpgrade : MonoBehaviour
         }
         else
             text.localScale = Vector3.zero;
+
+
+        if (particleEffectUpgradeCursor != null && canTpFx)
+        {
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Main.Instance.GetCursorPos(), cvs.worldCamera, out pos);
+            particleEffectUpgradeCursor.transform.position = transform.TransformPoint(pos);
+        }
+        if (Time.frameCount % Mathf.CeilToInt(1 / (Time.deltaTime != 0 ? Time.deltaTime : 0.01f) / 15) == 0 && !particleEffectUpgradeCursor.isPlaying) canTpFx = false;
     }
 
     /// <summary>
@@ -32,12 +46,14 @@ public class UIUpgrade : MonoBehaviour
     /// </summary>
     public void PlayerGetAnUpgrade()
     {
-        if (particleEffectUpgrade != null)
+        if (particleEffectUpgrade != null && particleEffectUpgradeCursor != null)
         {
             if (text != null) text.gameObject.SetActive(true);
             particleEffectUpgrade.Play();
+            particleEffectUpgradeCursor.Play();
             currPurcentageAnim = 0;
             doAnimText = true;
+            canTpFx = true;
         }
         else
             Debug.Log("NO PARTICLE SYSTEM IN UI UPGRADE");

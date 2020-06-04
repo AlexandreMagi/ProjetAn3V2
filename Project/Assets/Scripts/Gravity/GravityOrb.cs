@@ -147,7 +147,7 @@ public class GravityOrb : MonoBehaviour
 
         foreach(Collider col in collidersToAttract)
         {
-            if(col.GetComponent<Shooter>() != null)
+            if(col != null && col.GetComponent<Shooter>() != null)
             {
                 col.GetComponent<Shooter>().OnRelease();
             }
