@@ -82,9 +82,9 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         //Nothing happens on hold
     }
 
-    public void OnPull(Vector3 origin, float force)
+    public void OnPull(Vector3 origin, float force, bool isReppelForce = false, Vector3? normalReppel = null)
     {
-        ReactGravity<DataProp>.DoPull(rb, origin, force, isAirbone);
+        ReactGravity<DataProp>.DoPull(rb, origin, force, isAirbone, isReppelForce, normalReppel);
         isAffectedByGravity = true;
     }
 

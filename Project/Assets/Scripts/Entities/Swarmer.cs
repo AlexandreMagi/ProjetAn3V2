@@ -140,7 +140,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
-    public void OnPull(Vector3 position, float force)
+    public void OnPull(Vector3 position, float force, bool isReppelForce = false, Vector3? normalOfReppel = null)
     {
         if (!ignoresAllGravityAffects)
         {
@@ -153,7 +153,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             currentState = SwarmerState.GravityControlled;
 
-            ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir);
+            ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir, isReppelForce, normalOfReppel);
             if (!hasPlayedFxOnPull)
             {
                 hasPlayedFxOnPull = true;
