@@ -21,19 +21,51 @@ public static class ReactGravity<T> where T : DataEntity
 
 
     //Pulling mechanic
-    public static void DoPull(Rigidbody rb, Vector3 pullOrigin, float pullForce, bool isAirbone)
+    public static void DoPull(Rigidbody rb, Vector3 pullOrigin, float pullForce, bool isAirbone, bool isReppelForce = false, Vector3? normalRepel = null)
     { 
         //DoUnfreeze(rb);
         if(rb != null)
         {
             Vector3 v3DirectionToGo = (pullOrigin - rb.transform.position).normalized;
+
+            //Normalisation de la trajectoire
+            if (isReppelForce)
+            {
+                
+                if(normalRepel == null)
+                {
+                    normalRepel = Vector3.up;
+                }
+
+                Vector3 trueNormal = (Vector3)normalRepel;
+
+                v3DirectionToGo = new Vector3(Random.Range(-1f, 1f), Random.Range(.2f, .8f), Random.Range(-1f, 1f));
+
+                //Projection du vecteur sur la normale différente
+                Vector3 differentialVector = v3DirectionToGo - Vector3.up;
+
+                v3DirectionToGo = trueNormal + differentialVector;
+
+                //Sécurité pour éviter d'envoyer les swarmers trop proches du player
+                Vector3 playerPosition = CameraHandler.Instance.renderingCam.transform.position;
+
+                if(Vector2.Angle(new Vector2(v3DirectionToGo.x, v3DirectionToGo.z), new Vector2(playerPosition.x, playerPosition.z)) < 30)
+                {
+                    v3DirectionToGo = new Vector3(-v3DirectionToGo.x, v3DirectionToGo.y, -v3DirectionToGo.z);
+                }
+
+                Debug.Log($"Nom : {rb.gameObject.name} -- Direction {v3DirectionToGo} -- Normal {trueNormal}");
+
+                //v3DirectionToGo = new Vector3(v3DirectionToGo.x * 1.2f, v3DirectionToGo.y * .8f, v3DirectionToGo.z * 1.2f).normalized;
+            }
+
             //float deltaY = Mathf.Abs(rb.transform.position.y - pullOrigin.y);
 
             float fDistance = Vector3.Distance(pullOrigin, rb.transform.position);
 
             //Debug.Log($"Pullorigin : {pullOrigin} -- Pullforce = {pullForce} -- isAirbone = {isAirbone} -- Direction calculated : {v3DirectionToGo}");
 
-            Debug.DrawRay(rb.transform.position, v3DirectionToGo, Color.green);
+            //Debug.DrawRay(rb.transform.position, v3DirectionToGo, Color.green);
 
             //Debug.Break();
 

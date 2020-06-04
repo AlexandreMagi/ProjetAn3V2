@@ -62,7 +62,7 @@ public class Shielder : Enemy<DataShielder>, IGravityAffect
         
     }
 
-    public void OnPull(Vector3 position, float force)
+    public void OnPull(Vector3 position, float force, bool isReppelForce = false, Vector3? normalReppel = null)
     {
         
     }
