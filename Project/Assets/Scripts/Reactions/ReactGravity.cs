@@ -44,7 +44,7 @@ public static class ReactGravity<T> where T : DataEntity
                 //Projection du vecteur sur la normale différente
                 Vector3 differentialVector = v3DirectionToGo - Vector3.up;
 
-                v3DirectionToGo = trueNormal + differentialVector;
+                v3DirectionToGo = (trueNormal + differentialVector).normalized;
 
                 //Sécurité pour éviter d'envoyer les swarmers trop proches du player
                 Vector3 playerPosition = CameraHandler.Instance.renderingCam.transform.position;
