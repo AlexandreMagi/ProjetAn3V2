@@ -45,6 +45,9 @@ public class UIOrb : MonoBehaviour
     [SerializeField] Color[] shaderLockColor = null;
     [SerializeField] Color[] shaderUnlockColor = null;
 
+    [SerializeField] UIParticuleSystem particleEffectOnCursor = null;
+    [SerializeField] Canvas cvs = null;
+
     // Update is called once per frame
     void Update()
     {
@@ -96,11 +99,21 @@ public class UIOrb : MonoBehaviour
             shaderimages[i].material.SetColor("_Color", currVal < 1 ? shaderLockColor[i] : shaderUnlockColor[i]);
         }
 
+        if (particleEffectOnCursor != null && cvs != null)
+        {
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Main.Instance.GetCursorPos(), cvs.worldCamera, out pos);
+            particleEffectOnCursor.transform.position = transform.TransformPoint(pos);
+        }
     }
 
     public void OrbCooldownUp()
     {
-        if (unlockedFx != null) unlockedFx.Play();
+        if (unlockedFx != null)
+        {
+            unlockedFx.Play();
+            particleEffectOnCursor.Play();
+        }
     }
 
     public void ActivateOrb()
@@ -109,7 +122,11 @@ public class UIOrb : MonoBehaviour
         {
             animObtained = 0;
             firstTime = false;
-            if (unlockedFx != null) unlockedFx.Play();
+            if (unlockedFx != null)
+            {
+                unlockedFx.Play();
+                particleEffectOnCursor.Play();
+            }
         }
     }
 
