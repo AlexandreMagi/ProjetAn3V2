@@ -53,6 +53,8 @@ public class DataGravityOrb : ScriptableObject
     public float zeroGCamShake;
     [ShowIf("isExplosive")]
     public float zeroGCamShakeTime;
+    [ShowIf("isExplosive")]
+    public float timeSafeInputBeforeCanReactivate = 0.5f;
 
     [PropertyRange(0f, 3f), ShowIf("isFloatExplosion")]
     public float timeBeforeFloatActivate = 0f;

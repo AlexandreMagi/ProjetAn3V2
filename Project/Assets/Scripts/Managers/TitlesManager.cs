@@ -163,6 +163,9 @@ public class TitlesManager : MonoBehaviour
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().numberOfEnvKills, mI.dataTitles.numberOfEnviroKillsForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Environmentalist);
 
                         break;
+                    case 17:
+                        Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
+                        break;
                 }
 
             }

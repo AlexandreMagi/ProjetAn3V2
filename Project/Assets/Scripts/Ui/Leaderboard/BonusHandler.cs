@@ -174,7 +174,8 @@ public class BonusHandler : MonoBehaviour
         allowToNext = false;
         for (int i = 0; i < Main.Instance.AllEndGameBonus.Count; i++)
         {
-            UILeaderboard.Instance.addScore(Main.Instance.AllEndGameBonus[i].addedScore);
+            if (Main.Instance.AllEndGameBonus[i].currValue >= Main.Instance.AllEndGameBonus[i].maxValue)
+                UILeaderboard.Instance.addScore(Main.Instance.AllEndGameBonus[i].addedScore);
         }
         //currScoreDisplayed = UILeaderboard.Instance.Score;
         Debug.Log("Fluidifier changement score");

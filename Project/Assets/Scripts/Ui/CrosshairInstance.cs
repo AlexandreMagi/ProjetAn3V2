@@ -61,7 +61,7 @@ public class CrosshairInstance
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
 
-        if (Weapon.Instance != null && Weapon.Instance.crosshairOnEnemy)
+        if (Weapon.Instance != null && Weapon.Instance.crosshairOnEnemy && Main.Instance != null && !Main.Instance.playerInLeaderboard)
             crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 1, dt * data.overlapLerpSpeed);
         else
             crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 0, dt * data.overlapLerpSpeed);
