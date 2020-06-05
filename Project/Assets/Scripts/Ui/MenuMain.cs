@@ -63,6 +63,12 @@ public class MenuMain : MonoBehaviour
 
     [SerializeField] HighQualityButton qualityButton = null;
 
+    [HideInInspector] bool InLeaderboardScreen = false;
+    [SerializeField] GameObject leaderboardScreen = null;
+    [SerializeField] LeaderboardAndCredits leaderboardAndCreditsHandler = null;
+    bool neverBeenInLeaderboard = true;
+
+    [SerializeField] LeaderboardCreditsButton leaderboardAndCreditMenuButton = null;
     private void Start()
     {
         Time.timeScale = 1;
@@ -108,6 +114,11 @@ public class MenuMain : MonoBehaviour
         {
             timeRemainingBeforeChargeScene -= Time.unscaledDeltaTime;
             if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene(sceneNameGoTo); }
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            ButtonLeaderboardCredits();
         }
 
 
@@ -202,6 +213,15 @@ public class MenuMain : MonoBehaviour
 
     }
 
+    public void ButtonLeaderboardCredits()
+    {
+        if (neverBeenInLeaderboard) leaderboardAndCreditsHandler.InitTab();
+        neverBeenInLeaderboard = false;
+        InLeaderboardScreen = !InLeaderboardScreen;
+        leaderboardScreen.SetActive(InLeaderboardScreen);
+        if (InLeaderboardScreen) leaderboardAndCreditsHandler.InitGraph();
+
+    }
 
     public void GoBackToMenu()
     {
@@ -281,6 +301,7 @@ public class MenuMain : MonoBehaviour
             {
                 if (timerGoBack < checkInputEvery)
                 {
+                    if (InLeaderboardScreen) ButtonLeaderboardCredits();
                     currentState = menustate.home;
                     timeRemainingBeforeRestart = TimeBeforeGoRestart;
                     GetComponent<Animator>().SetTrigger("GoHome");
@@ -351,9 +372,13 @@ public class MenuMain : MonoBehaviour
 
     void Click(Vector2 mousePosition)
     {
-        foreach (var button in buttonMenuScripts)
+        bool leaderboardButtonClicked = leaderboardAndCreditMenuButton.Click();
+        if (!InLeaderboardScreen && !leaderboardButtonClicked)
         {
-            button.Click(mousePosition);
+            foreach (var button in buttonMenuScripts)
+            {
+                button.Click(mousePosition);
+            }
         }
     }
 
