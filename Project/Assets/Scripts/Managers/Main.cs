@@ -377,16 +377,20 @@ public class Main : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (CheatDisplayHandler.Instance != null) CheatDisplayHandler.Instance.ChangeCheatDisplay();
+        }
 
         if (Input.GetKeyDown(KeyCode.O))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             playerCanOrb = !playerCanOrb;
         }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
+        //}
         if (Input.GetKeyDown(KeyCode.M))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);

@@ -108,6 +108,7 @@ public class MetricsGestionnary : MonoBehaviour
 
                 case MetricsEventType.UsedCheatCode:
                     TitlesManager.Instance.ChangeTitleState(10, true); //"Tech Wizard"
+                    if (CheatDisplayHandler.Instance != null) CheatDisplayHandler.Instance.HasCheated();
                     break;
 
                 case MetricsEventType.UsedShotgun:
