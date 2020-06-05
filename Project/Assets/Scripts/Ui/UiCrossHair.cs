@@ -97,9 +97,18 @@ public class UiCrossHair : MonoBehaviour
             UiHitMarker.sizeDelta = Vector2.zero;
         }
 
-        if (unlockAllAtStart) Invoke("UnlockAllCrosshair", 0.2f);
-        else Invoke("UpdateCursorUnlocks", 0.2f);
+        StartCoroutine(doUnlock());
 
+    }
+
+    IEnumerator doUnlock()
+    {
+        yield return new WaitForSecondsRealtime(.2f);
+
+        if (unlockAllAtStart) UpdateCursorUnlocks();
+        else UpdateCursorUnlocks();
+
+        yield break;
     }
 
     public void UpdateCrossHair(Vector2 mousePosition)
