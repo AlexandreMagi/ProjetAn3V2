@@ -20,6 +20,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
     public void SetGod()
     {
         this.godMode = !this.godMode;
+        if (CheatDisplayHandler.Instance != null) CheatDisplayHandler.Instance.GodMod(godMode);
     }
 
     public void SetLifeTo(int life)
