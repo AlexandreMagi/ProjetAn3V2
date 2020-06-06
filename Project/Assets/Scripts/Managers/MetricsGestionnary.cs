@@ -187,9 +187,6 @@ public class MetricsGestionnary : MonoBehaviour
         }
 
         currentMetrics.aimReload = (currentMetrics.numberOfPerfectReloads != 0 && currentMetrics.numberOfReloadsWithPerfect != 0) ? Mathf.RoundToInt((float)currentMetrics.numberOfPerfectReloads / (float)currentMetrics.numberOfReloadsWithPerfect * 100) : 0;
-        Debug.Log(currentMetrics.numberOfReloadsWithPerfect + " Reloads");
-        Debug.Log(currentMetrics.numberOfPerfectReloads + " Perfect Reloads");
-        Debug.Log(currentMetrics.aimReload + "% Of Perfect Reload");
         if(currentMetrics.aimReload > dataTitles.percentPerfectReloadForTitle)
         {
             TitlesManager.Instance.ChangeTitleState(16, true); //Perfect reloads
