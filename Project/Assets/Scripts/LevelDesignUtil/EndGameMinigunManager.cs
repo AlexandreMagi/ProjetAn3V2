@@ -36,6 +36,8 @@ public class EndGameMinigunManager : MonoBehaviour
     [ShowIf("overrideFogColor"), SerializeField] Color fogColorAimed = Color.white;
     [SerializeField] float fogColorTimeTransition = 1;
 
+    [SerializeField] ParticleSystem exploFinal = null;
+
     [SerializeField] ManualSpawnerCutter spawnerCutter = null;
 
     void Start()
@@ -60,6 +62,10 @@ public class EndGameMinigunManager : MonoBehaviour
                 {
                     exploded = true;
                     Main.Instance.ExplosionFromPlayer(explosionRadius, explosionForce, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
+                    TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor, fogColorAimed, fogColorTimeTransition);
+                    if (exploFinal != null)
+                        exploFinal.Play();
+                        
                     TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor ,fogColorAimed, fogColorTimeTransition);
                     if (spawnerCutter != null) spawnerCutter.cutSpawners();
                     Main.Instance.SetupWaitScreenOn();
