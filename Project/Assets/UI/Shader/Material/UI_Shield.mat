@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: UI_Shield
   m_Shader: {fileID: 4800000, guid: e4484987196614b4a9824ab071971b68, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _USESINTIME_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -68,12 +68,14 @@ Material:
     - _ColorMask: 1
     - _Distortionamount: 0.606
     - _Float1: 0.9
-    - _Mask: 0.93333334
+    - _Inverseflowdirection: 0
+    - _Mask: 0
     - _Stencil: 1
     - _StencilComp: 1
     - _StencilOp: 1
     - _StencilReadMask: 1
     - _StencilWriteMask: 1
+    - _Usesintime: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0.78431374}
     - _Color0: {r: 0.8684908, g: 1, b: 0, a: 1}
