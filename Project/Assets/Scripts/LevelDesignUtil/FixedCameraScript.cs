@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class FixedCameraScript : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class FixedCameraScript : MonoBehaviour
 
     bool hitByBulletBool = false;
 
+    [SerializeField]
+    bool canNextSequence = false;
+
+    [SerializeField, ShowIf("canNextSequence")]
+    float timeBeforeNextSequence = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -82,6 +88,9 @@ public class FixedCameraScript : MonoBehaviour
 
             }
 
+            if (canNextSequence)
+                StartCoroutine(NextSequence());
+
             if (mats != null)
                 mats[1].SetFloat("_RevealLightEnabled", 0);
 
@@ -94,6 +103,16 @@ public class FixedCameraScript : MonoBehaviour
             this.enabled = false;
         }
         
+    }
+
+    IEnumerator NextSequence()
+    {
+
+        yield return new WaitForSeconds(timeBeforeNextSequence);
+
+        SequenceHandler.Instance.NextSequence();
+
+        yield break;
     }
 
 
@@ -113,5 +132,6 @@ public class FixedCameraScript : MonoBehaviour
                 cameraDummy.rotation = Quaternion.Slerp(currentRot, newRot, Time.deltaTime * camSpeed);
             }
         }
+
     }
 }

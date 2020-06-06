@@ -10,6 +10,6 @@ public class SoundForCameraAnimations : MonoBehaviour
     }
     public void PlayEffortSound()
     {
-        CustomSoundManager.Instance.PlaySound("SE_WallJump", "Player", transform, 1, false, 1, 0.2f);
+        CustomSoundManager.Instance.PlaySound("SE_WallJump", "Player", transform, 2, false, 1, 0.2f);
     }
 }
