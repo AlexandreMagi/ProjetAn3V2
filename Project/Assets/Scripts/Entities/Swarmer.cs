@@ -959,6 +959,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
+
     public float GetDamage()
    {
         return entityData.damage;

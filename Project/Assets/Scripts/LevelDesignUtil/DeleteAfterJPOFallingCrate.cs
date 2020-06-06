@@ -25,6 +25,14 @@ public class DeleteAfterJPOFallingCrate : MonoBehaviour
         {
             rb.isKinematic = false;
             safe = true;
+            AudioSource keskitombSon = CustomSoundManager.Instance.PlaySound("SE_Snap_Cable", "Effect", 1.3f);
+            if (keskitombSon != null)
+            {
+                keskitombSon.spatialBlend = 1;
+                keskitombSon.minDistance = 8;
+                keskitombSon.transform.position = transform.position;
+
+            }
         }
     }
 }
