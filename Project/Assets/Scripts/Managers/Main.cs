@@ -647,6 +647,7 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        Weapon.Instance.SetMinigun(false);
         SetupWaitScreenOn(true);
         TimeScaleManager.Instance.AddStopTime(5000);
         mainMixer.SetFloat("GameVolume", -80);
