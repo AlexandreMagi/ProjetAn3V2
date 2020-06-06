@@ -35,12 +35,12 @@ public class AscenceurSoundHandler : MonoBehaviour
     public void PitchUp()
     {
         aimedPitch = 1f;
-        timeToTransition = .3f;
+        timeToTransition = 1;
     }
 
     public void PitchDown()
     {
         aimedPitch = 0.5f;
-        timeToTransition = .3f;
+        timeToTransition = 1;
     }
 }
