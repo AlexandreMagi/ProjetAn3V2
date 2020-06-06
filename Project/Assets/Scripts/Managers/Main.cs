@@ -316,6 +316,7 @@ public class Main : MonoBehaviour
             Player.Instance.SetLifeTo(1);
             Player.Instance.GainArmor(-9999);
             Player.Instance.TakeDamage(1);
+            CustomSoundManager.Instance.PlaySound("SE_Trap_Death", "UI", 2);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
