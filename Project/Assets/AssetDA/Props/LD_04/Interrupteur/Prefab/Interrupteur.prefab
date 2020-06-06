@@ -68,9 +68,12 @@ MonoBehaviour:
   pivotFracturedExplosion: {fileID: 0}
   fracturedForceOnDie: 100
   useMeshRenderer: 1
-  mshrenderer: []
-  useParticles: 0
-  particles: []
+  mshrenderer:
+  - {fileID: 4321450791012378849}
+  useParticles: 1
+  particles:
+  - {fileID: 4636253939531286057}
+  - {fileID: 7455952777919938179}
 --- !u!1 &3690458294964469473
 GameObject:
   m_ObjectHideFlags: 0
@@ -5623,6 +5626,12 @@ PrefabInstance:
 --- !u!4 &1383720752279178817 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4947590350485795578, guid: b308b2d2e47941d48bc8b79fc59611a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6312544215154097339}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7455952777919938179 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3522505440077660728, guid: b308b2d2e47941d48bc8b79fc59611a0,
     type: 3}
   m_PrefabInstance: {fileID: 6312544215154097339}
   m_PrefabAsset: {fileID: 0}
