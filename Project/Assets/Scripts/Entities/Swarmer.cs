@@ -78,8 +78,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     ParticleSystem currentPullParticles = null;
     bool hasPlayedFxOnPull = false;
 
-    [SerializeField]
-    bool ignoresAllGravityAffects = false;
+    
+    public bool ignoresAllGravityAffects = false;
 
     //Death variables
     bool isDying = false;

@@ -68,6 +68,11 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Parenting), SerializeField]
     Transform _parent = null;
 
+    [ShowIf("typeTrigger", TriggerType.ChangeSwarmerGravity), SerializeField]
+    Swarmer[] swarmerAffectedByGravityChange = null;
+    [ShowIf("typeTrigger", TriggerType.ChangeSwarmerGravity), SerializeField]
+    bool mustIgnoreGravity = false;
+
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     bool isStopShake = false;
@@ -324,6 +329,9 @@ public class TriggerSender : MonoBehaviour
             case TriggerType.Parenting:
                 TriggerUtil.TriggerParenting(timeBeforeStart, _child, _parent);
                 break;
+            case TriggerType.ChangeSwarmerGravity:
+                TriggerUtil.TriggerChangeSwarmerGravity(timeBeforeStart, swarmerAffectedByGravityChange, mustIgnoreGravity);
+                break;
             default:
                 break;
         }
@@ -374,7 +382,8 @@ public class TriggerSender : MonoBehaviour
         Fog = 22,
         GameEnder = 23,
         InstantKill = 24,
-        Parenting = 25
+        Parenting = 25,
+        ChangeSwarmerGravity = 26
     }
 
     public enum Activable

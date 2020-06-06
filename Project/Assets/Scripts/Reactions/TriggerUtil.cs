@@ -585,6 +585,22 @@ public static class TriggerUtil
         yield break;
     }
 
+    // Parenting
+    public static void TriggerChangeSwarmerGravity(float timeBeforeStart, Swarmer[] swarmers, bool ignoreGravity)
+    {
+        Main.Instance.StartCoroutine(TriggerChangeSwarmerGravityCoroutine(timeBeforeStart, swarmers, ignoreGravity));
+    }
+
+    static IEnumerator TriggerChangeSwarmerGravityCoroutine(float timeBeforeStart, Swarmer[] swarmers, bool ignoreGravity)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        for (int i = 0; i < swarmers.Length; i++)
+        {
+            if (swarmers[i] != null) swarmers[i].ignoresAllGravityAffects = ignoreGravity;
+        }
+        yield break;
+    }
+
     //End of game
     public static void TriggerEndOfGame(float timeBeforeStart)
     {
