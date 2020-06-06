@@ -68,6 +68,11 @@ public class TriggerSender : MonoBehaviour
     [ShowIf("typeTrigger", TriggerType.Parenting), SerializeField]
     Transform _parent = null;
 
+    [ShowIf("typeTrigger", TriggerType.ChangeSwarmerGravity), SerializeField]
+    Swarmer[] swarmerAffectedByGravityChange = null;
+    [ShowIf("typeTrigger", TriggerType.ChangeSwarmerGravity), SerializeField]
+    bool mustIgnoreGravity = false;
+
 
     [ShowIf("typeTrigger", TriggerType.Shake), SerializeField]
     bool isStopShake = false;
@@ -182,6 +187,12 @@ public class TriggerSender : MonoBehaviour
     float fogEndValueAimed = 0;
     [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
     float fogTimeTransition = 1;
+    [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
+    bool overrideFogColor = false;
+    [ShowIf("typeTrigger", TriggerType.Fog), ShowIf("overrideFogColor"), SerializeField]
+    Color fogColorAimed = Color.white;
+    [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
+    float fogColorTimeTransition = 1;
 
     [Header("Swarmer activation")]
     [SerializeField]
@@ -313,7 +324,7 @@ public class TriggerSender : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case TriggerType.Fog:
-                TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition);
+                TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition, overrideFogColor, fogColorAimed, fogColorTimeTransition);
                 break;
             case TriggerType.GameEnder:
                 TriggerUtil.TriggerEndOfGame(timeBeforeStart);
@@ -323,6 +334,9 @@ public class TriggerSender : MonoBehaviour
                 break;
             case TriggerType.Parenting:
                 TriggerUtil.TriggerParenting(timeBeforeStart, _child, _parent);
+                break;
+            case TriggerType.ChangeSwarmerGravity:
+                TriggerUtil.TriggerChangeSwarmerGravity(timeBeforeStart, swarmerAffectedByGravityChange, mustIgnoreGravity);
                 break;
             default:
                 break;
@@ -374,7 +388,8 @@ public class TriggerSender : MonoBehaviour
         Fog = 22,
         GameEnder = 23,
         InstantKill = 24,
-        Parenting = 25
+        Parenting = 25,
+        ChangeSwarmerGravity = 26
     }
 
     public enum Activable
