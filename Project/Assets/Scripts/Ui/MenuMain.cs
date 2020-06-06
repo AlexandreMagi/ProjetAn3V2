@@ -65,8 +65,12 @@ public class MenuMain : MonoBehaviour
 
     [HideInInspector] bool InLeaderboardScreen = false;
     [SerializeField] GameObject leaderboardScreen = null;
+    [SerializeField] CanvasGroup leaderboardScreenCanvasGroup = null;
+    [SerializeField] CanvasGroup leaderboardButtonGoToCanvasGroup = null;
+    [SerializeField] CanvasGroup leaderboardButtonGoBackCanvasGroup = null;
     [SerializeField] LeaderboardAndCredits leaderboardAndCreditsHandler = null;
     bool neverBeenInLeaderboard = true;
+    bool inLeaderboardTransition = false;
 
     [SerializeField] LeaderboardCreditsButton leaderboardAndCreditMenuButton = null;
     private void Start()
@@ -116,7 +120,7 @@ public class MenuMain : MonoBehaviour
             if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene(sceneNameGoTo); }
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && !inLeaderboardTransition)
         {
             ButtonLeaderboardCredits();
         }
@@ -131,10 +135,6 @@ public class MenuMain : MonoBehaviour
             HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
         }
         
-        if (qualityButton != null && CheckIfShoot())
-        {
-            qualityButton.Click();
-        }
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -218,9 +218,38 @@ public class MenuMain : MonoBehaviour
         if (neverBeenInLeaderboard) leaderboardAndCreditsHandler.InitTab();
         neverBeenInLeaderboard = false;
         InLeaderboardScreen = !InLeaderboardScreen;
-        leaderboardScreen.SetActive(InLeaderboardScreen);
+        //leaderboardScreen.SetActive(InLeaderboardScreen);
+        StartCoroutine(leaderboardScreenAnim(InLeaderboardScreen, .3f));
         if (InLeaderboardScreen) leaderboardAndCreditsHandler.InitGraph();
 
+    }
+
+    IEnumerator leaderboardScreenAnim (bool pop, float timeTransition)
+    {
+        inLeaderboardTransition = true;
+        if (pop) leaderboardScreen.SetActive(true);
+        float completion = 0;
+        if (timeTransition > 0)
+        {
+            while (completion < 1)
+            {
+                completion += Time.unscaledDeltaTime / timeTransition;
+                completion = Mathf.Clamp01(completion);
+                leaderboardScreenCanvasGroup.alpha = pop ? completion : (1 - completion);
+                leaderboardButtonGoToCanvasGroup.alpha = pop ? (1 - completion) : completion;
+                leaderboardButtonGoBackCanvasGroup.alpha = pop ? completion : (1 - completion);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
+            leaderboardScreenCanvasGroup.alpha = pop ? 1 : 0;
+            leaderboardButtonGoToCanvasGroup.alpha = pop ? 0 : 1;
+            leaderboardButtonGoBackCanvasGroup.alpha = pop ? 1 : 0;
+        }
+        if (!pop) leaderboardScreen.SetActive(false);
+        inLeaderboardTransition = false;
+        yield break;
     }
 
     public void GoBackToMenu()
@@ -286,6 +315,9 @@ public class MenuMain : MonoBehaviour
     void CheckIfGoBacToMenu()
     {
         Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+
+        if (CheckIfShoot() && currentState == menustate.mainmenu) timerGoBack = timeBeforeGoBackToStart;
+
         timerCheckInput -= Time.unscaledDeltaTime;
         if (timerCheckInput < 0)
         {
@@ -372,12 +404,17 @@ public class MenuMain : MonoBehaviour
 
     void Click(Vector2 mousePosition)
     {
-        bool leaderboardButtonClicked = leaderboardAndCreditMenuButton.Click();
+        bool leaderboardButtonClicked = false;
+        if (!inLeaderboardTransition) leaderboardButtonClicked = leaderboardAndCreditMenuButton.Click();
         if (!InLeaderboardScreen && !leaderboardButtonClicked)
         {
             foreach (var button in buttonMenuScripts)
             {
                 button.Click(mousePosition);
+            }
+            if (qualityButton != null)
+            {
+                qualityButton.Click();
             }
         }
     }

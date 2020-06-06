@@ -157,6 +157,10 @@ public class MetricsGestionnary : MonoBehaviour
                 case MetricsEventType.GameFinished:
                     TitlesManager.Instance.ChangeTitleState(17, true); //"Game finished"
                     break;
+
+                case MetricsEventType.ReloadWithPerfectActivated:
+                    currentMetrics.numberOfReloadsWithPerfect++;
+                    break;
             }
         }
 
@@ -182,7 +186,10 @@ public class MetricsGestionnary : MonoBehaviour
             TitlesManager.Instance.ChangeTitleState(3, true); //Sniper
         }
 
-        currentMetrics.aimReload = (currentMetrics.numberOfPerfectReloads != 0) ? currentMetrics.numberOfReloads / currentMetrics.numberOfPerfectReloads * 100 : 0;
+        currentMetrics.aimReload = (currentMetrics.numberOfPerfectReloads != 0 && currentMetrics.numberOfReloadsWithPerfect != 0) ? Mathf.RoundToInt((float)currentMetrics.numberOfPerfectReloads / (float)currentMetrics.numberOfReloadsWithPerfect * 100) : 0;
+        Debug.Log(currentMetrics.numberOfReloadsWithPerfect + " Reloads");
+        Debug.Log(currentMetrics.numberOfPerfectReloads + " Perfect Reloads");
+        Debug.Log(currentMetrics.aimReload + "% Of Perfect Reload");
         if(currentMetrics.aimReload > dataTitles.percentPerfectReloadForTitle)
         {
             TitlesManager.Instance.ChangeTitleState(16, true); //Perfect reloads
@@ -265,7 +272,8 @@ public class MetricsGestionnary : MonoBehaviour
         SwarmerKill,
         ShooterKill,
         MissileKill,
-        GameFinished
+        GameFinished,
+        ReloadWithPerfectActivated,
     }
 }
 
@@ -283,6 +291,7 @@ public class Metrics
     public float numberOfInExtremisSwarmerKills = 0;
     public int numberOfPerfectReloads = 0;
     public int numberOfReloads = 0;
+    public int numberOfReloadsWithPerfect = 0;
     public int totalDamageTaken = 0;
     public bool playerHasBeenRaised = false;
     public bool shotgunUsed = false;

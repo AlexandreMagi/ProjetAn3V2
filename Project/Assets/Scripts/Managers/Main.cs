@@ -316,6 +316,7 @@ public class Main : MonoBehaviour
             Player.Instance.SetLifeTo(1);
             Player.Instance.GainArmor(-9999);
             Player.Instance.TakeDamage(1);
+            CustomSoundManager.Instance.PlaySound("SE_Trap_Death", "UI", 2);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -647,6 +648,7 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        Weapon.Instance.SetMinigun(false);
         SetupWaitScreenOn(true);
         TimeScaleManager.Instance.AddStopTime(5000);
         mainMixer.SetFloat("GameVolume", -80);

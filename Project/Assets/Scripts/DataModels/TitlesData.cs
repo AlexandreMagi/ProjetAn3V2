@@ -21,7 +21,7 @@ public class TitlesData : ScriptableObject
     public float damageTakenRequired = 2500;
 
     [Header("Perfect reloads")]
-    public float percentPerfectReloadForTitle = 60;
+    public float percentPerfectReloadForTitle = 50;
 
     [Header("Environmental kills")]
     public int numberOfEnviroKillsForTitle = 3;

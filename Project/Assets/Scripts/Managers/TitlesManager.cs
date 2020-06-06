@@ -137,7 +137,7 @@ public class TitlesManager : MonoBehaviour
                         break;
                     case 3:
                         //if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(float.IsNaN(mI.GetMetrics().aim) ? 0 : Mathf.RoundToInt(mI.GetMetrics().aim), 60, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Sniper, "%");
+                        Main.Instance.AddEndGameBonus(float.IsNaN(mI.GetMetrics().aim) ? 0 : Mathf.RoundToInt(mI.GetMetrics().aim), mI.dataTitles.aimRequiredForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Sniper, "%");
                         break;
                     case 4:
                         //if (title.isUnlocked)
@@ -161,6 +161,10 @@ public class TitlesManager : MonoBehaviour
                         break;
                     case 14:
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().numberOfEnvKills, mI.dataTitles.numberOfEnviroKillsForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Environmentalist);
+
+                        break;
+                    case 16:
+                        Main.Instance.AddEndGameBonus(mI.GetMetrics().aimReload, mI.dataTitles.percentPerfectReloadForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Sniper, "%");
 
                         break;
                     case 17:
