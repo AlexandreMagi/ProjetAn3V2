@@ -814,99 +814,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &131880427
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 131880431}
-  - component: {fileID: 131880430}
-  - component: {fileID: 131880429}
-  - component: {fileID: 131880428}
-  m_Layer: 0
-  m_Name: Cube (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &131880428
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131880427}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &131880429
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131880427}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &131880430
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131880427}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &131880431
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131880427}
-  m_LocalRotation: {x: -0, y: -0.70710737, z: -0, w: 0.7071063}
-  m_LocalPosition: {x: 4.03, y: 3.222, z: -11.74}
-  m_LocalScale: {x: 1, y: 1, z: 4.0549}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 44
-  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!1 &157992835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &252228773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1694,6 +1601,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 100
   fogTimeTransition: 1
+  overrideFogColor: 1
+  fogColorAimed: {r: 1, g: 0, b: 0, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -1931,6 +1841,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -2724,6 +2637,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -3150,99 +3066,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 493986908}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &501261439
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 501261443}
-  - component: {fileID: 501261442}
-  - component: {fileID: 501261441}
-  - component: {fileID: 501261440}
-  m_Layer: 0
-  m_Name: Cube
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &501261440
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501261439}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &501261441
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501261439}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &501261442
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501261439}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &501261443
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501261439}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.269, y: 3.63, z: -13.324}
-  m_LocalScale: {x: 1, y: 1, z: 4.0549}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 41
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543706054
 GameObject:
   m_ObjectHideFlags: 0
@@ -4371,7 +4194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &779319047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4509,7 +4332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &793520314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4592,6 +4415,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 1
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -5898,6 +5724,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -6028,6 +5857,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -6399,6 +6231,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -6562,6 +6397,9 @@ MonoBehaviour:
   fogDelay: 0.1
   fogValueAimed: 500
   fogTimeTransition: 0.1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   spawnerCutter: {fileID: 0}
 --- !u!1001 &1035144846
 PrefabInstance:
@@ -7383,6 +7221,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8724956490323836483, guid: e6da892da0007434e85be1ddaebd7cdd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8952355196356959604, guid: e6da892da0007434e85be1ddaebd7cdd,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -7806,6 +7649,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -9091,99 +8937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1351353173
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1351353177}
-  - component: {fileID: 1351353176}
-  - component: {fileID: 1351353175}
-  - component: {fileID: 1351353174}
-  m_Layer: 0
-  m_Name: Cube (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1351353174
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351353173}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1351353175
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351353173}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1351353176
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351353173}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1351353177
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351353173}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.67, y: 3.63, z: -13.324}
-  m_LocalScale: {x: 1, y: 1, z: 4.0549}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 42
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1373774534
 GameObject:
   m_ObjectHideFlags: 0
@@ -11166,6 +10919,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -11608,7 +11364,7 @@ PrefabInstance:
     - target: {fileID: 6477728277015193470, guid: 3ccb00556dc6bca40a6a570a5d694274,
         type: 3}
       propertyPath: m_RootOrder
-      value: 36
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 6477728277015193470, guid: 3ccb00556dc6bca40a6a570a5d694274,
         type: 3}
@@ -12234,99 +11990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1853603424
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1853603428}
-  - component: {fileID: 1853603427}
-  - component: {fileID: 1853603426}
-  - component: {fileID: 1853603425}
-  m_Layer: 0
-  m_Name: Cube (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1853603425
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853603424}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1853603426
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853603424}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1853603427
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853603424}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1853603428
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853603424}
-  m_LocalRotation: {x: -0, y: -0.70710737, z: -0, w: 0.7071063}
-  m_LocalPosition: {x: 4.355, y: 2.755, z: -14.918}
-  m_LocalScale: {x: 1, y: 1, z: 4.0549}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 43
-  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!1 &1862176713
 GameObject:
   m_ObjectHideFlags: 0
@@ -12344,7 +12007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1862176714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12428,6 +12091,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -12574,6 +12240,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0.5
@@ -17661,7 +17330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1964685668
 MonoBehaviour:
   m_ObjectHideFlags: 0

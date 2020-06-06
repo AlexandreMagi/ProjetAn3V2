@@ -105,7 +105,7 @@ public class UiCrossHair : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(.2f);
 
-        if (unlockAllAtStart) UpdateCursorUnlocks();
+        if (unlockAllAtStart) UnlockAllCrosshair();
         else UpdateCursorUnlocks();
 
         yield break;

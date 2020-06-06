@@ -59,9 +59,10 @@ public static class TriggerUtil
     }
 
     //CHANGEMENT DE FOG
-    public static void TriggerFog(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition)
+    public static void TriggerFog(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition, bool overrideFogColor, Color fogColorAimed, float fogColorTimeTransition)
     {
         Main.Instance.StartCoroutine(TriggerFogCoroutine(timeBeforeStart, fogEndValueAimed, fogTimeTransition));
+        Main.Instance.StartCoroutine(TriggerFogColorCoroutine(timeBeforeStart,overrideFogColor, fogColorAimed, fogColorTimeTransition));
     }
 
     static IEnumerator TriggerFogCoroutine(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition)
@@ -69,6 +70,7 @@ public static class TriggerUtil
         yield return new WaitForSeconds(timeBeforeStart);
         float pastValue = RenderSettings.fogEndDistance;
         float completion = 0;
+
         if (fogTimeTransition != 0)
         {
             while(completion < 1)
@@ -83,6 +85,32 @@ public static class TriggerUtil
         else
         {
             RenderSettings.fogEndDistance = fogEndValueAimed;
+        }
+
+        yield break;
+    }
+
+    static IEnumerator TriggerFogColorCoroutine(float timeBeforeStart, bool overrideFogColor, Color fogColorAimed, float fogColorTimeTransition)
+    {
+        yield return new WaitForSeconds(timeBeforeStart);
+        Color pastValue = RenderSettings.fogColor;
+        float completion = 0;
+        Color endValue = overrideFogColor ? fogColorAimed : Main.Instance.FogDefaultColor;
+
+        if (fogColorTimeTransition != 0)
+        {
+            while(completion < 1)
+            {
+                //Debug.Log(RenderSettings.fogEndDistance);
+                completion += Time.deltaTime / fogColorTimeTransition;
+                completion = Mathf.Clamp01(completion);
+                RenderSettings.fogColor = Color.Lerp(pastValue, endValue, AnimationCurve.EaseInOut(0, 0, 1, 1).Evaluate(completion));
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
+            RenderSettings.fogColor = endValue;
         }
 
         yield break;

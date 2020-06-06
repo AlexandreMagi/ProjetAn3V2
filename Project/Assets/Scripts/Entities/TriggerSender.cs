@@ -187,6 +187,12 @@ public class TriggerSender : MonoBehaviour
     float fogEndValueAimed = 0;
     [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
     float fogTimeTransition = 1;
+    [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
+    bool overrideFogColor = false;
+    [ShowIf("typeTrigger", TriggerType.Fog), ShowIf("overrideFogColor"), SerializeField]
+    Color fogColorAimed = Color.white;
+    [ShowIf("typeTrigger", TriggerType.Fog), SerializeField]
+    float fogColorTimeTransition = 1;
 
     [Header("Swarmer activation")]
     [SerializeField]
@@ -318,7 +324,7 @@ public class TriggerSender : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case TriggerType.Fog:
-                TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition);
+                TriggerUtil.TriggerFog(timeBeforeStart, fogEndValueAimed, fogTimeTransition, overrideFogColor, fogColorAimed, fogColorTimeTransition);
                 break;
             case TriggerType.GameEnder:
                 TriggerUtil.TriggerEndOfGame(timeBeforeStart);
