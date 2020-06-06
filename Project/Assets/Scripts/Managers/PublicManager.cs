@@ -25,8 +25,8 @@ public class PublicManager : MonoBehaviour
     List<ActionType> stallBuffer;
 
     // Multiplicateur de score
-    public const float scoreMultiplier = 183.492761f * 1.5f * .3f;
-    public const float minigunAditionalMultiplier = .4f;
+    public const float scoreMultiplier = 183.492761f * 1.5f * .3f * 0.9f;
+    public const float minigunAditionalMultiplier = .3f;
 
     void Awake()
     {
