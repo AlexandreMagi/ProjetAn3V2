@@ -121,6 +121,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Invoke("ReleaseFromFloat", floatTime);
     }
 
+    public DataSwarmer GetData { get { return entityData; } }
+
     public void ReleaseFromFloat()
     {
         currentState = SwarmerState.FollowPath;

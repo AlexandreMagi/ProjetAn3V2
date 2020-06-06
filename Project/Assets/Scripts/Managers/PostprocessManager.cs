@@ -176,6 +176,7 @@ public class PostprocessManager : MonoBehaviour
         if (posScreen.z > 0)
         {
             Vector2 pos = new Vector2(posScreen.x / Screen.width, posScreen.y / Screen.height) * 2 - Vector2.one;
+            pos = new Vector2(Mathf.Clamp(pos.x,-1,1), Mathf.Clamp(pos.y, -1, 1));
             distortionEffect.centerX.value = pos.x;
             distortionEffect.centerY.value = pos.y;
             distortionAnimPurcentage = 0;
