@@ -109,6 +109,8 @@ public class Main : MonoBehaviour
     [HideInInspector] public bool GamePaused = false;
     bool wasInWaitScreen = false;
 
+    [SerializeField] Color fogDefaultColor = new Color(108, 130, 137);
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -133,6 +135,8 @@ public class Main : MonoBehaviour
         Invoke("UpdateArduino", 1);
 
     }
+
+    public Color FogDefaultColor { get { return fogDefaultColor; } }
 
     public void UpdateArduino()
     {
