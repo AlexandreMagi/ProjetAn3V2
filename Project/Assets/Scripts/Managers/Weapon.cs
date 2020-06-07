@@ -315,7 +315,7 @@ public class Weapon : MonoBehaviour
     }
     public float GetOrbValue()
     {
-        return mainContainer.playerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
+        return mainContainer.playerCanOrb ? (1 - (Mathf.Clamp(timeRemainingBeforeOrb, 0, weapon.gravityOrbCooldown) / weapon.gravityOrbCooldown)) : 0;
     }
 
     public void SetBulletAmmount(int nbBullet, bool doIfReloading)
@@ -329,6 +329,10 @@ public class Weapon : MonoBehaviour
     public Vector2Int GetBulletAmmount()
     {
         return new Vector2Int(bulletRemaining, weapon.bulletMax);
+    }
+    public int GetRealMaxBulletAmmount()
+    {
+        return weapon.bulletMax + weapon.bulletAddedIfPerfect;
     }
     public bool GetIfReloading()
     {
