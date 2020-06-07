@@ -40,6 +40,9 @@ public class EndGameMinigunManager : MonoBehaviour
 
     [SerializeField] ManualSpawnerCutter spawnerCutter = null;
 
+    [SerializeField] float shakeValueAtEnd = 20f;
+    [SerializeField] float shakeDurationAtEnd = 0.3f;
+
     void Start()
     {
         if (display != null) display.text = beforeText;
@@ -65,6 +68,13 @@ public class EndGameMinigunManager : MonoBehaviour
                     TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor, fogColorAimed, fogColorTimeTransition);
                     if (exploFinal != null)
                         exploFinal.Play();
+
+                    if (shakeValueAtEnd != 0)
+                    {
+
+                        CameraHandler.Instance.AddShake(shakeValueAtEnd, shakeDurationAtEnd);
+
+                    }
                         
                     TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor ,fogColorAimed, fogColorTimeTransition);
                     if (spawnerCutter != null) spawnerCutter.cutSpawners();
