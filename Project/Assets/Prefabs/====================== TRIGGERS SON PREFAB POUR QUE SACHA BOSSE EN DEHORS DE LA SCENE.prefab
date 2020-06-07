@@ -1737,6 +1737,139 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &1717805767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1717805768}
+  - component: {fileID: 1717805770}
+  - component: {fileID: 1717805769}
+  m_Layer: 12
+  m_Name: Trigger_Sound - Landing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1717805768
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717805767}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -259.741, y: -16.179, z: -40.648}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1717805770
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717805767}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.7046204, y: 2.320094, z: 2.9598427}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1717805769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717805767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 4
+  spawners: []
+  spawnerState: 1
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: SE_LandingOnRock
+  soundMixer: Effect
+  soundLoop: 0
+  volume: 2
+  volumeAimed: 1
+  volumeTimeTransition: 1
+  animated: []
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 0
+  meshForTheCollider: {fileID: 0}
+  colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
+  isStopShake: 0
+  ShakeValue: 0
+  ShakeDuration: 0
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  triggeredBySkip: 0
+  damages: 0
+  ignoreDamageEvent: 0
+  preventRevive: 1
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  meshAffecteds: []
+  shaderValueName: 
+  isSwarmer: 0
+  cameraToChange: {fileID: 0}
+  newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
 --- !u!1 &1748809282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +2035,141 @@ Transform:
   m_Father: {fileID: 1046608200808571029}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1852043478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1852043479}
+  - component: {fileID: 1852043481}
+  - component: {fileID: 1852043480}
+  m_Layer: 12
+  m_Name: Trigger_Sound - Atterit sur roche
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1852043479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852043478}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -210.669, y: -17.595, z: -34.554}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1852043481
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852043478}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1852043480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852043478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 4
+  spawners: []
+  spawnerState: 1
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: SE_LandingOnRock
+  soundMixer: Effect
+  soundLoop: 0
+  volume: 2
+  volumeAimed: 1
+  volumeTimeTransition: 1
+  animated:
+  - {fileID: 0}
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 1
+  meshForTheCollider: {fileID: -7405620818599848147, guid: f1e210d272807f34fb6b5ab2e3b5d078,
+    type: 3}
+  colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
+  isStopShake: 0
+  ShakeValue: 40
+  ShakeDuration: 0.3
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  triggeredBySkip: 0
+  damages: 0
+  ignoreDamageEvent: 0
+  preventRevive: 1
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  meshAffecteds: []
+  shaderValueName: 
+  isSwarmer: 0
+  cameraToChange: {fileID: 0}
+  newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
 --- !u!1 &1938245382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,6 +2303,141 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &2079955017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2079955018}
+  - component: {fileID: 2079955020}
+  - component: {fileID: 2079955019}
+  m_Layer: 12
+  m_Name: Trigger_Sound - Aterrissage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2079955018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079955017}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -229.73, y: -14.22, z: -42.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2079955020
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079955017}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2079955019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079955017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 4
+  spawners: []
+  spawnerState: 1
+  slowMoPower: 0
+  slowMoDuration: 0
+  isActivation: 0
+  affected: 0
+  soundPlayed: SE_LandingOnRock
+  soundMixer: Effect
+  soundLoop: 0
+  volume: 0.25
+  volumeAimed: 1
+  volumeTimeTransition: 1
+  animated:
+  - {fileID: 0}
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 1
+  meshForTheCollider: {fileID: -7405620818599848147, guid: f1e210d272807f34fb6b5ab2e3b5d078,
+    type: 3}
+  colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
+  isStopShake: 0
+  ShakeValue: 40
+  ShakeDuration: 0.3
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange: []
+  triggeredBySkip: 0
+  damages: 0
+  ignoreDamageEvent: 0
+  preventRevive: 1
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 0
+  valueTransitionDuration: 0
+  meshAffecteds: []
+  shaderValueName: 
+  isSwarmer: 0
+  cameraToChange: {fileID: 0}
+  newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
 --- !u!1 &1046608200808571026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,6 +2469,9 @@ Transform:
   - {fileID: 1060601921}
   - {fileID: 108948085}
   - {fileID: 1834859355}
+  - {fileID: 2079955018}
+  - {fileID: 1852043479}
+  - {fileID: 1717805768}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
