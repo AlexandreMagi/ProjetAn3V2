@@ -346,6 +346,8 @@ public class Main : MonoBehaviour
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
 
+        if (Input.GetKeyDown(KeyCode.T)) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (GamePaused)
