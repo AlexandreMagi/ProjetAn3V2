@@ -129,7 +129,6 @@ public class Main : MonoBehaviour
         playerCouldOrb = playerCanOrb;
         playerCouldZeroG = playerCanZeroG;
 
-        Debug.Log("Quality at Main = " + QualityHandler.Instance.isHighQuality);
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
 
         Invoke("UpdateArduino", 1);
@@ -503,6 +502,7 @@ public class Main : MonoBehaviour
         }
 
         TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.H), 5);
+        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.Q), 10);
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
@@ -1050,7 +1050,7 @@ public class Main : MonoBehaviour
 
         Collider[] tHits = Physics.OverlapSphere(Player.Instance.transform.position, explosionRadius);
 
-        TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
+        TimeScaleManager.Instance.AddSlowMo(0.8f, 3);
 
         foreach (Collider hVictim in tHits)
         {

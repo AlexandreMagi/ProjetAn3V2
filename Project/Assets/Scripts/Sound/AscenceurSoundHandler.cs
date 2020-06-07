@@ -13,7 +13,7 @@ public class AscenceurSoundHandler : MonoBehaviour
 
     void Start()
     {
-        sourceUsed = CustomSoundManager.Instance.PlaySound(soundToPlay, "Effect", null, 1, true, currentPitch);
+        sourceUsed = CustomSoundManager.Instance.PlaySound(soundToPlay, "Effect", CameraHandler.Instance.renderingCam.transform, 1, true, currentPitch);
         if (sourceUsed != null)
         {
             sourceUsed.spatialBlend = 1;
