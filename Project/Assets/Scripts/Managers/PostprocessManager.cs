@@ -15,6 +15,7 @@ public class PostprocessManager : MonoBehaviour
     // --- Chroma
     ChromaticAberration chromaticAberrationEffect;
     bool isChroma = false;
+    public bool Chroma { get { return isChroma; } }
     public void setChroma(bool b) { isChroma = b; }
     float multiplierByDistance = 0;
 
@@ -59,13 +60,13 @@ public class PostprocessManager : MonoBehaviour
 
         ppVolume = PostProcessManager.instance.QuickVolume(11, 100f, chromaticAberrationEffect);
 
-        // --- Vignette
-        vignetteEffect = ScriptableObject.CreateInstance<Vignette>();
-        vignetteEffect.enabled.Override(true);
-        vignetteEffect.intensity.Override(0.25f);
-        vignetteEffect.smoothness.Override(1);
+        //// --- Vignette
+        //vignetteEffect = ScriptableObject.CreateInstance<Vignette>();
+        //vignetteEffect.enabled.Override(true);
+        //vignetteEffect.intensity.Override(0.25f);
+        //vignetteEffect.smoothness.Override(1);
 
-        ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
+        //ppVolume = PostProcessManager.instance.QuickVolume(11, 101f, vignetteEffect);
 
         // --- Outine
         outlineEffect = ScriptableObject.CreateInstance<PostProcessOutline>();
