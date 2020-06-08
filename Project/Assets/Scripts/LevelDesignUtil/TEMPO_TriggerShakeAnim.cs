@@ -18,6 +18,9 @@ public class TEMPO_TriggerShakeAnim : MonoBehaviour
     [SerializeField]
     float[] soundVolume = null;
 
+    [SerializeField]
+    float[] soundRandomPitch = null;
+
     int soundIndex;
 
     void TriggerShake()
@@ -28,7 +31,9 @@ public class TEMPO_TriggerShakeAnim : MonoBehaviour
     void Sound()
     {
         //CustomSoundManager.Instance.PlaySound(gameObject, soundName[soundIndex], false, soundVolume[soundIndex], 0.3f, 0, true);
-        CustomSoundManager.Instance.PlaySound(soundName[soundIndex], "Effect", soundVolume[soundIndex]);
+        CustomSoundManager.Instance.PlaySound(soundName[soundIndex], "Effect",CameraHandler.Instance.renderingCam.transform, soundVolume[soundIndex],false,1, soundRandomPitch[soundIndex]);
+
+        //CustomSoundManager.Instance.PlaySound("soundName", "Effect", CameraHandler.Instance.renderingCam.transform, soundVolume[soundIndex]);
 
         soundIndex++;
     }
