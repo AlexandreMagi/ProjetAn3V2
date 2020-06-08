@@ -183,7 +183,7 @@ public class GravityOrb : MonoBehaviour
 
                     if (Vector3.Distance(this.transform.position, hVictim.transform.position) <= orbData.gravityBullet_AttractionRange)
                     {
-                        gAffect.OnPull(this.transform.position + orbData.offsetExplosion, orbData.explosionForce, true, normalOfPosition);
+                        gAffect.OnPull(this.transform.position, orbData.explosionForce, true, normalOfPosition);
 
                         if (orbData.isFloatExplosion)
                         {
