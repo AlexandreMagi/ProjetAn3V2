@@ -30,6 +30,8 @@ public class TEMPO_TriggerShakeAnim : MonoBehaviour
         //CustomSoundManager.Instance.PlaySound(gameObject, soundName[soundIndex], false, soundVolume[soundIndex], 0.3f, 0, true);
         CustomSoundManager.Instance.PlaySound(soundName[soundIndex], "Effect", soundVolume[soundIndex]);
 
+        //CustomSoundManager.Instance.PlaySound("soundName", "Effect", CameraHandler.Instance.renderingCam.transform, soundVolume[soundIndex]);
+
         soundIndex++;
     }
 
