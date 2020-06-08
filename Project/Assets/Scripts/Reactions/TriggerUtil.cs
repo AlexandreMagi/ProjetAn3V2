@@ -210,17 +210,30 @@ public static class TriggerUtil
     }
 
     //SOUND EFFECT
-    public static void TriggerSound(float timeBeforeStart, string soundPlayed, string soundMixer, float volume, bool loop = false)
+    public static void TriggerSound(float timeBeforeStart, string soundPlayed, string soundMixer, float volume, bool loop = false, bool spatialized = false, Transform soundPosition = null)
     {
-        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, soundMixer, volume, loop));
+        Main.Instance.StartCoroutine(TriggerSoundCoroutine(timeBeforeStart, soundPlayed, soundMixer, volume, loop, spatialized, soundPosition));
     }
 
-    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, string soundMixer, float volume, bool loop = false)
+    static IEnumerator TriggerSoundCoroutine(float timeBeforeStart, string soundName, string soundMixer, float volume, bool loop = false, bool spatialized = false, Transform soundPosition = null)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
+        if (spatialized)
+        {
+            AudioSource spatializeAudioSource = CustomSoundManager.Instance.PlaySound(soundName, soundMixer, null, volume, loop);
+            if (spatializeAudioSource != null)
+            {
+                spatializeAudioSource.spatialBlend = 1;
+                spatializeAudioSource.minDistance = 8;
+                spatializeAudioSource.transform.position = soundPosition.position;
+            }
+        }
+        else
+        {
+            CustomSoundManager.Instance.PlaySound(soundName, soundMixer, null, volume, loop);
+        }
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundName, false, volume);
-        CustomSoundManager.Instance.PlaySound(soundName, soundMixer,null, volume, loop);
 
         yield break;
     }
