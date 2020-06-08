@@ -166,7 +166,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     
     IEnumerator PlaySound(string _soundName, float _soundDelay, float _soundVolume)
     {
-        if (_soundDelay > 0) yield return new WaitForSeconds(_soundDelay);
+        //if (_soundDelay > 0) yield return new WaitForSeconds(_soundDelay);
         if (CustomSoundManager.Instance != null)
             CustomSoundManager.Instance.PlaySound(_soundName, "Effect", _soundVolume);
         yield break;
