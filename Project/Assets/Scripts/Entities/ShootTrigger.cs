@@ -20,9 +20,11 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     //bool keepsCombo = true;
 
     [SerializeField]
-    string soundPlayed = "ShootTriggerSound";
+    string[] soundPlayed = null;
     [SerializeField]
-    float soundVolume = 1;
+    float[] soundVolume = null;
+    [SerializeField]
+    float[] soundDelay = null;
 
     [SerializeField]
     Light lightToDisable = null;
@@ -122,7 +124,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
 
             thisCollider.enabled = false;
 
-            if(isCollectible)
+            if (isCollectible)
                 col.HideMesh();
 
             if (useFracturedProp)
@@ -137,7 +139,11 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
                 FxManager.Instance.PlayFx("VFX_CollectiblesShoot", this.transform.position, Quaternion.identity);
                 //GetComponentInChildren<ParticleSystem>().Stop();
                 //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, soundPlayed, false, soundVolume);
-                CustomSoundManager.Instance.PlaySound(soundPlayed, "Effect", soundVolume);
+                for (int i = 0; i < soundPlayed.Length; i++)
+                {
+                    StartCoroutine(PlaySound(soundPlayed[i], soundDelay[i], soundVolume[i]));
+                }
+                //CustomSoundManager.Instance.PlaySound(soundPlayed, "Effect", soundVolume);
             }
 
 
@@ -152,11 +158,18 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Collectible, transform.position);
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ArmorPadDestroyed);
             }
-                
+
 
             Destroy(this);
         }
-
+    }
+    
+    IEnumerator PlaySound(string _soundName, float _soundDelay, float _soundVolume)
+    {
+        if (_soundDelay > 0) yield return new WaitForSeconds(_soundDelay);
+        if (CustomSoundManager.Instance != null)
+            CustomSoundManager.Instance.PlaySound(_soundName, "Effect", _soundVolume);
+        yield break;
     }
 
     public void OnHitShotGun(DataWeaponMod mod)
