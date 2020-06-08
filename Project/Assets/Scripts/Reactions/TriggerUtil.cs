@@ -219,7 +219,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        if (spatialized)
+        if (spatialized && soundPosition!=null)
         {
             AudioSource spatializeAudioSource = CustomSoundManager.Instance.PlaySound(soundName, soundMixer, null, volume, loop);
             if (spatializeAudioSource != null)
