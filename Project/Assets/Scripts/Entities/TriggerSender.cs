@@ -36,6 +36,10 @@ public class TriggerSender : MonoBehaviour
     bool soundLoop = false;
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
     float volume = 1;
+    [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
+    bool spatialized = false;
+    [ShowIf("typeTrigger", TriggerType.Sound),ShowIf("spatialized"), SerializeField]
+    Transform soundPosition = null;
 
     
     [ShowIf("typeTrigger", TriggerType.PublicVolume), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
@@ -252,7 +256,7 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Sound:
-                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed, soundMixer, volume, soundLoop);
+                TriggerUtil.TriggerSound(timeBeforeStart, soundPlayed, soundMixer, volume, soundLoop, spatialized, soundPosition);
                 this.gameObject.SetActive(false);
                 break;
 
