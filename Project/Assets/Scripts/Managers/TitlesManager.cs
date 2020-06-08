@@ -222,7 +222,6 @@ public class TitlesManager : MonoBehaviour
             index++;
         }
 
-        if (titleID == 1) Debug.Log("Immaculate = " + unlocked);
 
         if (changeDoable)
         {

@@ -27,7 +27,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     Rigidbody rb = null;
 
     [SerializeField] Collider[] mannequinCollider = null;
-
+    AudioSource sparkAudioSource = null;
     protected override void Start()
     {
         base.Start();
@@ -39,6 +39,13 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
             _renderer.materials[1] = newMat;
             _renderer.materials[1].SetColor("_Reveallightcolor", colorBase);
             _renderer.materials[1].SetFloat("_Contrast", contrastBase);
+        }
+        sparkAudioSource = CustomSoundManager.Instance.PlaySound("SE_Mannequin_Sparks", "Effect", null, 1, true, 0.3f, 0.2f, 0);
+        if (sparkAudioSource != null)
+        {
+            sparkAudioSource.spatialBlend = 1;
+            sparkAudioSource.minDistance = 8;
+            sparkAudioSource.transform.position = transform.position;
         }
 
     }
@@ -64,6 +71,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
 
     protected override void Die()
     {
+        if (sparkAudioSource != null) sparkAudioSource.Stop();
         FxManager.Instance.PlayFx(entityData.fxPlayedOnDestroy, transform.position, Quaternion.identity);
         if (DeadBodyPartManager.Instance != null) DeadBodyPartManager.Instance.RequestPop(entityData.fractureType, transform.position, transform.up * .5f);
         MannequinManager parentManger = GetComponentInParent<MannequinManager>();
@@ -196,6 +204,10 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
                     _renderer.materials[1].SetFloat("_Contrast", contrastBase);
                 }
             }
+        }
+        if (sparkAudioSource != null)
+        {
+            sparkAudioSource.transform.position = transform.position;
         }
     }
 

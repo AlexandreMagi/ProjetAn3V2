@@ -17,7 +17,11 @@ public class CheckpointAnimatorHandler : MonoBehaviour
     [SerializeField] float[] soundVolume = null;
 
     [SerializeField] VideoPlayer videoTuto = null;
-    
+
+    private void Start()
+    {
+        videoTuto.Pause();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

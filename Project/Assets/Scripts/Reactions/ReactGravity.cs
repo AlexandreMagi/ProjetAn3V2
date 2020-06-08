@@ -55,7 +55,7 @@ public static class ReactGravity<T> where T : DataEntity
                     v3DirectionToGo = new Vector3(-v3DirectionToGo.x, v3DirectionToGo.y, -v3DirectionToGo.z);
                 }
 
-                Debug.Log($"Nom : {rb.gameObject.name} -- Direction {v3DirectionToGo} -- Normal {trueNormal}");
+                //Debug.Log($"Nom : {rb.gameObject.name} -- Direction {v3DirectionToGo} -- Normal {trueNormal}");
                 //Debug.DrawRay(rb.transform.position, v3DirectionToGo, Color.green);
                 //Debug.Break();
 

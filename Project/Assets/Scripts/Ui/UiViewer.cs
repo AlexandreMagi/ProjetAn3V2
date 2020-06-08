@@ -136,7 +136,7 @@ public class UiViewer : MonoBehaviour
     {
         TimeScaleManager.Instance.AddStopTime(60);
         root_Vote.SetActive(true);
-        AudioSource voteSound = CustomSoundManager.Instance.PlaySound("SE_Vote", "UI", CameraHandler.Instance.renderingCam.transform, .7f, true);
+        AudioSource voteSound = CustomSoundManager.Instance.PlaySound("SE_Vote", "UI", CameraHandler.Instance.renderingCam.transform, 2f, true);
 
         Debug.Log("Chance = " + chanceOfSurvival + " / Result = " + result);
 
@@ -194,6 +194,7 @@ public class UiViewer : MonoBehaviour
         // --- FONCTIONS RETOUR
         yield return new WaitForSecondsRealtime(timerWaitAtLastValue);
         voteSound.Stop();
+        CustomSoundManager.Instance.PlaySound(revive ? "SE_ExtralifeAppear" : "SE_GameOverAppear", "UI", CameraHandler.Instance.renderingCam.transform, 2f);
         EndGameChoice.Instance.EndChoiceAnim(revive);
         yield return new WaitForSecondsRealtime(timerWaitDepopFinal);
         if (revive) MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.RevivedByCrowd);
