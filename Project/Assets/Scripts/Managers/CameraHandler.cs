@@ -176,13 +176,13 @@ public class CameraHandler : MonoBehaviour
 
     #endregion
 
-    //[SerializeField] AnimationClip animToPlayInDiorama = null;
-    //float speedTransitionDiorama = 5;
-    //bool inDioramaAnim = false;
-    //float dioramaTransitionPurcentage = 0;
-    //Quaternion lastRotDiorama = Quaternion.identity;
-    //Vector3 lastPosDiorama = Vector3.zero;
-    //float lastFovDiorama = 0;
+    [SerializeField] AnimationClip animToPlayInDiorama = null;
+    float speedTransitionDiorama = 5;
+    bool inDioramaAnim = false;
+    float dioramaTransitionPurcentage = 0;
+    Quaternion lastRotDiorama = Quaternion.identity;
+    Vector3 lastPosDiorama = Vector3.zero;
+    float lastFovDiorama = 0;
 
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
@@ -404,22 +404,22 @@ public class CameraHandler : MonoBehaviour
         }
 
 
-        //dioramaTransitionPurcentage = Mathf.Lerp(dioramaTransitionPurcentage, inDioramaAnim ? 1 : 0, Time.unscaledDeltaTime * speedTransitionDiorama);
-        //if (dioramaTransitionPurcentage != 0)
-        //{
-        //    if (inDioramaAnim)
-        //    {
-        //        renderingCam.transform.position = Vector3.Lerp(lastPosDiorama, animatedCam.transform.position, dioramaTransitionPurcentage);
-        //        renderingCam.transform.rotation = Quaternion.Lerp(lastRotDiorama, animatedCam.transform.rotation, dioramaTransitionPurcentage);
-        //        renderingCam.fieldOfView = Mathf.Lerp(lastFovDiorama, animatedCam.fieldOfView, dioramaTransitionPurcentage);
-        //    }
-        //    else
-        //    {
-        //        renderingCam.transform.position = Vector3.Lerp(renderingCam.transform.position, animatedCam.transform.position, dioramaTransitionPurcentage);
-        //        renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, animatedCam.transform.rotation, dioramaTransitionPurcentage);
-        //        renderingCam.fieldOfView = Mathf.Lerp(renderingCam.fieldOfView, animatedCam.fieldOfView, dioramaTransitionPurcentage);
-        //    }
-        //}
+        dioramaTransitionPurcentage = Mathf.Lerp(dioramaTransitionPurcentage, inDioramaAnim ? 1 : 0, Time.unscaledDeltaTime * speedTransitionDiorama);
+        if (dioramaTransitionPurcentage != 0)
+        {
+            if (inDioramaAnim)
+            {
+                renderingCam.transform.position = Vector3.Lerp(lastPosDiorama, animatedCam.transform.position, dioramaTransitionPurcentage);
+                renderingCam.transform.rotation = Quaternion.Lerp(lastRotDiorama, animatedCam.transform.rotation, dioramaTransitionPurcentage);
+                renderingCam.fieldOfView = Mathf.Lerp(lastFovDiorama, animatedCam.fieldOfView, dioramaTransitionPurcentage);
+            }
+            else
+            {
+                renderingCam.transform.position = Vector3.Lerp(renderingCam.transform.position, animatedCam.transform.position, dioramaTransitionPurcentage);
+                renderingCam.transform.rotation = Quaternion.Lerp(renderingCam.transform.rotation, animatedCam.transform.rotation, dioramaTransitionPurcentage);
+                renderingCam.fieldOfView = Mathf.Lerp(renderingCam.fieldOfView, animatedCam.fieldOfView, dioramaTransitionPurcentage);
+            }
+        }
 
     }
 
@@ -844,21 +844,24 @@ public class CameraHandler : MonoBehaviour
 
     public void TriggerAnimDiorama()
     {
-        //lastRotDiorama = renderingCam.transform.rotation;
-        //lastPosDiorama = renderingCam.transform.position;
-        //lastFovDiorama = renderingCam.fieldOfView;
+        lastRotDiorama = renderingCam.transform.rotation;
+        lastPosDiorama = renderingCam.transform.position;
+        lastFovDiorama = renderingCam.fieldOfView;
+
+        cinemachineCam.GetComponent<CinemachineBrain>().enabled = false;
 
         //animatorOverrideController = new AnimatorOverrideController(animatorFromAnimatedCam.runtimeAnimatorController);
         //animatorFromAnimatedCam.runtimeAnimatorController = animatorOverrideController;
-        //animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[1].name] = animToPlayInDiorama;
-        //animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
-        //inDioramaAnim = true;
-        //animatedCam.GetComponent<Animator>().SetTrigger("trigger");
+        //animatorOverrideController[animatedCam.GetComponent<Animator>().runtimeAnimatorController.animationClips[2].name] = animToPlayInDiorama;
+        animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        inDioramaAnim = true;
+        animatedCam.GetComponent<Animator>().SetTrigger("diorama");
     }
     public void EndDiorama()
     {
-        //inDioramaAnim = false;
-        //animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.Normal;
+        cinemachineCam.GetComponent<CinemachineBrain>().enabled = true;
+        inDioramaAnim = false;
+        animatedCam.GetComponent<Animator>().updateMode = AnimatorUpdateMode.Normal;
     }
 
     public void TriggerAnim (AnimationClip animName, float animDuration)

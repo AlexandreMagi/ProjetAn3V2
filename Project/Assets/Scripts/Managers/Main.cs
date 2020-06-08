@@ -109,6 +109,8 @@ public class Main : MonoBehaviour
     [HideInInspector] public bool GamePaused = false;
     bool wasInWaitScreen = false;
 
+    [SerializeField] Color fogDefaultColor = new Color(108, 130, 137);
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -127,12 +129,13 @@ public class Main : MonoBehaviour
         playerCouldOrb = playerCanOrb;
         playerCouldZeroG = playerCanZeroG;
 
-        Debug.Log("Quality at Main = " + QualityHandler.Instance.isHighQuality);
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
 
         Invoke("UpdateArduino", 1);
 
     }
+
+    public Color FogDefaultColor { get { return fogDefaultColor; } }
 
     public void UpdateArduino()
     {
@@ -312,6 +315,7 @@ public class Main : MonoBehaviour
             Player.Instance.SetLifeTo(1);
             Player.Instance.GainArmor(-9999);
             Player.Instance.TakeDamage(1);
+            CustomSoundManager.Instance.PlaySound("SE_Trap_Death", "UI", 2);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -341,6 +345,8 @@ public class Main : MonoBehaviour
         {
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
+
+        if (Input.GetKeyDown(KeyCode.T)) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -497,7 +503,7 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.H), 5);
+        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q), Input.GetKey(KeyCode.H)? 5 : 10);
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
@@ -643,6 +649,7 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        Weapon.Instance.SetMinigun(false);
         SetupWaitScreenOn(true);
         TimeScaleManager.Instance.AddStopTime(5000);
         mainMixer.SetFloat("GameVolume", -80);
@@ -1044,7 +1051,7 @@ public class Main : MonoBehaviour
 
         Collider[] tHits = Physics.OverlapSphere(Player.Instance.transform.position, explosionRadius);
 
-        TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
+        TimeScaleManager.Instance.AddSlowMo(0.8f, 3);
 
         foreach (Collider hVictim in tHits)
         {

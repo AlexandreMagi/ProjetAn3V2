@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class FixedCameraScript : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class FixedCameraScript : MonoBehaviour
 
     bool hitByBulletBool = false;
 
+    [SerializeField]
+    bool canNextSequence = false;
+
+    [SerializeField, ShowIf("canNextSequence")]
+    float timeBeforeNextSequence = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -82,6 +88,9 @@ public class FixedCameraScript : MonoBehaviour
 
             }
 
+            if (canNextSequence)
+                StartCoroutine(NextSequence());
+
             if (mats != null)
                 mats[1].SetFloat("_RevealLightEnabled", 0);
 
@@ -96,6 +105,16 @@ public class FixedCameraScript : MonoBehaviour
         
     }
 
+    IEnumerator NextSequence()
+    {
+
+        yield return new WaitForSeconds(timeBeforeNextSequence);
+
+        SequenceHandler.Instance.NextSequence();
+
+        yield break;
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -106,9 +125,13 @@ public class FixedCameraScript : MonoBehaviour
             Quaternion newRot;
 
             if (activatedCam) cameraDummy.LookAt(lookAtTarget, Vector3.up);
-            else cameraDummy.LookAt(cameraDummy.position + Vector3.down, Vector3.up);
-            newRot = cameraDummy.rotation;
-            cameraDummy.rotation = Quaternion.Slerp(currentRot, newRot, Time.deltaTime * camSpeed);
+            else
+            {
+                cameraDummy.LookAt(cameraDummy.position + Vector3.down, Vector3.up);
+                newRot = cameraDummy.rotation;
+                cameraDummy.rotation = Quaternion.Slerp(currentRot, newRot, Time.deltaTime * camSpeed);
+            }
         }
+
     }
 }

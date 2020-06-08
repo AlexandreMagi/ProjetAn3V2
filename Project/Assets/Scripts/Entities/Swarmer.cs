@@ -78,8 +78,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     ParticleSystem currentPullParticles = null;
     bool hasPlayedFxOnPull = false;
 
-    [SerializeField]
-    bool ignoresAllGravityAffects = false;
+    
+    public bool ignoresAllGravityAffects = false;
 
     //Death variables
     bool isDying = false;
@@ -120,6 +120,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
         Invoke("ReleaseFromFloat", floatTime);
     }
+
+    public DataSwarmer GetData { get { return entityData; } }
 
     public void ReleaseFromFloat()
     {
@@ -958,6 +960,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Invoke("MaybeGrunt", 1f);
         }
     }
+
 
     public float GetDamage()
    {

@@ -32,8 +32,16 @@ public class EndGameMinigunManager : MonoBehaviour
     [SerializeField] float fogDelay = 0.1f;
     [SerializeField] float fogValueAimed = 500;
     [SerializeField] float fogTimeTransition = .1f;
+    [SerializeField] bool overrideFogColor = false;
+    [ShowIf("overrideFogColor"), SerializeField] Color fogColorAimed = Color.white;
+    [SerializeField] float fogColorTimeTransition = 1;
+
+    [SerializeField] ParticleSystem exploFinal = null;
 
     [SerializeField] ManualSpawnerCutter spawnerCutter = null;
+
+    [SerializeField] float shakeValueAtEnd = 20f;
+    [SerializeField] float shakeDurationAtEnd = 0.3f;
 
     void Start()
     {
@@ -57,7 +65,18 @@ public class EndGameMinigunManager : MonoBehaviour
                 {
                     exploded = true;
                     Main.Instance.ExplosionFromPlayer(explosionRadius, explosionForce, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
-                    TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition);
+                    TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor, fogColorAimed, fogColorTimeTransition);
+                    if (exploFinal != null)
+                        exploFinal.Play();
+
+                    if (shakeValueAtEnd != 0)
+                    {
+
+                        CameraHandler.Instance.AddShake(shakeValueAtEnd, shakeDurationAtEnd);
+
+                    }
+                        
+                    TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor ,fogColorAimed, fogColorTimeTransition);
                     if (spawnerCutter != null) spawnerCutter.cutSpawners();
                     Main.Instance.SetupWaitScreenOn();
                 }

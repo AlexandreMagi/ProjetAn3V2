@@ -315,7 +315,7 @@ public class Weapon : MonoBehaviour
     }
     public float GetOrbValue()
     {
-        return mainContainer.playerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
+        return mainContainer.playerCanOrb ? (1 - (Mathf.Clamp(timeRemainingBeforeOrb, 0, weapon.gravityOrbCooldown) / weapon.gravityOrbCooldown)) : 0;
     }
 
     public void SetBulletAmmount(int nbBullet, bool doIfReloading)
@@ -329,6 +329,10 @@ public class Weapon : MonoBehaviour
     public Vector2Int GetBulletAmmount()
     {
         return new Vector2Int(bulletRemaining, weapon.bulletMax);
+    }
+    public int GetRealMaxBulletAmmount()
+    {
+        return weapon.bulletMax + weapon.bulletAddedIfPerfect;
     }
     public bool GetIfReloading()
     {
@@ -348,6 +352,7 @@ public class Weapon : MonoBehaviour
         if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0 && !isMinigun)
         {
             //Metrics
+            if (Main.Instance.playerCanPerfectReload) MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ReloadWithPerfectActivated);
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Reload);
 
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
@@ -374,7 +379,6 @@ public class Weapon : MonoBehaviour
             haveTriedPerfet = true;
             if ((reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)) || (savedReloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && savedReloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)))
             {
-                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.PerfectReload);
                 EndReload(true);
             }
             else
@@ -418,6 +422,7 @@ public class Weapon : MonoBehaviour
             {
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
                 CustomSoundManager.Instance.PlaySound("Reload_FinishPerfect", "PlayerUnpitched", 1f);
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.PerfectReload);
             }
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
         }

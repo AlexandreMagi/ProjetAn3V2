@@ -65,8 +65,12 @@ public class MenuMain : MonoBehaviour
 
     [HideInInspector] bool InLeaderboardScreen = false;
     [SerializeField] GameObject leaderboardScreen = null;
+    [SerializeField] CanvasGroup leaderboardScreenCanvasGroup = null;
+    [SerializeField] CanvasGroup leaderboardButtonGoToCanvasGroup = null;
+    [SerializeField] CanvasGroup leaderboardButtonGoBackCanvasGroup = null;
     [SerializeField] LeaderboardAndCredits leaderboardAndCreditsHandler = null;
     bool neverBeenInLeaderboard = true;
+    bool inLeaderboardTransition = false;
 
     [SerializeField] LeaderboardCreditsButton leaderboardAndCreditMenuButton = null;
     private void Start()
@@ -74,7 +78,8 @@ public class MenuMain : MonoBehaviour
         Time.timeScale = 1;
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
-        CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "MainMenu", null, .4f, true);
+        //CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "MainMenu", null, .4f, true);
+        //MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.explo, 0, 0, 0, 1, .3f, true, true);
         CustomSoundManager.Instance.PlaySound("Crowd_Idle", "MainMenu", null, .2f, true);
 
         idleBornVideo.SetActive(true);
@@ -110,13 +115,13 @@ public class MenuMain : MonoBehaviour
 
         CheckIfGoBacToMenu();
 
-        if (timeRemainingBeforeChargeScene > 0 && Time.unscaledDeltaTime < 0.5f)
+        /*if (timeRemainingBeforeChargeScene > 0 && Time.unscaledDeltaTime < 0.5f)
         {
             timeRemainingBeforeChargeScene -= Time.unscaledDeltaTime;
             if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene(sceneNameGoTo); }
-        }
+        }    */
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && !inLeaderboardTransition)
         {
             ButtonLeaderboardCredits();
         }
@@ -131,10 +136,6 @@ public class MenuMain : MonoBehaviour
             HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
         }
         
-        if (qualityButton != null && CheckIfShoot())
-        {
-            qualityButton.Click();
-        }
 
         //UI
         if (UiCrossHair.Instance != null)
@@ -218,9 +219,38 @@ public class MenuMain : MonoBehaviour
         if (neverBeenInLeaderboard) leaderboardAndCreditsHandler.InitTab();
         neverBeenInLeaderboard = false;
         InLeaderboardScreen = !InLeaderboardScreen;
-        leaderboardScreen.SetActive(InLeaderboardScreen);
+        //leaderboardScreen.SetActive(InLeaderboardScreen);
+        StartCoroutine(leaderboardScreenAnim(InLeaderboardScreen, .3f));
         if (InLeaderboardScreen) leaderboardAndCreditsHandler.InitGraph();
 
+    }
+
+    IEnumerator leaderboardScreenAnim (bool pop, float timeTransition)
+    {
+        inLeaderboardTransition = true;
+        if (pop) leaderboardScreen.SetActive(true);
+        float completion = 0;
+        if (timeTransition > 0)
+        {
+            while (completion < 1)
+            {
+                completion += Time.unscaledDeltaTime / timeTransition;
+                completion = Mathf.Clamp01(completion);
+                leaderboardScreenCanvasGroup.alpha = pop ? completion : (1 - completion);
+                leaderboardButtonGoToCanvasGroup.alpha = pop ? (1 - completion) : completion;
+                leaderboardButtonGoBackCanvasGroup.alpha = pop ? completion : (1 - completion);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
+            leaderboardScreenCanvasGroup.alpha = pop ? 1 : 0;
+            leaderboardButtonGoToCanvasGroup.alpha = pop ? 0 : 1;
+            leaderboardButtonGoBackCanvasGroup.alpha = pop ? 1 : 0;
+        }
+        if (!pop) leaderboardScreen.SetActive(false);
+        inLeaderboardTransition = false;
+        yield break;
     }
 
     public void GoBackToMenu()
@@ -286,6 +316,9 @@ public class MenuMain : MonoBehaviour
     void CheckIfGoBacToMenu()
     {
         Vector3 posCursor = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
+
+        if (CheckIfShoot() && currentState == menustate.mainmenu) timerGoBack = timeBeforeGoBackToStart;
+
         timerCheckInput -= Time.unscaledDeltaTime;
         if (timerCheckInput < 0)
         {
@@ -372,12 +405,17 @@ public class MenuMain : MonoBehaviour
 
     void Click(Vector2 mousePosition)
     {
-        bool leaderboardButtonClicked = leaderboardAndCreditMenuButton.Click();
+        bool leaderboardButtonClicked = false;
+        if (!inLeaderboardTransition) leaderboardButtonClicked = leaderboardAndCreditMenuButton.Click();
         if (!InLeaderboardScreen && !leaderboardButtonClicked)
         {
             foreach (var button in buttonMenuScripts)
             {
                 button.Click(mousePosition);
+            }
+            if (qualityButton != null)
+            {
+                qualityButton.Click();
             }
         }
     }
@@ -398,8 +436,8 @@ public class MenuMain : MonoBehaviour
             qualityButton.GoToGame();
         }
         canClickOnButton = false;
-        SceneHandler.Instance.AllowChangeToPreloadScene();
-        //SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
+        //SceneHandler.Instance.AllowChangeToPreloadScene();
+        SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
     }
 
     public void QuitAppli ()
