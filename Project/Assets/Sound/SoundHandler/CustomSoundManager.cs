@@ -9,7 +9,7 @@ public class CustomSoundManager : MonoBehaviour
 
     #region var
 
-    [SerializeField, PropertyRange(0f,1f)] float mainVolume = .8f;
+    [PropertyRange(0f,1f)] public float mainVolume = .8f;
     float currentPitch = 1;
     float speedPitchChanges = 0.8f;
     float purcentagePitched = 0.5f;

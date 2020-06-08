@@ -121,6 +121,8 @@ MonoBehaviour:
   soundMixer: 
   soundLoop: 0
   volume: 1
+  spatialized: 0
+  soundPosition: {fileID: 0}
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
@@ -129,6 +131,13 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -157,7 +166,9 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  triggeredBySkip: 0
   damages: 50
+  ignoreDamageEvent: 0
   preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
@@ -171,6 +182,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -242,6 +256,8 @@ MonoBehaviour:
   soundMixer: Effect
   soundLoop: 0
   volume: 0.5
+  spatialized: 0
+  soundPosition: {fileID: 0}
   volumeAimed: 0.5
   volumeTimeTransition: 0.5
   animated: []
@@ -250,6 +266,13 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -278,7 +301,9 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  triggeredBySkip: 0
   damages: 0
+  ignoreDamageEvent: 0
   preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
@@ -292,6 +317,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -363,6 +391,8 @@ MonoBehaviour:
   soundMixer: PublicAmbiant
   soundLoop: 1
   volume: 0.2
+  spatialized: 0
+  soundPosition: {fileID: 0}
   volumeAimed: 0.5
   volumeTimeTransition: 0.5
   animated: []
@@ -371,6 +401,13 @@ MonoBehaviour:
   isMeshReplacer: 0
   meshForTheCollider: {fileID: 0}
   colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
   isStopShake: 0
   ShakeValue: 0
   ShakeDuration: 0
@@ -399,7 +436,9 @@ MonoBehaviour:
   independentFromTimeScale: 0
   isActivationGameObject: 0
   objectsToChange: []
+  triggeredBySkip: 0
   damages: 0
+  ignoreDamageEvent: 0
   preventRevive: 1
   animationToCall: 0
   swarmersToAnimate: []
@@ -413,6 +452,9 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 0
   fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
@@ -475,14 +517,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doOnlyOnce: 1
   changeMusic: 1
-  musicToPlay: 3
+  channel: 0
+  musicToPlay: 4
   timeBeforeDoAnything: 0
   doItNow: 1
-  fadeOut: 1
-  timeWaitBetween: 12
-  fadeIn: 4
-  volume: 0.1
-  loop: 1
+  fadeOut: 3
+  timeWaitBetween: 4
+  fadeIn: 2
+  volume: 0.7
+  loop: 0
   volumeAimed: 1
   volumeTimeTransition: 1
 --- !u!1 &8725525266824766520
@@ -554,6 +597,7 @@ MonoBehaviour:
   shakeDuration: 0.3
   soundName: []
   soundVolume: []
+  soundRandomPitch: []
 --- !u!1001 &9043901833741037542
 PrefabInstance:
   m_ObjectHideFlags: 0

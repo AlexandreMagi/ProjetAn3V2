@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof( CustomSoundManager))]
 public class MusicHandler : MonoBehaviour
 {
     public static MusicHandler Instance { get; private set; }
     void Awake() { Instance = this; }
 
     [SerializeField] AudioSource musicSource = null;
-    public enum Musics { none, dropAndMinigun, drone, explo, lastStage, preLastStage, introPreLastStage };
-    [SerializeField] AudioClip dropAndMinigunMusic = null;
-    [SerializeField] AudioClip drone = null;
-    [SerializeField] AudioClip explo = null;
-    [SerializeField] AudioClip lastStage = null;
-    [SerializeField] AudioClip preLastStage = null;
-    [SerializeField] AudioClip introPreLastStage = null;
+    public enum Musics { none, drop, minigunStart,minigunEnd,furyIntro,furyLoop,furyBridge,furyTuto,menu,victory };
+    [SerializeField] AudioClip[] allMusic = null;
 
     public enum TransitionState { delay, fadingOut, waiting, fadingIn, none };
 
     [SerializeField] int maxChannel = 3;
     MusicHandlerInstance[] allChannel = null;
 
+    CustomSoundManager soundManager = null;
+
     void Start()
     {
+        soundManager = GetComponent<CustomSoundManager>();
         if (musicSource == null)
         {
             Debug.Log("No music source for Music Handler.");
@@ -137,7 +136,7 @@ public class MusicHandler : MonoBehaviour
             }
             if (allChannel[i].musicSource != null)
             {
-                allChannel[i].musicSource.volume = allChannel[i].currMusicVolume;
+                allChannel[i].musicSource.volume = allChannel[i].currMusicVolume * soundManager.mainVolume;
             }
         }
 
@@ -149,33 +148,9 @@ public class MusicHandler : MonoBehaviour
         {
             if (allChannel[channel].musicSource != null)
             {
-                //Debug.Log("Change Music");
-                switch (musicToPlay)
-                {
-                    case Musics.none:
-                        allChannel[channel].musicSource.clip = null;
-                        break;
-                    case Musics.dropAndMinigun:
-                        allChannel[channel].musicSource.clip = dropAndMinigunMusic;
-                        break;
-                    case Musics.drone:
-                        allChannel[channel].musicSource.clip = drone;
-                        break;
-                    case Musics.explo:
-                        allChannel[channel].musicSource.clip = explo;
-                        break;
-                    case Musics.lastStage:
-                        allChannel[channel].musicSource.clip = lastStage;
-                        break;
-                    case Musics.preLastStage:
-                        allChannel[channel].musicSource.clip = preLastStage;
-                        break;
-                    case Musics.introPreLastStage:
-                        allChannel[channel].musicSource.clip = introPreLastStage;
-                        break;
-                }
+                allChannel[channel].musicSource.clip = allMusic[(int)musicToPlay];
                 allChannel[channel].musicSource.Stop();
-                allChannel[channel].musicSource.volume = allChannel[channel].currMusicVolume;
+                allChannel[channel].musicSource.volume = allChannel[channel].currMusicVolume * soundManager.mainVolume;
                 allChannel[channel].musicSource.loop = loop;
                 allChannel[channel].musicSource.Play();
             }
