@@ -21,6 +21,12 @@ public class MusicHandler : MonoBehaviour
 
     void Start()
     {
+
+        if (allChannel == null) InitHandler();
+    }
+
+    void InitHandler()
+    {
         soundManager = GetComponent<CustomSoundManager>();
         if (musicSource == null)
         {
@@ -37,17 +43,19 @@ public class MusicHandler : MonoBehaviour
                 allChannel[i].musicSource = Instantiate(musicSource, musicSource.transform.parent);
             }
         }
-
     }
 
     public void PlayMusic(int channel, Musics musicToPlay, float delay, float fadeOut, float timeWaitBetween, float fadeIn, float volume, bool doItNow = false, bool loop = false)
     {
         //Debug.Log("Request Music");
+        if (allChannel == null) InitHandler();
+       
         if (channel >= 0 && channel < allChannel.Length)
         {
             allChannel[channel].currMusicRequest = new MusicRequest(musicToPlay, delay, fadeOut, timeWaitBetween, fadeIn, volume, doItNow, loop);
             allChannel[channel].volumeTimeTransition = 0;
         }
+        
     }
 
     void Update()

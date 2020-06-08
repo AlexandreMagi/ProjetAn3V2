@@ -154,7 +154,7 @@ public class DecalManager : MonoBehaviour
         {
             for (int i = 0; i < allDecal.Length; i++)
             {
-                if (allDecal[i] != null)
+                if (allDecal[i] != null && allDecal[i].go != null)
                 {
                     allDecal[i].go.SetActive(false);
                     allDecal[i].lifeTime = 0;
