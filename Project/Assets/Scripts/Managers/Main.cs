@@ -664,6 +664,7 @@ public class Main : MonoBehaviour
         playerCanReload = false;
         playerCanOrb = false;
         playerInLeaderboard = true;
+        CustomSoundManager.Instance.PlaySound("Music_PassiveExplo", "Leaderboard", null, 1, true);
     }
 
     public void EndGame(LeaderboardData playerData)

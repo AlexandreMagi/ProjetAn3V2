@@ -7,6 +7,13 @@ using UnityEngine.Video;
 
 public static class TriggerUtil
 {
+    static int hashAnim = 0; 
+
+    static TriggerUtil()
+    {
+        hashAnim = Animator.StringToHash("MakeAction");
+    }
+
     //SEQUENCE
     public static void TriggerSequence(float timeBeforeStart)
     {
@@ -143,7 +150,7 @@ public static class TriggerUtil
 
         foreach (Animator anim in animators)
         {
-            anim.SetTrigger("MakeAction");
+            anim.SetTrigger(hashAnim);
             if (loopTimer && animationWaitTimer != 0)
                 yield return new WaitForSeconds(animationWaitTimer);
         }
@@ -177,12 +184,13 @@ public static class TriggerUtil
                     animatorCurrent.runtimeAnimatorController = animatorOverrideController;
                     animatorOverrideController[animatorCurrent.runtimeAnimatorController.animationClips[0].name] = clips[currentAnimationIndex];
 
-                    animatorCurrent.SetTrigger("MakeAction");
+                    animatorCurrent.SetTrigger(hashAnim);
+
                 }
 
                 if (currentAnimationIndex < delays.Length)
                 yield return new WaitForSeconds(delays[currentAnimationIndex]);
-
+ 
                 currentAnimationIndex++;
             }
             while (currentAnimationIndex < clips.Length);

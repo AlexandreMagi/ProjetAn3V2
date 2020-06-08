@@ -39,24 +39,33 @@ public static class ReactGravity<T> where T : DataEntity
 
                 Vector3 trueNormal = (Vector3)normalRepel;
 
-                v3DirectionToGo = new Vector3(Random.Range(-1f, 1f), Random.Range(.2f, .8f), Random.Range(-1f, 1f));
+                v3DirectionToGo = new Vector3(Random.Range(-1f, 1f), Random.Range(.2f, .8f) * (Random.Range(0,2) == 0 ? -1 : 1), Random.Range(-1f, 1f));
 
-                //Projection du vecteur sur la normale différente
-                Vector3 differentialVector = v3DirectionToGo - Vector3.up;
+                //Trouver le vecteur perpendiculaire à l'axe de la normale
+                Vector3 perpendicularVector = Vector3.ProjectOnPlane(v3DirectionToGo, trueNormal);
 
-                v3DirectionToGo = (trueNormal + differentialVector).normalized;
+                //Calcul de la nouvelle direction en fonction de l'axe
+                v3DirectionToGo = (trueNormal + perpendicularVector).normalized;
 
                 //Sécurité pour éviter d'envoyer les swarmers trop proches du player
                 Vector3 playerPosition = CameraHandler.Instance.renderingCam.transform.position;
 
-                if(Vector2.Angle(new Vector2(v3DirectionToGo.x, v3DirectionToGo.z), new Vector2(playerPosition.x, playerPosition.z)) < 30)
+                if(Vector2.Angle(new Vector2(v3DirectionToGo.x, v3DirectionToGo.z), new Vector2(playerPosition.x, playerPosition.z)) < 30 && Vector3.Distance(playerPosition, rb.transform.position) <= 10)
                 {
                     v3DirectionToGo = new Vector3(-v3DirectionToGo.x, v3DirectionToGo.y, -v3DirectionToGo.z);
                 }
 
-                //Debug.Log($"Nom : {rb.gameObject.name} -- Direction {v3DirectionToGo} -- Normal {trueNormal}");
+                Debug.Log($"Nom : {rb.gameObject.name} -- Direction {v3DirectionToGo} -- Normal {trueNormal}");
+                //Debug.DrawRay(rb.transform.position, v3DirectionToGo, Color.green);
+                //Debug.Break();
 
                 //v3DirectionToGo = new Vector3(v3DirectionToGo.x * 1.2f, v3DirectionToGo.y * .8f, v3DirectionToGo.z * 1.2f).normalized;
+
+                //if (v3DirectionToGo.y < 0) pullForce *= 1.5f;
+
+                rb.velocity = (v3DirectionToGo * pullForce * Mathf.Pow(2f, 1.9f) / rb.mass);
+
+                return;
             }
 
             //float deltaY = Mathf.Abs(rb.transform.position.y - pullOrigin.y);
