@@ -2,11 +2,11 @@
 <TitlesDatabase xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <titlesRegistered>
     <Title>
-      <titleName>Unkillable</titleName>
+      <titleName>Immortal</titleName>
       <titleDesc>You never died !</titleDesc>
       <isUnlocked>true</isUnlocked>
       <titleID>0</titleID>
-	    <bonusScore>5000</bonusScore>
+	    <bonusScore>30000</bonusScore>
       <titleType>Never Killed</titleType>
       <usable>true</usable>
     </Title>
@@ -15,7 +15,7 @@
       <titleDesc>You never took damage !</titleDesc>
       <isUnlocked>true</isUnlocked>
       <titleID>1</titleID>
-	    <bonusScore>20000</bonusScore>
+	    <bonusScore>150000</bonusScore>
       <titleType>Never Damaged</titleType>
       <usable>true</usable>
     </Title>
@@ -24,7 +24,7 @@
       <titleDesc>You never bled !</titleDesc>
       <isUnlocked>true</isUnlocked>
       <titleID>2</titleID>
-	    <bonusScore>12500</bonusScore>
+	    <bonusScore>60000</bonusScore>
       <titleType>Shield Never Broken</titleType>
       <usable>true</usable>
     </Title>
@@ -33,7 +33,7 @@
       <titleDesc>Your aim is awesome !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>3</titleID>
-	    <bonusScore>25000</bonusScore>
+	    <bonusScore>40000</bonusScore>
       <titleType>Precision</titleType>
       <usable>true</usable>
     </Title>
@@ -51,7 +51,7 @@
       <titleDesc>Destroyed all cameras !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>5</titleID>
-	    <bonusScore>10000</bonusScore>
+	    <bonusScore>30000</bonusScore>
       <titleType>Cameras</titleType>
       <usable>true</usable>
     </Title>
@@ -60,16 +60,16 @@
       <titleDesc>Destroyed all Armor Pads !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>6</titleID>
-      <bonusScore>10000</bonusScore>
+      <bonusScore>30000</bonusScore>
       <titleType>Collectibles</titleType>
       <usable>true</usable>
     </Title>
 	<Title>
-      <titleName>All Bonus</titleName>
+      <titleName>Collector</titleName>
       <titleDesc>You got all collectibles !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>7</titleID>
-	    <bonusScore>10000</bonusScore>
+	    <bonusScore>800000</bonusScore>
       <titleType>Camera + Collectibles</titleType>
       <usable>true</usable>
     </Title>
@@ -78,7 +78,7 @@
       <titleDesc>You won on the edge of death !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>8</titleID>
-	    <bonusScore>20000</bonusScore>
+	    <bonusScore>50000</bonusScore>
       <titleType>Low Health Win</titleType>
       <usable>false</usable>
     </Title>
@@ -87,7 +87,7 @@
       <titleDesc>The crowd decided to revive you !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>9</titleID>
-	    <bonusScore>5000</bonusScore>
+	    <bonusScore>30000</bonusScore>
       <titleType>Crowd Revived</titleType>
       <usable>true</usable>
     </Title>
@@ -96,7 +96,7 @@
       <titleDesc>You cheated boooooo !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>10</titleID>
-	    <bonusScore>-10</bonusScore>
+	    <bonusScore>-1</bonusScore>
       <titleType>Cheat</titleType>
       <usable>true</usable>
     </Title>
@@ -119,11 +119,11 @@
       <usable>false</usable>
     </Title>
 	<Title>
-      <titleName>Unshakable</titleName>
-      <titleDesc>LOT of damage and survied !</titleDesc>
+      <titleName>Survivor</titleName>
+      <titleDesc>LOT of damage and survived !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>13</titleID>
-	    <bonusScore>17500</bonusScore>
+	    <bonusScore>30000</bonusScore>
       <titleType>Damage Taken Without Dying</titleType>
       <usable>true</usable>
     </Title>
@@ -132,8 +132,17 @@
       <titleDesc>You killed using the level</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>14</titleID>
-	    <bonusScore>10000</bonusScore>
+	    <bonusScore>30000</bonusScore>
       <titleType>Environmental Kill</titleType>
+      <usable>true</usable>
+    </Title>
+    <Title>
+      <titleName>Quick Hands</titleName>
+      <titleDesc>Perfect reloads are easy</titleDesc>
+      <isUnlocked>false</isUnlocked>
+      <titleID>16</titleID>
+      <bonusScore>30000</bonusScore>
+      <titleType>Perfect reloads</titleType>
       <usable>true</usable>
     </Title>
 	<Title>
@@ -141,17 +150,17 @@
       <titleDesc>You perfected the arena !</titleDesc>
       <isUnlocked>false</isUnlocked>
       <titleID>15</titleID>
-	    <bonusScore>100000</bonusScore>
-      <titleType>Perfected Game</titleType>
+	    <bonusScore>500000</bonusScore>
+      <titleType>All collectible + Never damaged</titleType>
       <usable>true</usable>
     </Title>
   <Title>
-      <titleName>Reloader</titleName>
-      <titleDesc>Perfect reloads are easy</titleDesc>
+      <titleName>Champion</titleName>
+      <titleDesc>You finished the game</titleDesc>
       <isUnlocked>false</isUnlocked>
-      <titleID>16</titleID>
-	    <bonusScore>12500</bonusScore>
-      <titleType>Perfect reloads</titleType>
+      <titleID>17</titleID>
+	    <bonusScore>100000</bonusScore>
+      <titleType>Game finished</titleType>
       <usable>true</usable>
     </Title>
   </titlesRegistered>

@@ -287,6 +287,8 @@ public class UILeaderboard : MonoBehaviour
         playerData.name = name;
         playerData.title = title;
 
+
+
         // --- Instance des single scores
         nbSingleScoreDisplayed = LeaderboardManager.Instance.maxKeptScores + 1;
         singleScoreAcces = new LeaderboardSingleScoreAccesseur[nbSingleScoreDisplayed];
@@ -320,6 +322,8 @@ public class UILeaderboard : MonoBehaviour
         timerBeforeDesactivateLastScreenAnimator = timeBeforeDesactivateLastScreenAnimator;
 
         canChangeScene = true;
+
+        LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
     }
 
     // Trie le tableau de rang dans l'ordre croissant (le premier rang sera donc au début)
@@ -366,6 +370,14 @@ public class UILeaderboard : MonoBehaviour
             if (i == playerIndex) singleScoreAcces[i].background.color = dataLeaderboard.playerColorInLeaderboard;
             if (i == dataSend.Length-1) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.lastScoreOutlineColor;
             if (i == 0) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.firstScoreOutlineColor;
+            if (i == 1) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.secondScoreOutlineColor;
+            if (i == 2) singleScoreAcces[i].backgroundOutline.effectColor = dataLeaderboard.thirdScoreOutlineColor;
+
+            if (i < 3)
+            {
+                singleScoreAcces[i].background.transform.localScale = new Vector3(1, dataLeaderboard.firstsScaleInY, 1);
+                //singleScoreAcces[i].background.rectTransform.offsetMax = singleScoreAcces[i].background.rectTransform.offsetMin;
+            }
 
             if (i == dataSend.Length-1) singleScoreAcces[i].rankText.text = "X";
             else singleScoreAcces[i].rankText.text = (i + 1).ToString();

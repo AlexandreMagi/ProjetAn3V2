@@ -37,13 +37,44 @@ public class EndGameChoice : MonoBehaviour
     [SerializeField] GameObject positiveTextVote = null;
     [SerializeField] GameObject negativeTextVote = null;
 
-    public void SetupChoice(int publicMalus, int purcentageChance)
+    [SerializeField] Text scoreText = null;
+    [SerializeField] Text scoreNumberText = null;
+
+    [SerializeField] Color mouseOveredScoreColor = Color.red;
+    [SerializeField] Color mouseNotOveredScoreColor = Color.grey;
+    [SerializeField] float scoreColorLerpSpeed = 10;
+
+    int publicMalusIfBeg = 0;
+    int currentScore = 0;
+
+    public void MalusButtonMouseOvered()
     {
+        scoreText.text = "New Score :";
+        scoreNumberText.color = Color.Lerp(scoreNumberText.color, mouseOveredScoreColor, Time.unscaledDeltaTime * scoreColorLerpSpeed);
+        scoreNumberText.text = (currentScore - publicMalusIfBeg).ToString("N0");
+    }
+
+    public void MalusButtonNotMouseOvered()
+    {
+        scoreText.text = "Current Score :";
+        scoreNumberText.color = Color.Lerp(scoreNumberText.color, mouseNotOveredScoreColor, Time.unscaledDeltaTime * scoreColorLerpSpeed);
+        scoreNumberText.text = currentScore.ToString("N0");
+    }
+
+    public void SetupChoice(int publicMalus, int purcentageChance, int _currentScore)
+    {
+        publicMalusIfBeg = publicMalus;
+        currentScore = _currentScore;
         rootGameEnd.SetActive(true);
         publicMalusText.text = "- " + publicMalus.ToString("N0");
         publicChanceSurvival.text = purcentageChance + " %";
         countdown.text = Mathf.RoundToInt(Main.Instance.TimeRemainingBeforeGameOver).ToString();
         anmtrDisplay.SetTrigger("Pop");
+
+
+        scoreText.text = "Current Score :";
+        scoreNumberText.color = mouseNotOveredScoreColor;
+        scoreNumberText.text = currentScore.ToString("N0");
     }
 
     public void ActivateChoice()

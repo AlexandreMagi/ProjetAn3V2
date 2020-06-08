@@ -61,7 +61,7 @@ public class CrosshairInstance
         else purcentageReductionNoBullet = dt;
         purcentageReductionNoBullet = Mathf.Clamp(purcentageReductionNoBullet, 0f, 1f);
 
-        if (Weapon.Instance != null && Weapon.Instance.crosshairOnEnemy)
+        if (Weapon.Instance != null && Weapon.Instance.crosshairOnEnemy && Main.Instance != null && !Main.Instance.playerInLeaderboard)
             crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 1, dt * data.overlapLerpSpeed);
         else
             crossHairOnEnemyPurcentage = Mathf.Lerp(crossHairOnEnemyPurcentage, 0, dt * data.overlapLerpSpeed);
@@ -83,7 +83,6 @@ public class CrosshairInstance
                 + sizeAffectedByRecoil          // Taille ajouté par recul
                 + sizeAffectedByHit)            // Taille ajouté par les Hit
                 * sizeMultiplierByOverlap;      // Multiplier de l'overlap
-
 
         color = triggerNoBullet ? Color.Lerp(data.baseColor, data.noBulletColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.chargedColor : Color.Lerp(Color.Lerp(data.baseColor, data.hitMaxColor, hitValue / data.hitMax), data.chargingColor, chargeValue);                                       // Changement de couleur
         outlineColor = triggerNoBullet ? Color.Lerp(data.outlineBaseColor, data.noBulletOutlineColor, purcentageReductionNoBullet) : chargeValue == 1 ? data.outlineChargedColor : Color.Lerp(Color.Lerp(data.outlineBaseColor, data.outlineHitMaxColor, hitValue / data.hitMax), data.outlineChargingColor, chargeValue);    // Changement de couleur

@@ -25,7 +25,8 @@ public class PublicManager : MonoBehaviour
     List<ActionType> stallBuffer;
 
     // Multiplicateur de score
-    public const float scoreMultiplier = 183.492761f * 1.5f * .3f;
+    public const float scoreMultiplier = 183.492761f * 1.5f * .3f * 0.9f;
+    public const float minigunAditionalMultiplier = .3f;
 
     void Awake()
     {
@@ -209,6 +210,7 @@ public class PublicManager : MonoBehaviour
         randomBalancedUp = _randomBalancedUp;
 
         difViewer = Mathf.RoundToInt(difViewer * scoreMultiplier);
+        if (Weapon.Instance.IsMinigun) difViewer = Mathf.RoundToInt(difViewer * minigunAditionalMultiplier);
 
         if (difViewer != 0) 
         {

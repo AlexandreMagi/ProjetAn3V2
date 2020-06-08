@@ -30,6 +30,8 @@ public class GravityOrb : MonoBehaviour
     GameObject parentIfSticky = null;
     Camera MainCam = null;
 
+    Vector3 normalOfPosition = Vector3.up;
+
     [HideInInspector]
     public bool hasExploded = false;
 
@@ -75,7 +77,7 @@ public class GravityOrb : MonoBehaviour
 
             GameObject hitObj = hit.collider.gameObject;
             IGravityAffect gAffect = hitObj.GetComponent<IGravityAffect>();
-
+            normalOfPosition = hit.normal;
 
             if (orbData.isSticky && hitObj != null && gAffect != null)
             {
@@ -147,7 +149,7 @@ public class GravityOrb : MonoBehaviour
 
         foreach(Collider col in collidersToAttract)
         {
-            if(col.GetComponent<Shooter>() != null)
+            if(col != null && col.GetComponent<Shooter>() != null)
             {
                 col.GetComponent<Shooter>().OnRelease();
             }
@@ -159,14 +161,14 @@ public class GravityOrb : MonoBehaviour
                 ps.Stop();
             CameraHandler.Instance.AddShake(orbData.zeroGCamShake, orbData.zeroGCamShakeTime);
             CustomSoundManager.Instance.PlaySound("Sounf_Orb_NoGrav_Boosted", "Effect", .3f);
-            Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*3);
+            //Collider[] tHits = Physics.OverlapSphere(this.transform.position, orbData.gravityBullet_AttractionRange*3);
 
-            if (tHits.Length > 0)
+            if (collidersToAttract.Count > 0)
             {
                 Invoke("OnZeroGRelease", orbData.floatTime);
             }
 
-            foreach (Collider hVictim in tHits)
+            foreach (Collider hVictim in collidersToAttract)
             {
                 if (hVictim == null) continue;
 
@@ -181,7 +183,7 @@ public class GravityOrb : MonoBehaviour
 
                     if (Vector3.Distance(this.transform.position, hVictim.transform.position) <= orbData.gravityBullet_AttractionRange)
                     {
-                        gAffect.OnPull(this.transform.position + orbData.offsetExplosion, -orbData.explosionForce);
+                        gAffect.OnPull(this.transform.position + orbData.offsetExplosion, orbData.explosionForce, true, normalOfPosition);
 
                         if (orbData.isFloatExplosion)
                         {
@@ -260,7 +262,7 @@ public class GravityOrb : MonoBehaviour
                 {
                     if (hVictim == null)
                     {
-                        collidersToAttract.Remove(hVictim);
+                        //collidersToAttract.Remove(hVictim);
                         continue;
                     }
                     else

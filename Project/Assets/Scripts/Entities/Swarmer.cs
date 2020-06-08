@@ -78,8 +78,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     ParticleSystem currentPullParticles = null;
     bool hasPlayedFxOnPull = false;
 
-    [SerializeField]
-    bool ignoresAllGravityAffects = false;
+    
+    public bool ignoresAllGravityAffects = false;
 
     //Death variables
     bool isDying = false;
@@ -91,6 +91,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     float attackStatePurcentage = 0;
 
     [HideInInspector] public bool grounded = false;
+
+    bool countAsEnvironmentalKill = false;
 
     #region Stimulus
     public override void OnDistanceDetect(Transform p_target, float distance)
@@ -119,6 +121,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         Invoke("ReleaseFromFloat", floatTime);
     }
 
+    public DataSwarmer GetData { get { return entityData; } }
+
     public void ReleaseFromFloat()
     {
         currentState = SwarmerState.FollowPath;
@@ -140,10 +144,11 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
-    public void OnPull(Vector3 position, float force)
+    public void OnPull(Vector3 position, float force, bool isReppelForce = false, Vector3? normalOfReppel = null)
     {
         if (!ignoresAllGravityAffects)
         {
+            countAsEnvironmentalKill = true;
             if (currentState != SwarmerState.GravityControlled)
             {
                 rbBody.velocity = Vector3.zero;
@@ -153,7 +158,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             currentState = SwarmerState.GravityControlled;
 
-            ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir);
+            ReactGravity<DataSwarmer>.DoPull(rbBody, position, force, isInTheAir, isReppelForce, normalOfReppel);
             if (!hasPlayedFxOnPull)
             {
                 hasPlayedFxOnPull = true;
@@ -167,6 +172,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         if (!ignoresAllGravityAffects)
         {
+            countAsEnvironmentalKill = false;
             ReactGravity<DataSwarmer>.DoUnfreeze(rbBody);
             if (currentParticleOrb)
             {
@@ -184,7 +190,8 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void OnZeroGRelease()
     {
         if (!ignoresAllGravityAffects)
-        {        
+        {
+            countAsEnvironmentalKill = false;
             if (currentParticleOrb)
             {
                 currentParticleOrb.Stop();
@@ -206,6 +213,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     {
         if (!ignoresAllGravityAffects)
         {
+            countAsEnvironmentalKill = true;
             currentState = SwarmerState.GravityControlled;
 
             ReactGravity<DataSwarmer>.DoSpin(rbBody);
@@ -294,7 +302,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
             //Debug.Log($"Health : {health} -- IgnoresSuicide : {ignorePointsGivenOnSuicide}");
 
-            if(health <= -500 && !ignorePointsGivenOnSuicide && currentState == SwarmerState.GravityControlled)
+            if(health <= -500 && !ignorePointsGivenOnSuicide && countAsEnvironmentalKill/* && currentState == SwarmerState.GravityControlled*/)
             {
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.EnvironmentalKill);
             }
@@ -760,7 +768,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     public void ResetSwarmer(DataEntity _entityData)
     {
         //Debug.Log("Reset called");
-
+        countAsEnvironmentalKill = false;
         for (int i = 0; i < enemyCollider.Length; i++)
         {
             enemyCollider[i].enabled = true;
@@ -952,6 +960,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Invoke("MaybeGrunt", 1f);
         }
     }
+
 
     public float GetDamage()
    {

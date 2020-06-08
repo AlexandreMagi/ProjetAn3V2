@@ -102,4 +102,7 @@ public class DataSwarmer : DataEnemy
 
     [Header("Material")]
     public float distWithPlayerToPlaySound = 12;
+
+    [Header("Opti")]
+    public float distanceRequiredToAnimate = 8;
 }

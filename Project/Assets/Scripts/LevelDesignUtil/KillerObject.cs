@@ -98,6 +98,11 @@ public class KillerObject : MonoBehaviour
             }
 
         }
+
+        if (otherEnemy != null && other.GetComponent<Prop>() != null)
+        {
+            otherEnemy.TakeDamage(9999);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

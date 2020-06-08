@@ -28,6 +28,7 @@ public class UiCrossHair : MonoBehaviour
     #endregion
 
     [SerializeField] bool beInstance = true;
+    [SerializeField] bool unlockAllAtStart = false;
     [SerializeField] Canvas cvs = null;
 
     [SerializeField]
@@ -96,8 +97,18 @@ public class UiCrossHair : MonoBehaviour
             UiHitMarker.sizeDelta = Vector2.zero;
         }
 
-        Invoke("UpdateCursorUnlocks", 0.2f);
+        StartCoroutine(doUnlock());
 
+    }
+
+    IEnumerator doUnlock()
+    {
+        yield return new WaitForSecondsRealtime(.2f);
+
+        if (unlockAllAtStart) UnlockAllCrosshair();
+        else UpdateCursorUnlocks();
+
+        yield break;
     }
 
     public void UpdateCrossHair(Vector2 mousePosition)
@@ -147,9 +158,14 @@ public class UiCrossHair : MonoBehaviour
 
     }
 
+    void UnlockAllCrosshair()
+    {
+        for (int i = 0; i < dataHandlerCrosshairs.Length; i++) { dataHandlerCrosshairs[i].unlocked = true; }
+    }
+
     public void UpdateCursorUnlocks()
     {
-        if (Main.Instance != null)
+        if (Main.Instance != null && !unlockAllAtStart)
         {
             for (int i = 0; i < dataCrosshairs.Length; i++)
             {

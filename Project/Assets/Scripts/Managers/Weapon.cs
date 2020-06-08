@@ -42,6 +42,8 @@ public class Weapon : MonoBehaviour
     [SerializeField, ShowIf("shotgunBounces")]
     float bounceLag = 0.05f;
 
+    float timeRemainingBeforeCanValidateReload = 0;
+
     // --- Lumières sur le gun
 
     [SerializeField]
@@ -65,6 +67,7 @@ public class Weapon : MonoBehaviour
 
     // --- Display gravity orb previsualisation
     private DataGravityOrb orbData = null;
+    float timeRemainingBeforeCanReactivateOrb = 0;
     [SerializeField]
     private GameObject orbPrevisu = null;
     [SerializeField]
@@ -195,8 +198,9 @@ public class Weapon : MonoBehaviour
         weaponLight.intensity = Mathf.Lerp(weapon.baseIntensity, weapon.chargedIntensity, currentChargePurcentage); // Calcul de l'intensité en fonction de la charge actuelle
         weaponLight.intensity = weaponLight.intensity * (1 - weapon.distanceImpactPurcentageOnValueIntensity) + weaponLight.intensity * weapon.distanceImpactPurcentageOnValueIntensity * intensityMultiplier; // Calcul de l'intensité en prenant compte la distance avec l'endroit visé
 
+        // Reload sécurité
+        if (timeRemainingBeforeCanValidateReload > 0) timeRemainingBeforeCanValidateReload -= Time.unscaledDeltaTime;
 
-        
         // --- Previsu orbe
         if (displayOrb && timeRemainingBeforeOrb < 0 && orbPrevisu != null)
         {
@@ -285,6 +289,8 @@ public class Weapon : MonoBehaviour
         if (minigunAudioSource != null) minigunAudioSource.pitch = currMinigunRateOfFirePurcentage * maxSpeedMinigunPitch;
         else minigunAudioSource = CustomSoundManager.Instance.PlaySound("Se_Minigun_Engine", "Player", CameraHandler.Instance.renderingCam.transform, 2f, true, 0);
 
+        if (timeRemainingBeforeCanReactivateOrb > 0) timeRemainingBeforeCanReactivateOrb -= Time.unscaledDeltaTime;
+
     }
 
     public void SetupOrbRangeDisplay (Transform orbVisu)
@@ -309,7 +315,7 @@ public class Weapon : MonoBehaviour
     }
     public float GetOrbValue()
     {
-        return mainContainer.playerCanOrb ? (1 - (timeRemainingBeforeOrb / weapon.gravityOrbCooldown)) : 0;
+        return mainContainer.playerCanOrb ? (1 - (Mathf.Clamp(timeRemainingBeforeOrb, 0, weapon.gravityOrbCooldown) / weapon.gravityOrbCooldown)) : 0;
     }
 
     public void SetBulletAmmount(int nbBullet, bool doIfReloading)
@@ -323,6 +329,10 @@ public class Weapon : MonoBehaviour
     public Vector2Int GetBulletAmmount()
     {
         return new Vector2Int(bulletRemaining, weapon.bulletMax);
+    }
+    public int GetRealMaxBulletAmmount()
+    {
+        return weapon.bulletMax + weapon.bulletAddedIfPerfect;
     }
     public bool GetIfReloading()
     {
@@ -342,6 +352,7 @@ public class Weapon : MonoBehaviour
         if (!reloading && (bulletRemaining < weapon.bulletMax || weapon.canReloadAnytime) && currentChargePurcentage ==0 && reloadCoolDown == 0 && !isMinigun)
         {
             //Metrics
+            if (Main.Instance.playerCanPerfectReload) MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ReloadWithPerfectActivated);
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.Reload);
 
             newPerfectPlacement = Mathf.Clamp(weapon.perfectPlacement + UnityEngine.Random.Range(-weapon.perfectRandom, weapon.perfectRandom), 0f, 1);
@@ -355,6 +366,8 @@ public class Weapon : MonoBehaviour
 
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "ReloadStart", false, 1f);
             CustomSoundManager.Instance.PlaySound("ReloadStart", "PlayerUnpitched", 1f);
+
+            timeRemainingBeforeCanValidateReload = weapon.reloadSafeCooldownValidate;
         }
     }
 
@@ -362,13 +375,12 @@ public class Weapon : MonoBehaviour
     {
         if (reloading && !haveTriedPerfet && Main.Instance.playerCanPerfectReload)
         {
+            if (timeRemainingBeforeCanValidateReload > 0) return false;
             haveTriedPerfet = true;
             if ((reloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && reloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)) || (savedReloadingPurcentage > (newPerfectPlacement - weapon.perfectRange) && savedReloadingPurcentage < (newPerfectPlacement + weapon.perfectRange)))
             {
-                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.PerfectReload);
                 EndReload(true);
             }
-                
             else
             {
                 CameraHandler.Instance.AddShake(weapon.reloadingMissTryShake);
@@ -410,6 +422,7 @@ public class Weapon : MonoBehaviour
             {
                 PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.PerfectReload, transform.position);
                 CustomSoundManager.Instance.PlaySound("Reload_FinishPerfect", "PlayerUnpitched", 1f);
+                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.PerfectReload);
             }
             //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Reload_FinishPerfect", false, 1f);
         }
@@ -429,22 +442,25 @@ public class Weapon : MonoBehaviour
     {
         //if (!reloading)
         //{
-            if (timeRemainingBeforeOrb < 0)
-            {
-                MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedGravity);
+        if (timeRemainingBeforeOrb < 0)
+        {
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedGravity);
 
-                currentOrb = Instantiate(orbPrefab);
-                currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
-                timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
-                return true;
-            }
-
-            else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
+            currentOrb = Instantiate(orbPrefab);
+            currentOrb.GetComponent<GravityOrb>().OnSpawning(Main.Instance.GetCursorPos());
+            timeRemainingBeforeOrb = weapon.gravityOrbCooldown;
+            timeRemainingBeforeCanReactivateOrb = orbData.timeSafeInputBeforeCanReactivate;
+            return true;
+        }
+        else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
+        {
+            if (timeRemainingBeforeCanReactivateOrb <= 0)
             {
                 TutorialCheckpoint.Instance.PlayerUsedZeroG();
                 currentOrb.GetComponent<GravityOrb>().StopHolding();
-                return true;
             }
+            return true;
+        }
         //}
         return false;
     }

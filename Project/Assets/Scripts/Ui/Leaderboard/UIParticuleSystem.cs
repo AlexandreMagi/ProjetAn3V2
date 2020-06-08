@@ -20,7 +20,7 @@ public class UIParticuleSystem : MonoBehaviour
     [Title("Pop Mode")] // --------------------------------------------------
     public enum PopMode { circle, squareEdge, square, line }
     [Tooltip("Façon de positioner les particules à l'init")] public PopMode popMode = PopMode.circle;
-    [ShowIf("popMode", PopMode.circle), PropertyRange(0.001f,50f), Tooltip("Range de portée de pop (random entre zero et valeur)")] public float rangePop = 0;
+    [ShowIf("popMode", PopMode.circle), PropertyRange(0.001f,100f), Tooltip("Range de portée de pop (random entre zero et valeur)")] public float rangePop = 0;
     [ShowIf("popMode", PopMode.line), Tooltip("Dit si la ligne est horizontale ou verticale")] public bool horizontal = true;
 
 
@@ -62,7 +62,21 @@ public class UIParticuleSystem : MonoBehaviour
 
     List<CustomParticle> allParticles = new List<CustomParticle>(); // Stock toute les particules du pull
     RectTransform rect = null; // Stock le transform de l'émitter
-    
+
+    #region Public infos
+
+    // -------------------------------------------------- INFOS
+    public bool isPlaying 
+    { 
+        get
+        { 
+            for (int i = 0; i < allParticles.Count; i++) { if (allParticles[i].lifeTimeRemaining > 0) return true; }
+            return false;
+        } 
+    }
+
+    #endregion
+
     void Start()
     {
         rect = GetComponent<RectTransform>();

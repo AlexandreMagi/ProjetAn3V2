@@ -15,7 +15,7 @@ MonoBehaviour:
   gravityBullet_AttractionRange: 7
   pullForce: 18
   timeBeforeHold: 0.1
-  lockTime: 0.8
+  lockTime: 1.6
   waitingTimeBetweenAttractions: 0.08
   holdRange: 10.6
   holdForce: 19.6
@@ -23,12 +23,13 @@ MonoBehaviour:
   isExplosive: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 34604801
+    m_Bits: 34621185
   offsetExplosion: {x: 0, y: -0.5, z: 0}
-  explosionForce: 30
+  explosionForce: 50
   isFloatExplosion: 1
   zeroGCamShake: 3.61
   zeroGCamShakeTime: 0.3
+  timeSafeInputBeforeCanReactivate: 0.3
   timeBeforeFloatActivate: 0.1
   upwardsForceOnFloat: 30
   isSlowedDownOnFloat: 1

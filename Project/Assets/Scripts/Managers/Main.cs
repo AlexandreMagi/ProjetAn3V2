@@ -109,6 +109,8 @@ public class Main : MonoBehaviour
     [HideInInspector] public bool GamePaused = false;
     bool wasInWaitScreen = false;
 
+    [SerializeField] Color fogDefaultColor = new Color(108, 130, 137);
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -127,13 +129,18 @@ public class Main : MonoBehaviour
         playerCouldOrb = playerCanOrb;
         playerCouldZeroG = playerCanZeroG;
 
-        Debug.Log("Quality at Main = " + QualityHandler.Instance.isHighQuality);
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
 
-        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+        Invoke("UpdateArduino", 1);
 
     }
 
+    public Color FogDefaultColor { get { return fogDefaultColor; } }
+
+    public void UpdateArduino()
+    {
+        if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+    }
 
     // Update is called once per frame
     void Update()
@@ -175,6 +182,9 @@ public class Main : MonoBehaviour
         //    }
         //    else UIOrb.Instance.cantOrb();
         //}
+
+        if (isArduinoMode && Input.GetKeyDown(KeyCode.Mouse0)) isArduinoMode = false;
+        if (!isArduinoMode && (arduinoTransmettor && arduinoTransmettor.isShotUp)) isArduinoMode = true;
 
         //SHOOT
         if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
@@ -268,7 +278,7 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
         {
             SequenceHandler.Instance.NextSequence(true);
-            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
+            //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -305,6 +315,7 @@ public class Main : MonoBehaviour
             Player.Instance.SetLifeTo(1);
             Player.Instance.GainArmor(-9999);
             Player.Instance.TakeDamage(1);
+            CustomSoundManager.Instance.PlaySound("SE_Trap_Death", "UI", 2);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -334,6 +345,8 @@ public class Main : MonoBehaviour
         {
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
+
+        if (Input.GetKeyDown(KeyCode.T)) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -370,16 +383,20 @@ public class Main : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (CheatDisplayHandler.Instance != null) CheatDisplayHandler.Instance.ChangeCheatDisplay();
+        }
 
         if (Input.GetKeyDown(KeyCode.O))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             playerCanOrb = !playerCanOrb;
         }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
+        //}
         if (Input.GetKeyDown(KeyCode.M))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
@@ -486,7 +503,7 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.H), 5);
+        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q), Input.GetKey(KeyCode.H)? 5 : 10);
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
@@ -543,6 +560,7 @@ public class Main : MonoBehaviour
             if (lastChanceButton.allButtons != null && choiceMade == -1)
             {
                 bool aButtonIsMouseOvered = false;
+                bool malusButtonMouseOvered = false;
                 foreach (lastChanceButton button in lastChanceButton.allButtons)
                 {
                     if (button != null && button.enabled)
@@ -555,6 +573,7 @@ public class Main : MonoBehaviour
                             buttonMouseOver = button;
                             aButtonIsMouseOvered = true;
                             button.AnimateIfMouseOver();
+                            if (button.ButtonType == lastChanceButton.typeOfButton.beg) malusButtonMouseOvered = true;
                         }
                         else
                         {
@@ -575,6 +594,8 @@ public class Main : MonoBehaviour
                     }
                 }
                 if (!aButtonIsMouseOvered) buttonMouseOver = null;
+                if (malusButtonMouseOvered) EndGameChoice.Instance.MalusButtonMouseOvered();
+                else EndGameChoice.Instance.MalusButtonNotMouseOvered();
             }
 
             if (timeRemainingBeforeGameOver > 0)
@@ -628,6 +649,7 @@ public class Main : MonoBehaviour
 
     public void InitLeaderboard()
     {
+        Weapon.Instance.SetMinigun(false);
         SetupWaitScreenOn(true);
         TimeScaleManager.Instance.AddStopTime(5000);
         mainMixer.SetFloat("GameVolume", -80);
@@ -648,7 +670,7 @@ public class Main : MonoBehaviour
     {
 
         mainMixer.SetFloat("GameVolume", 0);
-        LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
+        //LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
 
         MetricsGestionnary.Instance.SaveMetrics();
 
@@ -704,7 +726,7 @@ public class Main : MonoBehaviour
             trueChance = difficultyData.maxChanceOfSurvival;
         }
 
-        PublicManager.Instance.LoseRawViewer(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.scoreMultiplier));
+        PublicManager.Instance.LoseRawViewer(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()));
         Main.Instance.EndReviveSituation(true, bonusFromRez);
         lastChoiceForPlayer = false;
         EndGameChoice.Instance.EndChoice();
@@ -871,7 +893,8 @@ public class Main : MonoBehaviour
 
             float trueChance = GetCurrentChacesOfSurvival();
             if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
-            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.scoreMultiplier), Mathf.RoundToInt(trueChance));
+            Debug.Log(PublicManager.Instance.GetNbViewers() + " / " + difficultyData.malusScoreAtChoosedRevive);
+            EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()), Mathf.RoundToInt(trueChance), PublicManager.Instance.GetNbViewers());
         }
         else
         {
@@ -1028,7 +1051,7 @@ public class Main : MonoBehaviour
 
         Collider[] tHits = Physics.OverlapSphere(Player.Instance.transform.position, explosionRadius);
 
-        TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
+        TimeScaleManager.Instance.AddSlowMo(0.8f, 3);
 
         foreach (Collider hVictim in tHits)
         {

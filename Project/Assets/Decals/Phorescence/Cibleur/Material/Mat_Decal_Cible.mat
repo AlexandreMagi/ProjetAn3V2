@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Decal_Cible
   m_Shader: {fileID: 4800000, guid: bf01a4b77a9978f43aed143f3c157a90, type: 3}
-  m_ShaderKeywords: _ISNEARONLY_ON _ISSELFEMITTING_ON
+  m_ShaderKeywords: _ISSELFEMITTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RevealLightTexture:
-        m_Texture: {fileID: 2800000, guid: 4b6bd7ecd3b164848aa026632b743962, type: 3}
+        m_Texture: {fileID: 2800000, guid: 491a214053b80264e904e3f02a4bc6a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RevealLightTexture1:
@@ -77,7 +77,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _Contrast: 15
+    - _Contrast: 5
     - _Cutoff: 0.001
     - _DetailNormalMapScale: 1
     - _DifferenceThreshold: 0.0006
@@ -87,7 +87,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _IsNearOnly: 1
+    - _IsNearOnly: 0
     - _IsNearOnly1: 0
     - _IsSelfEmitting: 1
     - _Metallic: 0
