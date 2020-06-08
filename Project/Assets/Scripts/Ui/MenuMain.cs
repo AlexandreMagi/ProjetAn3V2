@@ -78,7 +78,8 @@ public class MenuMain : MonoBehaviour
         Time.timeScale = 1;
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
-        CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "MainMenu", null, .4f, true);
+        //CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "MainMenu", null, .4f, true);
+        //MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.explo, 0, 0, 0, 1, .3f, true, true);
         CustomSoundManager.Instance.PlaySound("Crowd_Idle", "MainMenu", null, .2f, true);
 
         idleBornVideo.SetActive(true);
@@ -114,11 +115,11 @@ public class MenuMain : MonoBehaviour
 
         CheckIfGoBacToMenu();
 
-        if (timeRemainingBeforeChargeScene > 0 && Time.unscaledDeltaTime < 0.5f)
+        /*if (timeRemainingBeforeChargeScene > 0 && Time.unscaledDeltaTime < 0.5f)
         {
             timeRemainingBeforeChargeScene -= Time.unscaledDeltaTime;
             if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene(sceneNameGoTo); }
-        }
+        }    */
 
         if (Input.GetKeyDown(KeyCode.J) && !inLeaderboardTransition)
         {
@@ -435,8 +436,8 @@ public class MenuMain : MonoBehaviour
             qualityButton.GoToGame();
         }
         canClickOnButton = false;
-        SceneHandler.Instance.AllowChangeToPreloadScene();
-        //SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
+        //SceneHandler.Instance.AllowChangeToPreloadScene();
+        SceneHandler.Instance.ChangeScene(sceneNameGoTo, 1,true);
     }
 
     public void QuitAppli ()
