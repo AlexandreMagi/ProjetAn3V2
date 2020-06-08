@@ -177,7 +177,7 @@ public class GravityOrb : MonoBehaviour
 
                 if (hVictim.GetComponent<Prop>()) hVictim.GetComponent<Prop>().SetTimerToRelease(orbData.floatTime);
 
-                if (gAffect != null && hVictim.gameObject != parentIfSticky)
+                if (gAffect != null)
                 {
                     gAffect.OnRelease();
 
