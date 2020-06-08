@@ -7,7 +7,7 @@ public class MusicTrigger : MonoBehaviour
     [SerializeField] bool doOnlyOnce = true;
     [SerializeField] bool changeMusic = true;
 
-    [SerializeField, ShowIf("changeMusic")] int channel = 0;
+    [SerializeField] int channel = 0;
     [SerializeField, ShowIf("changeMusic")] MusicHandler.Musics musicToPlay = MusicHandler.Musics.none;
     [SerializeField, ShowIf("changeMusic")] float timeBeforeDoAnything = 0;
     [SerializeField, ShowIf("changeMusic")] bool doItNow = false;

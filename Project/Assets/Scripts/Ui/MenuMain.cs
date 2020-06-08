@@ -79,7 +79,7 @@ public class MenuMain : MonoBehaviour
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
         //CustomSoundManager.Instance.PlaySound("Drone_Ambiant", "MainMenu", null, .4f, true);
-        MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.explo, 0, 0, 0, 1, .3f, true, true);
+        MusicHandler.Instance.PlayMusic(0,MusicHandler.Musics.menu, 0, 0, 0, 1, .3f, true, true);
         CustomSoundManager.Instance.PlaySound("Crowd_Idle", "MainMenu", null, .2f, true);
 
         idleBornVideo.SetActive(true);
