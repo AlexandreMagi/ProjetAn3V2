@@ -33,6 +33,11 @@ public class WallVignetageTrigger : MonoBehaviour
         vignettageImage.color = new Color(savedColor.r, savedColor.g, savedColor.b, currPurcentageAlpha);
     }
 
+    private void OnDisable()
+    {
+        vignettageImage.color = new Color(savedColor.r, savedColor.g, savedColor.b, 0);
+    }
+
     private void OnTriggerExit(Collider other) { playerIn = false; }
     private void OnTriggerEnter(Collider other) { playerIn = true; }
 
