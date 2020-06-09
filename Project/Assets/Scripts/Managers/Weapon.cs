@@ -452,7 +452,7 @@ public class Weapon : MonoBehaviour
             timeRemainingBeforeCanReactivateOrb = orbData.timeSafeInputBeforeCanReactivate;
             return true;
         }
-        else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
+        else if (currentOrb != null && weapon != null && weapon.gravityOrbCanBeReactivated && currentOrb.GetComponent<GravityOrb>() != null && !currentOrb.GetComponent<GravityOrb>().hasExploded)
         {
             if (timeRemainingBeforeCanReactivateOrb <= 0)
             {
