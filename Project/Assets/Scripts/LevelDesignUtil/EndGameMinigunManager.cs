@@ -100,6 +100,11 @@ public class EndGameMinigunManager : MonoBehaviour
                 else display.text = "";
             }
         }
+        else if (timeRemaining < 0)
+        {
+            if (Mathf.Repeat(Time.time * clignotementFrequency, 1) < clignotementPurcentageDisplay) display.text = lastText;
+            else display.text = "";
+        }
     }
 
     private void OnTriggerEnter(Collider other)
