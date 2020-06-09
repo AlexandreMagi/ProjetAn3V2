@@ -359,7 +359,7 @@ public class Weapon : MonoBehaviour
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
             reloading = true;
             haveTriedPerfet = false;
-            UiReload.Instance.DisplayGraphics();
+            if(!isMinigun) UiReload.Instance.DisplayGraphics();
             reloadingPurcentage = 0;
             bulletRemaining = 0;
             reloadCoolDown = weapon.reloadCooldown;
@@ -399,7 +399,7 @@ public class Weapon : MonoBehaviour
         if (unforced) TutorialCheckpoint.Instance.PlayerReloaded(perfect);
 
         reloading = false;
-        UiReload.Instance.HideGraphics(perfect, bulletRemaining);
+        UiReload.Instance.HideGraphics(perfect, bulletRemaining, isMinigun);
         bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
 
         if (!isMinigun)
