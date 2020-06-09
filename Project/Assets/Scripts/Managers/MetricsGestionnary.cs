@@ -155,6 +155,8 @@ public class MetricsGestionnary : MonoBehaviour
 
                     break;
                 case MetricsEventType.GameFinished:
+                    Vector2 playerLifeValue = Player.Instance.GetLifeValues();
+                    if (playerLifeValue.x / playerLifeValue.y < dataTitles.healthThreshold && Player.Instance.getArmor() <= 0) TitlesManager.Instance.ChangeTitleState(8, true); //"In extremis"
                     TitlesManager.Instance.ChangeTitleState(17, true); //"Game finished"
                     break;
 
@@ -205,11 +207,11 @@ public class MetricsGestionnary : MonoBehaviour
 
         UILeaderboard.Instance.AddMetricToDisplay("Cameras destroyed", currentMetrics.camerasHit.ToString() + "/" + countOfCameras.ToString(), "", true);
         UILeaderboard.Instance.AddMetricToDisplay("Armor pads destroyed", currentMetrics.collectiblesHit +"/"+ countOfCollectibles, "", true);
-        UILeaderboard.Instance.AddMetricToDisplay("Precision", currentMetrics.aim > 0? Mathf.FloorToInt(currentMetrics.aim).ToString()+"%" : "None", "", true);
-        UILeaderboard.Instance.AddMetricToDisplay("Damage Taken", Mathf.FloorToInt(currentMetrics.totalDamageTaken).ToString("N0"), "", true);
-        UILeaderboard.Instance.AddMetricToDisplay("Environmental Kills", Mathf.FloorToInt(currentMetrics.numberOfEnvKills).ToString("N0"), "", true);
-        UILeaderboard.Instance.AddMetricToDisplay("Reloads", Mathf.FloorToInt(currentMetrics.numberOfReloads).ToString("N0"), "", true);
-        UILeaderboard.Instance.AddMetricToDisplay("Perfect Reloads", Mathf.FloorToInt(currentMetrics.numberOfPerfectReloads).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Precision", currentMetrics.aim > 0? Mathf.RoundToInt(Mathf.Clamp(currentMetrics.aim,0,100)).ToString()+"%" : "None", "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Damage Taken", Mathf.RoundToInt(currentMetrics.totalDamageTaken).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Environmental Kills", Mathf.RoundToInt(currentMetrics.numberOfEnvKills).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Reloads", Mathf.RoundToInt(currentMetrics.numberOfReloads).ToString("N0"), "", true);
+        UILeaderboard.Instance.AddMetricToDisplay("Perfect Reloads", Mathf.RoundToInt(currentMetrics.numberOfPerfectReloads).ToString("N0"), "", true);
         UILeaderboard.Instance.AddMetricToDisplay("Player Revived", (currentMetrics.playerHasBeenRaised ? "Yes":"No"), "", true);
 
         TimeSpan t = TimeSpan.FromSeconds(currentMetrics.timeOfGame);

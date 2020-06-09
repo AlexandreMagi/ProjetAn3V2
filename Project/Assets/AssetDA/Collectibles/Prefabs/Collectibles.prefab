@@ -460,8 +460,15 @@ MonoBehaviour:
   entityData: {fileID: 11400000, guid: 8464d964261965846974cfce18b09c98, type: 2}
   isCollectible: 1
   armorGiven: 20
-  soundPlayed: SE_Bonus
-  soundVolume: 0.7
+  soundPlayed:
+  - SE_Bonus
+  - SE_Shield_Up_Bonus
+  soundVolume:
+  - 2
+  - 1.6
+  soundDelay:
+  - 0
+  - 0.2
   lightToDisable: {fileID: 470444612865107702}
   useFracturedProp: 1
   fracturedProp: {fileID: 191910359727438488, guid: f7bfe5c7badb4e44780ec09665bd7350,

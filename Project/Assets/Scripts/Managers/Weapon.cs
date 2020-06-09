@@ -245,7 +245,7 @@ public class Weapon : MonoBehaviour
                 orbPrevisuFx.Pause();
             }
             orbPrevisu.transform.position = Vector3.Lerp(orbPrevisu.transform.position, lastHitOrbPosition + lastHitOrbNormal * 1.3f, Time.unscaledDeltaTime * 8);
-            orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, orbHitSomething ? Vector3.one * orbData.holdRange : Vector3.zero, Time.unscaledDeltaTime * 5);
+            orbPrevisu.transform.localScale = Vector3.Lerp(orbPrevisu.transform.localScale, orbHitSomething ? Vector3.one * orbData.holdRange*2 : Vector3.zero, Time.unscaledDeltaTime * 5);
             if (pauseOrbFx > 0) pauseOrbFx -= Time.deltaTime;
 
 
@@ -273,7 +273,7 @@ public class Weapon : MonoBehaviour
             }
             else
             {
-                gravityOrbRangeDisplay.localScale = Vector3.MoveTowards(gravityOrbRangeDisplay.localScale, Vector3.one * sizeAimedOrbVisu, Time.deltaTime * orbData.gravityBullet_AttractionRange / timeToMaxSize);
+                gravityOrbRangeDisplay.localScale = Vector3.MoveTowards(gravityOrbRangeDisplay.localScale, Vector3.one * sizeAimedOrbVisu, Time.deltaTime * orbData.holdRange*2 / timeToMaxSize);
             }
 
         }
@@ -298,7 +298,7 @@ public class Weapon : MonoBehaviour
         sizeAimedOrbVisu = 0;
         gravityOrbRangeDisplay = orbVisu;
         gravityOrbRangeDisplay.localScale = Vector3.zero;
-        sizeAimedOrbVisu = orbData.gravityBullet_AttractionRange;
+        sizeAimedOrbVisu = orbData.holdRange*2;
         timerOrb = orbData.lockTime + orbData.timeBeforeHold;
     }
 
@@ -359,7 +359,7 @@ public class Weapon : MonoBehaviour
             CameraHandler.Instance.AddShake(weapon.reloadingStartShake);
             reloading = true;
             haveTriedPerfet = false;
-            UiReload.Instance.DisplayGraphics();
+            if(!isMinigun) UiReload.Instance.DisplayGraphics();
             reloadingPurcentage = 0;
             bulletRemaining = 0;
             reloadCoolDown = weapon.reloadCooldown;
@@ -399,7 +399,7 @@ public class Weapon : MonoBehaviour
         if (unforced) TutorialCheckpoint.Instance.PlayerReloaded(perfect);
 
         reloading = false;
-        UiReload.Instance.HideGraphics(perfect, bulletRemaining);
+        UiReload.Instance.HideGraphics(perfect, bulletRemaining, isMinigun);
         bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
 
         if (!isMinigun)
@@ -452,7 +452,7 @@ public class Weapon : MonoBehaviour
             timeRemainingBeforeCanReactivateOrb = orbData.timeSafeInputBeforeCanReactivate;
             return true;
         }
-        else if (currentOrb != null && weapon.gravityOrbCanBeReactivated && !currentOrb.GetComponent<GravityOrb>().hasExploded)
+        else if (currentOrb != null && weapon != null && weapon.gravityOrbCanBeReactivated && currentOrb.GetComponent<GravityOrb>() != null && !currentOrb.GetComponent<GravityOrb>().hasExploded)
         {
             if (timeRemainingBeforeCanReactivateOrb <= 0)
             {

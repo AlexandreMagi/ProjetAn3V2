@@ -114,6 +114,11 @@ public class GravityOrb : MonoBehaviour
         CustomSoundManager.Instance.PlaySound("Sound_Orb_Boosted", "Effect", .3f);
     }
 
+    public void OnDisable()
+    {
+        Destroy(this);
+    }
+
     public DataGravityOrb getOrbData () { return orbData; }
 
     public void StopHolding(bool loosePointIfMissed = true)

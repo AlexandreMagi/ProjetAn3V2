@@ -15,26 +15,118 @@ MonoBehaviour:
   camTargetName: CM vcam1
   animationStyle: 0
   animationTime: 0
-  hasEventOnEnd: 0
-  cutsSlowMoOnEnd: 0
   isAffectedByBooleanSequence: 0
   booleanSequenceName: 
   booleanSequenceStateRequired: 0
+  cutsSlowMoOnEnd: 0
   sequenceType: 2
   enemiesToKillInSequence: 0
   acceptsBufferKill: 0
   timeBeforeNextSequenceOnKills: 0
-  timeSequenceDuration: 0
-  timeBeforeStart: 0
+  activatesSpawnersDuringSequence: 0
+  numberOfKillsRequiredToPop: 0
+  spawnersToTrigger: []
+  delayOnTrigger: 0
+  timeSequenceDuration: 1
+  hasEventOnEnd: 0
   seqEvent: 0
   timeBeforeEvent: 0
+  distanceToAnchor: 5
+  initImpulseBalancing: 30
+  dampingOnBalancing: 0.3
+  minSpeedRot: 0.1
+  balancingFrequency: 1
+  angleBalancing: 0
+  timeGoToNewRot: 0.1
+  returnLerpSpeedFromBalance: 5
+  additionalRotAfterFirstBalancing: 0
+  additionalRotLerpGoTo: 5
   slowMoPower: 0
   slowMoDuration: 0
   isActivation: 0
   affected: 0
   tagsAnimated: []
   soundPlayed: 
+  soundMixer: Effect
   volume: 1
+  armorToGainOverTime: 0
+  armorGainRate: 0
+  spawnersToActivate: []
+  skipsToBranchOnEnd: 0
+  affectedByBooleanSequenceBranch: 0
+  branchLinkedId: 0
+  booleanLinks: []
+  affectedObject: {fileID: 0}
+  actionType: 0
+  delayOnAction: 0
+  _active: 1
+  positionMoveTo: {x: 0, y: 0, z: 0}
+  checkpointToUse: {fileID: 0}
+  resetsBufferAtEndOfSequence: 0
+  lockWeaponLight: 0
   enableCamFeedback: 1
   enableCamTransition: 0
-  speedTransition: 2
+  transitionTime: 2
+  stepFadeAtStart: 0
+  distFadeStart: 2
+  stepFadeAtEnd: 0
+  distFadeEnd: 1
+  breathingEnabled: 0
+  timeFadeBreathing: 1
+  changeNoiseSettings: 0
+  noisePurcentageAimed: 0
+  timeTransitionNoise: 1
+  noiseAmplitudePos: 0.1
+  noiseAmplitudeRot: 0.5
+  noiseFrequency: 3
+  isShortStep: 0
+  shortStepCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  stepSoundPurcentageOnShortStep: 0.5
+  shortStepAmplitude: -1
+  modifySteps: 0
+  modifierFrequenceCamStep: 1
+  modifyStepsCurve: 0
+  modifiedStepCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  removeStepSound: 0
+  animToPlay: {fileID: 0}
+  lookAtObject: {fileID: 0}
+  transitionToTime: 1
+  transitionBackTime: 1
+  lookAtTime: 1
+  cutLookAtOnEndOfSequence: 0
+  weightLookAt: 1
+  weightRemoveRotLookAt: 1
+  changeWaitScreen: 1
+  activateWaitScreen: 1
+  waitScreenAtEndOfSequence: 0
+  waitScreenDelay: 0
+  ChangeMinigunState: 0
+  EnableMinigun: 0

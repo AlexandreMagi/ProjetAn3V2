@@ -80,7 +80,11 @@ public class EndGameMinigunManager : MonoBehaviour
                     if (spawnerCutter != null) spawnerCutter.cutSpawners();
                     Main.Instance.SetupWaitScreenOn();
                 }
-                if (display != null) display.text = lastText;
+                if (display != null)
+                {
+                    if (Mathf.Repeat(Time.time * clignotementFrequency, 1) < clignotementPurcentageDisplay) display.text = lastText;
+                    else display.text = "";
+                }
             }
             else if (timeRemaining < timeBeforeSequenceSkip + timeBeforeEndSequence)
             {
@@ -95,6 +99,11 @@ public class EndGameMinigunManager : MonoBehaviour
                 if (Mathf.Repeat(Time.time * clignotementFrequency, 1) < clignotementPurcentageDisplay) display.text = firstText;
                 else display.text = "";
             }
+        }
+        else if (timeRemaining < 0)
+        {
+            if (Mathf.Repeat(Time.time * clignotementFrequency, 1) < clignotementPurcentageDisplay) display.text = lastText;
+            else display.text = "";
         }
     }
 

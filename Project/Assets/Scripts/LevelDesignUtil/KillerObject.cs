@@ -27,6 +27,12 @@ public class KillerObject : MonoBehaviour
     float soundToPlayAtKillVolume = 2;
     [SerializeField]
     float soundMinDistanceListening = 8;
+    [SerializeField]
+    string soundToPlayAtGoDisable = "";
+    [SerializeField]
+    float soundToPlayAtDisableVolume = 2;
+    [SerializeField]
+    float soundToPlayAtDisableMinDistanceListening = 8;
 
     [SerializeField] float minDistanceToPlayKillSound = 10;
     [SerializeField] float minTimeBetweenKillSound = .5f;
@@ -71,6 +77,18 @@ public class KillerObject : MonoBehaviour
                 timeBeforeEndOfMulti = 0;
                 //PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.EnvironmentKill, Vector3.zero);
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        AudioSource disableAudioSource = null;
+        if (CustomSoundManager.Instance != null && soundToPlayAtGoDisable != "") disableAudioSource = CustomSoundManager.Instance.PlaySound(soundToPlayAtGoDisable, "Ambiant", CameraHandler.Instance.renderingCam.transform, soundToPlayAtDisableVolume,false,1,.2f,0,1);
+        if (disableAudioSource != null)
+        {
+            disableAudioSource.spatialBlend = 1;
+            disableAudioSource.minDistance = soundToPlayAtDisableMinDistanceListening;
+            disableAudioSource.transform.position = transform.position;
         }
     }
 
