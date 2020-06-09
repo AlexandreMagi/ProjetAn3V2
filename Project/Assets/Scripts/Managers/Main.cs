@@ -673,7 +673,8 @@ public class Main : MonoBehaviour
         mainMixer.SetFloat("GameVolume", 0);
         //LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
 
-        MetricsGestionnary.Instance.SaveMetrics();
+        //Plus besoin des metrics. Donc bye bye
+        //MetricsGestionnary.Instance.SaveMetrics();
 
         SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
         CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
