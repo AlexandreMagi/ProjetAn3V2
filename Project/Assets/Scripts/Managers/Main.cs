@@ -186,39 +186,42 @@ public class Main : MonoBehaviour
         if (isArduinoMode && Input.GetKeyDown(KeyCode.Mouse0)) isArduinoMode = false;
         if (!isArduinoMode && (arduinoTransmettor && arduinoTransmettor.isShotUp)) isArduinoMode = true;
 
-        //SHOOT
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
+        if(Weapon.Instance != null)
         {
-            if (playerCanOrb)
+            //SHOOT
+            if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)))
             {
-                if (!Weapon.Instance.GravityOrbInput() && !inWaitScreen)
-                    UIOrb.Instance.cantOrb();
+                if (playerCanOrb)
+                {
+                    if (!Weapon.Instance.GravityOrbInput() && !inWaitScreen)
+                        UIOrb.Instance.cantOrb();
+                }
+                else if (!inWaitScreen)UIOrb.Instance.cantOrb();
             }
-            else if (!inWaitScreen)UIOrb.Instance.cantOrb();
+            if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityHeld) : Input.GetKey(KeyCode.Mouse1)) && playerCanOrb)
+                Weapon.Instance.displayOrb = true;
+            else
+                Weapon.Instance.displayOrb = false;
+
+
+            if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot && playerCanShotgun)
+            {
+                Weapon.Instance.InputHold(GetCursorPos());
+            }
+            else
+            {
+                Weapon.Instance.InputUnHold();
+            }
+
+            if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
+            {
+                Weapon.Instance.InputUp(GetCursorPos());
+            }
+            if (!playerCanShoot) Weapon.Instance.CanNotShoot();
+
+
+            if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) UILeaderboard.Instance.PlayerClicked();
         }
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityHeld) : Input.GetKey(KeyCode.Mouse1)) && playerCanOrb)
-            Weapon.Instance.displayOrb = true;
-        else
-            Weapon.Instance.displayOrb = false;
-
-
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && playerCanShoot && playerCanShotgun)
-        {
-            Weapon.Instance.InputHold(GetCursorPos());
-        }
-        else
-        {
-            Weapon.Instance.InputUnHold();
-        }
-
-        if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && playerCanShoot)
-        {
-            Weapon.Instance.InputUp(GetCursorPos());
-        }
-        if (!playerCanShoot) Weapon.Instance.CanNotShoot();
-
-
-        if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) UILeaderboard.Instance.PlayerClicked();
 
         //CAM
         Vector3 posCursor = GetCursorPos();
