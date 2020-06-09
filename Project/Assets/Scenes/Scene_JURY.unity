@@ -7092,6 +7092,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 869301522}
   m_PrefabAsset: {fileID: 0}
+--- !u!135 &870702986 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 530845881250199243, guid: b2eaf840aec546e4c90ab469ed34be5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7584541180600198618}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &878954302
 GameObject:
   m_ObjectHideFlags: 0
@@ -7830,7 +7836,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequenceBranches:
   - {fileID: 402479016}
-  cameraCollider: {fileID: 0}
+  cameraCollider: {fileID: 870702986}
   isWaitingTimer: 0
   originalName: AutoSequence8
   newName: Turn
@@ -13119,7 +13125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1522897275
 Transform:
   m_ObjectHideFlags: 0
@@ -13128,7 +13134,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522897274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.742, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1962095011}
@@ -17821,6 +17827,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584541180804375023, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: playerCanZeroG
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584541180804375023, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: startWithCameraNumber
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584541180804375023, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: playerCanShoot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584541180804375023, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: playerCanReload
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7950423414511688772, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
