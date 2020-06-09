@@ -291,7 +291,7 @@ public class UiReload : MonoBehaviour
         obj.transform.localScale = Vector3.one * (scale + basescale);
     }
 
-    public void HideGraphics(bool didPerfect, int nbBulletBefore)
+    public void HideGraphics(bool didPerfect, int nbBulletBefore, bool inMinigun = false)
     {
         //bar.SetActive(false);
         //extremityOne.SetActive(false);
@@ -301,13 +301,13 @@ public class UiReload : MonoBehaviour
         timeRemainingReducing = timeUnusedToReduce + timeToReduce;
 
         reducing = true;
-        perfectAnim = didPerfect;
+        if (!inMinigun) perfectAnim = didPerfect;
 
         holaValue = nbBulletBefore-reloadData.holaRange;    
         int supBullet = Weapon.Instance.GetSuplementaryBullet();
         for (int i = 0; i < bulletSprites.Length; i++)
         {
-            if (didPerfect)
+            if (didPerfect && !inMinigun)
                 bulletSprites[i].transform.localPosition = bulletPos[i] + correctionPosValue;
             else if (i >= supBullet)
                 bulletSprites[i].transform.localPosition = bulletPos[i - supBullet] + correctionPosValue;
