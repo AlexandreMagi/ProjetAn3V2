@@ -38,7 +38,7 @@ public class UIUpgrade : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, Main.Instance.GetCursorPos(), cvs.worldCamera, out pos);
             particleEffectUpgradeCursor.transform.position = transform.TransformPoint(pos);
         }
-        if (Time.frameCount % Mathf.CeilToInt(1 / (Time.deltaTime != 0 ? Time.deltaTime : 0.01f) / 15) == 0 && !particleEffectUpgradeCursor.isPlaying) canTpFx = false;
+        if (Time.frameCount % Mathf.CeilToInt(1 / (Time.deltaTime != 0 ? Time.deltaTime : 0.01f) / 15) == 0 && particleEffectUpgradeCursor !=null && !particleEffectUpgradeCursor.isPlaying) canTpFx = false;
     }
 
     /// <summary>
