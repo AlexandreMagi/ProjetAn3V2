@@ -109,11 +109,8 @@ public class UIOrb : MonoBehaviour
 
     public void OrbCooldownUp()
     {
-        if (unlockedFx != null)
-        {
-            unlockedFx.Play();
-            particleEffectOnCursor.Play();
-        }
+        if (unlockedFx != null) unlockedFx.Play();
+        if (particleEffectOnCursor != null) particleEffectOnCursor.Play();
     }
 
     public void ActivateOrb()

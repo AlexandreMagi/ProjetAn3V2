@@ -103,7 +103,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     {
         meshAnimator.enabled = !activeProcedu;
 
-        if (activeProcedu && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < swarmerCode.GetData.distanceRequiredToAnimate) && (myRender == null || myRender.isVisible))
+        if (activeProcedu && (CameraHandler.Instance == null || swarmerCode == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < swarmerCode.GetData.distanceRequiredToAnimate) && (myRender == null || myRender.isVisible))
         {
             if (lookAt != null)
                 HeadRotation();
