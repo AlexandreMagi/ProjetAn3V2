@@ -291,6 +291,11 @@ public class UiReload : MonoBehaviour
         obj.transform.localScale = Vector3.one * (scale + basescale);
     }
 
+    public void SecurityAnimPerfectSpot()
+    {
+        perfectAnimPurcentage = 0;
+    }
+
     public void HideGraphics(bool didPerfect, int nbBulletBefore, bool inMinigun = false)
     {
         //bar.SetActive(false);

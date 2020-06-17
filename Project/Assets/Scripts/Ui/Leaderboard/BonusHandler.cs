@@ -434,6 +434,7 @@ public class BonusHandler : MonoBehaviour
                     }
                     if (Main.Instance.AllEndGameBonus.Count > 0)
                     {
+                        UILeaderboard.Instance.ResetTimerAfk();
                         firstLoop = false;
                         progressState = stateProgress.pop;
                         purcentageInState = 0;

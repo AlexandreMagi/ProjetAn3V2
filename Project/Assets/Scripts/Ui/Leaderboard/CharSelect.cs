@@ -8,6 +8,8 @@ public class CharSelect : MonoBehaviour
 
     [SerializeField] LeaderboardButtonChar[] buttonChar = new LeaderboardButtonChar[0];
     public Text charText = null;
+    public Text charTextPrevious = null;
+    public Text charTextNext = null;
 
     DataLeaderboardUI dataLeaderboard = null;
 
@@ -26,9 +28,19 @@ public class CharSelect : MonoBehaviour
     public void changeChar (int change)
     {
         currentIndex += change;
-        if (currentIndex < 0) currentIndex += dataLeaderboard.alphabet.Length;
-        if (currentIndex >= dataLeaderboard.alphabet.Length) currentIndex -= dataLeaderboard.alphabet.Length;
-        charText.text = dataLeaderboard.alphabet[currentIndex].ToString();
+        currentIndex = SafeIndex(currentIndex);
+        //if (currentIndex < 0) currentIndex += dataLeaderboard.alphabet.Length;
+        //if (currentIndex >= dataLeaderboard.alphabet.Length) currentIndex -= dataLeaderboard.alphabet.Length;
+        charText.text =         dataLeaderboard.alphabet[currentIndex].ToString();
+        charTextPrevious.text = dataLeaderboard.alphabet[SafeIndex(currentIndex - 1)].ToString();
+        charTextNext.text =     dataLeaderboard.alphabet[SafeIndex(currentIndex + 1)].ToString();
+    }
+
+    int SafeIndex(int currIndex)
+    {
+        if (currIndex < 0) currIndex += dataLeaderboard.alphabet.Length;
+        if (currIndex >= dataLeaderboard.alphabet.Length) currIndex -= dataLeaderboard.alphabet.Length;
+        return currIndex;
     }
 
     void SetupData()
@@ -51,6 +63,8 @@ public class CharSelect : MonoBehaviour
         }
         currentIndex = index;
         charText.text = dataLeaderboard.alphabet[currentIndex].ToString();
+        charTextPrevious.text = dataLeaderboard.alphabet[SafeIndex(currentIndex - 1)].ToString();
+        charTextNext.text = dataLeaderboard.alphabet[SafeIndex(currentIndex + 1)].ToString();
     }
 
     public void PlayerClicked() { foreach (var button in buttonChar) { button.PlayerClicked(); } }

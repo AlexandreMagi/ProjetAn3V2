@@ -64,7 +64,7 @@ public class EndGameMinigunManager : MonoBehaviour
                 if (!exploded)
                 {
                     exploded = true;
-                    Main.Instance.ExplosionFromPlayer(explosionRadius, explosionForce, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
+                    Main.Instance.ExplosionFromPlayer(explosionRadius, explosionForce, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue,false);
                     TriggerUtil.TriggerFog(fogDelay, fogValueAimed, fogTimeTransition, overrideFogColor, fogColorAimed, fogColorTimeTransition);
                     if (exploFinal != null)
                         exploFinal.Play();

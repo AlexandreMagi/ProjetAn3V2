@@ -17,7 +17,7 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
 
     #endregion
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
         ReactSpecial<DataShooter, DataShooter>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
         ReactSpecial<DataShooter, DataShooter>.DoExplosionStun(this, explosionOrigin, explosionStun, explosionStunDuration, explosionRadius);

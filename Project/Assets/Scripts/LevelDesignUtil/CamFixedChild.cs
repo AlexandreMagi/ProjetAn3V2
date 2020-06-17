@@ -20,9 +20,10 @@ public class CamFixedChild : MonoBehaviour, IBulletAffect, ISpecialEffects
     #region bulletAffect
     public void OnBulletClose() { }
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
-        Destroyed(null);
+        if (damageCamera)
+            Destroyed(null);
     }
 
     public void OnHit(DataWeaponMod mod, Vector3 position, float dammage, Ray rayShot)
