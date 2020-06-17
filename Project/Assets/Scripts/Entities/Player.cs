@@ -29,7 +29,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         UiLifeBar.Instance.UpdateCapsules(health);
     }
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
         ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
@@ -246,7 +246,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
                 if (speAffect != null && (hVictim.GetComponent<Player>() == null))
                 {
-                    speAffect.OnExplosion(CameraHandler.Instance.renderingCam.transform.position, 5000, 30, 0, 0, 0, 0);
+                    speAffect.OnExplosion(CameraHandler.Instance.renderingCam.transform.position, 5000, 6, 0, 0, 0, 0);
                 }
             }
         }

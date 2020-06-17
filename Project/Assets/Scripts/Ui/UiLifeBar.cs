@@ -59,6 +59,9 @@ public class UiLifeBar : MonoBehaviour
 
     bool endGameAnimPlayed = false;
     
+    [SerializeField] Text shieldDisplayText = null;
+    [SerializeField] Text lifeDisplayText = null;
+
     [SerializeField] Image matShaderShield = null;
     Material matShaderShieldInstance = null;
 
@@ -102,6 +105,7 @@ public class UiLifeBar : MonoBehaviour
         //rectRootArmor.sizeDelta = new Vector2 (100,100);
 
         matShaderShieldInstance.SetFloat("_Mask", 1-Mathf.Lerp(lastArmor / stockMaxArmor, stockArmor / stockMaxArmor, currentRecoverPurcentage));
+        shieldDisplayText.text = Mathf.RoundToInt((stockArmor/ stockMaxArmor) * 100).ToString();
 
         //rootVerticalShield.transform.localScale = Vector3.Lerp (new Vector3(1, lastArmor / stockMaxArmor, 1), new Vector3(1, stockArmor / stockMaxArmor, 1), currentRecoverPurcentage);
         //rootVerticalShield.transform.localScale = Vector3.Lerp (rootVerticalShield.transform.localScale, new Vector3(1, stockArmor / stockMaxArmor, 1), Time.unscaledDeltaTime * recoverLerpSpeed);
@@ -193,6 +197,7 @@ public class UiLifeBar : MonoBehaviour
         {
             lifeCapsules[i].SetActive(i < life / stockMaxLife * lifeCapsules.Length);
         }
+        lifeDisplayText.text = Mathf.RoundToInt(life / stockMaxLife * lifeCapsules.Length).ToString();
         stockLife = life;
         timeRemainingReducing = timeUnusedToReduce + timeToReduce;
     }

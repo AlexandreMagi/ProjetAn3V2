@@ -105,7 +105,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
     }
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
         if (currentState == SwarmerState.Attacking)
         {

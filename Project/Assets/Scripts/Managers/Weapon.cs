@@ -131,7 +131,7 @@ public class Weapon : MonoBehaviour
 
         if (timerMuzzleFlash >= 0) timerMuzzleFlash -= Time.unscaledDeltaTime;
         timerMuzzleFlash = Mathf.Clamp(timerMuzzleFlash, 0, 1);
-        muzzleFlash.SetActive(timerMuzzleFlash > 0);
+        muzzleFlash.SetActive(timerMuzzleFlash > 0 && !isMinigun);
 
         if (timeRemainingBeforeOrb >= 0)
         {
@@ -400,6 +400,7 @@ public class Weapon : MonoBehaviour
 
         reloading = false;
         UiReload.Instance.HideGraphics(perfect, bulletRemaining, isMinigun);
+        UiReload.Instance.SecurityAnimPerfectSpot();
         bulletRemaining = perfect ? weapon.bulletMax + weapon.bulletAddedIfPerfect : weapon.bulletMax;
 
         if (!isMinigun)
@@ -660,7 +661,7 @@ public class Weapon : MonoBehaviour
             if (canPlaySound)
             {
                 if (weaponMod == minigunMod)
-                    CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.6f, false, 0.8f, .2f);
+                    CustomSoundManager.Instance.PlaySound(minigunMod.soundPlayed, "Player", null, 0.4f, false, 0.8f, .2f);
                 else
                     CustomSoundManager.Instance.PlaySound(weaponMod == weapon.chargedShot ? weapon.chargedShot.soundPlayed : weapon.baseShot.soundPlayed, "Player", null, weaponMod == weapon.chargedShot ? 0.8f : 0.4f, false, 1, .2f);
             }

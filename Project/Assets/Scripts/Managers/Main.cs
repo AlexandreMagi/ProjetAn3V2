@@ -670,7 +670,7 @@ public class Main : MonoBehaviour
         CustomSoundManager.Instance.PlaySound("Music_PassiveExplo", "Leaderboard", null, 1, true);
     }
 
-    public void EndGame(LeaderboardData playerData)
+    public void EndGame()
     {
 
         mainMixer.SetFloat("GameVolume", 0);
@@ -1051,7 +1051,7 @@ public class Main : MonoBehaviour
         
     }
 
-    public void ExplosionFromPlayer(float explosionRadius, float explosionForce, float explosionDamage, float explosionStun, float explosionStunDuration, float explosionLiftValue)
+    public void ExplosionFromPlayer(float explosionRadius, float explosionForce, float explosionDamage, float explosionStun, float explosionStunDuration, float explosionLiftValue, bool damageCamera = true)
     {
 
         Collider[] tHits = Physics.OverlapSphere(Player.Instance.transform.position, explosionRadius);
@@ -1065,7 +1065,7 @@ public class Main : MonoBehaviour
                 IEntity entityVictim = hVictim.GetComponent<IEntity>();
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
                 if (speAffect != null && hVictim.GetComponent<Player>() == null)
-                    speAffect.OnExplosion(Player.Instance.transform.position, explosionForce, explosionRadius, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue);
+                    speAffect.OnExplosion(Player.Instance.transform.position, explosionForce, explosionRadius, explosionDamage, explosionStun, explosionStunDuration, explosionLiftValue, damageCamera);
             }
         }
         FxManager.Instance.PlayFx("VFX_ExplosionShooterBullet", Player.Instance.transform.position, Player.Instance.transform.rotation, explosionRadius);
