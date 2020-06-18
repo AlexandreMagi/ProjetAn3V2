@@ -49,16 +49,16 @@ public class EndGameChoice : MonoBehaviour
 
     public void MalusButtonMouseOvered()
     {
-        scoreText.text = "New Score :";
-        scoreNumberText.color = Color.Lerp(scoreNumberText.color, mouseOveredScoreColor, Time.unscaledDeltaTime * scoreColorLerpSpeed);
-        scoreNumberText.text = (currentScore - publicMalusIfBeg).ToString("N0");
+        if (scoreText != null) scoreText.text = "New Score :";
+        if (scoreNumberText != null) scoreNumberText.color = Color.Lerp(scoreNumberText.color, mouseOveredScoreColor, Time.unscaledDeltaTime * scoreColorLerpSpeed);
+        if (scoreNumberText != null) scoreNumberText.text = (currentScore - publicMalusIfBeg).ToString("N0");
     }
 
     public void MalusButtonNotMouseOvered()
     {
-        scoreText.text = "Current Score :";
-        scoreNumberText.color = Color.Lerp(scoreNumberText.color, mouseNotOveredScoreColor, Time.unscaledDeltaTime * scoreColorLerpSpeed);
-        scoreNumberText.text = currentScore.ToString("N0");
+        if (scoreText != null) scoreText.text = "Current Score :";
+        if (scoreNumberText != null) scoreNumberText.color = Color.Lerp(scoreNumberText.color, mouseNotOveredScoreColor, Time.unscaledDeltaTime * scoreColorLerpSpeed);
+        if (scoreNumberText != null) scoreNumberText.text = currentScore.ToString("N0");
     }
 
     public void SetupChoice(int publicMalus, int purcentageChance, int _currentScore)
@@ -71,10 +71,9 @@ public class EndGameChoice : MonoBehaviour
         countdown.text = Mathf.RoundToInt(Main.Instance.TimeRemainingBeforeGameOver).ToString();
         anmtrDisplay.SetTrigger("Pop");
 
-
-        scoreText.text = "Current Score :";
-        scoreNumberText.color = mouseNotOveredScoreColor;
-        scoreNumberText.text = currentScore.ToString("N0");
+        if (scoreText!=null) scoreText.text = "Current Score :";
+        if (scoreNumberText != null) scoreNumberText.color = mouseNotOveredScoreColor;
+        if (scoreNumberText != null) scoreNumberText.text = currentScore.ToString("N0");
     }
 
     public void ActivateChoice()

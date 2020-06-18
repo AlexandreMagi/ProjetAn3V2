@@ -183,7 +183,7 @@ public class Prop : Entity<DataProp>, IGravityAffect, IBulletAffect, ISpecialEff
         if (timeRemainginBeforeCanPlayImpactSound >= 0) timeRemainginBeforeCanPlayImpactSound -= Time.deltaTime;
     }
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
         ReactSpecial<DataProp, DataSwarmer>.DoProject(rb, explosionOrigin, explosionForce, explosionRadius, liftValue);
         ReactSpecial<DataProp, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);

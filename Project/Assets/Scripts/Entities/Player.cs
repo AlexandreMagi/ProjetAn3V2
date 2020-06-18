@@ -29,7 +29,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         UiLifeBar.Instance.UpdateCapsules(health);
     }
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
         ReactSpecial<DataPlayer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
     }
@@ -107,7 +107,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
             if (!ignoreNextDamageEvent) MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.DamageTaken, value);
             ignoreNextDamageEvent = false;
 
-
+            DamageExplosion();
             CustomSoundManager.Instance.PlaySound("PlayerDamage", "PlayerUnpitched",null, 1,false,1,0.2f);
             CameraHandler.Instance.AddShake(value / (entityData.armor + entityData.maxHealth) * entityData.damageShakeMultiplier * (armor > 0 ? entityData.damageScaleShieldMultiplier : entityData.damageScaleLifeMultiplier));
             TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtDammage);
@@ -234,6 +234,22 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
         armorToGain = value;
         rateOfArmorGained = rate;
         yield break;
+    }
+
+    public void DamageExplosion()
+    {
+        Collider[] tHits = Physics.OverlapSphere(this.transform.position, entityData.respawnExplosionRadius);
+        foreach (Collider hVictim in tHits)
+        {
+            if (hVictim.gameObject != this.gameObject)
+            {
+                ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
+                if (speAffect != null && (hVictim.GetComponent<Player>() == null))
+                {
+                    speAffect.OnExplosion(CameraHandler.Instance.renderingCam.transform.position, 5000, 6, 0, 0, 0, 0);
+                }
+            }
+        }
     }
 
     public void Revive()

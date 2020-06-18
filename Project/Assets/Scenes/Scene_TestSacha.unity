@@ -1603,8 +1603,8 @@ MonoBehaviour:
   newNearClip: 10
   fogEndValueAimed: 100
   fogTimeTransition: 1
-  overrideFogColor: 1
-  fogColorAimed: {r: 1, g: 0, b: 0, a: 1}
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
   fogColorTimeTransition: 1
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
@@ -4788,7 +4788,7 @@ PrefabInstance:
     - target: {fileID: 8562885557330992695, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8562885557330992714, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
@@ -5313,7 +5313,7 @@ PrefabInstance:
     - target: {fileID: 8562885557330992695, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8562885557330992714, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
@@ -7809,7 +7809,7 @@ PrefabInstance:
     - target: {fileID: 8562885557330992695, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8562885557330992714, guid: 0fe7e0b49b41b204aba065e11583941e,
         type: 3}
@@ -8598,18 +8598,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1290420194}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1320478782 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2014583736134610594, guid: e6da892da0007434e85be1ddaebd7cdd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1076653481}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d554520d197394988b33c890ad21e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1331031109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10081,8 +10069,26 @@ MonoBehaviour:
   entityData: {fileID: 11400000, guid: df394c7f1e2c4284fb683e527fd64603, type: 2}
   isCollectible: 0
   armorGiven: 0
-  soundPlayed: ShootTriggerSound
-  soundVolume: 1
+  soundPlayed:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  soundVolume: []
+  soundDelay: []
   lightToDisable: {fileID: 0}
   useFracturedProp: 0
   fracturedProp: {fileID: 0}
@@ -12067,8 +12073,7 @@ MonoBehaviour:
   delaysBetweenTriggers: []
   _child: {fileID: 0}
   _parent: {fileID: 0}
-  swarmerAffectedByGravityChange:
-  - {fileID: 1320478782}
+  swarmerAffectedByGravityChange: []
   mustIgnoreGravity: 0
   isStopShake: 0
   ShakeValue: 0

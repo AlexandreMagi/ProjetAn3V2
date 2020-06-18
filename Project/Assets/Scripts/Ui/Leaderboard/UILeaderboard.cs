@@ -196,6 +196,8 @@ public class UILeaderboard : MonoBehaviour
             }
         }
 
+        if (inLeaderboard) CheckIfGoBackToMenu();
+
     }
 
     public void addScore (int score) { playerData.score += score; }
@@ -209,6 +211,7 @@ public class UILeaderboard : MonoBehaviour
         } 
         if (inLeaderboard)
         {
+            ResetTimerAfk();
             cvsVars.nextButton.PlayerClicked();
             UILeaderboard.Instance.cvsVars.fadeHandler.playerClicked();
         }
@@ -235,6 +238,7 @@ public class UILeaderboard : MonoBehaviour
                     cvsVars.fadeHandler.ChangeOfScreen(4);
                     //Invoke("InitChoiceNameAndTitle", timeBetweenScreens);
                     //InitChoiceNameAndTitle();
+                    ResetTimerAfk();
                     break;
                 case leaderboardScreens.nameAndTitleChoice:
                     canChangeScene = false;
@@ -243,15 +247,54 @@ public class UILeaderboard : MonoBehaviour
                     cvsVars.fadeHandler.ChangeOfScreen(10);
                     //Invoke("InitFinalLeaderboard", timeBetweenScreens);
                     //InitFinalLeaderboard();
+                    ResetTimerAfk();
                     break;
                 case leaderboardScreens.finalLeaderboard:
                     canChangeScene = false;
-                    Main.Instance.EndGame(playerData);
+                    Main.Instance.EndGame();
+                    ResetTimerAfk();
                     break;
             }
         }
     }
 
+    float timerCheckInput = 1;
+    [SerializeField] float checkInputEvery = .5f;
+    Vector3 saveLastCursorPos = Vector3.zero;
+    float timerGoBack = 1;
+    [SerializeField] float timeBeforeGoBackToMenu = 5;
+    [SerializeField] float distanceCheckIfInput = .03f;
+
+    public void ResetTimerAfk() { timerGoBack = timeBeforeGoBackToMenu; }
+
+    void CheckIfGoBackToMenu()
+    {
+        Vector3 posCursor = Main.Instance.GetCursorPos();
+
+        timerCheckInput -= Time.unscaledDeltaTime;
+        if (timerCheckInput < 0)
+        {
+            timerCheckInput += checkInputEvery;
+            float currDist = Mathf.Sqrt(
+                Mathf.Pow(Mathf.Abs(saveLastCursorPos.x - posCursor.x) / Screen.width, 2) +
+                Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
+
+            if (currDist > distanceCheckIfInput)
+                timerGoBack = timeBeforeGoBackToMenu;
+
+            else
+            {
+                if (timerGoBack < checkInputEvery)
+                {
+                    if (currentScreen != leaderboardScreens.finalLeaderboard) LeaderboardManager.Instance.SubmitScoreToLeaderboard(playerData.name, playerData.score, playerData.title);
+                    Main.Instance.EndGame();
+                }
+                else
+                    timerGoBack -= checkInputEvery;
+            }
+            saveLastCursorPos = posCursor;
+        }
+    }
 
     void InitChoiceNameAndTitle()
     {

@@ -332,7 +332,7 @@ public class ShooterBullet : Entity<DataShooterBullet>, IGravityAffect, IBulletA
         // Nothing
     }
 
-    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0)
+    public void OnExplosion(Vector3 explosionOrigin, float explosionForce, float explosionRadius, float explosionDamage, float explosionStun, float explosionStunDuration, float liftValue = 0, bool damageCamera = true)
     {
         ReactSpecial<DataShooterBullet, DataShooterBullet>.DoProject(rbBody, explosionOrigin, explosionForce, explosionRadius, liftValue);
         ReactSpecial<DataShooterBullet, DataShooterBullet>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
