@@ -12,6 +12,9 @@ public class KillerObject : MonoBehaviour
     public bool countsAsPlayerKill = true;
 
     [SerializeField]
+    bool canKillProps = true;
+
+    [SerializeField]
     float shakeForceAtVictim = 0;
     [SerializeField]
     float shakeDurationAtVictim = 0;
@@ -117,7 +120,7 @@ public class KillerObject : MonoBehaviour
 
         }
 
-        if (otherEnemy != null && other.GetComponent<Prop>() != null)
+        if (otherEnemy != null && other.GetComponent<Prop>() != null && canKillProps)
         {
             otherEnemy.TakeDamage(9999);
         }
