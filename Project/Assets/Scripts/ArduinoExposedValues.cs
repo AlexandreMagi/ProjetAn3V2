@@ -16,9 +16,16 @@ public class ArduinoExposedValues : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    int n_saved_whatPlayerCanDo = 0;
+    int n_saved_remainingBullet = 0;
+    int n_saved_orbCharge = 0;
+
     public int n_whatPlayerCanDo = 0;
     public int n_remainingBullet = 0;
     public int n_orbCharge = 0;
+
+    [SerializeField] float f_UpdateVarsEvery = 5;
+    float f_timerBeforeUpdateVars = 0;
 
     void Update()
     {
@@ -51,5 +58,17 @@ public class ArduinoExposedValues : MonoBehaviour
             n_remainingBullet = 9;
             n_orbCharge = 9;
         }
+
+        if(f_timerBeforeUpdateVars >= 0) { f_timerBeforeUpdateVars -= Time.unscaledDeltaTime; }
+
+        if (n_whatPlayerCanDo != n_saved_whatPlayerCanDo || n_remainingBullet != n_saved_remainingBullet || n_orbCharge != n_saved_orbCharge || f_timerBeforeUpdateVars < 0) UpdateVars();
+    }
+
+    void UpdateVars()
+    {
+        n_saved_whatPlayerCanDo = n_whatPlayerCanDo;
+        n_saved_remainingBullet = n_remainingBullet;
+        n_saved_orbCharge = n_orbCharge;
+        f_timerBeforeUpdateVars = f_UpdateVarsEvery;
     }
 }
