@@ -335,6 +335,16 @@ public class Main : MonoBehaviour
             Player.Instance.SetGod();
         }
 
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            SetupWaitScreenOn();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            SetupWaitScreenOff();
+        }
+
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
@@ -946,19 +956,22 @@ public class Main : MonoBehaviour
     }
     public void SetupWaitScreenOff(bool requestFromDiorama = false)
     {
-        if (inWaitScreen && !(requestFromDiorama && wasInWaitScreen))
+        if (!Input.GetKey(KeyCode.Z))
         {
-            playerCanOrb = playerCanOrbWaitScreenSave;
-            playerCanReload = playerCanReloadWaitScreenSave;
-            playerCanZeroG = playerCanZeroGWaitScreenSave;
-            playerCanPerfectReload = playerCanPerfectReloadWaitScreenSave;
-            playerCanShoot = playerCanShootWaitScreenSave;
-            playerCanShotgun = playerCanShotgunWaitScreenSave;
-            UiCrossHair.Instance.StopWaitFunction();
+            if (inWaitScreen && !(requestFromDiorama && wasInWaitScreen))
+            {
+                playerCanOrb = playerCanOrbWaitScreenSave;
+                playerCanReload = playerCanReloadWaitScreenSave;
+                playerCanZeroG = playerCanZeroGWaitScreenSave;
+                playerCanPerfectReload = playerCanPerfectReloadWaitScreenSave;
+                playerCanShoot = playerCanShootWaitScreenSave;
+                playerCanShotgun = playerCanShotgunWaitScreenSave;
+                UiCrossHair.Instance.StopWaitFunction();
 
-            inWaitScreen = false;
+                inWaitScreen = false;
+            }
+            wasInWaitScreen = false;
         }
-        wasInWaitScreen = false;
 
     }
 
