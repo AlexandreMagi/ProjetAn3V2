@@ -246,7 +246,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
                 if (speAffect != null && (hVictim.GetComponent<Player>() == null))
                 {
-                    speAffect.OnExplosion(CameraHandler.Instance.renderingCam.transform.position, 5000, 6, 0, 0, 0, 0);
+                    speAffect.OnExplosion(CameraHandler.Instance.renderingCam.transform.position, 5000, 6, 0, 0, 0, 0,false);
                 }
             }
         }
