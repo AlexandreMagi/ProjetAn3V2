@@ -10,6 +10,8 @@ public class Main : MonoBehaviour
 {
     public bool TCActivated = true;
 
+    [SerializeField] bool startInWaitScreen = false;
+
     public bool playerCanOrb = true;
     public bool playerCanReload = true;
     public bool playerCanZeroG = true;
@@ -132,6 +134,8 @@ public class Main : MonoBehaviour
         if (QualityHandler.Instance != null && !QualityHandler.Instance.isHighQuality) ChangeQuality(false);
 
         Invoke("UpdateArduino", 1);
+        Invoke("UpdateWaitScreenStart", .5f);
+
 
     }
 
@@ -140,6 +144,10 @@ public class Main : MonoBehaviour
     public void UpdateArduino()
     {
         if (ARdunioConnect.Instance != null) isArduinoMode = ARdunioConnect.Instance.ArduinoIsConnected;
+    }
+    public void UpdateWaitScreenStart()
+    {
+        if (startInWaitScreen) SetupWaitScreenOn();
     }
 
     // Update is called once per frame
