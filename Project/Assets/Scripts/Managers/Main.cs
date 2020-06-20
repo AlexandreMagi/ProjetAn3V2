@@ -113,6 +113,8 @@ public class Main : MonoBehaviour
 
     [SerializeField] Color fogDefaultColor = new Color(108, 130, 137);
 
+    bool enableDebugInputs = false;
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -256,20 +258,28 @@ public class Main : MonoBehaviour
         }
 
         #region Debug
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            enableDebugInputs = !enableDebugInputs;
+            if (DebugDisplayScript.Instance != null) DebugDisplayScript.Instance.SetDebugVisible(enableDebugInputs);
+        }
+
+
         //DEBUG
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && enableDebugInputs)
         {
             isArduinoMode = !isArduinoMode;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Debug.Log("EXPLOSION");
             ExplosionFromPlayer(30, 0, 500, 0, 0, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             UiCrossHair.Instance.StopWaitFunction();
@@ -281,38 +291,38 @@ public class Main : MonoBehaviour
             playerCanShotgun = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && enableDebugInputs)
         {
             if (QualityHandler.Instance != null) ChangeQuality (!QualityHandler.Instance.isHighQuality);
         }
 
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.N) && enableDebugInputs)
         {
             SequenceHandler.Instance.NextSequence(true);
             //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && enableDebugInputs)
         {
             Player.Instance.TakeDamage(34);
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Y) && enableDebugInputs)
         {
             mainMixer.SetFloat("GameVolume", 0);
             SceneHandler.Instance.RestartScene(.3f, true);
             CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U) && enableDebugInputs)
         {
             mainMixer.SetFloat("GameVolume", 0);
             SceneHandler.Instance.ChangeScene("MenuScene",.3f, true);
             CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             this.sequenceSkipMode = !this.sequenceSkipMode;
@@ -320,7 +330,7 @@ public class Main : MonoBehaviour
             sequenceCheat = "";
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Player.Instance.SetLifeTo(1);
@@ -329,45 +339,45 @@ public class Main : MonoBehaviour
             CustomSoundManager.Instance.PlaySound("SE_Trap_Death", "UI", 2);
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             Player.Instance.SetGod();
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) && enableDebugInputs)
         {
             SetupWaitScreenOn();
         }
 
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Z) && enableDebugInputs)
         {
             SetupWaitScreenOff();
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        if (Input.GetKeyDown(KeyCode.KeypadPlus) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, 50);
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        if (Input.GetKeyDown(KeyCode.KeypadMinus) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, -50);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && enableDebugInputs)
         {
             HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
         }
 
-        if (Input.GetKeyDown(KeyCode.T)) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
+        if (Input.GetKeyDown(KeyCode.T) && enableDebugInputs) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
 
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -387,7 +397,7 @@ public class Main : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && enableDebugInputs)
         {
             if (GamePaused)
             {
@@ -404,12 +414,12 @@ public class Main : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) && enableDebugInputs)
         {
             if (CheatDisplayHandler.Instance != null) CheatDisplayHandler.Instance.ChangeCheatDisplay();
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             playerCanOrb = !playerCanOrb;
@@ -418,7 +428,7 @@ public class Main : MonoBehaviour
         //{
         //    Debug.Log(LeaderboardManager.Instance.GetHighestScore().score);
         //}
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             if (!playerInLeaderboard)
@@ -471,7 +481,7 @@ public class Main : MonoBehaviour
                 sequenceCheat += "9";
             }
             #endregion
-            if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            if ((Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) && enableDebugInputs)
             {
                 if(sequenceCheat != "")
                 {
@@ -524,7 +534,7 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        TimeScaleManager.Instance.AccelGame(Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q), Input.GetKey(KeyCode.H)? 5 : 10);
+        TimeScaleManager.Instance.AccelGame((Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q)) && enableDebugInputs, Input.GetKey(KeyCode.H)? 5 : 10);
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
