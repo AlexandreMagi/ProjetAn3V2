@@ -770,6 +770,15 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
        
     }
 
+    public void SpawnerVFX()
+    {
+        if (entityData.vfxToPlayWhenSpawn != null)
+        {
+            FxManager.Instance.PlayFx(entityData.vfxToPlayWhenSpawn, transform.position, Quaternion.identity);
+        }
+    }
+
+
     public void ResetSwarmer(DataEntity _entityData)
     {
         //Debug.Log("Reset called");
@@ -801,6 +810,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         target = null;
         currentState = SwarmerState.FollowPath;
         timerWait = 0;
+
         if (currentParticleOrb) currentParticleOrb.Stop();
         hasPlayedFxOnPull = false;
 
