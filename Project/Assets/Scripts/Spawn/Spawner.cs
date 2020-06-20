@@ -148,8 +148,15 @@ public class Spawner : MonoBehaviour
                 spawnedEnemy.transform.position = transform.position;
             }
 
+            if (entDataToGive is DataSwarmer)
+            {
+                Swarmer swarm = spawnedEnemy.GetComponent<Swarmer>();
+                if (swarm)
+                    swarm.SpawnerVFX();
+            }
+
             //Bullet changes
-            if(entDataToGive is DataShooter && switchesBulletData && dataBulletToSwap != null)
+            if (entDataToGive is DataShooter && switchesBulletData && dataBulletToSwap != null)
             {
                 Shooter shoot = spawnedEnemy.GetComponent<Shooter>();
                 if(shoot)

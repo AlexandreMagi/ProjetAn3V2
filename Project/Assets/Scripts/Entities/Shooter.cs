@@ -72,6 +72,8 @@ public class Shooter : Enemy<DataShooter>, ISpecialEffects, IGravityAffect
         state = (int)State.Nothing;
         entityData = entityData as DataShooter;
 
+        FxManager.Instance.PlayFx(entityData.vfxSpawner, transform.position, Quaternion.identity, 3, 1);
+
         //On crée un clone, en cas de modifications à la volée
         currentDataBullet = Instantiate(entityData.bulletData);
     }
