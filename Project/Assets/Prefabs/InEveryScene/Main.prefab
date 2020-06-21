@@ -1296,7 +1296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TCActivated: 1
-  startInWaitScreen: 0
+  startInWaitScreen: 1
   playerCanOrb: 0
   playerCanReload: 0
   playerCanZeroG: 1
@@ -1305,7 +1305,7 @@ MonoBehaviour:
   playerCanShotgun: 0
   overrideUiCrosshairInterdictionGraph: 0
   playerInLeaderboard: 0
-  startWithCameraNumber: 137
+  startWithCameraNumber: 0
   difficultyData: {fileID: 11400000, guid: 5820af90c56d93f4d81528f2003c0224, type: 2}
   playerResedAlready: 0
   autoReloadOnNoAmmo: 1
@@ -1448,6 +1448,8 @@ MonoBehaviour:
   - {fileID: 4428783609674995373, guid: 9f7e45793b37b7746b17ae9267ae0225, type: 3}
   - {fileID: 4334934414303703030, guid: 221f2867d57259244a9f4b5721942e15, type: 3}
   - {fileID: 2894845473010278865, guid: ac3c656ce3d613b4fb552b807edc4e80, type: 3}
+  - {fileID: 4334934414303703030, guid: f91347a59103f9a46883a9152d7a8733, type: 3}
+  - {fileID: 8763493957069228586, guid: f7589831ed5e53b44a3f33412ce7cd3f, type: 3}
   DebugMesh: {fileID: 0}
 --- !u!114 &7244353406021666021
 MonoBehaviour:
@@ -1572,6 +1574,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c429b5eb05f8be4cbf31704997f5dc7, type: 2}
   - {fileID: 11400000, guid: 2d44c5ec27d7d494484d23100e1e74e2, type: 2}
   - {fileID: 11400000, guid: d1eabc118b3cc8d4db3babc70183e8d6, type: 2}
+  - {fileID: 11400000, guid: fe9d8c3df02fd234b9355764e3f8f06c, type: 2}
+  - {fileID: 11400000, guid: c919c06db6b69ec42bc166969d40cef3, type: 2}
 --- !u!114 &8791258131886555901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2145,7 +2149,7 @@ PrefabInstance:
     - target: {fileID: 2211647413142285170, guid: 01bb7bbe576bc494ebfffb055e48f36d,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01bb7bbe576bc494ebfffb055e48f36d, type: 3}

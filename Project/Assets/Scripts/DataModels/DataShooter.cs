@@ -30,6 +30,7 @@ public class DataShooter : DataEnemy
     public DataShooterBullet bulletData;
     public GameObject bulletPrefabs;
     public string muzzleFlashFx = "VFX_MuzzleFlashShooter";
+    public string vfxSpawner = "VFX_Spawner";
 
     [Header("Specific Stun")]
     public float stunRecoil;
