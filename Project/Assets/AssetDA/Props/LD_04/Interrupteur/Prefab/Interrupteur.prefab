@@ -59,9 +59,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: df394c7f1e2c4284fb683e527fd64603, type: 2}
   isCollectible: 0
+  vfxToPlayOnActivation: VFX_GetCollectibles
   armorGiven: 0
-  soundPlayed: ShootTriggerSound
-  soundVolume: 1
+  soundPlayed:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  soundVolume: []
+  soundDelay: []
   lightToDisable: {fileID: 0}
   useFracturedProp: 0
   fracturedProp: {fileID: 0}
@@ -4900,11 +4919,11 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
+  m_UseCustomVertexStreams: 1
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
-  m_VertexStreams: 00010304
+  m_VertexStreams: 000304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
