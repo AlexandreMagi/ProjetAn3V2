@@ -11,6 +11,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     [SerializeField]
     public bool isCollectible = false;
 
+    [SerializeField, ShowIf("isCollectible")]
+    public string vfxToPlayOnActivation = "VFX_GetCollectibles";
+
     bool isTriggered = false;
 
     [SerializeField]
@@ -41,6 +44,7 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
     [SerializeField, ShowIf("useFracturedProp")]
     float fracturedForceOnDie = 100;
 
+    
 
     Collider thisCollider = null;
 
@@ -77,6 +81,9 @@ public class ShootTrigger : Entity<DataEntity>, IBulletAffect
             GameObject fract;
             fract = Instantiate(fracturedProp, pivotFracturedExplosion.transform);
             fract.transform.parent = null;
+
+            if (isCollectible)
+                FxManager.Instance.PlayFx(vfxToPlayOnActivation, transform.position, Quaternion.identity);
 
             Rigidbody[] rb = fract.GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rbs in rb)
