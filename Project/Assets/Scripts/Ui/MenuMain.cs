@@ -73,6 +73,9 @@ public class MenuMain : MonoBehaviour
     bool inLeaderboardTransition = false;
 
     [SerializeField] LeaderboardCreditsButton leaderboardAndCreditMenuButton = null;
+
+    [SerializeField] EasterEggButton[] allEasterEggButton = null;
+
     private void Start()
     {
         Time.timeScale = 1;
@@ -416,6 +419,11 @@ public class MenuMain : MonoBehaviour
             if (qualityButton != null)
             {
                 qualityButton.Click();
+            }
+
+            for (int i = 0; i < allEasterEggButton.Length; i++)
+            {
+                if (allEasterEggButton[i] != null && allEasterEggButton[i].gameObject.activeSelf) allEasterEggButton[i].Click();
             }
         }
     }

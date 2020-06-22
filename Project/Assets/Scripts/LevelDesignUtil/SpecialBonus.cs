@@ -6,7 +6,7 @@ public class SpecialBonus : MonoBehaviour,IBulletAffect
 {
 
     [HideInInspector] public SpecialBonusManager manager = null;
-    [SerializeField] SpecialBonusManager.SpecialBonusType bonusType = SpecialBonusManager.SpecialBonusType.juggernaut;
+    [SerializeField] EasterEggHandler.SpecialBonusType bonusType = EasterEggHandler.SpecialBonusType.juggernaut;
 
     public void OnBulletClose()
     {

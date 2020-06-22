@@ -10,7 +10,6 @@ public class SpecialBonusManager : MonoBehaviour
     //int nbBonusDestroyed = 0;
     //int nbBonusToDestroy = 0;
 
-    public enum SpecialBonusType { juggernaut,aikent,fanfaron};
 
     void Start()
     {
@@ -24,17 +23,17 @@ public class SpecialBonusManager : MonoBehaviour
         }
     }
 
-    public void BonusDestroyed(SpecialBonusType bonusType)
+    public void BonusDestroyed(EasterEggHandler.SpecialBonusType bonusType)
     {
         switch (bonusType)
         {
-            case SpecialBonusType.juggernaut:
+            case EasterEggHandler.SpecialBonusType.juggernaut:
                 TitlesManager.Instance.ChangeTitleState(18, true);
                 break;
-            case SpecialBonusType.aikent:
+            case EasterEggHandler.SpecialBonusType.aikant:
                 TitlesManager.Instance.ChangeTitleState(19, true);
                 break;
-            case SpecialBonusType.fanfaron:
+            case EasterEggHandler.SpecialBonusType.fanfaron:
                 TitlesManager.Instance.ChangeTitleState(20, true);
                 break;
         }
