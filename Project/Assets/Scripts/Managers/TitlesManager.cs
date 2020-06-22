@@ -168,7 +168,19 @@ public class TitlesManager : MonoBehaviour
 
                         break;
                     case 17:
-                        Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
+                        Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.GameFinished);
+                        break;
+                    case 18:
+                        if (title.isUnlocked)
+                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Juggernaut);
+                        break;
+                    case 19:
+                        if (title.isUnlocked)
+                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Aikent);
+                        break;
+                    case 20:
+                        if (title.isUnlocked)
+                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Fanfaron);
                         break;
                 }
 

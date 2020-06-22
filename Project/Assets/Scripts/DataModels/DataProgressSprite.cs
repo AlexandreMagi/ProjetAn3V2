@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DataProgressSprite", menuName = "ScriptableObjects/DataProgressSprite")]
 public class DataProgressSprite : ScriptableObject
 {
-    public enum SpriteNeeded { Unkillable, Immaculate,WellProtected,Sniper,Speedrunner, Unphotogenic ,AllBonus,LivingArmor,Inextremis,Chouchou,TechWizard,WhoNeedsAShotgun,GravityIsWeak,Unshakable, Environmentalist ,Gladiator}
+    public enum SpriteNeeded { Unkillable, Immaculate,WellProtected,Sniper,Speedrunner, Unphotogenic ,AllBonus,LivingArmor,Inextremis,Chouchou,TechWizard,WhoNeedsAShotgun,GravityIsWeak,Unshakable, Environmentalist ,Gladiator, GameFinished, Juggernaut, Aikent, Fanfaron }
     public Sprite Unkillable = null;
     public Sprite Immaculate = null;
     public Sprite WellProtected = null;
@@ -22,10 +22,14 @@ public class DataProgressSprite : ScriptableObject
     public Sprite Unshakable = null;
     public Sprite Environmentalist = null;
     public Sprite Gladiator = null;
+    public Sprite GameFinished = null;
+    public Sprite Juggernaut = null;
+    public Sprite Aikent = null;
+    public Sprite Fanfaron = null;
 
     public Sprite getSprite(int spriteType)
     {
-        if (spriteType <= (int)SpriteNeeded.Gladiator)
+        if (spriteType <= (int)SpriteNeeded.Fanfaron)
         {
             switch (spriteType)
             {
@@ -61,6 +65,14 @@ public class DataProgressSprite : ScriptableObject
                     return Environmentalist;
                 case (int)SpriteNeeded.Gladiator:
                     return Gladiator;
+                case (int)SpriteNeeded.GameFinished:
+                    return GameFinished;
+                case (int)SpriteNeeded.Juggernaut:
+                    return Juggernaut;
+                case (int)SpriteNeeded.Aikent:
+                    return Aikent;
+                case (int)SpriteNeeded.Fanfaron:
+                    return Fanfaron;
             }
         }
         return null;

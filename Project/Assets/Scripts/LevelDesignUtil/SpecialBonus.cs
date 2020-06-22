@@ -6,6 +6,7 @@ public class SpecialBonus : MonoBehaviour,IBulletAffect
 {
 
     [HideInInspector] public SpecialBonusManager manager = null;
+    [SerializeField] SpecialBonusManager.SpecialBonusType bonusType = SpecialBonusManager.SpecialBonusType.juggernaut;
 
     public void OnBulletClose()
     {
@@ -15,16 +16,20 @@ public class SpecialBonus : MonoBehaviour,IBulletAffect
     {
         if (manager != null)
         {
-            manager.BonusDestroyed();
+            manager.BonusDestroyed(bonusType);
         }
+        Debug.Log("Jouer FX ici");
         gameObject.SetActive(false);
     }
 
     public void OnHitShotGun(DataWeaponMod mod)
     {
+        Weapon.Instance.OnShotGunHitTarget();
     }
 
     public void OnHitSingleShot(DataWeaponMod mod)
     {
+        if (!Weapon.Instance.CheckIfModIsMinigun(mod))
+            MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShootHit);
     }
 }
