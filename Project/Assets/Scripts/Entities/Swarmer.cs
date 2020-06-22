@@ -806,7 +806,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         health = entityData.startHealth;
         TeamsManager.Instance.RemoveFromTeam(this.transform, entityData.team);
         TeamsManager.Instance.RegistertoTeam(this.transform, entityData.team);
-        this.GetComponentInChildren<Renderer>().material = entityData.mat;
+        //this.GetComponentInChildren<Renderer>().material = entityData.mat;
         target = null;
         currentState = SwarmerState.FollowPath;
         timerWait = 0;
