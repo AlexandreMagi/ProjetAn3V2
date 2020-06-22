@@ -51,6 +51,9 @@ public class SwarmerProceduralAnimation : MonoBehaviour
     [SerializeField] float headMaxTurnAngle = 60;
     [SerializeField] float headTrackingSpeed = 3;
 
+    [Header("Jaw")]
+
+    [SerializeField] bool activateJaw = false;
     [SerializeField] AnimationCurve animMachoireRot = AnimationCurve.Linear(0, 0, 1, 1);
     [SerializeField] float animMachoireRotAmplitude = -40;
     [SerializeField] float animMachoireRotTime = .5f;
@@ -143,14 +146,18 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             headTrueBone[i].rotation = headBoneRefs[i].rotation;
         }
 
-        currentRotAnimPurcentage += Time.deltaTime / currentRotAnimTime;
-        if (currentRotAnimPurcentage > 1)
+        if (activateJaw)
         {
-            currentRotAnimPurcentage--;
-            currentRotAnimTime = animMachoireRotTime + Random.Range(-animMachoireRotTimeAddedRandom, animMachoireRotTimeAddedRandom);
+            currentRotAnimPurcentage += Time.deltaTime / currentRotAnimTime;
+            if (currentRotAnimPurcentage > 1)
+            {
+                currentRotAnimPurcentage--;
+                currentRotAnimTime = animMachoireRotTime + Random.Range(-animMachoireRotTimeAddedRandom, animMachoireRotTimeAddedRandom);
+            }
+
+            headTrueBone[0].Rotate(Vector3.forward, animMachoireRot.Evaluate(currentRotAnimPurcentage) * animMachoireRotAmplitude);
         }
 
-        headTrueBone[0].Rotate(Vector3.forward, animMachoireRot.Evaluate(currentRotAnimPurcentage) * animMachoireRotAmplitude);
     }
 
     bool CanPlaySound()
