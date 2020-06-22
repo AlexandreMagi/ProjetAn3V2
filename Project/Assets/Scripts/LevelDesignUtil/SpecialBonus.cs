@@ -7,6 +7,7 @@ public class SpecialBonus : MonoBehaviour,IBulletAffect
 
     [HideInInspector] public SpecialBonusManager manager = null;
     [SerializeField] EasterEggHandler.SpecialBonusType bonusType = EasterEggHandler.SpecialBonusType.juggernaut;
+    [SerializeField] string fxWhenDie = null;
 
     public void OnBulletClose()
     {
@@ -32,7 +33,8 @@ public class SpecialBonus : MonoBehaviour,IBulletAffect
             }
             manager.BonusDestroyed(bonusType);
         }
-        Debug.Log("Jouer FX ici");
+        UIEasterEggHandler.Instance.TriggerVisualDisplayEasterEgg(bonusType);
+        FxManager.Instance.PlayFx(fxWhenDie, transform.position, Quaternion.identity);
         gameObject.SetActive(false);
     }
 
