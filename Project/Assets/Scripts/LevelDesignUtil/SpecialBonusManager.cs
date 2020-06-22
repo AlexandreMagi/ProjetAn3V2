@@ -6,9 +6,11 @@ public class SpecialBonusManager : MonoBehaviour
 {
 
     [SerializeField] SpecialBonus[] allSpecialBonus = null;
-    [SerializeField] string booleanSequenceName = "secretBooleanSequence";
-    int nbBonusDestroyed = 0;
-    int nbBonusToDestroy = 0;
+    //[SerializeField] string booleanSequenceName = "secretBooleanSequence";
+    //int nbBonusDestroyed = 0;
+    //int nbBonusToDestroy = 0;
+
+    public enum SpecialBonusType { juggernaut,aikent,fanfaron};
 
     void Start()
     {
@@ -18,19 +20,31 @@ public class SpecialBonusManager : MonoBehaviour
             {
                 if (allSpecialBonus[i] != null) allSpecialBonus[i].manager = this;
             }
-            nbBonusToDestroy = allSpecialBonus.Length;
+            //nbBonusToDestroy = allSpecialBonus.Length;
         }
     }
 
-    public void BonusDestroyed()
+    public void BonusDestroyed(SpecialBonusType bonusType)
     {
-        nbBonusDestroyed++;
-        Debug.Log(nbBonusDestroyed + " / " + nbBonusToDestroy);
-        if (nbBonusDestroyed == nbBonusToDestroy)
+        switch (bonusType)
         {
-            Debug.Log("Change Sequence");
-            BooleanSequenceManager.Instance.SetStateOfBoolSequence(booleanSequenceName, true);
+            case SpecialBonusType.juggernaut:
+                TitlesManager.Instance.ChangeTitleState(18, true);
+                break;
+            case SpecialBonusType.aikent:
+                TitlesManager.Instance.ChangeTitleState(19, true);
+                break;
+            case SpecialBonusType.fanfaron:
+                TitlesManager.Instance.ChangeTitleState(20, true);
+                break;
         }
+        //nbBonusDestroyed++;
+        //Debug.Log(nbBonusDestroyed + " / " + nbBonusToDestroy);
+        //if (nbBonusDestroyed == nbBonusToDestroy)
+        //{
+        //    Debug.Log("Change Sequence");
+        //    BooleanSequenceManager.Instance.SetStateOfBoolSequence(booleanSequenceName, true);
+        //}
     }
 
 }
