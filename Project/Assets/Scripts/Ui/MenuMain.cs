@@ -73,8 +73,12 @@ public class MenuMain : MonoBehaviour
     bool inLeaderboardTransition = false;
 
     [SerializeField] LeaderboardCreditsButton leaderboardAndCreditMenuButton = null;
+
+    [SerializeField] EasterEggButton[] allEasterEggButton = null;
+
     private void Start()
     {
+        EasterEggHandler.Instance.EndGameHandleEasterEgg();
         Time.timeScale = 1;
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Drone_Ambiant", true, 0.4f);
         //CustomSoundManager.Instance.PlaySound(Camera.main.gameObject, "Crowd_Idle", true, 0.2f);
@@ -101,6 +105,15 @@ public class MenuMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            EasterEggHandler.Instance.UnlockAllBonusAtNow();
+            for (int i = 0; i < allEasterEggButton.Length; i++)
+            {
+                allEasterEggButton[i].UpdateAppearance();
+            }
+        }
 
         if (isArduinoMode && Input.GetKeyDown(KeyCode.Mouse0)) isArduinoMode = false;
         if (!isArduinoMode && (arduinoTransmettor && arduinoTransmettor.isShotUp)) isArduinoMode = true;
@@ -416,6 +429,11 @@ public class MenuMain : MonoBehaviour
             if (qualityButton != null)
             {
                 qualityButton.Click();
+            }
+
+            for (int i = 0; i < allEasterEggButton.Length; i++)
+            {
+                if (allEasterEggButton[i] != null && allEasterEggButton[i].gameObject.activeSelf) allEasterEggButton[i].Click();
             }
         }
     }
