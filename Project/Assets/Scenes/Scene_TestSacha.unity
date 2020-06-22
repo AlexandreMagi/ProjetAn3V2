@@ -1667,6 +1667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
+  bonusType: 2
 --- !u!65 &260456489
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2592,6 +2593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
+  bonusType: 1
 --- !u!65 &396007312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4653,75 +4655,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &798679993
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5978181439982041403, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_Name
-      value: Collectibles
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -13.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 42
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254627749512383272, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 43dd20ae8b1dce94da3de8d8af2b6bb1, type: 3}
 --- !u!1 &803841925
 GameObject:
   m_ObjectHideFlags: 0
@@ -5401,7 +5334,7 @@ MonoBehaviour:
   affectedByBooleanSequenceBranch: 1
   branchLinkedId: 0
   booleanLinks:
-  - booleanSequence: {fileID: 11400000, guid: 8da5da2c3bd75cf4b9d88062c52d1b35, type: 2}
+  - booleanSequence: {fileID: 0}
     bSeqRequiredStatus: 1
     indexOfBranchLinked: 0
   affectedObject: {fileID: 0}
@@ -10416,6 +10349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: df394c7f1e2c4284fb683e527fd64603, type: 2}
   isCollectible: 0
+  vfxToPlayOnActivation: VFX_GetCollectibles
   armorGiven: 0
   soundPlayed:
   - 
@@ -10669,6 +10603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
+  bonusType: 0
 --- !u!1 &1490621650
 GameObject:
   m_ObjectHideFlags: 0
@@ -12671,7 +12606,6 @@ MonoBehaviour:
   - {fileID: 260456488}
   - {fileID: 396007311}
   - {fileID: 1483083415}
-  booleanSequenceName: SecretBooleanSequence
 --- !u!4 &1875626401
 Transform:
   m_ObjectHideFlags: 0
