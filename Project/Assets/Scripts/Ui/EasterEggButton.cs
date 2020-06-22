@@ -14,7 +14,12 @@ public class EasterEggButton : MonoBehaviour
 
     void Start()
     {
-        if(EasterEggHandler.Instance != null)
+        UpdateAppearance();
+    }
+
+    public void UpdateAppearance()
+    {
+        if (EasterEggHandler.Instance != null)
         {
             bool enabled = false;
             switch (easterEggType)

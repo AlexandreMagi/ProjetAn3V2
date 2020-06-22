@@ -322,6 +322,11 @@ public class Main : MonoBehaviour
             CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
+        if (Input.GetKeyDown(KeyCode.W) && enableDebugInputs)
+        {
+            EasterEggHandler.Instance.UnlockAllBonusAtNextGame();
+        }
+
         if (Input.GetKeyDown(KeyCode.P) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);

@@ -94,6 +94,13 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
 
     bool countAsEnvironmentalKill = false;
 
+    [SerializeField] GameObject swarmerMeshRoot = null;
+    [SerializeField] GameObject fanfaronMeshRoot = null;
+    [SerializeField] GameObject aikantMeshRoot = null;
+    [SerializeField] GameObject juggernautMeshRoot = null;
+    List<GameObject> actuallyUsableEasterEggMesh = new List<GameObject>();
+    bool canHaveSwarmerMesh = true;
+
     #region Stimulus
     public override void OnDistanceDetect(Transform p_target, float distance)
     {
@@ -110,7 +117,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         if (currentState == SwarmerState.Attacking)
         {
             currentState = SwarmerState.LookingForTarget;
-            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+            if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         }
         ReactSpecial<DataSwarmer, DataSwarmer>.DoProject(rbBody, explosionOrigin, explosionForce, explosionRadius, liftValue);
         ReactSpecial<DataSwarmer, DataSwarmer>.DoExplosionDammage(this, explosionOrigin, explosionDamage, explosionRadius);
@@ -169,7 +176,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                 hasPlayedFxOnPull = true;
                 currentPullParticles = FxManager.Instance.PlayFx(entityData.vfxToPlayWhenPulledByGrav, transform);
             }
-            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+            if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         }
     }
 
@@ -222,7 +229,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             currentState = SwarmerState.GravityControlled;
 
             ReactGravity<DataSwarmer>.DoSpin(rbBody);
-            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+            if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         }
     }
 
@@ -249,16 +256,51 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             currentState = SwarmerState.LookingForTarget;
             Invoke("MaybeGrunt", .5f);
 
-            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+            if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         }
        
     }
 
     public void ForcePlayAnimation(SwarmerProceduralAnimation.AnimSwarmer anim)
     {
-        animatorCustom.PlayAnim(anim);
+        if (canHaveSwarmerMesh) animatorCustom.PlayAnim(anim);
     }
 
+    void DesactivateAllMesh()
+    {
+        aikantMeshRoot.SetActive(false);
+        juggernautMeshRoot.SetActive(false);
+        fanfaronMeshRoot.SetActive(false);
+        swarmerMeshRoot.SetActive(false);
+    }
+
+    void UpdateMeshEasterEgg()
+    {
+        actuallyUsableEasterEggMesh = new List<GameObject>();
+        if (EasterEggHandler.Instance != null)
+        {
+            if (EasterEggHandler.Instance.AikantUnlocked && EasterEggHandler.Instance.AikantEnabled) actuallyUsableEasterEggMesh.Add(aikantMeshRoot);
+            if (EasterEggHandler.Instance.JuggernautUnlocked && EasterEggHandler.Instance.JuggernautEnabled) actuallyUsableEasterEggMesh.Add(juggernautMeshRoot);
+            if (EasterEggHandler.Instance.FanfaronUnlocked && EasterEggHandler.Instance.FanfaronEnabled) actuallyUsableEasterEggMesh.Add(fanfaronMeshRoot);
+        }
+        if (actuallyUsableEasterEggMesh.Count == 0)
+        {
+            actuallyUsableEasterEggMesh.Add(swarmerMeshRoot);
+            canHaveSwarmerMesh = true;
+        }
+        else
+        {
+            canHaveSwarmerMesh = false;
+        }
+    }
+
+    void SetEasterEggMesh()
+    {
+        UpdateMeshEasterEgg();
+        int indexMesh = Random.Range(0, actuallyUsableEasterEggMesh.Count);
+        DesactivateAllMesh();
+        actuallyUsableEasterEggMesh[indexMesh].SetActive(true);
+    }
 
     protected override void Die()
     {
@@ -364,18 +406,20 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             Invoke("PlayAnimDelayed", timeDecal);
         }
 
-        if(animatorCustom != null && !playsAnimationOnStartUp)
-        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+        if(animatorCustom != null && !playsAnimationOnStartUp && canHaveSwarmerMesh)
+            animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
 
         lastKnownPosition = transform.position;
 
         if(!playsAnimationOnStartUp)
             Invoke("MaybeGrunt", 1f);
+
+        SetEasterEggMesh();
     }
 
     void PlayAnimDelayed()
     {
-        animatorCustom.PlayAnim(animationToPlay);
+        if(canHaveSwarmerMesh) animatorCustom.PlayAnim(animationToPlay);
     }
 
     protected override void Update()
@@ -435,7 +479,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
             //Distance to attack check
             if (target != null && CheckDistance() && grounded && transform.position.y < target.position.y + 1 && currentState != SwarmerState.GravityControlled && currentState != SwarmerState.Attacking)
             {
-                if (currentState != SwarmerState.WaitingForAttack)
+                if (currentState != SwarmerState.WaitingForAttack && canHaveSwarmerMesh)
                     animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.prepare);
                 currentState = SwarmerState.WaitingForAttack;
                 rbBody.velocity = Vector3.zero;
@@ -545,7 +589,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                         rbBody.AddForce(Vector3.up * entityData.jumpForce, ForceMode.Impulse);
                         if ((Weapon.Instance == null || !Weapon.Instance.IsMinigun || Weapon.Instance.IsMinigun && Random.Range(0, 100) < 10) && (CameraHandler.Instance == null || CameraHandler.Instance.GetDistanceWithCam(transform.position) < entityData.distWithPlayerToPlaySound))
                             CustomSoundManager.Instance.PlaySound("SE_Swarmer_Attack", "Effect", null, 0.4f, false, 1, 0.3f,0,4);
-                        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.jump);
+                        if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.jump);
                     }
                     else
                         currentState = SwarmerState.FollowPath;
@@ -577,7 +621,7 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
                     if (!CheckDistance())
                     {
                         currentState = SwarmerState.LookingForTarget;
-                        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+                        if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
                     }
                 }
                 break;
@@ -821,7 +865,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
         }
         Invoke("MaybeGrunt", 1f);
 
-        animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
+        SetEasterEggMesh();
+
+        if (canHaveSwarmerMesh) animatorCustom.PlayAnim(SwarmerProceduralAnimation.AnimSwarmer.reset);
         //InitColor();
     }
 

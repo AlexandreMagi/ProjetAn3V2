@@ -16,6 +16,20 @@ public class SpecialBonus : MonoBehaviour,IBulletAffect
     {
         if (manager != null)
         {
+            switch (bonusType)
+            {
+                case EasterEggHandler.SpecialBonusType.juggernaut:
+                    EasterEggHandler.Instance.JuggernautUnlockedNextGame = true;
+                    break;
+                case EasterEggHandler.SpecialBonusType.aikant:
+                    EasterEggHandler.Instance.AikantUnlockedNextGame = true;
+                    break;
+                case EasterEggHandler.SpecialBonusType.fanfaron:
+                    EasterEggHandler.Instance.FanfaronUnlockedNextGame = true;
+                    break;
+                default:
+                    break;
+            }
             manager.BonusDestroyed(bonusType);
         }
         Debug.Log("Jouer FX ici");
