@@ -121,6 +121,7 @@ public class Main : MonoBehaviour
     [SerializeField] float timeSkipButtonStayVisible = 2;
     float timeSkipButtonVisible = 0;
     bool inSkip = false;
+    bool releasedInput = false;
 
     public static Main Instance { get; private set; }
     void Awake()
@@ -144,6 +145,7 @@ public class Main : MonoBehaviour
 
         Invoke("UpdateArduino", 1);
         Invoke("UpdateWaitScreenStart", .5f);
+        mainMixer.SetFloat("PitchAffectedVolume", 0);
 
 
     }
@@ -259,7 +261,7 @@ public class Main : MonoBehaviour
             }
             if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && inWaitScreen && !inSkip)
             {
-                if (FastForwardButton.Instance != null)
+                if (FastForwardButton.Instance != null && releasedInput)
                 {
                     FastForwardButton.Instance.Pop();
                     timeSkipButtonVisible = timeSkipButtonStayVisible;
@@ -271,7 +273,13 @@ public class Main : MonoBehaviour
                 }
             }
             else if (inWaitScreen && !inSkip && FastForwardButton.Instance != null)
-                if (FastForwardButton.Instance != null) FastForwardButton.Instance.InputUnHold(timeMustStayHoldToSkip);
+            {
+                if (FastForwardButton.Instance != null)
+                {
+                    FastForwardButton.Instance.InputUnHold(timeMustStayHoldToSkip);
+                    releasedInput = true;
+                }
+            }
             // ------------------------- SKIP BUTTON END ---------------------------------------------------------------------------------------------------------------
 
             if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) UILeaderboard.Instance.PlayerClicked();
@@ -963,6 +971,9 @@ public class Main : MonoBehaviour
 
     public void FinalChoice()
     {
+
+        mainMixer.SetFloat("PitchAffectedVolume", -80);
+
         if (playerCanOrb)
         {
             playerUsedToHaveOrb = true;
@@ -984,7 +995,7 @@ public class Main : MonoBehaviour
 
             float trueChance = GetCurrentChacesOfSurvival();
             if (trueChance > difficultyData.maxChanceOfSurvival) trueChance = difficultyData.maxChanceOfSurvival;
-            Debug.Log(PublicManager.Instance.GetNbViewers() + " / " + difficultyData.malusScoreAtChoosedRevive);
+            //Debug.Log(PublicManager.Instance.GetNbViewers() + " / " + difficultyData.malusScoreAtChoosedRevive);
             EndGameChoice.Instance.SetupChoice(Mathf.RoundToInt(difficultyData.malusScoreAtChoosedRevive * PublicManager.Instance.GetNbViewers()), Mathf.RoundToInt(trueChance), PublicManager.Instance.GetNbViewers());
         }
         else
@@ -1015,6 +1026,7 @@ public class Main : MonoBehaviour
             UiCrossHair.Instance.WaitFunction();
 
             inWaitScreen = true;
+            releasedInput = false;
         }
         else if (requestFromDiorama && inWaitScreen)
         {
@@ -1039,6 +1051,7 @@ public class Main : MonoBehaviour
                 inSkip = false;
 
                 inWaitScreen = false;
+                releasedInput = false;
             }
             wasInWaitScreen = false;
         }
@@ -1099,6 +1112,7 @@ public class Main : MonoBehaviour
             DoResurrection(bonusFromRez);
             playerResedAlready = true;
             if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(0, 0.5f);
+            mainMixer.SetFloat("PitchAffectedVolume", 0);
         }
         else
         {

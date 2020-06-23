@@ -101,6 +101,9 @@ public class Swarmer : Enemy<DataSwarmer>, IGravityAffect, ISpecialEffects
     List<GameObject> actuallyUsableEasterEggMesh = new List<GameObject>();
     bool canHaveSwarmerMesh = true;
 
+    public bool IsGravityAffected { get { return countAsEnvironmentalKill; } }
+
+
     #region Stimulus
     public override void OnDistanceDetect(Transform p_target, float distance)
     {

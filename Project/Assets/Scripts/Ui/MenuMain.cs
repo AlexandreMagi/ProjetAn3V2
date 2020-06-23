@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class MenuMain : MonoBehaviour
 {
@@ -76,6 +77,14 @@ public class MenuMain : MonoBehaviour
 
     [SerializeField] EasterEggButton[] allEasterEggButton = null;
 
+    [SerializeField] CanvasGroup idleBornLeaderboard = null;
+    VideoPlayer idleBornVideoPlayer = null;
+    [SerializeField] float idleBorneScreenTimeTransition = 1;
+    [SerializeField] float idleBorneScreenTimeStay= 3;
+    float timeRemainingInLeadeboardScreen = -1;
+    bool neverBeenInLeaderboardIdle = true;
+    [SerializeField] LeaderboardAndCredits leaderboardAndCreditsHandlerIdle = null;
+
     private void Start()
     {
         EasterEggHandler.Instance.EndGameHandleEasterEgg();
@@ -87,6 +96,9 @@ public class MenuMain : MonoBehaviour
         CustomSoundManager.Instance.PlaySound("Crowd_Idle", "MainMenu", null, .2f, true);
 
         idleBornVideo.SetActive(true);
+        idleBornVideoPlayer = idleBornVideo.GetComponent<VideoPlayer>();
+        idleBornLeaderboard.alpha = 0;
+        idleBornLeaderboard.gameObject.SetActive(false);
         for (int i = 0; i < basePullBulleltHole; i++)
         {
             BulletHoleInstance instance = CreateBulletHoleDecal();
@@ -172,8 +184,47 @@ public class MenuMain : MonoBehaviour
                 if (CheckIfShoot())
                 {
                     idleBornVideo.SetActive(false);
+                    idleBornLeaderboard.gameObject.SetActive(false);
                     currentState = menustate.intro;
                     GetComponent<Animator>().SetTrigger("ReplayIntro");
+                }
+                else
+                {
+                    if (!idleBornVideoPlayer.isPlaying)
+                    {
+                        if (timeRemainingInLeadeboardScreen == 0)
+                        {
+                            ButtonLeaderboardCreditsIdle();
+                            idleBornLeaderboard.alpha = 0;
+                            idleBornLeaderboard.gameObject.SetActive(true);
+                            timeRemainingInLeadeboardScreen = (idleBorneScreenTimeTransition * 2) + idleBorneScreenTimeStay;
+                        }
+                        timeRemainingInLeadeboardScreen -= Time.unscaledDeltaTime;
+                        if (timeRemainingInLeadeboardScreen < 0)
+                        {
+                            idleBornLeaderboard.gameObject.SetActive(false);
+                            idleBornLeaderboard.alpha = 0;
+                            idleBornVideoPlayer.Play();
+                        }
+                        else if (timeRemainingInLeadeboardScreen < idleBorneScreenTimeTransition)
+                        {
+                            idleBornLeaderboard.alpha = timeRemainingInLeadeboardScreen / idleBorneScreenTimeTransition;
+                        }
+                        else if (timeRemainingInLeadeboardScreen < idleBorneScreenTimeTransition + idleBorneScreenTimeStay)
+                        {
+                            idleBornLeaderboard.alpha = 1;
+                        }
+                        else
+                        {
+                            idleBornLeaderboard.alpha = 1 - (timeRemainingInLeadeboardScreen - (idleBorneScreenTimeTransition + idleBorneScreenTimeStay) / idleBorneScreenTimeTransition);
+                        }
+                    }
+                    else
+                    {
+                        timeRemainingInLeadeboardScreen = 0;
+                        idleBornLeaderboard.alpha = 0;
+                        idleBornLeaderboard.gameObject.SetActive(false);
+                    }
                 }
                 //CustomSoundManager.Instance.Mute();
                 break;
@@ -236,6 +287,12 @@ public class MenuMain : MonoBehaviour
         StartCoroutine(leaderboardScreenAnim(InLeaderboardScreen, .3f));
         if (InLeaderboardScreen) leaderboardAndCreditsHandler.InitGraph();
 
+    }
+    public void ButtonLeaderboardCreditsIdle()
+    {
+        if (neverBeenInLeaderboardIdle) leaderboardAndCreditsHandlerIdle.InitTab();
+        neverBeenInLeaderboardIdle = false;
+        leaderboardAndCreditsHandlerIdle.InitGraph();
     }
 
     IEnumerator leaderboardScreenAnim (bool pop, float timeTransition)
