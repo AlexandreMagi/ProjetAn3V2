@@ -172,7 +172,10 @@ public class PublicManager : MonoBehaviour
                 MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.ShooterKill);
                 break;
             case ActionType.Cheat:
-                AddViewers(10, false, ActionType.KillShooter, "Kill Shooter", _position);
+                AddRawViewers((int)bonus, false, action,false);
+                break;
+            case ActionType.Cheatbad:
+                LoseRawViewer((int)bonus);
                 break;
             default:
                 break;
@@ -235,33 +238,40 @@ public class PublicManager : MonoBehaviour
 
         if (difViewer != 0) UiScoreBonusDisplay.Instance.BonusAcquired();
     }
-    private void AddRawViewers(int number, bool isAffectedByBuffer, ActionType action)
+    private void AddRawViewers(int number, bool isAffectedByBuffer, ActionType action, bool affectedByMultipliers = true)
     {
-        float bufferMultiplier = 1;
-        int capCount = 0;
-        if (isAffectedByBuffer)
+        if (affectedByMultipliers)
         {
-            foreach (ActionType actionInTab in stallBuffer)
+            float bufferMultiplier = 1;
+            int capCount = 0;
+            if (isAffectedByBuffer)
             {
-                if (actionInTab == action)
+                foreach (ActionType actionInTab in stallBuffer)
                 {
-                    bufferMultiplier *= publicData.bufferStallAffect;
-                    capCount++;
-
-                    if (capCount >= publicData.antiFarmCap)
+                    if (actionInTab == action)
                     {
-                        bufferMultiplier = 0;
-                        break;
+                        bufferMultiplier *= publicData.bufferStallAffect;
+                        capCount++;
+
+                        if (capCount >= publicData.antiFarmCap)
+                        {
+                            bufferMultiplier = 0;
+                            break;
+                        }
                     }
                 }
             }
-        }
-        if (bufferMultiplier > 0 && isAffectedByBuffer)
-        {
-            AddToBuffer(action);
-        }
+            if (bufferMultiplier > 0 && isAffectedByBuffer)
+            {
+                AddToBuffer(action);
+            }
 
-        nbViewers += number * publicData.baseViewerGrowth;
+            nbViewers += number * publicData.baseViewerGrowth;
+        }
+        else
+        {
+            nbViewers += number;
+        }
 
         if (nbViewers <= 0)
         {
@@ -351,6 +361,7 @@ public class PublicManager : MonoBehaviour
         DamageFixedCam = 19,
         KillSwarmer = 20,
         KillShooter = 21,
-        Cheat = 22
+        Cheat = 22,
+        Cheatbad = 23
     }
 }

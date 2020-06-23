@@ -184,6 +184,8 @@ public class CameraHandler : MonoBehaviour
     Vector3 lastPosDiorama = Vector3.zero;
     float lastFovDiorama = 0;
 
+    [SerializeField] bool fieldOfViewDesactivatedAdFeedback = true;
+
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
     // ##################################################################################################### //
@@ -304,7 +306,7 @@ public class CameraHandler : MonoBehaviour
 
         camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, removeFeedbackFromEndAndStartLerped);
         camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, removeFeedbackFromEndAndStartLerped);
-        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, removeFeedbackFromEndAndStartLerped);
+        if (fieldOfViewDesactivatedAdFeedback) camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, removeFeedbackFromEndAndStartLerped);
 
         BalancingCamUpdate(); // Ovveride les feedbacks et la position si en balancement
 
@@ -341,7 +343,7 @@ public class CameraHandler : MonoBehaviour
 
         camRef.transform.position = Vector3.Lerp(currentCamRef.transform.position, camRef.transform.position, transitionPurcentage);
         camRef.transform.rotation = Quaternion.Lerp(currentCamRef.transform.rotation, camRef.transform.rotation, transitionPurcentage);
-        camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
+        if (fieldOfViewDesactivatedAdFeedback) camRef.fieldOfView = Mathf.Lerp(currentCamRef.fieldOfView, camRef.fieldOfView, transitionPurcentage);
 
         if (zeroGCurrFovPurcentage < 1)
         {
@@ -623,6 +625,8 @@ public class CameraHandler : MonoBehaviour
     public void ResyncCamera(bool hardResync = false)
     {
         CameraLookAt(null, 0,0,0, 0.001f, 0);
+
+        Debug.Log("C'est ptet ça qui fait sauter");
         renderingCam.fieldOfView = camData.BaseFov;
 
         camDelayRotDummyParent.transform.position = renderingCam.transform.position;

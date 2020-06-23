@@ -122,12 +122,20 @@ public class TitlesManager : MonoBehaviour
                     case 0:
                     case 1:
                     case 2:
-                    case 8:
-                    case 9:
                     case 11:
                     case 12:
                     case 15:
                         //Debug.Log(title.titleType + " = " + title.isUnlocked);
+                        Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
+                        break;
+                    case 8:
+                        //Debug.Log(title.titleType + " = " + title.isUnlocked);
+                        if (!GetTitleState(1))
+                        Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
+                        break;
+                    case 9:
+                        //Debug.Log(title.titleType + " = " + title.isUnlocked);
+                        if (!GetTitleState(0))
                         Main.Instance.AddEndGameBonus(title.isUnlocked ? 1 : 0, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, title.titleID);
                         break;
                     case 10:
@@ -137,7 +145,7 @@ public class TitlesManager : MonoBehaviour
                         break;
                     case 3:
                         //if (title.isUnlocked)
-                        Main.Instance.AddEndGameBonus(float.IsNaN(mI.GetMetrics().aim) ? 0 : Mathf.RoundToInt(mI.GetMetrics().aim), mI.dataTitles.aimRequiredForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Sniper, "%");
+                        Main.Instance.AddEndGameBonus(float.IsNaN(mI.GetMetrics().aim) ? 0 : Mathf.RoundToInt(Mathf.Clamp(mI.GetMetrics().aim,0,100)), mI.dataTitles.aimRequiredForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Sniper, "%");
                         break;
                     case 4:
                         //if (title.isUnlocked)
@@ -156,8 +164,8 @@ public class TitlesManager : MonoBehaviour
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().collectiblesHit + mI.GetMetrics().camerasHit, mI.countOfCollectibles + mI.countOfCameras, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.AllBonus, "");
                         break;
                     case 13:
-                        if (title.isUnlocked)
-                            Main.Instance.AddEndGameBonus(mI.GetMetrics().totalDamageTaken, mI.dataTitles.damageTakenRequired, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Unshakable);
+                        if (GetTitleState(0) && !GetTitleState(1))
+                            Main.Instance.AddEndGameBonus(mI.GetMetrics().totalDamageTaken, mI.dataTitles.damageTakenRequired, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Unshakable); //Beaucoup de dégats
                         break;
                     case 14:
                         Main.Instance.AddEndGameBonus(mI.GetMetrics().numberOfEnvKills, mI.dataTitles.numberOfEnviroKillsForTitle, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Environmentalist);
@@ -172,15 +180,15 @@ public class TitlesManager : MonoBehaviour
                         break;
                     case 18:
                         if (title.isUnlocked)
-                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Juggernaut);
+                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Juggernaut); //Easter Egg
                         break;
                     case 19:
                         if (title.isUnlocked)
-                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Aikent);
+                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Aikent); //Easter Egg
                         break;
                     case 20:
                         if (title.isUnlocked)
-                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Fanfaron);
+                            Main.Instance.AddEndGameBonus(1, 1, title.titleType, title.bonusScore, title.titleName, title.titleDesc, (int)DataProgressSprite.SpriteNeeded.Fanfaron); //Easter Egg
                         break;
                 }
 
@@ -245,6 +253,16 @@ public class TitlesManager : MonoBehaviour
         {
             //Debug.Log($"Title with ID {titleID} does not exist");
         }
+    }
+    public bool GetTitleState(uint titleID)
+    {
+        for (int i = 0; i < dbTitles.titlesRegistered.Count; i++)
+        {
+            if (dbTitles.titlesRegistered[i].titleID == titleID)
+                return dbTitles.titlesRegistered[i].isUnlocked;
+        }
+
+        return false;
     }
 
     public bool GetTitleState(string titleName)

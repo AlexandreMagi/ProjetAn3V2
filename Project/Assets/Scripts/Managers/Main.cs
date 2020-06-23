@@ -366,9 +366,18 @@ public class Main : MonoBehaviour
             CustomSoundManager.Instance.PlaySound("RestartSound", "EndGame", 1);
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && enableDebugInputs)
+        //if (Input.GetKeyDown(KeyCode.W) && enableDebugInputs)
+        //{
+        //    EasterEggHandler.Instance.UnlockAllBonusAtNextGame();
+        //}
+        if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.LeftControl)&& enableDebugInputs)
         {
-            EasterEggHandler.Instance.UnlockAllBonusAtNextGame();
+            EasterEggHandler.Instance.UnlockAllBonusAtNow();
+            EasterEggHandler.Instance.EnableAllBonusAtNow();
+        }
+        if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftAlt) && enableDebugInputs)
+        {
+            EasterEggHandler.Instance.DisableAllBonus();
         }
 
         if (Input.GetKeyDown(KeyCode.P) && enableDebugInputs)
@@ -407,13 +416,13 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.KeypadPlus) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, 50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, 20000);
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus) && enableDebugInputs)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
-            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheat, Vector3.zero, null, -50);
+            PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheatbad, Vector3.zero, null, 20000);
         }
 
         if (Input.GetKeyDown(KeyCode.S) && enableDebugInputs)
