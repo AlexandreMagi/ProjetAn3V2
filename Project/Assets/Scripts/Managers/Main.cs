@@ -115,6 +115,13 @@ public class Main : MonoBehaviour
 
     bool enableDebugInputs = false;
 
+
+    [Header("Skip Parameters")]
+    [SerializeField] float timeMustStayHoldToSkip = 1;
+    [SerializeField] float timeSkipButtonStayVisible = 2;
+    float timeSkipButtonVisible = 0;
+    bool inSkip = false;
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -229,6 +236,43 @@ public class Main : MonoBehaviour
             }
             if (!playerCanShoot) Weapon.Instance.CanNotShoot();
 
+
+            // ------------------------- SKIP BUTTON ---------------------------------------------------------------------------------------------------------------
+            if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && inWaitScreen && !inSkip)
+            {
+                if (FastForwardButton.Instance != null)
+                {
+                    FastForwardButton.Instance.Pop();
+                    timeSkipButtonVisible = timeSkipButtonStayVisible;
+                }
+            }
+            if (timeSkipButtonVisible > 0)
+            {
+                timeSkipButtonVisible -= Time.unscaledDeltaTime;
+                if (timeSkipButtonVisible < 0)
+                {
+                    if (FastForwardButton.Instance != null)
+                    {
+                        FastForwardButton.Instance.Depop();
+                    }
+                }
+            }
+            if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) && inWaitScreen && !inSkip)
+            {
+                if (FastForwardButton.Instance != null)
+                {
+                    FastForwardButton.Instance.Pop();
+                    timeSkipButtonVisible = timeSkipButtonStayVisible;
+                    if (FastForwardButton.Instance.InputHold(timeMustStayHoldToSkip))
+                    {
+                        FastForwardButton.Instance.Depop();
+                        inSkip = true;
+                    }
+                }
+            }
+            else if (inWaitScreen && !inSkip && FastForwardButton.Instance != null)
+                if (FastForwardButton.Instance != null) FastForwardButton.Instance.InputUnHold(timeMustStayHoldToSkip);
+            // ------------------------- SKIP BUTTON END ---------------------------------------------------------------------------------------------------------------
 
             if (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) UILeaderboard.Instance.PlayerClicked();
         }
@@ -539,7 +583,7 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        TimeScaleManager.Instance.AccelGame((Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q)) && enableDebugInputs, Input.GetKey(KeyCode.H)? 5 : 10);
+        TimeScaleManager.Instance.AccelGame(((Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q)) && enableDebugInputs) || inSkip, inSkip ? 5 : (Input.GetKey(KeyCode.H) ? 5 : 10));
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
@@ -982,6 +1026,8 @@ public class Main : MonoBehaviour
                 playerCanShoot = playerCanShootWaitScreenSave;
                 playerCanShotgun = playerCanShotgunWaitScreenSave;
                 UiCrossHair.Instance.StopWaitFunction();
+                if (FastForwardButton.Instance != null) FastForwardButton.Instance.Depop();
+                inSkip = false;
 
                 inWaitScreen = false;
             }
