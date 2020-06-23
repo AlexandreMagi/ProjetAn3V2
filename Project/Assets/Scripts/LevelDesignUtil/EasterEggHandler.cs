@@ -34,6 +34,21 @@ public class EasterEggHandler : MonoBehaviour
         JuggernautUnlocked = true;
         AikantUnlocked = true;
     }
+    public void EnableAllBonusAtNow()
+    {
+        FanfaronEnabled = true;
+        JuggernautEnabled = true;
+        AikantEnabled = true;
+    }
+    public void DisableAllBonus()
+    {
+        FanfaronUnlocked = false;
+        JuggernautUnlocked = false;
+        AikantUnlocked = false;
+        FanfaronEnabled = false;
+        JuggernautEnabled = false;
+        AikantEnabled = false;
+    }
 
     public void EndGameHandleEasterEgg()
     {

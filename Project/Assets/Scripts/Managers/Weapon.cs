@@ -136,7 +136,11 @@ public class Weapon : MonoBehaviour
         if (timeRemainingBeforeOrb >= 0)
         {
             timeRemainingBeforeOrb -= (weapon.grabityOrbCooldownRelativeToTime ? Time.deltaTime : Time.unscaledDeltaTime);
-            if (timeRemainingBeforeOrb < 0 && mainContainer.playerCanOrb) UIOrb.Instance.OrbCooldownUp();
+            if (timeRemainingBeforeOrb < 0 && mainContainer.playerCanOrb)
+            {
+                UIOrb.Instance.OrbCooldownUp();
+                PostprocessManager.Instance.setChroma(false);
+            }
         }
 
         UiCrossHair.Instance.PlayerHasOrb(timeRemainingBeforeOrb < 0 && mainContainer.playerCanOrb);
