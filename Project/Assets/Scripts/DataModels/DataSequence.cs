@@ -352,6 +352,7 @@ public class DataSequence : ScriptableObject
 
     public bool ChangeMinigunState = false;
     [ShowIf("ChangeMinigunState")] public bool EnableMinigun = false;
+    [ShowIf("ChangeMinigunState")] public bool DoAtEnd = false;
 
 
 }
