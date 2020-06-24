@@ -495,6 +495,11 @@ public class SequenceHandler : MonoBehaviour
 
         }
 
+        if (currentSequence.ChangeMinigunState && currentSequence.DoAtEnd)
+        {
+            if (Weapon.Instance != null) Weapon.Instance.SetMinigun(currentSequence.EnableMinigun);
+        }
+
         //Debug.Log($"Sequence index : {sequenceIndex} -- Branch index : {branchIndex}");
 
         if (currentSequence.waitScreenAtEndOfSequence)
@@ -551,7 +556,7 @@ public class SequenceHandler : MonoBehaviour
         }
         */
 
-        if (currentSequence.ChangeMinigunState)
+        if (currentSequence.ChangeMinigunState && !currentSequence.DoAtEnd)
         {
             if (Weapon.Instance != null) Weapon.Instance.SetMinigun(currentSequence.EnableMinigun);
         }

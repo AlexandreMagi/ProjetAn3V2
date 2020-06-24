@@ -16,11 +16,28 @@ public class CheckpointAnimatorHandler : MonoBehaviour
     [SerializeField] float[] soundDelay = null;
     [SerializeField] float[] soundVolume = null;
 
-    [SerializeField] VideoPlayer videoTuto = null;
+    [SerializeField] VideoPlayer videoPlayerTuto = null;
+    [SerializeField] VideoClip videoArduinoOne = null;
+    [SerializeField] VideoClip videoArduinoTwo = null;
+    [SerializeField] VideoClip videoKeyboard = null;
 
     private void Start()
     {
-        videoTuto.Pause();
+        videoPlayerTuto.Pause();
+        UpdateClip();
+    }
+
+    void UpdateClip()
+    {
+        if (videoPlayerTuto != null && !videoPlayerTuto.isPlaying)
+        {
+            if (Main.Instance.IsArduinoMod)
+            {
+                if (videoArduinoOne != null) videoPlayerTuto.clip = videoArduinoOne;
+            }
+            else if (videoKeyboard != null)
+                videoPlayerTuto.clip = videoKeyboard;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,7 +45,11 @@ public class CheckpointAnimatorHandler : MonoBehaviour
         if (canPlay)
         {
             if (playOnlyOnce) canPlay = false;
-            if (videoTuto != null && !videoTuto.isPlaying) videoTuto.Play();
+            if (videoPlayerTuto != null && !videoPlayerTuto.isPlaying)
+            {
+                UpdateClip();
+                videoPlayerTuto.Play();
+            }
             for (int i = 0; i < triggersToCall.Length; i++)
             {
                 StartCoroutine(CallTrigger(Animator.StringToHash(triggersToCall[i]), (i < triggersTimers.Length) ? triggersTimers[i] : 0));

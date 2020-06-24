@@ -69,6 +69,7 @@ public class Main : MonoBehaviour
 
     [SerializeField]
     bool isArduinoMode = false;
+    public bool IsArduinoMod { get { return isArduinoMode; } }
 
     [SerializeField]
     BoxCollider[] aiWalls = null;
