@@ -5,6 +5,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
@@ -123,6 +124,9 @@ public class Main : MonoBehaviour
     float timeSkipButtonVisible = 0;
     bool inSkip = false;
     bool releasedInput = false;
+
+    [SerializeField] float timeGoToLeaderboardAtGameOver = 5;
+    float timeGoToLeaderboard = 0;
 
     public static Main Instance { get; private set; }
     void Awake()
@@ -641,7 +645,6 @@ public class Main : MonoBehaviour
         {
             timeLeftForRaycastCursor -= Time.deltaTime;
         }
-        CheckIfGoBackToMenu();
 
         if (timeRemainingBeforeChoice > 0)
         {
@@ -730,6 +733,14 @@ public class Main : MonoBehaviour
                 DoWhatPlayerChoosed(choiceMade);
             }
         }
+
+        if (timeGoToLeaderboard > 0)
+        {
+            timeGoToLeaderboard -= Time.unscaledDeltaTime;
+            if (timeGoToLeaderboard <= 0)
+                InitLeaderboard();
+        }
+        CheckIfGoBackToMenu();
     }
 
     public void ChangeQuality (bool high)
@@ -849,13 +860,23 @@ public class Main : MonoBehaviour
         //UILeaderboard.Instance.AddMetricToDisplay(type, currValue.ToString() + addedCharacter, maxValue.ToString() + addedCharacter, currValue >= maxValue);
     }
 
-
     [SerializeField] private float checkInputEvery = 0.5f;
-    //[SerializeField] private float distanceCheckIfInput = 0.03f;
+    [SerializeField] private float distanceCheckIfInput = 0.03f;
     float timerCheckInput = 0;
-    [SerializeField] private float timeBeforeGoBackToStart = 10;
-    private float timerGoBack = 5;
+    [SerializeField] private float timeBeforeGoBackToMenu = 30;
+    private float timerGoToMenu = 5;
     private Vector3 saveLastCursorPos = Vector3.zero;
+    [SerializeField] private Text timeRestartText = null;
+
+    bool PlayerIsMakingInput()
+    {
+        return (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityUp) : Input.GetKeyUp(KeyCode.Mouse1)) ||
+            (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isGravityHeld) : Input.GetKey(KeyCode.Mouse1)) ||
+            (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotHeld) : Input.GetKey(KeyCode.Mouse0)) ||
+            (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) ||
+            (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isReloadDown) : Input.GetKeyDown(KeyCode.R));
+    }
+
     void CheckIfGoBackToMenu()
     {
         Vector3 posCursor = GetCursorPos();
@@ -867,27 +888,35 @@ public class Main : MonoBehaviour
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.x - posCursor.x) / Screen.width, 2) +
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
 
-
-            if (/*currDist > distanceCheckIfInput || */!GameEnded)
-                timerGoBack = timeBeforeGoBackToStart;
-
+            if (currDist > distanceCheckIfInput || GameEnded || inWaitScreen || GamePaused || PlayerIsMakingInput() || playerInLeaderboard || lastChoiceForPlayer)
+            {
+                timerGoToMenu = timeBeforeGoBackToMenu;
+                if (timeRestartText != null) timeRestartText.text = "";
+            }
             else
             {
-                if (timerGoBack < checkInputEvery)
+                if (timerGoToMenu < checkInputEvery)
                 {
                     if (!lockSceneChange)
                     {
-                        InitLeaderboard();
                         lockSceneChange = true;
-                        //SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
+                        SceneHandler.Instance.ChangeScene("MenuScene", .3f, true);
                     }
                 }
                 else
-                    timerGoBack -= checkInputEvery;
+                {
+                    timerGoToMenu -= checkInputEvery;
+                    if (timerGoToMenu < timeBeforeGoBackToMenu / 2)
+                    {
+                        if (timeRestartText!=null)timeRestartText.text = "Game Restart in " + Mathf.FloorToInt(timerGoToMenu);
+                    }
+                }
             }
+
             saveLastCursorPos = posCursor;
         }
     }
+
     public void SetControlState(TriggerSender.Activable control, bool state)
     {
 
@@ -1130,6 +1159,7 @@ public class Main : MonoBehaviour
         Player.Instance.DieForReal();
         UiLifeBar.Instance.EndGame();
         GameEnded = true;
+        timeGoToLeaderboard = timeGoToLeaderboardAtGameOver;
 
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
         CustomSoundManager.Instance.PlaySound("GameOver_Sound", "EndGame", 1);

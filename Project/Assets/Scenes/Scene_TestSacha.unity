@@ -357,6 +357,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+  DoAtEnd: 0
 --- !u!1001 &12834844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1668,6 +1669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   bonusType: 2
+  fxWhenDie: 
 --- !u!65 &260456489
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2594,6 +2596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   bonusType: 1
+  fxWhenDie: 
 --- !u!65 &396007312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3991,6 +3994,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 1
   EnableMinigun: 1
+  DoAtEnd: 0
 --- !u!1 &738182336
 GameObject:
   m_ObjectHideFlags: 0
@@ -4381,6 +4385,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+  DoAtEnd: 0
 --- !u!1 &779319046
 GameObject:
   m_ObjectHideFlags: 0
@@ -5420,6 +5425,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+  DoAtEnd: 0
 --- !u!1001 &859313537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7006,6 +7012,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+  DoAtEnd: 0
 --- !u!1001 &1073445648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7847,6 +7854,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+  DoAtEnd: 0
 --- !u!1 &1092557555
 GameObject:
   m_ObjectHideFlags: 0
@@ -9089,6 +9097,7 @@ MonoBehaviour:
   waitScreenDelay: 0
   ChangeMinigunState: 0
   EnableMinigun: 0
+  DoAtEnd: 0
 --- !u!1 &1340428240
 GameObject:
   m_ObjectHideFlags: 0
@@ -10604,6 +10613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   bonusType: 0
+  fxWhenDie: 
 --- !u!1 &1490621650
 GameObject:
   m_ObjectHideFlags: 0
@@ -19578,6 +19588,11 @@ PrefabInstance:
         type: 3}
       propertyPath: DEBUG_CAM_SHAKE_LIMIT
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584541180804375023, guid: b2eaf840aec546e4c90ab469ed34be5d,
+        type: 3}
+      propertyPath: startInWaitScreen
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7679686884423550348, guid: b2eaf840aec546e4c90ab469ed34be5d,
         type: 3}
