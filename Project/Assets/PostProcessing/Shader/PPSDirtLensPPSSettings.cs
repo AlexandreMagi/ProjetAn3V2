@@ -9,8 +9,10 @@ using UnityEngine.Rendering.PostProcessing;
 [PostProcess( typeof( PPSDirtLensPPSRenderer ), PostProcessEvent.AfterStack, "PPSDirtLens", true )]
 public sealed class PPSDirtLensPPSSettings : PostProcessEffectSettings
 {
-	[Tooltip( "Texture Sample 1" )]
-	public TextureParameter _TextureSample1 = new TextureParameter {  };
+	[Tooltip( "Lens dirt texture" )]
+	public TextureParameter _Lensdirttexture = new TextureParameter {  };
+	[Tooltip( "DirtMask" )]
+	public TextureParameter _DirtMask = new TextureParameter {  };
 }
 
 public sealed class PPSDirtLensPPSRenderer : PostProcessEffectRenderer<PPSDirtLensPPSSettings>
@@ -18,7 +20,8 @@ public sealed class PPSDirtLensPPSRenderer : PostProcessEffectRenderer<PPSDirtLe
 	public override void Render( PostProcessRenderContext context )
 	{
 		var sheet = context.propertySheets.Get( Shader.Find( "PPSDirtLens" ) );
-		if(settings._TextureSample1.value != null) sheet.properties.SetTexture( "_TextureSample1", settings._TextureSample1 );
+		if(settings._Lensdirttexture.value != null) sheet.properties.SetTexture( "_Lensdirttexture", settings._Lensdirttexture );
+		if(settings._DirtMask.value != null) sheet.properties.SetTexture( "_DirtMask", settings._DirtMask );
 		context.command.BlitFullscreenTriangle( context.source, context.destination, sheet, 0 );
 	}
 }
