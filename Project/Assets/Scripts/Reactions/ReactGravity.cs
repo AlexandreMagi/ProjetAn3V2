@@ -63,7 +63,13 @@ public static class ReactGravity<T> where T : DataEntity
 
                 //if (v3DirectionToGo.y < 0) pullForce *= 1.5f;
 
+                if (rb.GetComponent<Mannequin>() != null)
+                    Debug.Log($"Direction : {v3DirectionToGo}");
+
                 rb.velocity = (v3DirectionToGo * pullForce * Mathf.Pow(2f, 1.9f) / rb.mass);
+
+                if (rb.GetComponent<Mannequin>() != null)
+                    Debug.Log($"Velocity : {rb.velocity}");
 
                 return;
             }
