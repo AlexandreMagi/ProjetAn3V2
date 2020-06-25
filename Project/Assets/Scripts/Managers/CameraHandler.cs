@@ -626,7 +626,7 @@ public class CameraHandler : MonoBehaviour
     {
         CameraLookAt(null, 0,0,0, 0.001f, 0);
 
-        Debug.Log("C'est ptet ça qui fait sauter");
+        //Debug.Log("C'est ptet ça qui fait sauter");
         renderingCam.fieldOfView = camData.BaseFov;
 
         camDelayRotDummyParent.transform.position = renderingCam.transform.position;

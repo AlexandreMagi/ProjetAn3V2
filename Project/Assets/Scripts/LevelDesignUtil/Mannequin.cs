@@ -155,7 +155,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
     {
         //Die();
         
-        ReactGravity<DataProp>.DoPull(rb, Vector3.up.normalized + this.transform.position, fGForce, false);
+        //ReactGravity<DataProp>.DoPull(rb, Vector3.up.normalized + this.transform.position, fGForce, false);
 
         ReactGravity<DataProp>.DoFloat(rb, timeBeforeActivation, isSlowedDownOnFloat, floatTime, bIndependantFromTimeScale);
 
@@ -209,6 +209,8 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
         {
             sparkAudioSource.transform.position = transform.position;
         }
+
+        Debug.Log($"Velo update : {rb.velocity}");
     }
 
 
