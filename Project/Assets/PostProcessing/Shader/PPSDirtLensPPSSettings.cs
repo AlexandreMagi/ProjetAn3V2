@@ -13,6 +13,10 @@ public sealed class PPSDirtLensPPSSettings : PostProcessEffectSettings
 	public TextureParameter _Lensdirttexture = new TextureParameter {  };
 	[Tooltip( "DirtMask" )]
 	public TextureParameter _DirtMask = new TextureParameter {  };
+	[Tooltip( "Fuzziness" )]
+	public FloatParameter _Fuzziness = new FloatParameter { value = 0f };
+	[Tooltip( "Range" )]
+	public FloatParameter _Range = new FloatParameter { value = 0f };
 }
 
 public sealed class PPSDirtLensPPSRenderer : PostProcessEffectRenderer<PPSDirtLensPPSSettings>
@@ -22,6 +26,8 @@ public sealed class PPSDirtLensPPSRenderer : PostProcessEffectRenderer<PPSDirtLe
 		var sheet = context.propertySheets.Get( Shader.Find( "PPSDirtLens" ) );
 		if(settings._Lensdirttexture.value != null) sheet.properties.SetTexture( "_Lensdirttexture", settings._Lensdirttexture );
 		if(settings._DirtMask.value != null) sheet.properties.SetTexture( "_DirtMask", settings._DirtMask );
+		sheet.properties.SetFloat( "_Fuzziness", settings._Fuzziness );
+		sheet.properties.SetFloat( "_Range", settings._Range );
 		context.command.BlitFullscreenTriangle( context.source, context.destination, sheet, 0 );
 	}
 }
