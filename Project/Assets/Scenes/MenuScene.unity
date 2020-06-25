@@ -1760,6 +1760,7 @@ GameObject:
   m_Component:
   - component: {fileID: 267848035}
   - component: {fileID: 267848036}
+  - component: {fileID: 267848037}
   m_Layer: 5
   m_Name: Credits et leaderboard
   m_TagString: Untagged
@@ -1802,6 +1803,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &267848037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267848034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d4485ff33500546aef0b2366b9f0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cvsGroupUsed: {fileID: 267848036}
+  pow: 100
 --- !u!1 &284896708
 GameObject:
   m_ObjectHideFlags: 0
@@ -4366,6 +4381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 720640178}
   - component: {fileID: 720640179}
+  - component: {fileID: 720640180}
   m_Layer: 5
   m_Name: Credits et leaderboard
   m_TagString: Untagged
@@ -4408,6 +4424,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &720640180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720640177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d4485ff33500546aef0b2366b9f0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cvsGroupUsed: {fileID: 720640179}
+  pow: 100
 --- !u!1 &724918169
 GameObject:
   m_ObjectHideFlags: 0

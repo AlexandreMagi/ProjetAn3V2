@@ -888,7 +888,7 @@ public class Main : MonoBehaviour
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.x - posCursor.x) / Screen.width, 2) +
                 Mathf.Pow(Mathf.Abs(saveLastCursorPos.y - posCursor.y) / Screen.height, 2));
 
-            if (currDist > distanceCheckIfInput || GameEnded || inWaitScreen || GamePaused || PlayerIsMakingInput() || playerInLeaderboard || lastChoiceForPlayer)
+            if (currDist > distanceCheckIfInput || GameEnded || inWaitScreen || GamePaused || PlayerIsMakingInput() || playerInLeaderboard || lastChoiceForPlayer || Weapon.Instance.IsMinigun)
             {
                 timerGoToMenu = timeBeforeGoBackToMenu;
                 if (timeRestartText != null) timeRestartText.text = "";
