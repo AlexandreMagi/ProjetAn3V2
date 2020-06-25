@@ -1328,8 +1328,13 @@ MonoBehaviour:
   InDiorama: 0
   GamePaused: 0
   fogDefaultColor: {r: 0.42352942, g: 0.50980395, b: 0.5372549, a: 1}
+  timeMustStayHoldToSkip: 1
+  timeSkipButtonStayVisible: 2
+  timeGoToLeaderboardAtGameOver: 5
   checkInputEvery: 0.5
-  timeBeforeGoBackToStart: 5
+  distanceCheckIfInput: 0.03
+  timeBeforeGoBackToMenu: 35
+  timeRestartText: {fileID: 0}
 --- !u!114 &1540320443377804339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1348,6 +1353,7 @@ MonoBehaviour:
   renderingCam: {fileID: 7950423414511688772}
   camData: {fileID: 11400000, guid: e9cf6c4ce67cae443b06cc1ed673e767, type: 2}
   animToPlayInDiorama: {fileID: 7400000, guid: 3ca3bcd5acb5fff4e9151c9d29daa5f9, type: 2}
+  fieldOfViewDesactivatedAdFeedback: 1
 --- !u!114 &7584541180804375010
 MonoBehaviour:
   m_ObjectHideFlags: 0
