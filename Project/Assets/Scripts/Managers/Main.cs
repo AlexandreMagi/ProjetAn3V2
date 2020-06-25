@@ -247,7 +247,7 @@ public class Main : MonoBehaviour
             // ------------------------- SKIP BUTTON ---------------------------------------------------------------------------------------------------------------
             if ((isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotUp) : Input.GetKeyUp(KeyCode.Mouse0)) && inWaitScreen && !inSkip)
             {
-                if (FastForwardButton.Instance != null)
+                if (FastForwardButton.Instance != null && releasedInput)
                 {
                     FastForwardButton.Instance.Pop();
                     timeSkipButtonVisible = timeSkipButtonStayVisible;
