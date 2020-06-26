@@ -38,10 +38,10 @@ public class TriggerSender : MonoBehaviour
     float volume = 1;
     [ShowIf("typeTrigger", TriggerType.Sound), SerializeField]
     bool spatialized = false;
-    [ShowIf("typeTrigger", TriggerType.Sound),ShowIf("spatialized"), SerializeField]
+    [ShowIf("typeTrigger", TriggerType.Sound), ShowIf("spatialized"), SerializeField]
     Transform soundPosition = null;
 
-    
+
     [ShowIf("typeTrigger", TriggerType.PublicVolume), SerializeField, Tooltip("ENTRE 0 ET 1 LE SON")]
     float volumeAimed = 1;
     [ShowIf("typeTrigger", TriggerType.PublicVolume), SerializeField]
@@ -50,6 +50,8 @@ public class TriggerSender : MonoBehaviour
 
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
     Animator[] animated = null;
+    [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
+    string overrideTrigger = "";
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
     bool usesTimerBetweenAllAnims = false;
     [ShowIf("typeTrigger", TriggerType.Animator), SerializeField]
@@ -213,7 +215,7 @@ public class TriggerSender : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(typeTrigger == TriggerType.EnemyFollow && other.gameObject.layer == LayerMask.NameToLayer ("Camera"))
+        if (typeTrigger == TriggerType.EnemyFollow && other.gameObject.layer == LayerMask.NameToLayer("Camera"))
         {
             enemyFollow = other.transform;
         }
@@ -221,7 +223,7 @@ public class TriggerSender : MonoBehaviour
     }
 
     void StartTrigger()
-    { 
+    {
         if (!timerStarted)
         {
             timerStarted = true;
@@ -261,8 +263,16 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Animator:
-                if (isMultipleAnimationTrigger) TriggerUtil.TriggerAnimators(timeBeforeStart, animated, animatonClipsToUse, delaysBetweenTriggers);
-                else TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer);
+                if (isMultipleAnimationTrigger)
+                {
+                    if (overrideTrigger != "") TriggerUtil.TriggerAnimators(timeBeforeStart, animated, animatonClipsToUse, delaysBetweenTriggers, overrideTrigger);
+                    else TriggerUtil.TriggerAnimators(timeBeforeStart, animated, animatonClipsToUse, delaysBetweenTriggers);
+                }
+                else
+                {
+                    if (overrideTrigger != "") TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer, overrideTrigger);
+                    else TriggerUtil.TriggerAnimators(timeBeforeStart, animated, usesTimerBetweenAllAnims, animationWaitTimer);
+                }
                 if (isMeshReplacer && colliderToReplace != null && meshForTheCollider != null)
                 {
                     colliderToReplace.sharedMesh = meshForTheCollider;
@@ -359,7 +369,7 @@ public class TriggerSender : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (Spawner spawner in spawners)
         {
-            if (spawner!=null)
+            if (spawner != null)
                 Gizmos.DrawLine(this.transform.position, spawner.transform.position);
         }
 
