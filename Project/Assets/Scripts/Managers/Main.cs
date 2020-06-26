@@ -91,6 +91,7 @@ public class Main : MonoBehaviour
     [SerializeField] float timeAfterChoice = 1;
     [SerializeField] float timerBeforeGameOver = 10;
     float timeRemainingBeforeGameOver = 10;
+    int lastTimeRemainingBeforeGameOver = 10;
     lastChanceButton buttonMouseOver = null;
     float buttonMouseOverLerpSpeed = 8;
     float buttonMouseOverScale = 1.2f;
@@ -127,6 +128,12 @@ public class Main : MonoBehaviour
 
     [SerializeField] float timeGoToLeaderboardAtGameOver = 5;
     float timeGoToLeaderboard = 0;
+
+
+    [Header("Music Parameters")]
+    [SerializeField] string musicLifeAndDeathChoice = "Music_TestChoixVieMort";
+    [SerializeField] float musicLifeAndDeathChoiceVolume = 1;
+    AudioSource lifeAndDeathAudioSource = null;
 
     public static Main Instance { get; private set; }
     void Awake()
@@ -700,7 +707,14 @@ public class Main : MonoBehaviour
             }
 
             if (timeRemainingBeforeGameOver > 0)
+            {
                 timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
+                if (Mathf.CeilToInt(timeRemainingBeforeGameOver) != lastTimeRemainingBeforeGameOver)
+                {
+                    lastTimeRemainingBeforeGameOver = Mathf.CeilToInt(timeRemainingBeforeGameOver);
+                    CustomSoundManager.Instance.PlaySound("SE_Tick", "UI", 1);
+                }
+            }
             if (timeRemainingBeforeGameOver < 0)
             {
                 timeRemainingBeforeGameOver = 0;
@@ -822,6 +836,11 @@ public class Main : MonoBehaviour
                 break;
         }
         choiceMade = -1;
+        if (lifeAndDeathAudioSource != null && lifeAndDeathAudioSource.isPlaying)
+        {
+            lifeAndDeathAudioSource.Stop();
+            lifeAndDeathAudioSource = null;
+        }
     }
 
     public void ReviveChoice()
@@ -1018,6 +1037,8 @@ public class Main : MonoBehaviour
         if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(-100, 1f);
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
+            lifeAndDeathAudioSource = CustomSoundManager.Instance.PlaySound(musicLifeAndDeathChoice, "UI", musicLifeAndDeathChoiceVolume);
+            Debug.Log("ça joue la musique");
             timeRemainingBeforeChoice = timeBeforeChoice;
             timeRemainingBeforeChoiceSecurity = timeBeforeChoiceSecurity;
             timeRemainingBeforeGameOver = timerBeforeGameOver;
@@ -1101,7 +1122,6 @@ public class Main : MonoBehaviour
 
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
-
 
             // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
             float trueChance = GetCurrentChacesOfSurvival();
