@@ -740,7 +740,9 @@ public class Main : MonoBehaviour
             if (timeGoToLeaderboard <= 0)
                 InitLeaderboard();
         }
+#if !UNITY_EDITOR
         CheckIfGoBackToMenu();
+#endif
     }
 
     public void ChangeQuality (bool high)
