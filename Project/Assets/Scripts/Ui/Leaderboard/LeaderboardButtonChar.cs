@@ -33,7 +33,7 @@ public class LeaderboardButtonChar : MonoBehaviour
     {
         Vector2 mousePosition = Main.Instance.GetCursorPos();
 
-        if (gameObject.activeSelf && UILeaderboard.Instance.CurrentScreen == UILeaderboard.leaderboardScreens.nameAndTitleChoice)
+        if (gameObject.activeSelf && rect != null && UILeaderboard.Instance.CurrentScreen == UILeaderboard.leaderboardScreens.nameAndTitleChoice)
         {
             float distX = rect.sizeDelta.x / 2 * transform.localScale.x;
             float distY = rect.sizeDelta.y / 2 * transform.localScale.y;

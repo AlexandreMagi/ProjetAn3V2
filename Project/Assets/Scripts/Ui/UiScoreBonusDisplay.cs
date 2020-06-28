@@ -103,7 +103,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
                 CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.6f, false, 1, 0.1f);
 
 
-            if (Random.Range(0f, 100f) < 30)
+            if (Random.Range(0f, 100f) < 5)
             {
                 if (Main.Instance.EnableComments)
                 {

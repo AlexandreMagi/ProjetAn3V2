@@ -14,6 +14,7 @@ public class CommentTrigger : MonoBehaviour
     {
         if (canPlay && Main.Instance.EnableComments)
         {
+            canPlay = false;
             switch (comment)
             {
                 case typeOfComment.entreeFinalBattle:
