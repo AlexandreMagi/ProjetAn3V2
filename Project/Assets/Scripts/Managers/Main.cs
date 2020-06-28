@@ -35,7 +35,7 @@ public class Main : MonoBehaviour
     bool playerCouldOrb = false;
     bool playerCouldZeroG = false;
 
-    bool inWaitScreen = true;
+    [SerializeField] bool inWaitScreen = true;
 
     [HideInInspector] public bool overrideUiCrosshairInterdictionGraph = false;
 

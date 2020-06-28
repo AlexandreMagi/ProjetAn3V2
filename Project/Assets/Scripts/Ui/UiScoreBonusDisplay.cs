@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,14 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
     [SerializeField] bool desactivateUiBonusDisplay = false;
 
+    int currCheer = 0;
+    [SerializeField] int neededCheer = 0;
+    bool canComment = true;
+    [SerializeField] float timeBeforeCanCommentAgain = 20;
+    [SerializeField] float timeBeforeCheerReset = 2;
+    float timerResetComment = 0;
+    float timerResetCheer = 0;
+
     private void Update()
     {
         desactivateUiBonusDisplay = !(Weapon.Instance == null || !Weapon.Instance.IsMinigun);
@@ -46,6 +55,26 @@ public class UiScoreBonusDisplay : MonoBehaviour
                 textDisplayed[i].color = scoresBonusHandler[i].currentColor;
                 textDisplayed[i].transform.localScale = Vector3.one * scoresBonusHandler[i].scale;
                 if (scoresBonusHandler[i].isPlacedOnWorld) MoveSprite(textDisplayed[i].gameObject, scoresBonusHandler[i]);
+            }
+        }
+
+        if (timerResetComment > 0)
+        {
+            timerResetComment -= Time.unscaledDeltaTime;
+            if (timerResetComment < 0)
+            {
+                timerResetComment = 0;
+                canComment = true;
+            }
+        }
+
+        if (timerResetCheer > 0)
+        {
+            timerResetCheer -= Time.unscaledDeltaTime;
+            if (timerResetCheer < 0)
+            {
+                timerResetCheer = 0;
+                currCheer = 0;
             }
         }
     }
@@ -102,9 +131,14 @@ public class UiScoreBonusDisplay : MonoBehaviour
             else
                 CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.6f, false, 1, 0.1f);
 
+            if (currCheer == 0) timerResetCheer = timeBeforeCheerReset;
 
-            if (Random.Range(0f, 100f) < 5)
+             currCheer++;
+
+            if (currCheer >= neededCheer && canComment)
             {
+                canComment = false;
+                timerResetComment = timeBeforeCanCommentAgain;
                 if (Main.Instance.EnableComments)
                 {
                     if (Random.Range(0f, 100f) < 50) Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 0);
@@ -112,7 +146,6 @@ public class UiScoreBonusDisplay : MonoBehaviour
                     if (Random.Range(0f, 100f) < 50) Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 1);
                     else Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 1.5f);
                 }
-
             }
         }
     }
