@@ -831,7 +831,9 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   - assemblyQualifiedName: Aerobox.Rendering.PostProcessing.Flare, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_AfterStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: PPSDirtLensPPSSettings, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!124 &649542029
 Behaviour:
   m_ObjectHideFlags: 0
@@ -1134,7 +1136,9 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   - assemblyQualifiedName: Aerobox.Rendering.PostProcessing.Flare, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_AfterStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: PPSDirtLensPPSSettings, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &5020255675705303526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,9 +1334,10 @@ MonoBehaviour:
   fogDefaultColor: {r: 0.42352942, g: 0.50980395, b: 0.5372549, a: 1}
   timeMustStayHoldToSkip: 1
   timeSkipButtonStayVisible: 2
-  timeGoToLeaderboardAtGameOver: 5
+  timeGoToLeaderboardAtGameOver: 7
   musicLifeAndDeathChoice: Music_TestChoixVieMort2
-  musicLifeAndDeathChoiceVolume: 2
+  musicLifeAndDeathChoiceVolume: 1
+  EnableComments: 1
   checkInputEvery: 0.5
   distanceCheckIfInput: 0.03
   timeBeforeGoBackToMenu: 35
