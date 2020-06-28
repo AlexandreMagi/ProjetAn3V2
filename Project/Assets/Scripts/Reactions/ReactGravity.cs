@@ -48,7 +48,7 @@ public static class ReactGravity<T> where T : DataEntity
                 v3DirectionToGo = (trueNormal + perpendicularVector).normalized;
 
                 //Sécurité pour éviter d'envoyer les swarmers trop proches du player
-                Vector3 playerPosition = CameraHandler.Instance.renderingCam.transform.position;
+                Vector3 playerPosition = CameraHandler.Instance.GetCurrentCam().transform.position;
 
                 if(Vector2.Angle(new Vector2(v3DirectionToGo.x, v3DirectionToGo.z), new Vector2(playerPosition.x, playerPosition.z)) < 30 && Vector3.Distance(playerPosition, rb.transform.position) <= 10)
                 {

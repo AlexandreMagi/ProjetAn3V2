@@ -96,7 +96,7 @@ public class SwarmerProceduralAnimation : MonoBehaviour
             if (i % 2 == 0) teethSpeeds[i] *= -1;
         }
         if (lookAt == null && searchForPlayerIfLookatNull)
-            lookAt = CameraHandler.Instance.renderingCam.transform;
+            lookAt = CameraHandler.Instance.GetCurrentCam().transform;
 
         currentRotAnimPurcentage = Random.Range(0f, 1f);
         currentRotAnimTime = animMachoireRotTime + Random.Range(-animMachoireRotTimeAddedRandom, animMachoireRotTimeAddedRandom);

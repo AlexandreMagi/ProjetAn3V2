@@ -169,7 +169,7 @@ public class Weapon : MonoBehaviour
             weaponLight.transform.rotation = Quaternion.LookRotation(CameraHandler.Instance.renderingCam.transform.forward, Vector3.up);
 
 
-        Ray rayFromMouse = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+        Ray rayFromMouse = CameraHandler.Instance.GetCurrentCam().ScreenPointToRay(Main.Instance.GetCursorPos());
 
         if (lastFrameLightRayCast < Time.frameCount - shootLightRayCastEvery)
         {
@@ -208,7 +208,7 @@ public class Weapon : MonoBehaviour
         // --- Previsu orbe
         if (displayOrb && timeRemainingBeforeOrb < 0 && orbPrevisu != null)
         {
-            Ray rRayGravity = CameraHandler.Instance.renderingCam.ScreenPointToRay(Main.Instance.GetCursorPos());
+            Ray rRayGravity = CameraHandler.Instance.GetCurrentCam().ScreenPointToRay(Main.Instance.GetCursorPos());
             //Shoot raycast
             RaycastHit hit;
             if (Time.frameCount % Mathf.CeilToInt(1 / (Time.deltaTime != 0 ? Time.deltaTime : 0.01f) / 15) == 0 || firstRay) 
@@ -565,7 +565,7 @@ public class Weapon : MonoBehaviour
             int nbShotGunTouched = 0;
             for (int i = 0; i < weaponMod.bulletPerShoot; i++)
             {
-                Camera mainCam = CameraHandler.Instance.renderingCam;
+                Camera mainCam = CameraHandler.Instance.GetCurrentCam();
 
                 Vector3 imprecision = new Vector3(UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),
                                                     UnityEngine.Random.Range(-weaponMod.bulletImprecision, weaponMod.bulletImprecision),

@@ -31,6 +31,10 @@ public class CameraHandler : MonoBehaviour
     public Animator animatorFromAnimatedCam = null;
     [Tooltip("Caméra qui va render")]
     public Camera renderingCam = null;
+    [Tooltip("Caméra Optimisé pour petits pc")]
+    public Camera optimizedCam = null;
+    [Tooltip("Caméra debug")]
+    public Camera freeCam = null;
 
     [Header("Datas"), SerializeField]
     private DataCameraBasic camData = null;
@@ -184,7 +188,25 @@ public class CameraHandler : MonoBehaviour
     Vector3 lastPosDiorama = Vector3.zero;
     float lastFovDiorama = 0;
 
+
     [SerializeField] bool fieldOfViewDesactivatedAdFeedback = true;
+
+    bool isOptimizedCam = false;
+
+    [Header ("FreeCam")]
+    [HideInInspector] public bool isInFreeCam = false;
+    public bool freePosition = false;
+    [SerializeField] float freeCamZSpeed = 5;
+    [SerializeField] float freeCamXSpeed = 5;
+    [SerializeField] float freeCamYSpeed = 3;
+    float yRotationFreeCam = 0;
+    float xRotationFreeCam = 0;
+    [SerializeField] float sensitivityY = 5;
+    [SerializeField] float sensitivityX = 5;
+
+    [SerializeField] public float minimumY = -60F;
+    [SerializeField] public float maximumY = 60F;
+
 
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
@@ -207,6 +229,9 @@ public class CameraHandler : MonoBehaviour
         else Debug.LogWarning("BUG : Camera isn't setup in CameraHandler");
         if (animatedCam) animatedCam.enabled = false;
         else Debug.LogWarning("BUG : Animated Camera isn't setup in CameraHandler");
+        if (freeCam) freeCam.enabled = false;
+        if (optimizedCam) optimizedCam.enabled = false;
+        else Debug.LogWarning("BUG : Optimized Camera isn't setup in CameraHandler");
         if (renderingCam)
         {
             renderingCam.enabled = true;
@@ -422,7 +447,99 @@ public class CameraHandler : MonoBehaviour
                 renderingCam.fieldOfView = Mathf.Lerp(renderingCam.fieldOfView, animatedCam.fieldOfView, dioramaTransitionPurcentage);
             }
         }
+        
+        if (isOptimizedCam)
+        {
+            optimizedCam.transform.position = renderingCam.transform.position;
+            optimizedCam.transform.rotation = renderingCam.transform.rotation;
+            optimizedCam.fieldOfView = renderingCam.fieldOfView;
+        }
 
+    }
+
+    public void SwitchCam(bool highQuality)
+    {
+        isOptimizedCam = !highQuality;
+        if (!isInFreeCam)
+        {
+            optimizedCam.enabled = isOptimizedCam;
+            renderingCam.enabled = !isOptimizedCam;
+        }
+        else
+        {
+            optimizedCam.enabled = false;
+            renderingCam.enabled = false;
+        }
+    }
+
+    public void SwitchFreeCam()
+    {
+        if (freeCam)
+        {
+            isInFreeCam = !isInFreeCam;
+            freeCam.enabled = isInFreeCam;
+            if (!isInFreeCam)
+            {
+                optimizedCam.enabled = isOptimizedCam;
+                renderingCam.enabled = !isOptimizedCam;
+            }
+            else
+            {
+                renderingCam.enabled = !isInFreeCam;
+            }
+
+            freeCam.gameObject.SetActive(isInFreeCam);
+
+            if (isInFreeCam)
+            {
+                freeCam.transform.position = renderingCam.transform.position;
+                freeCam.transform.rotation = Quaternion.identity;
+                yRotationFreeCam = 0;
+                xRotationFreeCam = 0;
+                
+                freeCam.fieldOfView = camData.BaseFov;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
+    }
+    public void FreeCamInputs(int zDir, int xDir, int yDir)
+    {
+        if (isInFreeCam)
+        {
+            xRotationFreeCam -= Input.GetAxis("Mouse Y") * sensitivityY;
+            yRotationFreeCam += Input.GetAxis("Mouse X") * sensitivityX;
+
+            if (yRotationFreeCam > 360) yRotationFreeCam -= 360;
+            if (yRotationFreeCam < 360) yRotationFreeCam += 360;
+            xRotationFreeCam = Mathf.Clamp(xRotationFreeCam, minimumY, maximumY);
+
+            freeCam.transform.rotation = Quaternion.identity;
+            freeCam.transform.Rotate(Vector3.up * yRotationFreeCam, Space.World);
+            freeCam.transform.Rotate(Vector3.right * xRotationFreeCam, Space.Self);
+            
+            if (freePosition)
+            {
+                freeCam.transform.Translate(xDir * Time.unscaledDeltaTime * freeCamXSpeed, 0, 0, Space.Self);
+                Vector3 zDummyForVector = freeCam.transform.position + freeCam.transform.forward;
+                zDummyForVector.y = freeCam.transform.position.y;
+                Vector3 zDirVector = (zDummyForVector - freeCam.transform.position).normalized;
+                freeCam.transform.Translate(zDirVector * freeCamZSpeed * zDir * Time.unscaledDeltaTime, Space.World);
+                freeCam.transform.Translate(0, yDir * Time.unscaledDeltaTime * freeCamYSpeed, 0, Space.World);
+            }
+            else
+            {
+                freeCam.transform.position = renderingCam.transform.position;
+            }
+        }
+    }
+
+    public Camera GetCurrentCam()
+    {
+        return isInFreeCam ? freeCam : renderingCam;
     }
 
     private void BalancingCamUpdate()

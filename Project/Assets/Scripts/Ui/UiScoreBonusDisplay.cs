@@ -132,7 +132,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
     void MoveSprite(GameObject textObject, ScoreBonusDisplayedInstance handler)
     {
         Vector2 pos;
-        Vector3 posScreen = CameraHandler.Instance.renderingCam.WorldToScreenPoint(handler.posSave);
+        Vector3 posScreen = CameraHandler.Instance.GetCurrentCam().WorldToScreenPoint(handler.posSave);
         if (posScreen.z > 0)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posScreen, GetComponent<Canvas>().worldCamera, out pos);

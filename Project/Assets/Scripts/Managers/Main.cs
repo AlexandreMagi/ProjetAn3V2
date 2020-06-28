@@ -180,10 +180,6 @@ public class Main : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UiScoreBonusDisplay.Instance.MaybePlayCheer();
-        }
 
 
         if (arduinoTransmettor == null)
@@ -353,7 +349,7 @@ public class Main : MonoBehaviour
             ExplosionFromPlayer(30, 0, 500, 0, 0, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.C) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.C) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             UiCrossHair.Instance.StopWaitFunction();
@@ -367,7 +363,10 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.B) && enableDebugInputs)
         {
-            if (QualityHandler.Instance != null) ChangeQuality (!QualityHandler.Instance.isHighQuality);
+            if (QualityHandler.Instance != null)
+            {
+                ChangeQuality(!QualityHandler.Instance.isHighQuality);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.N) && enableDebugInputs)
@@ -376,7 +375,7 @@ public class Main : MonoBehaviour
             //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
-        if (Input.GetKeyDown(KeyCode.D) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.D) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             Player.Instance.TakeDamage(34);
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
@@ -409,6 +408,12 @@ public class Main : MonoBehaviour
         {
             EasterEggHandler.Instance.DisableAllBonus();
         }
+        if (Input.GetKeyDown(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftAlt) && enableDebugInputs)
+        {
+            CameraHandler.Instance.SwitchFreeCam();
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && enableDebugInputs) CameraHandler.Instance.freePosition = !CameraHandler.Instance.freePosition;
+        CameraHandler.Instance.FreeCamInputs(Input.GetKey(KeyCode.Z) ? 1 : (Input.GetKey(KeyCode.S) ? -1:0), Input.GetKey(KeyCode.D) ? 1 : (Input.GetKey(KeyCode.Q) ? -1 : 0), Input.GetKey(KeyCode.Space ) ? 1 : (Input.GetKey(KeyCode.C) ? -1 : 0));
 
         if (Input.GetKeyDown(KeyCode.P) && enableDebugInputs)
         {
@@ -433,12 +438,12 @@ public class Main : MonoBehaviour
             Player.Instance.SetGod();
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.Z) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             SetupWaitScreenOn();
         }
 
-        if (Input.GetKeyUp(KeyCode.Z) && enableDebugInputs)
+        if (Input.GetKeyUp(KeyCode.Z) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             SetupWaitScreenOff();
         }
@@ -455,7 +460,7 @@ public class Main : MonoBehaviour
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheatbad, Vector3.zero, null, 20000);
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.S) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
@@ -622,7 +627,7 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        TimeScaleManager.Instance.AccelGame(((Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q)) && enableDebugInputs) || inSkip, inSkip ? 5 : (Input.GetKey(KeyCode.H) ? 5 : 10));
+        TimeScaleManager.Instance.AccelGame(((Input.GetKey(KeyCode.H) || (Input.GetKey(KeyCode.Q) && !CameraHandler.Instance.isInFreeCam)) && enableDebugInputs) || inSkip, inSkip ? 5 : (Input.GetKey(KeyCode.H) ? 5 : 10));
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
@@ -640,7 +645,7 @@ public class Main : MonoBehaviour
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
-            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(GetCursorPos());
+            Ray cursorRay = CameraHandler.Instance.GetCurrentCam().ScreenPointToRay(GetCursorPos());
             RaycastHit hit;
             Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
             
@@ -780,6 +785,7 @@ public class Main : MonoBehaviour
                 if (objectToChangeInLowQuality[i] != null) objectToChangeInLowQuality[i].SetActive(!objectToChangeInLowQuality[i].activeSelf);
             }
         }
+        CameraHandler.Instance.SwitchCam(high);
     }
 
     public void InitLeaderboard()
@@ -1280,6 +1286,7 @@ public class Main : MonoBehaviour
         Vector2 returnedValue = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
         if (Weapon.Instance != null) returnedValue += Weapon.Instance.CursorImprecision;
         returnedValue = new Vector2(Mathf.Clamp(returnedValue.x, 0, Screen.width), Mathf.Clamp(returnedValue.y, 0, Screen.height));
+        if (CameraHandler.Instance != null && CameraHandler.Instance.isInFreeCam) returnedValue = new Vector2(Screen.width / 2, Screen.height / 2);
         return returnedValue;
     }
 
