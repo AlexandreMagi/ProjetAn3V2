@@ -135,6 +135,10 @@ public class Main : MonoBehaviour
     [SerializeField] float musicLifeAndDeathChoiceVolume = 1;
     AudioSource lifeAndDeathAudioSource = null;
 
+    public bool EnableComments = true;
+    public float CommentAVolume = 2;
+    public float CommentBVolume = 2;
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -159,7 +163,6 @@ public class Main : MonoBehaviour
         Invoke("UpdateWaitScreenStart", .5f);
         mainMixer.SetFloat("PitchAffectedVolume", 0);
 
-
     }
 
     public Color FogDefaultColor { get { return fogDefaultColor; } }
@@ -176,6 +179,13 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UiScoreBonusDisplay.Instance.MaybePlayCheer();
+        }
+
+
         if (arduinoTransmettor == null)
         {
             arduinoTransmettor = IRCameraParser.Instance;
@@ -862,10 +872,34 @@ public class Main : MonoBehaviour
         Main.Instance.EndReviveSituation(true, bonusFromRez);
         lastChoiceForPlayer = false;
         EndGameChoice.Instance.EndChoice();
+
+        if (EnableComments)
+        {
+            PlaySoundWithDelay("PresA_Beg_Mercy", "Comment", Main.Instance.CommentAVolume, 1);
+            PlaySoundWithDelay("PresB_Beg_Mercy", "Comment", Main.Instance.CommentBVolume, 4.5f);
+        }
+    }
+
+    public void PlaySoundWithDelay(string sound,string mixer, float volume, float delay)
+    {
+        StartCoroutine(PlaySoundWithDelayCoroutine(sound, mixer, volume, delay));
+    }
+
+    IEnumerator PlaySoundWithDelayCoroutine(string sound,string mixer, float volume, float delay)
+    {
+        if (delay!=0)
+            yield return new WaitForSecondsRealtime(delay);
+            CustomSoundManager.Instance.PlaySound(sound, mixer, volume);
+        yield break;
     }
 
     public void VoteChoice()
     {
+        if (EnableComments)
+        {
+            PlaySoundWithDelay("PresA_Vote_Public", "Comment", Main.Instance.CommentAVolume, 1);
+            PlaySoundWithDelay("PresB_Vote_Public", "Comment", Main.Instance.CommentBVolume, 4.5f);
+        }
         TriggerGameOverSequence();
         lastChoiceForPlayer = false;
         //EndGameChoice.Instance.EndChoice();
@@ -1039,8 +1073,12 @@ public class Main : MonoBehaviour
         if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(-100, 1f);
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
+            if (EnableComments)
+            {
+                PlaySoundWithDelay("PresA_Player_Down", "Comment", Main.Instance.CommentAVolume, .5f);
+                PlaySoundWithDelay("PresB_Player_Down", "Comment", Main.Instance.CommentBVolume, 2.5f);
+            }
             lifeAndDeathAudioSource = CustomSoundManager.Instance.PlaySound(musicLifeAndDeathChoice, "UI", musicLifeAndDeathChoiceVolume);
-            Debug.Log("ça joue la musique");
             timeRemainingBeforeChoice = timeBeforeChoice;
             timeRemainingBeforeChoiceSecurity = timeBeforeChoiceSecurity;
             timeRemainingBeforeGameOver = timerBeforeGameOver;
@@ -1185,6 +1223,12 @@ public class Main : MonoBehaviour
 
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
         CustomSoundManager.Instance.PlaySound("GameOver_Sound", "EndGame", 1);
+
+        if (EnableComments)
+        {
+            PlaySoundWithDelay("PresA_Game_Over", "Comment", Main.Instance.CommentAVolume, .5f);
+            PlaySoundWithDelay("PresB_Game_Over", "Comment", Main.Instance.CommentBVolume, 3.8f);
+        }
     }
 
     private void DoResurrection(float bonus)
