@@ -123,7 +123,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                         CustomSoundManager.Instance.PlaySound("Se_HeartBeat", "UI", 1);
                         UiDamageHandler.Instance.ShieldBreak();
                         CameraHandler.Instance.AddShake(entityData.shakeAtArmorDestruction);
-                        GameObject renderingCam = CameraHandler.Instance.renderingCam.gameObject;
+                        GameObject renderingCam = CameraHandler.Instance.GetCurrentCam().gameObject;
                         FxManager.Instance.PlayFx(entityData.shakeAtArmorFx, renderingCam.transform.position, renderingCam.transform.rotation);
                         TimeScaleManager.Instance.AddStopTime(entityData.stopTimeAtShieldBreak);
                         PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.DamageOnArmor, Vector3.zero);
@@ -246,7 +246,7 @@ public class Player : Entity<DataPlayer>, ISpecialEffects
                 ISpecialEffects speAffect = hVictim.GetComponent<ISpecialEffects>();
                 if (speAffect != null && (hVictim.GetComponent<Player>() == null))
                 {
-                    speAffect.OnExplosion(CameraHandler.Instance.renderingCam.transform.position, 5000, 6, 0, 0, 0, 0,false);
+                    speAffect.OnExplosion(CameraHandler.Instance.GetCurrentCam().transform.position, 5000, 6, 0, 0, 0, 0,false);
                 }
             }
         }
