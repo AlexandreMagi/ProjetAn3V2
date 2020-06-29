@@ -53,7 +53,7 @@ public class GravityOrb : MonoBehaviour
         stepTimeHold = 0f;
 
         //hasHitSomething = false;
-        MainCam = CameraHandler.Instance.renderingCam;
+        MainCam = CameraHandler.Instance.GetCurrentCam();
         Ray rRayGravity = MainCam.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 

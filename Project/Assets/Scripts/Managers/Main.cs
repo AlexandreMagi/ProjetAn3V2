@@ -91,6 +91,7 @@ public class Main : MonoBehaviour
     [SerializeField] float timeAfterChoice = 1;
     [SerializeField] float timerBeforeGameOver = 10;
     float timeRemainingBeforeGameOver = 10;
+    int lastTimeRemainingBeforeGameOver = 10;
     lastChanceButton buttonMouseOver = null;
     float buttonMouseOverLerpSpeed = 8;
     float buttonMouseOverScale = 1.2f;
@@ -128,6 +129,16 @@ public class Main : MonoBehaviour
     [SerializeField] float timeGoToLeaderboardAtGameOver = 5;
     float timeGoToLeaderboard = 0;
 
+
+    [Header("Music Parameters")]
+    [SerializeField] string musicLifeAndDeathChoice = "Music_TestChoixVieMort";
+    [SerializeField] float musicLifeAndDeathChoiceVolume = 1;
+    AudioSource lifeAndDeathAudioSource = null;
+
+    public bool EnableComments = true;
+    public float CommentAVolume = 2;
+    public float CommentBVolume = 2;
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -152,7 +163,6 @@ public class Main : MonoBehaviour
         Invoke("UpdateWaitScreenStart", .5f);
         mainMixer.SetFloat("PitchAffectedVolume", 0);
 
-
     }
 
     public Color FogDefaultColor { get { return fogDefaultColor; } }
@@ -169,6 +179,9 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+
         if (arduinoTransmettor == null)
         {
             arduinoTransmettor = IRCameraParser.Instance;
@@ -336,7 +349,7 @@ public class Main : MonoBehaviour
             ExplosionFromPlayer(30, 0, 500, 0, 0, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.C) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.C) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             UiCrossHair.Instance.StopWaitFunction();
@@ -350,7 +363,10 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.B) && enableDebugInputs)
         {
-            if (QualityHandler.Instance != null) ChangeQuality (!QualityHandler.Instance.isHighQuality);
+            if (QualityHandler.Instance != null)
+            {
+                ChangeQuality(!QualityHandler.Instance.isHighQuality);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.N) && enableDebugInputs)
@@ -359,7 +375,7 @@ public class Main : MonoBehaviour
             //MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
         }
 
-        if (Input.GetKeyDown(KeyCode.D) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.D) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             Player.Instance.TakeDamage(34);
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
@@ -392,6 +408,12 @@ public class Main : MonoBehaviour
         {
             EasterEggHandler.Instance.DisableAllBonus();
         }
+        if (Input.GetKeyDown(KeyCode.W) && !Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftAlt) && enableDebugInputs)
+        {
+            CameraHandler.Instance.SwitchFreeCam();
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && enableDebugInputs) CameraHandler.Instance.freePosition = !CameraHandler.Instance.freePosition;
+        CameraHandler.Instance.FreeCamInputs(Input.GetKey(KeyCode.Z) ? 1 : (Input.GetKey(KeyCode.S) ? -1:0), Input.GetKey(KeyCode.D) ? 1 : (Input.GetKey(KeyCode.Q) ? -1 : 0), Input.GetKey(KeyCode.Space ) ? 1 : (Input.GetKey(KeyCode.C) ? -1 : 0));
 
         if (Input.GetKeyDown(KeyCode.P) && enableDebugInputs)
         {
@@ -416,12 +438,12 @@ public class Main : MonoBehaviour
             Player.Instance.SetGod();
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.Z) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             SetupWaitScreenOn();
         }
 
-        if (Input.GetKeyUp(KeyCode.Z) && enableDebugInputs)
+        if (Input.GetKeyUp(KeyCode.Z) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             SetupWaitScreenOff();
         }
@@ -438,7 +460,7 @@ public class Main : MonoBehaviour
             PublicManager.Instance.OnPlayerAction(PublicManager.ActionType.Cheatbad, Vector3.zero, null, 20000);
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && enableDebugInputs)
+        if (Input.GetKeyDown(KeyCode.S) && enableDebugInputs && !CameraHandler.Instance.isInFreeCam)
         {
             MetricsGestionnary.Instance.EventMetrics(MetricsGestionnary.MetricsEventType.UsedCheatCode);
             TimeScaleManager.Instance.AddSlowMo(0.8f, 5);
@@ -605,7 +627,7 @@ public class Main : MonoBehaviour
                 Weapon.Instance.ReloadingInput();
         }
 
-        TimeScaleManager.Instance.AccelGame(((Input.GetKey(KeyCode.H) || Input.GetKey(KeyCode.Q)) && enableDebugInputs) || inSkip, inSkip ? 5 : (Input.GetKey(KeyCode.H) ? 5 : 10));
+        TimeScaleManager.Instance.AccelGame(((Input.GetKey(KeyCode.H) || (Input.GetKey(KeyCode.Q) && !CameraHandler.Instance.isInFreeCam)) && enableDebugInputs) || inSkip, inSkip ? 5 : (Input.GetKey(KeyCode.H) ? 5 : 10));
 
         //if (playerCanShoot && (isArduinoMode ? (arduinoTransmettor && arduinoTransmettor.isShotDown) : Input.GetKeyUp(KeyCode.Mouse0)) && Weapon.Instance.GetBulletAmmount().x == 0 && autoReloadOnNoAmmo)
         //{
@@ -623,7 +645,7 @@ public class Main : MonoBehaviour
 
         if (timeLeftForRaycastCursor <= timeTickCursor)
         {
-            Ray cursorRay = CameraHandler.Instance.renderingCam.ScreenPointToRay(GetCursorPos());
+            Ray cursorRay = CameraHandler.Instance.GetCurrentCam().ScreenPointToRay(GetCursorPos());
             RaycastHit hit;
             Physics.Raycast(cursorRay, out hit, Mathf.Infinity);
             
@@ -700,7 +722,14 @@ public class Main : MonoBehaviour
             }
 
             if (timeRemainingBeforeGameOver > 0)
+            {
                 timeRemainingBeforeGameOver -= Time.unscaledDeltaTime;
+                if (Mathf.CeilToInt(timeRemainingBeforeGameOver) != lastTimeRemainingBeforeGameOver)
+                {
+                    lastTimeRemainingBeforeGameOver = Mathf.CeilToInt(timeRemainingBeforeGameOver);
+                    CustomSoundManager.Instance.PlaySound("SE_Tick", "UI", 1);
+                }
+            }
             if (timeRemainingBeforeGameOver < 0)
             {
                 timeRemainingBeforeGameOver = 0;
@@ -740,7 +769,9 @@ public class Main : MonoBehaviour
             if (timeGoToLeaderboard <= 0)
                 InitLeaderboard();
         }
+#if !UNITY_EDITOR
         CheckIfGoBackToMenu();
+#endif
     }
 
     public void ChangeQuality (bool high)
@@ -754,6 +785,7 @@ public class Main : MonoBehaviour
                 if (objectToChangeInLowQuality[i] != null) objectToChangeInLowQuality[i].SetActive(!objectToChangeInLowQuality[i].activeSelf);
             }
         }
+        CameraHandler.Instance.SwitchCam(high);
     }
 
     public void InitLeaderboard()
@@ -822,6 +854,11 @@ public class Main : MonoBehaviour
                 break;
         }
         choiceMade = -1;
+        if (lifeAndDeathAudioSource != null && lifeAndDeathAudioSource.isPlaying)
+        {
+            lifeAndDeathAudioSource.Stop();
+            lifeAndDeathAudioSource = null;
+        }
     }
 
     public void ReviveChoice()
@@ -841,10 +878,34 @@ public class Main : MonoBehaviour
         Main.Instance.EndReviveSituation(true, bonusFromRez);
         lastChoiceForPlayer = false;
         EndGameChoice.Instance.EndChoice();
+
+        if (EnableComments)
+        {
+            PlaySoundWithDelay("PresA_Beg_Mercy", "Comment", Main.Instance.CommentAVolume, 1);
+            PlaySoundWithDelay("PresB_Beg_Mercy", "Comment", Main.Instance.CommentBVolume, 4.5f);
+        }
+    }
+
+    public void PlaySoundWithDelay(string sound,string mixer, float volume, float delay)
+    {
+        StartCoroutine(PlaySoundWithDelayCoroutine(sound, mixer, volume, delay));
+    }
+
+    IEnumerator PlaySoundWithDelayCoroutine(string sound,string mixer, float volume, float delay)
+    {
+        if (delay!=0)
+            yield return new WaitForSecondsRealtime(delay);
+            CustomSoundManager.Instance.PlaySound(sound, mixer, volume);
+        yield break;
     }
 
     public void VoteChoice()
     {
+        if (EnableComments)
+        {
+            PlaySoundWithDelay("PresA_Vote_Public", "Comment", Main.Instance.CommentAVolume, 1);
+            PlaySoundWithDelay("PresB_Vote_Public", "Comment", Main.Instance.CommentBVolume, 4.5f);
+        }
         TriggerGameOverSequence();
         lastChoiceForPlayer = false;
         //EndGameChoice.Instance.EndChoice();
@@ -1018,6 +1079,12 @@ public class Main : MonoBehaviour
         if (PostprocessManager.Instance != null) PostprocessManager.Instance.SetupSaturation(-100, 1f);
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
+            if (EnableComments)
+            {
+                PlaySoundWithDelay("PresA_Player_Down", "Comment", Main.Instance.CommentAVolume, .5f);
+                PlaySoundWithDelay("PresB_Player_Down", "Comment", Main.Instance.CommentBVolume, 2.5f);
+            }
+            lifeAndDeathAudioSource = CustomSoundManager.Instance.PlaySound(musicLifeAndDeathChoice, "UI", musicLifeAndDeathChoiceVolume);
             timeRemainingBeforeChoice = timeBeforeChoice;
             timeRemainingBeforeChoiceSecurity = timeBeforeChoiceSecurity;
             timeRemainingBeforeGameOver = timerBeforeGameOver;
@@ -1102,7 +1169,6 @@ public class Main : MonoBehaviour
         if (difficultyData.playerCanReraise || !playerResedAlready)
         {
 
-
             // Debug.Log($"{initialPublic} {currentPublic} {growthValue}");
             float trueChance = GetCurrentChacesOfSurvival();
 
@@ -1163,6 +1229,12 @@ public class Main : MonoBehaviour
 
         //CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "GameOver_Sound", false, 1);
         CustomSoundManager.Instance.PlaySound("GameOver_Sound", "EndGame", 1);
+
+        if (EnableComments)
+        {
+            PlaySoundWithDelay("PresA_Game_Over", "Comment", Main.Instance.CommentAVolume, .5f);
+            PlaySoundWithDelay("PresB_Game_Over", "Comment", Main.Instance.CommentBVolume, 3.8f);
+        }
     }
 
     private void DoResurrection(float bonus)
@@ -1214,6 +1286,7 @@ public class Main : MonoBehaviour
         Vector2 returnedValue = isArduinoMode ? IRCameraParser.Instance.funcPositionsCursorArduino() : Input.mousePosition;
         if (Weapon.Instance != null) returnedValue += Weapon.Instance.CursorImprecision;
         returnedValue = new Vector2(Mathf.Clamp(returnedValue.x, 0, Screen.width), Mathf.Clamp(returnedValue.y, 0, Screen.height));
+        if (CameraHandler.Instance != null && CameraHandler.Instance.isInFreeCam) returnedValue = new Vector2(Screen.width / 2, Screen.height / 2);
         return returnedValue;
     }
 

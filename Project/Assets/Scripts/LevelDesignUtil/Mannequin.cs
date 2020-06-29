@@ -210,7 +210,7 @@ public class Mannequin : Entity<DataProp>, IGravityAffect, IBulletAffect
             sparkAudioSource.transform.position = transform.position;
         }
 
-        Debug.Log($"Velo update : {rb.velocity}");
+        //Debug.Log($"Velo update : {rb.velocity}");
     }
 
 

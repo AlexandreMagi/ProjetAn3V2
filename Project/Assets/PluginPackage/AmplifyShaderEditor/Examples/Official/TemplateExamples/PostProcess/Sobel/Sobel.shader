@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "ASESampleShaders/Post Process/Sobel"
@@ -9,31 +7,37 @@ Shader "ASESampleShaders/Post Process/Sobel"
 		_MainTex ( "Screen", 2D ) = "black" {}
 		_Intensity("Intensity", Float) = 1
 		_Step("Step", Float) = 0
+
 	}
 
 	SubShader
 	{
+		LOD 0
+
 		
 		
 		ZTest Always
 		Cull Off
 		ZWrite Off
 
-
+		
 		Pass
 		{ 
 			CGPROGRAM 
+
+			
 
 			#pragma vertex vert_img_custom 
 			#pragma fragment frag
 			#pragma target 3.0
 			#include "UnityCG.cginc"
-
+			
 
 			struct appdata_img_custom
 			{
 				float4 vertex : POSITION;
 				half2 texcoord : TEXCOORD0;
+				
 			};
 
 			struct v2f_img_custom
@@ -45,6 +49,7 @@ Shader "ASESampleShaders/Post Process/Sobel"
 				half4 uv2 : TEXCOORD1;
 				half4 stereoUV2 : TEXCOORD3;
 		#endif
+				
 			};
 
 			uniform sampler2D _MainTex;
@@ -54,10 +59,12 @@ Shader "ASESampleShaders/Post Process/Sobel"
 			uniform float _Step;
 			uniform float _Intensity;
 
+
 			v2f_img_custom vert_img_custom ( appdata_img_custom v  )
 			{
 				v2f_img_custom o;
-				o.pos = UnityObjectToClipPos ( v.vertex );
+				
+				o.pos = UnityObjectToClipPos( v.vertex );
 				o.uv = float4( v.texcoord.xy, 1, 1 );
 
 				#if UNITY_UV_STARTS_AT_TOP
@@ -84,11 +91,12 @@ Shader "ASESampleShaders/Post Process/Sobel"
 				half4 finalColor;
 
 				// ase common template code
-				float2 uv_MainTex = i.uv.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float2 localCenter138_g194 = uv_MainTex;
-				float temp_output_2_0_g194 = ( _MainTex_TexelSize * _Step ).x;
+				float2 uv0_MainTex = i.uv.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float2 localCenter138_g194 = uv0_MainTex;
+				float4 break13 = ( _MainTex_TexelSize * _Step );
+				float temp_output_2_0_g194 = break13.x;
 				float localNegStepX156_g194 = -temp_output_2_0_g194;
-				float temp_output_3_0_g194 = ( _MainTex_TexelSize * _Step ).y;
+				float temp_output_3_0_g194 = break13.y;
 				float localStepY164_g194 = temp_output_3_0_g194;
 				float2 appendResult14_g202 = (float2(localNegStepX156_g194 , localStepY164_g194));
 				float4 tex2DNode16_g202 = tex2D( _MainTex, ( localCenter138_g194 + appendResult14_g202 ) );
@@ -155,22 +163,24 @@ Shader "ASESampleShaders/Post Process/Sobel"
 		}
 	}
 	CustomEditor "ASEMaterialInspector"
+	
+	
 }
 /*ASEBEGIN
-Version=14302
-389;92;1064;673;-292.4488;435.6547;1.3;False;False
-Node;AmplifyShaderEditor.RangedFloatNode;18;-200.715,-0.244751;Float;False;Property;_Step;Step;0;0;Create;True;0;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateShaderPropertyNode;12;-222.5603,-127.1968;Float;False;_MainTex_TexelSize;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;27.76758,-65.4624;Float;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0.0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.TemplateShaderPropertyNode;1;-83.01637,247.0819;Float;False;_MainTex;0;5;SAMPLER2D;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.BreakToComponentsNode;13;231.7997,-137.4999;Float;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.TextureCoordinatesNode;6;213.2001,216.7001;Float;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;19;827.4486,27.84405;Float;False;2;2;0;FLOAT3;0,0,0,0;False;1;COLOR;0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;39;553.4998,-47.19983;Float;False;SobelMain;-1;;194;481788033fe47cd4893d0d4673016cbc;0;4;2;FLOAT;0.0;False;3;FLOAT;0.0;False;4;FLOAT2;0,0;False;1;SAMPLER2D;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;23;951.5491,184.7441;Float;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0.0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;22;522.5495,353.7439;Float;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;21;542.3502,128.5439;Float;False;Property;_Color0;Color 0;1;0;Create;True;0,0,0,0;0,0,0,0;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMasterNode;26;1093.604,-156.7999;Float;False;True;2;Float;ASEMaterialInspector;0;1;ASESampleShaders/Post Process/Sobel;c71b220b631b6344493ea3cf87110c93;ASETemplateShaders/PostProcess;Off;2;7;0;1;0;FLOAT4;0,0,0,0;False;0
+Version=18000
+-1920;171;1920;1019;606.9402;401.5757;1;True;False
+Node;AmplifyShaderEditor.RangedFloatNode;18;-200.715,-0.244751;Float;False;Property;_Step;Step;17;0;Create;True;0;0;False;0;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateShaderPropertyNode;12;-237.5603,-217.1968;Inherit;False;0;0;_MainTex_TexelSize;Pass;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;27.76758,-65.4624;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.TemplateShaderPropertyNode;1;-83.01637,247.0819;Inherit;False;0;0;_MainTex;Shader;0;5;SAMPLER2D;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.BreakToComponentsNode;13;231.7997,-137.4999;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.TextureCoordinatesNode;6;213.2001,216.7001;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;19;827.4486,27.84405;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;39;553.4998,-47.19983;Inherit;False;SobelMain;0;;194;481788033fe47cd4893d0d4673016cbc;0;4;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT2;0,0;False;1;SAMPLER2D;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;23;951.5491,184.7441;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode;22;522.5495,353.7439;Inherit;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;21;542.3502,128.5439;Float;False;Property;_Color0;Color 0;18;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;26;1093.604,-156.7999;Float;False;True;-1;2;ASEMaterialInspector;0;2;ASESampleShaders/Post Process/Sobel;c71b220b631b6344493ea3cf87110c93;True;SubShader 0 Pass 0;0;0;;1;False;False;False;True;2;False;-1;False;False;True;2;False;-1;True;7;False;-1;False;True;0;False;0;False;False;False;False;False;False;False;False;False;False;True;2;0;;0;0;Standard;0;0;1;True;False;;0
 WireConnection;17;0;12;0
 WireConnection;17;1;18;0
 WireConnection;13;0;17;0
@@ -187,4 +197,4 @@ WireConnection;22;0;1;0
 WireConnection;22;1;6;0
 WireConnection;26;0;39;0
 ASEEND*/
-//CHKSM=695AB4DD693DC3FF3EF37007CD12B23A9515B963
+//CHKSM=B2B41E3576E0350348D02E0CA14D687096737E9D

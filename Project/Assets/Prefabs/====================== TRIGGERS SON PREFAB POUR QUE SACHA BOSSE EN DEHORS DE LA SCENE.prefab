@@ -105,6 +105,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -167,6 +168,66 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 1.5
+--- !u!1 &561406148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 561406149}
+  - component: {fileID: 561406151}
+  - component: {fileID: 561406150}
+  m_Layer: 12
+  m_Name: Trigger_Comment - TourDeVerre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &561406149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561406148}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -270.805, y: -6.7, z: -17.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 687037122}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &561406151
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561406148}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5, z: 5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &561406150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561406148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 5
+  canPlay: 1
+  delay: 4
 --- !u!1 &563530736
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,13 +239,14 @@ GameObject:
   - component: {fileID: 563530737}
   - component: {fileID: 563530739}
   - component: {fileID: 563530738}
+  - component: {fileID: 911565905}
   m_Layer: 12
   m_Name: Trigger_Music - IntroHardMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &563530737
 Transform:
   m_ObjectHideFlags: 0
@@ -227,16 +289,101 @@ MonoBehaviour:
   doOnlyOnce: 1
   changeMusic: 1
   channel: 0
-  musicToPlay: 6
+  musicToPlay: 5
   timeBeforeDoAnything: 0
   doItNow: 1
   fadeOut: 0
   timeWaitBetween: 0
+  fadeIn: 1
+  volume: 0.6
+  loop: 1
+  volumeAimed: 1
+  volumeTimeTransition: 1
+--- !u!114 &911565905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563530736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 1
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 1
+  timeWaitBetween: 0
   fadeIn: 0
-  volume: 0.4
+  volume: 1
   loop: 0
   volumeAimed: 1
   volumeTimeTransition: 1
+--- !u!1 &600746524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600746525}
+  - component: {fileID: 600746527}
+  - component: {fileID: 600746526}
+  m_Layer: 12
+  m_Name: Trigger_Comment - Trap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &600746525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600746524}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -211.64, y: -16.297, z: -42.71}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &600746527
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600746524}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &600746526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600746524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 6
+  canPlay: 1
+  delay: 0
 --- !u!1 &658567738
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,6 +412,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1748809283}
+  - {fileID: 2068215030}
   m_Father: {fileID: 1834859355}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -297,6 +445,7 @@ Transform:
   m_Children:
   - {fileID: 1464091335}
   - {fileID: 1493912073}
+  - {fileID: 561406149}
   m_Father: {fileID: 108948085}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -312,7 +461,7 @@ GameObject:
   - component: {fileID: 724920028}
   - component: {fileID: 724920027}
   m_Layer: 12
-  m_Name: Trigger_Music - IntroHardMusic (1)
+  m_Name: Trigger_Sound - GroundDestruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,6 +522,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -508,6 +658,7 @@ MonoBehaviour:
   volumeAimed: 0.01
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -570,6 +721,222 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &755898929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 755898930}
+  - component: {fileID: 755898932}
+  - component: {fileID: 755898931}
+  m_Layer: 12
+  m_Name: Trigger_Comment - Win
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &755898930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755898929}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -237, y: 15.560919, z: 65.09}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &755898932
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755898929}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &755898931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755898929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 7
+  canPlay: 1
+  delay: 0
+--- !u!1 &874648543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874648544}
+  - component: {fileID: 874648546}
+  - component: {fileID: 874648545}
+  m_Layer: 12
+  m_Name: Trigger_Comment - Minigun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874648544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874648543}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -237, y: 1.5, z: 61.48}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &874648546
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874648543}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &874648545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874648543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 3
+  canPlay: 1
+  delay: 2
+--- !u!1 &910301848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910301849}
+  - component: {fileID: 910301852}
+  - component: {fileID: 910301851}
+  - component: {fileID: 910301850}
+  m_Layer: 12
+  m_Name: Trigger_Music - IntroHardMusic (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &910301849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910301848}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -259.438, y: 1.093, z: -26.23}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1412285132}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &910301852
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910301848}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.616952, y: 3.0908265, z: 1.9324532}
+  m_Center: {x: 0, y: 0.5266435, z: 0.46622658}
+--- !u!114 &910301851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910301848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 0
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 1
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 0
+  loop: 0
+  volumeAimed: 1
+  volumeTimeTransition: 1
+--- !u!114 &910301850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910301848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 1
+  musicToPlay: 7
+  timeBeforeDoAnything: 0
+  doItNow: 0
+  fadeOut: 0
+  timeWaitBetween: 0
+  fadeIn: 1
+  volume: 1.5
+  loop: 1
+  volumeAimed: 1
+  volumeTimeTransition: 1
 --- !u!1 &948808934
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +1042,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -783,6 +1151,7 @@ GameObject:
   - component: {fileID: 1068890831}
   - component: {fileID: 1068890833}
   - component: {fileID: 1068890832}
+  - component: {fileID: 1780841056}
   m_Layer: 12
   m_Name: Trigger_Music - HardMusic
   m_TagString: Untagged
@@ -834,12 +1203,37 @@ MonoBehaviour:
   channel: 0
   musicToPlay: 5
   timeBeforeDoAnything: 0
-  doItNow: 0
+  doItNow: 1
   fadeOut: 0
   timeWaitBetween: 0
-  fadeIn: 0
-  volume: 0.4
+  fadeIn: 1
+  volume: 0.6
   loop: 1
+  volumeAimed: 1
+  volumeTimeTransition: 1
+--- !u!114 &1780841056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068890830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 1
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 1
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 0
+  loop: 0
   volumeAimed: 1
   volumeTimeTransition: 1
 --- !u!1 &1307503814
@@ -915,6 +1309,7 @@ MonoBehaviour:
   volumeAimed: 0.2
   volumeTimeTransition: 3
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1009,9 +1404,70 @@ Transform:
   - {fileID: 563530737}
   - {fileID: 1068890831}
   - {fileID: 724920026}
+  - {fileID: 910301849}
   m_Father: {fileID: 108948085}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1446456912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1446456913}
+  - component: {fileID: 1446456915}
+  - component: {fileID: 1446456914}
+  m_Layer: 12
+  m_Name: Trigger_Comment - Atterrissage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1446456913
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446456912}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -236.98, y: 0.96, z: 0.06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1446456915
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446456912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 10.919352, z: 5}
+  m_Center: {x: 0, y: 4.959676, z: 0}
+--- !u!114 &1446456914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446456912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 1
+  canPlay: 1
+  delay: 0
 --- !u!1 &1464091334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,6 +1541,7 @@ MonoBehaviour:
   volumeAimed: 0.3
   volumeTimeTransition: 5
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1220,6 +1677,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1308,7 +1766,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493912072}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -270.805, y: -4.19, z: -17.81}
+  m_LocalPosition: {x: -270.805, y: -6.7, z: -17.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 687037122}
@@ -1342,7 +1800,7 @@ MonoBehaviour:
   doOnlyOnce: 1
   changeMusic: 1
   channel: 0
-  musicToPlay: 6
+  musicToPlay: 0
   timeBeforeDoAnything: 0
   doItNow: 1
   fadeOut: 4
@@ -1425,6 +1883,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1560,6 +2019,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1695,6 +2155,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1830,6 +2291,7 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -1965,6 +2427,7 @@ MonoBehaviour:
   volumeAimed: 0.2
   volumeTimeTransition: 3
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -2027,6 +2490,66 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &1775239544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1775239545}
+  - component: {fileID: 1775239547}
+  - component: {fileID: 1775239546}
+  m_Layer: 12
+  m_Name: Trigger_Comment - Intro Couloir
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1775239545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775239544}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -226.488, y: -22.3228, z: 34.061}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1775239547
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775239544}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1775239546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775239544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 2
+  canPlay: 1
+  delay: 0
 --- !u!1 &1834859354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,6 +2656,7 @@ MonoBehaviour:
   volumeTimeTransition: 1
   animated:
   - {fileID: 0}
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 1
@@ -2196,6 +2720,66 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &1884231121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1884231122}
+  - component: {fileID: 1884231124}
+  - component: {fileID: 1884231123}
+  m_Layer: 12
+  m_Name: Trigger_Comment - Secret Room
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1884231122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884231121}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -270.729, y: -35.201, z: -4.971}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1884231124
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884231121}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1884231123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884231121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 4
+  canPlay: 1
+  delay: 0
 --- !u!1 &1938245382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,6 +2853,7 @@ MonoBehaviour:
   volumeAimed: 0.3
   volumeTimeTransition: 1
   animated: []
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 0
@@ -2331,6 +2916,66 @@ MonoBehaviour:
   activatesAllAnimatingSwarmersOnTrigger: 0
   swarmersToAlert: []
   timeBeforeStart: 0
+--- !u!1 &2068215029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2068215030}
+  - component: {fileID: 2068215032}
+  - component: {fileID: 2068215031}
+  m_Layer: 12
+  m_Name: Trigger_Comment -EntreeFinalBattle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2068215030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068215029}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -216.079, y: -16.287, z: -9.594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 658567739}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2068215032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068215029}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2068215031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068215029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b70f6a77a16ca4a9f134e8394b5db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comment: 0
+  canPlay: 1
+  delay: 0
 --- !u!1 &2079955017
 GameObject:
   m_ObjectHideFlags: 0
@@ -2405,6 +3050,7 @@ MonoBehaviour:
   volumeTimeTransition: 1
   animated:
   - {fileID: 0}
+  overrideTrigger: 
   usesTimerBetweenAllAnims: 0
   animationWaitTimer: 0
   isMeshReplacer: 1
@@ -2502,6 +3148,12 @@ Transform:
   - {fileID: 2079955018}
   - {fileID: 1852043479}
   - {fileID: 1717805768}
+  - {fileID: 1446456913}
+  - {fileID: 1775239545}
+  - {fileID: 874648544}
+  - {fileID: 1884231122}
+  - {fileID: 600746525}
+  - {fileID: 755898930}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -7,7 +7,7 @@ using UnityEngine.Video;
 
 public static class TriggerUtil
 {
-    static int hashAnim = 0; 
+    static int hashAnim = 0;
 
     static TriggerUtil()
     {
@@ -69,7 +69,7 @@ public static class TriggerUtil
     public static void TriggerFog(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition, bool overrideFogColor, Color fogColorAimed, float fogColorTimeTransition)
     {
         Main.Instance.StartCoroutine(TriggerFogCoroutine(timeBeforeStart, fogEndValueAimed, fogTimeTransition));
-        Main.Instance.StartCoroutine(TriggerFogColorCoroutine(timeBeforeStart,overrideFogColor, fogColorAimed, fogColorTimeTransition));
+        Main.Instance.StartCoroutine(TriggerFogColorCoroutine(timeBeforeStart, overrideFogColor, fogColorAimed, fogColorTimeTransition));
     }
 
     static IEnumerator TriggerFogCoroutine(float timeBeforeStart, float fogEndValueAimed, float fogTimeTransition)
@@ -80,7 +80,7 @@ public static class TriggerUtil
 
         if (fogTimeTransition != 0)
         {
-            while(completion < 1)
+            while (completion < 1)
             {
                 //Debug.Log(RenderSettings.fogEndDistance);
                 completion += Time.deltaTime / fogTimeTransition;
@@ -106,7 +106,7 @@ public static class TriggerUtil
 
         if (fogColorTimeTransition != 0)
         {
-            while(completion < 1)
+            while (completion < 1)
             {
                 //Debug.Log(RenderSettings.fogEndDistance);
                 completion += Time.deltaTime / fogColorTimeTransition;
@@ -139,18 +139,18 @@ public static class TriggerUtil
     }
 
     //ANIMATIONS
-    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, bool loopTimer, float animationWaitTimer = 0)
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, bool loopTimer, float animationWaitTimer = 0, string trigger = "MakeAction")
     {
-        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, loopTimer, animationWaitTimer));
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, loopTimer, animationWaitTimer, trigger));
     }
 
-    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, bool loopTimer, float animationWaitTimer)
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, bool loopTimer, float animationWaitTimer, string trigger = "MakeAction")
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
         foreach (Animator anim in animators)
         {
-            anim.SetTrigger(hashAnim);
+            anim.SetTrigger(trigger);
             if (loopTimer && animationWaitTimer != 0)
                 yield return new WaitForSeconds(animationWaitTimer);
         }
@@ -159,16 +159,16 @@ public static class TriggerUtil
     }
 
     //MULTIPLE ANIMATIONS
-    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, AnimationClip[] clips, float[] delays)
+    public static void TriggerAnimators(float timeBeforeStart, Animator[] animators, AnimationClip[] clips, float[] delays, string trigger = "MakeAction")
     {
-        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, clips, delays));
+        Main.Instance.StartCoroutine(TriggerAnimatorsCoroutine(timeBeforeStart, animators, clips, delays, trigger));
     }
 
-    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, AnimationClip[] clips, float[] delays)
+    static IEnumerator TriggerAnimatorsCoroutine(float timeBeforeStart, Animator[] animators, AnimationClip[] clips, float[] delays, string trigger = "MakeAction")
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        if(clips.Length - 1 != delays.Length)
+        if (clips.Length - 1 != delays.Length)
         {
             Debug.LogError("Mauvais remplissage des conditions d'animation multiples.");
             yield break;
@@ -178,19 +178,19 @@ public static class TriggerUtil
             int currentAnimationIndex = 0;
             do
             {
-                foreach(Animator animatorCurrent in animators)
+                foreach (Animator animatorCurrent in animators)
                 {
                     AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController(animatorCurrent.runtimeAnimatorController);
                     animatorCurrent.runtimeAnimatorController = animatorOverrideController;
                     animatorOverrideController[animatorCurrent.runtimeAnimatorController.animationClips[0].name] = clips[currentAnimationIndex];
 
-                    animatorCurrent.SetTrigger(hashAnim);
+                    animatorCurrent.SetTrigger(trigger);
 
                 }
 
                 if (currentAnimationIndex < delays.Length)
-                yield return new WaitForSeconds(delays[currentAnimationIndex]);
- 
+                    yield return new WaitForSeconds(delays[currentAnimationIndex]);
+
                 currentAnimationIndex++;
             }
             while (currentAnimationIndex < clips.Length);
@@ -227,7 +227,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        if (spatialized && soundPosition!=null)
+        if (spatialized && soundPosition != null)
         {
             AudioSource spatializeAudioSource = CustomSoundManager.Instance.PlaySound(soundName, soundMixer, null, volume, loop);
             if (spatializeAudioSource != null)
@@ -257,7 +257,7 @@ public static class TriggerUtil
         Main.Instance.StartCoroutine(TriggerShakeCoroutine(timeBeforeStart, shakeForce, shakeDuration, Vector3.one * 666, isStopShake)); // 666 value safe
     }
 
-    static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce,float shakeDuration, Vector3 pos, bool isStopShake)
+    static IEnumerator TriggerShakeCoroutine(float timeBeforeStart, float shakeForce, float shakeDuration, Vector3 pos, bool isStopShake)
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
@@ -270,7 +270,7 @@ public static class TriggerUtil
         {
             CameraHandler.Instance.RemoveShake();
         }
-       
+
 
         yield break;
     }
@@ -371,7 +371,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        foreach(ParticleSystem vfx in VFXTab)
+        foreach (ParticleSystem vfx in VFXTab)
         {
             if (vfx != null)
             {
@@ -451,7 +451,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        foreach(VideoPlayer videoPl in players)
+        foreach (VideoPlayer videoPl in players)
         {
             if (playMode)
                 videoPl.Play();
@@ -473,7 +473,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        foreach(GameObject GO in GOList)
+        foreach (GameObject GO in GOList)
         {
             GO.SetActive(activation);
         }
@@ -507,7 +507,7 @@ public static class TriggerUtil
     {
         yield return new WaitForSeconds(timeBeforeStart);
 
-        if (preventRevive)Main.Instance.PreventPlayerFromRevive();
+        if (preventRevive) Main.Instance.PreventPlayerFromRevive();
         Player.Instance.SetLifeTo(1);
         Player.Instance.GainArmor(-9999);
         Player.Instance.TakeDamage(1);
@@ -548,8 +548,8 @@ public static class TriggerUtil
         foreach (Swarmer swarm in swarmers)
         {
             swarm.ForcePlayAnimation(animation);
-		}
-	}
+        }
+    }
 
     //Valeur allant de X à Y en Z temps
     public static void TriggerValue(float timeBeforeStart, float valueStart, float valueStop, float valueTransitionDuration, List<Renderer> meshAffecteds, string shaderValueName, bool isSwarmer)

@@ -98,9 +98,22 @@ public class UiScoreBonusDisplay : MonoBehaviour
             else
                 CustomSoundManager.Instance.PlaySound(CameraHandler.Instance.renderingCam.gameObject, "Crowd_Cheer2", false, 0.3f, 0.1f);*/
             if (Random.Range(0f, 100f) < 50)
-                CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "PublicAmbiant", null, 0.3f, false, 1, 0.1f);
+                CustomSoundManager.Instance.PlaySound("Crowd_Cheer", "PublicAmbiant", null, 0.6f, false, 1, 0.1f);
             else
-                CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.3f, false, 1, 0.1f);
+                CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.6f, false, 1, 0.1f);
+
+
+            if (Random.Range(0f, 100f) < 5)
+            {
+                if (Main.Instance.EnableComments)
+                {
+                    if (Random.Range(0f, 100f) < 50) Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 0);
+                    else Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 0);
+                    if (Random.Range(0f, 100f) < 50) Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 1);
+                    else Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 1.5f);
+                }
+
+            }
         }
     }
 
@@ -119,7 +132,7 @@ public class UiScoreBonusDisplay : MonoBehaviour
     void MoveSprite(GameObject textObject, ScoreBonusDisplayedInstance handler)
     {
         Vector2 pos;
-        Vector3 posScreen = CameraHandler.Instance.renderingCam.WorldToScreenPoint(handler.posSave);
+        Vector3 posScreen = CameraHandler.Instance.GetCurrentCam().WorldToScreenPoint(handler.posSave);
         if (posScreen.z > 0)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, posScreen, GetComponent<Canvas>().worldCamera, out pos);
