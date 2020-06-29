@@ -68,6 +68,8 @@ public class LeaderboardManager : MonoBehaviour
         scoreData = new LeaderboardDatabase();
         LeaderboardData temp = new LeaderboardData("PAN", 950000, "Living Legend");
         scoreData.data.Add(temp);
+        temp = new LeaderboardData("TOX", 850000, "Veteran");
+        scoreData.data.Add(temp);
         temp = new LeaderboardData("GOB", 725000, "Veteran");
         scoreData.data.Add(temp);
         temp = new LeaderboardData("LIN", 400000, "Newbie");

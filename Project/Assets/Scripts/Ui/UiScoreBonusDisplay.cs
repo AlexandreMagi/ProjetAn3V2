@@ -37,11 +37,11 @@ public class UiScoreBonusDisplay : MonoBehaviour
     [SerializeField] bool desactivateUiBonusDisplay = false;
 
     int currCheer = 0;
-    [SerializeField] int neededCheer = 0;
-    bool canComment = true;
+    [SerializeField] int neededCheer = 3;
+    bool canComment = false;
     [SerializeField] float timeBeforeCanCommentAgain = 20;
     [SerializeField] float timeBeforeCheerReset = 2;
-    float timerResetComment = 0;
+    float timerResetComment = 60;
     float timerResetCheer = 0;
 
     private void Update()
@@ -131,7 +131,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
             else
                 CustomSoundManager.Instance.PlaySound("Crowd_Cheer2", "PublicAmbiant", null, 0.6f, false, 1, 0.1f);
 
-            if (currCheer == 0) timerResetCheer = timeBeforeCheerReset;
+            if (currCheer == 0)
+            {
+                timerResetCheer = timeBeforeCheerReset;
+            }
 
              currCheer++;
 
@@ -141,10 +144,26 @@ public class UiScoreBonusDisplay : MonoBehaviour
                 timerResetComment = timeBeforeCanCommentAgain;
                 if (Main.Instance.EnableComments)
                 {
-                    if (Random.Range(0f, 100f) < 50) Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 0);
-                    else Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 0);
-                    if (Random.Range(0f, 100f) < 50) Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 1);
-                    else Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 1.5f);
+                    if (Random.Range(0f, 100f) < 50)
+                    {
+                        Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 0);
+                        SubtitleManager.Instance.SetSubtitle("What a play !", 0, 4, 0);
+                    }
+                    else
+                    {
+                        Main.Instance.PlaySoundWithDelay("PresA_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 0);
+                        SubtitleManager.Instance.SetSubtitle("Wow ! Did you see that !", 0, 4, 0);
+                    }
+                    if (Random.Range(0f, 100f) < 50)
+                    {
+                        Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 1);
+                        SubtitleManager.Instance.SetSubtitle("That was impressive !", 1, 3, 1);
+                    }
+                    else
+                    {
+                        Main.Instance.PlaySoundWithDelay("PresB_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 1.5f);
+                        SubtitleManager.Instance.SetSubtitle("That was worhty of Death Live !", 1, 4, 1.5f);
+                    }
                 }
             }
         }
