@@ -881,8 +881,10 @@ public class Main : MonoBehaviour
 
         if (EnableComments)
         {
-            PlaySoundWithDelay("PresA_Beg_Mercy", "Comment", Main.Instance.CommentAVolume, 1);
-            PlaySoundWithDelay("PresB_Beg_Mercy", "Comment", Main.Instance.CommentBVolume, 4.5f);
+            Main.Instance.PlaySoundWithDelay("PresA_Beg_Mercy", "Comment", Main.Instance.CommentAVolume, 1);
+            Main.Instance.PlaySoundWithDelay("PresB_Beg_Mercy", "Comment", Main.Instance.CommentBVolume, 4.5f);
+            SubtitleManager.Instance.SetSubtitle("Our competitor is begging the public for a second chance !", 0, 6f, 1);
+            SubtitleManager.Instance.SetSubtitle("Back in my days, you would rather die !", 1, 4.5f, 4.5f);
         }
     }
 
@@ -903,8 +905,10 @@ public class Main : MonoBehaviour
     {
         if (EnableComments)
         {
-            PlaySoundWithDelay("PresA_Vote_Public", "Comment", Main.Instance.CommentAVolume, 1);
-            PlaySoundWithDelay("PresB_Vote_Public", "Comment", Main.Instance.CommentBVolume, 4.5f);
+            Main.Instance.PlaySoundWithDelay("PresA_Vote_Public", "Comment", Main.Instance.CommentAVolume, 0);
+            Main.Instance.PlaySoundWithDelay("PresB_Vote_Public", "Comment", Main.Instance.CommentBVolume, 3.5f);
+            SubtitleManager.Instance.SetSubtitle("This challenger takes all the risks to become the next champion!", 0, 6f, 0, true);
+            SubtitleManager.Instance.SetSubtitle("As EVERY competitor should !", 1, 3.5f, 3.5f, true);
         }
         TriggerGameOverSequence();
         lastChoiceForPlayer = false;
@@ -1083,6 +1087,8 @@ public class Main : MonoBehaviour
             {
                 PlaySoundWithDelay("PresA_Player_Down", "Comment", Main.Instance.CommentAVolume, .5f);
                 PlaySoundWithDelay("PresB_Player_Down", "Comment", Main.Instance.CommentBVolume, 2.5f);
+                SubtitleManager.Instance.SetSubtitle("Nooo ! A gladiator never gives up !", 0, 6f, .5f);
+                SubtitleManager.Instance.SetSubtitle("It's not giving up, It's dying !", 1, 3.5f, 2.5f);
             }
             lifeAndDeathAudioSource = CustomSoundManager.Instance.PlaySound(musicLifeAndDeathChoice, "UI", musicLifeAndDeathChoiceVolume);
             timeRemainingBeforeChoice = timeBeforeChoice;
@@ -1234,6 +1240,8 @@ public class Main : MonoBehaviour
         {
             PlaySoundWithDelay("PresA_Game_Over", "Comment", Main.Instance.CommentAVolume, .5f);
             PlaySoundWithDelay("PresB_Game_Over", "Comment", Main.Instance.CommentBVolume, 3.8f);
+            SubtitleManager.Instance.SetSubtitle("Too bad for this competitor, he died bravely !", 0, 6f, .5f);
+            SubtitleManager.Instance.SetSubtitle("Better luck next time  ! ", 1, 3.5f, 3.8f);
         }
     }
 

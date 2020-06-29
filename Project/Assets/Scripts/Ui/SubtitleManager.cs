@@ -9,6 +9,12 @@ public class SubtitleManager : MonoBehaviour
     [SerializeField] Text subtitleText = null;
     float timeRemainingBeforeReset = 0;
 
+    [SerializeField] Color robotColor = Color.white;
+    [SerializeField] Color orcColor = Color.white;
+
+    [SerializeField] Transform topPos = null;
+    [SerializeField] Transform botPos = null;
+
     public static SubtitleManager Instance { get; private set; }
 
     void Awake()
@@ -33,23 +39,28 @@ public class SubtitleManager : MonoBehaviour
         }
     }
 
-    public void SetSubtitle (string sentence, float timeStay)
+    public void SetSubtitle (string sentence, int streamerID, float timeStay, bool topPosition = false)
     {
         subtitleText.text = sentence;
         timeRemainingBeforeReset = timeStay;
+        subtitleText.text = sentence;
+        subtitleText.color = streamerID == 0 ? robotColor : orcColor;
+        subtitleText.transform.position = topPosition ? topPos.position : botPos.position;
     }
 
-    public void SetSubtitle (string sentence, float timeStay, float delay)
+    public void SetSubtitle (string sentence, int streamerID, float timeStay, float delay, bool topPosition = false)
     {
-        subtitleText.text = sentence;
-        StartCoroutine(SetSubtitleCoroutine(sentence, timeStay, delay));
+        StartCoroutine(SetSubtitleCoroutine(sentence, streamerID,timeStay, delay, topPosition));
     }
 
-    IEnumerator SetSubtitleCoroutine(string sentence, float timeStay, float delay)
+    IEnumerator SetSubtitleCoroutine(string sentence, int streamerID, float timeStay, float delay, bool topPosition = false)
     {
-        yield return new WaitForSeconds(delay);
+        subtitleText.text = "";
+        yield return new WaitForSecondsRealtime(delay);
         subtitleText.text = sentence;
+        subtitleText.color = streamerID == 0? robotColor : orcColor;
         timeRemainingBeforeReset = timeStay;
+        subtitleText.transform.position = topPosition ? topPos.position : botPos.position;
         yield break;
     }
 
