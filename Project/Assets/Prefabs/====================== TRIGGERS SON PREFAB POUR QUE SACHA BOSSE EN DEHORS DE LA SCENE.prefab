@@ -32,6 +32,144 @@ Transform:
   m_Father: {fileID: 1046608200808571029}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &116795515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 116795516}
+  - component: {fileID: 116795518}
+  - component: {fileID: 116795517}
+  m_Layer: 12
+  m_Name: Trigger_Anim_GradinFinal_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &116795516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116795515}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -231.905, y: 1.5, z: 63.317}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &116795518
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116795515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &116795517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116795515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 1
+  spawners: []
+  spawnerState: 1
+  slowMoPower: 0.9
+  slowMoDuration: 3
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  soundMixer: 
+  soundLoop: 0
+  volume: 1
+  spatialized: 0
+  soundPosition: {fileID: 0}
+  volumeAimed: 1
+  volumeTimeTransition: 1
+  animated:
+  - {fileID: 0}
+  overrideTrigger: MakeAnotherActionAgain
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 0
+  meshForTheCollider: {fileID: 0}
+  colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
+  isStopShake: 0
+  ShakeValue: 10
+  ShakeDuration: 1
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange:
+  - {fileID: 0}
+  triggeredBySkip: 0
+  damages: 0
+  ignoreDamageEvent: 0
+  preventRevive: 1
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 30
+  valueTransitionDuration: 3
+  meshAffecteds: []
+  shaderValueName: _MaskValue
+  isSwarmer: 0
+  cameraToChange: {fileID: 0}
+  newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
 --- !u!1 &327838867
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +378,7 @@ GameObject:
   - component: {fileID: 563530739}
   - component: {fileID: 563530738}
   - component: {fileID: 911565905}
+  - component: {fileID: 519183021281031747}
   m_Layer: 12
   m_Name: Trigger_Music - IntroHardMusic
   m_TagString: Untagged
@@ -300,6 +439,31 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
 --- !u!114 &911565905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563530736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 1
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 1
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 1
+  loop: 0
+  volumeAimed: 1
+  volumeTimeTransition: 1
+--- !u!114 &519183021281031747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1152,6 +1316,7 @@ GameObject:
   - component: {fileID: 1068890833}
   - component: {fileID: 1068890832}
   - component: {fileID: 1780841056}
+  - component: {fileID: 2650982005949466808}
   m_Layer: 12
   m_Name: Trigger_Music - HardMusic
   m_TagString: Untagged
@@ -1212,6 +1377,31 @@ MonoBehaviour:
   volumeAimed: 1
   volumeTimeTransition: 1
 --- !u!114 &1780841056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068890830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 1
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 1
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 0
+  loop: 0
+  volumeAimed: 1
+  volumeTimeTransition: 1
+--- !u!114 &2650982005949466808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1405,6 +1595,7 @@ Transform:
   - {fileID: 1068890831}
   - {fileID: 724920026}
   - {fileID: 910301849}
+  - {fileID: 7297774936549221499}
   m_Father: {fileID: 108948085}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2071,6 +2262,144 @@ MonoBehaviour:
   valueTransitionDuration: 0
   meshAffecteds: []
   shaderValueName: 
+  isSwarmer: 0
+  cameraToChange: {fileID: 0}
+  newNearClip: 10
+  fogEndValueAimed: 0
+  fogTimeTransition: 1
+  overrideFogColor: 0
+  fogColorAimed: {r: 1, g: 1, b: 1, a: 1}
+  fogColorTimeTransition: 1
+  activatesAllAnimatingSwarmersOnTrigger: 0
+  swarmersToAlert: []
+  timeBeforeStart: 0
+--- !u!1 &1646091360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1646091361}
+  - component: {fileID: 1646091363}
+  - component: {fileID: 1646091362}
+  m_Layer: 12
+  m_Name: Trigger_Anim_GradinFinal_BIS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1646091361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646091360}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -231.905, y: 1.5, z: 63.317}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1046608200808571029}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1646091363
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646091360}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1646091362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646091360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e371461dbdebbd44989b5245d0d9a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeTrigger: 1
+  spawners: []
+  spawnerState: 1
+  slowMoPower: 0.9
+  slowMoDuration: 3
+  isActivation: 0
+  affected: 0
+  soundPlayed: 
+  soundMixer: 
+  soundLoop: 0
+  volume: 1
+  spatialized: 0
+  soundPosition: {fileID: 0}
+  volumeAimed: 1
+  volumeTimeTransition: 1
+  animated:
+  - {fileID: 0}
+  overrideTrigger: AndAgain
+  usesTimerBetweenAllAnims: 0
+  animationWaitTimer: 0
+  isMeshReplacer: 0
+  meshForTheCollider: {fileID: 0}
+  colliderToReplace: {fileID: 0}
+  isMultipleAnimationTrigger: 0
+  animatonClipsToUse: []
+  delaysBetweenTriggers: []
+  _child: {fileID: 0}
+  _parent: {fileID: 0}
+  swarmerAffectedByGravityChange: []
+  mustIgnoreGravity: 0
+  isStopShake: 0
+  ShakeValue: 10
+  ShakeDuration: 1
+  booleanName: 
+  boolStateSet: 1
+  timeGoTo: 0.1
+  timeGoBack: 0.1
+  followDuration: 0
+  lightsToAffect: []
+  lightsState: 0
+  lightChangesColor: 0
+  colorOfLight: {r: 1, g: 1, b: 1, a: 1}
+  VFXToAffect: []
+  VFXState: 0
+  activatePlaneShake: 0
+  activateOutlineShader: 0
+  activateRevealLight: 0
+  players: []
+  isPlay: 0
+  isLoop: 0
+  scaleMin: 0
+  scaleMax: 6
+  timeToScaleMax: 3
+  timeStayAtMax: 1
+  timeFadeAlpha: 2
+  independentFromTimeScale: 0
+  isActivationGameObject: 0
+  objectsToChange:
+  - {fileID: 0}
+  triggeredBySkip: 0
+  damages: 0
+  ignoreDamageEvent: 0
+  preventRevive: 1
+  animationToCall: 0
+  swarmersToAnimate: []
+  valueStart: 0
+  valueEnd: 30
+  valueTransitionDuration: 3
+  meshAffecteds: []
+  shaderValueName: _MaskValue
   isSwarmer: 0
   cameraToChange: {fileID: 0}
   newNearClip: 10
@@ -3154,6 +3483,104 @@ Transform:
   - {fileID: 1884231122}
   - {fileID: 600746525}
   - {fileID: 755898930}
+  - {fileID: 116795516}
+  - {fileID: 1646091361}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6995251260765622586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7297774936549221499}
+  - component: {fileID: 8568571912823218471}
+  - component: {fileID: 8835552835913835369}
+  - component: {fileID: 7598346992570956484}
+  m_Layer: 12
+  m_Name: Trigger_Music - IntroHardMusic (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7297774936549221499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995251260765622586}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -259.438, y: 1.093, z: -26.23}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1412285132}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8568571912823218471
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995251260765622586}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.616952, y: 3.0908265, z: 1.9324532}
+  m_Center: {x: 0, y: 0.5266435, z: 0.46622658}
+--- !u!114 &8835552835913835369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995251260765622586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 0
+  musicToPlay: 0
+  timeBeforeDoAnything: 0
+  doItNow: 1
+  fadeOut: 1
+  timeWaitBetween: 0
+  fadeIn: 0
+  volume: 0
+  loop: 0
+  volumeAimed: 1
+  volumeTimeTransition: 1
+--- !u!114 &7598346992570956484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995251260765622586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d05dab06a7a324e8929a3aace8fb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doOnlyOnce: 1
+  changeMusic: 1
+  channel: 1
+  musicToPlay: 7
+  timeBeforeDoAnything: 0
+  doItNow: 0
+  fadeOut: 0
+  timeWaitBetween: 0
+  fadeIn: 1
+  volume: 1.5
+  loop: 1
+  volumeAimed: 1
+  volumeTimeTransition: 1
