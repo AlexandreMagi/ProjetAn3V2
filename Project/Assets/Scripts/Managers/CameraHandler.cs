@@ -207,6 +207,7 @@ public class CameraHandler : MonoBehaviour
     [SerializeField] public float minimumY = -60F;
     [SerializeField] public float maximumY = 60F;
 
+    [SerializeField] bool startInFps = false;
 
     // ##################################################################################################### //
     // ############################################# FUNCTIONS ############################################# //
@@ -268,6 +269,11 @@ public class CameraHandler : MonoBehaviour
         refPointBalance = new GameObject().transform;
 
         ResyncCamera(true); // Place les dummies
+
+        if (startInFps)
+        {
+            SwitchFreeCam(true, true);
+        }
     }
 
     public void SetWeapon(DataWeapon _weaponData) { weaponData = _weaponData; }
@@ -455,6 +461,12 @@ public class CameraHandler : MonoBehaviour
             optimizedCam.fieldOfView = renderingCam.fieldOfView;
         }
 
+        if (isInFreeCam && freePosition)
+        {
+            renderingCam.transform.position = freeCam.transform.position;
+            renderingCam.transform.rotation = freeCam.transform.rotation;
+        }
+
     }
 
     public void SwitchCam(bool highQuality)
@@ -472,11 +484,14 @@ public class CameraHandler : MonoBehaviour
         }
     }
 
-    public void SwitchFreeCam()
+    public void SwitchFreeCam(bool force = true, bool state = true)
     {
         if (freeCam)
         {
             isInFreeCam = !isInFreeCam;
+
+            if (force) isInFreeCam = state;
+
             freeCam.enabled = isInFreeCam;
             if (!isInFreeCam)
             {
@@ -960,7 +975,7 @@ public class CameraHandler : MonoBehaviour
 
     public float GetDistanceWithCam(Vector3 pos)
     {
-        return Vector3.Distance(pos, renderingCam.transform.position);
+        return Vector3.Distance(pos, GetCurrentCam().transform.position);
     }
 
     public void TriggerAnimDiorama()

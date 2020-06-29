@@ -139,7 +139,7 @@ public class Weapon : MonoBehaviour
             if (timeRemainingBeforeOrb < 0 && mainContainer.playerCanOrb)
             {
                 UIOrb.Instance.OrbCooldownUp();
-                PostprocessManager.Instance.setChroma(false);
+                if (PostprocessManager.Instance!=null)PostprocessManager.Instance.setChroma(false);
             }
         }
 
