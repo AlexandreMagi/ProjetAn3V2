@@ -263,7 +263,6 @@ public class TriggerSender : MonoBehaviour
                 break;
 
             case TriggerType.Animator:
-                Debug.Log("Fait l'anim");
                 if (isMultipleAnimationTrigger)
                 {
                     if (overrideTrigger != "") TriggerUtil.TriggerAnimators(timeBeforeStart, animated, animatonClipsToUse, delaysBetweenTriggers, overrideTrigger);
