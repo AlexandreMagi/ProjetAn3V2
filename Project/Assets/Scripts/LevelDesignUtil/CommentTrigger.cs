@@ -10,6 +10,17 @@ public class CommentTrigger : MonoBehaviour
     [SerializeField] bool canPlay = true;
     [SerializeField] float delay = 0;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Main.Instance.PlaySoundWithDelay("PresA_Entree_Final_Battle", "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
+            Main.Instance.PlaySoundWithDelay("PresB_Entree_Final_Battle", "Comment", Main.Instance.CommentBVolume, delay + 2.0f);
+            SubtitleManager.Instance.SetSubtitle("Our Gladiator has reached the main stage !", 4, 0);
+            SubtitleManager.Instance.SetSubtitle("Now the real fun begins ! !", 3, 2.2f);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (canPlay && Main.Instance.EnableComments)
@@ -20,10 +31,14 @@ public class CommentTrigger : MonoBehaviour
                 case typeOfComment.entreeFinalBattle:
                     Main.Instance.PlaySoundWithDelay("PresA_Entree_Final_Battle"    , "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
                     Main.Instance.PlaySoundWithDelay("PresB_Entree_Final_Battle"    , "Comment", Main.Instance.CommentBVolume, delay + 2.0f);
+                    SubtitleManager.Instance.SetSubtitle("Our Gladiator has reached the main stage !", 4, 0);
+                    SubtitleManager.Instance.SetSubtitle("Now the real fun begins ! !", 3, 2.2f);
                     break;
                 case typeOfComment.introAtterissage:
                     Main.Instance.PlaySoundWithDelay("PresA_Intro_Atterrissage"     , "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
                     Main.Instance.PlaySoundWithDelay("PresB_Intro_Atterrissage"     , "Comment", Main.Instance.CommentBVolume, delay + 4.5f);
+                    SubtitleManager.Instance.SetSubtitle("Our Gladiator has reached the main stage !", 4, 0);
+                    SubtitleManager.Instance.SetSubtitle("Now the real fun begins ! !", 3, 2.2f);
                     break;
                 case typeOfComment.introCouloir:
                     Main.Instance.PlaySoundWithDelay("PresA_Intro_Couloirs"         , "Comment", Main.Instance.CommentAVolume, delay + 0.0f);

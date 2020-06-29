@@ -38,10 +38,10 @@ public class UiScoreBonusDisplay : MonoBehaviour
 
     int currCheer = 0;
     [SerializeField] int neededCheer = 0;
-    bool canComment = true;
+    bool canComment = false;
     [SerializeField] float timeBeforeCanCommentAgain = 20;
     [SerializeField] float timeBeforeCheerReset = 2;
-    float timerResetComment = 0;
+    float timerResetComment = 60;
     float timerResetCheer = 0;
 
     private void Update()

@@ -412,7 +412,7 @@ public class Main : MonoBehaviour
         {
             CameraHandler.Instance.SwitchFreeCam();
         }
-        if (Input.GetKeyDown(KeyCode.Space) && enableDebugInputs) CameraHandler.Instance.freePosition = !CameraHandler.Instance.freePosition;
+        if (Input.GetKeyDown(KeyCode.E) && enableDebugInputs) CameraHandler.Instance.freePosition = !CameraHandler.Instance.freePosition;
         CameraHandler.Instance.FreeCamInputs(Input.GetKey(KeyCode.Z) ? 1 : (Input.GetKey(KeyCode.S) ? -1:0), Input.GetKey(KeyCode.D) ? 1 : (Input.GetKey(KeyCode.Q) ? -1 : 0), Input.GetKey(KeyCode.Space ) ? 1 : (Input.GetKey(KeyCode.C) ? -1 : 0));
 
         if (Input.GetKeyDown(KeyCode.P) && enableDebugInputs)
@@ -467,7 +467,7 @@ public class Main : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E) && enableDebugInputs)
         {
-            HintScript.Instance.PopHint("Veuillez vous approcher de l'écran s'il vous plait !", 5);
+            HintScript.Instance.PopHint("Please move closer to the screen !", 3);
         }
 
         if (Input.GetKeyDown(KeyCode.T) && enableDebugInputs) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
