@@ -15,6 +15,10 @@ public class SubtitleManager : MonoBehaviour
     [SerializeField] Transform topPos = null;
     [SerializeField] Transform botPos = null;
 
+    bool currSubtitleIndependentFromTimeScale = false;
+    float lastACommentLaunched = 0;
+    float lastBCommentLaunched = 0;
+
     public static SubtitleManager Instance { get; private set; }
 
     void Awake()
@@ -31,7 +35,7 @@ public class SubtitleManager : MonoBehaviour
     {
         if (timeRemainingBeforeReset > 0)
         {
-            timeRemainingBeforeReset -= Time.unscaledDeltaTime;
+            timeRemainingBeforeReset -= currSubtitleIndependentFromTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
             if (timeRemainingBeforeReset <= 0)
             {
                 subtitleText.text = "";
@@ -39,28 +43,37 @@ public class SubtitleManager : MonoBehaviour
         }
     }
 
-    public void SetSubtitle (string sentence, int streamerID, float timeStay, bool topPosition = false)
+    public void SetSubtitle(string sentence, int streamerID, float timeStay, float delay, bool topPosition = false, bool independentFromTimeScale = false)
     {
-        subtitleText.text = sentence;
-        timeRemainingBeforeReset = timeStay;
-        subtitleText.text = sentence;
-        subtitleText.color = streamerID == 0 ? robotColor : orcColor;
-        subtitleText.transform.position = topPosition ? topPos.position : botPos.position;
+        StartCoroutine(SetSubtitleCoroutine(sentence, streamerID,timeStay, delay, topPosition, independentFromTimeScale));
     }
 
-    public void SetSubtitle (string sentence, int streamerID, float timeStay, float delay, bool topPosition = false)
+    IEnumerator SetSubtitleCoroutine(string sentence, int streamerID, float timeStay, float delay, bool topPosition = false, bool independentFromTimeScale = false)
     {
-        StartCoroutine(SetSubtitleCoroutine(sentence, streamerID,timeStay, delay, topPosition));
-    }
+        float thisCommentTimeLaunch = Time.time;
+        if (streamerID == 0) lastACommentLaunched = thisCommentTimeLaunch;
+        else lastBCommentLaunched = thisCommentTimeLaunch;
 
-    IEnumerator SetSubtitleCoroutine(string sentence, int streamerID, float timeStay, float delay, bool topPosition = false)
-    {
         subtitleText.text = "";
-        yield return new WaitForSecondsRealtime(delay);
-        subtitleText.text = sentence;
-        subtitleText.color = streamerID == 0? robotColor : orcColor;
-        timeRemainingBeforeReset = timeStay;
-        subtitleText.transform.position = topPosition ? topPos.position : botPos.position;
+        if (independentFromTimeScale)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+        }
+        else
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        bool canLaunchSound = true;
+        if (streamerID == 0 && lastACommentLaunched > thisCommentTimeLaunch || streamerID == 1 && lastBCommentLaunched > thisCommentTimeLaunch) canLaunchSound = false;
+
+        if (canLaunchSound)
+        {
+            currSubtitleIndependentFromTimeScale = independentFromTimeScale;
+            subtitleText.text = sentence;
+            subtitleText.color = streamerID == 0 ? robotColor : orcColor;
+            timeRemainingBeforeReset = timeStay;
+            subtitleText.transform.position = topPosition ? topPos.position : botPos.position;
+        }
         yield break;
     }
 

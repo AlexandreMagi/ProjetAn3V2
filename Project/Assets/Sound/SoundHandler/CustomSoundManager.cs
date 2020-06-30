@@ -91,7 +91,7 @@ public class CustomSoundManager : MonoBehaviour
 
     float calculatePitch(float pitch, float pitchRandom, float pitchConstantModifier) { return pitch + Random.Range(-pitchRandom, pitchRandom) + pitchConstantModifier; }
 
-    AudioMixerGroup FindAudioMixerGroup(string mixerGroupName)
+    public AudioMixerGroup FindAudioMixerGroup(string mixerGroupName)
     {
         for (int i = 0; i < mixerGroups.Length; i++)
         {
@@ -101,7 +101,7 @@ public class CustomSoundManager : MonoBehaviour
         return null;
     }
 
-    AudioClip FindClip(string soundName)
+    public AudioClip FindClip(string soundName)
     {
         for (int i = 0; i < allSounds.Length; i++)
         {

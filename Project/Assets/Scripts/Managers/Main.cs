@@ -139,6 +139,11 @@ public class Main : MonoBehaviour
     public float CommentAVolume = 2;
     public float CommentBVolume = 2;
 
+    [SerializeField] AudioSource commentAAudioSource = null;
+    [SerializeField] AudioSource commentBAudioSource = null;
+    float lastACommentLaunched = 0;
+    float lastBCommentLaunched = 0;
+
     public static Main Instance { get; private set; }
     void Awake()
     {
@@ -881,23 +886,53 @@ public class Main : MonoBehaviour
 
         if (EnableComments)
         {
-            Main.Instance.PlaySoundWithDelay("PresA_Beg_Mercy", "Comment", Main.Instance.CommentAVolume, 1);
-            Main.Instance.PlaySoundWithDelay("PresB_Beg_Mercy", "Comment", Main.Instance.CommentBVolume, 4.5f);
-            SubtitleManager.Instance.SetSubtitle("Our competitor is begging the public for a second chance !", 0, 6f, 1);
-            SubtitleManager.Instance.SetSubtitle("Back in my days, you would rather die !", 1, 4.5f, 4.5f);
+            Main.Instance.PlayCommentWithDelay(0,"PresA_Beg_Mercy", "Comment", Main.Instance.CommentAVolume, 1, true);
+            Main.Instance.PlayCommentWithDelay(1,"PresB_Beg_Mercy", "Comment", Main.Instance.CommentBVolume, 4.5f, true);
+            SubtitleManager.Instance.SetSubtitle("Our competitor is begging the public for a second chance !", 0, 6f, 1, false, true);
+            SubtitleManager.Instance.SetSubtitle("Back in my days, you would rather die !", 1, 4.5f, 4.5f, false, true);
         }
     }
 
-    public void PlaySoundWithDelay(string sound,string mixer, float volume, float delay)
+    public void PlayCommentWithDelay(int indexComment, string sound,string mixer, float volume, float delay, bool independentFromTimeScale = false)
     {
-        StartCoroutine(PlaySoundWithDelayCoroutine(sound, mixer, volume, delay));
+        if (independentFromTimeScale) mixer = "CommentUnscaled";
+        StartCoroutine(PlayCommmentWithDelayCoroutine(indexComment, sound, mixer, volume, delay, independentFromTimeScale));
     }
 
-    IEnumerator PlaySoundWithDelayCoroutine(string sound,string mixer, float volume, float delay)
+    IEnumerator PlayCommmentWithDelayCoroutine(int indexComment, string sound,string mixer, float volume, float delay, bool independentFromTimeScale = false)
     {
-        if (delay!=0)
-            yield return new WaitForSecondsRealtime(delay);
-            CustomSoundManager.Instance.PlaySound(sound, mixer, volume);
+        float thisCommentTimeLaunch = Time.time;
+        if (indexComment == 0) lastACommentLaunched = thisCommentTimeLaunch;
+        else lastBCommentLaunched = thisCommentTimeLaunch;
+
+        if (delay != 0)
+        {
+            if (independentFromTimeScale)
+                yield return new WaitForSecondsRealtime(delay);
+            else
+                yield return new WaitForSeconds(delay);
+        }
+
+        AudioSource usedAudioSource = indexComment == 0 ? commentAAudioSource : commentBAudioSource;
+
+        bool canLaunchSound = true;
+        if (indexComment == 0 && lastACommentLaunched > thisCommentTimeLaunch || indexComment == 1 && lastBCommentLaunched > thisCommentTimeLaunch) canLaunchSound = false;
+
+        if (usedAudioSource != null && canLaunchSound)
+        {
+            usedAudioSource.Stop();
+            AudioClip clip = CustomSoundManager.Instance.FindClip(sound);
+            if (clip != null) usedAudioSource.clip = clip;
+            AudioMixerGroup mixerGroup = CustomSoundManager.Instance.FindAudioMixerGroup(mixer);
+            if (mixerGroup != null) usedAudioSource.outputAudioMixerGroup = mixerGroup;
+            usedAudioSource.volume = volume * CustomSoundManager.Instance.GlobalMultiplierForVolumes;
+            usedAudioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("ERROR : No audiosource for comments in Main Script");
+        }
+        //CustomSoundManager.Instance.PlaySound(sound, mixer, volume);
         yield break;
     }
 
@@ -905,10 +940,10 @@ public class Main : MonoBehaviour
     {
         if (EnableComments)
         {
-            Main.Instance.PlaySoundWithDelay("PresA_Vote_Public", "Comment", Main.Instance.CommentAVolume, 0);
-            Main.Instance.PlaySoundWithDelay("PresB_Vote_Public", "Comment", Main.Instance.CommentBVolume, 3.5f);
-            SubtitleManager.Instance.SetSubtitle("This challenger takes all the risks to become the next champion!", 0, 6f, 0, true);
-            SubtitleManager.Instance.SetSubtitle("As EVERY competitor should !", 1, 3.5f, 3.5f, true);
+            Main.Instance.PlayCommentWithDelay(0,"PresA_Vote_Public", "Comment", Main.Instance.CommentAVolume, 0,true);
+            Main.Instance.PlayCommentWithDelay(1,"PresB_Vote_Public", "Comment", Main.Instance.CommentBVolume, 3.5f, true);
+            SubtitleManager.Instance.SetSubtitle("This challenger takes all the risks to become the next champion!", 0, 6f, 0, true, true);
+            SubtitleManager.Instance.SetSubtitle("As EVERY competitor should !", 1, 3.5f, 3.5f, true, true);
         }
         TriggerGameOverSequence();
         lastChoiceForPlayer = false;
@@ -1085,10 +1120,10 @@ public class Main : MonoBehaviour
         {
             if (EnableComments)
             {
-                PlaySoundWithDelay("PresA_Player_Down", "Comment", Main.Instance.CommentAVolume, .5f);
-                PlaySoundWithDelay("PresB_Player_Down", "Comment", Main.Instance.CommentBVolume, 2.5f);
-                SubtitleManager.Instance.SetSubtitle("Nooo ! A gladiator never gives up !", 0, 6f, .5f);
-                SubtitleManager.Instance.SetSubtitle("It's not giving up, It's dying !", 1, 3.5f, 2.5f);
+                PlayCommentWithDelay(0,"PresA_Player_Down", "Comment", Main.Instance.CommentAVolume, .5f, true);
+                PlayCommentWithDelay(1,"PresB_Player_Down", "Comment", Main.Instance.CommentBVolume, 2.5f, true);
+                SubtitleManager.Instance.SetSubtitle("Nooo ! A gladiator never gives up !", 0, 6f, .5f, false, true);
+                SubtitleManager.Instance.SetSubtitle("It's not giving up, It's dying !", 1, 3.5f, 2.5f, false, true);
             }
             lifeAndDeathAudioSource = CustomSoundManager.Instance.PlaySound(musicLifeAndDeathChoice, "UI", musicLifeAndDeathChoiceVolume);
             timeRemainingBeforeChoice = timeBeforeChoice;
@@ -1238,10 +1273,10 @@ public class Main : MonoBehaviour
 
         if (EnableComments)
         {
-            PlaySoundWithDelay("PresA_Game_Over", "Comment", Main.Instance.CommentAVolume, .5f);
-            PlaySoundWithDelay("PresB_Game_Over", "Comment", Main.Instance.CommentBVolume, 3.8f);
-            SubtitleManager.Instance.SetSubtitle("Too bad for this competitor, he died bravely !", 0, 6f, .5f);
-            SubtitleManager.Instance.SetSubtitle("Better luck next time  ! ", 1, 3.5f, 3.8f);
+            PlayCommentWithDelay(0,"PresA_Game_Over", "Comment", Main.Instance.CommentAVolume, .5f, true);
+            PlayCommentWithDelay(1,"PresB_Game_Over", "Comment", Main.Instance.CommentBVolume, 3.8f, true);
+            SubtitleManager.Instance.SetSubtitle("Too bad for this competitor, he died bravely !", 0, 6f, .5f, false, true);
+            SubtitleManager.Instance.SetSubtitle("Better luck next time  ! ", 1, 3.5f, 3.8f, false, true);
         }
     }
 
