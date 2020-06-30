@@ -9,17 +9,13 @@ public class CommentTrigger : MonoBehaviour
     [SerializeField] typeOfComment comment = typeOfComment.entreeFinalBattle;
     [SerializeField] bool canPlay = true;
     [SerializeField] float delay = 0;
-    
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Main.Instance.PlayCommentWithDelay(1, "PresA_Borne_Gravitorb", "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
-            Main.Instance.PlayCommentWithDelay(0, "PresB_Borne_Gravitorb", "Comment", Main.Instance.CommentBVolume, delay + 4);
-            SubtitleManager.Instance.SetSubtitle("Finally, the ultimate carnage tool !", 1, 10f, delay + 0);
-            SubtitleManager.Instance.SetSubtitle("Indeed, the ability to pack hordes of enemies is extremely powerful!", 0, 5.3f, delay + 4);
         }
-    }
+    }*/
     
     private void OnTriggerEnter(Collider other)
     {
@@ -77,8 +73,8 @@ public class CommentTrigger : MonoBehaviour
                     SubtitleManager.Instance.SetSubtitle("Now THAT'S what I call sport !", 1, 3f, delay + 3.5f);
                     break;
                 case typeOfComment.introAvion:
-                    Main.Instance.PlayCommentWithDelay(0,"PresA_Intro_Avion", "Comment", Main.Instance.CommentBVolume, delay + 0);
-                    Main.Instance.PlayCommentWithDelay(1,"PresB_Intro_Avion", "Comment", Main.Instance.CommentAVolume, delay + 14.5f);
+                    Main.Instance.PlayCommentWithDelay(0,"PresA_Intro_Avion", "Comment", Main.Instance.CommentBVolume - 1f, delay + 0);
+                    Main.Instance.PlayCommentWithDelay(1,"PresB_Intro_Avion", "Comment", Main.Instance.CommentAVolume - .1f, delay + 14.5f);
                     SubtitleManager.Instance.SetSubtitle("And we are live ! Hello and welcome to this 821rst edition of your favourite extreme entertainement show !", 0, 10f, delay + 0);
                     SubtitleManager.Instance.SetSubtitle("I am your host, Abe and here with me today is TOX, the famous Veteran of the arena !", 0, 10f, delay + 8.1f);
                     SubtitleManager.Instance.SetSubtitle("I am glad to be back here tonight with you, dear viewers !", 1, 8f, delay + 14.8f);
