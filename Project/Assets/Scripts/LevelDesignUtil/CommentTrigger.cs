@@ -9,17 +9,13 @@ public class CommentTrigger : MonoBehaviour
     [SerializeField] typeOfComment comment = typeOfComment.entreeFinalBattle;
     [SerializeField] bool canPlay = true;
     [SerializeField] float delay = 0;
-    
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Main.Instance.PlayCommentWithDelay(1, "PresA_Borne_Gravitorb", "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
-            Main.Instance.PlayCommentWithDelay(0, "PresB_Borne_Gravitorb", "Comment", Main.Instance.CommentBVolume, delay + 4);
-            SubtitleManager.Instance.SetSubtitle("Finally, the ultimate carnage tool !", 1, 10f, delay + 0);
-            SubtitleManager.Instance.SetSubtitle("Indeed, the ability to pack hordes of enemies is extremely powerful!", 0, 5.3f, delay + 4);
         }
-    }
+    }*/
     
     private void OnTriggerEnter(Collider other)
     {

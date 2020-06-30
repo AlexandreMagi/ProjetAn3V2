@@ -144,25 +144,53 @@ public class UiScoreBonusDisplay : MonoBehaviour
                 timerResetComment = timeBeforeCanCommentAgain;
                 if (Main.Instance.EnableComments)
                 {
-                    if (Random.Range(0f, 100f) < 50)
+                    float probability = Random.Range(0f, 100f);
+                    float delayBeforeOther = 0;
+                    if (probability < 25)
                     {
-                        Main.Instance.PlayCommentWithDelay(0,"PresA_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 0);
+                        Main.Instance.PlayCommentWithDelay(0, "PresA_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 0);
                         SubtitleManager.Instance.SetSubtitle("What a play !", 0, 4, 0);
+                        delayBeforeOther = 1;
                     }
-                    else
+                    else if (probability < 50)
                     {
-                        Main.Instance.PlayCommentWithDelay(0,"PresA_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 0);
+                        Main.Instance.PlayCommentWithDelay(0, "PresA_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 0);
                         SubtitleManager.Instance.SetSubtitle("Wow ! Did you see that !", 0, 4, 0);
+                        delayBeforeOther = 1.5f;
                     }
-                    if (Random.Range(0f, 100f) < 50)
+                    else if (probability < 75)
                     {
-                        Main.Instance.PlayCommentWithDelay(1,"PresB_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, 1);
-                        SubtitleManager.Instance.SetSubtitle("That was impressive !", 1, 3, 1);
+                        Main.Instance.PlayCommentWithDelay(0, "PresA_Belle_Action_C", "Comment", Main.Instance.CommentAVolume, 0);
+                        SubtitleManager.Instance.SetSubtitle("Perfect !", 0, 4, 0);
+                        delayBeforeOther = .8f;
                     }
                     else
                     {
-                        Main.Instance.PlayCommentWithDelay(1,"PresB_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, 1.5f);
-                        SubtitleManager.Instance.SetSubtitle("That was worhty of Death Live !", 1, 4, 1.5f);
+                        Main.Instance.PlayCommentWithDelay(0, "PresA_Belle_Action_D", "Comment", Main.Instance.CommentBVolume, 0);
+                        SubtitleManager.Instance.SetSubtitle("Great !", 0, 4, 0);
+                        delayBeforeOther = .8f;
+                    }
+
+                    probability = Random.Range(0f, 100f);
+                    if (probability < 25)
+                    {
+                        Main.Instance.PlayCommentWithDelay(1, "PresB_Belle_Action_A", "Comment", Main.Instance.CommentAVolume, delayBeforeOther);
+                        SubtitleManager.Instance.SetSubtitle("That was impressive !", 1, 3, delayBeforeOther);
+                    }
+                    else if (probability < 50)
+                    {
+                        Main.Instance.PlayCommentWithDelay(1, "PresB_Belle_Action_B", "Comment", Main.Instance.CommentBVolume, delayBeforeOther);
+                        SubtitleManager.Instance.SetSubtitle("That was worhty of Death Live !", 1, 4, delayBeforeOther);
+                    }
+                    else if (probability < 75)
+                    {
+                        Main.Instance.PlayCommentWithDelay(1, "PresB_Belle_Action_C", "Comment", Main.Instance.CommentAVolume, delayBeforeOther);
+                        SubtitleManager.Instance.SetSubtitle("Carnaaage !", 1, 3, delayBeforeOther);
+                    }
+                    else
+                    {
+                        Main.Instance.PlayCommentWithDelay(1, "PresB_Belle_Action_D", "Comment", Main.Instance.CommentBVolume, delayBeforeOther);
+                        SubtitleManager.Instance.SetSubtitle("MORE DESTRUCTION !", 1, 4, delayBeforeOther);
                     }
                 }
             }

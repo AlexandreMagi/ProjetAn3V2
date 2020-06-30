@@ -81,9 +81,13 @@ public class CheckpointAnimatorHandler : MonoBehaviour
                     Main.Instance.PlayCommentWithDelay(1, "PresA_Borne_Gravitorb", "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
                     Main.Instance.PlayCommentWithDelay(0, "PresB_Borne_Gravitorb", "Comment", Main.Instance.CommentBVolume, delay + 4);
                     SubtitleManager.Instance.SetSubtitle("Finally, the ultimate carnage tool !", 1, 10f, delay + 0);
-                    SubtitleManager.Instance.SetSubtitle("Indeed, the ability to pack hordes of enemies is extremely powerful!", 0, 5.3f, delay + 4);
+                    SubtitleManager.Instance.SetSubtitle("Indeed, the ability to pack hordes of enemies is extremely powerful !", 0, 5.3f, delay + 4);
                     break;
                 case commentType.ZeroG:
+                    Main.Instance.PlayCommentWithDelay(1, "PresA_Borne_ZeroG", "Comment", Main.Instance.CommentAVolume, delay + 0.0f);
+                    Main.Instance.PlayCommentWithDelay(0, "PresB_Borne_ZeroG", "Comment", Main.Instance.CommentBVolume, delay + 5);
+                    SubtitleManager.Instance.SetSubtitle("Now the competitor holds ultimate power !", 1, 10f, delay + 0);
+                    SubtitleManager.Instance.SetSubtitle("Terrific ! Now once the ennemies are packed, it activates a second time to throw them up in the air !", 0, 7, delay + 5);
                     break;
                 default:
                     break;
