@@ -334,7 +334,7 @@ public class Main : MonoBehaviour
 
         #region Debug
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift))
         {
             enableDebugInputs = !enableDebugInputs;
             if (DebugDisplayScript.Instance != null) DebugDisplayScript.Instance.SetDebugVisible(enableDebugInputs);
@@ -477,7 +477,7 @@ public class Main : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T) && enableDebugInputs) PostprocessManager.Instance.setChroma(!PostprocessManager.Instance.Chroma);
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && enableDebugInputs)
         {
             if (GamePaused)
             {
