@@ -118,14 +118,14 @@ public class MenuMain : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            EasterEggHandler.Instance.UnlockAllBonusAtNow();
-            for (int i = 0; i < allEasterEggButton.Length; i++)
-            {
-                allEasterEggButton[i].UpdateAppearance();
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    EasterEggHandler.Instance.UnlockAllBonusAtNow();
+        //    for (int i = 0; i < allEasterEggButton.Length; i++)
+        //    {
+        //        allEasterEggButton[i].UpdateAppearance();
+        //    }
+        //}
 
         if (isArduinoMode && Input.GetKeyDown(KeyCode.Mouse0)) isArduinoMode = false;
         if (!isArduinoMode && (arduinoTransmettor && arduinoTransmettor.isShotUp)) isArduinoMode = true;
@@ -146,20 +146,20 @@ public class MenuMain : MonoBehaviour
             if (timeRemainingBeforeChargeScene < 0) { SceneHandler.Instance.PreLoadScene(sceneNameGoTo); }
         }    */
 
-        if (Input.GetKeyDown(KeyCode.J) && !inLeaderboardTransition)
-        {
-            ButtonLeaderboardCredits();
-        }
+        //if (Input.GetKeyDown(KeyCode.J) && !inLeaderboardTransition)
+        //{
+        //    ButtonLeaderboardCredits();
+        //}
 
 
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            SceneHandler.Instance.RestartScene();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
-        }
+        //if (Input.GetKeyDown(KeyCode.Y))
+        //{
+        //    SceneHandler.Instance.RestartScene();
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    HintScript.Instance.PopHint("Voila t'es content Max? T'as encore tout cassé?",5);
+        //}
         
 
         //UI
