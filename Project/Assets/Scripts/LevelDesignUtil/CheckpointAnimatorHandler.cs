@@ -38,6 +38,7 @@ public class CheckpointAnimatorHandler : MonoBehaviour
             if (Main.Instance.IsArduinoMod)
             {
                 if (videoArduinoOne != null) videoPlayerTuto.clip = videoArduinoOne;
+                if (videoArduinoTwo != null) videoPlayerTuto.clip = videoArduinoTwo;
             }
             else if (videoKeyboard != null)
                 videoPlayerTuto.clip = videoKeyboard;
