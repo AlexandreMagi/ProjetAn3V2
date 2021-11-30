@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 28168273aea44b142a5b73b103d55647, type: 2}
+  - {fileID: 2100000, guid: fc3346f95d9b10e40bd7efb64cf1f02b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,13 +112,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityData: {fileID: 11400000, guid: 7ed588fc65f283347b75e5ad22f342b5, type: 2}
   isAffectedByGravity: 0
-  ActivateSoundImpact: 1
   soundToPlayOnImpact: SE_BarrelAndBoxImpact
   soundVolume: 0.5
   soundRandomPitch: 0.2
   soundToPlayWhenDie: SE_CaisseBarril_Destruction
   soundVolumeWhenDie: 1
   soundRandomPitchWhenDie: 0.2
+  minDistanceToPlayStepSound: 10
 --- !u!65 &2785221450831159643
 BoxCollider:
   m_ObjectHideFlags: 0
